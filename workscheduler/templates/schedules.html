@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">work schedule on</span>
+        </div>
+        <select class="form-control">
+            {% for yearmonth in yearmonths %}
+                <option value="yearmonth">yearmonth</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}

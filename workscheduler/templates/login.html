@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="jumbotron">
+        <h1><strong>Work Scheduler</strong></h1>
+        <br />
+        <h2>With this application all Administrators can be FREE of a bothering task.</h2>
+        <h2>And each Operator can ask what they require on their schedule.</h2>
+        <br>
+        <p>This application provide auto work schedule making process.</p>
+        <p>Every operator can ask their requires like holiday.</p>
+        <p>Also administrator can set operators relationships and their skills.</p>
+    </div>
+    <form action="{{ url_for('users.login') }}" method="post">
+        <input type="text" class="form-control" id="username" name="username" placeholder="name" />
+        <input type="password" class="form-control" id="password" name="password" placeholder="password" />
+        <br />
+        <button type="submit" class="btn btn-default">Login</button>
+    </form>
+{% endblock %}

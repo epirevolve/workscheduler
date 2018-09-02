@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.is_admin %}
+        <form action="{{ url_for('users.add_operator') }}" method="post" class="add-operator">
+            <input type="text" class="form-control" id="username" name="username" placeholder="name" style="width: 20rem; margin: .75rem 0" />
+            <input type="number" size="1" id="userrole" name="userrole" class="form-control" placeholder="role" style="width: 20rem; margin: .75rem 0" />
+            <button class="btn btn-default" type="submit">New User</button>
+        </form>
+        <br />
+        <h2>Users</h2>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr><td>{{ user.name }}</td><td>{{ user.role|safe }}</td></tr>
+                    {% else %}
+                        <tr><td>No users here so far.</td><td></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

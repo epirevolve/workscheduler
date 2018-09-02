@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block css %}
+<style>
+    a, a:hover, a:visited { text-decoration: none; color: black; }
+    .card-deck .card { height: 100%; width: 18rem; }
+    .card img { padding: 0.5rem; }
+</style>
+{% endblock %}
+{% block body %}
+    <div class="card-deck">
+        <a href="{{ url_for('schedules.show_schedules') }}">
+            <div class="card">
+                <img class="card-img-top" src="{{ url_for('static', filename='img/timer.svg') }}" />
+                <div class="card-body">
+                    <h3 class="card-title">Shift Scheduler</h3>
+                    {% if session.is_admin %}
+                        <span class="card-text">Create or List a work schedule</span>
+                    {% else %}
+                        <span class="card-text">Ask your demand or List a work schedule</span>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        <a href="{{ url_for('users.show_operators') }}">
+            <div class="card">
+                <img class="card-img-top" src="{{ url_for('static', filename='img/connection.svg') }}" />
+                <div class="card-body">
+                    <h3 class="card-title">Operator Info</h3>
+                    {% if session.is_admin %}
+                        <span class="card-text">Set operators relationships and their skill and roll</span>
+                    {% else %}
+                        <span class="card-text">Set your relation with other member and skill</span>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% if session.is_admin %}
+            <a href="{{ url_for('users.show_operator_options') }}">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='img/skills.svg') }}" />
+                    <div class="card-body">
+                        <h3 class="card-title">Operator Options</h3>
+                        <span class="card-text">Define operators rank type and skills what they are required</span>
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}

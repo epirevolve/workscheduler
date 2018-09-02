@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-hover" id="ranks" style="width:20rem">
+            <thead>
+                <tr>
+                    <th>rank name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rank in ranks %}
+                    <tr><td><input type="text" name="rank-name" class="form-control" value="{{ rank.name }}"></td></tr>
+                {% else %}
+                    <tr><td><input type="text" name="rank-name" class="form-control" /></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover" id="skills" style="width:40rem">
+            <thead>
+                <tr>
+                    <th>skill name</th>
+                    <th>skill score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skill in skills %}
+                    <tr>
+                        <td><input type="text" name="skill-name" class="form-control" value="{{ skill.name }}"></td>
+                        <td><input type="text" name="skill-score" class="form-control" value="{{ skill.score }}"></td>
+                    </tr>
+                {% else %}
+                    <tr><td>No skill sets here so far.</td><td></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $('tbody').sortable();
+
+        $(document).ready(function(){
+            $("#ranks").dblclick(function(){
+                $(this).find("tbody").append($("<tr>")
+                    .append($("<td>")
+                        .append($("<input>").attr('type', 'text').attr('name', 'rank-name').addClass('form-control'))
+                    )
+                );
+            });
+
+            $("#skills").dblclick(function(){
+                $(this).find("tbody").append($("<tr>")
+                    .append($("<td>")
+                        .append($("<input>").attr('type', 'text').attr('name', 'rank-name').addClass('form-control'))
+                    )
+                    .append($("<td>")
+                        .append($("<input>").attr('type', 'text').attr('name', 'rank-name').addClass('form-control'))
+                    )
+                );
+            });
+        });
+    </script>
+{% endblock %}

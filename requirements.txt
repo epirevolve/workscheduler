@@ -1,0 +1,16 @@
+atomicwrites==1.2.1
+attrs==18.2.0
+click==6.7
+Flask==1.0.2
+Inject==3.4.0
+itsdangerous==0.24
+Jinja2==2.10
+MarkupSafe==1.0
+more-itertools==4.3.0
+pluggy==0.7.1
+py==1.6.0
+pytest==3.7.4
+selenium==3.14.0
+six==1.11.0
+urllib3==1.23
+Werkzeug==0.14.1
