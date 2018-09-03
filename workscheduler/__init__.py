@@ -15,6 +15,15 @@ app.config.update(dict(
 ))
 app.config.from_envvar('SHIFT_SCHEDULER_SETTING', silent=True)
 
+from infrastructures.sqlite_user_repository import UserRepository, SqliteUserRepository
+import inject
+
+
+def config(binder):
+    binder.bind(UserRepository, SqliteUserRepository(app.config['DATABASE']))
+
+
+inject.configure(config)
 
 from applications.web.menus import menus
 from applications.web.schedules import schedules

@@ -1,12 +1,13 @@
 drop table if exists users;
 create table users (
     id integer primary key autoincrement,
+    login_id text not null,
     name text not null,
     password text not null,
     role integer
 );
-insert into users (name, password, role) values ('admin', 'minAd', 9);
-insert into users (name, password, role) values ('user', 'user', 1);
+insert into users (login_id, name, password, role) values ('admin', '管理者', 'minAd', 9);
+insert into users (login_id, name, password, role) values ('user', 'ユーザ', 'user', 1);
 
 drop table if exists user_relations_subject;
 create table user_relations_subject (

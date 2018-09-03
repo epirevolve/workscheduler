@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from infrastructures.sqlite_user_repository import get_users
 from domains.models.operator import Operator
+from domains.domain_register import DomainRegister
 
 
 class Authenticator:
-    def __init__(self, user_id: str, user_password: str):
-        self._user_id = user_id
-        self._user_password = user_password
+    def __init__(self, login_id: str, password: str):
+        self._login_id = login_id
+        self._password = password
     
     def _login_check(self, x) -> bool:
-        return self._user_id == x.name and self._user_password == x.password
+        return self._login_id == x.login_id and self._password == x.password
     
     def login(self) -> Operator:
-        return next(filter(self._login_check, get_users()), None)
+        return next(filter(self._login_check, DomainRegister().user_repository.get_users()), None)

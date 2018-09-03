@@ -2,14 +2,6 @@
 
 from workscheduler.domains.models.operator import Operator
 from workscheduler.infrastructures.sqlite_user_repository import SqliteUserRepository, UserRepository
-import inject
-
-
-def config(binder):
-    binder.bind(UserRepository, SqliteUserRepository('test_workscheduler.db'))
-
-
-inject.configure(config)
 
 
 def test_user_is_admin_false():

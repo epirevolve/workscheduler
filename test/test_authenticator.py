@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.services.authenticator import Authenticator
-from workscheduler.domains.models.operator import Operator
-import workscheduler.infrastructures.sqlite_user_repository as user_rep
+
+from infrastructures.sqlite_user_repository import UserRepository, SqliteUserRepository
+import inject
 
 
-def test_login_false(monkeypatch):
-    monkeypatch.setattr(user_rep, 'get_users', lambda: [Operator(1, "admin", "minAd", 8)])
-    
-    user_id = "none"
-    user_password = "noNe"
-    authenticator = Authenticator(user_id, user_password)
-    assert authenticator.login() is None
+def config(binder):
+    binder.bind(UserRepository, SqliteUserRepository('test_workscheduler.db'))
 
 
-def test_login_true(monkeypatch):
-    user_id = "admin"
-    user_password = "minAd"
-    authenticator = Authenticator(user_id, user_password)
-    assert authenticator.login() is not None
+inject.clear()
+inject.configure(config)
+
+
+def test_login_true():
+    user = Authenticator('admin', 'minAd').login()
+    assert user is not None
