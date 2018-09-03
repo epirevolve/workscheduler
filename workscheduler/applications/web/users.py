@@ -2,11 +2,11 @@
 
 from flask import Blueprint, abort, request, session, redirect, url_for, render_template, flash
 from domains.models.operator import Operator
-from domains.domain_register import DomainRegister
+from domains.domain_registry import DomainRegistry
 from domains.services.authenticator import Authenticator
 
 users = Blueprint('users', __name__)
-user_repository = DomainRegister().user_repository
+user_repository = DomainRegistry().user_repository
 
 
 @users.route('/', methods=['GET', 'POST'])

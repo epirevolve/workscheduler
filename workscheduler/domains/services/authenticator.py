@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from domains.models.operator import Operator
-from domains.domain_register import DomainRegister
+from domains.domain_registry import DomainRegistry
 
 
 class Authenticator:
@@ -13,4 +13,4 @@ class Authenticator:
         return self._login_id == x.login_id and self._password == x.password
     
     def login(self) -> Operator:
-        return next(filter(self._login_check, DomainRegister().user_repository.get_users()), None)
+        return next(filter(self._login_check, DomainRegistry().user_repository.get_users()), None)

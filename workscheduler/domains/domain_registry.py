@@ -4,7 +4,6 @@ from domains.models.user_repository import UserRepository
 import inject
 
 
-class DomainRegister:
+class DomainRegistry:
     def __init__(self):
         self.user_repository: UserRepository = inject.instance(UserRepository)
-        self.test = ''
