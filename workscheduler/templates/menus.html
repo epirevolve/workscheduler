@@ -21,26 +21,22 @@
                 </div>
             </div>
         </a>
-        <a href="{{ url_for('users.show_operators') }}">
-            <div class="card">
-                <img class="card-img-top" src="{{ url_for('static', filename='img/connection.svg') }}" />
-                <div class="card-body">
-                    <h3 class="card-title">Operator Info</h3>
-                    {% if session.is_admin %}
-                        <span class="card-text">Set operators relationships and their skill and roll</span>
-                    {% else %}
-                        <span class="card-text">Set your relation with other member and skill</span>
-                    {% endif %}
-                </div>
-            </div>
-        </a>
         {% if session.is_admin %}
-            <a href="{{ url_for('users.show_operator_options') }}">
+            <a href="{{ url_for('users.show_users') }}">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='img/connection.svg') }}" />
+                    <div class="card-body">
+                        <h3 class="card-title">User Info</h3>
+                        <span class="card-text">Set user info and set his/her role</span>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('users.show_user_options') }}">
                 <div class="card">
                     <img class="card-img-top" src="{{ url_for('static', filename='img/skills.svg') }}" />
                     <div class="card-body">
-                        <h3 class="card-title">Operator Options</h3>
-                        <span class="card-text">Define operators rank type and skills what they are required</span>
+                        <h3 class="card-title">User Options</h3>
+                        <span class="card-text">Define their roles and skills what they are required</span>
                     </div>
                 </div>
             </a>

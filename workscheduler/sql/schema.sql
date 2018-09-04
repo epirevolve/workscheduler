@@ -6,8 +6,8 @@ create table users (
     password text not null,
     role integer
 );
-insert into users (login_id, name, password, role) values ('admin', '管理者', 'minAd', 9);
-insert into users (login_id, name, password, role) values ('user', 'ユーザ', 'user', 1);
+insert into users (login_id, name, password, role) values ('admin', '管理者', 'minAd', 1);
+insert into users (login_id, name, password, role) values ('user', 'ユーザ', 'user', 2);
 
 drop table if exists user_relations_subject;
 create table user_relations_subject (
@@ -28,8 +28,11 @@ create table user_relations_object (
 drop table if exists roles;
 create table roles (
     id integer primary key autoincrement,
-    name text not null
+    name text not null,
+    is_admin integer not null
 );
+insert into roles (name, is_admin) values ('管理者', 1);
+insert into roles (name, is_admin) values ('オペレータ', 0);
 
 drop table if exists skills;
 create table skills (

@@ -18,7 +18,7 @@ def login():
             return render_template('login.html')
 
         session['logged_in'] = True
-        if user.is_admin():
+        if user.role.is_admin:
             session['is_admin'] = True
         flash('You were logged in')
         return redirect(url_for('menus.show_menu'))
@@ -33,28 +33,32 @@ def logout():
     return redirect(url_for('users.login'))
 
 
-@users.route('/operators')
-def show_operators():
-    return render_template('operators.html', users=user_repository.get_operators())
+@users.route('/users')
+def show_users():
+    return render_template('users.html', users=user_repository.get_users())
 
 
-@users.route('/add_operator', methods=['POST'])
-def add_operator():
+@users.route('/add_user', methods=['POST'])
+def add_user():
     if not session.get('logged_in'):
         abort(401)
-    if not request.form['username']:
+    if not request.form['login_id']:
+        flash('login id is required', 'error')
+        return redirect(url_for('users.show_users'))
+    if not request.form['password']:
+        flash('password is required', 'error')
+        return redirect(url_for('users.show_users'))
+    if not request.form['name']:
         flash('name is required', 'error')
-        return redirect(url_for('users.show_operators'))
-    if not request.form['userrole']:
-        flash('role is required', 'error')
-        return redirect(url_for('users.show_operators'))
-    user_repository.append_user(request.form['username'], request.form['userrole'])
+        return redirect(url_for('users.show_users'))
+    user_repository.append_user(request.form['login_id'], request.form['password'],
+                                request.form['name'], request.form['role'])
     flash('New operator was successfully posted')
-    return redirect(url_for('users.show_operators'))
+    return redirect(url_for('users.show_users'))
 
 
-@users.route('/operator_options')
-def show_operator_options():
-    ranks = user_repository.get_roles()
+@users.route('/user_options')
+def show_user_options():
+    roles = user_repository.get_roles()
     skills = user_repository.get_skills()
-    return render_template('operator_options.html', ranks=ranks, skills=skills)
+    return render_template('user_options.html', roles=roles, skills=skills)

@@ -15,7 +15,7 @@ class UserRepository(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def append_user(self, name: str, role: int):
+    def append_user(self, login_id: str, password: str, name: str, role: int):
         raise NotImplementedError
 
     @abstractmethod

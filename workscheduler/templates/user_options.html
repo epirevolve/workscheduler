@@ -4,14 +4,21 @@
         <table class="table table-hover" id="ranks" style="width:20rem">
             <thead>
                 <tr>
-                    <th>rank name</th>
+                    <th>name</th>
+                    <th>is admin</th>
                 </tr>
             </thead>
             <tbody>
-                {% for rank in ranks %}
-                    <tr><td><input type="text" name="rank-name" class="form-control" value="{{ rank.name }}"></td></tr>
+                {% for role in roles %}
+                    <tr>
+                        <td><input type="text" name="name" class="form-control" value="{{ role.name }}"></td>
+                        <td><input type="checkbox" name="is-admin" class="form-control" value="{{ role.is_admin }}" /></td>
+                    </tr>
                 {% else %}
-                    <tr><td><input type="text" name="rank-name" class="form-control" /></td></tr>
+                    <tr>
+                        <td><input type="text" name="name" class="form-control" /></td>
+                        <td><input type="checkbox" name="is-admin" class="form-control" /></td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -27,11 +34,13 @@
             <tbody>
                 {% for skill in skills %}
                     <tr>
-                        <td><input type="text" name="skill-name" class="form-control" value="{{ skill.name }}"></td>
-                        <td><input type="text" name="skill-score" class="form-control" value="{{ skill.score }}"></td>
+                        <td><input type="text" name="name" class="form-control" value="{{ skill.name }}"></td>
+                        <td><input type="text" name="score" class="form-control" value="{{ skill.score }}"></td>
                     </tr>
                 {% else %}
-                    <tr><td>No skill sets here so far.</td><td></td></tr>
+                    <tr>
+                        <td>No skill sets here so far.</td><td></td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

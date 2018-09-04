@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 {% block body %}
     {% if session.is_admin %}
-        <form action="{{ url_for('users.add_operator') }}" method="post" class="add-operator">
-            <input type="text" class="form-control" id="username" name="username" placeholder="name" style="width: 20rem; margin: .75rem 0" />
-            <input type="number" size="1" id="userrole" name="userrole" class="form-control" placeholder="role" style="width: 20rem; margin: .75rem 0" />
+        <form action="{{ url_for('users.add_user') }}" method="post">
+            <input type="text" class="form-control" id="login_id" name="login_id" placeholder="login id" />
+            <input type="password" class="form-control" id="password" name="password" placeholder="password" />
+            <input type="text" class="form-control" id="name" name="name" placeholder="name" />
+            <input type="number" size="1" id="role" name="role" class="form-control" placeholder="role" />
             <button class="btn btn-default" type="submit">New User</button>
         </form>
         <br />
@@ -12,13 +14,14 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>login id</th>
                         <th>name</th>
                         <th>role</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for user in users %}
-                        <tr><td>{{ user.name }}</td><td>{{ user.role|safe }}</td></tr>
+                        <tr><td>{{ user.login_id }}</td><td>{{ user.name }}</td><td>{{ user.role|safe }}</td></tr>
                     {% else %}
                         <tr><td>No users here so far.</td><td></td></tr>
                     {% endfor %}
