@@ -35,7 +35,7 @@ def logout():
 
 @users.route('/users')
 def show_users():
-    return render_template('users.html', users=user_repository.get_users())
+    return render_template('users.html', users=user_repository.get_users(), roles=user_repository.get_roles())
 
 
 @users.route('/add_user', methods=['POST'])

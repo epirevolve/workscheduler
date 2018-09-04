@@ -2,11 +2,19 @@
 {% block body %}
     {% if session.is_admin %}
         <form action="{{ url_for('users.add_user') }}" method="post">
-            <input type="text" class="form-control" id="login_id" name="login_id" placeholder="login id" />
-            <input type="password" class="form-control" id="password" name="password" placeholder="password" />
-            <input type="text" class="form-control" id="name" name="name" placeholder="name" />
-            <input type="number" size="1" id="role" name="role" class="form-control" placeholder="role" />
-            <button class="btn btn-default" type="submit">New User</button>
+            <div class="form-group">
+                <input type="text" class="form-control" id="login_id" name="login_id" placeholder="login id" />
+                <input type="password" class="form-control" id="password" name="password" placeholder="password" />
+                <input type="text" class="form-control" id="name" name="name" placeholder="name" />
+                <select name="role" class="form-control custom-select">
+                    {% for role in roles %}
+                        <option value="{{ role.id }}" label="{{ role.name }}">{{ role.name }}</option>
+                    {% else %}
+                        <option value="0" label="no role">no role</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-default" type="submit">Add User</button>
         </form>
         <br />
         <h2>Users</h2>
