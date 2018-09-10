@@ -2,6 +2,7 @@
 
 from workscheduler.infrastructures.sqlite_user_repository import SqliteUserRepository
 from test.db_test_set import DbTestSetting
+from workscheduler.domains.models.role import RoleFactory
 
 
 class TestSqlUserRepository:
@@ -10,6 +11,7 @@ class TestSqlUserRepository:
         setting = DbTestSetting()
         cls.user_repository = SqliteUserRepository(setting.get_db_path())
         setting.sqlite_db_initialize()
+        cls.user_repository.append_relation(1, 2, 0.8, 1)
     
     def test_get_user(self):
         user = self.user_repository.get_user(2)
@@ -24,11 +26,12 @@ class TestSqlUserRepository:
         assert 'admin' == user.login_id
         assert 'minAd' == user.password
         assert '管理者' == user.name
-        assert 1 == user.role.id
         assert '管理者' == user.role.name
     
     def test_append_user(self):
-        self.user_repository.append_user('test_login', 'login_pass', 'tester', 2)
+        roles = self.user_repository.get_roles()
+        operator_role = roles[1]
+        self.user_repository.append_user('test_login', 'login_pass', 'tester', operator_role.uuid)
         users = self.user_repository.get_users()
         assert 3 == len(users)
         user = users[2]
@@ -36,7 +39,6 @@ class TestSqlUserRepository:
         assert 'test_login' == user.login_id
         assert 'login_pass' == user.password
         assert 'tester' == user.name
-        assert 2 == user.role.id
         assert 'オペレータ' == user.role.name
     
     def test_get_operators(self):
@@ -45,7 +47,7 @@ class TestSqlUserRepository:
     def test_get_role(self):
         role = self.user_repository.get_role(2)
         assert role
-        assert 2 == role.id
+        assert 2 == role.uuid
         role = self.user_repository.get_role(3)
         assert not role
     
@@ -53,15 +55,34 @@ class TestSqlUserRepository:
         roles = self.user_repository.get_roles()
         assert 2 == len(roles)
         role = roles[0]
-        assert 1 == role.id
         assert '管理者' == role.name
         assert role.is_admin
     
-    def test_append_role(self):
-        self.user_repository.append_role('test', False)
+    def test_store_role(self):
+        self.user_repository.store_role(RoleFactory.new_role('test', False))
         roles = self.user_repository.get_roles()
         assert 3 == len(roles)
         role = roles[2]
-        assert 3 == role.id
         assert 'test' == role.name
         assert not role.is_admin
+        
+    def test_get_relations(self):
+        relations = self.user_repository.get_relations()
+        assert 1 == len(relations)
+        relation = relations[0]
+        assert 1 == relation.id
+        assert 1 == relation.user_1
+        assert 2 == relation.user_2
+        assert 0.8 == relation.affinity
+        assert 1 == relation.looked_by
+    
+    def test_append_relation(self):
+        self.user_repository.append_relation(1, 2, 0.4, 2)
+        relations = self.user_repository.get_relations()
+        assert 2 == len(relations)
+        relation = relations[1]
+        assert 2 == relation.id
+        assert 1 == relation.user_1
+        assert 2 == relation.user_2
+        assert 0.4 == relation.affinity
+        assert 2 == relation.looked_by

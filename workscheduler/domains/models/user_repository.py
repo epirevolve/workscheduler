@@ -3,6 +3,7 @@
 from abc import ABCMeta, abstractmethod
 from domains.models.operator import Operator
 from domains.models.user import User
+from domains.models.role import Role
 
 
 class UserRepository(metaclass=ABCMeta):
@@ -29,7 +30,19 @@ class UserRepository(metaclass=ABCMeta):
     @abstractmethod
     def get_roles(self):
         raise NotImplementedError
+    
+    @abstractmethod
+    def store_role(self, role: Role):
+        raise NotImplementedError
 
     @abstractmethod
     def get_skills(self):
+        raise NotImplementedError
+    
+    @abstractmethod
+    def get_relations(self):
+        raise NotImplementedError
+    
+    @abstractmethod
+    def append_relation(self, user_1: int, user_2: int, affinity: float, looked_by: int):
         raise NotImplementedError

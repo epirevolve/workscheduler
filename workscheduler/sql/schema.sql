@@ -4,35 +4,24 @@ create table users (
     login_id text not null,
     name text not null,
     password text not null,
-    role integer
-);
-insert into users (login_id, name, password, role) values ('admin', '管理者', 'minAd', 1);
-insert into users (login_id, name, password, role) values ('user', 'ユーザ', 'user', 2);
-
-drop table if exists user_relations_subject;
-create table user_relations_subject (
-    id integer primary key autoincrement,
-    user integer not null,
-    partner integer not null,
-    relation integer not null
+    role text not null
 );
 
-drop table if exists user_relations_object;
-create table user_relations_object (
+drop table if exists user_relations;
+create table user_relations (
     id integer primary key autoincrement,
     user_1 integer not null,
     user_2 integer not null,
-    relation integer not null
+    affinity real not null,
+    looked_by integer not null
 );
 
 drop table if exists roles;
 create table roles (
-    id integer primary key autoincrement,
+    uuid text primary key,
     name text not null,
     is_admin integer not null
 );
-insert into roles (name, is_admin) values ('管理者', 1);
-insert into roles (name, is_admin) values ('オペレータ', 0);
 
 drop table if exists skills;
 create table skills (
