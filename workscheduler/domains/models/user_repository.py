@@ -7,6 +7,10 @@ from domains.models.user import User
 
 class UserRepository(metaclass=ABCMeta):
     @abstractmethod
+    def get_user(self, identify: int) -> User:
+        raise NotImplementedError
+    
+    @abstractmethod
     def get_users(self) -> [User]:
         raise NotImplementedError
     
@@ -16,6 +20,10 @@ class UserRepository(metaclass=ABCMeta):
 
     @abstractmethod
     def append_user(self, login_id: str, password: str, name: str, role: int):
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_role(self, identity: int):
         raise NotImplementedError
 
     @abstractmethod

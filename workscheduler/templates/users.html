@@ -1,40 +1,38 @@
 {% extends "layout.html" %}
 {% block body %}
-    {% if session.is_admin %}
-        <form action="{{ url_for('users.add_user') }}" method="post">
-            <div class="form-group">
-                <input type="text" class="form-control" id="login_id" name="login_id" placeholder="login id" />
-                <input type="password" class="form-control" id="password" name="password" placeholder="password" />
-                <input type="text" class="form-control" id="name" name="name" placeholder="name" />
-                <select name="role" class="form-control custom-select">
-                    {% for role in roles %}
-                        <option value="{{ role.id }}" label="{{ role.name }}">{{ role.name }}</option>
-                    {% else %}
-                        <option value="0" label="no role">no role</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button class="btn btn-default" type="submit">Add User</button>
-        </form>
-        <br />
-        <h2>Users</h2>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>login id</th>
-                        <th>name</th>
-                        <th>role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                        <tr><td>{{ user.login_id }}</td><td>{{ user.name }}</td><td>{{ user.role|safe }}</td></tr>
-                    {% else %}
-                        <tr><td>No users here so far.</td><td></td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <form action="{{ url_for('users.add_user') }}" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" name="login_id" placeholder="login id" />
+            <input type="password" class="form-control" name="password" placeholder="password" />
+            <input type="text" class="form-control" name="name" placeholder="name" />
+            <select name="role" class="form-control custom-select">
+                {% for role in roles %}
+                    <option value="{{ role.id }}" label="{{ role.name }}">{{ role.name }}</option>
+                {% else %}
+                    <option value="0" label="no role">no role</option>
+                {% endfor %}
+            </select>
         </div>
-    {% endif %}
+        <button class="btn btn-default" type="submit">Add User</button>
+    </form>
+    <br />
+    <h2>Users</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>login id</th>
+                    <th>name</th>
+                    <th>role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr><td>{{ user.login_id }}</td><td>{{ user.name }}</td><td>{{ user.role|safe }}</td></tr>
+                {% else %}
+                    <tr><td>No users here so far.</td><td></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

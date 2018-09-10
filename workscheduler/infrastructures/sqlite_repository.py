@@ -8,7 +8,7 @@ class SqliteRepository(metaclass=ABCMeta):
     def __init__(self, connect_string: str):
         self.con = SqliteConnection(connect_string)
     
-    def _select(self, sql: str):
+    def _select(self, sql: str, *args):
         with self.con.get_db() as db:
-            cur = db.execute(sql)
+            cur = db.execute(sql, args)
             return cur.fetchall()

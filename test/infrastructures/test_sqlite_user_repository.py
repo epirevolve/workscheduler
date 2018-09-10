@@ -10,7 +10,12 @@ class TestSqlUserRepository:
         setting = DbTestSetting()
         cls.user_repository = SqliteUserRepository(setting.get_db_path())
         setting.sqlite_db_initialize()
-
+    
+    def test_get_user(self):
+        user = self.user_repository.get_user(2)
+        assert user
+        assert 2 == user.id
+    
     def test_get_users(self):
         users = self.user_repository.get_users()
         assert 2 == len(users)
@@ -36,7 +41,14 @@ class TestSqlUserRepository:
     
     def test_get_operators(self):
         self.user_repository.get_operators()
-        
+    
+    def test_get_role(self):
+        role = self.user_repository.get_role(2)
+        assert role
+        assert 2 == role.id
+        role = self.user_repository.get_role(3)
+        assert not role
+    
     def test_get_roles(self):
         roles = self.user_repository.get_roles()
         assert 2 == len(roles)

@@ -4,9 +4,16 @@ from flask import Blueprint, abort, request, session, redirect, url_for, render_
 from domains.models.operator import Operator
 from domains.domain_registry import DomainRegistry
 from domains.services.authenticator import Authenticator
+from workscheduler import login_manager
+from flask_login import login_user, logout_user, login_required, current_user
 
 users = Blueprint('users', __name__)
 user_repository = DomainRegistry().user_repository
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return user_repository.get_user(user_id)
 
 
 @users.route('/', methods=['GET', 'POST'])
@@ -17,31 +24,32 @@ def login():
             flash('Invalid username or password', 'error')
             return render_template('login.html')
 
-        session['logged_in'] = True
-        if user.role.is_admin:
-            session['is_admin'] = True
+        login_user(user)
         flash('You were logged in')
         return redirect(url_for('menus.show_menu'))
     return render_template('login.html')
 
 
+@login_required
 @users.route('/logout')
 def logout():
-    session.pop('logged_in', None)
-    session.pop('admin', None)
+    logout_user()
     flash('You were logged out')
     return redirect(url_for('users.login'))
 
 
+@login_required
 @users.route('/users')
 def show_users():
-    return render_template('users.html', users=user_repository.get_users(), roles=user_repository.get_roles())
+    if current_user.role.is_admin:
+        return render_template('users.html', users=user_repository.get_users(), roles=user_repository.get_roles())
+    else:
+        return render_template('user.html')
 
 
+@login_required
 @users.route('/add_user', methods=['POST'])
 def add_user():
-    if not session.get('logged_in'):
-        abort(401)
     if not request.form['login_id']:
         flash('login id is required', 'error')
         return redirect(url_for('users.show_users'))
@@ -57,6 +65,7 @@ def add_user():
     return redirect(url_for('users.show_users'))
 
 
+@login_required
 @users.route('/user_options')
 def show_user_options():
     roles = user_repository.get_roles()

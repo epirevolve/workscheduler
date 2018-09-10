@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+    <form action="{{ url_for('users.add_user') }}" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" name="login_id" value="{{ current_usr.login_id }}" readonly />
+            <input type="password" class="form-control" name="password" value="{{ current_usr.password }}" placeholder="password" />
+            <input type="text" class="form-control" name="name" value="{{ current_usr.name }}" readonly />
+            <input type="text" class="form-control" name="role" value="{{ current_user.role.name }}" readonly />
+        </div>
+        <button class="btn btn-default" type="submit">Add User</button>
+    </form>
+{% endblock %}
