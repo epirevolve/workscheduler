@@ -45,9 +45,9 @@ class TestSqlUserRepository:
         self.user_repository.get_operators()
     
     def test_get_role(self):
-        role = self.user_repository.get_role(2)
-        assert role
-        assert 2 == role.uuid
+        roles = self.user_repository.get_roles()
+        role = self.user_repository.get_role(roles[1].uuid)
+        assert roles[1].uuid == role.uuid
         role = self.user_repository.get_role(3)
         assert not role
     

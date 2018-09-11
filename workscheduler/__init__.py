@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 
 import os
-from flask import Flask, g
-import sqlite3
+import sys
+from flask import Flask
+from jinja2 import FileSystemLoader
 
 
 # create the application instance
-app = Flask(__name__)
+app = Flask(__name__, static_folder='applications/web/static')
+app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'applications/web/templates'))
 app.config.from_object(__name__)
 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'workscheduler.db'),
     SECRET_KEY='key secreted',
 ))
-app.config.from_envvar('SHIFT_SCHEDULER_SETTING', silent=True)
+app.config.from_envvar('WORK_SCHEDULER_SETTING', silent=True)
+
+sys.path.append(os.path.dirname(__file__))
 
 from infrastructures.sqlite_user_repository import UserRepository, SqliteUserRepository
 import inject
@@ -41,38 +45,9 @@ app.register_blueprint(schedules)
 app.register_blueprint(users)
 
 
-def connect_db():
-    """Connects to the specific database."""
-    rv = sqlite3.connect(app.config['DATABASE'])
-    rv.row_factory = sqlite3.Row
-    return rv
-
-
-def get_db():
-    """Open a new database connection if there is none yet for
-    the current application context.
-    """
-    if not hasattr(g, 'sqlite_db'):
-        g.sqlite_db = connect_db()
-    return g.sqlite_db
-
-
-@app.teardown_appcontext
-def close_db(error):
-    """Close the database again at the end of the request."""
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-
-
-def init_db():
-    db = get_db()
-    with app.open_resource('schema.sql', mode='r') as f:
-        db.cursor().executescript(f.read())
-    db.commit()
-
-
 @app.cli.command('initdb')
-def initdb_command():
+def initdb():
+    from infrastructures.sqlite_connection import SqliteConnection
     """Initializes the database."""
-    init_db()
+    SqliteConnection(app.config['DATABASE']).init_db()
     print('Initialized the database.')

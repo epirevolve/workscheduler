@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from infrastructures.sqlite_user_repository import UserRepository, SqliteUserRepository
-from domains.models.role import RoleFactory
+from infrastructures.sqlite_connection import SqliteConnection
 import inject
 import os
-import sqlite3
 
 
 class DbTestSetting:
@@ -24,20 +23,5 @@ class DbTestSetting:
         inject.configure(config)
     
     def sqlite_db_initialize(self):
-        def _connect_db(connect_string: str):
-            """Connects to the specific database."""
-            rv = sqlite3.connect(connect_string)
-            rv.row_factory = sqlite3.Row
-            return rv
-        with _connect_db(self.get_db_path()) as db:
-            with open(self.get_schema_path(), mode='r') as f:
-                db.cursor().executescript(f.read())
-            db.commit()
-        user_repository = SqliteUserRepository(self.get_db_path())
-        admin_role = RoleFactory.new_role('管理者', 1)
-        user_repository.store_role(admin_role)
-        operator_role = RoleFactory.new_role('オペレータ', 0)
-        user_repository.store_role(operator_role)
-        
-        user_repository.append_user('admin', 'minAd', '管理者', admin_role.uuid)
-        user_repository.append_user('user', 'user', 'ユーザ', operator_role.uuid)
+        self.inject_as_test()
+        SqliteConnection(self.get_db_path()).init_db()
