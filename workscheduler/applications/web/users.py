@@ -39,12 +39,15 @@ def logout():
 
 
 @login_required
+@users.route('/user')
+def show_user():
+    return render_template('user.html')
+
+
+@login_required
 @users.route('/users')
 def show_users():
-    if current_user.role.is_admin:
-        return render_template('users.html', users=user_repository.get_users(), roles=user_repository.get_roles())
-    else:
-        return render_template('user.html')
+    return render_template('users.html', users=user_repository.get_users(), roles=user_repository.get_roles())
 
 
 @login_required

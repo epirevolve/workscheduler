@@ -34,5 +34,5 @@ class SqliteConnection:
         operator_role = RoleFactory.new_role('オペレータ', is_admin=False)
         user_repository.store_role(operator_role)
 
-        user_repository.append_user('admin', 'minAd', '管理者', admin_role.uuid)
-        user_repository.append_user('user', 'user', 'ユーザ', operator_role.uuid)
+        user_repository.append_user('admin', 'minAd', '管理者', admin_role.identifier)
+        user_repository.append_user('user', 'user', 'ユーザ', operator_role.identifier)

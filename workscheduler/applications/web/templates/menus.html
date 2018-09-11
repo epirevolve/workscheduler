@@ -21,12 +21,21 @@
                 </div>
             </div>
         </a>
+        <a href="{{ url_for('users.show_user') }}">
+            <div class="card">
+                <img class="card-img-top" src="{{ url_for('static', filename='img/id-card.svg') }}" />
+                <div class="card-body">
+                    <h3 class="card-title">User Info</h3>
+                    <span class="card-text">Show your info and can edit it</span>
+                </div>
+            </div>
+        </a>
         {% if current_user.role.is_admin %}
             <a href="{{ url_for('users.show_users') }}">
                 <div class="card">
                     <img class="card-img-top" src="{{ url_for('static', filename='img/connection.svg') }}" />
                     <div class="card-body">
-                        <h3 class="card-title">User Info</h3>
+                        <h3 class="card-title">Users Info</h3>
                         <span class="card-text">Set user info and set his/her role</span>
                     </div>
                 </div>

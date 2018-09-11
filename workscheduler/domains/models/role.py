@@ -7,8 +7,8 @@ AnyBool = TypeVar('AnyBool', bool, int)
 
 
 class Role:
-    def __init__(self, identify: str, name: str, is_admin: AnyBool):
-        self.uuid = identify
+    def __init__(self, identifier: str, name: str, is_admin: AnyBool):
+        self.identifier = identifier
         self.name = name
         self.is_admin = True if is_admin else False
 

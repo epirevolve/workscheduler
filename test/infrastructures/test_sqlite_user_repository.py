@@ -16,13 +16,13 @@ class TestSqlUserRepository:
     def test_get_user(self):
         user = self.user_repository.get_user(2)
         assert user
-        assert 2 == user.id
+        assert 2 == user.identifier
     
     def test_get_users(self):
         users = self.user_repository.get_users()
         assert 2 == len(users)
         user = users[0]
-        assert 1 == user.id
+        assert 1 == user.identifier
         assert 'admin' == user.login_id
         assert 'minAd' == user.password
         assert '管理者' == user.name
@@ -31,11 +31,11 @@ class TestSqlUserRepository:
     def test_append_user(self):
         roles = self.user_repository.get_roles()
         operator_role = roles[1]
-        self.user_repository.append_user('test_login', 'login_pass', 'tester', operator_role.uuid)
+        self.user_repository.append_user('test_login', 'login_pass', 'tester', operator_role.identifier)
         users = self.user_repository.get_users()
         assert 3 == len(users)
         user = users[2]
-        assert 3 == user.id
+        assert 3 == user.identifier
         assert 'test_login' == user.login_id
         assert 'login_pass' == user.password
         assert 'tester' == user.name
@@ -46,8 +46,8 @@ class TestSqlUserRepository:
     
     def test_get_role(self):
         roles = self.user_repository.get_roles()
-        role = self.user_repository.get_role(roles[1].uuid)
-        assert roles[1].uuid == role.uuid
+        role = self.user_repository.get_role(roles[1].identifier)
+        assert roles[1].identifier == role.identifier
         role = self.user_repository.get_role(3)
         assert not role
     
@@ -70,7 +70,7 @@ class TestSqlUserRepository:
         relations = self.user_repository.get_relations()
         assert 1 == len(relations)
         relation = relations[0]
-        assert 1 == relation.id
+        assert 1 == relation.identifier
         assert 1 == relation.user_1
         assert 2 == relation.user_2
         assert 0.8 == relation.affinity
@@ -81,7 +81,7 @@ class TestSqlUserRepository:
         relations = self.user_repository.get_relations()
         assert 2 == len(relations)
         relation = relations[1]
-        assert 2 == relation.id
+        assert 2 == relation.identifier
         assert 1 == relation.user_1
         assert 2 == relation.user_2
         assert 0.4 == relation.affinity

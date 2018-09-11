@@ -6,8 +6,8 @@ from flask_login import UserMixin
 
 class User(UserMixin):
     def __init__(self,
-                 identify: int, login_id: str, password: str, name: str, role: Role):
-        self.id = identify
+                 identifier: int, login_id: str, password: str, name: str, role: Role):
+        self.identifier = identifier
         self.login_id = login_id
         self.password = password
         self.name = name
@@ -23,4 +23,4 @@ class User(UserMixin):
         return False
 
     def get_id(self):
-        return self.id
+        return self.identifier
