@@ -4,7 +4,7 @@ from workscheduler.infrastructures.user_repository import UserRepository
 from test.db_test_set import DbTestSetting
 from workscheduler.domains.models.role import RoleFactory
 from infrastructures.db_connection import SessionContextFactory
-
+from domains.models.user import User
 
 class TestSqlUserRepository:
     @classmethod
@@ -20,32 +20,32 @@ class TestSqlUserRepository:
         cls.session.close()
     
     def test_get_user(self):
-        user = self.user_repository.get_user(2)
+        user, role = self.user_repository.get_user('2')
         assert user
-        assert 2 == user.identifier
+        assert '2' == user.identifier
     
     def test_get_users(self):
         users = self.user_repository.get_users()
         assert 2 == len(users)
-        user = users[0]
-        assert 1 == user.identifier
+        user, role = users[0]
+        assert '1' == user.identifier
         assert 'admin' == user.login_id
         assert 'minAd' == user.password
         assert '管理者' == user.name
-        assert '管理者' == user.role.name
+        assert '管理者' == role.name
     
     def test_append_user(self):
         roles = self.user_repository.get_roles()
         operator_role = roles[1]
-        self.user_repository.store_user('test_login', 'login_pass', 'tester', operator_role.identifier)
+        self.user_repository.store_user(User('3', 'test_login', 'login_pass', 'tester', operator_role))
         users = self.user_repository.get_users()
         assert 3 == len(users)
-        user = users[2]
-        assert 3 == user.identifier
+        user, role = users[2]
+        assert '3' == user.identifier
         assert 'test_login' == user.login_id
         assert 'login_pass' == user.password
         assert 'tester' == user.name
-        assert 'オペレータ' == user.role.name
+        assert 'オペレータ' == role.name
     
     def test_get_role(self):
         roles = self.user_repository.get_roles()

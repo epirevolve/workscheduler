@@ -10,25 +10,19 @@ class UserRepository:
     def __init__(self, session):
         self._session = session
     
-    def get_user(self, identifier: int) -> User:
-        with self.sc_factory.get_db() as session:
-            user = session.query(User).filter_by(identifier=identifier).one()
-        if not user:
-            return None
-        role = self.get_role(user["role"])
-        return User(user["identifier"], user['login_id'], user['password'], user['name'], role)
-    
+    def get_user(self, identifier: str) -> User:
+        return self._session.query(User, Role).join(Role, User.role_identifier == Role.identifier)\
+            .filter(User.identifier == identifier).one()
+
     def get_users(self) -> [User]:
-        return self._session.query(User).join(Role, User.role_identifier == Role.identifier)\
+        return self._session.query(User, Role).join(Role, User.role_identifier == Role.identifier)\
             .order_by(User.identifier).all()
     
     def store_user(self, user: User):
-        with self.sc_factory.create() as session:
-            session.add(user)
-            session.commit()
+        self._session.add(user)
     
-    def get_role(self, identity: int) -> Role:
-        return self._session.query(Role).get(identity)
+    def get_role(self, identifier: str) -> Role:
+        return self._session.query(Role).get(identifier)
 
     def get_roles(self) -> [Role]:
         return self._session.query(Role).order_by(Role.identifier).all()

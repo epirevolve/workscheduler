@@ -2,6 +2,8 @@ atomicwrites==1.2.1
 attrs==18.2.0
 click==6.7
 Flask==1.0.2
+Flask-Login==0.4.1
+Flask-WTF==0.14.2
 Inject==3.4.0
 itsdangerous==0.24
 Jinja2==2.10
@@ -12,5 +14,7 @@ py==1.6.0
 pytest==3.7.4
 selenium==3.14.0
 six==1.11.0
+SQLAlchemy==1.2.11
 urllib3==1.23
 Werkzeug==0.14.1
+WTForms==2.2.1

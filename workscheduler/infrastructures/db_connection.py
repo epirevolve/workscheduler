@@ -49,5 +49,5 @@ class DbConnection:
         operator_role = RoleFactory.new_role('オペレータ', is_admin=False)
         user_repository.store_role(operator_role)
 
-        # user_repository.store_user(User('1', 'admin', 'minAd', '管理者', admin_role))
-        # user_repository.store_user(User('2', 'user', 'user', 'ユーザ', operator_role))
+        user_repository.store_user(User('1', 'admin', 'minAd', '管理者', admin_role))
+        user_repository.store_user(User('2', 'user', 'user', 'ユーザ', operator_role))
