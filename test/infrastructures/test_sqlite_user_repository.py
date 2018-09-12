@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.infrastructures.sqlite_user_repository import SqliteUserRepository
+from workscheduler.infrastructures.user_repository import UserRepository
 from test.db_test_set import DbTestSetting
 from workscheduler.domains.models.role import RoleFactory
+from infrastructures.db_connection import SessionContextFactory
 
 
 class TestSqlUserRepository:
     @classmethod
     def setup_class(cls):
         setting = DbTestSetting()
-        cls.user_repository = SqliteUserRepository(setting.get_db_path())
-        setting.sqlite_db_initialize()
-        cls.user_repository.append_relation(1, 2, 0.8, 1)
+        cls.session = SessionContextFactory(setting.get_db_path()).create().session
+        cls.user_repository = UserRepository(cls.session)
+        setting.sqlite_db_initialize(cls.session)
+        # cls.user_repository.append_relation(1, 2, 0.8, 1)
+
+    @classmethod
+    def teardown_class(cls):
+        cls.session.close()
     
     def test_get_user(self):
         user = self.user_repository.get_user(2)
@@ -31,7 +37,7 @@ class TestSqlUserRepository:
     def test_append_user(self):
         roles = self.user_repository.get_roles()
         operator_role = roles[1]
-        self.user_repository.append_user('test_login', 'login_pass', 'tester', operator_role.identifier)
+        self.user_repository.store_user('test_login', 'login_pass', 'tester', operator_role.identifier)
         users = self.user_repository.get_users()
         assert 3 == len(users)
         user = users[2]
@@ -40,9 +46,6 @@ class TestSqlUserRepository:
         assert 'login_pass' == user.password
         assert 'tester' == user.name
         assert 'オペレータ' == user.role.name
-    
-    def test_get_operators(self):
-        self.user_repository.get_operators()
     
     def test_get_role(self):
         roles = self.user_repository.get_roles()

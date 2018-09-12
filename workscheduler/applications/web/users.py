@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, abort, request, session, redirect, url_for, render_template, flash
-from domains.models.operator import Operator
-from domains.domain_registry import DomainRegistry
-from domains.services.authenticator import Authenticator
+from flask import Blueprint, request, redirect, url_for, render_template, flash
+from applications.services.authentication_service import AuthenticationService
 from workscheduler import login_manager
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required
 
 users = Blueprint('users', __name__)
-user_repository = DomainRegistry().user_repository
+user_repository = None
 
 
 @login_manager.user_loader
@@ -19,7 +17,7 @@ def load_user(user_id):
 @users.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = Authenticator(request.form['username'], request.form['password']).login()
+        user = AuthenticationService(request.form['username'], request.form['password']).login()
         if not user:
             flash('Invalid username or password', 'error')
             return render_template('login.html')
@@ -51,8 +49,8 @@ def show_users():
 
 
 @login_required
-@users.route('/add_user', methods=['POST'])
-def add_user():
+@users.route('/store_user', methods=['POST'])
+def store_user():
     if not request.form['login_id']:
         flash('login id is required', 'error')
         return redirect(url_for('users.show_users'))
@@ -62,9 +60,9 @@ def add_user():
     if not request.form['name']:
         flash('name is required', 'error')
         return redirect(url_for('users.show_users'))
-    user_repository.append_user(request.form['login_id'], request.form['password'],
-                                request.form['name'], request.form['role'])
-    flash('New operator was successfully posted')
+    user_repository.store_user(request.form['login_id'], request.form['password'],
+                               request.form['name'], request.form['role'])
+    flash('Operator was successfully posted')
     return redirect(url_for('users.show_users'))
 
 

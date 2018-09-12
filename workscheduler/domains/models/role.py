@@ -2,11 +2,19 @@
 
 from typing import TypeVar
 from domains.utility.uuid import UuidFactory
+from domains.models import Base
+from sqlalchemy import Column, String, Boolean
 
 AnyBool = TypeVar('AnyBool', bool, int)
 
 
-class Role:
+class Role(Base):
+    __tablename__ = 'roles'
+    __table_args__ = {'extend_existing': True}
+    identifier = Column(String, primary_key=True)
+    name = Column(String, nullable=False)
+    is_admin = Column(Boolean, default=False)
+    
     def __init__(self, identifier: str, name: str, is_admin: AnyBool):
         self.identifier = identifier
         self.name = name

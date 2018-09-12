@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-    <form action="{{ url_for('users.add_user') }}" method="post">
+    <form action="{{ url_for('users.store_user') }}" method="post">
         <div class="form-group">
             <input type="text" class="form-control" name="login_id" value="{{ current_user.login_id }}" readonly />
             <input type="password" class="form-control" name="password" value="{{ current_user.password }}" placeholder="password" />

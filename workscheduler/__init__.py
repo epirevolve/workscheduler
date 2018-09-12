@@ -7,27 +7,18 @@ from jinja2 import FileSystemLoader
 
 
 # create the application instance
-app = Flask(__name__, static_folder='applications/web/static')
+app = Flask(__name__, static_folder='applications/web/statics')
 app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'applications/web/templates'))
 app.config.from_object(__name__)
 
 app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'workscheduler.db'),
+    DATABASE='sqlite:///{}'.format(os.path.join(app.root_path, 'workscheduler.db')),
     SECRET_KEY='key secreted',
 ))
 app.config.from_envvar('WORK_SCHEDULER_SETTING', silent=True)
 
 sys.path.append(os.path.dirname(__file__))
 
-from infrastructures.sqlite_user_repository import UserRepository, SqliteUserRepository
-import inject
-
-
-def config(binder):
-    binder.bind(UserRepository, SqliteUserRepository(app.config['DATABASE']))
-
-
-inject.configure(config)
 
 from flask_login import LoginManager
 
@@ -47,7 +38,8 @@ app.register_blueprint(users)
 
 @app.cli.command('initdb')
 def initdb():
-    from infrastructures.sqlite_connection import SqliteConnection
+    from infrastructures.db_connection import SessionContextFactory, DbConnection
     """Initializes the database."""
-    SqliteConnection(app.config['DATABASE']).init_db()
+    with SessionContextFactory(app.config['DATABASE']).create() as session:
+        DbConnection().init_db(session)
     print('Initialized the database.')
