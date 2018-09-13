@@ -3,7 +3,8 @@
 from typing import TypeVar
 from domains.utility.uuid import UuidFactory
 from domains.models import Base
-from sqlalchemy import Column, String, Boolean
+from sqlalchemy import Column
+from sqlalchemy.types import String, Boolean
 
 AnyBool = TypeVar('AnyBool', bool, int)
 

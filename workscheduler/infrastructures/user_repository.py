@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from domains.models.operator import Operator
 from domains.models.user import User
 from domains.models.role import Role
 from domains.models.relation import Relation
@@ -34,10 +33,7 @@ class UserRepository:
         raise NotImplementedError
     
     def get_relations(self):
-        relations = self._fetch_all('select identifier, user_1, user_2, affinity, looked_by '
-                                    'from user_relations order by user_1, user_2 asc')
-        return [Relation(x['identifier'], x['user_1'], x['user_2'], x['affinity'], x['looked_by']) for x in relations]
+        return self._session.query(Relation).order_by(Relation.user_1, Relation.user_2).all()
     
-    def append_relation(self, user_1: int, user_2: int, affinity: float, looked_by: int):
-        self._execute('insert into user_relations (user_1, user_2, affinity, looked_by) values (?, ?, ?, ?)',
-                      user_1, user_2, affinity, looked_by, commit=True)
+    def append_relation(self, relation: Relation):
+        self._session.add(relation)

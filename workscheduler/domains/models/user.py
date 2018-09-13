@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from domains.models.role import Role
-from flask_login import UserMixin
+from domains.utility.uuid import UuidFactory
 from domains.models import Base
-from sqlalchemy import Column, String
+from flask_login import UserMixin
+from sqlalchemy import Column
+from sqlalchemy.types import String
 
 
 class User(UserMixin, Base):
@@ -16,12 +17,12 @@ class User(UserMixin, Base):
     role_identifier = Column(String, nullable=False)
     
     def __init__(self,
-                 identifier: str, login_id: str, password: str, name: str, role: Role):
+                 identifier: str, login_id: str, password: str, name: str, role_identifier: str):
         self.identifier = identifier
         self.login_id = login_id
         self.password = password
         self.name = name
-        self.role_identifier = role.identifier
+        self.role_identifier = role_identifier
     
     def is_authenticated(self):
         return True
@@ -34,3 +35,9 @@ class User(UserMixin, Base):
 
     def get_id(self):
         return self.identifier
+
+
+class UserFactory:
+    @classmethod
+    def new_user(cls, login_id: str, password: str, name: str, role_identifier: str) -> User:
+        return User(UuidFactory.new_uuid(), login_id, password, name, role_identifier)

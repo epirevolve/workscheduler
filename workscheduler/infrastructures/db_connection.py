@@ -2,7 +2,7 @@
 
 from infrastructures.user_repository import UserRepository
 from domains.models.role import RoleFactory
-from domains.models.user import User
+from domains.models.user import UserFactory
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from domains.models import Base
@@ -49,5 +49,5 @@ class DbConnection:
         operator_role = RoleFactory.new_role('オペレータ', is_admin=False)
         user_repository.store_role(operator_role)
 
-        user_repository.store_user(User('1', 'admin', 'minAd', '管理者', admin_role))
-        user_repository.store_user(User('2', 'user', 'user', 'ユーザ', operator_role))
+        user_repository.store_user(UserFactory.new_user('admin', 'minAd', '管理者', admin_role.identifier))
+        user_repository.store_user(UserFactory.new_user('user', 'user', 'ユーザ', operator_role.identifier))
