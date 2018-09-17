@@ -11,9 +11,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                {% for user, role in users %}
                     <tr data-id="{{ user.identifier }}" role="row">
-                        <td>{{ user.login_id }}</td><td>{{ user.name }}</td><td>{{ user.role|safe }}</td>
+                        <td>{{ user.login_id }}</td><td>{{ user.name }}</td><td>{{ role.name|safe }}</td>
                     </tr>
                 {% else %}
                     <tr><td>No users here so far.</td><td></td></tr>

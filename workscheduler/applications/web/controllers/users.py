@@ -2,8 +2,10 @@
 
 from flask import Blueprint, request, redirect, url_for, render_template, flash
 from applications.services.authentication_service import AuthenticationService
-from workscheduler import login_manager
 from flask_login import login_user, logout_user, login_required
+from applications.web import login_manager
+from infrastructures.user_repository import UserRepository
+from domains.models.user import UserFactory
 
 users = Blueprint('users', __name__)
 user_repository = None
@@ -17,11 +19,10 @@ def load_user(user_id):
 @users.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = AuthenticationService(request.form['username'], request.form['password']).login()
+        user = AuthenticationService().login(request.form['username'], request.form['password'])
         if not user:
             flash('Invalid username or password', 'error')
             return render_template('login.html')
-
         login_user(user)
         flash('You were logged in')
         return redirect(url_for('menus.show_menu'))
@@ -60,8 +61,8 @@ def store_user():
     if not request.form['name']:
         flash('name is required', 'error')
         return redirect(url_for('users.show_users'))
-    user_repository.store_user(request.form['login_id'], request.form['password'],
-                               request.form['name'], request.form['role'])
+    user_repository.store_user(UserFactory.new_user(request.form['login_id'], request.form['password'],
+                                                    request.form['name'], request.form['role']))
     flash('Operator was successfully posted')
     return redirect(url_for('users.show_users'))
 

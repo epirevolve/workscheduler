@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler import app
+from workscheduler.applications.web import create_app
 
+app = create_app()
 app.run(debug=True)
