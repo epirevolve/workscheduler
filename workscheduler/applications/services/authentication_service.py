@@ -17,4 +17,5 @@ class AuthenticationService:
         return _wapper
     
     def login(self, login_id: str, password: str) -> (User, Role):
-        return next(filter(self._login_check(login_id, password), UserRepository(self._session).get_users()), None)
+        _login_check = self._login_check(login_id, password)
+        return next((x for x in UserRepository(self._session).get_users() if _login_check(x)), (None, None))
