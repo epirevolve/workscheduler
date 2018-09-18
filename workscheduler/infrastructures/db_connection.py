@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from infrastructures.user_repository import UserRepository
-from domains.models.role import RoleFactory
-from domains.models.user import UserFactory
+from workscheduler.infrastructures.user_repository import UserRepository
+from workscheduler.domains.models.role import RoleFactory
+from workscheduler.domains.models.user import UserFactory
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from domains.models import Base
+from workscheduler.domains.models import Base
 
 
 class SessionFactory(object):

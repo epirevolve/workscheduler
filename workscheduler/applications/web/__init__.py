@@ -31,29 +31,24 @@ def create_app(test_config=None):
 
     sys.path.append(os.path.dirname(__file__))
 
+    from . import db
+    db.init_app(app)
+
+    from .controllers import auths, menus, schedules, users
+
+    app.register_blueprint(auths.bp)
+    app.register_blueprint(menus.bp)
+    app.register_blueprint(schedules.bp)
+    app.register_blueprint(users.bp)
+
     from flask_login import LoginManager
 
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = 'users.login'
-
-    from applications.web.controllers.menus import menus
-    from applications.web.controllers.schedules import schedules
-    from applications.web.controllers.users import users
-
-    app.register_blueprint(menus)
-    app.register_blueprint(schedules)
-    app.register_blueprint(users)
-
-    from infrastructures.db_connection import SessionContextFactory
-    sc_factory = SessionContextFactory(app.config['DATABASE'])
-
-    @app.cli.command('initdb')
-    def initdb():
-        from infrastructures.db_connection import DbConnection
-        """Initializes the database."""
-        with sc_factory.create() as session:
-            DbConnection().init_db(session)
-        print('Initialized the database.')
-
+    login_manager.login_view = 'auths.login'
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        return auths.load_user(user_id)
+    
     return app

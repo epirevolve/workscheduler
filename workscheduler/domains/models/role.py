@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from typing import TypeVar
-from domains.utility.uuid import UuidFactory
-from domains.models import Base
+from workscheduler.domains.utility.uuid import UuidFactory
+from workscheduler.domains.models import Base
 from sqlalchemy import Column
 from sqlalchemy.types import String, Boolean
 

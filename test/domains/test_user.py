@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from domains.models.user import User, UserFactory
+from workscheduler.domains.models.user import User, UserFactory
 
 
 class TestUser:

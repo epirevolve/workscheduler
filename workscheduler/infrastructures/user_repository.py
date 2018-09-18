@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from domains.models.user import User
-from domains.models.role import Role
-from domains.models.relation import Relation
+from workscheduler.domains.models.user import User
+from workscheduler.domains.models.role import Role
+from workscheduler.domains.models.relation import Relation
 
 
 class UserRepository:

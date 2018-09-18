@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, request, session, redirect, url_for, render_template, flash
+from flask import Blueprint, render_template
 
-menus = Blueprint('menus', __name__)
+bp = Blueprint('menus', __name__)
 
 
-@menus.route('/menu')
+@bp.route('/menu')
 def show_menu():
     return render_template('menus.html')
-
