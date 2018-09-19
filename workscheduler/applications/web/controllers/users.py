@@ -9,9 +9,9 @@ from ..db import get_db_session
 bp = Blueprint('users', __name__)
 
 
-@bp.route('/user')
+@bp.route('/user/<login_id>')
 @login_required
-def show_user():
+def show_user(login_id):
     return render_template('user.html')
 
 

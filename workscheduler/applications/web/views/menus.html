@@ -21,7 +21,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ url_for('users.show_user') }}">
+        <a href="{{ url_for('users.show_user', login_id=current_user.login_id) }}">
             <div class="card">
                 <img class="card-img-top" src="{{ url_for('static', filename='img/id-card.svg') }}" />
                 <div class="card-body">

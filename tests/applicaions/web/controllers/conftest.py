@@ -20,3 +20,11 @@ class AuthAction:
 @pytest.fixture
 def auth(client):
     return AuthAction(client)
+
+
+class UserAction:
+    def __init__(self, client):
+        self._client = client
+
+    def show_user(self):
+        return self._client.get('/user/')

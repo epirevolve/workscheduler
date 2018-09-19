@@ -9,7 +9,7 @@ from jinja2 import FileSystemLoader
 def create_app(test_config=None):
     # create the application instance
     app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'statics'))
-    app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates'))
+    app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'views'))
     app.config.from_object(__name__)
 
     app.config.from_mapping(
@@ -40,6 +40,11 @@ def create_app(test_config=None):
     app.register_blueprint(menus.bp)
     app.register_blueprint(schedules.bp)
     app.register_blueprint(users.bp)
+
+    @app.errorhandler(404)
+    def not_found(error):
+        from flask import render_template
+        return render_template('not_found.html'), 404
 
     from flask_login import LoginManager
     
