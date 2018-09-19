@@ -24,15 +24,6 @@ class User(UserMixin, Base):
         self.name = name
         self.role_identifier = role_identifier
     
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-
     def get_id(self):
         return self.identifier
 

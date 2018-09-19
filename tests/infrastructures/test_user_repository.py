@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.models.role import RoleFactory
-from workscheduler.domains.models.user import UserFactory
+from workscheduler.domains.models.user import UserFactory, User
 from workscheduler.domains.models.relation import Relation
 
 
@@ -36,6 +36,24 @@ class TestUserRepository:
         assert 'login_pass' == user.password
         assert 'tester' == user.name
         assert 'オペレータ' == role.name
+        
+    def test_update_user(self, user_repository):
+        users = user_repository.get_users()
+        user, role = users[1]
+        import copy
+        origin_user = copy.copy(user)
+        origin_role = copy.copy(role)
+        changed_user = User(user.identifier, user.login_id, user.password, user.name, user.role_identifier)
+        changed_user.login_id = 'testchanged'
+        user_repository.store_user(changed_user)
+        users = user_repository.get_users()
+        assert 2 == len(users)
+        assert user.identifier
+        assert 'testchanged' == user.login_id
+        assert origin_user.login_id != user.login_id
+        assert origin_user.password == user.password
+        assert origin_user.name == user.name
+        assert origin_role.name == role.name
     
     def test_get_role(self, user_repository):
         roles = user_repository.get_roles()

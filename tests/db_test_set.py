@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-from workscheduler.infrastructures.db_connection import DbConnection
+import workscheduler.applications.web.db as db
 import os
 
 
@@ -14,6 +13,5 @@ class DbTestSetting:
         return os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'workscheduler/sql/schema.sql'))
     
     @staticmethod
-    def sqlite_db_initialize(session):
-        DbConnection().init_db(session)
-        session.commit()
+    def init_db(session):
+        db.init_db(session)

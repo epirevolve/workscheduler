@@ -18,7 +18,7 @@ class UserRepository:
             .order_by(User.identifier).all()
     
     def store_user(self, user: User):
-        self._session.add(user)
+        self._session.merge(user)
     
     def get_role(self, identifier: str) -> Role:
         return self._session.query(Role).get(identifier)
@@ -27,7 +27,7 @@ class UserRepository:
         return self._session.query(Role).order_by(Role.identifier).all()
     
     def store_role(self, role: Role):
-        self._session.add(role)
+        self._session.merge(role)
     
     def get_skills(self):
         raise NotImplementedError
@@ -36,4 +36,4 @@ class UserRepository:
         return self._session.query(Relation).order_by(Relation.user_1, Relation.user_2).all()
     
     def append_relation(self, relation: Relation):
-        self._session.add(relation)
+        self._session.merge(relation)

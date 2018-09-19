@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.infrastructures.user_repository import UserRepository
-from workscheduler.domains.models.role import RoleFactory
-from workscheduler.domains.models.user import UserFactory
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from workscheduler.domains.models import Base
@@ -16,6 +13,9 @@ class SessionFactory(object):
     def create(self):
         session = sessionmaker(bind=self.engine)
         return session()
+    
+    def drop(self):
+        Base.metadata.drop_all(self.engine)
 
 
 class SessionContext(object):
@@ -37,17 +37,3 @@ class SessionContextFactory(object):
 
     def create(self):
         return SessionContext(self.session_factory.create())
-
-
-class DbConnection:
-    def init_db(self, session):
-        # set initial users and roles
-        user_repository = UserRepository(session)
-        
-        admin_role = RoleFactory.new_role('管理者', is_admin=True)
-        user_repository.store_role(admin_role)
-        operator_role = RoleFactory.new_role('オペレータ', is_admin=False)
-        user_repository.store_role(operator_role)
-
-        user_repository.store_user(UserFactory.new_user('admin', 'minAd', '管理者', admin_role.identifier))
-        user_repository.store_user(UserFactory.new_user('user', 'user', 'ユーザ', operator_role.identifier))

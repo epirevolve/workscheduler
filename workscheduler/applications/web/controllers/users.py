@@ -9,21 +9,21 @@ from ..db import get_db_session
 bp = Blueprint('users', __name__)
 
 
-@login_required
 @bp.route('/user')
+@login_required
 def show_user():
     return render_template('user.html')
 
 
-@login_required
 @bp.route('/users')
+@login_required
 def show_users():
     user_repository = UserRepository(get_db_session())
     return render_template('users.html', users=user_repository.get_users(), roles=user_repository.get_roles())
 
 
-@login_required
 @bp.route('/store_user', methods=['POST'])
+@login_required
 def store_user():
     if not request.form['login_id']:
         flash('login id is required', 'error')
@@ -41,8 +41,8 @@ def store_user():
     return redirect(url_for('users.show_users'))
 
 
-@login_required
 @bp.route('/user_options')
+@login_required
 def show_user_options():
     user_repository = UserRepository(get_db_session())
     roles = user_repository.get_roles()

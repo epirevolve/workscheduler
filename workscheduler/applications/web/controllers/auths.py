@@ -16,7 +16,7 @@ def load_user(user_id):
     CurrentUser = namedtuple('CurrentUser', ('login_id', 'password', 'name', 'role',
                                              'is_authenticated', 'is_active', 'is_anonymous', 'get_id'))
     return CurrentUser(user.login_id, user.password, user.name, role,
-                       user.is_authenticated(), user.is_active(), user.is_anonymous(), user.get_id())
+                       user.is_authenticated, user.is_active, user.is_anonymous, user.get_id())
 
 
 @bp.route('/', methods=['GET'])
@@ -35,9 +35,8 @@ def login():
     return redirect(url_for('menus.show_menu'))
 
 
-@login_required
 @bp.route('/logout')
 def logout():
     logout_user()
     flash('You were logged out')
-    return redirect(url_for('auths.index'))
+    return render_template('login.html')

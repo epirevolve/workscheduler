@@ -42,7 +42,7 @@ def create_app(test_config=None):
     app.register_blueprint(users.bp)
 
     from flask_login import LoginManager
-
+    
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auths.index'
