@@ -14,11 +14,11 @@ class TestRole:
         
     def test_role_factory(self):
         role = RoleFactory.new_role('テスター', False)
-        assert role.identifier
+        assert role.id
         assert role.name
         assert not role.is_admin
     
     def test_role_factory_identifier(self):
         role = RoleFactory.new_role('テスター', False)
         another_role = RoleFactory.new_role('他の役割', True)
-        assert role.identifier != another_role.identifier
+        assert role.id != another_role.id

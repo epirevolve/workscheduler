@@ -4,6 +4,23 @@ import os
 import sys
 from flask import Flask
 from jinja2 import FileSystemLoader
+import click
+from flask import g, current_app
+from flask.cli import with_appcontext
+from workscheduler.infrastructures.database import Database
+
+
+def get_db_session(echo=False):
+    if 'db_session' not in g:
+        g.db_session = Database(current_app.config['DATABASE'], echo).create_session()
+    return g.db_session
+
+
+def close_db_session(e=None):
+    db_session = g.pop('db_session', None)
+    if db_session:
+        db_session.commit()
+        db_session.close()
 
 
 def create_app(test_config=None):
@@ -31,8 +48,14 @@ def create_app(test_config=None):
 
     sys.path.append(os.path.dirname(__file__))
 
-    from . import db
-    db.init_app(app)
+    # database action
+    @click.command('init-db')
+    @with_appcontext
+    def init_db_command():
+        Database(current_app.config['DATABASE']).init()
+        click.echo('Initialized the database.')
+    app.teardown_appcontext(close_db_session)
+    app.cli.add_command(init_db_command)
 
     from .controllers import auths, menus, schedules, users
 

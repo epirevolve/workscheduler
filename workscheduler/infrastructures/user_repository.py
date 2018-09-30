@@ -9,22 +9,22 @@ class UserRepository:
     def __init__(self, session):
         self._session = session
     
-    def get_user(self, identifier: str) -> (User, Role):
-        return self._session.query(User, Role).join(Role, User.role_identifier == Role.identifier)\
-            .filter(User.identifier == identifier).one()
+    def get_user(self, id: str) -> (User, Role):
+        return self._session.query(User, Role).join(Role, User.role_id == Role.id)\
+            .filter(User.id == id).one_or_none()
 
     def get_users(self) -> [(User, Role)]:
-        return self._session.query(User, Role).join(Role, User.role_identifier == Role.identifier)\
-            .order_by(User.identifier).all()
+        return self._session.query(User, Role).join(Role, User.role_id == Role.id)\
+            .order_by(User.id).all()
     
     def store_user(self, user: User):
         self._session.merge(user)
     
-    def get_role(self, identifier: str) -> Role:
-        return self._session.query(Role).get(identifier)
+    def get_role(self, id: str) -> Role:
+        return self._session.query(Role).get(id)
 
     def get_roles(self) -> [Role]:
-        return self._session.query(Role).order_by(Role.identifier).all()
+        return self._session.query(Role).order_by(Role.id).all()
     
     def store_role(self, role: Role):
         self._session.merge(role)

@@ -23,6 +23,7 @@ class TestUserRepository:
         assert 'minAd' == user.password
         assert '管理者' == user.name
         assert '管理者' == role.name
+        assert user.create_at
     
     def test_append_user(self, user_repository):
         roles = user_repository.get_roles()
@@ -43,17 +44,18 @@ class TestUserRepository:
         import copy
         origin_user = copy.copy(user)
         origin_role = copy.copy(role)
-        changed_user = User(user.identifier, user.login_id, user.password, user.name, user.role_identifier)
-        changed_user.login_id = 'testchanged'
-        user_repository.store_user(changed_user)
+        user.login_id = 'testchanged'
+        user_repository.store_user(user)
         users = user_repository.get_users()
         assert 2 == len(users)
+        user,  role = users[1]
         assert user.identifier
         assert 'testchanged' == user.login_id
         assert origin_user.login_id != user.login_id
         assert origin_user.password == user.password
         assert origin_user.name == user.name
         assert origin_role.name == role.name
+        assert origin_user.create_at == user.create_at
     
     def test_get_role(self, user_repository):
         roles = user_repository.get_roles()

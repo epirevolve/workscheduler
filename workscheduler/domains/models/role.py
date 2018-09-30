@@ -11,13 +11,12 @@ AnyBool = TypeVar('AnyBool', bool, int)
 
 class Role(Base):
     __tablename__ = 'roles'
-    __table_args__ = {'extend_existing': True}
-    identifier = Column(String, primary_key=True)
+    id = Column(String, primary_key=True)
     name = Column(String, nullable=False)
     is_admin = Column(Boolean, default=False)
-    
-    def __init__(self, identifier: str, name: str, is_admin: AnyBool):
-        self.identifier = identifier
+
+    def __init__(self, id: str, name: str, is_admin: AnyBool):
+        self.id = id
         self.name = name
         self.is_admin = True if is_admin else False
 

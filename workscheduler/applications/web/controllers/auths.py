@@ -4,7 +4,7 @@ from workscheduler.applications.services.authentication_service import Authentic
 from workscheduler.infrastructures.user_repository import UserRepository
 from flask import Blueprint, request, redirect, url_for, render_template, flash
 from flask_login import login_user, logout_user, login_required
-from ..db import get_db_session
+from .. import get_db_session
 from collections import namedtuple
 
 
@@ -13,6 +13,8 @@ bp = Blueprint('auths', __name__)
 
 def load_user(user_id):
     user, role = UserRepository(get_db_session()).get_user(user_id)
+    if not user:
+        return None, None
     CurrentUser = namedtuple('CurrentUser', ('login_id', 'password', 'name', 'role',
                                              'is_authenticated', 'is_active', 'is_anonymous', 'get_id'))
     return CurrentUser(user.login_id, user.password, user.name, role,

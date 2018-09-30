@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from tests.db_test_set import DbTestSetting
-from workscheduler.infrastructures.session import SessionFactory
+from workscheduler.infrastructures.database import Database
+import tempfile
 
 
 @pytest.fixture
 def session():
-    setting = DbTestSetting()
-    session = SessionFactory(setting.get_db_path()).create()
-    setting.init_db(session)
-    session.commit()
+    db_fd, db_path = tempfile.mkstemp()
+    database = Database('sqlite:///{}'.format(db_path))
+    database.init()
+    session = database.create_session()
     yield session
     session.close()

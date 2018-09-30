@@ -2,7 +2,7 @@
 
 import pytest
 from workscheduler.applications.web import create_app
-import workscheduler.applications.web.db as db
+from workscheduler.infrastructures.database import Database
 import tempfile
 import os
 
@@ -15,7 +15,7 @@ def app():
          'DATABASE': 'sqlite:///{}'.format(db_path)}
     )
     with app.app_context():
-        db.init_db(db.get_db_session())
+        Database(app.config['DATABASE']).init()
     yield app
     
     os.close(db_fd)

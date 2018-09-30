@@ -2,7 +2,7 @@
 
 import sqlite3
 import pytest
-from workscheduler.applications.web.db import get_db_session
+from workscheduler.applications.web import get_db_session
 
 
 class TestDb:

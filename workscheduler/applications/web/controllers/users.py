@@ -4,7 +4,7 @@ from flask import Blueprint, request, redirect, url_for, render_template, flash
 from flask_login import login_required
 from workscheduler.infrastructures.user_repository import UserRepository
 from workscheduler.domains.models.user import UserFactory
-from ..db import get_db_session
+from .. import get_db_session
 
 bp = Blueprint('users', __name__)
 
