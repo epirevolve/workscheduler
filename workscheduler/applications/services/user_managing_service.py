@@ -12,12 +12,11 @@ class UserManagingService:
     def _store(self, user):
         UserRepository(self._session).store_user(user)
 
-    @dispatch(str, str, str, str)
+    @dispatch(str, str, str, bool, bool)
     def store(self,
-              login_id: str, password: str, name: str, role_identifier: str):
-        self._store(UserFactory.new_user(login_id, password, name, role_identifier))
+              login_id: str, password: str, name: str, is_admin: bool, is_operator: bool):
+        self._store(UserFactory.new_user(login_id, password, name, is_admin, is_operator))
 
-    @dispatch(str, str, str, str, str)
-    def store(self,
-              identifier: str, login_id: str, password: str, name: str, role_identifier: str):
-        self._store(User(identifier, login_id, password, name, role_identifier))
+    @dispatch(str, str, str, str, bool, bool)
+    def store(self, id: str, login_id: str, password: str, name: str, is_admin: bool, is_operator: bool):
+        self._store(User(id, login_id, password, name, is_admin, is_operator))

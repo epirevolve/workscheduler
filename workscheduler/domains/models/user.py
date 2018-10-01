@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from typing import TypeVar
 from workscheduler.domains.utility.uuid import UuidFactory
 from workscheduler.domains.models import Base
 from flask_login import UserMixin
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.types import String, DateTime
+from sqlalchemy import Column
+from sqlalchemy.types import String, DateTime, Boolean
 from sqlalchemy.sql.functions import current_timestamp
+
+AnyBool = TypeVar('AnyBool', bool, int)
 
 
 class User(UserMixin, Base):
@@ -15,16 +17,18 @@ class User(UserMixin, Base):
     login_id = Column(String(16), nullable=False)
     password = Column(String(16), nullable=False)
     name = Column(String(50), nullable=False)
-    role_id = Column(String, ForeignKey('roles.id'))
+    is_admin = Column(Boolean, default=False)
+    is_operator = Column(Boolean, default=True)
     create_at = Column(DateTime, server_default=current_timestamp())
 
     def __init__(self,
-                 id: str, login_id: str, password: str, name: str, role_id: str):
+                 id: str, login_id: str, password: str, name: str, is_admin: AnyBool, is_operator: AnyBool):
         self.id = id
         self.login_id = login_id
         self.password = password
         self.name = name
-        self.role_id = role_id
+        self.is_admin = is_admin
+        self.is_operator = is_operator
 
     def get_id(self):
         return self.id
@@ -32,5 +36,5 @@ class User(UserMixin, Base):
 
 class UserFactory:
     @classmethod
-    def new_user(cls, login_id: str, password: str, name: str, role_id: str) -> User:
-        return User(UuidFactory.new_uuid(), login_id, password, name, role_id)
+    def new_user(cls, login_id: str, password: str, name: str, is_admin: AnyBool, is_operator: AnyBool) -> User:
+        return User(UuidFactory.new_uuid(), login_id, password, name, is_admin, is_operator)

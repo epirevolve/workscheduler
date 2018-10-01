@@ -45,6 +45,5 @@ def store_user():
 @login_required
 def show_user_options():
     user_repository = UserRepository(get_db_session())
-    roles = user_repository.get_roles()
     skills = user_repository.get_skills()
-    return render_template('user_options.html', roles=roles, skills=skills)
+    return render_template('user_options.html', skills=skills)

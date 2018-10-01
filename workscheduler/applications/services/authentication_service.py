@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.models.user import User
-from workscheduler.domains.models.role import Role
 from workscheduler.infrastructures.user_repository import UserRepository
 
 

@@ -1,11 +1,31 @@
 {% extends "layout.html" %}
 {% block body %}
     <form action="{{ url_for('users.store_user') }}" method="post">
-        <div class="form-group">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Login Id</span>
+            </div>
             <input type="text" class="form-control" name="login_id" value="{{ current_user.login_id }}" readonly />
-            <input type="password" class="form-control" name="password" value="{{ current_user.password }}" placeholder="password" />
-            <input type="text" class="form-control" name="name" value="{{ current_user.name }}" readonly />
-            <input type="text" class="form-control" name="role" value="{{ current_role.name }}" readonly />
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Password</span>
+            </div>
+            <input type="password" class="form-control" name="password" value="{{ current_user.password }}" placeholder="password">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Name</span>
+            </div>
+            <input type="text" class="form-control" name="name" value="{{ current_user.name }}" readonly>
+        </div>
+        <div class="mb-3 custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin" value="{{ current_user.is_admin }}" disabled>
+            <label class="custom-control-label" for="is_admin">Is Admin</label>
+        </div>
+        <div class="mb-3 custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="is_operator" name="is_admin" value="{{ current_user.is_operator }}" disabled>
+            <label class="custom-control-label" for="is_operator">Is Operator</label>
         </div>
         <button class="btn btn-default" type="submit">Store User</button>
     </form>

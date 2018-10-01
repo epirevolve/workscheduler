@@ -5,10 +5,6 @@ from workscheduler.infrastructures.user_repository import UserRepository
 from flask import Blueprint, request, redirect, url_for, render_template, flash
 from flask_login import login_user, logout_user, current_user
 from .. import get_db_session
-from werkzeug.local import LocalProxy
-
-
-current_role = LocalProxy(lambda: load_role())
 
 
 bp = Blueprint('auths', __name__)
@@ -17,10 +13,6 @@ bp = Blueprint('auths', __name__)
 def load_user(user_id):
     user = UserRepository(get_db_session()).get_user(user_id)
     return user
-
-
-def load_role():
-    return UserRepository(get_db_session()).get_role(current_user.role_id)
 
 
 @bp.route('/', methods=['GET'])

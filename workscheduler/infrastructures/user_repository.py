@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.models.user import User
-from workscheduler.domains.models.role import Role
 from workscheduler.domains.models.relation import Relation
 
 
@@ -17,15 +16,6 @@ class UserRepository:
     
     def store_user(self, user: User):
         self._session.merge(user)
-    
-    def get_role(self, id: str) -> Role:
-        return self._session.query(Role).get(id)
-
-    def get_roles(self) -> [Role]:
-        return self._session.query(Role).order_by(Role.id).all()
-    
-    def store_role(self, role: Role):
-        self._session.merge(role)
     
     def get_skills(self):
         raise NotImplementedError
