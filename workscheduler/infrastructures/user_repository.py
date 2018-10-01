@@ -9,13 +9,11 @@ class UserRepository:
     def __init__(self, session):
         self._session = session
     
-    def get_user(self, id: str) -> (User, Role):
-        return self._session.query(User, Role).join(Role, User.role_id == Role.id)\
-            .filter(User.id == id).one_or_none()
+    def get_user(self, id: str) -> User:
+        return self._session.query(User).get(id)
 
-    def get_users(self) -> [(User, Role)]:
-        return self._session.query(User, Role).join(Role, User.role_id == Role.id)\
-            .order_by(User.id).all()
+    def get_users(self) -> [User]:
+        return self._session.query(User).order_by(User.id).all()
     
     def store_user(self, user: User):
         self._session.merge(user)

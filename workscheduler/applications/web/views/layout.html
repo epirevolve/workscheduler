@@ -31,7 +31,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_schedules') }}">schedules</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_users') }}">operators</a></li>
-                        {% if current_user.role.is_admin %}<li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_user_options') }}">operator options</a></li>{% endif %}
+                        {% if current_role.is_admin %}<li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_user_options') }}">operator options</a></li>{% endif %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auths.logout') }}">log out</a></li>
                     </ul>
                 </div>

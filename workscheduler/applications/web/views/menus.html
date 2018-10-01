@@ -13,7 +13,7 @@
                 <img class="card-img-top" src="{{ url_for('static', filename='img/timer.svg') }}" />
                 <div class="card-body">
                     <h3 class="card-title">Work Scheduler</h3>
-                    {% if current_user.role.is_admin %}
+                    {% if current_role.is_admin %}
                         <span class="card-text">Create or List a work schedule</span>
                     {% else %}
                         <span class="card-text">Ask your demand or List a work schedule</span>
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </a>
-        {% if current_user.role.is_admin %}
+        {% if current_role.is_admin %}
             <a href="{{ url_for('users.show_users') }}">
                 <div class="card">
                     <img class="card-img-top" src="{{ url_for('static', filename='img/connection.svg') }}" />

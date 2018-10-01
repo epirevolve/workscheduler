@@ -3,22 +3,24 @@
 from workscheduler.applications.services.authentication_service import AuthenticationService
 from workscheduler.infrastructures.user_repository import UserRepository
 from flask import Blueprint, request, redirect, url_for, render_template, flash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, current_user
 from .. import get_db_session
-from collections import namedtuple
+from werkzeug.local import LocalProxy
+
+
+current_role = LocalProxy(lambda: load_role())
 
 
 bp = Blueprint('auths', __name__)
 
 
 def load_user(user_id):
-    user, role = UserRepository(get_db_session()).get_user(user_id)
-    if not user:
-        return None, None
-    CurrentUser = namedtuple('CurrentUser', ('login_id', 'password', 'name', 'role',
-                                             'is_authenticated', 'is_active', 'is_anonymous', 'get_id'))
-    return CurrentUser(user.login_id, user.password, user.name, role,
-                       user.is_authenticated, user.is_active, user.is_anonymous, user.get_id())
+    user = UserRepository(get_db_session()).get_user(user_id)
+    return user
+
+
+def load_role():
+    return UserRepository(get_db_session()).get_role(current_user.role_id)
 
 
 @bp.route('/', methods=['GET'])
@@ -28,7 +30,7 @@ def index():
 
 @bp.route('/login', methods=['POST'])
 def login():
-    user, role = AuthenticationService(get_db_session()).login(request.form['login_id'], request.form['password'])
+    user = AuthenticationService(get_db_session()).login(request.form['login_id'], request.form['password'])
     if not user:
         flash('Invalid username or password', 'error')
         return render_template('login.html')
