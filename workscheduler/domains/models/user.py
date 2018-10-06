@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from typing import TypeVar
 from workscheduler.domains.utility.uuid import UuidFactory
 from workscheduler.domains.models import Base
 from flask_login import UserMixin
 from sqlalchemy import Column
 from sqlalchemy.types import String, DateTime, Boolean
 from sqlalchemy.sql.functions import current_timestamp
-
-AnyBool = TypeVar('AnyBool', bool, int)
 
 
 class User(UserMixin, Base):
@@ -22,7 +19,7 @@ class User(UserMixin, Base):
     create_at = Column(DateTime, server_default=current_timestamp())
 
     def __init__(self,
-                 id: str, login_id: str, password: str, name: str, is_admin: AnyBool, is_operator: AnyBool):
+                 id: str, login_id: str, password: str, name: str, is_admin: bool, is_operator: bool):
         self.id = id
         self.login_id = login_id
         self.password = password
@@ -36,5 +33,5 @@ class User(UserMixin, Base):
 
 class UserFactory:
     @classmethod
-    def new_user(cls, login_id: str, password: str, name: str, is_admin: AnyBool, is_operator: AnyBool) -> User:
+    def new_user(cls, login_id: str, password: str, name: str, is_admin: bool, is_operator: bool) -> User:
         return User(UuidFactory.new_uuid(), login_id, password, name, is_admin, is_operator)
