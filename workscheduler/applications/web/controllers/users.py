@@ -19,7 +19,7 @@ def show_user(login_id):
 @login_required
 def show_users():
     user_repository = UserRepository(get_db_session())
-    return render_template('users.html', users=user_repository.get_users(), roles=user_repository.get_roles())
+    return render_template('users.html', users=user_repository.get_users())
 
 
 @bp.route('/store_user', methods=['POST'])

@@ -11,8 +11,7 @@ bp = Blueprint('auths', __name__)
 
 
 def load_user(user_id):
-    user = UserRepository(get_db_session()).get_user(user_id)
-    return user
+    return UserRepository(get_db_session()).get_user(user_id)
 
 
 @bp.route('/', methods=['GET'])

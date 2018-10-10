@@ -24,6 +24,7 @@ class Database:
         user_repository.store_user(UserFactory.new_user('user', 'user', 'ユーザ', is_admin=False, is_operator=True))
 
         session.commit()
+        session.close()
 
     def create_session(self):
         session = sessionmaker(bind=self._engine)

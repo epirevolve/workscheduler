@@ -7,13 +7,17 @@
                 <tr>
                     <th>login id</th>
                     <th>name</th>
-                    <th>role</th>
+                    <th>is admin</th>
+                    <th>is operator</th>
                 </tr>
             </thead>
             <tbody>
-                {% for user, role in users %}
-                    <tr data-id="{{ user.identifier }}" role="row">
-                        <td>{{ user.login_id }}</td><td>{{ user.name }}</td><td>{{ role.name|safe }}</td>
+                {% for user in users %}
+                    <tr data-id="{{ user.id }}" role="row">
+                        <td>{{ user.login_id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.is_admin }}</td>
+                        <td>{{ user.is_operator }}</td>
                     </tr>
                 {% else %}
                     <tr><td>No users here so far.</td><td></td></tr>
@@ -22,18 +26,26 @@
         </table>
     </div>
     <form action="{{ url_for('users.store_user') }}" method="post">
-        <div class="form-group">
-            <input type="hidden" class="form-control" name="identifier" readonly />
-            <input type="text" class="form-control" name="login_id" placeholder="login id" />
-            <input type="password" class="form-control" name="password" placeholder="password" />
-            <input type="text" class="form-control" name="name" placeholder="name" />
-            <select name="role" class="form-control custom-select">
-                {% for role in roles %}
-                    <option value="{{ role.identifier }}" label="{{ role.name }}">{{ role.name }}</option>
-                {% else %}
-                    <option value="0" label="no role">no role</option>
-                {% endfor %}
-            </select>
+        <input type="hidden" class="form-control" name="id" id="id" readonly>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Login Id</span>
+            </div>
+            <input type="text" class="form-control" name="login_id" id="login_id">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Name</span>
+            </div>
+            <input type="text" class="form-control" name="name" id="name">
+        </div>
+        <div class="mb-3 custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin">
+            <label class="custom-control-label" for="is_admin">Is Admin</label>
+        </div>
+        <div class="mb-3 custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="is_operator" name="is_operator">
+            <label class="custom-control-label" for="is_operator">Is Operator</label>
         </div>
         <button class="btn btn-default" type="submit">Store User</button>
     </form>
@@ -43,7 +55,11 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $("#user-table tbody tr").click(function(){
-                alert('hello');
+                $('#id').val($(this).attr('data-id'));
+                $('#login_id').val($(this).find('td').eq(0).text());
+                $('#name').val($(this).find('td').eq(1).text());
+                $('#is_admin').prop('checked', ($(this).find('td').eq(2).text() == 'True'));
+                $('#is_operator').prop('checked', ($(this).find('td').eq(3).text() == 'True'));
             });
         });
     </script>
