@@ -21,7 +21,7 @@ def index():
 
 @bp.route('/login', methods=['POST'])
 def login():
-    user = AuthenticationService(get_db_session()).login(request.form['login_id'], request.form['password'])
+    user = AuthenticationService(get_db_session()).login(request.form.get('login_id'), request.form.get('password'))
     if not user:
         flash('Invalid username or password', 'error')
         return render_template('login.html')

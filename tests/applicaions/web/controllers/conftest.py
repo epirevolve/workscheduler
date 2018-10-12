@@ -22,9 +22,29 @@ def auth(client):
     return AuthAction(client)
 
 
-class UserAction:
-    def __init__(self, client):
+class MyselfAction:
+    def __init__(self, client, login_id='admin', passwod='minAd'):
         self._client = client
+        auth(client).login(login_id, passwod)
 
     def show_user(self):
-        return self._client.get('/user/')
+        return self._client.get('/user')
+
+
+class UsersAction:
+    def __init__(self, client, login_id='admin', passwod='minAd'):
+        self._client = client
+        auth(client).login(login_id, passwod)
+    
+    def show_users(self):
+        return self._client.get('/users', follow_redirects=True)
+    
+    def store_user(self, id, login_id, name, is_admin, is_operator):
+        return self._client.post('/store_user', data=dict(id=id, login_id=login_id, name=name,
+                                                          is_admin=is_admin, is_operator=is_operator),
+                                 follow_redirects=True)
+
+
+@pytest.fixture
+def users(client):
+    return UsersAction(client)

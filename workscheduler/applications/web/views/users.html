@@ -47,7 +47,11 @@
             <input type="checkbox" class="custom-control-input" id="is_operator" name="is_operator">
             <label class="custom-control-label" for="is_operator">Is Operator</label>
         </div>
-        <button class="btn btn-default" type="submit">Store User</button>
+        <div class="row">
+            <button class="btn btn-secondary col-md-2" type="reset" id="new">New User</button>
+            <button class="btn btn-primary col-md-6 offset-md-1" type="submit">Store User</button>
+            <button class="btn btn-warning col-md-2 offset-md-1" type="button" id="reset">Reset Password</button>
+        </div>
     </form>
 {% endblock %}
 
@@ -60,6 +64,26 @@
                 $('#name').val($(this).find('td').eq(1).text());
                 $('#is_admin').prop('checked', ($(this).find('td').eq(2).text() == 'True'));
                 $('#is_operator').prop('checked', ($(this).find('td').eq(3).text() == 'True'));
+            });
+
+            $('#new').click(function(){
+                $('#id').val('');
+            });
+
+            $('#reset').click(function(){
+                $id = $('#id');
+                if ($id.val() == '') return;
+
+                if (!confirm('Would you really reset selected user password?')) return;
+
+                $.ajax({
+                    url: '/reset_password/',
+                    type: 'POST',
+                    data: { 'id': $id.val() }
+                })
+                .done((data) => {
+                    alert('success');
+                });
             });
         });
     </script>

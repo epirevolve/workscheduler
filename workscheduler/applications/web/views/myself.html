@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
-    <form action="{{ url_for('users.store_user') }}" method="post">
+    <form action="{{ url_for('users.store_myself') }}" method="post">
+        <input type="hidden" class="form-control" name="id" value="{{ current_user.id }}" readonly>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">Login Id</span>
@@ -20,11 +21,13 @@
             <input type="text" class="form-control" name="name" value="{{ current_user.name }}" readonly>
         </div>
         <div class="mb-3 custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin" value="{{ current_user.is_admin }}" disabled>
+            <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin"
+                   {% if current_user.is_admin %}checked{% endif %} disabled>
             <label class="custom-control-label" for="is_admin">Is Admin</label>
         </div>
         <div class="mb-3 custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="is_operator" name="is_admin" value="{{ current_user.is_operator }}" disabled>
+            <input type="checkbox" class="custom-control-input" id="is_operator" name="is_admin"
+                   {% if current_user.is_operator %}checked{% endif %} disabled>
             <label class="custom-control-label" for="is_operator">Is Operator</label>
         </div>
         <button class="btn btn-default" type="submit">Store User</button>
