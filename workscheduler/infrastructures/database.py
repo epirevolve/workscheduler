@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 class Database:
     def __init__(self, sql_connection, echo=False):
-        self._engine = create_engine(sql_connection, echo=echo)
+        self._engine = create_engine('sqlite:///{}'.format(sql_connection), echo=echo)
 
     def init(self):
         self.drop()
@@ -25,7 +25,7 @@ class Database:
         session.close()
 
     def create_session(self):
-        session = sessionmaker(bind=self._engine, autocommit=False, autoflush=True)
+        session = sessionmaker(bind=self._engine, autocommit=False, autoflush=False)
         return session()
 
     def drop(self):

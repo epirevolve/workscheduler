@@ -11,6 +11,7 @@ class TestUserManagingService:
         session.commit()
         assert count + 1 == len(user_repository.get_users())
         user_managing_service.join_new_user('test2', 'test2pass', 'テスト２', False, False)
+        session.commit()
         assert count + 2 == len(user_repository.get_users())
         
     def test_store_update_user(self, user_managing_service, session):

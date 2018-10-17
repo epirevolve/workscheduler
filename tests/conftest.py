@@ -8,7 +8,7 @@ import tempfile
 @pytest.fixture
 def session():
     db_fd, db_path = tempfile.mkstemp()
-    database = Database('sqlite:///{}'.format(db_path))
+    database = Database(db_path)
     database.init()
     session = database.create_session()
     yield session
