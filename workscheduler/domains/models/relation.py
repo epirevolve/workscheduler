@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.utility.uuid import UuidFactory
+from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import Base
 from sqlalchemy import Column
 from sqlalchemy.types import String, Float

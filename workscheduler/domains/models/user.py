@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.utility.uuid import UuidFactory
+from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import Base
 from flask_login import UserMixin
 from sqlalchemy import Column

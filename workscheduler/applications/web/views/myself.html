@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-    <form action="{{ url_for('users.store_myself') }}" method="post">
-        <input type="hidden" class="form-control" name="id" value="{{ current_user.id }}" readonly>
+    <form action="{{ url_for('myself.store_password') }}" method="post">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">Login Id</span>

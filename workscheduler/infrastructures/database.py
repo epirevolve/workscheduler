@@ -15,19 +15,17 @@ class Database:
 
         # set initial users and roles
         from workscheduler.domains.models.user import UserFactory
-        from workscheduler.infrastructures.user_repository import UserRepository
 
         session = self.create_session()
-        user_repository = UserRepository(session)
 
-        user_repository.store_user(UserFactory.new_user('admin', 'minAd', '管理者', is_admin=True, is_operator=False))
-        user_repository.store_user(UserFactory.new_user('user', 'user', 'ユーザ', is_admin=False, is_operator=True))
-
+        session.add(UserFactory.new_user('admin', 'minAd', '管理者', is_admin=True, is_operator=False))
+        session.add(UserFactory.new_user('user', 'user', 'ユーザ', is_admin=False, is_operator=True))
+        
         session.commit()
         session.close()
 
     def create_session(self):
-        session = sessionmaker(bind=self._engine)
+        session = sessionmaker(bind=self._engine, autocommit=False, autoflush=True)
         return session()
 
     def drop(self):

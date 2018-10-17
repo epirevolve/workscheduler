@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.applications.services.authentication_service import AuthenticationService
-from workscheduler.infrastructures.user_repository import UserRepository
+from workscheduler.infrastructures.user_query import UserRepository
 from flask import Blueprint, request, redirect, url_for, render_template, flash
 from flask_login import login_user, logout_user, current_user
 from .. import get_db_session

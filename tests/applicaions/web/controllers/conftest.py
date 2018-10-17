@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pytest
+from workscheduler.infrastructures.user_query import UserRepository
 
 
 class AuthAction:
@@ -29,6 +30,15 @@ class MyselfAction:
 
     def show_user(self):
         return self._client.get('/user')
+    
+    def store_password(self, password):
+        return self._client.post('/store_password', data=dict(password=password),
+                                 follow_redirects=True)
+
+
+@pytest.fixture
+def myself(client):
+    return MyselfAction(client)
 
 
 class UsersAction:
@@ -38,7 +48,7 @@ class UsersAction:
     
     def show_users(self):
         return self._client.get('/users', follow_redirects=True)
-    
+        
     def store_user(self, id, login_id, name, is_admin, is_operator):
         return self._client.post('/store_user', data=dict(id=id, login_id=login_id, name=name,
                                                           is_admin=is_admin, is_operator=is_operator),

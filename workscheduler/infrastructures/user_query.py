@@ -14,14 +14,8 @@ class UserRepository:
     def get_users(self) -> [User]:
         return self._session.query(User).order_by(User.id).all()
     
-    def store_user(self, user: User):
-        self._session.merge(user)
-    
     def get_skills(self):
         raise NotImplementedError
     
     def get_relations(self):
         return self._session.query(Relation).order_by(Relation.user_1, Relation.user_2).all()
-    
-    def append_relation(self, relation: Relation):
-        self._session.merge(relation)

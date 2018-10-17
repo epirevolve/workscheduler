@@ -57,11 +57,12 @@ def create_app(test_config=None):
     app.teardown_appcontext(close_db_session)
     app.cli.add_command(init_db_command)
 
-    from .controllers import auths, menus, schedules, users
+    from .controllers import auths, menus, schedules, myself, users
 
     app.register_blueprint(auths.bp)
     app.register_blueprint(menus.bp)
     app.register_blueprint(schedules.bp)
+    app.register_blueprint(myself.bp)
     app.register_blueprint(users.bp)
 
     @app.errorhandler(404)
