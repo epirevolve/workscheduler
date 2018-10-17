@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from workscheduler.infrastructures.user_query import UserRepository
 
 
 class AuthAction:

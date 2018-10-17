@@ -3,7 +3,7 @@
 import pytest
 from workscheduler.applications.web import create_app
 from workscheduler.infrastructures.database import Database
-from workscheduler.infrastructures.user_query import UserRepository
+from workscheduler.applications.services.user_query import UserRepository
 import tempfile
 import os
 

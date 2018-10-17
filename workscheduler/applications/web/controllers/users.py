@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from flask import Blueprint, request, redirect, url_for, render_template, flash, Response
-from flask_login import login_required, current_user
-from workscheduler.infrastructures.user_query import UserRepository
+from flask_login import login_required
+from workscheduler.applications.services.user_query import UserRepository
 from workscheduler.domains.models.user import UserFactory
 from .. import get_db_session
 

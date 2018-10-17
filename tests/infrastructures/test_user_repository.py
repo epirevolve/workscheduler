@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import UserFactory, User
+from workscheduler.domains.models.user import UserFactory
 from workscheduler.domains.models.relation import Relation
-from workscheduler.infrastructures.user_query import UserRepository
+from workscheduler.applications.services.user_query import UserRepository
 
 
 class TestUserRepository:

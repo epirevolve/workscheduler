@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.models.user import User
-from workscheduler.infrastructures.user_query import UserRepository
+from workscheduler.applications.services.user_query import UserRepository
 
 
 class AuthenticationService:
