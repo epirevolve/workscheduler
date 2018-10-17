@@ -13,7 +13,7 @@ def app():
     db_fd, db_path = tempfile.mkstemp()
     app = create_app(
         {'TESTING': True,
-         'DATABASE': 'sqlite:///{}'.format(db_path)}
+         'DATABASE': db_path}
     )
     with app.app_context():
         Database(app.config['DATABASE']).init()
