@@ -2,8 +2,7 @@
 
 from flask import Blueprint, request, redirect, url_for, render_template, flash, Response
 from flask_login import login_required
-from workscheduler.applications.services.user_query import UserRepository
-from workscheduler.domains.models.user import UserFactory
+from workscheduler.applications.services.user_query import UserQuery
 from .. import get_db_session
 
 bp = Blueprint('users', __name__)
@@ -12,7 +11,7 @@ bp = Blueprint('users', __name__)
 @bp.route('/users')
 @login_required
 def show_users():
-    user_repository = UserRepository(get_db_session())
+    user_repository = UserQuery(get_db_session())
     return render_template('users.html', users=user_repository.get_users())
 
 
@@ -26,17 +25,20 @@ def store_user():
         flash('name is required', 'error')
         return redirect(url_for('users.show_users'))
     session = get_db_session()
+    from workscheduler.applications.services.user_managing_service import UserManagingService
     if not request.form.get('id'):
-        user = UserFactory.new_user(request.form.get('login_id'), 'p' + request.form.get('login_id'),
-                                    request.form.get('name'), request.form.get('is_admin') == 'on',
-                                    request.form.get('is_operator') == 'on')
-        session.add(user)
+        UserManagingService(session).join_a_member(
+            request.form.get('login_id'), 'p' + request.form.get('login_id'),
+            request.form.get('name'), request.form.get('is_admin') == 'on',
+            request.form.get('is_operator') == 'on')
     else:
-        user = UserRepository(session).get_user(request.form.get('id'))
-        user.login_id = request.form.get('login_id')
-        user.name = request.form.get('name')
-        user.is_admin = request.form.get('is_admin') == 'on'
-        user.is_operator = request.form.get('is_operator') == 'on'
+        UserManagingService(session).renew_user(
+            request.form.get('id'),
+            request.form.get('login_id'),
+            request.form.get('name'),
+            request.form.get('is_admin') == 'on',
+            request.form.get('is_operator') == 'on'
+        )
     session.commit()
     flash('Operator was successfully registered.')
     flash('If you made new user, his/her password is p + his/her login id. Please change it.')
@@ -51,7 +53,7 @@ def reset_password():
     if not request.form.get('id'):
         return response
     session = get_db_session()
-    user_repository = UserRepository(session)
+    user_repository = UserQuery(session)
     user = user_repository.get_user(request.form.get('id'))
     user.password = 'p' + user.login_id
     session.commit()
@@ -62,6 +64,6 @@ def reset_password():
 @bp.route('/operator_options')
 @login_required
 def show_operator_options():
-    user_repository = UserRepository(get_db_session())
+    user_repository = UserQuery(get_db_session())
     skills = user_repository.get_skills()
     return render_template('user_options.html', skills=skills)

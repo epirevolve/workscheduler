@@ -2,12 +2,13 @@
 
 from workscheduler.domains.models.user import UserFactory
 from workscheduler.domains.models.relation import Relation
-from workscheduler.applications.services.user_query import UserRepository
+from workscheduler.domains.models.operator_skill import OperatorSkillFactory
+from workscheduler.applications.services.user_query import UserQuery
 
 
 class TestUserRepository:
     def test_get_user(self, session):
-        user_repository = UserRepository(session)
+        user_repository = UserQuery(session)
         users = user_repository.get_users()
         user = users[0]
         get_user = user_repository.get_user(user.id)
@@ -15,7 +16,7 @@ class TestUserRepository:
         assert user.id == get_user.id
 
     def test_get_users(self, session):
-        user_repository = UserRepository(session)
+        user_repository = UserQuery(session)
         users = user_repository.get_users()
         assert 2 == len(users)
         user = users[0]
@@ -26,8 +27,12 @@ class TestUserRepository:
         assert user.create_at
     
     def test_append_user(self, session):
-        user_repository = UserRepository(session)
-        session.add(UserFactory.new_user('test_login', 'login_pass', 'tester', is_admin=False, is_operator=True))
+        skill = OperatorSkillFactory.evaluate_a_skill('ccna', 2)
+        session.add(skill)
+        user_repository = UserQuery(session)
+        user = UserFactory.join_a_member('test_login', 'login_pass', 'tester', is_admin=False, is_operator=True)
+        user.skills.append(skill)
+        session.add(user)
         session.commit()
         users = user_repository.get_users()
         assert 3 == len(users)
@@ -40,7 +45,7 @@ class TestUserRepository:
         assert user.is_operator
 
     def test_update_user(self, session):
-        user_repository = UserRepository(session)
+        user_repository = UserQuery(session)
         users = user_repository.get_users()
         user = users[1]
         import copy
@@ -60,7 +65,7 @@ class TestUserRepository:
         assert origin_user.create_at == user.create_at
         
     def test_append_relation(self, session):
-        user_repository = UserRepository(session)
+        user_repository = UserQuery(session)
         session.add(Relation('2', '1', '2', 0.4, '2'))
         session.commit()
         relations = user_repository.get_relations()

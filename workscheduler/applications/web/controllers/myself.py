@@ -2,7 +2,7 @@
 
 from flask import Blueprint, request, redirect, url_for, render_template, flash
 from flask_login import login_required, current_user
-from workscheduler.applications.services.user_query import UserRepository
+from workscheduler.applications.services.user_query import UserQuery
 from .. import get_db_session
 
 
@@ -19,7 +19,7 @@ def show_myself(login_id):
 @login_required
 def store_password():
     session = get_db_session()
-    user_repository = UserRepository(session)
+    user_repository = UserQuery(session)
     user = user_repository.get_user(current_user.id)
     user.password = request.form.get('password')
     session.commit()
