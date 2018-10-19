@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services.user_query import UserRepository
+from workscheduler.applications.services.user_query import UserQuery
 
 
 class TestUsers:
@@ -12,7 +12,7 @@ class TestUsers:
     
     def test_store_new_user(self, client, users, db_session):
         with client:
-            user_repository = UserRepository(db_session)
+            user_repository = UserQuery(db_session)
             users_count = len(user_repository.get_users())
             rv = users.store_user('', 'new_one', '新人', '', 'on')
             assert b'If you made new user, his/her password is p + his/her login id.' in rv.data
@@ -20,7 +20,7 @@ class TestUsers:
     
     def test_store_update_user(self, client, users, random_user, db_session):
         with client:
-            user_repository = UserRepository(db_session)
+            user_repository = UserQuery(db_session)
             users_count = len(user_repository.get_users())
             rv = users.store_user(random_user.id, 'random_changed', 'some changed',
                                   'on' if not random_user.is_admin else '',

@@ -3,7 +3,7 @@
 import pytest
 from workscheduler.applications.web import create_app
 from workscheduler.infrastructures.database import Database
-from workscheduler.applications.services.user_query import UserRepository
+from workscheduler.applications.services.user_query import UserQuery
 import tempfile
 import os
 
@@ -35,7 +35,7 @@ def db_session(app):
 
 @pytest.fixture
 def random_user(db_session):
-    user_repository = UserRepository(db_session)
+    user_repository = UserQuery(db_session)
     users = user_repository.get_users()
     import random
     return users[random.randint(0, len(users) - 1)]

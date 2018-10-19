@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.models.user import User
-from workscheduler.applications.services.user_query import UserRepository
+from workscheduler.applications.services.user_query import UserQuery
 
 
 class AuthenticationService:
@@ -16,4 +16,4 @@ class AuthenticationService:
     
     def login(self, login_id: str, password: str) -> User:
         _login_check = self._login_check(login_id, password)
-        return next((x for x in UserRepository(self._session).get_users() if _login_check(x)), None)
+        return next((x for x in UserQuery(self._session).get_users() if _login_check(x)), None)

@@ -2,9 +2,10 @@
 
 from workscheduler.domains.models.user import User
 from workscheduler.domains.models.relation import Relation
+from workscheduler.domains.models.operator_skill import OperatorSkill
 
 
-class UserRepository:
+class UserQuery:
     def __init__(self, session):
         self._session = session
     
@@ -15,7 +16,7 @@ class UserRepository:
         return self._session.query(User).order_by(User.id).all()
     
     def get_skills(self):
-        raise NotImplementedError
+        return self._session.query(OperatorSkill).order_by(OperatorSkill.id).all()
     
     def get_relations(self):
         return self._session.query(Relation).order_by(Relation.user_1, Relation.user_2).all()
