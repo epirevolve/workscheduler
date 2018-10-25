@@ -45,7 +45,7 @@ def store_user():
     return redirect(url_for('users.show_users'))
 
 
-@bp.route('/reset_password/', methods=['POST'])
+@bp.route('/reset_password', methods=['POST'])
 @login_required
 def reset_password():
     response = Response()
@@ -59,11 +59,3 @@ def reset_password():
     session.commit()
     response.status_code = 200
     return response
-    
-
-@bp.route('/operator_options')
-@login_required
-def show_operator_options():
-    user_repository = UserQuery(get_db_session())
-    skills = user_repository.get_skills()
-    return render_template('user_options.html', skills=skills)
