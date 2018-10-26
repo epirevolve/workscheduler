@@ -1,90 +1,90 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h2>Users</h2>
-    <div class="table-responsive">
-        <table class="table" id="user-table">
-            <thead>
-                <tr>
-                    <th>login id</th>
-                    <th>name</th>
-                    <th>is admin</th>
-                    <th>is operator</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                    <tr data-id="{{ user.id }}" role="row">
-                        <td>{{ user.login_id }}</td>
-                        <td>{{ user.name }}</td>
-                        <td>{{ user.is_admin }}</td>
-                        <td>{{ user.is_operator }}</td>
-                    </tr>
-                {% else %}
-                    <tr><td>No users here so far.</td><td></td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<h2>Users</h2>
+<div class="table-responsive">
+    <table class="table" id="user-table">
+        <thead>
+            <tr>
+                <th>login id</th>
+                <th>name</th>
+                <th>is admin</th>
+                <th>is operator</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr data-id="{{ user.id }}" role="row">
+                <td>{{ user.login_id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.is_admin }}</td>
+                <td>{{ user.is_operator }}</td>
+            </tr>
+            {% else %}
+            <tr><td>No users here so far.</td><td></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<form action="{{ url_for('users.store_user') }}" method="post">
+    <input type="hidden" class="form-control" name="id" id="id" readonly>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Login Id</span>
+        </div>
+        <input type="text" class="form-control" name="login_id" id="login_id">
     </div>
-    <form action="{{ url_for('users.store_user') }}" method="post">
-        <input type="hidden" class="form-control" name="id" id="id" readonly>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Login Id</span>
-            </div>
-            <input type="text" class="form-control" name="login_id" id="login_id">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
         </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Name</span>
-            </div>
-            <input type="text" class="form-control" name="name" id="name">
-        </div>
-        <div class="mb-3 custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin">
-            <label class="custom-control-label" for="is_admin">Is Admin</label>
-        </div>
-        <div class="mb-3 custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="is_operator" name="is_operator">
-            <label class="custom-control-label" for="is_operator">Is Operator</label>
-        </div>
-        <div class="row">
-            <button class="btn btn-secondary col-md-2" type="reset" id="new">New User</button>
-            <button class="btn btn-primary col-md-6 offset-md-1" type="submit">Store User</button>
-            <button class="btn btn-warning col-md-2 offset-md-1" type="button" id="reset">Reset Password</button>
-        </div>
-    </form>
+        <input type="text" class="form-control" name="name" id="name">
+    </div>
+    <div class="mb-3 custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin">
+        <label class="custom-control-label" for="is_admin">Is Admin</label>
+    </div>
+    <div class="mb-3 custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="is_operator" name="is_operator">
+        <label class="custom-control-label" for="is_operator">Is Operator</label>
+    </div>
+    <div class="row">
+        <button class="btn btn-secondary col-md-2" type="reset" id="new">New User</button>
+        <button class="btn btn-primary col-md-6 offset-md-1" type="submit">Store User</button>
+        <button class="btn btn-warning col-md-2 offset-md-1" type="button" id="reset">Reset Password</button>
+    </div>
+</form>
 {% endblock %}
 
 {% block script %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#user-table tbody tr").click(function(){
-                $('#id').val($(this).attr('data-id'));
-                $('#login_id').val($(this).find('td').eq(0).text());
-                $('#name').val($(this).find('td').eq(1).text());
-                $('#is_admin').prop('checked', ($(this).find('td').eq(2).text() == 'True'));
-                $('#is_operator').prop('checked', ($(this).find('td').eq(3).text() == 'True'));
-            });
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#user-table tbody tr").click(function(){
+            $('#id').val($(this).attr('data-id'));
+            $('#login_id').val($(this).find('td').eq(0).text());
+            $('#name').val($(this).find('td').eq(1).text());
+            $('#is_admin').prop('checked', ($(this).find('td').eq(2).text() == 'True'));
+            $('#is_operator').prop('checked', ($(this).find('td').eq(3).text() == 'True'));
+        });
 
-            $('#new').click(function(){
-                $('#id').val('');
-            });
+        $('#new').click(function(){
+            $('#id').val('');
+        });
 
-            $('#reset').click(function(){
-                $id = $('#id');
-                if ($id.val() == '') return;
+        $('#reset').click(function(){
+            $id = $('#id');
+            if ($id.val() == '') return;
 
-                if (!confirm('Would you really reset selected user password?')) return;
+            if (!confirm('Would you really reset selected user password?')) return;
 
-                $.ajax({
-                    url: '/reset_password/',
-                    type: 'POST',
-                    data: { 'id': $id.val() }
-                })
-                .done((data) => {
-                    alert('success');
-                });
+            $.ajax({
+                url: '/reset_password/',
+                type: 'POST',
+                data: { 'id': $id.val() }
+            })
+            .done((data) => {
+                alert('success');
             });
         });
-    </script>
+    });
+</script>
 {% endblock %}

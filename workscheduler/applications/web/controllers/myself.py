@@ -12,7 +12,7 @@ bp = Blueprint('myself', __name__)
 @bp.route('/my_request/<login_id>')
 @login_required
 def my_request(login_id):
-    pass
+    return render_template('requests.html')
 
 
 @bp.route('/myself/<login_id>')
@@ -36,5 +36,5 @@ def store_myself():
         if request.form.get(skill.id) == 'on':
             user.skills.append(skill)
     session.commit()
-    flash('Password is successfully changed.')
+    flash('My info is successfully changed.')
     return redirect(url_for('myself.show_myself', login_id=current_user.login_id))

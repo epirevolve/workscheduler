@@ -9,59 +9,61 @@
 </style>
 {% endblock %}
 {% block body %}
-    <div class="card-deck">
-        <a href="{{ url_for('schedules.show_schedules') }}">
-            <div class="card">
-                <img class="card-img-top" src="{{ url_for('static', filename='img/timer.svg') }}" />
-                <div class="card-body">
-                    <h3 class="card-title">Work Scheduler</h3>
-                    {% if current_user.is_admin %}
-                        <span class="card-text">Create or Show a work schedule</span>
-                    {% else %}
-                        <span class="card-text">Show a work schedule</span>
-                    {% endif %}
-                </div>
+<div class="card-deck">
+    <a href="{{ url_for('schedules.show_schedules') }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/timer.svg') }}" />
+            <div class="card-body">
+                <h3 class="card-title">Work Scheduler</h3>
+                {% if current_user.is_admin %}
+                    <span class="card-text">Create or Show a work schedule</span>
+                {% else %}
+                    <span class="card-text">Show a work schedule</span>
+                {% endif %}
             </div>
-        </a>
-        <a href="{{ url_for('myself.my_request', login_id=current_user.login_id) }}">
-            <div class="card">
-                <img class="card-img-top" src="{{ url_for('static', filename='img/desire.svg') }}" />
-                <div class="card-body">
-                    <h3 class="card-title">Shift Request</h3>
-                    <span class="card-text">Request a date when I can't work on.</span>
-                </div>
-            </div>
-        </a>
-        <a href="{{ url_for('myself.show_myself', login_id=current_user.login_id) }}">
-            <div class="card">
-                <img class="card-img-top" src="{{ url_for('static', filename='img/id-card.svg') }}" />
-                <div class="card-body">
-                    <h3 class="card-title">Myself</h3>
-                    <span class="card-text">Show my info and can change my password and skills</span>
-                </div>
-            </div>
-        </a>
-    </div>
-    {% if current_user.is_admin %}
-        <div class="card-deck">
-            <a href="{{ url_for('users.show_users') }}">
-                <div class="card">
-                    <img class="card-img-top" src="{{ url_for('static', filename='img/connection.svg') }}" />
-                    <div class="card-body">
-                        <h3 class="card-title">Users</h3>
-                        <span class="card-text">Modify user info and reset their password</span>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ url_for('skills.show_skills') }}">
-                <div class="card">
-                    <img class="card-img-top" src="{{ url_for('static', filename='img/skills.svg') }}" />
-                    <div class="card-body">
-                        <h3 class="card-title">Skills</h3>
-                        <span class="card-text">Define skills what they are required</span>
-                    </div>
-                </div>
-            </a>
         </div>
+    </a>
+    {% if current_user.is_operator %}
+    <a href="{{ url_for('myself.my_request', login_id=current_user.login_id) }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/desire.svg') }}" />
+            <div class="card-body">
+                <h3 class="card-title">Shift Request</h3>
+                <span class="card-text">Request a date when I can't work on.</span>
+            </div>
+        </div>
+    </a>
     {% endif %}
+    <a href="{{ url_for('myself.show_myself', login_id=current_user.login_id) }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/id-card.svg') }}" />
+            <div class="card-body">
+                <h3 class="card-title">Myself</h3>
+                <span class="card-text">Show my info and can change my password and skills</span>
+            </div>
+        </div>
+    </a>
+</div>
+{% if current_user.is_admin %}
+<div class="card-deck">
+    <a href="{{ url_for('users.show_users') }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/connection.svg') }}" />
+            <div class="card-body">
+                <h3 class="card-title">Users</h3>
+                <span class="card-text">Modify user info and reset their password</span>
+            </div>
+        </div>
+    </a>
+    <a href="{{ url_for('skills.show_skills') }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/skills.svg') }}" />
+            <div class="card-body">
+                <h3 class="card-title">Skills</h3>
+                <span class="card-text">Define skills what they are required</span>
+            </div>
+        </div>
+    </a>
+</div>
+{% endif %}
 {% endblock %}
