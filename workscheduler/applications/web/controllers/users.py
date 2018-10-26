@@ -40,7 +40,7 @@ def store_user():
             request.form.get('is_operator') == 'on'
         )
     session.commit()
-    flash('Operator was successfully registered.')
+    flash('User was successfully registered.')
     flash('If you made new user, his/her password is p + his/her login id. Please change it.')
     return redirect(url_for('users.show_users'))
 

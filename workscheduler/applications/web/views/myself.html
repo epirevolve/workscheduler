@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-    <form action="{{ url_for('myself.store_password') }}" method="post">
+    <form action="{{ url_for('myself.store_myself') }}" method="post">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">Login Id</span>
@@ -25,9 +25,31 @@
             <label class="custom-control-label" for="is_admin">Is Admin</label>
         </div>
         <div class="mb-3 custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="is_operator" name="is_admin"
+            <input type="checkbox" class="custom-control-input" id="is_operator" name="is_operator"
                    {% if current_user.is_operator %}checked{% endif %} disabled>
             <label class="custom-control-label" for="is_operator">Is Operator</label>
+        </div>
+        <div id="skills" class="table-responsive mb-3" {% if not current_user.is_operator %}hidden{% endif %}>
+            <table class="table" id="user-table">
+                <thead>
+                    <tr>
+                        <th>skill</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for skill in skills %}
+                        <tr role="row">
+                            <td>
+                                <div class="mb-1 custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="{{ skill.id }}" name="{{ skill.id }}"
+                                        {% if skill in current_user.skills %}checked{% endif %}>
+                                    <label class="custom-control-label" for="{{ skill.id }}">{{ skill.name }}</label>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         <button class="btn btn-default" type="submit">Store User</button>
     </form>

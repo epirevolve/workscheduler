@@ -13,13 +13,18 @@ class Database:
         from workscheduler.domains.models import Base
         Base.metadata.create_all(bind=self._engine)
 
-        # set initial users and roles
-        from workscheduler.domains.models.user import UserFactory
-
+        # set initial data
         session = self.create_session()
-
+        
+        from workscheduler.domains.models.user.user import UserFactory
         session.add(UserFactory.join_a_member('admin', 'minAd', '管理者', is_admin=True, is_operator=False))
         session.add(UserFactory.join_a_member('user', 'user', 'ユーザ', is_admin=False, is_operator=True))
+        
+        # sample data
+        from workscheduler.domains.models.user.skill import SkillFactory
+        session.add(SkillFactory.evaluate_a_skill('ccna', 1))
+        session.add(SkillFactory.evaluate_a_skill('ccnp', 3))
+        session.add(SkillFactory.evaluate_a_skill('lpic', 2))
         
         session.commit()
         session.close()

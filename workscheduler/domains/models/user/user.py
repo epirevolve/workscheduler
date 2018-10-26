@@ -2,7 +2,6 @@
 
 from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import Base
-from workscheduler.domains.models.operator_skill import OperatorSkill
 from flask_login import UserMixin
 from sqlalchemy import Column, Table, ForeignKey
 from sqlalchemy.orm import relationship
@@ -13,7 +12,7 @@ from sqlalchemy.sql.functions import current_timestamp
 association_table\
     = Table("association", Base.metadata,
             Column('left_id', String, ForeignKey('users.id')),
-            Column('right_id', String, ForeignKey('operator_skills.id'))
+            Column('right_id', String, ForeignKey('skills.id'))
             )
 
 
@@ -26,7 +25,7 @@ class User(UserMixin, Base):
     is_admin = Column(Boolean, default=False)
     is_operator = Column(Boolean, default=True)
     create_at = Column(DateTime, server_default=current_timestamp())
-    skills = relationship("OperatorSkill", secondary=association_table)
+    skills = relationship("Skill", secondary=association_table)
 
     def __init__(self, id: str, login_id: str, password: str,
                  name: str, is_admin: bool, is_operator: bool):

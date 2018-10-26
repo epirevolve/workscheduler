@@ -30,8 +30,8 @@ class MyselfAction:
     def show_user(self):
         return self._client.get('/user')
     
-    def store_password(self, password):
-        return self._client.post('/store_password', data=dict(password=password),
+    def store_myself(self, password):
+        return self._client.post('/store_myself', data=dict(password=password),
                                  follow_redirects=True)
 
 

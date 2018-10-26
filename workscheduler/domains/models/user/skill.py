@@ -7,8 +7,8 @@ from sqlalchemy.types import String, DateTime, Integer
 from sqlalchemy.sql.functions import current_timestamp
 
 
-class OperatorSkill(Base):
-    __tablename__ = 'operator_skills'
+class Skill(Base):
+    __tablename__ = 'skills'
     id = Column(String, primary_key=True)
     name = Column(String(30), nullable=False)
     score = Column(Integer, nullable=False)
@@ -20,7 +20,7 @@ class OperatorSkill(Base):
         self.score = score
 
 
-class OperatorSkillFactory:
+class SkillFactory:
     @classmethod
     def evaluate_a_skill(cls, name: str, score: int):
-        return OperatorSkill(UuidFactory.new_uuid(), name, score)
+        return Skill(UuidFactory.new_uuid(), name, score)

@@ -25,7 +25,7 @@ class TestUsers:
             rv = users.store_user(random_user.id, 'random_changed', 'some changed',
                                   'on' if not random_user.is_admin else '',
                                   'on' if not random_user.is_operator else '')
-            assert b'Operator was successfully registered.' in rv.data
+            assert b'User was successfully registered.' in rv.data
             assert len(user_repository.get_users()) == users_count
             user = user_repository.get_user(random_user.id)
             assert b'random_changed' in rv.data

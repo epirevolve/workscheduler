@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.applications.services.user_query import UserQuery
-from workscheduler.domains.models.user import UserFactory
+from workscheduler.domains.models.user.user import UserFactory
 
 
 class UserManagingService:

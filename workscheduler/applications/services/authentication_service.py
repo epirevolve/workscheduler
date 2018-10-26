@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import User
+from workscheduler.domains.models.user.user import User
 from workscheduler.applications.services.user_query import UserQuery
 
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import UserFactory
-from workscheduler.domains.models.relation import Relation
-from workscheduler.domains.models.operator_skill import OperatorSkillFactory
+from workscheduler.domains.models.user.user import UserFactory
+from workscheduler.domains.models.user.relation import Relation
+from workscheduler.domains.models.user.skill import SkillFactory
 from workscheduler.applications.services.user_query import UserQuery
 
 
@@ -27,7 +27,7 @@ class TestUserRepository:
         assert user.create_at
     
     def test_append_user(self, session):
-        skill = OperatorSkillFactory.evaluate_a_skill('ccna', 2)
+        skill = SkillFactory.evaluate_a_skill('ccna', 2)
         session.add(skill)
         user_repository = UserQuery(session)
         user = UserFactory.join_a_member('test_login', 'login_pass', 'tester', is_admin=False, is_operator=True)
@@ -43,6 +43,8 @@ class TestUserRepository:
         assert 'tester' == user.name
         assert not user.is_admin
         assert user.is_operator
+        assert len(user.skills) > 0
+        assert user.skills[-1].id == skill.id
 
     def test_update_user(self, session):
         user_repository = UserQuery(session)
@@ -76,3 +78,11 @@ class TestUserRepository:
         assert '2' == relation.user_2
         assert 0.4 == relation.affinity
         assert '2' == relation.looked_by
+        
+    def test_get_skills(self, session):
+        user_repository = UserQuery(session)
+        skills = user_repository.get_skills()
+        assert 3 == len(skills)
+        skill = skills[0]
+        assert 'ccna' == skill.name
+        assert 1 == skill.score
