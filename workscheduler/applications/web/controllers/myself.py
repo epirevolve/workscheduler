@@ -3,6 +3,9 @@
 from flask import Blueprint, request, redirect, url_for, render_template, flash
 from flask_login import login_required, current_user
 from workscheduler.applications.services.user_query import UserQuery
+from calendar import Calendar
+from datetime import datetime
+from functools import namedtuple
 from .. import get_db_session
 
 
@@ -12,7 +15,16 @@ bp = Blueprint('myself', __name__)
 @bp.route('/my_request/<login_id>')
 @login_required
 def my_request(login_id):
-    return render_template('requests.html')
+    now = datetime.now()
+    Day = namedtuple('Day', ('year', 'month', 'day', 'outer_month', 'current_day',
+                             'notices', 'events'))
+    days = [[Day(date.year, date.month, date.day,
+                 date.year != now.year or date.month != now.month,
+                 date.year == now.year and date.month == now.month and date.day == now.day,
+                 None, None)
+             for date in week]
+            for week in Calendar().monthdatescalendar(now.year, now.month)]
+    return render_template('requests.html', month_year="November 2018", weeks=days)
 
 
 @bp.route('/myself/<login_id>')

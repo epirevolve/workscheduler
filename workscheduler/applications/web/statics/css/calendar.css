@@ -1,0 +1,55 @@
+.cl-header-cell, .cl-body-cell {
+    border: 0.1rem solid #dee2e6;
+}
+
+.cl-tool-header {
+    margin-bottom: 1rem;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.cl-title {
+    text-align: center;
+}
+
+.cl-tool-left {
+    float: left;
+}
+
+.cl-tool-right {
+    float: right;
+}
+
+.cl-tool-center {
+    display: inline-block;
+}
+
+.cl-header {
+}
+
+.cl-header-cell {
+    box-sizing: content-box;
+    text-align: center;
+}
+
+.cl-body {
+}
+
+.cl-body-cell {
+    text-align: right;
+    height: 7rem;
+    padding: 0;
+}
+
+.current-day-cell {
+    background: #fcf0c0;
+}
+
+.outer-month-cell {
+    color: gray;
+    background: #f5f5f5;
+}
+
+.cl-day {
+    margin: 0.5rem;
+}
