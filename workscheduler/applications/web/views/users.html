@@ -56,35 +56,6 @@
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#user-table tbody tr").click(function(){
-            $('#id').val($(this).attr('data-id'));
-            $('#login_id').val($(this).find('td').eq(0).text());
-            $('#name').val($(this).find('td').eq(1).text());
-            $('#is_admin').prop('checked', ($(this).find('td').eq(2).text() == 'True'));
-            $('#is_operator').prop('checked', ($(this).find('td').eq(3).text() == 'True'));
-        });
-
-        $('#new').click(function(){
-            $('#id').val('');
-        });
-
-        $('#reset').click(function(){
-            $id = $('#id');
-            if ($id.val() == '') return;
-
-            if (!confirm('Would you really reset selected user password?')) return;
-
-            $.ajax({
-                url: '/reset_password/',
-                type: 'POST',
-                data: { 'id': $id.val() }
-            })
-            .done((data) => {
-                alert('success');
-            });
-        });
-    });
-</script>
+<script type="module" src="{{ url_for('static', filename='js/alert-helper.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/users.js') }}"></script>
 {% endblock %}

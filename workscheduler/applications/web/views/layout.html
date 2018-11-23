@@ -15,10 +15,10 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}" />
 
-        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top" role="navigation">
@@ -51,17 +51,19 @@
             {% endif %}
         </nav>
         <div class="container" style="padding: 1rem" role="main">
-        {% for category, message in get_flashed_messages(with_categories=true) %}
-            {% if category == 'message' %}
-            <div class="alert alert-info alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>{{ message }}
+            <div id="alert-container">
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+                {% if category == 'message' %}
+                <div class="alert alert-info alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>{{ message }}
+                </div>
+                {% elif category == 'error' %}
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error:</strong>{{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
             </div>
-            {% elif category == 'error' %}
-            <div class="alert alert-danger alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error:</strong>{{ message }}
-            </div>
-            {% endif %}
-        {% endfor %}
         {% block body %}{% endblock %}
         </div>
     </body>

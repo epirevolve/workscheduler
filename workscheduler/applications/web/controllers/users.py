@@ -55,6 +55,8 @@ def reset_password():
     session = get_db_session()
     user_repository = UserQuery(session)
     user = user_repository.get_user(request.form.get('id'))
+    if not user:
+        return response
     user.password = 'p' + user.login_id
     session.commit()
     response.status_code = 200

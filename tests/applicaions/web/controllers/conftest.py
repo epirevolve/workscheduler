@@ -27,8 +27,8 @@ class MyselfAction:
         self._client = client
         auth(client).login(login_id, passwod)
 
-    def show_user(self):
-        return self._client.get('/user')
+    def show_myself(self, login_id):
+        return self._client.get('/myself/' + login_id)
     
     def store_myself(self, password):
         return self._client.post('/store_myself', data=dict(password=password),
@@ -52,6 +52,9 @@ class UsersAction:
         return self._client.post('/store_user', data=dict(id=id, login_id=login_id, name=name,
                                                           is_admin=is_admin, is_operator=is_operator),
                                  follow_redirects=True)
+    
+    def reset_password(self, id):
+        return self._client.post('/reset_password', data=dict(id=id))
 
 
 @pytest.fixture
