@@ -2,8 +2,12 @@
 
 from flask import Blueprint, request, redirect, url_for, render_template, flash, Response
 from flask_login import login_required
+from mylibraries.domainevent import Event, Subscriber, Publisher
 from workscheduler.applications.services.user_query import UserQuery
 from .. import get_db_session
+from workscheduler.applications.services.user_managing_service import UserManagingService, \
+    StoreUserSucceeded, StoreUserFailed, ResetPasswordSucceeded
+
 
 bp = Blueprint('users', __name__)
 
@@ -18,30 +22,27 @@ def show_users():
 @bp.route('/store_user', methods=['POST'])
 @login_required
 def store_user():
-    if not request.form.get('login_id'):
-        flash('login id is required', 'error')
-        return redirect(url_for('users.show_users'))
-    if not request.form.get('name'):
-        flash('name is required', 'error')
-        return redirect(url_for('users.show_users'))
+    def store_user_succeed_handler(_):
+        flash('User was successfully registered.')
+        flash('If you made new user, his/her password is p + his/her login id. Please change it.')
+        session.commit()
+
+    def store_user_fail_handler(event: StoreUserFailed):
+        flash(event.event_message, 'error')
+    
+    Publisher.subscribe(Subscriber(store_user_succeed_handler, StoreUserSucceeded, "store_user_succeed"))
+    Publisher.subscribe(Subscriber(store_user_fail_handler, StoreUserFailed, "store_user_fail"))
+    
     session = get_db_session()
-    from workscheduler.applications.services.user_managing_service import UserManagingService
-    if not request.form.get('id'):
-        UserManagingService(session).join_a_member(
-            request.form.get('login_id'), 'p' + request.form.get('login_id'),
-            request.form.get('name'), request.form.get('is_admin') == 'on',
-            request.form.get('is_operator') == 'on')
-    else:
-        UserManagingService(session).renew_user(
-            request.form.get('id'),
-            request.form.get('login_id'),
-            request.form.get('name'),
-            request.form.get('is_admin') == 'on',
-            request.form.get('is_operator') == 'on'
-        )
-    session.commit()
-    flash('User was successfully registered.')
-    flash('If you made new user, his/her password is p + his/her login id. Please change it.')
+    UserManagingService(session).store_user(
+        request.form.get('id'),
+        request.form.get('login_id'),
+        request.form.get('name'),
+        request.form.get('is_admin'),
+        request.form.get('is_operator'))
+    
+    Publisher.clear_subscribers("store_user_succeed")
+    Publisher.clear_subscribers("store_user_fail")
     return redirect(url_for('users.show_users'))
 
 
@@ -49,15 +50,17 @@ def store_user():
 @login_required
 def reset_password():
     response = Response()
-    response.status_code = 304
-    if not request.form.get('id'):
-        return response
+    response.status_code = 400
+    
+    def reset_password_succeed_handler(_, response):
+        response.status_code = 200
+        session.commit()
+
+    Publisher.subscribe(Subscriber(lambda x: reset_password_succeed_handler(x, response), ResetPasswordSucceeded, "reset_password_succeed"))
+
     session = get_db_session()
-    user_repository = UserQuery(session)
-    user = user_repository.get_user(request.form.get('id'))
-    if not user:
-        return response
-    user.password = 'p' + user.login_id
-    session.commit()
-    response.status_code = 200
+    UserManagingService(session).reset_password(
+        request.form.get('id'))
+
+    Publisher.clear_subscribers("reset_password_succeed")
     return response

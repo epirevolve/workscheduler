@@ -35,7 +35,10 @@ class User(UserMixin, Base):
         self.name = name
         self.is_admin = is_admin
         self.is_operator = is_operator
-
+    
+    def reset_password(self):
+        self.password = 'p' + self.login_id
+    
     def get_id(self):
         return self.id
 

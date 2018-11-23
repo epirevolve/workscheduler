@@ -44,7 +44,7 @@ class TestUsers:
             users_count = len(user_repository.get_users())
             assert not 'p' + random_user.login_id == random_user.password
             rv = users.reset_password(random_user.id)
-            assert rv.status_code == 200
+            assert 200 == rv.status_code
             db_session.refresh(random_user)
             assert len(user_repository.get_users()) == users_count
             assert 'p' + random_user.login_id == random_user.password
@@ -52,6 +52,6 @@ class TestUsers:
     def test_reset_password_fail(self, client, users):
         with client:
             rv = users.reset_password('')
-            assert rv.status_code == 304
+            assert 400 == rv.status_code
             rv = users.reset_password('test')
-            assert rv.status_code == 304
+            assert 400 == rv.status_code
