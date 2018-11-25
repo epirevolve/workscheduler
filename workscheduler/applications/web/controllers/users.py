@@ -6,7 +6,8 @@ from mylibraries.domainevent import Event, Subscriber, Publisher
 from workscheduler.applications.services.user_query import UserQuery
 from .. import get_db_session
 from workscheduler.applications.services.user_managing_service import UserManagingService, \
-    StoreUserSucceeded, StoreUserFailed, ResetPasswordSucceeded
+    StoreUserSucceeded, StoreUserFailed
+from workscheduler.domains.models.user.user import NewUserJoined, UserInfoUpdated, InvalidUserOperated
 
 
 bp = Blueprint('users', __name__)
@@ -27,11 +28,12 @@ def store_user():
         flash('If you made new user, his/her password is p + his/her login id. Please change it.')
         session.commit()
 
-    def store_user_fail_handler(event: StoreUserFailed):
+    def store_user_fail_handler(event: Event):
         flash(event.event_message, 'error')
     
     Publisher.subscribe(Subscriber(store_user_succeed_handler, StoreUserSucceeded, "store_user_succeed"))
     Publisher.subscribe(Subscriber(store_user_fail_handler, StoreUserFailed, "store_user_fail"))
+    Publisher.subscribe(Subscriber(store_user_fail_handler, InvalidUserOperated, "invalid_user_operated"))
     
     session = get_db_session()
     UserManagingService(session).store_user(
@@ -43,6 +45,8 @@ def store_user():
     
     Publisher.clear_subscribers("store_user_succeed")
     Publisher.clear_subscribers("store_user_fail")
+    Publisher.clear_subscribers("invalid_user_operated")
+
     return redirect(url_for('users.show_users'))
 
 
@@ -56,11 +60,12 @@ def reset_password():
         response.status_code = 200
         session.commit()
 
-    Publisher.subscribe(Subscriber(lambda x: reset_password_succeed_handler(x, response), ResetPasswordSucceeded, "reset_password_succeed"))
+    Publisher.subscribe(Subscriber(lambda x: reset_password_succeed_handler(x, response), UserInfoUpdated, "reset_password_succeed"))
 
     session = get_db_session()
     UserManagingService(session).reset_password(
         request.form.get('id'))
 
     Publisher.clear_subscribers("reset_password_succeed")
+
     return response

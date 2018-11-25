@@ -2,8 +2,8 @@
 
 import pytest
 from workscheduler.infrastructures.database import Database
-from workscheduler.domains.models.user.skill import SkillFactory
 import tempfile
+from workscheduler.applications.services.user_query import UserQuery
 
 
 @pytest.fixture
@@ -12,6 +12,12 @@ def session():
     database = Database(db_path)
     database.init()
     session = database.create_session()
-    
     yield session
     session.close()
+
+@pytest.fixture
+def random_user(session):
+    user_repository = UserQuery(session)
+    users = user_repository.get_users()
+    import random
+    return users[random.randint(0, len(users) - 1)]

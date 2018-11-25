@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from mylibraries.domainevent import Event, Publisher
 from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import Base
 from flask_login import UserMixin
@@ -16,6 +17,24 @@ association_table\
             )
 
 
+class UserEvent(Event):
+    def __init__(self, id, event_version=0, event_message="", timestamp=None):
+        super(UserEvent, self).__init__(event_version, event_message, timestamp)
+        self.id = id
+
+
+class NewUserJoined(UserEvent):
+    pass
+
+
+class UserInfoUpdated(UserEvent):
+    pass
+
+
+class InvalidUserOperated(Event):
+    pass
+
+
 class User(UserMixin, Base):
     __tablename__ = 'users'
     id = Column(String, primary_key=True)
@@ -27,17 +46,40 @@ class User(UserMixin, Base):
     create_at = Column(DateTime, server_default=current_timestamp())
     skills = relationship("Skill", secondary=association_table)
 
-    def __init__(self, id: str, login_id: str, password: str,
-                 name: str, is_admin: bool, is_operator: bool):
+    def __init__(self, id: str, login_id: str, name: str,
+                 is_admin: bool, is_operator: bool):
+        if not id or not login_id or not name:
+            raise ValueError('mandatory field is empty')
+
         self.id = id
         self.login_id = login_id
-        self.password = password
+        self.password = 'p' + login_id
         self.name = name
         self.is_admin = is_admin
         self.is_operator = is_operator
-    
+
+    def change_login_id(self, login_id):
+        if not login_id:
+            Publisher.publish(InvalidUserOperated(event_message="login id is required"))
+            return
+        self.login_id = login_id
+        Publisher.publish(UserInfoUpdated(self.id, event_message="login id is changed"))
+
+    def change_name(self, name: str):
+        if not name:
+            Publisher.publish((InvalidUserOperated(event_message="name is required")))
+            return
+        self.name = name
+        Publisher.publish(UserInfoUpdated(self.id, event_message="name is changed"))
+
+    def elevate_role(self, is_admin: bool, is_operator: bool):
+        self.is_admin = is_admin
+        self.is_operator = is_operator
+        Publisher.publish(UserInfoUpdated(self.id, event_message="user role is elevated"))
+
     def reset_password(self):
         self.password = 'p' + self.login_id
+        Publisher.publish(UserInfoUpdated(self.id, event_message="password is reset"))
     
     def get_id(self):
         return self.id
@@ -45,5 +87,10 @@ class User(UserMixin, Base):
 
 class UserFactory:
     @classmethod
-    def join_a_member(cls, login_id: str, password: str, name: str, is_admin: bool, is_operator: bool) -> User:
-        return User(UuidFactory.new_uuid(), login_id, password, name, is_admin, is_operator)
+    def join_a_member(cls, login_id: str, name: str, is_admin: bool, is_operator: bool) -> User:
+        if not id or not login_id or not name:
+            Publisher.publish(InvalidUserOperated(event_message="mandatory field is empty"))
+            return None
+        user = User(UuidFactory.new_uuid(), login_id, name, is_admin, is_operator)
+        Publisher.publish(NewUserJoined(user.id))
+        return user

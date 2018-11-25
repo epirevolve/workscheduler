@@ -23,7 +23,7 @@ def auth(client):
 
 
 class MyselfAction:
-    def __init__(self, client, login_id='admin', passwod='minAd'):
+    def __init__(self, client, login_id='admin', passwod='padmin'):
         self._client = client
         auth(client).login(login_id, passwod)
 
@@ -41,7 +41,7 @@ def myself(client):
 
 
 class UsersAction:
-    def __init__(self, client, login_id='admin', passwod='minAd'):
+    def __init__(self, client, login_id='admin', passwod='padmin'):
         self._client = client
         auth(client).login(login_id, passwod)
     

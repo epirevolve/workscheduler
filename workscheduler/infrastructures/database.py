@@ -17,8 +17,8 @@ class Database:
         session = self.create_session()
         
         from workscheduler.domains.models.user.user import UserFactory
-        session.add(UserFactory.join_a_member('admin', 'minAd', '管理者', is_admin=True, is_operator=False))
-        session.add(UserFactory.join_a_member('user', 'user', 'ユーザ', is_admin=False, is_operator=True))
+        session.add(UserFactory.join_a_member('admin', '管理者', is_admin=True, is_operator=False))
+        session.add(UserFactory.join_a_member('user', 'ユーザ', is_admin=False, is_operator=True))
         
         # sample data
         from workscheduler.domains.models.user.skill import SkillFactory

@@ -22,7 +22,7 @@ class TestUserRepository:
         user = users[0]
         assert user.id
         assert 'admin' == user.login_id
-        assert 'minAd' == user.password
+        assert 'padmin' == user.password
         assert '管理者' == user.name
         assert user.create_at
     
@@ -30,7 +30,7 @@ class TestUserRepository:
         skill = SkillFactory.evaluate_a_skill('ccna', 2)
         session.add(skill)
         user_repository = UserQuery(session)
-        user = UserFactory.join_a_member('test_login', 'login_pass', 'tester', is_admin=False, is_operator=True)
+        user = UserFactory.join_a_member('test_login', 'tester', is_admin=False, is_operator=True)
         user.skills.append(skill)
         session.add(user)
         session.commit()
@@ -39,7 +39,7 @@ class TestUserRepository:
         user = users[2]
         assert user.id
         assert 'test_login' == user.login_id
-        assert 'login_pass' == user.password
+        assert 'ptest_login' == user.password
         assert 'tester' == user.name
         assert not user.is_admin
         assert user.is_operator

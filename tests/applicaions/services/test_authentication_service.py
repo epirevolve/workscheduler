@@ -5,7 +5,7 @@ from workscheduler.applications.services.authentication_service import Authentic
 
 class TestAuthenticationService:
     def test_login_true(self, session):
-        user = AuthenticationService(session).login('admin', 'minAd')
+        user = AuthenticationService(session).login('admin', 'padmin')
         assert user is not None
 
     def test_login_false(self, session):

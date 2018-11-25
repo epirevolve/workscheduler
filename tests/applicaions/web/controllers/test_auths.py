@@ -10,7 +10,7 @@ class TestAuth:
     def test_login(self, client, auth):
         with client:
             # login success test
-            rv = auth.login('admin', 'minAd')
+            rv = auth.login('admin', 'padmin')
             assert b'You were logged in' in rv.data
             # login error test
             rv = auth.login('none', 'none')

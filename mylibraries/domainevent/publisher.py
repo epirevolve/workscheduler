@@ -18,8 +18,10 @@ class Publisher:
     
     @staticmethod
     def publish(event: Event):
+        Publisher._isPublishing = True
         for subscriber in list(filter(lambda x: issubclass(x.event_type, type(event)), Publisher._subscribers)):
             subscriber.handler(event)
+        Publisher._isPublishing = False
     
     @staticmethod
     def clear_subscribers(signature: str=""):

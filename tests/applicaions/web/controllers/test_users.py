@@ -42,7 +42,6 @@ class TestUsers:
         with client:
             user_repository = UserQuery(db_session)
             users_count = len(user_repository.get_users())
-            assert not 'p' + random_user.login_id == random_user.password
             rv = users.reset_password(random_user.id)
             assert 200 == rv.status_code
             db_session.refresh(random_user)
