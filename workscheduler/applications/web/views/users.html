@@ -26,6 +26,7 @@
     </table>
 </div>
 <form action="{{ url_for('users.store_user') }}" method="post">
+    {{ form.hidden_tag() }}
     <input type="hidden" class="form-control" name="id" id="id" readonly>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -49,7 +50,7 @@
     </div>
     <div class="row">
         <button class="btn btn-secondary col-md-2" type="reset" id="new">New User</button>
-        <button class="btn btn-primary col-md-6 offset-md-1" type="submit">Store User</button>
+        <button class="btn btn-primary col-md-6 offset-md-1" type="submit" id="store">Store User</button>
         <button class="btn btn-warning col-md-2 offset-md-1" type="button" id="reset">Reset Password</button>
     </div>
 </form>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services.user_query import UserQuery
+from workscheduler.applications.services import UserQuery
 
 
 class TestUsers:

@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
 
-from mylibraries.domainevent import Event, Publisher
+from mypackages.domainevent import (
+    Event, Publisher
+)
 from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import Base
 from flask_login import UserMixin
-from sqlalchemy import Column, Table, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.types import String, DateTime, Boolean
+from sqlalchemy import (
+    Column, Table, ForeignKey
+)
+from sqlalchemy.orm import (
+    relationship, validates
+)
+from sqlalchemy.types import (
+    String, DateTime, Boolean
+)
 from sqlalchemy.sql.functions import current_timestamp
 
 
@@ -28,10 +36,6 @@ class NewUserJoined(UserEvent):
 
 
 class UserInfoUpdated(UserEvent):
-    pass
-
-
-class InvalidUserOperated(Event):
     pass
 
 
@@ -57,18 +61,21 @@ class User(UserMixin, Base):
         self.name = name
         self.is_admin = is_admin
         self.is_operator = is_operator
-
-    def change_login_id(self, login_id):
-        if not login_id:
-            Publisher.publish(InvalidUserOperated(event_message="login id is required"))
-            return
+    
+    @validates('id', 'login_id', 'password', 'name')
+    def validate(self, key, value):
+        if not value:
+            raise AssertionError('no {} provided'.format(key))
+        length = getattr(User, key).type.length
+        if length and len(value) > length:
+            raise AssertionError('{} is less than {}'.format(key, length))
+        return value
+    
+    def change_login_id(self, login_id: str):
         self.login_id = login_id
         Publisher.publish(UserInfoUpdated(self.id, event_message="login id is changed"))
 
     def change_name(self, name: str):
-        if not name:
-            Publisher.publish((InvalidUserOperated(event_message="name is required")))
-            return
         self.name = name
         Publisher.publish(UserInfoUpdated(self.id, event_message="name is changed"))
 
@@ -88,9 +95,6 @@ class User(UserMixin, Base):
 class UserFactory:
     @classmethod
     def join_a_member(cls, login_id: str, name: str, is_admin: bool, is_operator: bool) -> User:
-        if not id or not login_id or not name:
-            Publisher.publish(InvalidUserOperated(event_message="mandatory field is empty"))
-            return None
         user = User(UuidFactory.new_uuid(), login_id, name, is_admin, is_operator)
         Publisher.publish(NewUserJoined(user.id))
         return user

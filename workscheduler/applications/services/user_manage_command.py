@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from mylibraries.domainevent import Event, Publisher
-from workscheduler.applications.services.user_query import UserQuery
-from workscheduler.domains.models.user.user import UserFactory
+from mypackages.domainevent import (
+    Event, Publisher
+)
+from workscheduler.applications.services import UserQuery
+from workscheduler.domains.models.user import UserFactory
 
 
 class StoreUserSucceeded(Event):
@@ -13,15 +15,12 @@ class StoreUserFailed(Event):
     pass
 
 
-class UserManagingService:
+class UserManageCommand:
     def __init__(self, session):
         self._session = session
     
     def store_user(self, id: str, login_id: str, name: str,
-                   is_admin: str, is_operator: str):
-        is_admin = is_admin == 'on'
-        is_operator = is_operator == 'on'
-
+                   is_admin: bool, is_operator: bool):
         if not id:
             self._session.add(UserFactory.join_a_member(login_id, name, is_admin, is_operator))
         else:

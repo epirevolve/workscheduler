@@ -11,6 +11,7 @@
     <p>Also administrator can set operators relationships and their skills.</p>
 </div>
 <form action="{{ url_for('auths.login') }}" method="post">
+    {{ form.hidden_tag() }}
     <div class="input-group mb-4">
         <input type="text" class="form-control" name="login_id" placeholder="login id" required />
         <input type="password" class="form-control" name="password" placeholder="password" required />

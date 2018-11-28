@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from mylibraries.domainevent import Event, Subscriber, Publisher
+from mypackages.domainevent import (
+    Event, Subscriber, Publisher
+)
 
 
 class TestDomainEvent:

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from workscheduler.applications.services.user_managing_service import UserManagingService
+from workscheduler.applications.services import UserManageCommand
 
 
 @pytest.fixture
-def user_managing_service(session):
-    user_managing_service = UserManagingService(session)
-    return user_managing_service
+def user_manage_command(session):
+    user_manage_command = UserManageCommand(session)
+    return user_manage_command

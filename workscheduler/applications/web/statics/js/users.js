@@ -26,16 +26,18 @@ import { AlertManager } from './alert-helper.js';
             $.ajax({
                 url: '/reset_password',
                 type: 'POST',
-                data: { 'id': $id.val() }
+                data: $('form').serialize()
             })
             .done((data) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Successfully changed selected user password. ' +
                     'Please notice him/her new password is "p" + his/her login_id.',
-                 'alert-info')
+                'alert-info')
             })
             .fail((data) => {
-                alert('Oops, Sorry we have some trouble with reset password...');
+                let alertManager = new AlertManager('#alert-container');
+                alertManager.append('Oops, Sorry we have some trouble with reset password...',
+                'alert-error')
             });
         });
     });

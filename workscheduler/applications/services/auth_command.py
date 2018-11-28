@@ -4,7 +4,7 @@ from workscheduler.domains.models.user.user import User
 from workscheduler.applications.services.user_query import UserQuery
 
 
-class AuthenticationService:
+class AuthCommand:
     def __init__(self, session):
         self._session = session
     

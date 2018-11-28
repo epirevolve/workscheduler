@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, render_template
-from flask_login import login_required
-from workscheduler.applications.services.user_query import UserQuery
+from flask import (
+    Blueprint, render_template
+)
+from flask_login import (
+    login_required
+)
+from workscheduler.applications.services import (
+    UserQuery
+)
 from .. import get_db_session
 
 

@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, request, redirect, url_for, render_template, flash
-from flask_login import login_required, current_user
-from workscheduler.applications.services.user_query import UserQuery
+from flask import (
+    Blueprint, request, redirect,
+    url_for, render_template, flash
+)
+from flask_login import (
+    login_required, current_user
+)
+from workscheduler.applications.services import UserQuery
 from calendar import Calendar
 from datetime import datetime
 from functools import namedtuple

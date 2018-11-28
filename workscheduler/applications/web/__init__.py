@@ -2,10 +2,11 @@
 
 import os
 import sys
-from flask import Flask
 from jinja2 import FileSystemLoader
 import click
-from flask import g, current_app
+from flask import (
+    Flask, g, current_app
+)
 from flask.cli import with_appcontext
 from workscheduler.infrastructures.database import Database
 
@@ -57,7 +58,10 @@ def create_app(test_config=None):
     app.teardown_appcontext(close_db_session)
     app.cli.add_command(init_db_command)
 
-    from .controllers import auths, menus, schedules, myself, users, skills
+    from .controllers import (
+        auths, menus, schedules,
+        myself, users, skills
+    )
 
     app.register_blueprint(auths.bp)
     app.register_blueprint(menus.bp)
@@ -80,5 +84,10 @@ def create_app(test_config=None):
     @login_manager.user_loader
     def load_user(user_id):
         return auths.load_user(user_id)
+    
+    from flask_wtf import CSRFProtect
+    
+    csrf = CSRFProtect()
+    csrf.init_app(app)
     
     return app

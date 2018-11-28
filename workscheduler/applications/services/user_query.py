@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user.user import User
-from workscheduler.domains.models.user.relation import Relation
-from workscheduler.domains.models.user.skill import Skill
+from workscheduler.domains.models.user import (
+    User, Skill, Relation
+)
 
 
 class UserQuery:

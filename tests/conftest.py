@@ -3,7 +3,7 @@
 import pytest
 from workscheduler.infrastructures.database import Database
 import tempfile
-from workscheduler.applications.services.user_query import UserQuery
+from workscheduler.applications.services import UserQuery
 
 
 @pytest.fixture

@@ -3,7 +3,9 @@
 from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import Base
 from sqlalchemy import Column
-from sqlalchemy.types import String, Float
+from sqlalchemy.types import (
+    String, Float
+)
 
 
 class Relation(Base):

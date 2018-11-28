@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from mylibraries.domainevent import Publisher
+from mypackages.domainevent import Publisher
 
 
 @pytest.fixture

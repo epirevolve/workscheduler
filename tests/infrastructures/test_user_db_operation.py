@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user.user import UserFactory
-from workscheduler.domains.models.user.relation import Relation
-from workscheduler.domains.models.user.skill import SkillFactory
-from workscheduler.applications.services.user_query import UserQuery
+from workscheduler.domains.models.user import (
+    UserFactory, SkillFactory, Relation
+)
+from workscheduler.applications.services import UserQuery
 
 
 class TestUserRepository:

@@ -1,11 +1,42 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user.user import UserFactory, UserInfoUpdated, InvalidUserOperated
-from mylibraries.domainevent import Publisher, Subscriber
+from workscheduler.domains.models.user import (
+    UserFactory, UserInfoUpdated
+)
+from mypackages.domainevent import (
+    Publisher, Subscriber
+)
 import pytest
 
 
 class TestUser:
+    def test_validate(self):
+        user = UserFactory.join_a_member('user_1', 'User', False, True)
+        with pytest.raises(AssertionError) as error:
+            user.id = ''
+        assert 'no id provided' == str(error.value)
+        
+        with pytest.raises(AssertionError) as error:
+            user.login_id = ''
+        assert 'no login_id provided' == str(error.value)
+        with pytest.raises(AssertionError) as error:
+            user.login_id = 'aaaaabbbbbcccccdd'
+        assert 'login_id is less than 16' == str(error.value)
+        
+        with pytest.raises(AssertionError) as error:
+            user.password = ''
+        assert 'no password provided' == str(error.value)
+        with pytest.raises(AssertionError) as error:
+            user.password = 'aaaaabbbbbcccccdd'
+        assert 'password is less than 16' == str(error.value)
+        
+        with pytest.raises(AssertionError) as error:
+            user.name = ''
+        assert 'no name provided' == str(error.value)
+        with pytest.raises(AssertionError) as error:
+            user.name = 'aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiiijjjjjk'
+        assert 'name is less than 50' == str(error.value)
+    
     def test_user_factory(self):
         user = UserFactory.join_a_member('tester', 'てすたろう', is_admin=True, is_operator=False)
         assert user.id
@@ -21,18 +52,10 @@ class TestUser:
         assert user_1.id != user_2.id
 
     @pytest.fixture
-    def error_detect(self):
-        self.error = 0
-
-        def handler(e):
-            self.error += 1
-
-        Publisher.subscribe(Subscriber(handler, InvalidUserOperated))
-        yield
-        self.error = 0
+    def clean_up(self):
         Publisher.clear_subscribers()
-
-    def test_change_login_id(self, random_user, error_detect):
+    
+    def test_change_login_id(self, random_user, clean_up):
         def handler(e):
             assert 'login id is changed' == e.event_message
 
@@ -41,11 +64,7 @@ class TestUser:
         random_user.change_login_id('random changed')
         assert 'random changed' == random_user.login_id
 
-        random_user.change_name('')
-        assert 'random changed' == random_user.login_id
-        assert 1 == self.error
-
-    def test_change_name(self, random_user, error_detect):
+    def test_change_name(self, random_user, clean_up):
         def handler(e):
             assert "name is changed" == e.event_message
 
@@ -54,11 +73,7 @@ class TestUser:
         random_user.change_name('random changed')
         assert 'random changed' == random_user.name
 
-        random_user.change_name('')
-        assert 'random changed' == random_user.name
-        assert 1 == self.error
-
-    def test_elevate_role(self, random_user, error_detect):
+    def test_elevate_role(self, random_user, clean_up):
         def handler(e):
             assert "user role is elevated" == e.event_message
 
@@ -72,7 +87,7 @@ class TestUser:
         assert not random_user.is_admin
         assert random_user.is_operator
 
-    def test_reset_password(self, random_user):
+    def test_reset_password(self, random_user, clean_up):
         def handler(e):
             assert 'password is reset' == e.event_message
 

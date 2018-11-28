@@ -3,7 +3,7 @@
 import pytest
 from workscheduler.applications.web import create_app
 from workscheduler.infrastructures.database import Database
-from workscheduler.applications.services.user_query import UserQuery
+from workscheduler.applications.services import UserQuery
 import tempfile
 import os
 
@@ -13,12 +13,13 @@ def app():
     db_fd, db_path = tempfile.mkstemp()
     app = create_app(
         {'TESTING': True,
-         'DATABASE': db_path}
+         'DATABASE': db_path,
+         'WTF_CSRF_ENABLED': False}
     )
     with app.app_context():
         Database(app.config['DATABASE']).init()
     yield app
-    
+
     os.close(db_fd)
     os.unlink(db_path)
 
