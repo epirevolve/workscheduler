@@ -49,7 +49,6 @@ def store_user():
     
     Publisher.clear_subscribers("store_user_succeed")
     Publisher.clear_subscribers("store_user_fail")
-    Publisher.clear_subscribers("invalid_user_operated")
 
     return redirect(url_for('users.show_users'))
 

@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.utils.uuid import UuidFactory
-from workscheduler.domains.models import Base
+from workscheduler.domains.models import (
+    OrmBase, ValidateBase
+)
 from sqlalchemy import Column
 from sqlalchemy.types import (
     String, DateTime, Integer
 )
 from sqlalchemy.sql.functions import current_timestamp
+from sqlalchemy.orm import validates
 
 
-class Skill(Base):
+class Skill(OrmBase, ValidateBase):
     __tablename__ = 'skills'
     id = Column(String, primary_key=True)
     name = Column(String(30), nullable=False)
@@ -20,6 +23,10 @@ class Skill(Base):
         self.id = id
         self.name = name
         self.score = score
+        
+    @validates('id', 'name', 'score')
+    def validate(self, key, value):
+        return super(Skill, self).validate(Skill, key, value)
 
 
 class SkillFactory:

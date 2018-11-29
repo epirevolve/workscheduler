@@ -10,8 +10,8 @@ class Database:
 
     def init(self):
         self.drop()
-        from workscheduler.domains.models import Base
-        Base.metadata.create_all(bind=self._engine)
+        from workscheduler.domains.models import OrmBase
+        OrmBase.metadata.create_all(bind=self._engine)
 
         # set initial data
         session = self.create_session()
@@ -35,4 +35,4 @@ class Database:
 
     def drop(self):
         import workscheduler.domains.models as models
-        models.Base.metadata.drop_all(self._engine)
+        models.OrmBase.metadata.drop_all(self._engine)

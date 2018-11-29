@@ -19,4 +19,4 @@ class UserQuery:
         return self._session.query(Skill).order_by(Skill.id).all()
     
     def get_relations(self):
-        return self._session.query(Relation).order_by(Relation.user_1, Relation.user_2).all()
+        return self._session.query(Relation).order_by(Relation.myself_id, Relation.colleague_id).all()

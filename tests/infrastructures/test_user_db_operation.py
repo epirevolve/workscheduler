@@ -68,16 +68,15 @@ class TestUserRepository:
         
     def test_append_relation(self, session):
         user_repository = UserQuery(session)
-        session.add(Relation('2', '1', '2', 0.4, '2'))
+        session.add(Relation('2', '1', '2', 0.4))
         session.commit()
         relations = user_repository.get_relations()
         assert 1 == len(relations)
         relation = relations[0]
         assert '2' == relation.id
-        assert '1' == relation.user_1
-        assert '2' == relation.user_2
+        assert '1' == relation.myself_id
+        assert '2' == relation.colleague_id
         assert 0.4 == relation.affinity
-        assert '2' == relation.looked_by
         
     def test_get_skills(self, session):
         user_repository = UserQuery(session)

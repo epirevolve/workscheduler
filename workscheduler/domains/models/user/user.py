@@ -4,7 +4,9 @@ from mypackages.domainevent import (
     Event, Publisher
 )
 from workscheduler.domains.utils.uuid import UuidFactory
-from workscheduler.domains.models import Base
+from workscheduler.domains.models import (
+    OrmBase, ValidateBase
+)
 from flask_login import UserMixin
 from sqlalchemy import (
     Column, Table, ForeignKey
@@ -19,7 +21,7 @@ from sqlalchemy.sql.functions import current_timestamp
 
 
 association_table\
-    = Table("association", Base.metadata,
+    = Table("association", OrmBase.metadata,
             Column('left_id', String, ForeignKey('users.id')),
             Column('right_id', String, ForeignKey('skills.id'))
             )
@@ -39,7 +41,7 @@ class UserInfoUpdated(UserEvent):
     pass
 
 
-class User(UserMixin, Base):
+class User(UserMixin, OrmBase, ValidateBase):
     __tablename__ = 'users'
     id = Column(String, primary_key=True)
     login_id = Column(String(16), nullable=False)
@@ -64,12 +66,7 @@ class User(UserMixin, Base):
     
     @validates('id', 'login_id', 'password', 'name')
     def validate(self, key, value):
-        if not value:
-            raise AssertionError('no {} provided'.format(key))
-        length = getattr(User, key).type.length
-        if length and len(value) > length:
-            raise AssertionError('{} is less than {}'.format(key, length))
-        return value
+        return super(User, self).validate(User, key, value)
     
     def change_login_id(self, login_id: str):
         self.login_id = login_id
