@@ -30,8 +30,10 @@ class MyselfAction:
     def show_myself(self, login_id):
         return self._client.get('/myself/' + login_id)
     
-    def store_myself(self, password):
-        return self._client.post('/store_myself', data=dict(password=password),
+    def store_myself(self, id, password,
+                     name, all_skills):
+        return self._client.post('/store_myself', data=dict(id=id, password=password, name=name,
+                                                            all_skills=all_skills),
                                  follow_redirects=True)
 
 
@@ -41,9 +43,9 @@ def myself(client):
 
 
 class UsersAction:
-    def __init__(self, client, login_id='admin', passwod='padmin'):
+    def __init__(self, client, login_id='admin', password='padmin'):
         self._client = client
-        auth(client).login(login_id, passwod)
+        auth(client).login(login_id, password)
     
     def show_users(self):
         return self._client.get('/users', follow_redirects=True)

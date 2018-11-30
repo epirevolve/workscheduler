@@ -7,7 +7,13 @@ from flask import (
 from flask_login import (
     login_required, current_user
 )
-from workscheduler.applications.services import UserQuery
+from workscheduler.applications.services import (
+    UserQuery, StoreMyselfSucceeded, StoreMyselfFailed
+)
+from mypackages.domainevent import (
+    Publisher, Subscriber, Event
+)
+from ..adapters import MyselfManageCommandAdapter
 from ..forms import MyselfForm
 from calendar import Calendar
 from datetime import datetime
@@ -42,15 +48,20 @@ def show_myself(login_id):
 @bp.route('/store_myself', methods=['POST'])
 @login_required
 def store_myself():
-    form = MyselfForm()
-    if not form.validate():
-        return redirect(url_for('myself.show_myself', login_id=current_user.login_id))
+    def store_myself_succeed_handler(_):
+        flash('My info is successfully changed.')
+        session.commit()
+    
+    def store_myself_fail_handler(event: Event):
+        flash(event.event_message, 'error')
+    
+    Publisher.subscribe(Subscriber(store_myself_succeed_handler, StoreMyselfSucceeded, "store_myself_succeed"))
+    Publisher.subscribe(Subscriber(store_myself_fail_handler, StoreMyselfFailed, "store_myself_fail"))
+    
     session = get_db_session()
-    user_repository = UserQuery(session)
-    user = user_repository.get_user(current_user.id)
-    user.password = form.password
-    user.skills.clear()
-    user.skills = filter(lambda x: x.is_obtain, form.all_skills)
-    session.commit()
-    flash('My info is successfully changed.')
+    MyselfManageCommandAdapter(session).store_myself(MyselfForm())
+
+    Publisher.clear_subscribers("store_myself_succeed")
+    Publisher.clear_subscribers("store_myself_fail")
+    
     return redirect(url_for('myself.show_myself', login_id=current_user.login_id))

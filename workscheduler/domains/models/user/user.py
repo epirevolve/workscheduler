@@ -28,9 +28,11 @@ association_table\
 
 
 class UserEvent(Event):
-    def __init__(self, id, event_version=0, event_message="", timestamp=None):
+    def __init__(self, id, before, after, event_version=0, event_message="", timestamp=None):
         super(UserEvent, self).__init__(event_version, event_message, timestamp)
         self.id = id
+        self.before = before
+        self.after = after
 
 
 class NewUserJoined(UserEvent):
@@ -56,34 +58,50 @@ class User(UserMixin, OrmBase, ValidateBase):
                  is_admin: bool, is_operator: bool):
         if not id or not login_id or not name:
             raise ValueError('mandatory field is empty')
-
         self.id = id
         self.login_id = login_id
         self.password = 'p' + login_id
         self.name = name
         self.is_admin = is_admin
         self.is_operator = is_operator
+        self.skills = []
     
     @validates('id', 'login_id', 'password', 'name')
     def validate(self, key, value):
         return super(User, self).validate(User, key, value)
     
+    def begin_event(self, before, message):
+        def end_event(after):
+            return UserInfoUpdated(self.id, before, after, event_message=message)
+        return end_event
+    
     def change_login_id(self, login_id: str):
+        event = self.begin_event(self.login_id, "login id is changed")
         self.login_id = login_id
-        Publisher.publish(UserInfoUpdated(self.id, event_message="login id is changed"))
-
+        Publisher.publish(event(self.login_id))
+        
+    def change_password(self, password: str):
+        event = self.begin_event(self.password, "password is changed")
+        self.password = password
+        Publisher.publish(event(self.password))
+        
     def change_name(self, name: str):
+        event = self.begin_event(self.name, "name is changed")
         self.name = name
-        Publisher.publish(UserInfoUpdated(self.id, event_message="name is changed"))
+        Publisher.publish(event(self.name))
 
     def elevate_role(self, is_admin: bool, is_operator: bool):
         self.is_admin = is_admin
         self.is_operator = is_operator
-        Publisher.publish(UserInfoUpdated(self.id, event_message="user role is elevated"))
-
+        Publisher.publish(UserInfoUpdated(self.id, None, None, event_message="user role is elevated"))
+    
+    def change_skills(self, skills: []):
+        self.skills = skills
+    
     def reset_password(self):
+        event = self.begin_event(self.password, "password is reset")
         self.password = 'p' + self.login_id
-        Publisher.publish(UserInfoUpdated(self.id, event_message="password is reset"))
+        Publisher.publish(event(self.password))
     
     def get_id(self):
         return self.id
@@ -93,5 +111,5 @@ class UserFactory:
     @classmethod
     def join_a_member(cls, login_id: str, name: str, is_admin: bool, is_operator: bool) -> User:
         user = User(UuidFactory.new_uuid(), login_id, name, is_admin, is_operator)
-        Publisher.publish(NewUserJoined(user.id))
+        Publisher.publish(NewUserJoined(user.id, None, user))
         return user
