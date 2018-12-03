@@ -30,6 +30,6 @@ class MyselfManageCommand:
         user.change_password(password)
         user.change_name(name)
         all_skills = UserQuery(self._session).get_skills()
-        skills = list(filter(lambda x: x.id in skill_ids, all_skills))
+        skills = [x for x in all_skills if x.id in skill_ids]
         user.change_skills(skills)
         Publisher.publish(StoreMyselfSucceeded())

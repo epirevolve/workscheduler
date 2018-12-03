@@ -20,5 +20,5 @@ class MyselfManageCommandAdapter(MyselfManageCommand):
         
         super(MyselfManageCommandAdapter, self).store_myself(
             form.id.data, form.password.data, form.name.data,
-            map(lambda x: x.id, filter(lambda x: x.data, form.all_skills.form))
+            [x.id.data for x in form.all_skills if x.is_obtain.data]
         )
