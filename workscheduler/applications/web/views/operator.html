@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+<form action="{{ url_for('operators.store_myself') }}" method="post">
+    {{ form.hidden_tag() }}
+    <div id="skills" class="table-responsive mb-3">
+        {% for skill in form.all_skills %}
+            <div class="mb-3 custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="{{ skill.id.data }}" name="{{ skill.is_obtain.id }}">
+                <label class="custom-control-label" for="{{ skill.id.data }}">{{ skill.name.data }}</label>
+            </div>
+        {% endfor %}
+    </div>
+</form>
+{% endblock %}

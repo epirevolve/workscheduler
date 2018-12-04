@@ -21,7 +21,7 @@ class Database:
         session.add(UserFactory.join_a_member('user', 'ユーザ', is_admin=False, is_operator=True))
         
         # sample data
-        from workscheduler.domains.models.user.skill import SkillFactory
+        from workscheduler.domains.models.operator.skill import SkillFactory
         session.add(SkillFactory.evaluate_a_skill('ccna', 1))
         session.add(SkillFactory.evaluate_a_skill('ccnp', 3))
         session.add(SkillFactory.evaluate_a_skill('lpic', 2))

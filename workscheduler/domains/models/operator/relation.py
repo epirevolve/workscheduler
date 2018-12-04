@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.utils.uuid import UuidFactory
-from workscheduler.domains.models import (
-    OrmBase, ValidateBase
-)
+from workscheduler.domains.models import OrmBase
 from sqlalchemy import Column
 from sqlalchemy.types import (
     String, Float
@@ -11,7 +9,7 @@ from sqlalchemy.types import (
 from sqlalchemy.orm import validates
 
 
-class Relation(OrmBase, ValidateBase):
+class Relation(OrmBase):
     __tablename__ = 'relations'
     id = Column(String, primary_key=True)
     myself_id = Column(String, nullable=False)

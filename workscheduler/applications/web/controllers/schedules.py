@@ -11,7 +11,7 @@ from flask_login import login_required
 bp = Blueprint('schedules', __name__)
 
 
-@bp.route('/schedules')
+@bp.route('/schedules/show_schedules')
 @login_required
 def show_schedules():
     return render_template('schedules.html')

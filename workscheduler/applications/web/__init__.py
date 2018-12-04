@@ -60,13 +60,13 @@ def create_app(test_config=None):
 
     from .controllers import (
         auths, menus, schedules,
-        myself, users, skills
+        operators, users, skills
     )
 
     app.register_blueprint(auths.bp)
     app.register_blueprint(menus.bp)
     app.register_blueprint(schedules.bp)
-    app.register_blueprint(myself.bp)
+    app.register_blueprint(operators.bp)
     app.register_blueprint(users.bp)
     app.register_blueprint(skills.bp)
 

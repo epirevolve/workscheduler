@@ -15,7 +15,7 @@ from .. import get_db_session
 bp = Blueprint('skills', __name__)
 
 
-@bp.route('/show_skills')
+@bp.route('/skills/show_skills')
 @login_required
 def show_skills():
     user_repository = UserQuery(get_db_session())

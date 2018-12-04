@@ -24,7 +24,7 @@ import { AlertManager } from './alert-helper.js';
             if (!confirm('Would you really reset selected user password?')) return;
 
             $.ajax({
-                url: '/reset_password',
+                url: '/users/reset_password',
                 type: 'POST',
                 data: $('form').serialize()
             })

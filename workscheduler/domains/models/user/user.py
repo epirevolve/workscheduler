@@ -1,30 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from mypackages.domainevent import (
-    Event, Publisher
-)
-from workscheduler.domains.utils.uuid import UuidFactory
-from workscheduler.domains.models import (
-    OrmBase, ValidateBase
-)
 from flask_login import UserMixin
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
-from sqlalchemy.orm import (
-    relationship, validates
-)
+from sqlalchemy import Column
+from sqlalchemy.orm import validates
 from sqlalchemy.types import (
     String, DateTime, Boolean
 )
 from sqlalchemy.sql.functions import current_timestamp
-
-
-association_table\
-    = Table("association", OrmBase.metadata,
-            Column('left_id', String, ForeignKey('users.id')),
-            Column('right_id', String, ForeignKey('skills.id'))
-            )
+from mypackages.domainevent import (
+    Event, Publisher
+)
+from workscheduler.domains.utils.uuid import UuidFactory
+from workscheduler.domains.models import OrmBase
 
 
 class UserEvent(Event):
@@ -43,7 +30,7 @@ class UserInfoUpdated(UserEvent):
     pass
 
 
-class User(UserMixin, OrmBase, ValidateBase):
+class User(OrmBase, UserMixin):
     __tablename__ = 'users'
     id = Column(String, primary_key=True)
     login_id = Column(String(16), nullable=False)
@@ -52,19 +39,15 @@ class User(UserMixin, OrmBase, ValidateBase):
     is_admin = Column(Boolean, default=False)
     is_operator = Column(Boolean, default=True)
     create_at = Column(DateTime, server_default=current_timestamp())
-    skills = relationship("Skill", secondary=association_table)
 
     def __init__(self, id: str, login_id: str, name: str,
                  is_admin: bool, is_operator: bool):
-        if not id or not login_id or not name:
-            raise ValueError('mandatory field is empty')
         self.id = id
         self.login_id = login_id
         self.password = 'p' + login_id
         self.name = name
         self.is_admin = is_admin
         self.is_operator = is_operator
-        self.skills = []
     
     @validates('id', 'login_id', 'password', 'name')
     def validate(self, key, value):
@@ -94,9 +77,6 @@ class User(UserMixin, OrmBase, ValidateBase):
         self.is_admin = is_admin
         self.is_operator = is_operator
         Publisher.publish(UserInfoUpdated(self.id, None, None, event_message="user role is elevated"))
-    
-    def change_skills(self, skills: []):
-        self.skills = skills
     
     def reset_password(self):
         event = self.begin_event(self.password, "password is reset")

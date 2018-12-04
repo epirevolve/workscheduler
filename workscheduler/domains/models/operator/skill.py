@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.utils.uuid import UuidFactory
-from workscheduler.domains.models import (
-    OrmBase, ValidateBase
-)
+from workscheduler.domains.models import OrmBase
 from sqlalchemy import Column
 from sqlalchemy.types import (
     String, DateTime, Integer
@@ -12,7 +10,7 @@ from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.orm import validates
 
 
-class Skill(OrmBase, ValidateBase):
+class Skill(OrmBase):
     __tablename__ = 'skills'
     id = Column(String, primary_key=True)
     name = Column(String(30), nullable=False)

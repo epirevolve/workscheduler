@@ -25,7 +25,7 @@ def index():
     return render_template('auth.html', form=AuthForm())
 
 
-@bp.route('/login', methods=['POST'])
+@bp.route('/auth/login', methods=['POST'])
 def login():
     form = AuthForm()
     user = AuthCommandAdapter(get_db_session()).login(form)
@@ -37,7 +37,7 @@ def login():
     return redirect(url_for('menus.show_menu'))
 
 
-@bp.route('/logout')
+@bp.route('/auth/logout')
 def logout():
     logout_user()
     flash('You were logged out')

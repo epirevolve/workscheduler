@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<form action="{{ url_for('users.store_myself') }}" method="post">
+    {{ form.hidden_tag() }}
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Login Id</span>
+        </div>
+        <input type="text" class="form-control" name="login_id" value="{{ form.login_id.data }}" readonly>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Password</span>
+        </div>
+        <input type="password" class="form-control" name="password" value="{{ form.password.data }}">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+        </div>
+        <input type="text" class="form-control" name="name" value="{{ form.name.data }}">
+    </div>
+    <button class="btn btn-primary" type="submit">Store User</button>
+</form>
+{% endblock %}
