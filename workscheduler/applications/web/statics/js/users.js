@@ -5,7 +5,8 @@ import { AlertManager } from './alert-helper.js';
 
 (function() {
     $(document).ready(function(){
-        $("#user-table tbody tr").click(function(){
+        $('#user-table tbody tr').click(function(){
+            $('#user_form').attr('action', '/users/update_user');
             $('#id').val($(this).attr('data-id'));
             $('#login_id').val($(this).find('td').eq(0).text());
             $('#name').val($(this).find('td').eq(1).text());
@@ -14,7 +15,7 @@ import { AlertManager } from './alert-helper.js';
         });
 
         $('#new').click(function(){
-            $('#id').val('');
+            $('#user_form').attr('action', '/users/append_user');
         });
 
         $('#reset').click(function(){

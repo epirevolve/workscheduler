@@ -1,14 +1,26 @@
 {% extends "layout.html" %}
 {% block body %}
-<form action="{{ url_for('operators.store_myself') }}" method="post">
+<form action="{{ url_for('operators.update_myself') }}" method="post">
     {{ form.hidden_tag() }}
+    <h3>Skills</h3>
+    <p>please set your skills. your skills are considered when creating a work schedule.</p>
     <div id="skills" class="table-responsive mb-3">
         {% for skill in form.all_skills %}
-            <div class="mb-3 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="{{ skill.id.data }}" name="{{ skill.is_obtain.id }}">
+            <div class="m-1 custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="{{ skill.id.data }}" name="{{ skill.is_obtain.id }}"
+                {% if skill.is_obtain.data %}checked{% endif %}>
                 <label class="custom-control-label" for="{{ skill.id.data }}">{{ skill.name.data }}</label>
             </div>
         {% endfor %}
+    </div>
+
+    <h3>Relations</h3>
+    <div class="table-responsive mb-3">
+
+    </div>
+
+    <div class="row">
+        <button class="btn btn-primary col-md-6" type="submit" id="store">Store Operator</button>
     </div>
 </form>
 {% endblock %}

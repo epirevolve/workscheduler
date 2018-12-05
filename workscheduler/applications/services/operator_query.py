@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.operator import Skill, Relation
+from workscheduler.domains.models.operator import (
+    Operator, Skill, Relation
+)
 
 
 class OperatorQuery:
@@ -8,7 +10,7 @@ class OperatorQuery:
         self._session = session
     
     def get_operator(self, id: str):
-        pass
+        return self._session.query(Operator).get(id)
     
     def get_skills(self):
         return self._session.query(Skill).order_by(Skill.id).all()

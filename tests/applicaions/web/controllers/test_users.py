@@ -10,12 +10,12 @@ class TestUsers:
             assert b'admin' in rv.data
             assert b'user' in rv.data
     
-    def test_store_new_user(self, client, users, db_session):
+    def test_append_user(self, client, users, db_session):
         with client:
             user_repository = UserQuery(db_session)
             users_count = len(user_repository.get_users())
-            rv = users.store_user('', 'new_one', '新人', '', 'on')
-            assert b'If you made new user, his/her password is p + his/her login id.' in rv.data
+            rv = users.append_user('new_one', '新人', '', 'on')
+            assert b'His/her password is p + his/her login id.' in rv.data
             users = user_repository.get_users()
             assert len(users) == users_count + 1
             assert 'new_one' == users[-1].login_id
@@ -27,7 +27,7 @@ class TestUsers:
         with client:
             user_repository = UserQuery(db_session)
             users_count = len(user_repository.get_users())
-            rv = users.store_user(random_user.id, 'random_changed', 'some changed',
+            rv = users.update_user(random_user.id, 'random_changed', 'some changed',
                                   'on' if not random_user.is_admin else '',
                                   'on' if not random_user.is_operator else '')
             assert b'User was successfully registered.' in rv.data

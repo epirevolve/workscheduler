@@ -4,11 +4,11 @@ from workscheduler.applications.services import UserQuery
 
 
 class TestUserManageCommand:
-    def test_store_new_user(self, user_manage_command, session):
+    def test_append_user(self, user_manage_command, session):
         user_repository = UserQuery(session)
         count = len(user_repository.get_users())
-        user_manage_command.store_user(
-            '', 'test1', 'テスト１',
+        user_manage_command.append_user(
+            'test1', 'テスト１',
             True, False
         )
         session.commit()
@@ -20,12 +20,12 @@ class TestUserManageCommand:
         assert user.is_admin
         assert not user.is_operator
         
-    def test_store_update_user(self, user_manage_command, session):
+    def test_update_user(self, user_manage_command, session):
         user_repository = UserQuery(session)
         users = user_repository.get_users()
         count = len(users)
         user = users[0]
-        user_manage_command.store_user(
+        user_manage_command.update_user(
             user.id, 'random login id', 'random name',
             False, True)
         session.commit()

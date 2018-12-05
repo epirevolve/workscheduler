@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from workscheduler.infrastructures.database import Database
 import tempfile
 from workscheduler.applications.services import UserQuery
+from workscheduler.infrastructures.database import Database
 
 
 @pytest.fixture

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.utils.uuid import UuidFactory
-from workscheduler.domains.models import OrmBase
 from sqlalchemy import Column
 from sqlalchemy.types import (
     String, Float
 )
 from sqlalchemy.orm import validates
+from workscheduler.domains.utils.uuid import UuidFactory
+from workscheduler.domains.models import OrmBase
 
 
 class Relation(OrmBase):

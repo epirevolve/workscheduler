@@ -25,7 +25,7 @@
         </tbody>
     </table>
 </div>
-<form action="{{ url_for('users.store_user') }}" method="post">
+<form id="user_form" action="{{ url_for('users.append_user') }}" method="post">
     {{ form.hidden_tag() }}
     <input type="hidden" class="form-control" name="id" id="id" readonly>
     <div class="input-group mb-3">

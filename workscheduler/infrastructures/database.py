@@ -2,6 +2,8 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from workscheduler.applications.services import UserCommand
+from workscheduler.domains.models import OrmBase
 
 
 class Database:
@@ -10,15 +12,14 @@ class Database:
 
     def init(self):
         self.drop()
-        from workscheduler.domains.models import OrmBase
         OrmBase.metadata.create_all(bind=self._engine)
 
         # set initial data
         session = self.create_session()
         
-        from workscheduler.domains.models.user.user import UserFactory
-        session.add(UserFactory.join_a_member('admin', '管理者', is_admin=True, is_operator=False))
-        session.add(UserFactory.join_a_member('user', 'ユーザ', is_admin=False, is_operator=True))
+        user_command = UserCommand(session)
+        user_command.append_user('admin', '管理者', is_admin=True, is_operator=False)
+        user_command.append_user('user', 'ユーザ', is_admin=False, is_operator=True)
         
         # sample data
         from workscheduler.domains.models.operator.skill import SkillFactory
@@ -34,5 +35,4 @@ class Database:
         return session()
 
     def drop(self):
-        import workscheduler.domains.models as models
-        models.OrmBase.metadata.drop_all(self._engine)
+        OrmBase.metadata.drop_all(self._engine)

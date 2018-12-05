@@ -10,15 +10,10 @@ from flask import (
 from flask_login import (
     login_required, current_user
 )
-from mypackages.domainevent import (
-    Publisher, Subscriber, Event
-)
-from workscheduler.applications.services import (
-    UserQuery, StoreUserSucceeded, StoreUserFailed
-)
+from workscheduler.applications.services import OperatorQuery
 from .. import get_db_session
-from ..adapters import UserCommandAdapter
-from ..forms import UserForm
+from ..adapters import OperatorCommandAdapter
+from ..forms import OperatorForm
 
 
 bp = Blueprint('operators', __name__)
@@ -42,4 +37,17 @@ def my_request(login_id):
 @bp.route('/operators/show_myself/<login_id>')
 @login_required
 def show_myself(login_id):
-    return render_template('user.html')
+    operator = OperatorQuery(get_db_session()).get_operator(current_user.id)
+    return render_template('operator.html', form=OperatorForm(obj=operator))
+
+
+@bp.route('/operators/update_myself', methods=['POST'])
+@login_required
+def update_myself():
+    session = get_db_session()
+    OperatorCommandAdapter(session).store_myself(OperatorForm())
+    session.commit()
+
+    flash('Operator info was successfully registered.')
+    
+    return redirect(url_for('operators.show_myself', login_id=current_user.login_id))
