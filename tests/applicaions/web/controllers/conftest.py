@@ -50,12 +50,12 @@ class UsersAction:
     
     def append_user(self, login_id, name, is_admin, is_operator):
         return self._client.post('/users/append_user', data=dict(login_id=login_id, name=name,
-                                                                    is_admin=is_admin, is_operator=is_operator),
+                                                                 is_admin=is_admin, is_operator=is_operator),
                                  follow_redirects=True)
     
     def update_user(self, id, login_id, name, is_admin, is_operator):
         return self._client.post('/users/update_user', data=dict(id=id, login_id=login_id, name=name,
-                                                                is_admin=is_admin, is_operator=is_operator),
+                                                                 is_admin=is_admin, is_operator=is_operator),
                                  follow_redirects=True)
     
     def reset_password(self, id):

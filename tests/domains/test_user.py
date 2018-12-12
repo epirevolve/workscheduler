@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import (
-    UserFactory, UserInfoUpdated
-)
+import pytest
 from mypackages.domainevent import (
     Publisher, Subscriber
 )
-import pytest
+from workscheduler.domains.models.user import UserFactory
 
 
 class TestUser:
@@ -51,48 +49,7 @@ class TestUser:
         user_2 = UserFactory.join_a_member('user_2', 'UUSser', True, False)
         assert user_1.id != user_2.id
 
-    @pytest.fixture
-    def clean_up(self):
-        Publisher.clear_subscribers()
-    
-    def test_change_login_id(self, random_user, clean_up):
-        def handler(e):
-            assert 'login id is changed' == e.event_message
-
-        Publisher.subscribe(Subscriber(handler, UserInfoUpdated))
-
-        random_user.change_login_id('random changed')
-        assert 'random changed' == random_user.login_id
-
-    def test_change_name(self, random_user, clean_up):
-        def handler(e):
-            assert "name is changed" == e.event_message
-
-        Publisher.subscribe(Subscriber(handler, UserInfoUpdated))
-
-        random_user.change_name('random changed')
-        assert 'random changed' == random_user.name
-
-    def test_elevate_role(self, random_user, clean_up):
-        def handler(e):
-            assert "user role is elevated" == e.event_message
-
-        Publisher.subscribe(Subscriber(handler, UserInfoUpdated))
-
-        random_user.elevate_role(True, False)
-        assert random_user.is_admin
-        assert not random_user.is_operator
-
-        random_user.elevate_role(False, True)
-        assert not random_user.is_admin
-        assert random_user.is_operator
-
-    def test_reset_password(self, random_user, clean_up):
-        def handler(e):
-            assert 'password is reset' == e.event_message
-
-        Publisher.subscribe(Subscriber(handler, UserInfoUpdated))
-
+    def test_reset_password(self, random_user):
         random_user.password = 'test override'
         random_user.reset_password()
         assert 'p' + random_user.login_id == random_user.password

@@ -11,8 +11,8 @@ class UserCommand:
     
     def store_myself(self, id: str, password: str, name: str):
         user = UserQuery(self._session).get_user(id)
-        user.change_password(password)
-        user.change_name(name)
+        user.password = password
+        user.name = name
     
     def append_user(self, login_id: str, name: str,
                     is_admin: bool, is_operator: bool):
@@ -23,9 +23,10 @@ class UserCommand:
     def update_user(self, id: str, login_id: str, name: str,
                     is_admin: bool, is_operator: bool):
         user = UserQuery(self._session).get_user(id)
-        user.change_login_id(login_id)
-        user.change_name(name)
-        user.elevate_role(is_admin, is_operator)
+        user.login_id = login_id
+        user.name = name
+        user.is_admin = is_admin
+        user.is_operator = is_operator
     
     def reset_password(self, id: str):
         user = UserQuery(self._session).get_user(id)

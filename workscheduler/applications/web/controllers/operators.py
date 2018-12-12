@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from calendar import Calendar, SUNDAY
-from datetime import datetime, date
+from calendar import (
+    Calendar, SUNDAY
+)
+from datetime import (
+    datetime, date
+)
 from functools import namedtuple
 from flask import (
-    Blueprint, request, redirect,
-    url_for, render_template, flash
+    Blueprint, redirect, url_for,
+    render_template, flash
 )
 from flask_login import (
     login_required, current_user
@@ -19,8 +23,8 @@ from ..forms import OperatorForm
 bp = Blueprint('operators', __name__)
 
 
-@bp.route('/operators/my_request/<login_id>', methods=['GET', 'POST'], defaults={'month_year': date.today()})
-@bp.route('/operators/my_request/<login_id>/<month_year>', methods=['GET', 'POST'])
+@bp.route('/operators/my_request/<login_id>', defaults={'month_year': date.today()})
+@bp.route('/operators/my_request/<login_id>/<month_year>')
 @login_required
 def my_request(login_id, month_year):
     if month_year and not isinstance(month_year, date):

@@ -8,12 +8,6 @@ from flask import (
 from flask_login import (
     login_required, current_user
 )
-from mypackages.domainevent import (
-    Event, Subscriber, Publisher
-)
-from workscheduler.domains.models.user import (
-    NewUserJoined, UserInfoUpdated
-)
 from workscheduler.applications.services import UserQuery
 from .. import get_db_session
 from ..adapters import UserCommandAdapter
