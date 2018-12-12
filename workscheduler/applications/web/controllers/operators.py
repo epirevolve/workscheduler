@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from calendar import Calendar
-from datetime import datetime
+from calendar import Calendar, SUNDAY
+from datetime import datetime, date
 from functools import namedtuple
 from flask import (
     Blueprint, request, redirect,
@@ -19,19 +19,24 @@ from ..forms import OperatorForm
 bp = Blueprint('operators', __name__)
 
 
-@bp.route('/operators/my_request/<login_id>')
+@bp.route('/operators/my_request/<login_id>', methods=['GET', 'POST'], defaults={'month_year': date.today()})
+@bp.route('/operators/my_request/<login_id>/<month_year>', methods=['GET', 'POST'])
 @login_required
-def my_request(login_id):
-    now = datetime.now()
-    Day = namedtuple('Day', ('year', 'month', 'day', 'outer_month', 'current_day',
-                             'notices', 'events'))
-    weeks = [[Day(date.year, date.month, date.day,
-                  date.year != now.year or date.month != now.month,
-                  date.year == now.year and date.month == now.month and date.day == now.day,
-                  None, None)
-              for date in week]
-             for week in Calendar().monthdatescalendar(now.year, now.month)]
-    return render_template('requests.html', month_year="November 2018", weeks=weeks)
+def my_request(login_id, month_year):
+    if month_year and not isinstance(month_year, date):
+        month_year = datetime.strptime(month_year, '%Y-%m').date()
+    today = date.today()
+    CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
+                                             'current_day', 'notices', 'events'))
+    
+    def create_date(_date, notices, events):
+        return CalendarDay(_date, _date.year != month_year.year or _date.month != month_year.month,
+                           _date == today, notices, events)
+    calender = Calendar()
+    calender.setfirstweekday(SUNDAY)
+    weeks = [[create_date(_date, None, None) for _date in week]
+             for week in calender.monthdatescalendar(month_year.year, month_year.month)]
+    return render_template('request.html', month_year=month_year, weeks=weeks)
 
 
 @bp.route('/operators/show_myself/<login_id>')

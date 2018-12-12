@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Set your event</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="input-group m-1 mb-2">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">name</span>
+              </div>
+              <input type="text" class="form-control">
+          </div>
+          <div class="input-group m-1">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">from</span>
+              </div>
+              <input type="date" class="form-control">
+              <input type="time" class="form-control">
+          </div>
+          <div class="input-group m-1">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">to</span>
+              </div>
+              <input type="date" class="form-control">
+              <input type="time" class="form-control">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cl-tool-header row">
+    <div class="cl-tool-left col-md-3">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" name="previous-month"><span class="fa fa-chevron-left"></span></button>
+            <button type="button" class="btn btn-info" name="today">Today</button>
+            <button type="button" class="btn btn-primary" name="next-month"><span class="fa fa-chevron-right"></span></button>
+        </div>
+    </div>
+    <div class="cl-tool-center cl-title col-md-5" id="month_year" data-month_year="{{ month_year }}">
+        <h2>{{ month_year.strftime('%b %Y') }}</h2>
+    </div>
+    <div class="cl-tool-right col-md-4">
+    </div>
+</div>
+<div class="cl">
+    <div class="cl-header d-none d-md-block">
+        <div class="row">
+            <div class="cl-header-cell col">Sun</div>
+            <div class="cl-header-cell col">Mon</div>
+            <div class="cl-header-cell col">Tue</div>
+            <div class="cl-header-cell col">Wed</div>
+            <div class="cl-header-cell col">Thu</div>
+            <div class="cl-header-cell col">Fri</div>
+            <div class="cl-header-cell col">Sat</div>
+        </div>
+    </div>
+    <div class="cl-body">
+        {% for week in weeks %}
+        <div class="row">
+            {% for day in week %}
+            <div class="cl-body-cell col
+                {% if day.outer_month %}outer-month-cell{% endif %}
+                {% if day.current_day %}current-day-cell{% endif %}">
+                <div>
+                    <button class="edit-event btn btn-danger btn-sm"
+                            data-toggle="modal" data-target="#eventModal">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <span class="cl-day">{{ day.date.day }}</span>
+                </div>
+                <div id="events-{{ day.date.strftime('%m%d') }}"></div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block css %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/request.css') }}" />
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('static', filename='js/request.js') }}"></script>
+{% endblock %}

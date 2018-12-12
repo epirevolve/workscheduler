@@ -1,5 +1,5 @@
 .cl-header-cell, .cl-body-cell {
-    border: 0.1rem solid #dee2e6;
+    border: .1rem solid #dee2e6;
 }
 
 .cl-tool-header {
@@ -51,5 +51,16 @@
 }
 
 .cl-day {
-    margin: 0.5rem;
+    margin: .5rem;
+    font-size: 1.3rem;
+}
+
+.outer-month-cell .edit-event{
+    visibility: hidden;
+}
+
+.edit-event {
+    float: left;
+    margin: .3rem;
+    font-size: 0.7rem;
 }

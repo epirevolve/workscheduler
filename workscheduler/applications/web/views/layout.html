@@ -45,7 +45,7 @@
                 </ul>
             </div>
             <div class="login-user">
-                <span>{{ current_user.login_id }} : {{ current_user.name }}</span>
+                <span id="login-user-id">{{ current_user.login_id }}</span><span> : {{ current_user.name }}</span>
             </div>
             {% else %}
             <a class="navbar-brand" href="#">Work Scheduler</a>
