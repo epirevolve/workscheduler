@@ -30,6 +30,6 @@ class UserCommandAdapter(UserCommand):
         )
     
     def reset_password(self, form: UsersForm):
-        if not validate_form(form):
+        if not form.id.data:
             raise ValueError()
         super(UserCommandAdapter, self).reset_password(form.id.data)

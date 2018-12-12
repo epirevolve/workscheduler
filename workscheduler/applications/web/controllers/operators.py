@@ -43,6 +43,12 @@ def my_request(login_id, month_year):
     return render_template('request.html', month_year=month_year, weeks=weeks)
 
 
+@bp.route('/operators/store_my_request/<login_id>')
+@login_required
+def store_my_request(login_id):
+    pass
+
+
 @bp.route('/operators/show_myself/<login_id>')
 @login_required
 def show_myself(login_id):

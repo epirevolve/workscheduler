@@ -11,4 +11,4 @@ class OperatorCommand:
         operator_query = OperatorQuery(self._session)
         operator = operator_query.get_operator(id)
         skills = [x for x in operator_query.get_skills() if x.id in skill_ids]
-        operator.change_skills(skills)
+        operator.skills = skills
