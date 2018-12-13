@@ -26,12 +26,52 @@ import { AlertManager } from './alert-helper.js';
         });
     }
 
+    let getEventData = function() {
+        let from = new Date($('#datetime-from').datetimepicker("date"));
+        let fromstr = `${from.getFullYear()}-${from.getMonth() + 1}-${from.getDay()} ${from.getHours()}:${from.getMinutes()}`;
+        let to = new Date($('#datetime-to').datetimepicker("date"));
+        let tostr = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDay()} ${to.getHours()}:${to.getMinutes()}`;
+
+        let d = {
+                'event-id': $('#event-id').val(),
+                'event-name': $('#event-name').val(),
+                'event-at-from': fromstr,
+                'event-at-to': tostr
+            };
+
+        return d;
+    }
+
+    let addEvent = function() {
+        let login_id = $('#login-user-id').text();
+
+        $.ajax({
+            url: '/operators/append_my_request/' + login_id,
+            type: 'POST',
+            data: getEventData()
+        })
+        .done((data) => {
+            $('#event-modal').modal('hide');
+
+        })
+        .fail((data) => {
+            let alertManager = new AlertManager('#alert-container');
+            alertManager.append('Oops, Sorry we have some trouble with appending event...',
+            'alert-error')
+        });
+    }
+
     $(document).ready(function() {
-        $('#eventModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
+        $(document).on('click', '#add-event', function () {
+            var button = $(this);
             var recipient = button.parents('.cl-body-cell').data('date');
+            $('#event-name').val('');
             $('#datetime-from').datetimepicker("date", recipient + ' 09:30');
             $('#datetime-to').datetimepicker("date", recipient + ' 18:00');
+
+            $("#save-event").click(addEvent);
+
+            $('#event-modal').modal();
         });
 
         $('.date').datetimepicker({
@@ -58,22 +98,12 @@ import { AlertManager } from './alert-helper.js';
             $('#datetime-from').datetimepicker('maxDate', e.date);
         });
 
-        $("#save-event").click(function() {
-            let login_id = $('#login-user-id').text();
-            let from = new Date($('#datetime-from').datetimepicker("date"));
-            let fromstr = `${from.getFullYear()}-${from.getMonth() + 1}-${from.getDay()} ${from.getHours()}:${from.getMinutes()}`;
-            let to = new Date($('#datetime-to').datetimepicker("date"));
-            let tostr = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDay()} ${to.getHours()}:${to.getMinutes()}`;
-            $.ajax({
-                url: '/operator/store_my_request/' + login_id,
-                type: 'POST',
-                data: {
-                    'id': $('#event-id').val(),
-                    'name': $('#name').val(),
-                    'at-from': from,
-                    'at-to': to
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
                 }
-            })
+            }
         });
 
         $('button[name="previous-month"]').click(function() {

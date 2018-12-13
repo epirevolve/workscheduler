@@ -6,24 +6,24 @@ from .utils import validate_form
 
 
 class UserCommandAdapter(UserCommand):
-    def store_myself(self, form: UserForm):
+    def update_myself(self, form: UserForm):
         if not validate_form(form):
-            return
-        super(UserCommandAdapter, self).store_myself(
+            raise ValueError()
+        super(UserCommandAdapter, self).update_myself(
             form.id.data, form.password.data, form.name.data
         )
     
     def append_user(self, form: UsersForm):
         if not validate_form(form):
-            return
-        super(UserCommandAdapter, self).append_user(
+            raise ValueError()
+        return super(UserCommandAdapter, self).append_user(
             form.login_id.data, form.name.data,
             form.is_admin.data, form.is_operator.data
         )
     
     def update_user(self, form: UsersForm):
         if not validate_form(form):
-            return
+            raise ValueError()
         super(UserCommandAdapter, self).update_user(
             form.id.data, form.login_id.data, form.name.data,
             form.is_admin.data, form.is_operator.data

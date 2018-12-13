@@ -9,7 +9,8 @@ from datetime import (
 from functools import namedtuple
 from flask import (
     Blueprint, redirect, url_for,
-    render_template, flash
+    render_template, flash, request,
+    Response, jsonify
 )
 from flask_login import (
     login_required, current_user
@@ -43,10 +44,27 @@ def my_request(login_id, month_year):
     return render_template('request.html', month_year=month_year, weeks=weeks)
 
 
-@bp.route('/operators/store_my_request/<login_id>')
+@bp.route('/operators/append_my_request/<login_id>', methods=['POST'])
 @login_required
-def store_my_request(login_id):
-    pass
+def append_my_request(login_id):
+    session = get_db_session()
+    try:
+        req = OperatorCommandAdapter(session).append_my_request(request.form)
+        session.commit()
+
+        response = jsonify({
+            'evenId': req.id,
+            'eventName': req.name,
+            'eventAtFrom': req.at_from,
+            'eventAtTo': req.at_to
+        })
+        response.status_code = 200
+    except Exception as e:
+        print(e)
+        response = jsonify()
+        response.status_code = 400
+        session.rollback()
+    return response
 
 
 @bp.route('/operators/show_myself/<login_id>')
@@ -60,7 +78,7 @@ def show_myself(login_id):
 @login_required
 def update_myself():
     session = get_db_session()
-    OperatorCommandAdapter(session).store_myself(OperatorForm())
+    OperatorCommandAdapter(session).update_myself(OperatorForm())
     session.commit()
 
     flash('Operator info was successfully registered.')

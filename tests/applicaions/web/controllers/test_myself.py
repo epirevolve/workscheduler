@@ -14,7 +14,7 @@ class TestUser:
         with client:
             auth.logout()
             auth.login(random_user.login_id, random_user.password)
-            rv = user.store_myself(random_user.id, 'user_pass', 'user_name')
+            rv = user.update_myself(random_user.id, 'user_pass', 'user_name')
             assert b'My info is successfully changed' in rv.data
             db_session.refresh(random_user)
             assert 'user_pass' == random_user.password

@@ -9,7 +9,7 @@ class UserCommand:
     def __init__(self, session):
         self._session = session
     
-    def store_myself(self, id: str, password: str, name: str):
+    def update_myself(self, id: str, password: str, name: str):
         user = UserQuery(self._session).get_user(id)
         user.password = password
         user.name = name
@@ -19,6 +19,7 @@ class UserCommand:
         user = UserFactory.join_a_member(login_id, name, is_admin, is_operator)
         self._session.add(user)
         self._session.add(Operator(user.id))
+        return user
     
     def update_user(self, id: str, login_id: str, name: str,
                     is_admin: bool, is_operator: bool):

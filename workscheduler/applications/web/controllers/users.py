@@ -27,7 +27,7 @@ def show_myself(login_id):
 @login_required
 def store_myself():
     session = get_db_session()
-    UserCommandAdapter(session).store_myself(UserForm())
+    UserCommandAdapter(session).update_myself(UserForm())
     session.commit()
     
     flash('My info is successfully changed.')
@@ -78,7 +78,8 @@ def reset_password():
         session.commit()
     
         response.status_code = 200
-    except:
+    except Exception as e:
+        print(e)
         response.status_code = 400
         session.rollback()
     return response

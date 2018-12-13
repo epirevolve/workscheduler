@@ -2,7 +2,8 @@
 {% block body %}
 <script type="text/javascript">var csrf_token = "{{ csrf_token() }}";</script>
 
-<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventLabel" aria-hidden="true">
+<div class="modal fade" id="event-modal" tabindex="-1" role="dialog"
+     aria-labelledby="eventLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -17,7 +18,7 @@
               <div class="input-group-prepend">
                   <span class="input-group-text">name</span>
               </div>
-              <input type="text" class="form-control" id="name">
+              <input type="text" class="form-control" id="event-name">
           </div>
           <div class="form-group m-1">
               <div class="input-group date" id="datetime-from" data-target-input="nearest">
@@ -86,7 +87,7 @@
                 data-date="{{ day.date }}"  >
                 <div>
                     <button class="edit-event btn btn-danger btn-sm"
-                            data-toggle="modal" data-target="#eventModal">
+                            id="add-event">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
                     <span class="cl-day">{{ day.date.day }}</span>
