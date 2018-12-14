@@ -22,10 +22,18 @@ Date.prototype.addMonths = function (value) {
     return this;
 }
 
-Date.prototype.clearTime = function () {
+Date.prototype.setEarliestTime = function () {
     this.setUTCHours(0);
     this.setUTCMinutes(0);
     this.setUTCSeconds(0);
     this.setUTCMilliseconds(0);
+    return this;
+}
+
+Date.prototype.setLatestTime = function () {
+    this.setUTCHours(23);
+    this.setUTCMinutes(59);
+    this.setUTCSeconds(59);
+    this.setUTCMilliseconds(999);
     return this;
 }
