@@ -46,7 +46,7 @@ import { AlertManager } from './alert-helper.js';
         let login_id = $('#login-user-id').text();
 
         $.ajax({
-            url: '/operators/append_my_request/' + login_id,
+            url: `/operators/append_my_request/${login_id}`,
             type: 'POST',
             data: getEventData()
         })
@@ -68,15 +68,15 @@ import { AlertManager } from './alert-helper.js';
             $('#event-name').val('');
 
             $('#datetime-from').datetimepicker("maxDate", false);
-            let minDate = new Date(new Date().addMonths(1).setDate(1)).clearTime();
+            let minDate = new Date(new Date().addMonths(1).setDate(1)).setEarliestTime();
             $('#datetime-from').datetimepicker("minDate", minDate);
 
             $('#datetime-to').datetimepicker("minDate", false);
-            let maxDate = new Date(new Date().addMonths(7).setDate(0)).clearTime();
+            let maxDate = new Date(new Date().addMonths(7).setDate(0)).setLatestTime();
             $('#datetime-to').datetimepicker("maxDate", maxDate);
 
-            $('#datetime-from').datetimepicker("date", recipient + ' 09:30');
-            $('#datetime-to').datetimepicker("date", recipient + ' 18:00');
+            $('#datetime-from').datetimepicker("date", recipient + 'T09:30');
+            $('#datetime-to').datetimepicker("date", recipient + 'T18:00');
 
             $("#save-event").click(addEvent);
 
