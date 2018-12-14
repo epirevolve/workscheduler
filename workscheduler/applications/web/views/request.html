@@ -53,16 +53,13 @@
 
 <div class="cl-tool-header row">
     <div class="cl-tool-left col-md-3">
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary" name="previous-month"><span class="fa fa-chevron-left"></span></button>
-            <button type="button" class="btn btn-info" name="today">Today</button>
-            <button type="button" class="btn btn-primary" name="next-month"><span class="fa fa-chevron-right"></span></button>
-        </div>
+        <button type="button" class="btn btn-link" name="previous-month" disabled=""><span class="fa fa-chevron-left"></span></button>
     </div>
-    <div class="cl-tool-center cl-title col-md-5" id="month_year" data-month_year="{{ month_year }}">
+    <div class="cl-tool-center cl-title col-md-6" id="month_year" data-month_year="{{ month_year }}">
         <h2>{{ month_year.strftime('%b %Y') }}</h2>
     </div>
-    <div class="cl-tool-right col-md-4">
+    <div class="cl-tool-right col-md-3">
+        <button type="button" class="btn btn-link" name="next-month"><span class="fa fa-chevron-right"></span></button>
     </div>
 </div>
 <div class="cl">

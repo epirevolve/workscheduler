@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from mypackages.domainevent import (
-    Publisher, Event
-)
+from flask import flash
 
 
 def validate_form(form) -> bool:
     if not form.validate():
         for field, errors in form.errors.items():
             for error in errors:
-                Publisher.publish(Event(
-                    event_message="Error in the {} field - {}".format(
-                        getattr(form, field).label.text, error)))
+                flash("Error in the {} field - {}".format(
+                    getattr(form, field).label.text, error), 'error')
         return False
     return True
-

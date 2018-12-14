@@ -38,7 +38,7 @@ import { AlertManager } from './alert-helper.js';
             .fail((data) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with reset password...',
-                'alert-error')
+                'alert-danger')
             });
         });
     });

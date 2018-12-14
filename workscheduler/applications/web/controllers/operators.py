@@ -4,13 +4,13 @@ from calendar import (
     Calendar, SUNDAY
 )
 from datetime import (
-    datetime, date
+    datetime, date, timedelta
 )
 from functools import namedtuple
 from flask import (
     Blueprint, redirect, url_for,
     render_template, flash, request,
-    Response, jsonify
+    jsonify
 )
 from flask_login import (
     login_required, current_user
@@ -24,22 +24,27 @@ from ..forms import OperatorForm
 bp = Blueprint('operators', __name__)
 
 
-@bp.route('/operators/my_request/<login_id>', defaults={'month_year': date.today()})
+@bp.route('/operators/my_request/<login_id>', defaults={'month_year': date.today().replace(day=1) + timedelta(days=32)})
 @bp.route('/operators/my_request/<login_id>/<month_year>')
 @login_required
 def my_request(login_id, month_year):
     if month_year and not isinstance(month_year, date):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
+
+    session = get_db_session()
+    operator = OperatorQuery(session).get_operator(current_user.id)
+    
     today = date.today()
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
-                                             'current_day', 'notices', 'events'))
+                                             'current_day', 'notices', 'requests'))
     
-    def create_date(_date, notices, events):
+    def create_date(_date, notices):
         return CalendarDay(_date, _date.year != month_year.year or _date.month != month_year.month,
-                           _date == today, notices, events)
+                           _date == today, notices,
+                           filter(lambda x: x.at_from <= _date <= x.at_to, operator.requests))
     calender = Calendar()
     calender.setfirstweekday(SUNDAY)
-    weeks = [[create_date(_date, None, None) for _date in week]
+    weeks = [[create_date(_date, None) for _date in week]
              for week in calender.monthdatescalendar(month_year.year, month_year.month)]
     return render_template('request.html', month_year=month_year, weeks=weeks)
 

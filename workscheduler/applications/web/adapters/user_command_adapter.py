@@ -8,14 +8,14 @@ from .utils import validate_form
 class UserCommandAdapter(UserCommand):
     def update_myself(self, form: UserForm):
         if not validate_form(form):
-            raise ValueError()
+            return
         super(UserCommandAdapter, self).update_myself(
             form.id.data, form.password.data, form.name.data
         )
     
     def append_user(self, form: UsersForm):
         if not validate_form(form):
-            raise ValueError()
+            return
         return super(UserCommandAdapter, self).append_user(
             form.login_id.data, form.name.data,
             form.is_admin.data, form.is_operator.data
@@ -23,7 +23,7 @@ class UserCommandAdapter(UserCommand):
     
     def update_user(self, form: UsersForm):
         if not validate_form(form):
-            raise ValueError()
+            return
         super(UserCommandAdapter, self).update_user(
             form.id.data, form.login_id.data, form.name.data,
             form.is_admin.data, form.is_operator.data

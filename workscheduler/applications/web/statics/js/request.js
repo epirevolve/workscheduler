@@ -57,7 +57,7 @@ import { AlertManager } from './alert-helper.js';
         .fail((data) => {
             let alertManager = new AlertManager('#alert-container');
             alertManager.append('Oops, Sorry we have some trouble with appending event...',
-            'alert-error')
+            'alert-danger')
         });
     }
 
@@ -66,6 +66,15 @@ import { AlertManager } from './alert-helper.js';
             var button = $(this);
             var recipient = button.parents('.cl-body-cell').data('date');
             $('#event-name').val('');
+
+            $('#datetime-from').datetimepicker("maxDate", false);
+            let minDate = new Date(new Date().addMonths(1).setDate(1)).clearTime();
+            $('#datetime-from').datetimepicker("minDate", minDate);
+
+            $('#datetime-to').datetimepicker("minDate", false);
+            let maxDate = new Date(new Date().addMonths(7).setDate(0)).clearTime();
+            $('#datetime-to').datetimepicker("maxDate", maxDate);
+
             $('#datetime-from').datetimepicker("date", recipient + ' 09:30');
             $('#datetime-to').datetimepicker("date", recipient + ' 18:00');
 
@@ -109,16 +118,27 @@ import { AlertManager } from './alert-helper.js';
         $('button[name="previous-month"]').click(function() {
             let stamp = Date.parse($('#month_year').data('month_year'));
             requestMonthYear(stamp, -1);
-        });
 
-        $('button[name="today"]').click(function() {
-            let stamp = new Date();
-            requestMonthYear(stamp, 0);
+            $('button[name="next-month"]').prop('disabled', false);
+
+            let d = new Date(stamp);
+            let minDate = new Date().addMonths(2);
+            if (d.getFullYear() <= minDate.getFullYear() && d.getMonth() <= minDate.getMonth()) {
+                $(this).prop('disabled', true);
+            };
         });
 
         $('button[name="next-month"]').click(function() {
             let stamp = Date.parse($('#month_year').data('month_year'));
             requestMonthYear(stamp, 1);
+
+            $('button[name="previous-month"]').prop('disabled', false);
+
+            let d = new Date(stamp);
+            let maxDate = new Date().addMonths(5);
+            if (d.getFullYear() >= maxDate.getFullYear() && d.getMonth() >= maxDate.getMonth()) {
+                $(this).prop('disabled', true);
+            };
         });
     });
 })(jQuery);
