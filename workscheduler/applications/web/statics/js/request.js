@@ -34,7 +34,8 @@ import { AlertManager } from './alert-helper.js';
 
         let d = {
                 'event-id': $('#event-id').val(),
-                'event-name': $('#event-name').val(),
+                'event-title': $('#event-title').val(),
+                'event-note': $('#event-note').val(),
                 'event-at-from': fromstr,
                 'event-at-to': tostr
             };
@@ -43,16 +44,19 @@ import { AlertManager } from './alert-helper.js';
     }
 
     let addEvent = function() {
-        let login_id = $('#login-user-id').text();
-
         $.ajax({
-            url: `/operators/append_my_request/${login_id}`,
+            url: '/operators/append_my_request',
             type: 'POST',
             data: getEventData()
         })
         .done((data) => {
+            let alertManager = new AlertManager('#alert-container');
+            alertManager.append('Your event is correctly registered.',
+            'alert-info')
             $('#event-modal').modal('hide');
-
+            var eventPlace = $(`#event-${data.eventAtFrom.getFullYear()}${data.eventAtFrom.getMonth()}${data.eventAtFrom.getDay()}`);
+            if (eventPlace == null) return;
+            eventPlace.add()
         })
         .fail((data) => {
             let alertManager = new AlertManager('#alert-container');
@@ -62,6 +66,14 @@ import { AlertManager } from './alert-helper.js';
     }
 
     $(document).ready(function() {
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover(
+            {
+                'html': true,
+                'placement': 'left'
+            });
+        });
+
         $(document).on('click', '#add-event', function () {
             var button = $(this);
             var recipient = button.parents('.cl-body-cell').data('date');

@@ -16,9 +16,15 @@
           <input type="hidden" id="event-id">
           <div class="input-group m-1">
               <div class="input-group-prepend">
-                  <span class="input-group-text">name</span>
+                  <span class="input-group-text">title</span>
               </div>
-              <input type="text" class="form-control" id="event-name">
+              <input type="text" class="form-control" id="event-title">
+          </div>
+          <div class="input-group m-1">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">note</span>
+              </div>
+              <textarea class="form-control" id="event-note"></textarea>
           </div>
           <div class="form-group m-1">
               <div class="input-group date" id="datetime-from" data-target-input="nearest">
@@ -79,8 +85,7 @@
         <div class="row">
             {% for day in week %}
             <div class="cl-body-cell col
-                {% if day.outer_month %}outer-month-cell{% endif %}
-                {% if day.current_day %}current-day-cell{% endif %}"
+                {% if day.outer_month %}outer-month-cell{% endif %}"
                 data-date="{{ day.date }}"  >
                 <div>
                     <button class="edit-event btn btn-danger btn-sm"
@@ -89,7 +94,17 @@
                     </button>
                     <span class="cl-day">{{ day.date.day }}</span>
                 </div>
-                <div id="events-{{ day.date.strftime('%m%d') }}"></div>
+                <div class="event-container" id="events-{{ day.date.strftime('%Y%m%d') }}">
+                    {% for request in day.requests %}
+                        <button class="btn btn-info btn-block event-item" data-toggle="popover"
+                                title="<div class=''>{{ request.title }}<button class='btn btn-link btn-sm col-md-6'>Edit</button></div>"
+                                data-content="
+                                    <div class='m-1'>{{ request.note }}</div>
+                                    <div class='m-1'>{{ request.at_from }} ~ {{ request.at_to }}</div>">
+                            {{ request.title }}
+                        </button>
+                    {% endfor %}
+                </div>
             </div>
             {% endfor %}
         </div>

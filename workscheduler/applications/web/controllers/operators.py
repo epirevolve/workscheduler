@@ -34,14 +34,16 @@ def my_request(login_id, month_year):
     session = get_db_session()
     operator = OperatorQuery(session).get_operator(current_user.id)
     
-    today = date.today()
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
-                                             'current_day', 'notices', 'requests'))
-    
-    def create_date(_date, notices):
-        return CalendarDay(_date, _date.year != month_year.year or _date.month != month_year.month,
-                           _date == today, notices,
-                           filter(lambda x: x.at_from <= _date <= x.at_to, operator.requests))
+                                             'notices', 'requests'))
+
+    def is_between(date, start, end):
+        return start.date() <= date <= end.date()
+
+    def create_date(date, notices):
+        return CalendarDay(date, date.year != month_year.year or date.month != month_year.month,
+                           notices,
+                           [request for request in operator.requests if is_between(date, request.at_from, request.at_to)])
     calender = Calendar()
     calender.setfirstweekday(SUNDAY)
     weeks = [[create_date(_date, None) for _date in week]
@@ -49,9 +51,9 @@ def my_request(login_id, month_year):
     return render_template('request.html', month_year=month_year, weeks=weeks)
 
 
-@bp.route('/operators/append_my_request/<login_id>', methods=['POST'])
+@bp.route('/operators/append_my_request', methods=['POST'])
 @login_required
-def append_my_request(login_id):
+def append_my_request():
     session = get_db_session()
     try:
         req = OperatorCommandAdapter(session).append_my_request(request.form)
@@ -59,7 +61,8 @@ def append_my_request(login_id):
 
         response = jsonify({
             'evenId': req.id,
-            'eventName': req.name,
+            'eventTitle': req.title,
+            'eventNone': req.note,
             'eventAtFrom': req.at_from,
             'eventAtTo': req.at_to
         })
@@ -70,6 +73,9 @@ def append_my_request(login_id):
         response.status_code = 400
         session.rollback()
     return response
+
+
+@bp.route('/operators/update_my_request')
 
 
 @bp.route('/operators/show_myself/<login_id>')
