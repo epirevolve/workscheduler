@@ -28,9 +28,9 @@ import { AlertManager } from './alert-helper.js';
 
     let getEventData = function() {
         let from = new Date($('#datetime-from').datetimepicker("date"));
-        let fromstr = `${from.getFullYear()}-${from.getMonth() + 1}-${from.getDay()} ${from.getHours()}:${from.getMinutes()}`;
+        let fromstr = `${from.getFullYear()}-${from.getMonth() + 1}-${from.getDate()} ${from.getHours()}:${from.getMinutes()}`;
         let to = new Date($('#datetime-to').datetimepicker("date"));
-        let tostr = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDay()} ${to.getHours()}:${to.getMinutes()}`;
+        let tostr = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()} ${to.getHours()}:${to.getMinutes()}`;
 
         let d = {
                 'event-id': $('#event-id').val(),
@@ -54,7 +54,7 @@ import { AlertManager } from './alert-helper.js';
             alertManager.append('Your event is correctly registered.',
             'alert-info')
             $('#event-modal').modal('hide');
-            var eventPlace = $(`#event-${data.eventAtFrom.getFullYear()}${data.eventAtFrom.getMonth()}${data.eventAtFrom.getDay()}`);
+            var eventPlace = $(`#event-${data.eventAtFrom.getFullYear()}${data.eventAtFrom.getMonth()}${data.eventAtFrom.getDate()}`);
             if (eventPlace == null) return;
             eventPlace.add()
         })
@@ -77,7 +77,8 @@ import { AlertManager } from './alert-helper.js';
         $(document).on('click', '#add-event', function () {
             var button = $(this);
             var recipient = button.parents('.cl-body-cell').data('date');
-            $('#event-name').val('');
+            $('#event-title').val('');
+            $('#event-note').val('');
 
             $('#datetime-from').datetimepicker("maxDate", false);
             let minDate = new Date(new Date().addMonths(1).setDate(1)).setEarliestTime();

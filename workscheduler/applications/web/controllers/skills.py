@@ -7,7 +7,7 @@ from flask_login import (
     login_required
 )
 from workscheduler.applications.services import (
-    UserQuery
+    OperatorQuery
 )
 from .. import get_db_session
 
@@ -18,6 +18,6 @@ bp = Blueprint('skills', __name__)
 @bp.route('/skills/show_skills')
 @login_required
 def show_skills():
-    user_repository = UserQuery(get_db_session())
-    skills = user_repository.get_skills()
+    operator_repository = OperatorQuery(get_db_session())
+    skills = operator_repository.get_skills()
     return render_template('skills.html', skills=skills)

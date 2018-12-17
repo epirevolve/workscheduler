@@ -100,7 +100,7 @@
                                 title="<div class=''>{{ request.title }}<button class='btn btn-link btn-sm col-md-6'>Edit</button></div>"
                                 data-content="
                                     <div class='m-1'>{{ request.note }}</div>
-                                    <div class='m-1'>{{ request.at_from }} ~ {{ request.at_to }}</div>">
+                                    <div class='m-1'>{{ request.at_from.strftime('%Y/%m/%d %H:%M') }} ~ {{ request.at_to.strftime('/%Y/%m/%d %H:%M') }}</div>">
                             {{ request.title }}
                         </button>
                     {% endfor %}

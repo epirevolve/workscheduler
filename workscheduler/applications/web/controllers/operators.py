@@ -6,7 +6,7 @@ from calendar import (
 from datetime import (
     datetime, date, timedelta
 )
-from functools import namedtuple
+from collections import namedtuple
 from flask import (
     Blueprint, redirect, url_for,
     render_template, flash, request,
@@ -68,14 +68,17 @@ def append_my_request():
         })
         response.status_code = 200
     except Exception as e:
+        session.rollback()
         print(e)
         response = jsonify()
         response.status_code = 400
-        session.rollback()
     return response
 
 
 @bp.route('/operators/update_my_request')
+@login_required
+def update_my_request():
+    pass
 
 
 @bp.route('/operators/show_myself/<login_id>')
