@@ -54,9 +54,14 @@ import { AlertManager } from './alert-helper.js';
             alertManager.append('Your event is correctly registered.',
             'alert-info')
             $('#event-modal').modal('hide');
-            var eventPlace = $(`#event-${data.eventAtFrom.getFullYear()}${data.eventAtFrom.getMonth()}${data.eventAtFrom.getDate()}`);
+            let eventAtFrom = new Date(data.eventAtFrom);
+            var eventPlace = $(`#events-${eventAtFrom.getFullYear()}${("0" + (eventAtFrom.getMonth()+1)).slice(-2)}${("0" + eventAtFrom.getDate()).slice(-2)}`);
             if (eventPlace == null) return;
-            eventPlace.add()
+            let $button = $('<button>').addClass('btn btn-info btn-block event-item')
+                .data('toggle', 'popover').attr('title', `<div>${data.eventTitle}<button class='btn btn-link btn-sm col-md-6'>Edit</button></div>`)
+                .data('content', `<div class='m-1'>${data.eventNote}</div><div class='m-1'>${data.eventAtFrom} ~ ${data.eventAtTo}</div>`)
+                .html(data.eventTitle);
+            eventPlace.append($button);
         })
         .fail((data) => {
             let alertManager = new AlertManager('#alert-container');
@@ -91,7 +96,9 @@ import { AlertManager } from './alert-helper.js';
             $('#datetime-from').datetimepicker("date", recipient + 'T09:30');
             $('#datetime-to').datetimepicker("date", recipient + 'T18:00');
 
-            $("#save-event").click(addEvent);
+            let $save = $("#save-event");
+            $save.off('click');
+            $save.on('click', addEvent);
 
             $('#event-modal').modal();
         });
