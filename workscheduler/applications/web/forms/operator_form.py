@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import (
     StringField, BooleanField, HiddenField
 )
-from workscheduler.applications.services import OperatorQuery
+from workscheduler.applications.services import SkillQuery
 from .. import get_db_session
 
 
@@ -23,7 +23,7 @@ class OperatorForm(FlaskForm):
     all_skills = []
 
     def __init__(self, *args, **kwargs):
-        all_skills = OperatorQuery(get_db_session()).get_skills()
+        all_skills = SkillQuery(get_db_session()).get_skills()
     
         def append_skill_field(x):
             self.all_skills.append(SkillForm(obj=x, prefix='skill-{}'.format(x.name)))

@@ -8,7 +8,7 @@ from flask import (
     Flask, g, current_app
 )
 from flask.cli import with_appcontext
-from workscheduler.infrastructures.database import Database
+from workscheduler.infrastructures import Database
 
 
 def get_db_session(echo=False):

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="card-deck">
+    {% for belong in belongs %}
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    {{ belong.name }}
+                </h4>
+                <p class="card-text">
+                    {{ belong.note }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
