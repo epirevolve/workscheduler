@@ -88,7 +88,7 @@
                 {% if day.outer_month %}outer-month-cell{% endif %}"
                 data-date="{{ day.date }}"  >
                 <div>
-                    <button class="edit-event btn btn-danger btn-sm"
+                    <button class="add-event btn btn-danger btn-sm"
                             id="add-event">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
@@ -96,11 +96,26 @@
                 </div>
                 <div class="event-container" id="events-{{ day.date.strftime('%Y%m%d') }}">
                     {% for request in day.requests %}
-                        <button class="btn btn-info btn-block event-item" data-toggle="popover"
-                                title="<div>{{ request.title }}<button class='btn btn-link btn-sm col-md-6'>Edit</button></div>"
+                        <button class="btn btn-warning btn-block event-item"
+                                title="<h4>{{ request.title }}</h4>" type="button"
+                                data-toggle="popover"
                                 data-content="
-                                    <div class='m-1'>{{ request.note }}</div>
-                                    <div class='m-1'>{{ request.at_from.strftime('%Y/%m/%d %H:%M') }} ~ {{ request.at_to.strftime('/%Y/%m/%d %H:%M') }}</div>">
+                                    <div>
+                                        <button id='edit-event' class='btn btn-primary btn-sm btn-block mb-3'
+                                                data-id={{ request.id }}
+                                                data-title={{ request.title }}
+                                                data-note={{ request.note }}
+                                                data-at-from={{ request.at_from }}
+                                                data-at-to={{ request.at_to }}>Edit</button>
+                                        <div class='m-2'>{{ request.note }}</div>
+                                        <div class='m-2'>
+                                            {{ request.at_from.strftime('%Y/%m/%d %H:%M') }}<br />
+                                            ~<br />
+                                            {{ request.at_to.strftime('%Y/%m/%d %H:%M') }}
+                                        </div>
+                                        <button id='remove-event' class='btn btn-basic btn-sm btn-block mt-3'
+                                                data-id={{ request.id }}>Remove</button>
+                                    </div>">
                             {{ request.title }}
                         </button>
                     {% endfor %}

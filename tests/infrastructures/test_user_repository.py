@@ -16,7 +16,7 @@ class TestUserRepository:
     def test_get_users(self, session):
         user_repository = UserQuery(session)
         users = user_repository.get_users()
-        assert 2 == len(users)
+        assert 3 == len(users)
         user = users[0]
         assert user.id
         assert 'admin' == user.login_id
@@ -30,8 +30,8 @@ class TestUserRepository:
         session.add(user)
         session.commit()
         users = user_repository.get_users()
-        assert 3 == len(users)
-        user = users[2]
+        assert 4 == len(users)
+        user = users[-1]
         assert user.id
         assert 'test_login' == user.login_id
         assert 'ptest_login' == user.password
@@ -48,7 +48,7 @@ class TestUserRepository:
         user.login_id = 'testchanged'
         session.commit()
         users = user_repository.get_users()
-        assert 2 == len(users)
+        assert 3 == len(users)
         user = users[1]
         assert user.id
         assert 'testchanged' == user.login_id

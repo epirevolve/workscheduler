@@ -3,8 +3,8 @@
 
 import { AlertManager } from './alert-helper.js';
 
-(function(){
-    let requestMonthYear = function(stamp, addMonth) {
+(function () {
+    let requestMonthYear = function (stamp, addMonth) {
         if (isNaN(stamp) == true) {
             let alertManager = new AlertManager('#alert-container');
             alertManager.append('Sorry, we cant do more process due to invalid date.')
@@ -26,7 +26,7 @@ import { AlertManager } from './alert-helper.js';
         });
     }
 
-    let getEventData = function() {
+    let getEventData = function () {
         let from = new Date($('#datetime-from').datetimepicker("date"));
         let fromstr = `${from.getFullYear()}-${from.getMonth() + 1}-${from.getDate()} ${from.getHours()}:${from.getMinutes()}`;
         let to = new Date($('#datetime-to').datetimepicker("date"));
@@ -43,7 +43,7 @@ import { AlertManager } from './alert-helper.js';
         return d;
     }
 
-    let addEvent = function() {
+    let addEvent = function () {
         $.ajax({
             url: '/operators/append_my_request',
             type: 'POST',
@@ -57,11 +57,43 @@ import { AlertManager } from './alert-helper.js';
             let eventAtFrom = new Date(data.eventAtFrom);
             var eventPlace = $(`#events-${eventAtFrom.getFullYear()}${("0" + (eventAtFrom.getMonth()+1)).slice(-2)}${("0" + eventAtFrom.getDate()).slice(-2)}`);
             if (eventPlace == null) return;
-            let $button = $('<button>').addClass('btn btn-info btn-block event-item')
-                .data('toggle', 'popover').attr('title', `<div>${data.eventTitle}<button class='btn btn-link btn-sm col-md-6'>Edit</button></div>`)
-                .data('content', `<div class='m-1'>${data.eventNote}</div><div class='m-1'>${data.eventAtFrom} ~ ${data.eventAtTo}</div>`)
-                .html(data.eventTitle);
+            let $inner = $('<div>')
+                            .append(
+                                $('<button>')
+                                    .addClass('btn btn-basic btn-sm btn-block mb-3')
+                                    .attr('id', 'edit-event')
+                                    .data('id', data.eventId)
+                                    .data('title', data.eventTitle)
+                                    .data('note', data.eventNote)
+                                    .html('Edit'))
+                            .append(
+                                $('<div>')
+                                    .addClass('m-2')
+                                    .html(data.eventNote))
+                            .append(
+                                $('<div>')
+                                    .addClass('m-2')
+                                    .html(`${data.eventAtFrom}<br />~</br>${data.eventAtTo}`))
+                            .append(
+                                $('<button>')
+                                    .addClass('btn btn-basic btn-sm btn-block mt-3')
+                                    .attr('id', 'remove-event')
+                                    .data('id', data.eventId)
+                                    .html('Remove'));
+            let $button =
+                $('<button>')
+                    .addClass('btn btn-warning btn-block event-item')
+                    .attr('title', `<h4>${data.eventTitle}</h4>`)
+                    .attr('type', 'button')
+                    .data('toggle', 'popover')
+                    .data('content', $inner)
+                    .html(data.eventTitle);
             eventPlace.append($button);
+            $button.popover(
+            {
+                'html': true,
+                'placement': 'top'
+            });
         })
         .fail((data) => {
             let alertManager = new AlertManager('#alert-container');
@@ -70,18 +102,25 @@ import { AlertManager } from './alert-helper.js';
         });
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $(document).ready(function(){
             $('[data-toggle="popover"]').popover(
             {
                 'html': true,
-                'placement': 'left'
+                'placement': 'top'
             });
         });
 
         $(document).on('click', '#add-event', function () {
-            var button = $(this);
-            var recipient = button.parents('.cl-body-cell').data('date');
+            let $button = $(this);
+            let $container = $button.parents('.cl-body-cell').eq(0);
+
+            if ($container.find('.event-item').length >= 2) {
+                alert('cant append more event on this day');
+                return;
+            }
+
+            let recipient = $container.data('date');
             $('#event-title').val('');
             $('#event-note').val('');
 
@@ -95,6 +134,21 @@ import { AlertManager } from './alert-helper.js';
 
             $('#datetime-from').datetimepicker("date", recipient + 'T09:30');
             $('#datetime-to').datetimepicker("date", recipient + 'T18:00');
+
+            let $save = $("#save-event");
+            $save.off('click');
+            $save.on('click', addEvent);
+
+            $('#event-modal').modal();
+        });
+
+        $(document).on('click', '#edit-event', function () {
+            let $button = $(this);
+
+            $('#event-title').val($button.data('title'));
+            $('#event-note').val($button.data('note'));
+
+            $('.popover').popover('hide');
 
             let $save = $("#save-event");
             $save.off('click');
@@ -128,14 +182,14 @@ import { AlertManager } from './alert-helper.js';
         });
 
         $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
+            beforeSend: function (xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
                     xhr.setRequestHeader("X-CSRFToken", csrf_token);
                 }
             }
         });
 
-        $('button[name="previous-month"]').click(function() {
+        $('button[name="previous-month"]').click(function () {
             let stamp = Date.parse($('#month_year').data('month_year'));
             requestMonthYear(stamp, -1);
 
@@ -148,7 +202,7 @@ import { AlertManager } from './alert-helper.js';
             };
         });
 
-        $('button[name="next-month"]').click(function() {
+        $('button[name="next-month"]').click(function () {
             let stamp = Date.parse($('#month_year').data('month_year'));
             requestMonthYear(stamp, 1);
 

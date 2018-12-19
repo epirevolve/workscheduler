@@ -3,10 +3,10 @@
 from calendar import (
     Calendar, SUNDAY
 )
-from datetime import (
-    datetime, date, timedelta
-)
 from collections import namedtuple
+from datetime import (
+    datetime, date, timedelta,
+)
 from flask import (
     Blueprint, redirect, url_for,
     render_template, flash, request,
@@ -43,7 +43,8 @@ def my_request(login_id, month_year):
     def create_date(date, notices):
         return CalendarDay(date, date.year != month_year.year or date.month != month_year.month,
                            notices,
-                           [request for request in operator.requests if is_between(date, request.at_from, request.at_to)])
+                           [request for request in operator.requests
+                            if is_between(date, request.at_from, request.at_to)])
     calender = Calendar()
     calender.setfirstweekday(SUNDAY)
     weeks = [[create_date(_date, None) for _date in week]
@@ -60,7 +61,7 @@ def append_my_request():
         session.commit()
 
         response = jsonify({
-            'evenId': req.id,
+            'eventId': req.id,
             'eventTitle': req.title,
             'eventNone': req.note,
             'eventAtFrom': req.at_from,

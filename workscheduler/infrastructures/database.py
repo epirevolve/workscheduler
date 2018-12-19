@@ -20,6 +20,7 @@ class Database:
         user_command = UserCommand(session)
         user_command.append_user('admin', '管理者', is_admin=True, is_operator=False)
         user_command.append_user('user', 'ユーザ', is_admin=False, is_operator=True)
+        user_command.append_user('adope', '管理ユーザ', is_admin=True, is_operator=True)
         
         # sample data
         from workscheduler.domains.models.operator.skill import SkillFactory

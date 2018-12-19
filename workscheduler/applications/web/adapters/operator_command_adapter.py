@@ -10,7 +10,7 @@ from .utils import validate_form
 class OperatorCommandAdapter(OperatorCommand):
     def append_my_request(self, form):
         event_title = form.get('event-title')
-        event_note = form.get('event_note')
+        event_note = form.get('event_note') or ''
         event_at_from = form.get('event-at-from')
         event_at_to = form.get('event-at-to')
         if not event_title or not event_at_from or not event_at_to:
@@ -20,6 +20,9 @@ class OperatorCommandAdapter(OperatorCommand):
         return super(OperatorCommandAdapter, self).append_my_request(
             current_user.id, event_title, event_note, at_from, at_to
         )
+    
+    def update_my_request(self, form):
+        pass
     
     def update_myself(self, form: OperatorForm):
         if not validate_form(form):

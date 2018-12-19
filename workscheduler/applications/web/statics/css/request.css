@@ -55,19 +55,19 @@
     visibility: hidden;
 }
 
-.edit-event {
+.add-event {
     float: left;
     margin: .3rem;
     font-size: 0.7rem;
 }
 
 .event-container{
-    overflow-y:auto;
     max-height: 60%;
-    width: 90%;
-    margin: .1rem;
+    width: 95%;
+    margin: .3rem;
 }
 
 .event-item {
     padding: 0rem;
+    margin: .1rem 0rem;
 }
