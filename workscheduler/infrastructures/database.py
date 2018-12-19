@@ -28,6 +28,11 @@ class Database:
         session.add(SkillFactory.evaluate_a_skill('ccnp', 3))
         session.add(SkillFactory.evaluate_a_skill('lpic', 2))
         
+        from workscheduler.domains.models.user.belong import BelongFactory
+        session.add(BelongFactory.create_new_belongs('フロント', ''))
+        session.add(BelongFactory.create_new_belongs('Sec', ''))
+        session.add(BelongFactory.create_new_belongs('Secフロント', ''))
+        
         session.commit()
         session.close()
 

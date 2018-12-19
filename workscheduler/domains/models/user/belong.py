@@ -10,7 +10,7 @@ from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 
 
-class Belongs(OrmBase):
+class Belong(OrmBase):
     __tablename__ = 'belongs'
     id = Column(String, primary_key=True)
     name = Column(String(20), nullable=False)
@@ -24,11 +24,11 @@ class Belongs(OrmBase):
 
     @validates('id', 'name')
     def validate(self, key, value):
-        return super(Belongs, self).validate(Belongs, key, value)
+        return super(Belong, self).validate(Belong, key, value)
 
 
-class BelongsFactory:
+class BelongFactory:
     @classmethod
     def create_new_belongs(cls, name: str, note: str):
-        belongs = Belongs(UuidFactory.new_uuid(), name, note)
+        belongs = Belong(UuidFactory.new_uuid(), name, note)
         return belongs

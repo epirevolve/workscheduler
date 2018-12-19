@@ -60,7 +60,8 @@ def create_app(test_config=None):
 
     from .controllers import (
         auths, menus, schedules,
-        operators, users, skills
+        operators, users, belongs,
+        skills
     )
 
     app.register_blueprint(auths.bp)
@@ -68,6 +69,7 @@ def create_app(test_config=None):
     app.register_blueprint(schedules.bp)
     app.register_blueprint(operators.bp)
     app.register_blueprint(users.bp)
+    app.register_blueprint(belongs.bp)
     app.register_blueprint(skills.bp)
 
     @app.errorhandler(404)

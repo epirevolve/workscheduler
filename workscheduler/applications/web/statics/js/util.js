@@ -37,3 +37,11 @@ Date.prototype.setLatestTime = function () {
     this.setUTCMilliseconds(999);
     return this;
 }
+
+$.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrf_token);
+        }
+    }
+});

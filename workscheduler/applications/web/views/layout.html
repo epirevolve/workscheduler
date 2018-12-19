@@ -12,6 +12,7 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.min.css') }}" />
+
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}" />
 
@@ -19,6 +20,8 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+        <script type="text/javascript">var csrf_token = "{{ csrf_token() }}";</script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/util.js') }}"></script>
     </head>
     <body>
@@ -40,6 +43,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', login_id=current_user.login_id) }}">as user</a></li>
                     {% if current_user.is_admin %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_users') }}">users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('belongs.show_belongs') }}">belongs</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('skills.show_skills') }}">skills</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('auths.logout') }}">log out</a></li>

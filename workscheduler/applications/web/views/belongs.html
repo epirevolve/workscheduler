@@ -1,17 +1,72 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="card-deck">
+<script type="text/javascript">var csrf_token = "{{ csrf_token() }}";</script>
+
+<div class="modal fade" id="belong-modal" tabindex="-1" role="dialog"
+     aria-labelledby="belongLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Set belongs</h5>
+        <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <input type="hidden" id="belong-id">
+          <div class="input-group m-1">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">name</span>
+              </div>
+              <input type="text" class="form-control" id="belong-name">
+          </div>
+          <div class="input-group m-1">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">note</span>
+              </div>
+              <textarea class="form-control" id="belong-note"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save-belong">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button id="add-belong" class="btn btn-secondary btn-block mb-3">Add New Belong</button>
+<div class="card-columns">
     {% for belong in belongs %}
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
                 <h4 class="card-title">
                     {{ belong.name }}
                 </h4>
+            </div>
+            <div class="card-body">
                 <p class="card-text">
                     {{ belong.note }}
                 </p>
             </div>
+            <div class="card-footer">
+                <div class="row">
+                    <button id="edit-belong" type="button"
+                            data-id="{{ belong.id }}"
+                            data-name="{{ belong.name }}"
+                            data-note="{{ belong.note }}"
+                            class="btn btn-primary btn-sm col-8">Edit</button>
+                    <button id="remove-belong" type="button"
+                            data-id="{{ belong.id }}"
+                            class="btn btn-danger btn-sm col-4">Remove</button>
+                </div>
+            </div>
         </div>
     {% endfor %}
 </div>
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('static', filename='js/belongs.js') }}"></script>
 {% endblock %}

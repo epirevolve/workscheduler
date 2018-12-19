@@ -64,6 +64,15 @@
             </div>
         </div>
     </a>
+    <a href="{{ url_for('belongs.show_belongs') }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/belong.svg') }}" />
+            <div class="card-body">
+                <h3 class="card-title">Belongs</h3>
+                <span class="card-text">Register belongs and this can be used for user</span>
+            </div>
+        </div>
+    </a>
     <a href="{{ url_for('skills.show_skills') }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/skills.svg') }}" />

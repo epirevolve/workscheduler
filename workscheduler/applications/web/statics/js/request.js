@@ -43,6 +43,16 @@ import { AlertManager } from './alert-helper.js';
         return d;
     }
 
+    let setDateLimit = function () {
+        $('#datetime-from').datetimepicker("maxDate", false);
+        let minDate = new Date(new Date().addMonths(1).setDate(1)).setEarliestTime();
+        $('#datetime-from').datetimepicker("minDate", minDate);
+
+        $('#datetime-to').datetimepicker("minDate", false);
+        let maxDate = new Date(new Date().addMonths(7).setDate(0)).setLatestTime();
+        $('#datetime-to').datetimepicker("maxDate", maxDate);
+    }
+
     let addEvent = function () {
         $.ajax({
             url: '/operators/append_my_request',
@@ -52,34 +62,35 @@ import { AlertManager } from './alert-helper.js';
         .done((data) => {
             let alertManager = new AlertManager('#alert-container');
             alertManager.append('Your event is correctly registered.',
-            'alert-info')
+            'alert-info');
             $('#event-modal').modal('hide');
             let eventAtFrom = new Date(data.eventAtFrom);
-            var eventPlace = $(`#events-${eventAtFrom.getFullYear()}${("0" + (eventAtFrom.getMonth()+1)).slice(-2)}${("0" + eventAtFrom.getDate()).slice(-2)}`);
-            if (eventPlace == null) return;
-            let $inner = $('<div>')
-                            .append(
-                                $('<button>')
-                                    .addClass('btn btn-basic btn-sm btn-block mb-3')
-                                    .attr('id', 'edit-event')
-                                    .data('id', data.eventId)
-                                    .data('title', data.eventTitle)
-                                    .data('note', data.eventNote)
-                                    .html('Edit'))
-                            .append(
-                                $('<div>')
-                                    .addClass('m-2')
-                                    .html(data.eventNote))
-                            .append(
-                                $('<div>')
-                                    .addClass('m-2')
-                                    .html(`${data.eventAtFrom}<br />~</br>${data.eventAtTo}`))
-                            .append(
-                                $('<button>')
-                                    .addClass('btn btn-basic btn-sm btn-block mt-3')
-                                    .attr('id', 'remove-event')
-                                    .data('id', data.eventId)
-                                    .html('Remove'));
+            let $eventPlace = $(`#events-${eventAtFrom.getFullYear()}${("0" + (eventAtFrom.getMonth()+1)).slice(-2)}${("0" + eventAtFrom.getDate()).slice(-2)}`);
+            if ($eventPlace == null) return;
+            let $inner =
+                $('<div>')
+                    .append(
+                        $('<button>')
+                            .addClass('btn btn-basic btn-sm btn-block mb-3')
+                            .attr('id', 'edit-event')
+                            .data('id', data.eventId)
+                            .data('title', data.eventTitle)
+                            .data('note', data.eventNote)
+                            .html('Edit'))
+                    .append(
+                        $('<div>')
+                            .addClass('m-2')
+                            .html(data.eventNote))
+                    .append(
+                        $('<div>')
+                            .addClass('m-2')
+                            .html(`${data.eventAtFrom}<br />~</br>${data.eventAtTo}`))
+                    .append(
+                        $('<button>')
+                            .addClass('btn btn-basic btn-sm btn-block mt-3')
+                            .attr('id', 'remove-event')
+                            .data('id', data.eventId)
+                            .html('Remove'));
             let $button =
                 $('<button>')
                     .addClass('btn btn-warning btn-block event-item')
@@ -88,7 +99,7 @@ import { AlertManager } from './alert-helper.js';
                     .data('toggle', 'popover')
                     .data('content', $inner)
                     .html(data.eventTitle);
-            eventPlace.append($button);
+            $eventPlace.append($button);
             $button.popover(
             {
                 'html': true,
@@ -100,6 +111,10 @@ import { AlertManager } from './alert-helper.js';
             alertManager.append('Oops, Sorry we have some trouble with appending event...',
             'alert-danger')
         });
+    }
+
+    let editEvent = function () {
+
     }
 
     $(document).ready(function () {
@@ -124,13 +139,7 @@ import { AlertManager } from './alert-helper.js';
             $('#event-title').val('');
             $('#event-note').val('');
 
-            $('#datetime-from').datetimepicker("maxDate", false);
-            let minDate = new Date(new Date().addMonths(1).setDate(1)).setEarliestTime();
-            $('#datetime-from').datetimepicker("minDate", minDate);
-
-            $('#datetime-to').datetimepicker("minDate", false);
-            let maxDate = new Date(new Date().addMonths(7).setDate(0)).setLatestTime();
-            $('#datetime-to').datetimepicker("maxDate", maxDate);
+            setDateLimit();
 
             $('#datetime-from').datetimepicker("date", recipient + 'T09:30');
             $('#datetime-to').datetimepicker("date", recipient + 'T18:00');
@@ -152,7 +161,7 @@ import { AlertManager } from './alert-helper.js';
 
             let $save = $("#save-event");
             $save.off('click');
-            $save.on('click', addEvent);
+            $save.on('click', editEvent);
 
             $('#event-modal').modal();
         });
@@ -179,14 +188,6 @@ import { AlertManager } from './alert-helper.js';
         });
         $("#datetime-to").on("change.datetimepicker", function (e) {
             $('#datetime-from').datetimepicker('maxDate', e.date);
-        });
-
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
-                }
-            }
         });
 
         $('button[name="previous-month"]').click(function () {
