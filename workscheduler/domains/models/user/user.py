@@ -7,8 +7,8 @@ from sqlalchemy.types import (
     String, DateTime, Boolean
 )
 from sqlalchemy.sql.functions import current_timestamp
-from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
+from workscheduler.domains.utils.uuid import UuidFactory
 
 
 class User(OrmBase, UserMixin):
@@ -40,9 +40,8 @@ class User(OrmBase, UserMixin):
     def get_id(self):
         return self.id
 
-
-class UserFactory:
-    @classmethod
-    def join_a_member(cls, login_id: str, name: str, is_admin: bool, is_operator: bool) -> User:
+    @staticmethod
+    def join_a_member(login_id: str, name: str,
+                      is_admin: bool, is_operator: bool):
         user = User(UuidFactory.new_uuid(), login_id, name, is_admin, is_operator)
         return user

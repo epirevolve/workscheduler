@@ -8,6 +8,7 @@ from sqlalchemy.orm import (
 )
 from sqlalchemy.types import String
 from workscheduler.domains.models import OrmBase
+from workscheduler.domains.models.operator import Belong
 
 associated_request_table\
     = Table("associated_request", OrmBase.metadata,
@@ -32,6 +33,8 @@ associated_relation_table\
 class Operator(OrmBase):
     __tablename__ = 'operators'
     id = Column(String, primary_key=True)
+    _belong_id = Column(String, ForeignKey('belongs.id'))
+    belong = relationship("Belong")
     requests = relationship("Request", secondary=associated_request_table)
     skills = relationship("Skill", secondary=associated_skill_table)
     relations = relationship("Relation", secondary=associated_relation_table)
@@ -40,8 +43,9 @@ class Operator(OrmBase):
     def validate(self, key, value):
         return super(Operator, self).validate(Operator, key, value)
     
-    def __init__(self, id: str):
+    def __init__(self, id: str, belong: Belong):
         self.id = id
+        self.belong = belong
         self.requests = []
         self.skills = []
         self.relations = []

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from . import UserQuery
+from workscheduler.applications.services import BelongQuery
 from workscheduler.domains.models.operator import Operator
-from workscheduler.domains.models.user import UserFactory
+from workscheduler.domains.models.user import User
 
 
 class UserCommand:
@@ -16,9 +17,10 @@ class UserCommand:
     
     def append_user(self, login_id: str, name: str,
                     is_admin: bool, is_operator: bool):
-        user = UserFactory.join_a_member(login_id, name, is_admin, is_operator)
+        user = User.join_a_member(login_id, name, is_admin, is_operator)
         self._session.add(user)
-        self._session.add(Operator(user.id))
+        not_belong = BelongQuery(self._session).get_default_belong()
+        self._session.add(Operator(user.id, not_belong))
         return user
     
     def update_user(self, id: str, login_id: str, name: str,

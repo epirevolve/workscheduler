@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import UserFactory
+from workscheduler.domains.models.user import User
 from workscheduler.domains.models.operator import (
-    SkillFactory, Relation
+    Skill, Relation
 )
 from workscheduler.applications.services import SkillQuery
 

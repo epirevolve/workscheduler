@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import BelongFactory
+from workscheduler.domains.models.operator import Belong
 
 
 class BelongCommand:
@@ -8,6 +8,6 @@ class BelongCommand:
         self._session = session
         
     def append_belong(self, name: str, note: str):
-        belong = BelongFactory.create_new_belongs(name, note)
+        belong = Belong.create_new_belongs(name, note)
         self._session.add(belong)
         return belong

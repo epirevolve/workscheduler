@@ -32,8 +32,6 @@ class Request(OrmBase):
     def validate(self, key, value):
         return super(Request, self).validate(Request, key, value)
 
-
-class RequestFactory:
-    @classmethod
-    def new_request(cls, name: str, note: str, at_from: datetime, at_to: datetime):
+    @staticmethod
+    def new_request(name: str, note: str, at_from: datetime, at_to: datetime):
         return Request(UuidFactory.new_uuid(), name, note, at_from, at_to)

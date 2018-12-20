@@ -2,7 +2,7 @@
 
 from flask import (
     Blueprint, render_template, request,
-    flash, jsonify
+    jsonify
 )
 from flask_login import login_required
 from workscheduler.applications.services import BelongQuery

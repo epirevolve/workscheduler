@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import UserFactory
+from workscheduler.domains.models.user import User
 from workscheduler.applications.services import UserQuery
 
 
@@ -26,7 +26,7 @@ class TestUserRepository:
     
     def test_append_user(self, session):
         user_repository = UserQuery(session)
-        user = UserFactory.join_a_member('test_login', 'tester', is_admin=False, is_operator=True)
+        user = User.join_a_member('test_login', 'tester', is_admin=False, is_operator=True)
         session.add(user)
         session.commit()
         users = user_repository.get_users()

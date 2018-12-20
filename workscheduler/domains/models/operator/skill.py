@@ -26,8 +26,6 @@ class Skill(OrmBase):
     def validate(self, key, value):
         return super(Skill, self).validate(Skill, key, value)
 
-
-class SkillFactory:
-    @classmethod
-    def evaluate_a_skill(cls, name: str, score: int):
+    @staticmethod
+    def evaluate_a_skill(name: str, score: int):
         return Skill(UuidFactory.new_uuid(), name, score)

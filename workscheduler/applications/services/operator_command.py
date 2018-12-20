@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from workscheduler.applications.services import OperatorQuery
-from workscheduler.domains.models.operator import RequestFactory
+from workscheduler.domains.models.operator import Request
 
 
 class OperatorCommand:
@@ -13,7 +13,7 @@ class OperatorCommand:
                           at_from: datetime, at_to: datetime):
         operator_query = OperatorQuery(self._session)
         operator = operator_query.get_operator(id)
-        request = RequestFactory.new_request(title, note, at_from, at_to)
+        request = Request.new_request(title, note, at_from, at_to)
         operator.requests.append(request)
         return request
     

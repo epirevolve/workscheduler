@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import Belong
+from workscheduler.domains.models.operator import Belong
 
 
 class BelongQuery:
@@ -12,3 +12,6 @@ class BelongQuery:
 
     def get_belongs(self):
         return self._session.query(Belong).order_by(Belong.id).all()
+    
+    def get_default_belong(self):
+        return next(filter(lambda x: x.is_not_belong(), self.get_belongs()))
