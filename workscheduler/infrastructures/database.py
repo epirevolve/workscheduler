@@ -18,10 +18,10 @@ class Database:
         session = self.create_session()
         
         from workscheduler.domains.models.operator.belong import Belong
-        session.add(Belong.create_not_belong())
-        session.add(Belong.create_new_belongs('フロント', ''))
-        session.add(Belong.create_new_belongs('Sec', ''))
-        session.add(Belong.create_new_belongs('Secフロント', ''))
+        session.add(Belong.not_belong())
+        session.add(Belong.new_belong('フロント', ''))
+        session.add(Belong.new_belong('Sec', ''))
+        session.add(Belong.new_belong('Secフロント', ''))
         session.commit()
         
         user_command = UserCommand(session)
@@ -31,9 +31,9 @@ class Database:
         
         # sample data
         from workscheduler.domains.models.operator.skill import Skill
-        session.add(Skill.evaluate_a_skill('ccna', 1))
-        session.add(Skill.evaluate_a_skill('ccnp', 3))
-        session.add(Skill.evaluate_a_skill('lpic', 2))
+        session.add(Skill.new_certified_skill('ccna', 1))
+        session.add(Skill.new_certified_skill('ccnp', 3))
+        session.add(Skill.new_certified_skill('lpic', 2))
         
         session.commit()
         session.close()

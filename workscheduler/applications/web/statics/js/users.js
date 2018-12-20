@@ -7,11 +7,11 @@ import { AlertManager } from './alert-helper.js';
     $(document).ready(function(){
         $('#user-table tbody tr').click(function(){
             $('#user_form').attr('action', '/users/update_user');
-            $('#id').val($(this).attr('data-id'));
-            $('#login_id').val($(this).find('td').eq(0).text());
-            $('#name').val($(this).find('td').eq(1).text());
-            $('#is_admin').prop('checked', ($(this).find('td').eq(2).text() == 'True'));
-            $('#is_operator').prop('checked', ($(this).find('td').eq(3).text() == 'True'));
+            $('#id').val($(this).data('id'));
+            $('#login_id').val($(this).data('login_id'));
+            $('#name').val($(this).data('name'));
+            $('#is_admin').prop('checked', ($(this).data('is_admin') == 'True'));
+            $('#is_operator').prop('checked', ($(this).data('is_operator') == 'True'));
         });
 
         $('#new').click(function(){

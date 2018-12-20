@@ -8,6 +8,7 @@ from flask_login import login_required
 from workscheduler.applications.services import BelongQuery
 from workscheduler.applications.web.adapters import BelongCommandAdapter
 from .. import get_db_session
+from . import admin_required
 
 
 bp = Blueprint('belongs', __name__)
@@ -15,6 +16,7 @@ bp = Blueprint('belongs', __name__)
 
 @bp.route('/belongs/show_belongs')
 @login_required
+@admin_required
 def show_belongs():
     belong_repository = BelongQuery(get_db_session())
     belongs = belong_repository.get_belongs()
@@ -23,6 +25,7 @@ def show_belongs():
 
 @bp.route('/belongs/append_belong', methods=['POST'])
 @login_required
+@admin_required
 def append_belong():
     session = get_db_session()
     try:

@@ -12,7 +12,7 @@
 <div class="card-deck">
     <a href="{{ url_for('schedules.show_schedules') }}">
         <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/timer.svg') }}" />
+            <img class="card-img-top" src="{{ url_for('static', filename='img/schedules.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Work Scheduler</h3>
                 {% if current_user.is_admin %}
@@ -26,7 +26,7 @@
     {% if current_user.is_operator %}
     <a href="{{ url_for('operators.my_request', login_id=current_user.login_id) }}">
         <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/desire.svg') }}" />
+            <img class="card-img-top" src="{{ url_for('static', filename='img/request.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Shift Request</h3>
                 <span class="card-text">Request a date when I can't work on.</span>
@@ -45,7 +45,7 @@
     {% endif %}
     <a href="{{ url_for('users.show_myself', login_id=current_user.login_id) }}">
         <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/id-card.svg') }}" />
+            <img class="card-img-top" src="{{ url_for('static', filename='img/user.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">As User</h3>
                 <span class="card-text">Show my info and can change your personal info.</span>
@@ -55,9 +55,18 @@
 </div>
 {% if current_user.is_admin %}
 <div class="card-deck">
+    <a href="{{ url_for('operators.show_operators') }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/operators.svg') }}" />
+            <div class="card-body">
+                <h3 class="card-title">Operators</h3>
+                <span class="card-text">Modify operator belong and their skills</span>
+            </div>
+        </div>
+    </a>
     <a href="{{ url_for('users.show_users') }}">
         <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/connection.svg') }}" />
+            <img class="card-img-top" src="{{ url_for('static', filename='img/users.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Users</h3>
                 <span class="card-text">Modify user info and reset their password</span>
@@ -66,7 +75,7 @@
     </a>
     <a href="{{ url_for('belongs.show_belongs') }}">
         <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/belong.svg') }}" />
+            <img class="card-img-top" src="{{ url_for('static', filename='img/belongs.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Belongs</h3>
                 <span class="card-text">Register belongs and this can be used for user</span>

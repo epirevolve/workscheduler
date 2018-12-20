@@ -12,6 +12,7 @@ from workscheduler.applications.services import UserQuery
 from .. import get_db_session
 from ..adapters import UserCommandAdapter
 from ..forms import UserForm, UsersForm
+from . import admin_required
 
 
 bp = Blueprint('users', __name__)
@@ -37,6 +38,7 @@ def store_myself():
 
 @bp.route('/users/show_users')
 @login_required
+@admin_required
 def show_users():
     user_repository = UserQuery(get_db_session())
     return render_template('users.html', form=UsersForm(), users=user_repository.get_users())
@@ -44,6 +46,7 @@ def show_users():
 
 @bp.route('/users/append_user', methods=['POST'])
 @login_required
+@admin_required
 def append_user():
     session = get_db_session()
     UserCommandAdapter(session).append_user(UsersForm())
@@ -57,6 +60,7 @@ def append_user():
 
 @bp.route('/users/update_user', methods=['POST'])
 @login_required
+@admin_required
 def update_user():
     session = get_db_session()
     UserCommandAdapter(session).update_user(UsersForm())
@@ -69,6 +73,7 @@ def update_user():
 
 @bp.route('/users/reset_password', methods=['POST'])
 @login_required
+@admin_required
 def reset_password():
     response = Response()
 

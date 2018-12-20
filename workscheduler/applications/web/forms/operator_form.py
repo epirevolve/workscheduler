@@ -20,25 +20,25 @@ class SkillForm(FlaskForm):
 
 class OperatorForm(FlaskForm):
     id = HiddenField()
-    all_skills = []
+    all_certified_skills = []
 
     def __init__(self, *args, **kwargs):
-        all_skills = SkillQuery(get_db_session()).get_skills()
-    
-        def append_skill_field(x):
-            self.all_skills.append(SkillForm(obj=x, prefix='skill-{}'.format(x.name)))
-    
-        self.all_skills.clear()
+        all_certified_skills = SkillQuery(get_db_session()).get_certified_skills()
+
+        self.all_certified_skills.clear()
+
         if 'obj' in kwargs:
-            obj = kwargs['obj']
-            skill_ids = [x.id for x in obj.skills]
+            obj = kwargs.get('obj', [])
+            certified_skill_ids = [x.id for x in obj.certified_skills]
+            
+            for skill in all_certified_skills:
+                if skill.id in certified_skill_ids:
+                    setattr(skill, 'is_obtain', True)
         
-            def append_skill_field(x):
-                if x.id in skill_ids:
-                    setattr(x, 'is_obtain', True)
-                self.all_skills.append(SkillForm(obj=x, prefix='skill-{}'.format(x.name)))
-        for skill in all_skills:
-            append_skill_field(skill)
-        kwargs['all_skills'] = all_skills
+        for skill in all_certified_skills:
+            self.all_certified_skills.append(
+                SkillForm(obj=skill, prefix='skill-{}'.format(skill.name)))
+
+        kwargs['all_certified_skills'] = all_certified_skills
     
         super(OperatorForm, self).__init__(*args, **kwargs)

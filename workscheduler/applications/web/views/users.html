@@ -13,7 +13,8 @@
         </thead>
         <tbody>
             {% for user in users %}
-            <tr data-id="{{ user.id }}" role="row">
+            <tr role="row" data-id="{{ user.id }}" data-login_id="{{ user.login_id }}" data-name="{{ user.name }}"
+                data-is_admin="{{ user.is_admin }}" data-is_operator="{{ user.is_operator }}">
                 <td>{{ user.login_id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.is_admin }}</td>

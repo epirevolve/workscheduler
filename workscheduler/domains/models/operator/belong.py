@@ -32,10 +32,10 @@ class Belong(OrmBase):
         return self.name == Belong._not_belong_name
     
     @staticmethod
-    def create_new_belongs(name: str, note: str):
+    def new_belong(name: str, note: str):
         return Belong(UuidFactory.new_uuid(), name, note)
     
     @staticmethod
-    def create_not_belong():
-        return Belong.create_new_belongs(Belong._not_belong_name,
-                                         '新規ユーザはこの所属となります。\r\nオペレータ画面にて所属を変更してください。')
+    def not_belong():
+        return Belong.new_belong(Belong._not_belong_name,
+                                 '新規ユーザはこの所属となります。\r\nオペレータ画面にて所属を変更してください。')

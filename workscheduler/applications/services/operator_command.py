@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from workscheduler.applications.services import OperatorQuery
+from workscheduler.applications.services import (
+    OperatorQuery, SkillQuery
+)
 from workscheduler.domains.models.operator import Request
 
 
@@ -20,5 +22,6 @@ class OperatorCommand:
     def update_myself(self, id: str, skill_ids: [str]):
         operator_query = OperatorQuery(self._session)
         operator = operator_query.get_operator(id)
-        skills = [x for x in operator_query.get_skills() if x.id in skill_ids]
-        operator.skills = skills
+        skill_query = SkillQuery(self._session)
+        certified_skills = [x for x in skill_query.get_certified_skills() if x.id in skill_ids]
+        operator.certified_skills = certified_skills

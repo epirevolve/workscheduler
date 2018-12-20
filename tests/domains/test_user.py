@@ -9,7 +9,7 @@ from workscheduler.domains.models.user import User
 
 class TestUser:
     def test_validate(self):
-        user = User.join_a_member('user_1', 'User', False, True)
+        user = User.new_member('user_1', 'User', False, True)
         with pytest.raises(AssertionError) as error:
             user.id = ''
         assert 'no id provided' == str(error.value)
@@ -36,7 +36,7 @@ class TestUser:
         assert 'name is less than 50' == str(error.value)
     
     def test_user_factory(self):
-        user = User.join_a_member('tester', 'てすたろう', is_admin=True, is_operator=False)
+        user = User.new_member('tester', 'てすたろう', is_admin=True, is_operator=False)
         assert user.id
         assert 'tester' == user.login_id
         assert 'ptester' == user.password
@@ -45,8 +45,8 @@ class TestUser:
         assert not user.is_operator
     
     def test_user_factory_identifier(self):
-        user_1 = User.join_a_member('user_1', 'User', False, True)
-        user_2 = User.join_a_member('user_2', 'UUSser', True, False)
+        user_1 = User.new_member('user_1', 'User', False, True)
+        user_2 = User.new_member('user_2', 'UUSser', True, False)
         assert user_1.id != user_2.id
 
     def test_reset_password(self, random_user):

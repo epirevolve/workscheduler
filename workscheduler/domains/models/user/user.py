@@ -41,7 +41,7 @@ class User(OrmBase, UserMixin):
         return self.id
 
     @staticmethod
-    def join_a_member(login_id: str, name: str,
-                      is_admin: bool, is_operator: bool):
+    def new_member(login_id: str, name: str,
+                   is_admin: bool, is_operator: bool):
         user = User(UuidFactory.new_uuid(), login_id, name, is_admin, is_operator)
         return user

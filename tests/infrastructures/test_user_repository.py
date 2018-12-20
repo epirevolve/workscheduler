@@ -26,7 +26,7 @@ class TestUserRepository:
     
     def test_append_user(self, session):
         user_repository = UserQuery(session)
-        user = User.join_a_member('test_login', 'tester', is_admin=False, is_operator=True)
+        user = User.new_member('test_login', 'tester', is_admin=False, is_operator=True)
         session.add(user)
         session.commit()
         users = user_repository.get_users()

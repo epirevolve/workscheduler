@@ -8,6 +8,6 @@ class BelongCommand:
         self._session = session
         
     def append_belong(self, name: str, note: str):
-        belong = Belong.create_new_belongs(name, note)
+        belong = Belong.new_belong(name, note)
         self._session.add(belong)
         return belong

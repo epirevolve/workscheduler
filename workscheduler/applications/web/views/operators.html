@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Users</h2>
+<div class="table-responsive">
+    <table class="table" id="user-table">
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>belong</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for operator in operators %}
+            <tr role="row" data-id="{{ operator.id }}">
+                <td>{{ operator.name }}</td>
+                <td>{{ operator.belong.name }}</td>
+            </tr>
+            {% else %}
+            <tr><td>No users here so far.</td><td></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<form id="operator_form" action="{{ url_for('operators.update_operator') }}" method="post">
+    {{ form.hidden_tag() }}
+    <input type="hidden" class="form-control" name="id" id="id" readonly>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+        </div>
+        <input type="text" class="form-control" name="name">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Belong</span>
+        </div>
+        <select name="" class="custom-select">
+            {% for belong in belongs %}
+                <option value="{{ belong.id }}">{{ belong.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button class="btn btn-primary btn-block" type="submit" id="store">Store Operator</button>
+</form>
+{% endblock %}

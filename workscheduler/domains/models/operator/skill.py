@@ -2,7 +2,8 @@
 
 from sqlalchemy import Column
 from sqlalchemy.types import (
-    String, DateTime, Integer
+    String, DateTime, Integer,
+    Boolean
 )
 from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.orm import validates
@@ -15,17 +16,24 @@ class Skill(OrmBase):
     id = Column(String, primary_key=True)
     name = Column(String(30), nullable=False)
     score = Column(Integer, nullable=False)
+    is_certified = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id: str, name: str, score: int):
+    def __init__(self, id: str, name: str, score: int,
+                 is_certified: bool):
         self.id = id
         self.name = name
         self.score = score
+        self.is_certified = is_certified
         
     @validates('id', 'name', 'score')
     def validate(self, key, value):
         return super(Skill, self).validate(Skill, key, value)
 
     @staticmethod
-    def evaluate_a_skill(name: str, score: int):
-        return Skill(UuidFactory.new_uuid(), name, score)
+    def new_certified_skill(name: str, score: int):
+        return Skill(UuidFactory.new_uuid(), name, score, True)
+    
+    @staticmethod
+    def new_not_certified_skill(name: str, score: int):
+        return Skill(UuidFactory.new_uuid(), name, score, False)

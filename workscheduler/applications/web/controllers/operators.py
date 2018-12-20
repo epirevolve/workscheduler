@@ -15,10 +15,15 @@ from flask import (
 from flask_login import (
     login_required, current_user
 )
-from workscheduler.applications.services import OperatorQuery
+from workscheduler.applications.services import (
+    OperatorQuery, BelongQuery
+)
 from .. import get_db_session
 from ..adapters import OperatorCommandAdapter
-from ..forms import OperatorForm
+from ..forms import (
+    OperatorForm, OperatorsForm
+)
+from . import admin_required
 
 
 bp = Blueprint('operators', __name__)
@@ -99,3 +104,22 @@ def update_myself():
     flash('Operator info was successfully registered.')
     
     return redirect(url_for('operators.show_myself', login_id=current_user.login_id))
+
+
+@bp.route('/operators/show_operators')
+@login_required
+@admin_required
+def show_operators():
+    session = get_db_session()
+    operators = OperatorQuery(session).get_operators()
+    belongs = BelongQuery(session).get_belongs()
+    
+    return render_template('operators.html', form=OperatorsForm(),
+                           operators=operators, belongs=belongs)
+
+
+@bp.route('/operators/update_operator')
+@login_required
+@admin_required
+def update_operator():
+    pass

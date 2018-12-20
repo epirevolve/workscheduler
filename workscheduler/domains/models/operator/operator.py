@@ -36,7 +36,8 @@ class Operator(OrmBase):
     _belong_id = Column(String, ForeignKey('belongs.id'))
     belong = relationship("Belong")
     requests = relationship("Request", secondary=associated_request_table)
-    skills = relationship("Skill", secondary=associated_skill_table)
+    certified_skills = relationship("Skill", secondary=associated_skill_table)
+    not_certified_skills = relationship("Skill", secondary=associated_skill_table)
     relations = relationship("Relation", secondary=associated_relation_table)
 
     @validates('id')
@@ -47,5 +48,5 @@ class Operator(OrmBase):
         self.id = id
         self.belong = belong
         self.requests = []
-        self.skills = []
+        self.certified_skills = []
         self.relations = []

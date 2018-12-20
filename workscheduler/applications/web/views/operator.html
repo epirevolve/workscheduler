@@ -5,7 +5,7 @@
     <h3>Skills</h3>
     <p>please set your skills. your skills are considered when creating a work schedule.</p>
     <div id="skills" class="table-responsive mb-3">
-        {% for skill in form.all_skills %}
+        {% for skill in form.all_certified_skills %}
             <div class="m-1 custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input" id="{{ skill.id.data }}" name="{{ skill.is_obtain.id }}"
                 {% if skill.is_obtain.data %}checked{% endif %}>
