@@ -38,6 +38,8 @@ class Database:
         session.add(Skill.new_certified_skill('ccnp', 3))
         session.add(Skill.new_certified_skill('lpic', 2))
         
+        session.add(Skill.new_not_certified_skill('夜間統制', 5))
+        
         session.commit()
         session.close()
 

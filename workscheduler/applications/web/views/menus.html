@@ -24,7 +24,7 @@
         </div>
     </a>
     {% if current_user.is_operator %}
-    <a href="{{ url_for('operators.my_request', login_id=current_user.login_id) }}">
+    <a href="{{ url_for('operators.show_my_request', login_id=current_user.login_id) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/request.svg') }}" />
             <div class="card-body">

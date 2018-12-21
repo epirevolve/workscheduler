@@ -29,10 +29,10 @@ from . import admin_required
 bp = Blueprint('operators', __name__)
 
 
-@bp.route('/operators/my_request/<login_id>', defaults={'month_year': date.today().replace(day=1) + timedelta(days=32)})
-@bp.route('/operators/my_request/<login_id>/<month_year>')
+@bp.route('/operators/show_my_request/<login_id>', defaults={'month_year': date.today().replace(day=1) + timedelta(days=32)})
+@bp.route('/operators/show_my_request/<login_id>/<month_year>')
 @login_required
-def my_request(login_id, month_year):
+def show_my_request(login_id, month_year):
     if month_year and not isinstance(month_year, date):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
 

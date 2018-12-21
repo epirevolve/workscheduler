@@ -20,6 +20,12 @@
         </div>
         <input type="text" class="form-control" name="name" value="{{ form.name.data }}">
     </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Belong</span>
+        </div>
+        <input type="text" class="form-control" name="belong" value="{{ form.belong.data.name }}" readonly>
+    </div>
     <button class="btn btn-primary btn-block" type="submit">Store User</button>
 </form>
 {% endblock %}
