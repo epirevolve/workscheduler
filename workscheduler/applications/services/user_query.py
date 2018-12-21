@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.models.user import User
-from workscheduler.domains.models.operator import (
-    Skill, Relation
-)
 
 
 class UserQuery:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.operator import Belong
+from workscheduler.domains.models.user import Belong
 
 
 class BelongCommand:

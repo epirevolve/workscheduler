@@ -13,10 +13,12 @@
         </thead>
         <tbody>
             {% for user in users %}
-            <tr role="row" data-id="{{ user.id }}" data-login_id="{{ user.login_id }}" data-name="{{ user.name }}"
+            <tr role="row" data-id="{{ user.id }}" data-login_id="{{ user.login_id }}"
+                data-name="{{ user.name }}" data-belong_id="{{ user.belong.id }}"
                 data-is_admin="{{ user.is_admin }}" data-is_operator="{{ user.is_operator }}">
                 <td>{{ user.login_id }}</td>
                 <td>{{ user.name }}</td>
+                <td>{{ user.belong.name }}</td>
                 <td>{{ user.is_admin }}</td>
                 <td>{{ user.is_operator }}</td>
             </tr>
@@ -26,20 +28,31 @@
         </tbody>
     </table>
 </div>
-<form id="user_form" action="{{ url_for('users.append_user') }}" method="post">
+<hr />
+<form name="user_form" action="{{ url_for('users.append_user') }}" method="post">
     {{ form.hidden_tag() }}
-    <input type="hidden" class="form-control" name="id" id="id" readonly>
+    <input type="hidden" class="form-control" name="id" readonly>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">Login Id</span>
         </div>
-        <input type="text" class="form-control" name="login_id" id="login_id">
+        <input type="text" class="form-control" name="login_id">
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">Name</span>
         </div>
-        <input type="text" class="form-control" name="name" id="name">
+        <input type="text" class="form-control" name="name">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Belong</span>
+        </div>
+        <select class="custom-select" name="belong">
+            {% for belong in belongs %}
+                <option value="{{ belong.id }}">{{ belong.name }}</option>
+            {% endfor %}
+        </select>
     </div>
     <div class="mb-3 custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin">

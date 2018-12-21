@@ -37,7 +37,7 @@ def my_request(login_id, month_year):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
 
     session = get_db_session()
-    operator = OperatorQuery(session).get_operator(current_user.id)
+    operator = OperatorQuery(session).get_operator_of_user_id(current_user.id)
     
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
                                              'notices', 'requests'))
@@ -90,7 +90,7 @@ def update_my_request():
 @bp.route('/operators/show_myself/<login_id>')
 @login_required
 def show_myself(login_id):
-    operator = OperatorQuery(get_db_session()).get_operator(current_user.id)
+    operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
     return render_template('operator.html', form=OperatorForm(obj=operator))
 
 

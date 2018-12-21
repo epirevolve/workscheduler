@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import UserCommand
+from workscheduler.applications.services import (
+    UserCommand, BelongQuery
+)
 from ..forms import UsersForm, UserForm
 from .utils import validate_form
 
@@ -16,17 +18,19 @@ class UserCommandAdapter(UserCommand):
     def append_user(self, form: UsersForm):
         if not validate_form(form):
             return
+        belong = BelongQuery(self._session).get_belong(form.belong.data)
         return super(UserCommandAdapter, self).append_user(
             form.login_id.data, form.name.data,
-            form.is_admin.data, form.is_operator.data
+            belong, form.is_admin.data, form.is_operator.data
         )
     
     def update_user(self, form: UsersForm):
         if not validate_form(form):
             return
+        belong = BelongQuery(self._session).get_belong(form.belong.data)
         super(UserCommandAdapter, self).update_user(
             form.id.data, form.login_id.data, form.name.data,
-            form.is_admin.data, form.is_operator.data
+            belong, form.is_admin.data, form.is_operator.data
         )
     
     def reset_password(self, form: UsersForm):

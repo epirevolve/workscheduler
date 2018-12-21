@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from flask_login import UserMixin
-from sqlalchemy import Column
-from sqlalchemy.orm import validates
+from sqlalchemy import (
+    Column, ForeignKey
+)
+from sqlalchemy.orm import (
+    relationship, validates
+)
 from sqlalchemy.types import (
     String, DateTime, Boolean
 )
 from sqlalchemy.sql.functions import current_timestamp
-from workscheduler.domains.models import OrmBase
 from workscheduler.domains.utils.uuid import UuidFactory
+from .. import OrmBase
+from . import Belong
 
 
 class User(OrmBase, UserMixin):
@@ -17,16 +22,19 @@ class User(OrmBase, UserMixin):
     login_id = Column(String(16), nullable=False)
     password = Column(String(16), nullable=False)
     name = Column(String(50), nullable=False)
+    _belong_id = Column(String, ForeignKey('belongs.id'))
+    belong = relationship("Belong", uselist=False)
     is_admin = Column(Boolean, default=False)
     is_operator = Column(Boolean, default=True)
     create_at = Column(DateTime, server_default=current_timestamp())
 
     def __init__(self, id: str, login_id: str, name: str,
-                 is_admin: bool, is_operator: bool):
+                 belong: Belong, is_admin: bool, is_operator: bool):
         self.id = id
         self.login_id = login_id
         self.password = 'p' + login_id
         self.name = name
+        self.belong = belong
         self.is_admin = is_admin
         self.is_operator = is_operator
     
@@ -41,7 +49,8 @@ class User(OrmBase, UserMixin):
         return self.id
 
     @staticmethod
-    def new_member(login_id: str, name: str,
+    def new_member(login_id: str, name: str, belong: Belong,
                    is_admin: bool, is_operator: bool):
-        user = User(UuidFactory.new_uuid(), login_id, name, is_admin, is_operator)
+        user = User(UuidFactory.new_uuid(), login_id, name,
+                    belong, is_admin, is_operator)
         return user

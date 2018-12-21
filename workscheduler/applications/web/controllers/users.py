@@ -8,7 +8,9 @@ from flask import (
 from flask_login import (
     login_required, current_user
 )
-from workscheduler.applications.services import UserQuery
+from workscheduler.applications.services import (
+    UserQuery, BelongQuery
+)
 from .. import get_db_session
 from ..adapters import UserCommandAdapter
 from ..forms import UserForm, UsersForm
@@ -40,8 +42,11 @@ def store_myself():
 @login_required
 @admin_required
 def show_users():
-    user_repository = UserQuery(get_db_session())
-    return render_template('users.html', form=UsersForm(), users=user_repository.get_users())
+    session = get_db_session()
+    users = UserQuery(session).get_users()
+    belongs = BelongQuery(session).get_belongs()
+
+    return render_template('users.html', form=UsersForm(), users=users, belongs=belongs)
 
 
 @bp.route('/users/append_user', methods=['POST'])
