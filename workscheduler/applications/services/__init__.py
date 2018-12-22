@@ -9,3 +9,4 @@ from .auth_command import AuthCommand
 from .belong_command import BelongCommand
 from .operator_command import OperatorCommand
 from .user_command import UserCommand
+from .team_command import TeamCommand

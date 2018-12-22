@@ -5,3 +5,4 @@ from .operator_form import OperatorForm
 from .operators_form import OperatorsForm
 from .user_form import UserForm
 from .users_form import UsersForm
+from .team_category_form import TeamCategoryForm
