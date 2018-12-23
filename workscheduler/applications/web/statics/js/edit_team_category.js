@@ -7,7 +7,7 @@
         $('#check2').prop('checked', ($('#hidden2').val() == 'True'));
 
         $('#add').click(function(){
-            var array = [];
+            let array = [];
             array.push('<div class="float-left w-50">');
             array.push('<div class="m-3">');
             array.push('<div class="border p-1 bg-light">');
@@ -17,7 +17,7 @@
             array.push('</div>');
             array.push('</div>');
             array.push('</div>');
-            var string = array.join('');
+            let string = array.join('');
             $(string).appendTo('#teamArea')
         })
 
