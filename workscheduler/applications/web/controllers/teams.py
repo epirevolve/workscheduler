@@ -25,7 +25,7 @@ def show_team_categories():
 @login_required
 @admin_required
 def show_append_page():
-    return render_template('append_team_category.html')
+    return render_template('team_category_append.html')
 
 @bp.route('/teams/append_team_category/store', methods=['POST'])
 @login_required
@@ -53,4 +53,4 @@ def show_edit_page():
     session = get_db_session()
     team_repository = TeamQuery(session)
     user_repository = UserQuery(session)
-    return render_template('edit_team_category.html', team_category=team_repository.get_team_category(request.form.get('team_category_id')), all_users=user_repository.get_users())
+    return render_template('team_category_edit.html', team_category=team_repository.get_team_category(request.form.get('team_category_id')), all_users=user_repository.get_users())
