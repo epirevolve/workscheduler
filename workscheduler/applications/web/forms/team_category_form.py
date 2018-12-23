@@ -5,7 +5,7 @@ from wtforms import (
     StringField, BooleanField, IntegerField
 )
 from wtforms.validators import (
-    Length
+    DataRequired, Length
 )
 from workscheduler.domains.models.team import TeamCategory
 
