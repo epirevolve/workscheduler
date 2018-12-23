@@ -17,7 +17,7 @@ import { AlertManager } from './alert-helper.js';
         let date_str = date.getFullYear() + '-' + (date.getMonth() + 1)
 
         $.ajax({
-            url: `/operators/my_request/${login_id}/${date_str}`
+            url: `/operators/show_my_request/${login_id}/${date_str}`
         }).done((data) => {
             let $header = $(data).find('#month_year');
             $('#month_year').data('month_year', $header.data('month_year'));

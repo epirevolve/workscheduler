@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from datetime import (
+    date, timedelta
+)
 import os
 import sys
-from jinja2 import FileSystemLoader
 import click
 from flask import (
     Flask, g, current_app
 )
 from flask.cli import with_appcontext
+from jinja2 import FileSystemLoader
 from workscheduler.infrastructures import Database
 
 
@@ -91,5 +94,14 @@ def create_app(test_config=None):
     
     csrf = CSRFProtect()
     csrf.init_app(app)
-    
+
+    @app.before_first_request
+    def extend_jinja_env():
+        app.jinja_env.globals['today'] = date.today()
+
+        def get_next_month():
+            return (date.today().replace(day=1) + timedelta(days=32)).strftime('%Y-%m')
+
+        app.jinja_env.globals['next_month'] = get_next_month()
+
     return app

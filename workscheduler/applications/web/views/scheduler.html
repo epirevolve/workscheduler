@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+<form method="post">
+    <button type="button" class="scheduler-option expander m-3" data-toggle="collapse" data-target="#option">
+        {{ team_name }}
+    </button>
+    <div id="option" class="collapse m-3">
+        <div class="custom-control-inline">
+            <div class="m-2 custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="does_use_certified_skill" name="does_use_certified_skill">
+                <label class="custom-control-label" for="does_use_certified_skill">Does use certified skill</label>
+            </div>
+            <div class="m-2 custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="does_use_not_certified_skill" name="does_use_not_certified_skill">
+                <label class="custom-control-label" for="does_use_not_certified_skill">Does use not certified skill</label>
+            </div>
+            <div class="m-2 custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="is_there_night_time" name="is_there_night_time">
+                <label class="custom-control-label" for="is_there_night_time">Is there night time</label>
+            </div>
+        </div>
+    </div>
+    <div class="m-3">
+
+    </div>
+    <button class="btn btn-danger btn-block m-3">Create Work Schedule</button>
+</form>
+{% endblock %}
+
+{% block css %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/request.css') }}" />
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('static', filename='js/alert-helper.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/scheduler.js') }}"></script>
+{% endblock %}
