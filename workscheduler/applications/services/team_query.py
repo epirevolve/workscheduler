@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.team.team_category import TeamCategory
+from workscheduler.domains.models.team import TeamCategory
 
 
 class TeamQuery:
