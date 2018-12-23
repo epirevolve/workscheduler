@@ -8,13 +8,11 @@
         </div>
         <div class="card-body">
             <div class="mb-3 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="check1">
-                <input type="hidden" id="hidden1" value="{{ team_category.allow_multiple_belonging }}">
+                <input type="checkbox" class="custom-control-input" id="check1" {% if team_category.allow_multiple_belonging %}checked{% endif %}>
                 <label class="custom-control-label" for="check1">can belong to more than one team</label>
             </div>
             <div class="mb-3 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="check2">
-                <input type="hidden" id="hidden2" value="{{ team_category.is_leader_required }}">
+                <input type="checkbox" class="custom-control-input" id="check2" {% if team_category.is_leader_required %}checked{% endif %}>
                 <label class="custom-control-label" for="check2">require leader</label>
             </div>
             <div>

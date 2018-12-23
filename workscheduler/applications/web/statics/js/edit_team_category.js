@@ -3,9 +3,6 @@
 
 (function() {
     $(document).ready(function(){
-        $('#check1').prop('checked', ($('#hidden1').val() == 'True'));
-        $('#check2').prop('checked', ($('#hidden2').val() == 'True'));
-
         $('#add').click(function(){
             let array = [];
             array.push('<div class="float-left w-50">');
