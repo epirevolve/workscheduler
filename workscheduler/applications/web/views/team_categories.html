@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<div>
+    <h2 class="d-inline-block w-75">Team Categories</h2>
+    <button onclick="location.href='append_team_category'">+</button>
+</div>
+{% for team_category in team_categories %}
+<div class="card">
+    <div class="card-header">
+        <input type="hidden" value="{{ team_category.id }}">
+        <span class="d-inline-block w-75">{{ team_category.name }}</span>
+        <button class="edit">Edit</button>
+    </div>
+    <div class="card-body p-0">
+        {% for team in team_category.teams %}
+        <div class="clearfix">
+            <div class="float-left border-top w-50 px-1">{{ team.name }}</div>
+            <div class="float-right w-50">
+                {% for user in team.users %}
+                <div class="border p-1">{{ user.name }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('static', filename='js/team_categories.js') }}"></script>
+<script type="text/javascript">
+$(function(){
+  $('.card-body:gt(0)').hide();
+  $('.card-header').click(function(){
+      $('.card-body').slideToggle(500);
+    })
+});
+</script>
+{% endblock %}

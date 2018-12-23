@@ -64,7 +64,7 @@ def create_app(test_config=None):
     from .controllers import (
         auths, menus, schedules,
         operators, users, belongs,
-        skills
+        skills, teams
     )
 
     app.register_blueprint(auths.bp)
@@ -74,6 +74,7 @@ def create_app(test_config=None):
     app.register_blueprint(users.bp)
     app.register_blueprint(belongs.bp)
     app.register_blueprint(skills.bp)
+    app.register_blueprint(teams.bp)
 
     @app.errorhandler(404)
     def not_found(error):
