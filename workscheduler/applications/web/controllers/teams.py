@@ -4,10 +4,10 @@ from flask import Blueprint, request, render_template, Response, flash
 from flask_login import login_required
 from workscheduler.applications.services.team_query import TeamQuery
 from workscheduler.applications.services.user_query import UserQuery
+from workscheduler.domains.models.team import TeamCategory
 from .. import get_db_session
 from ..adapters import TeamCommandAdapter
 from ..forms import TeamCategoryForm
-from workscheduler.domains.models.team import TeamCategory
 
 
 bp = Blueprint('teams', __name__)
