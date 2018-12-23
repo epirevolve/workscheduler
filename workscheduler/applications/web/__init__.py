@@ -32,7 +32,7 @@ def create_app(test_config=None):
 
     app.config.from_mapping(
         SECRET_KEY='key secreted',
-        DATABASE=os.path.join(app.instance_path, 'workscheduler2.db')
+        DATABASE=os.path.join(app.instance_path, 'workscheduler.db')
     )
 
     if test_config is None:
