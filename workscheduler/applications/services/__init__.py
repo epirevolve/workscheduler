@@ -8,4 +8,5 @@ from .user_query import UserQuery
 from .auth_command import AuthCommand
 from .belong_command import BelongCommand
 from .operator_command import OperatorCommand
+from .team_command import TeamCommand
 from .user_command import UserCommand

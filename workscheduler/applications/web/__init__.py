@@ -61,7 +61,7 @@ def create_app(test_config=None):
     from .controllers import (
         auths, menus, schedules,
         operators, users, belongs,
-        skills
+        skills, teams
     )
 
     app.register_blueprint(auths.bp)
@@ -71,6 +71,7 @@ def create_app(test_config=None):
     app.register_blueprint(users.bp)
     app.register_blueprint(belongs.bp)
     app.register_blueprint(skills.bp)
+    app.register_blueprint(teams.bp)
 
     @app.errorhandler(404)
     def not_found(error):
@@ -78,18 +79,18 @@ def create_app(test_config=None):
         return render_template('not_found.html'), 404
 
     from flask_login import LoginManager
-    
+
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auths.index'
-    
+
     @login_manager.user_loader
     def load_user(user_id):
         return auths.load_user(user_id)
-    
+
     from flask_wtf import CSRFProtect
-    
+
     csrf = CSRFProtect()
     csrf.init_app(app)
-    
+
     return app
