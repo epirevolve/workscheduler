@@ -8,6 +8,7 @@ from workscheduler.domains.models.team import TeamCategory
 from .. import get_db_session
 from ..adapters import TeamCommandAdapter
 from ..forms import TeamCategoryForm
+from . import admin_required
 
 
 bp = Blueprint('teams', __name__)
@@ -15,17 +16,20 @@ bp = Blueprint('teams', __name__)
 
 @bp.route('/teams/show_team_categories')
 @login_required
+@admin_required
 def show_team_categories():
     team_repository = TeamQuery(get_db_session())
     return render_template('team_categories.html', team_categories=team_repository.get_team_categories())
 
 @bp.route('/teams/append_team_category')
 @login_required
+@admin_required
 def show_append_page():
     return render_template('append_team_category.html')
 
 @bp.route('/teams/append_team_category/store', methods=['POST'])
 @login_required
+@admin_required
 def store_team_category():
     response = Response()
 
@@ -44,6 +48,7 @@ def store_team_category():
 
 @bp.route('/teams/edit_team_category', methods=['POST'])
 @login_required
+@admin_required
 def show_edit_page():
     session = get_db_session()
     team_repository = TeamQuery(session)
