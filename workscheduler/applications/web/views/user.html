@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<form action="{{ url_for('users.store_myself') }}" method="post">
+<form action="{{ url_for('users.update_myself') }}" method="post">
     {{ form.hidden_tag() }}
     <div class="input-group mb-3">
         <div class="input-group-prepend">

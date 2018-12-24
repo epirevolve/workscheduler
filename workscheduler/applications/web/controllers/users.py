@@ -26,9 +26,9 @@ def show_myself(login_id):
     return render_template('user.html', form=UserForm(obj=current_user))
 
 
-@bp.route('/users/store_myself', methods=['POST'])
+@bp.route('/users/update_myself', methods=['POST'])
 @login_required
-def store_myself():
+def update_myself():
     session = get_db_session()
     UserCommandAdapter(session).update_myself(UserForm())
     session.commit()

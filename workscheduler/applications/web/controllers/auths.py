@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import UserQuery
 from flask import (
     Blueprint, request, redirect,
     url_for, render_template, flash
@@ -8,6 +7,7 @@ from flask import (
 from flask_login import (
     login_user, logout_user
 )
+from workscheduler.applications.services import UserQuery
 from ..adapters import AuthCommandAdapter
 from ..forms import AuthForm
 from .. import get_db_session

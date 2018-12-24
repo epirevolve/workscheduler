@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import User
+from workscheduler.domains.models.user import (
+    Belong, User
+)
 from workscheduler.applications.services import UserQuery
 
 
@@ -16,7 +18,7 @@ class TestUserRepository:
     def test_get_users(self, session):
         user_repository = UserQuery(session)
         users = user_repository.get_users()
-        assert 3 == len(users)
+        assert 13 == len(users)
         user = users[0]
         assert user.id
         assert 'admin' == user.login_id
@@ -26,16 +28,18 @@ class TestUserRepository:
     
     def test_append_user(self, session):
         user_repository = UserQuery(session)
-        user = User.new_member('test_login', 'tester', is_admin=False, is_operator=True)
+        belong = Belong.new_belong('test', 'this is test')
+        user = User.new_member('test_login', 'tester', belong, is_admin=False, is_operator=True)
         session.add(user)
         session.commit()
         users = user_repository.get_users()
-        assert 4 == len(users)
+        assert 14 == len(users)
         user = users[-1]
         assert user.id
         assert 'test_login' == user.login_id
         assert 'ptest_login' == user.password
         assert 'tester' == user.name
+        assert belong.id == user.belong.id
         assert not user.is_admin
         assert user.is_operator
 
@@ -48,7 +52,7 @@ class TestUserRepository:
         user.login_id = 'testchanged'
         session.commit()
         users = user_repository.get_users()
-        assert 3 == len(users)
+        assert 13 == len(users)
         user = users[1]
         assert user.id
         assert 'testchanged' == user.login_id

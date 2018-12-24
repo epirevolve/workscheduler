@@ -34,7 +34,7 @@ def create_app(test_config=None):
     app.config.from_object(__name__)
 
     app.config.from_mapping(
-        SECRET_KEY='key secreted',
+        SECRET_KEY='jlk32dasf4562erHUI378sdf',
         DATABASE=os.path.join(app.instance_path, 'workscheduler.db')
     )
 
@@ -51,6 +51,8 @@ def create_app(test_config=None):
     app.config.from_envvar('WORK_SCHEDULER_SETTING', silent=True)
 
     sys.path.append(os.path.dirname(__file__))
+
+    # todo: need to refactor below configure setting
 
     # database action
     @click.command('init-db')
@@ -86,10 +88,12 @@ def create_app(test_config=None):
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auths.index'
-    
+
+    from workscheduler.applications.services import UserQuery
+
     @login_manager.user_loader
     def load_user(user_id):
-        return auths.load_user(user_id)
+        return UserQuery(get_db_session()).get_user(user_id)
     
     from flask_wtf import CSRFProtect
     
