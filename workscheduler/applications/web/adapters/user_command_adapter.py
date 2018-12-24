@@ -33,7 +33,14 @@ class UserCommandAdapter(UserCommand):
             belong, form.is_admin.data, form.is_operator.data
         )
     
-    def reset_password(self, form: UsersForm):
-        if not form.id.data:
+    def reset_password(self, request):
+        id = request.get('id')
+        if not id:
             raise ValueError()
-        super(UserCommandAdapter, self).reset_password(form.id.data)
+        super(UserCommandAdapter, self).reset_password(id)
+
+    def inactivate(self, request):
+        id = request.get('id')
+        if not id:
+            raise ValueError()
+        super(UserCommandAdapter, self).inactivate(id)

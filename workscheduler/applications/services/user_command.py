@@ -35,3 +35,7 @@ class UserCommand:
     def reset_password(self, id: str):
         user = UserQuery(self._session).get_user(id)
         user.reset_password()
+
+    def inactivate(self, id: str):
+        user = UserQuery(self._session).get_user(id)
+        user.is_inactivated = True

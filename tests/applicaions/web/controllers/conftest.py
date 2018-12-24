@@ -61,6 +61,9 @@ class UsersAction:
     def reset_password(self, id):
         return self._client.post('/users/reset_password', data=dict(id=id))
 
+    def inactivate(self, id):
+        return self._client.post('/users/inactivate', data=dict(id=id))
+
 
 @pytest.fixture
 def users(client):

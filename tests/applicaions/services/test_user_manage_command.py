@@ -52,3 +52,15 @@ class TestUserManageCommand:
         assert count == len(user_repository.get_users())
         session.refresh(user)
         assert 'p' + user.login_id == user.password
+
+    def test_inactivate(self, user_manage_command, session):
+        user_repository = UserQuery(session)
+        users = user_repository.get_users()
+        count = len(users)
+        user = users[0]
+        assert not user.is_inactivated
+        user_manage_command.inactivate(user.id)
+        session.commit()
+        assert count == len(user_repository.get_users())
+        session.refresh(user)
+        assert user.is_inactivated

@@ -1,26 +1,30 @@
 {% extends "layout.html" %}
 {% block body %}
 <h2>Users</h2>
-<div class="table-responsive">
+<div class="table-responsive" style="height: 35vh">
     <table class="table" id="user-table">
         <thead>
             <tr>
                 <th>login id</th>
                 <th>name</th>
+                <th>belong</th>
                 <th>is admin</th>
                 <th>is operator</th>
+                <th>is inactivated</th>
             </tr>
         </thead>
         <tbody>
             {% for user in users %}
             <tr role="row" data-id="{{ user.id }}" data-login_id="{{ user.login_id }}"
                 data-name="{{ user.name }}" data-belong_id="{{ user.belong.id }}"
-                data-is_admin="{{ user.is_admin }}" data-is_operator="{{ user.is_operator }}">
+                data-is_admin="{{ user.is_admin }}" data-is_operator="{{ user.is_operator }}"
+                data-is_inactivated="{{ user.is_inactivated }}">
                 <td>{{ user.login_id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.belong.name }}</td>
                 <td>{{ user.is_admin }}</td>
                 <td>{{ user.is_operator }}</td>
+                <td>{{ user.is_inactivated }}</td>
             </tr>
             {% else %}
             <tr><td>No users here so far.</td><td></td></tr>
@@ -64,10 +68,15 @@
     </div>
     <div class="row">
         <button class="btn btn-secondary col-md-2" type="reset" id="new">New User</button>
-        <button class="btn btn-primary col-md-6 offset-md-1" type="submit" id="store">Store User</button>
+        <button class="btn btn-primary col-md-5 offset-md-1" type="submit" id="store">Store User</button>
         <button class="btn btn-warning col-md-2 offset-md-1" type="button" id="reset">Reset Password</button>
+        <button class="btn btn-danger col-md-1" type="button" id="inactivate">Inactivate</button>
     </div>
 </form>
+{% endblock %}
+
+{% block css %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/users.css') }}" />
 {% endblock %}
 
 {% block script %}

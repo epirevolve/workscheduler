@@ -40,6 +40,7 @@ class TestUserRepository:
         assert 'ptest_login' == user.password
         assert 'tester' == user.name
         assert belong.id == user.belong.id
+        assert not user.is_inactivated
         assert not user.is_admin
         assert user.is_operator
 
