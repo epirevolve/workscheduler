@@ -34,12 +34,12 @@ def show_scheduler(belong_id: str, month_year: str):
 
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month'))
 
-    def create_date(d):
-        return CalendarDay(d, d.year != month_year.year or d.month != month_year.month)
+    def create_date(_date):
+        return CalendarDay(_date, _date.year != month_year.year or _date.month != month_year.month)
 
     calender = Calendar()
     calender.setfirstweekday(SUNDAY)
-    weeks = [[create_date(d) for d in w]
+    weeks = [[create_date(_date) for _date in w]
              for w in calender.monthdatescalendar(month_year.year, month_year.month)]
 
     belong_query = BelongQuery(get_db_session())
