@@ -42,7 +42,7 @@
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', login_id=current_user.login_id) }}">as user</a></li>
                     {% if current_user.is_admin %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_scheduler') }}">scheduler</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_scheduler', belong_id=default_belong_id, month_year=next_month) }}">scheduler</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_operators') }}">operators</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_users') }}">users</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('belongs.show_belongs') }}">belongs</a></li>

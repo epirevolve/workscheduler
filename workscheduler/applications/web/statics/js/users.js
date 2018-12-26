@@ -4,6 +4,12 @@
 import { AlertManager } from './alert-helper.js';
 
 (function () {
+    let setButtonsDisability = function (bool) {
+        $('#reset').prop('disabled', bool);
+        $('#store').prop('disabled', bool);
+        $('#inactivate').prop('disabled', bool);
+    }
+
     $(document).ready(function () {
         $('#user-table tbody tr').click(function(){
             $('form[name="user_form"]').attr('action', '/users/update_user');
@@ -15,10 +21,17 @@ import { AlertManager } from './alert-helper.js';
             $('select[name="belong"]').val($this.data('belong_id'));
             $('input[name="is_admin"]').prop('checked', ($this.data('is_admin') == 'True'));
             $('input[name="is_operator"]').prop('checked', ($this.data('is_operator') == 'True'));
+
+            if ($this.data('is_inactivated') == 'True'){
+                setButtonsDisability(true);
+            } else {
+                setButtonsDisability(false);
+            }
         });
 
         $('#new').click(function () {
             $('form[name="user_form"]').attr('action', '/users/append_user');
+            setButtonsDisability(false);
         });
 
         $('#reset').click(function () {

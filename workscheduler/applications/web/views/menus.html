@@ -14,7 +14,7 @@
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/schedules.svg') }}" />
             <div class="card-body">
-                <h3 class="card-title">Work Scheduler</h3>
+                <h3 class="card-title">Work Schedules</h3>
                 {% if current_user.is_admin %}
                     <span class="card-text">Create or Show a work schedule</span>
                 {% else %}
@@ -53,8 +53,18 @@
         </div>
     </a>
 </div>
+<hr />
 {% if current_user.is_admin %}
 <div class="card-deck">
+    <a href="{{ url_for('schedules.show_scheduler', belong_id=default_belong_id, month_year=next_month) }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler.svg') }}" />
+            <div class="card-body">
+                <h3 class="card-title">Scheduler</h3>
+                <span class="card-text">Can set option for making work scheduler and only one click to make schedule.</span>
+            </div>
+        </div>
+    </a>
     <a href="{{ url_for('operators.show_operators') }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/operators.svg') }}" />

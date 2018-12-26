@@ -5,7 +5,7 @@ from calendar import (
 )
 from collections import namedtuple
 from datetime import (
-    datetime, date, timedelta,
+    datetime, date
 )
 from flask import (
     Blueprint, redirect, url_for,
@@ -41,14 +41,12 @@ def show_my_request(login_id, month_year):
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
                                              'notices', 'requests'))
 
-    def is_between(date, start, end):
-        return start.date() <= date <= end.date()
+    def is_between(d, s, e):
+        return s.date() <= d <= e.date()
 
-    def create_date(date, notices):
-        return CalendarDay(date, date.year != month_year.year or date.month != month_year.month,
-                           notices,
-                           [request for request in operator.requests
-                            if is_between(date, request.at_from, request.at_to)])
+    def create_date(d, n):
+        return CalendarDay(d, d.year != month_year.year or d.month != month_year.month, n,
+                           [r for r in operator.requests if is_between(date, r.at_from, r.at_to)])
     calender = Calendar()
     calender.setfirstweekday(SUNDAY)
     weeks = [[create_date(_date, None) for _date in week]

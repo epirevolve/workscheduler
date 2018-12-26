@@ -1,29 +1,107 @@
 {% extends "layout.html" %}
 {% block body %}
 <form method="post">
-    <button type="button" class="scheduler-option expander m-3" data-toggle="collapse" data-target="#option">
-        {{ team_name }}
-    </button>
-    <div id="option" class="collapse m-3">
+    <select class="custom-select mt-3" name="belong">
+        {% for belong in belongs %}
+            <option value="{{ belong.id }}"
+                {% if belong.id==selected_belong.id %}selected{% endif %}>{{ belong.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" class="btn btn-link mt-0 mb-3" data-toggle="collapse" data-target="#option">Options</button>
+    <div id="option" class="collapse mt-0 mb-3 p-2">
         <div class="custom-control-inline">
-            <div class="m-2 custom-control custom-checkbox">
+            <div class="m-1 custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="does_use_certified_skill" name="does_use_certified_skill">
                 <label class="custom-control-label" for="does_use_certified_skill">Does use certified skill</label>
             </div>
-            <div class="m-2 custom-control custom-checkbox">
+            <div class="m-1 custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="does_use_not_certified_skill" name="does_use_not_certified_skill">
                 <label class="custom-control-label" for="does_use_not_certified_skill">Does use not certified skill</label>
             </div>
-            <div class="m-2 custom-control custom-checkbox">
+            <div class="m-1 custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="is_there_night_time" name="is_there_night_time">
                 <label class="custom-control-label" for="is_there_night_time">Is there night time</label>
             </div>
         </div>
+        <div class="input-group m-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Team in a day</span>
+            </div>
+            <select class="custom-select" name="belong">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        <div class="custom-control-inline">
+            <div class="input-group m-1">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Default member count for team A</span>
+                </div>
+                <input type="number" class="form-control" name="member_in_a">
+            </div>
+            <div class="input-group m-1">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Default member count for team B</span>
+                </div>
+                <input type="number" class="form-control" name="member_in_b">
+            </div>
+        </div>
     </div>
-    <div class="m-3">
-
+    <div class="p-3">
+        <div class="cl-header d-none d-md-block">
+            <div class="row">
+                <div class="cl-header-cell col">Sun</div>
+                <div class="cl-header-cell col">Mon</div>
+                <div class="cl-header-cell col">Tue</div>
+                <div class="cl-header-cell col">Wed</div>
+                <div class="cl-header-cell col">Thu</div>
+                <div class="cl-header-cell col">Fri</div>
+                <div class="cl-header-cell col">Sat</div>
+            </div>
+        </div>
+        <div class="cl-body">
+            {% for week in weeks %}
+            <div class="row">
+                {% for day in week %}
+                <div class="cl-body-cell col
+                    {% if day.outer_month %}outer-month-cell{% endif %}"
+                    data-date="{{ day.date }}"  >
+                    <div>
+                        <span class="cl-day">{{ day.date.day }}</span>
+                    </div>
+                    <div class="event-container" id="events-{{ day.date.strftime('%Y%m%d') }}">
+                        <div class="input-group p-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">For A</span>
+                            </div>
+                            <select class="custom-select" name="countOfA">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="input-group p-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">For B</span>
+                            </div>
+                            <select class="custom-select" name="countOfB">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    <button class="btn btn-danger btn-block m-3">Create Work Schedule</button>
+    <button class="btn btn-danger btn-block bt-3">Create Work Schedule</button>
 </form>
 {% endblock %}
 

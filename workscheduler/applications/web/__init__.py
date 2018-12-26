@@ -12,6 +12,7 @@ from flask import (
 from flask.cli import with_appcontext
 from jinja2 import FileSystemLoader
 from workscheduler.infrastructures import Database
+from workscheduler.applications.services import BelongQuery
 
 
 def get_db_session(echo=False):
@@ -108,5 +109,10 @@ def create_app(test_config=None):
             return (date.today().replace(day=1) + timedelta(days=32)).strftime('%Y-%m')
 
         app.jinja_env.globals['next_month'] = get_next_month()
+
+        def get_default_belong():
+            return BelongQuery(get_db_session()).get_belongs()[1]
+
+        app.jinja_env.globals['default_belong_id'] = get_default_belong().id
 
     return app
