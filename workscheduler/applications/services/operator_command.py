@@ -19,9 +19,9 @@ class OperatorCommand:
         operator.requests.append(request)
         return request
     
-    def update_myself(self, id: str, skill_ids: [str]):
+    def update_myself(self, operator_id: str, skill_ids: [str]):
         operator_query = OperatorQuery(self._session)
-        operator = operator_query.get_operator(id)
+        operator = operator_query.get_operator(operator_id)
         skill_query = SkillQuery(self._session)
         certified_skills = [x for x in skill_query.get_certified_skills() if x.id in skill_ids]
         operator.certified_skills = certified_skills

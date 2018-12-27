@@ -11,7 +11,7 @@ class TestOperatorRepository:
     def test_get_skills(self, session):
         skill_repository = SkillQuery(session)
         skills = skill_repository.get_skills()
-        assert 3 == len(skills)
+        assert 4 == len(skills)
         skill = skills[0]
         assert 'ccna' == skill.name
         assert 1 == skill.score

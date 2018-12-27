@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from calendar import (
-    Calendar, SUNDAY
+    Calendar, SUNDAY, day_abbr
 )
 from collections import namedtuple
 from datetime import (
@@ -32,21 +32,23 @@ def show_scheduler(belong_id: str, month_year: str):
     if month_year and not isinstance(month_year, date):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
 
-    CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month'))
-
-    def create_date(_date):
-        return CalendarDay(_date, _date.year != month_year.year or _date.month != month_year.month)
+    CalendarDay = namedtuple('CalendarDay', ('day', 'week_day'))
 
     calender = Calendar()
+
+    def create_date(_date):
+        return CalendarDay(_date.day, day_abbr[_date.weekday()])
+
     calender.setfirstweekday(SUNDAY)
-    weeks = [[create_date(_date) for _date in w]
-             for w in calender.monthdatescalendar(month_year.year, month_year.month)]
+    date_set = [create_date(_date) for week in calender.monthdatescalendar(month_year.year, month_year.month)
+                for _date in week if _date.year == month_year.year and _date.month == month_year.month]
 
     belong_query = BelongQuery(get_db_session())
     default_belong = belong_query.get_default_belong()
     belongs = [b for b in belong_query.get_belongs() if not b.id == default_belong.id]
     belong = belong_query.get_belong(belong_id)
-    return render_template('scheduler.html', selected_belong=belong, belongs=belongs, weeks=weeks)
+    return render_template('scheduler.html', selected_belong=belong, belongs=belongs,
+                           month_year=month_year, date_set=date_set)
 
 
 @bp.route('/schedules/create_schedule/<belong_id>')

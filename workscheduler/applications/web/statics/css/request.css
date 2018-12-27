@@ -30,6 +30,7 @@
 .cl-header-cell {
     box-sizing: content-box;
     text-align: center;
+    font-size: larger;
 }
 
 .cl-body {
