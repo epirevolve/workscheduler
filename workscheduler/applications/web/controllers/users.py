@@ -3,7 +3,7 @@
 from flask import (
     Blueprint, redirect,
     url_for, render_template, flash,
-    Response
+    Response, request
 )
 from flask_login import (
     login_required, current_user
@@ -27,9 +27,9 @@ def show_myself(login_id):
     return render_template('user.html', form=UserForm(obj=current_user))
 
 
-@bp.route('/users/store_myself', methods=['POST'])
+@bp.route('/users/update_myself', methods=['POST'])
 @login_required
-def store_myself():
+def update_myself():
     session = get_db_session()
     UserCommandAdapter(session).update_myself(UserForm())
     session.commit()
@@ -85,9 +85,28 @@ def reset_password():
 
     session = get_db_session()
     try:
-        UserCommandAdapter(session).reset_password(UsersForm())
+        UserCommandAdapter(session).reset_password(request.form)
         session.commit()
     
+        response.status_code = 200
+    except Exception as e:
+        print(e)
+        response.status_code = 400
+        session.rollback()
+    return response
+
+
+@bp.route('/users/inactivate', methods=['POST'])
+@login_required
+@admin_required
+def inactivate():
+    response = Response()
+
+    session = get_db_session()
+    try:
+        UserCommandAdapter(session).inactivate(request.form)
+        session.commit()
+
         response.status_code = 200
     except Exception as e:
         print(e)

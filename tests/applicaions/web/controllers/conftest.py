@@ -30,8 +30,8 @@ class UserAction:
     def show_myself(self, login_id):
         return self._client.get('/users/show_myself/' + login_id)
     
-    def store_myself(self, id, password, name):
-        return self._client.post('/users/store_myself', data=dict(id=id, password=password, name=name),
+    def update_myself(self, id, password, name):
+        return self._client.post('/users/update_myself', data=dict(id=id, password=password, name=name),
                                  follow_redirects=True)
 
 
@@ -48,18 +48,21 @@ class UsersAction:
     def show_users(self):
         return self._client.get('/users/show_users', follow_redirects=True)
     
-    def append_user(self, login_id, name, is_admin, is_operator):
-        return self._client.post('/users/append_user', data=dict(login_id=login_id, name=name,
+    def append_user(self, login_id, name, belong_id, is_admin, is_operator):
+        return self._client.post('/users/append_user', data=dict(login_id=login_id, name=name, belong=belong_id,
                                                                  is_admin=is_admin, is_operator=is_operator),
                                  follow_redirects=True)
     
-    def update_user(self, id, login_id, name, is_admin, is_operator):
-        return self._client.post('/users/update_user', data=dict(id=id, login_id=login_id, name=name,
+    def update_user(self, id, login_id, name, belong_id, is_admin, is_operator):
+        return self._client.post('/users/update_user', data=dict(id=id, login_id=login_id, name=name, belong=belong_id,
                                                                  is_admin=is_admin, is_operator=is_operator),
                                  follow_redirects=True)
     
     def reset_password(self, id):
         return self._client.post('/users/reset_password', data=dict(id=id))
+
+    def inactivate(self, id):
+        return self._client.post('/users/inactivate', data=dict(id=id))
 
 
 @pytest.fixture

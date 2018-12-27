@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 
+from datetime import (
+    date, timedelta
+)
 import os
 import sys
-from jinja2 import FileSystemLoader
 import click
 from flask import (
     Flask, g, current_app
 )
 from flask.cli import with_appcontext
+from jinja2 import FileSystemLoader
 from workscheduler.infrastructures import Database
+from workscheduler.applications.services import BelongQuery
 
 
 def get_db_session(echo=False):
@@ -31,7 +35,7 @@ def create_app(test_config=None):
     app.config.from_object(__name__)
 
     app.config.from_mapping(
-        SECRET_KEY='key secreted',
+        SECRET_KEY='jlk32dasf4562erHUI378sdf',
         DATABASE=os.path.join(app.instance_path, 'workscheduler.db')
     )
 
@@ -49,6 +53,8 @@ def create_app(test_config=None):
 
     sys.path.append(os.path.dirname(__file__))
 
+    # todo: need to refactor below configure setting
+
     # database action
     @click.command('init-db')
     @with_appcontext
@@ -61,7 +67,7 @@ def create_app(test_config=None):
     from .controllers import (
         auths, menus, schedules,
         operators, users, belongs,
-        skills
+        skills, teams
     )
 
     app.register_blueprint(auths.bp)
@@ -71,6 +77,7 @@ def create_app(test_config=None):
     app.register_blueprint(users.bp)
     app.register_blueprint(belongs.bp)
     app.register_blueprint(skills.bp)
+    app.register_blueprint(teams.bp)
 
     @app.errorhandler(404)
     def not_found(error):
@@ -82,14 +89,30 @@ def create_app(test_config=None):
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auths.index'
-    
+
+    from workscheduler.applications.services import UserQuery
+
     @login_manager.user_loader
     def load_user(user_id):
-        return auths.load_user(user_id)
+        return UserQuery(get_db_session()).get_user(user_id)
     
     from flask_wtf import CSRFProtect
     
     csrf = CSRFProtect()
     csrf.init_app(app)
-    
+
+    @app.before_first_request
+    def extend_jinja_env():
+        app.jinja_env.globals['today'] = date.today()
+
+        def get_next_month():
+            return (date.today().replace(day=1) + timedelta(days=32)).strftime('%Y-%m')
+
+        app.jinja_env.globals['next_month'] = get_next_month()
+
+        def get_default_belong():
+            return BelongQuery(get_db_session()).get_belongs()[1]
+
+        app.jinja_env.globals['default_belong_id'] = get_default_belong().id
+
     return app

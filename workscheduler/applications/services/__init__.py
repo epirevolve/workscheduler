@@ -3,9 +3,11 @@
 from .belong_query import BelongQuery
 from .operator_query import OperatorQuery
 from .skill_query import SkillQuery
+from .team_query import TeamQuery
 from .user_query import UserQuery
 
 from .auth_command import AuthCommand
 from .belong_command import BelongCommand
 from .operator_command import OperatorCommand
+from .team_command import TeamCommand
 from .user_command import UserCommand

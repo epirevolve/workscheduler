@@ -10,9 +10,9 @@ OrmBase = declarative_base()
 def validate(obj, key, value):
     if not value:
         raise AssertionError('no {} provided'.format(key))
-    type = getattr(obj, key).type
-    if hasattr(type, 'length'):
-        length = type.length
+    t = getattr(obj, key).type
+    if hasattr(t, 'length'):
+        length = t.length
         if length and len(value) > length:
             raise AssertionError('{} is less than {}'.format(key, length))
     return value

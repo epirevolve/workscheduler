@@ -26,6 +26,7 @@ class User(OrmBase, UserMixin):
     belong = relationship("Belong", uselist=False)
     is_admin = Column(Boolean, default=False)
     is_operator = Column(Boolean, default=True)
+    is_inactivated = Column(Boolean, default=False)
     create_at = Column(DateTime, server_default=current_timestamp())
 
     def __init__(self, id: str, login_id: str, name: str,
@@ -37,7 +38,8 @@ class User(OrmBase, UserMixin):
         self.belong = belong
         self.is_admin = is_admin
         self.is_operator = is_operator
-    
+        self.is_inactivated = False
+
     @validates('id', 'login_id', 'password', 'name')
     def validate(self, key, value):
         return super(User, self).validate(User, key, value)
