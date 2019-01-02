@@ -15,5 +15,6 @@ bp = Blueprint('skills', __name__)
 @login_required
 def show_skills():
     skill_repository = SkillQuery(get_db_session())
-    skills = skill_repository.get_skills()
-    return render_template('skills.html', skills=skills)
+    return render_template('skills.html',
+                           certified_skills=skill_repository.get_certified_skills(),
+                           not_certified_skills=skill_repository.get_not_certified_skills())

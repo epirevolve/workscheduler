@@ -51,34 +51,43 @@
     </div>
     <hr />
     <div class="p-3">
-        <div class="" id="month_year" data-month_year="{{ month_year }}">
+        <div id="month_year" data-month_year="{{ month_year }}">
             <h2>{{ month_year.strftime('%b %Y') }}</h2>
         </div>
-        <ul class="horizontal-list">
-            {% for date in date_set %}
-                <li class="horizontal-list-item">
-                    <div class="">
-                        <span class="">{{ date.day }}</span>
+        <div>
+            <ul class="horizontal-list">
+                {% for date in date_set %}
+                    <li class="horizontal-list-item">
+                        <div class="">
+                            <span class="">{{ date.day }}</span>
+                            <br />
+                            <span class="">{{ date.week_day }}</span>
+                        </div>
+                        <hr />
+                        <select class="custom-select custom-select-sm" name="countOfA">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
                         <br />
-                        <span class="">{{ date.week_day }}</span>
-                    </div>
-                    <hr />
-                    <select class="custom-select custom-select-sm" name="countOfA">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                    <br />
-                    <select class="custom-select custom-select-sm" name="countOfB">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </li>
-            {% endfor %}
-        </ul>
+                        <select class="custom-select custom-select-sm" name="countOfB">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <hr />
+    <div class="p-3">
+        <h2>Prefixed schedule</h2>
+        <div>
+
+        </div>
     </div>
     <hr />
     <button class="btn btn-danger btn-block bt-3">Create Work Schedule</button>

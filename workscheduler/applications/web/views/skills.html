@@ -1,26 +1,55 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="table-responsive">
-    <table class="table table-hover" id="skills" style="width:40rem">
-        <thead>
-            <tr>
-                <th>skill name</th>
-                <th>skill score</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for skill in skills %}
-            <tr>
-                <td><input type="text" name="name" class="form-control" value="{{ skill.name }}"></td>
-                <td><input type="text" name="score" class="form-control" value="{{ skill.score }}"></td>
-            </tr>
-            {% else %}
-            <tr>
-                <td>No skill sets here so far.</td><td></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="p-3">
+    <h2>Certified Skills</h2>
+    <div class="table-responsive">
+        <table class="table table-hover" id="certified-skills" style="width:40rem">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skill in certified_skills %}
+                <tr>
+                    <td>{{ skill.name }}</td>
+                    <td>{{ skill.score }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>No skill sets here so far.</td><td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr />
+<div class="p-3">
+    <h2>Not Certified Skills</h2>
+    <div class="table-responsive">
+        <table class="table table-hover" id="not-certified-skills" style="width:40rem">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skill in not_certified_skills %}
+                <tr>
+                    <td>{{ skill.name }}    </td>
+                    <td>{{ skill.score }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>No skill sets here so far.</td><td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
 
