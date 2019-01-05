@@ -118,12 +118,10 @@ import { AlertManager } from './alert-helper.js';
     }
 
     $(document).ready(function () {
-        $(document).ready(function(){
-            $('[data-toggle="popover"]').popover(
-            {
-                'html': true,
-                'placement': 'top'
-            });
+        $('[data-toggle="popover"]').popover(
+        {
+            'html': true,
+            'placement': 'top'
         });
 
         $(document).on('click', '#add-event', function () {

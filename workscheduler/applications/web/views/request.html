@@ -86,10 +86,12 @@
                 {% if day.outer_month %}outer-month-cell{% endif %}"
                 data-date="{{ day.date }}"  >
                 <div>
-                    <button class="add-event btn btn-danger btn-sm"
-                            id="add-event">
-                        <i class="fa fa-pencil-alt"></i>
-                    </button>
+                    {% if not day.outer_month %}
+                        <button class="add-event btn btn-danger btn-sm"
+                                id="add-event">
+                            <i class="fa fa-pencil-alt"></i>
+                        </button>
+                    {% endif %}
                     <span class="cl-day">{{ day.date.day }}</span>
                 </div>
                 <div class="event-container" id="events-{{ day.date.strftime('%Y%m%d') }}">

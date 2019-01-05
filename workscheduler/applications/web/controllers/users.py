@@ -23,7 +23,6 @@ bp = Blueprint('users', __name__)
 @bp.route('/users/show_myself/<login_id>')
 @login_required
 def show_myself(login_id):
-    form = UserForm(obj=current_user)
     return render_template('user.html', form=UserForm(obj=current_user))
 
 

@@ -1,13 +1,48 @@
 {% extends "layout.html" %}
 {% block body %}
+<div class="modal fade" id="skill-modal" tabindex="-1" role="dialog"
+     aria-labelledby="skillLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="title">Set skill</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <input type="hidden" id="skill-id">
+          <div class="input-group m-1">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">name</span>
+              </div>
+              <input type="text" class="form-control" id="skill-name">
+          </div>
+          <div class="input-group m-1">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">score</span>
+              </div>
+              <input type="number" class="form-control" id="skill-score" min="1" max="10" placeholder="please input between 1 and 10">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save-skill">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="p-3">
     <h2>Certified Skills</h2>
     <div class="table-responsive">
-        <table class="table table-hover" id="certified-skills" style="width:40rem">
+        <table class="table table-hover" id="certified-skills">
             <thead>
                 <tr>
                     <th>name</th>
-                    <th>score</th>
+                    <th style="width: 5rem">score</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -15,6 +50,20 @@
                 <tr>
                     <td>{{ skill.name }}</td>
                     <td>{{ skill.score }}</td>
+                    <td class="icon-column">
+                        <button class="btn btn-warning btn-sm"
+                                data-toggle="tooltip" title="edit"
+                                data-category="certified" data-id="{{ skill.id }}"
+                                data-name="{{ skill.name }}" data-score="{{ skill.score }}">
+                            <i class="fa fa-pencil-alt"></i>
+                        </button>
+                    </td>
+                    <td class="icon-column">
+                        <button class="btn btn-danger btn-sm"
+                                data-toggle="tooltip" title="remove">
+                            <i class="fa fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>
                 {% else %}
                 <tr>
@@ -24,23 +73,41 @@
             </tbody>
         </table>
     </div>
+    <button id="add-certified-skill" class="btn btn-info btn-block mt-3">Add New Skill</button>
 </div>
 <hr />
 <div class="p-3">
     <h2>Not Certified Skills</h2>
     <div class="table-responsive">
-        <table class="table table-hover" id="not-certified-skills" style="width:40rem">
+        <table class="table table-hover" id="not-certified-skills">
             <thead>
                 <tr>
                     <th>name</th>
-                    <th>score</th>
+                    <th style="width: 5rem">score</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for skill in not_certified_skills %}
                 <tr>
-                    <td>{{ skill.name }}    </td>
+                    <td>{{ skill.name }}</td>
                     <td>{{ skill.score }}</td>
+                    <td class="icon-column">
+                        <button class="btn btn-warning btn-sm"
+                                data-toggle="tooltip" title="edit"
+                                data-category="certified" data-id="{{ skill.id }}"
+                                data-name="{{ skill.name }}" data-score="{{ skill.score }}">
+                            <i class="fa fa-pencil-alt"></i>
+                        </button>
+                    </td>
+                    <td class="icon-column">
+                        <button class="btn btn-danger btn-sm"
+                                data-toggle="tooltip" title="remove"
+                                data-id="{{ skill.id }}">
+                            <i class="fa fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>
                 {% else %}
                 <tr>
@@ -50,24 +117,10 @@
             </tbody>
         </table>
     </div>
+    <button id="add-not-certified-skill" class="btn btn-info btn-block mt-3">Add New Skill</button>
 </div>
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
-    $('tbody').sortable();
-
-    $(document).ready(function(){
-        $("#skills").dblclick(function(){
-            $(this).find("tbody").append($("<tr>")
-                .append($("<td>")
-                    .append($("<input>").attr('type', 'text').attr('name', 'rank-name').addClass('form-control'))
-                )
-                .append($("<td>")
-                    .append($("<input>").attr('type', 'text').attr('name', 'rank-name').addClass('form-control'))
-                )
-            );
-        });
-    });
-</script>
+<script type="module" src="{{ url_for('static', filename='js/skills.js') }}"></script>
 {% endblock %}

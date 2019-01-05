@@ -12,3 +12,7 @@ input , select { width: 20rem; }
     outline: none;
     transition: 0.4s;
 }
+
+.icon-column {
+    width: 2rem;
+}
