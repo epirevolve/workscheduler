@@ -2,7 +2,8 @@
 
 from flask_wtf import FlaskForm
 from wtforms import (
-    StringField, BooleanField, HiddenField
+    StringField, BooleanField, HiddenField,
+    IntegerField
 )
 from workscheduler.applications.services import SkillQuery
 from .. import get_db_session
@@ -21,6 +22,7 @@ class SkillForm(FlaskForm):
 class OperatorForm(FlaskForm):
     id = HiddenField()
     all_certified_skills = []
+    remain_paid_holiday = IntegerField()
 
     def __init__(self, *args, **kwargs):
         all_certified_skills = SkillQuery(get_db_session()).get_certified_skills()

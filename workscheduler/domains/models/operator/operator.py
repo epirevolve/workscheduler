@@ -6,7 +6,9 @@ from sqlalchemy import (
 from sqlalchemy.orm import (
     relationship, validates
 )
-from sqlalchemy.types import String
+from sqlalchemy.types import (
+    String, Integer
+)
 from workscheduler.domains.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 from workscheduler.domains.models.user import User
@@ -40,6 +42,7 @@ class Operator(OrmBase):
     certified_skills = relationship("Skill", secondary=associated_skill_table)
     not_certified_skills = relationship("Skill", secondary=associated_skill_table)
     relations = relationship("Relation", secondary=associated_relation_table)
+    remain_paid_holiday = Column(Integer, default=0)
 
     @validates('id')
     def validate(self, key, value):
