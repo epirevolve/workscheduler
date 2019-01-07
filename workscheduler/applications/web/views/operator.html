@@ -19,6 +19,13 @@
 
     </div>
 
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Remain Paid Holiday</span>
+        </div>
+        <input type="number" class="form-control" name="remain_paid_holiday" value="{{ form.remain_paid_holiday.data }}">
+    </div>
+
     <button class="btn btn-primary btn-block" type="submit" id="store">Store Operator</button>
 </form>
 {% endblock %}

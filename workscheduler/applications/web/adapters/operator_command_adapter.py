@@ -28,5 +28,6 @@ class OperatorCommandAdapter(OperatorCommand):
         if not validate_form(form):
             raise ValueError()
         super(OperatorCommandAdapter, self).update_myself(
-            form.id.data, [x.id.data for x in form.all_certified_skills if x.is_obtain.data]
+            form.id.data, [x.id.data for x in form.all_certified_skills if x.is_obtain.data],
+            form.remain_paid_holiday.data
         )
