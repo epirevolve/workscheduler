@@ -9,43 +9,51 @@
     </select>
     <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#option">Options</button>
     <div id="option" class="collapse p-2">
-        <div class="custom-control-inline">
+        <div class="custom-control-inline mb-3">
             <div class="m-1 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="does_use_certified_skill" name="does_use_certified_skill">
-                <label class="custom-control-label" for="does_use_certified_skill">Does use certified skill</label>
+                <input type="checkbox" class="custom-control-input" id="certified_skill" name="certified_skill">
+                <label class="custom-control-label" for="certified_skill">Certified skill</label>
             </div>
             <div class="m-1 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="does_use_not_certified_skill" name="does_use_not_certified_skill">
-                <label class="custom-control-label" for="does_use_not_certified_skill">Does use not certified skill</label>
-            </div>
-            <div class="m-1 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="is_there_night_time" name="is_there_night_time">
-                <label class="custom-control-label" for="is_there_night_time">Is there night time</label>
+                <input type="checkbox" class="custom-control-input" id="not_certified_skill" name="not_certified_skill">
+                <label class="custom-control-label" for="not_certified_skill">Not certified skill</label>
             </div>
         </div>
-        <div class="input-group m-1">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Team in a day</span>
-            </div>
-            <select class="custom-select" name="belong">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-        </div>
-        <div class="custom-control-inline">
-            <div class="input-group m-1">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Default count for A</span>
+        <div class="card-columns">
+            <div class="card">
+                <div class="card-header">日勤帯</div>
+                <div class="card-body">
+                    <div class="input-group m-1 mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Default Count</span>
+                        </div>
+                        <input type="number" class="form-control" name="member_in_a">
+                    </div>
+                    <div class="m-1 custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="rest_next_day" name="rest_next_day">
+                        <label class="custom-control-label" for="rest_next_day">Rest Next Day</label>
+                    </div>
+                    <hr>
+                    <div class="custom-control-inline">
+                        {% for skill in skills %}
+                            <div class="m-1 custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="{{ skill.id }}" name="{{ skill.id }}">
+                                <label class="custom-control-label" for="{{ skill.id }}">{{ skill.name }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <input type="number" class="form-control" name="member_in_a">
             </div>
-            <div class="input-group m-1">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Default count for B</span>
+            <div class="card">
+                <div class="card-header">夜間帯</div>
+                <div class="card-body">
+                    <div class="input-group m-1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Require Count</span>
+                        </div>
+                        <input type="number" class="form-control" name="member_in_a">
+                    </div>
                 </div>
-                <input type="number" class="form-control" name="member_in_b">
             </div>
         </div>
     </div>

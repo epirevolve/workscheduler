@@ -16,21 +16,18 @@ from workscheduler.domains.models.user import User
 associated_request_table\
     = Table("associated_request", OrmBase.metadata,
             Column('left_id', String, ForeignKey('operators.id')),
-            Column('right_id', String, ForeignKey('requests.id'))
-            )
+            Column('right_id', String, ForeignKey('requests.id')))
 
 associated_skill_table\
     = Table("associated_skill", OrmBase.metadata,
             Column('left_id', String, ForeignKey('operators.id')),
-            Column('right_id', String, ForeignKey('skills.id'))
-            )
+            Column('right_id', String, ForeignKey('skills.id')))
 
 
 associated_relation_table\
     = Table("associated_relation", OrmBase.metadata,
             Column('left_id', String, ForeignKey('operators.id')),
-            Column('right_id', String, ForeignKey('relations.id'))
-            )
+            Column('right_id', String, ForeignKey('relations.id')))
 
 
 class Operator(OrmBase):
@@ -44,10 +41,6 @@ class Operator(OrmBase):
     relations = relationship("Relation", secondary=associated_relation_table)
     remain_paid_holiday = Column(Integer, default=0)
 
-    @validates('id')
-    def validate(self, key, value):
-        return super(Operator, self).validate(Operator, key, value)
-    
     def __init__(self, id: str, user: User):
         self.id = id
         self.user = user
@@ -55,7 +48,11 @@ class Operator(OrmBase):
         self.certified_skills = []
         self.not_certified_skills = []
         self.relations = []
-    
+
+    @validates('id')
+    def validate(self, key, value):
+        return super(Operator, self).validate(Operator, key, value)
+
     @staticmethod
     def new_operator(user: User):
         operator = Operator(UuidFactory.new_uuid(), user)

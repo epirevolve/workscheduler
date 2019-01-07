@@ -11,7 +11,9 @@ from flask import (
     Blueprint, render_template
 )
 from flask_login import login_required
-from workscheduler.applications.services import BelongQuery
+from workscheduler.applications.services import (
+    BelongQuery, SkillQuery
+)
 from .. import get_db_session
 from . import admin_required
 
@@ -42,13 +44,18 @@ def show_scheduler(belong_id: str, month_year: str):
     calender.setfirstweekday(SUNDAY)
     date_set = [create_date(_date) for week in calender.monthdatescalendar(month_year.year, month_year.month)
                 for _date in week if _date.year == month_year.year and _date.month == month_year.month]
-
-    belong_query = BelongQuery(get_db_session())
+    
+    session = get_db_session()
+    
+    belong_query = BelongQuery(session)
     default_belong = belong_query.get_default_belong()
     belongs = [b for b in belong_query.get_belongs() if not b.id == default_belong.id]
     belong = belong_query.get_belong(belong_id)
+    
+    skill_query = SkillQuery(session)
+    
     return render_template('scheduler.html', selected_belong=belong, belongs=belongs,
-                           month_year=month_year, date_set=date_set)
+                           month_year=month_year, date_set=date_set, skills=skill_query.get_skills())
 
 
 @bp.route('/schedules/create_schedule/<belong_id>')
