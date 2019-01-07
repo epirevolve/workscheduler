@@ -1,13 +1,4 @@
 {% extends "layout.html" %}
-{% block css %}
-<style>
-    a, a:hover, a:visited { text-decoration: none; color: black; }
-    .card-deck .card { height: 100%; width: 18rem; }
-    .card img { padding: 0.5rem; }
-    .card { margin: 0rem; }
-    a { margin: 1rem 0.5rem; }
-</style>
-{% endblock %}
 {% block body %}
 <div class="card-deck">
     <a href="{{ url_for('schedules.show_schedules') }}">
@@ -29,7 +20,7 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/request.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Shift Request</h3>
-                <span class="card-text">Request a date when I can't work on.</span>
+                <span class="card-text">Request a date when I can't work on</span>
             </div>
         </div>
     </a>
@@ -38,7 +29,7 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/operator.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">As Operator</h3>
-                <span class="card-text">Set your skills and relations.</span>
+                <span class="card-text">Set your skills and relations</span>
             </div>
         </div>
     </a>
@@ -48,7 +39,7 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/user.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">As User</h3>
-                <span class="card-text">Show my info and can change your personal info.</span>
+                <span class="card-text">Show my info and can change your personal info</span>
             </div>
         </div>
     </a>
@@ -61,7 +52,7 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Scheduler</h3>
-                <span class="card-text">Can set option for making work scheduler and only one click to make schedule.</span>
+                <span class="card-text">Can make schedule.</span>
             </div>
         </div>
     </a>
@@ -112,4 +103,8 @@
     </a>
 </div>
 {% endif %}
+{% endblock %}
+
+{% block css %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/menu.css') }}" />
 {% endblock %}
