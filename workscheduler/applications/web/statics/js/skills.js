@@ -9,7 +9,8 @@ import { AlertManager } from './alert-helper.js';
     let modalAddSkill = function (title) {
         let modalContainer = $('#skill-modal');
         modalContainer.find('#title').text(title);
-
+        modalContainer.find('#skill-name').val();
+        modalContainer.find('#skill-score').val(1);
         modalContainer.modal();
     };
 

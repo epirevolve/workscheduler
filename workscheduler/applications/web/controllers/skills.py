@@ -24,13 +24,10 @@ def show_skills():
                            not_certified_skills=skill_repository.get_not_certified_skills())
 
 
-@bp.route('/skills/append_certified_skill', methods=['POST'])
-@login_required
-@admin_required
-def append_certified_skill():
+def _append_skill(adapter_function):
     session = get_db_session()
     try:
-        req = SkillCommandAdapter(session).append_certified_skill(request.form)
+        req = adapter_function(SkillCommandAdapter(session))(request.form)
         session.commit()
 
         response = jsonify({
@@ -46,27 +43,17 @@ def append_certified_skill():
         response = jsonify()
         response.status_code = 400
     return response
+
+
+@bp.route('/skills/append_certified_skill', methods=['POST'])
+@login_required
+@admin_required
+def append_certified_skill():
+    return _append_skill(lambda x: lambda y: x.append_certified_skill(y))
 
 
 @bp.route('/skills/append_not_certified_skill', methods=['POST'])
 @login_required
 @admin_required
 def append_not_certified_skill():
-    session = get_db_session()
-    try:
-        req = SkillCommandAdapter(session).append_not_certified_skill(request.form)
-        session.commit()
-
-        response = jsonify({
-            'skillId': req.id,
-            'skillName': req.name,
-            'skillScore': req.score,
-            'skillIsCertified': req.is_certified
-        })
-        response.status_code = 200
-    except Exception as e:
-        session.rollback()
-        print(e)
-        response = jsonify()
-        response.status_code = 400
-    return response
+    return _append_skill(lambda x: lambda y: x.append_not_certified_skill(y))
