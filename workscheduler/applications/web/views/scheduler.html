@@ -29,19 +29,23 @@
                         </div>
                         <input type="number" class="form-control" name="member_in_a">
                     </div>
-                    <div class="m-1 custom-control custom-checkbox">
+                    <div class="m-1 mb-3 custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="rest_next_day" name="rest_next_day">
                         <label class="custom-control-label" for="rest_next_day">Rest Next Day</label>
                     </div>
-                    <hr>
-                    <div class="custom-control-inline">
+                    <h3>Essential Skills</h3>
+                    <ul class="horizontal-list">
                         {% for skill in skills %}
-                            <div class="m-1 custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="{{ skill.id }}" name="{{ skill.id }}">
-                                <label class="custom-control-label" for="{{ skill.id }}">{{ skill.name }}</label>
-                            </div>
+                            <li class="horizontal-list-item no-border">
+                                <div class="m-1 custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="{{ skill.id }}" name="{{ skill.id }}">
+                                    <label class="custom-control-label" for="{{ skill.id }}">{{ skill.name }}</label>
+                                </div>
+                            </li>
                         {% endfor %}
-                    </div>
+                    </ul>
+                    <hr>
+                    <button type="button" class="btn btn-danger btn-block">Remove</button>
                 </div>
             </div>
             <div class="card">
@@ -66,7 +70,7 @@
             <ul class="horizontal-list">
                 {% for date in date_set %}
                     <li class="horizontal-list-item">
-                        <div class="">
+                        <div>
                             <span class="">{{ date.day }}</span>
                             <br />
                             <span class="">{{ date.week_day }}</span>

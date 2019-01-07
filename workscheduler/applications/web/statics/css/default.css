@@ -16,3 +16,7 @@ input , select { width: 20rem; }
 .icon-column {
     width: 2rem;
 }
+
+input[type="checkbox"] {
+    width: auto;
+}
