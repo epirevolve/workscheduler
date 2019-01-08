@@ -26,3 +26,21 @@
 .dropped-item {
     color: #666666;
 }
+
+table {
+    overflow-x: scroll;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+th, td {
+    font-weight: initial;
+    vertical-align: middle !important;
+    border: 0px !important;
+    border-right: solid 1px lightgray !important;
+    text-align: center;
+}
+
+select {
+    width: auto !important;
+}

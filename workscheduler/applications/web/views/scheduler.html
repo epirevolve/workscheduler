@@ -19,31 +19,48 @@
                     <h2>{{ month_year.strftime('%b %Y') }}</h2>
                 </div>
                 <div>
-                    <ul class="horizontal-list">
-                        {% for date in date_set %}
-                            <li class="horizontal-list-item">
-                                <div>
-                                    <span class="{{ date.week_day }}">{{ date.week_day }}</span>
-                                    <br />
-                                    <span>{{ date.day }}</span>
-                                </div>
-                                <hr />
-                                <select class="custom-select custom-select-sm" name="countOfA">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                                <br />
-                                <select class="custom-select custom-select-sm" name="countOfB">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                {% for date in date_set %}
+                                    <th>
+                                        <span class="{{ date.week_day }}">{{ date.week_day }}</span>
+                                        <br />
+                                        <span>{{ date.day }}</span>
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>日勤帯</th>
+                                {% for _ in date_set %}
+                                    <td>
+                                        <select class="custom-select custom-select-sm" name="countOfA">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th>夜間帯</th>
+                                {% for _ in date_set %}
+                                    <td>
+                                        <select class="custom-select custom-select-sm" name="countOfA">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <hr />
