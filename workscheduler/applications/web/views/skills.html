@@ -34,7 +34,12 @@
 </div>
 
 <div class="p-3">
-    <h2>Certified Skills</h2>
+    <div class="flex">
+        <h2>Certified Skills</h2>
+        <button id="add-certified-skill" class="btn btn-info btn-sm mt-1 ml-4 mb-3">
+            <i class="fa fa-pencil-alt"></i>
+        </button>
+    </div>
     <div class="table-responsive">
         <table class="table table-hover" id="certified-skills">
             <thead>
@@ -73,11 +78,15 @@
             </tbody>
         </table>
     </div>
-    <button id="add-certified-skill" class="btn btn-info btn-block mt-3">Add New Skill</button>
 </div>
 <hr />
 <div class="p-3">
-    <h2>Not Certified Skills</h2>
+    <div class="flex">
+        <h2>Not Certified Skills</h2>
+        <button id="add-not-certified-skill" class="btn btn-info btn-sm mt-1 ml-4 mb-3">
+            <i class="fa fa-pencil-alt"></i>
+        </button>
+    </div>
     <div class="table-responsive">
         <table class="table table-hover" id="not-certified-skills">
             <thead>
@@ -117,7 +126,6 @@
             </tbody>
         </table>
     </div>
-    <button id="add-not-certified-skill" class="btn btn-info btn-block mt-3">Add New Skill</button>
 </div>
 {% endblock %}
 

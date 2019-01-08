@@ -56,6 +56,11 @@
     visibility: hidden;
 }
 
+.event {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
 .add-event {
     float: left;
     margin: .3rem;

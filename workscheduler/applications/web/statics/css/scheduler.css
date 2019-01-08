@@ -14,3 +14,15 @@
 .no-border {
     border: 0px;
 }
+
+.Sun {
+    color: #dc3545;
+}
+
+.Sat {
+    color: #17a2b8;
+}
+
+.dropped-item {
+    color: #666666;
+}

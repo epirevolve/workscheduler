@@ -111,7 +111,7 @@ def create_app(test_config=None):
         app.jinja_env.globals['next_month'] = get_next_month()
 
         def get_default_belong():
-            return BelongQuery(get_db_session()).get_belongs()[1]
+            return BelongQuery(get_db_session()).get_default_belong()
 
         app.jinja_env.globals['default_belong_id'] = get_default_belong().id
 
