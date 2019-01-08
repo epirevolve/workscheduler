@@ -60,7 +60,7 @@
             <a class="navbar-brand" href="#">Work Scheduler</a>
             {% endif %}
         </nav>
-        <div class="container-fluid m-2" style="padding: 3rem" role="main">
+        <div class="container-fluid m-2 px-5 py-3" role="main">
             <div id="alert-container">
             {% for category, message in get_flashed_messages(with_categories=true) %}
                 {% if category == 'message' %}

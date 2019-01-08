@@ -5,12 +5,7 @@
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/schedules.svg') }}" />
             <div class="card-body">
-                <h3 class="card-title">Work Schedules</h3>
-                {% if current_user.is_admin %}
-                    <span class="card-text">Create or Show a work schedule</span>
-                {% else %}
-                    <span class="card-text">Show a work schedule</span>
-                {% endif %}
+                <h3 class="card-title">Schedules</h3>
             </div>
         </div>
     </a>
@@ -19,8 +14,7 @@
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/request.svg') }}" />
             <div class="card-body">
-                <h3 class="card-title">Shift Request</h3>
-                <span class="card-text">Request a date when I can't work on</span>
+                <h3 class="card-title">Requests</h3>
             </div>
         </div>
     </a>
@@ -29,7 +23,6 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/operator.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">As Operator</h3>
-                <span class="card-text">Set your skills and relations</span>
             </div>
         </div>
     </a>
@@ -39,7 +32,6 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/user.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">As User</h3>
-                <span class="card-text">Show my info and can change your personal info</span>
             </div>
         </div>
     </a>
@@ -52,7 +44,6 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Scheduler</h3>
-                <span class="card-text">Can make schedule.</span>
             </div>
         </div>
     </a>
@@ -61,7 +52,6 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/operators.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Operators</h3>
-                <span class="card-text">Modify operator belong and their skills</span>
             </div>
         </div>
     </a>
@@ -70,7 +60,6 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/users.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Users</h3>
-                <span class="card-text">Modify user info and reset their password</span>
             </div>
         </div>
     </a>
@@ -79,7 +68,6 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/belongs.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Belongs</h3>
-                <span class="card-text">Register belongs and this can be used for user</span>
             </div>
         </div>
     </a>
@@ -88,7 +76,6 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/skills.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Skills</h3>
-                <span class="card-text">Define skills what they are required</span>
             </div>
         </div>
     </a>
@@ -97,7 +84,6 @@
             <img class="card-img-top" src="{{ url_for('static', filename='img/group.svg') }}" />
             <div class="card-body">
                 <h3 class="card-title">Teams</h3>
-                <span class="card-text"></span>
             </div>
         </div>
     </a>
