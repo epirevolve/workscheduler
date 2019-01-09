@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from flask import (
-    Blueprint, request, redirect,
-    url_for, render_template, flash
+    Blueprint, redirect, url_for,
+    render_template, flash
 )
 from flask_login import (
     login_user, logout_user
@@ -30,7 +30,7 @@ def login():
     form = AuthForm()
     user = AuthCommandAdapter(get_db_session()).login(form)
     if not user:
-        flash('Invalid username or password', 'error')
+        flash('Invalid username or password, or inactivated user', 'error')
         return render_template('auth.html', form=form)
     login_user(user)
     flash('You were logged in')
