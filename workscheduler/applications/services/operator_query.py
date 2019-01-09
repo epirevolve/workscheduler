@@ -16,4 +16,5 @@ class OperatorQuery:
             .filter(Operator.user.has(User.id == user_id)).one()
     
     def get_operators(self):
-        return self._session.query(Operator).all()
+        return self._session.query(Operator)\
+            .filter(Operator.user.has(User.is_operator)).all()

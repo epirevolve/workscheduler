@@ -2,6 +2,10 @@
 'use strict';
 
 (function () {
+    let setRegulatedDate = function () {
+
+    }
+
     $(document).ready(function () {
         for (let draggable of $('.draggable'))
         {
@@ -32,6 +36,47 @@
                                 });
                 $span.appendTo($(this));
             }
+        });
+        $('#prefix').datetimepicker({
+            format: 'L'
+        });
+
+        $('button[name="add-category"]').click(function () {
+            let $card =
+                $('<div>')
+                    .addClass('card')
+                    .append(
+                        $('<div>')
+                            .addClass('card-header')
+                            .append(
+                                $('<h4>').append($('<input>').attr('type', 'text'))))
+                    .append(
+                        $('<div>')
+                            .addClass('card-body')
+                            .append(
+                                $('<div>')
+                                    .addClass('input-group m-1 mb-3')
+                                    .append(
+                                        $('<div>')
+                                            .addClass('input-group-prepend')
+                                            .append(
+                                                $('<span>')
+                                                    .addClass('input-group-text')
+                                                    .text('Default Count')))
+                                    .append(
+                                        $('<input>')
+                                            .attr('type', 'number')
+                                            .addClass('form-control')
+                                            .attr('min', '0')))
+                            .append(
+                                $('<div>')
+                                    .addClass('m-1 mb-3 custom-control custom-checkbox')
+                                    .append(
+                                        $('<input>')
+                                            .attr('type', 'checkbox')
+                                            .addClass('custom-control-input')
+                                            .attr('id', 'rest_next_day'))))
+
         });
     });
 })(jQuery);

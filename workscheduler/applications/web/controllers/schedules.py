@@ -12,7 +12,7 @@ from flask import (
 )
 from flask_login import login_required
 from workscheduler.applications.services import (
-    BelongQuery, SkillQuery
+    BelongQuery, SkillQuery, OperatorQuery
 )
 from .. import get_db_session
 from . import admin_required
@@ -53,9 +53,11 @@ def show_scheduler(belong_id: str, month_year: str):
     belong = belong_query.get_belong(belong_id)
     
     skill_query = SkillQuery(session)
+    operator_query = OperatorQuery(session)
     
     return render_template('scheduler.html', selected_belong=belong, belongs=belongs,
-                           month_year=month_year, date_set=date_set, skills=skill_query.get_skills())
+                           month_year=month_year, date_set=date_set, skills=skill_query.get_skills(),
+                           operators=operator_query.get_operators())
 
 
 @bp.route('/schedules/create_schedule/<belong_id>')

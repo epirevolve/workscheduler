@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.utils.uuid import UuidFactory
-from workscheduler.domains.models import OrmBase
-from sqlalchemy import Column, Table, ForeignKey
+from sqlalchemy import (
+    Column, Table, ForeignKey
+)
 from sqlalchemy.orm import relationship
-from sqlalchemy.types import String, DateTime
+from sqlalchemy.types import (
+    String, DateTime
+)
 from sqlalchemy.sql.functions import current_timestamp
+from workscheduler.domains.models import OrmBase
+from workscheduler.domains.utils.uuid import UuidFactory
 
 
 team_users\
@@ -29,7 +33,10 @@ class Team(OrmBase):
         self.team_category_id = team_category_id
         self.name = name
 
-class TeamFactory:
-    @classmethod
-    def register_a_test_team(cls, id: str, team_category_id: str, name: str):
+    @staticmethod
+    def new_test_team(id: str, team_category_id: str, name: str):
         return Team(id, team_category_id, name)
+
+    @staticmethod
+    def new_team(team_category_id: str, name: str):
+        return Team(UuidFactory.new_uuid(), team_category_id, name)

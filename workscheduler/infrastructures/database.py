@@ -41,31 +41,32 @@ class Database:
         session.add(Skill.new_not_certified_skill('夜間統制', 5))
         
         # sample data
-        from workscheduler.domains.models.team.team_category import TeamCategoryFactory
-        session.add(TeamCategoryFactory.register_a_test_team_category('1', 'Night Operation Team', allow_multiple_belonging=True, is_leader_required=False, min_member_count=0, max_member_count=3))
-        session.add(TeamCategoryFactory.register_a_test_team_category('2', 'Specific Operation Team', allow_multiple_belonging=False, is_leader_required=True, min_member_count=1, max_member_count=10))
+        from workscheduler.domains.models.team import TeamCategory
+        session.add(TeamCategory.new_test_team_category('1', 'Night Operation Team', allow_multiple_belong=True,
+                                                        is_leader_required=False, min_member_count=0, max_member_count=3))
+        session.add(TeamCategory.new_test_team_category('2', 'Specific Operation Team', allow_multiple_belong=False,
+                                                        is_leader_required=True, min_member_count=1, max_member_count=10))
 
         # sample data
-        from workscheduler.domains.models.team.team import TeamFactory
-        from workscheduler.domains.models.user.user import User
-        team = TeamFactory.register_a_test_team('1', '1', 'Team A')
+        from workscheduler.domains.models.team import Team
+        team = Team.new_test_team('1', '1', 'Team A')
         session.add(team)
-        team.users.append(User.new_member('test_user1', 'テストユーザ1', default, is_admin=False, is_operator=True))
-        team = TeamFactory.register_a_test_team('2', '2', 'Team B')
+        team.users.append(user_command.append_user('test_user1', 'テストユーザ1', default, is_admin=False, is_operator=True))
+        team = Team.new_test_team('2', '2', 'Team B')
         session.add(team)
-        team.users.append(User.new_member('test_user2', 'テストユーザ2', default, is_admin=False, is_operator=True))
-        team.users.append(User.new_member('test_user3', 'テストユーザ3', default, is_admin=False, is_operator=True))
-        team = TeamFactory.register_a_test_team('3', '2', 'Team C')
+        team.users.append(user_command.append_user('test_user2', 'テストユーザ2', default, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user3', 'テストユーザ3', default, is_admin=False, is_operator=True))
+        team = Team.new_test_team('3', '2', 'Team C')
         session.add(team)
-        team.users.append(User.new_member('test_user4', 'テストユーザ4', default, is_admin=False, is_operator=True))
-        team.users.append(User.new_member('test_user5', 'テストユーザ5', default, is_admin=False, is_operator=True))
-        team.users.append(User.new_member('test_user6', 'テストユーザ6', default, is_admin=False, is_operator=True))
-        team = TeamFactory.register_a_test_team('4', '2', 'Team D')
+        team.users.append(user_command.append_user('test_user4', 'テストユーザ4', default, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user5', 'テストユーザ5', default, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user6', 'テストユーザ6', default, is_admin=False, is_operator=True))
+        team = Team.new_test_team('4', '2', 'Team D')
         session.add(team)
-        team.users.append(User.new_member('test_user7', 'テストユーザ7', default, is_admin=False, is_operator=True))
-        team.users.append(User.new_member('test_user8', 'テストユーザ8', default, is_admin=False, is_operator=True))
-        team.users.append(User.new_member('test_user9', 'テストユーザ9', default, is_admin=False, is_operator=True))
-        team.users.append(User.new_member('test_user10', 'テストユーザ10', default, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user7', 'テストユーザ7', default, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user8', 'テストユーザ8', default, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user9', 'テストユーザ9', default, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user10', 'テストユーザ10', default, is_admin=False, is_operator=True))
 
         session.commit()
         session.close()
