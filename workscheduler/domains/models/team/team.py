@@ -34,9 +34,5 @@ class Team(OrmBase):
         self.name = name
 
     @staticmethod
-    def new_test_team(id: str, team_category_id: str, name: str):
-        return Team(id, team_category_id, name)
-
-    @staticmethod
     def new_team(team_category_id: str, name: str):
         return Team(UuidFactory.new_uuid(), team_category_id, name)

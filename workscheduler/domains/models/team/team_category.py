@@ -8,7 +8,7 @@ from sqlalchemy.types import (
 )
 from sqlalchemy.sql.functions import current_timestamp
 from workscheduler.domains.utils.uuid import UuidFactory
-from workscheduler.domains.models import OrmBase
+from .. import OrmBase
 
 
 class TeamCategory(OrmBase):
@@ -30,12 +30,6 @@ class TeamCategory(OrmBase):
         self.is_leader_required = is_leader_required
         self.min_member_count = min_member_count
         self.max_member_count = max_member_count
-
-    @staticmethod
-    def new_test_team_category(id: str, name: str, allow_multiple_belong: bool,
-                               is_leader_required: bool, min_member_count: int, max_member_count: int):
-        return TeamCategory(id, name, allow_multiple_belong,
-                            is_leader_required, min_member_count, max_member_count)
 
     @staticmethod
     def new_team_category(name: str, allow_multiple_belong: bool,

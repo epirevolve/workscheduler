@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
 <h2>Operators</h2>
-<div class="table-responsive">
-    <table class="table" id="user-table">
+<div class="table-responsive" style="height: 35vh">
+    <table class="table">
         <thead>
             <tr>
                 <th>name</th>
@@ -16,7 +16,7 @@
                 <td>{{ operator.user.belong.name }}</td>
             </tr>
             {% else %}
-            <tr><td>No users here so far.</td><td></td></tr>
+            <tr><td>No operators here so far.</td><td></td></tr>
             {% endfor %}
         </tbody>
     </table>

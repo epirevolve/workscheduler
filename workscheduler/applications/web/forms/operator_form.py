@@ -30,7 +30,7 @@ class OperatorForm(FlaskForm):
         self.all_certified_skills.clear()
 
         if 'obj' in kwargs:
-            obj = kwargs.get('obj', [])
+            obj = kwargs.get('obj')
             certified_skill_ids = [x.id for x in obj.certified_skills]
             
             for skill in all_certified_skills:
@@ -39,8 +39,7 @@ class OperatorForm(FlaskForm):
         
         for skill in all_certified_skills:
             self.all_certified_skills.append(
-                SkillForm(obj=skill, prefix='skill-{}'.format(skill.name)))
-
-        kwargs['all_certified_skills'] = all_certified_skills
+                SkillForm(obj=skill, prefix='skill-{}'.format(skill.id))
+            )
     
         super(OperatorForm, self).__init__(*args, **kwargs)

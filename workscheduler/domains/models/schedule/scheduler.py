@@ -23,22 +23,22 @@ associated_work_category_table\
 
 
 class Scheduler(OrmBase):
-    __tablenames__ = 'schedulers'
+    __tablename__ = 'schedulers'
     id = Column(String, primary_key=True)
     _belong_id = Column(String, ForeignKey('belongs.id'))
     belong = relationship("Belong", uselist=False)
-    use_certified_skills = Column(Boolean)
-    use_not_certified_skills = Column(Boolean)
+    certified_skill = Column(Boolean)
+    not_certified_skill = Column(Boolean)
     work_categories = relationship("WorkCategory", secondary=associated_work_category_table)
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id: str, belong: Belong,
-                 use_certified_skills: bool, use_not_certified_skills: bool,
+                 certified_skill: bool, not_certified_skill: bool,
                  work_categories: [WorkCategory]):
         self.id = id
         self.belong = belong
-        self.use_certified_skills = use_certified_skills
-        self.use_not_certified_skills = use_not_certified_skills
+        self.certified_skill = certified_skill
+        self.not_certified_skill = not_certified_skill
         self.work_categories = work_categories
     
     @validates("id, belong")
@@ -46,8 +46,8 @@ class Scheduler(OrmBase):
         return super(Scheduler, self).validate(Scheduler, key, value)
     
     @staticmethod
-    def new_scheduler(belong: Belong, use_certified_skills: bool, use_not_certified_skills: bool,
+    def new_scheduler(belong: Belong, certified_skill: bool, not_certified_skill: bool,
                       work_categories: [WorkCategory]):
         return Scheduler(UuidFactory.new_uuid(), belong,
-                         use_certified_skills, use_not_certified_skills,
+                         certified_skill, not_certified_skill,
                          work_categories)

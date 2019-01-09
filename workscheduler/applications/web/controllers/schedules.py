@@ -12,8 +12,10 @@ from flask import (
 )
 from flask_login import login_required
 from workscheduler.applications.services import (
-    BelongQuery, SkillQuery, OperatorQuery
+    BelongQuery, ScheduleQuery, SkillQuery,
+    OperatorQuery
 )
+from ..forms import SchedulerOptionForm
 from .. import get_db_session
 from . import admin_required
 
@@ -27,7 +29,25 @@ def show_schedules():
     return render_template('schedules.html')
 
 
-@bp.route('/schedules/show_scheduler/<belong_id>/<month_year>')
+@bp.route('/schedules/show_scheduler_option/<belong_id>')
+@login_required
+@admin_required
+def show_scheduler_option(belong_id: str):
+    session = get_db_session()
+    
+    belong_query = BelongQuery(session)
+    default_belong = belong_query.get_default_belong()
+    belongs = [b for b in belong_query.get_belongs() if not b.id == default_belong.id]
+    
+    skill_query = SkillQuery(session)
+    schedule_query = ScheduleQuery(session)
+    scheduler = schedule_query.get_scheduler_of_belong_id(belong_id)
+    
+    return render_template('scheduler_option.html', form=SchedulerOptionForm(obj=scheduler),
+                           belongs=belongs, skills=skill_query.get_skills())
+
+
+@bp.route('/schedules/show_scheduler/<belong_id>/<month_year>', methods=['POST'])
 @login_required
 @admin_required
 def show_scheduler(belong_id: str, month_year: str):
@@ -46,18 +66,11 @@ def show_scheduler(belong_id: str, month_year: str):
                 for _date in week if _date.year == month_year.year and _date.month == month_year.month]
     
     session = get_db_session()
-    
     belong_query = BelongQuery(session)
-    default_belong = belong_query.get_default_belong()
-    belongs = [b for b in belong_query.get_belongs() if not b.id == default_belong.id]
-    belong = belong_query.get_belong(belong_id)
-    
-    skill_query = SkillQuery(session)
     operator_query = OperatorQuery(session)
     
-    return render_template('scheduler.html', selected_belong=belong, belongs=belongs,
-                           month_year=month_year, date_set=date_set, skills=skill_query.get_skills(),
-                           operators=operator_query.get_operators())
+    return render_template('scheduler.html', belong=belong_query.get_belong(belong_id), month_year=month_year,
+                           date_set=date_set, operators=operator_query.get_operators())
 
 
 @bp.route('/schedules/create_schedule/<belong_id>')

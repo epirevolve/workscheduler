@@ -1,218 +1,109 @@
 {% extends "layout.html" %}
 {% block body %}
 <form method="post">
-    <select class="custom-select custom-select-lg mb-3" name="belong">
-        {% for belong in belongs %}
-            <option value="{{ belong.id }}" {% if belong.id==selected_belong.id %}selected{% endif %}>
-                {{ belong.name }}
-            </option>
-        {% endfor %}
-    </select>
-    <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Home</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#option">Option</a></li>
-    </ul>
-    <div class="tab-content">
-        <div id="home" class="tab-pane active p-4">
-            <div>
-                <div id="month_year" data-month_year="{{ month_year }}">
-                    <h2>{{ month_year.strftime('%b %Y') }}</h2>
-                </div>
-                <div id="date-set">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <td></td>
-                                {% for date in date_set %}
-                                    <th>
-                                        <span class="{{ date.week_day }}">{{ date.week_day }}</span>
-                                        <br />
-                                        <span>{{ date.day }}</span>
-                                    </th>
+    <div>
+        <h2>{{ selected_belong.name }}</h2>
+    </div>
+    <div id="month_year" data-month_year="{{ month_year }}">
+        <h2>{{ month_year.strftime('%b %Y') }}</h2>
+    </div>
+    <div id="date-set">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td></td>
+                    {% for date in date_set %}
+                        <th>
+                            <span class="{{ date.week_day }}">{{ date.week_day }}</span>
+                            <br />
+                            <span>{{ date.day }}</span>
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>日勤帯</th>
+                    {% for _ in date_set %}
+                        <td>
+                            <select class="custom-select custom-select-sm" name="countOfA">
+                                {% for i in range(1, 21) %}
+                                    <option value="{{ i }}" {% if i==7 %}selected{% endif%}>{{ i }}</option>
                                 {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>日勤帯</th>
-                                {% for _ in date_set %}
-                                    <td>
-                                        <select class="custom-select custom-select-sm" name="countOfA">
-                                            {% for i in range(1, 21) %}
-                                                <option value="{{ i }}" {% if i==7 %}selected{% endif%}>{{ i }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </td>
+                            </select>
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>夜間帯</th>
+                    {% for _ in date_set %}
+                        <td>
+                            <select class="custom-select custom-select-sm" name="countOfB">
+                                {% for i in range(1, 21) %}
+                                    <option value="{{ i }}" {% if i==3 %}selected{% endif%}>{{ i }}</option>
                                 {% endfor %}
-                            </tr>
-                            <tr>
-                                <th>夜間帯</th>
-                                {% for _ in date_set %}
-                                    <td>
-                                        <select class="custom-select custom-select-sm" name="countOfB">
-                                            {% for i in range(1, 21) %}
-                                                <option value="{{ i }}" {% if i==3 %}selected{% endif%}>{{ i }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </td>
-                                {% endfor %}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <hr />
-            <div>
-                <div class="flex">
-                    <h4>Prefixed schedule</h4>
-                    <button type="button" class="btn btn-info btn-small ml-4 mb-3">
-                        <i class="fa fa-pencil-alt"></i>
-                    </button>
-                </div>
-                <div class="row">
-                    <div class="card-columns col-md-10">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4><input type="text" value="いけりり研修"></h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="input-group m-1 mb-3 date" id="prefix" data-target-input="nearest">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Date</span>
-                                    </div>
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#prefix">
-                                    <div class="input-group-append" data-target="#prefix" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                                <div class="custom-control-inline mb-2">
-                                    <div class="m-1 custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="day-time1" name="day-time1">
-                                        <label class="custom-control-label" for="day-time1">日勤帯</label>
-                                    </div>
-                                    <div class="m-1 custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="day-time2" name="day-time2">
-                                        <label class="custom-control-label" for="day-time2">夜間帯</label>
-                                    </div>
-                                </div>
-                                <h5>Attend Member</h5>
-                                <div class="attend-member drop-region droppable ml-1">
-                                </div>
-                                <hr>
-                                <button type="button" class="btn btn-danger btn-block">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <ul class="list-group">
-                            {% for operator in operators %}
-                                <li data-id="{{ operator.id }}" class="list-group-item draggable">
-                                    {{ operator.user.name }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <button class="btn btn-warning btn-block bt-3">Create Work Schedule</button>
+                            </select>
+                        </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <div>
+        <div class="flex">
+            <h4>Prefixed schedule</h4>
+            <button type="button" class="btn btn-info btn-small ml-4 mb-3">
+                <i class="fa fa-pencil-alt"></i>
+            </button>
         </div>
-        <div id="option" class="tab-pane fade p-4">
-            <div class="custom-control-inline mb-3">
-                <div class="m-1 custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="certified_skill" name="certified_skill">
-                    <label class="custom-control-label" for="certified_skill">Certified skill</label>
-                </div>
-                <div class="m-1 custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="not_certified_skill" name="not_certified_skill">
-                    <label class="custom-control-label" for="not_certified_skill">Not certified skill</label>
-                </div>
-            </div>
-            <div class="flex">
-                <h4>Work Time Categories</h4>
-                <button type="button" class="btn btn-info btn-small ml-4 mb-3" name="add-category">
-                    <i class="fa fa-pencil-alt"></i>
-                </button>
-            </div>
-            <div class="row">
-                <div id="category-column" class="card-columns col-md-10">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><input type="text" value="日勤帯"></h4>
-                        </div>
-                        <div class="card-body">
-                            <div>
-                                <div class="input-group m-1 mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Default</span>
-                                    </div>
-                                    <input type="number" class="form-control" min="0" name="member_in_a" value="7">
-                                </div>
-                                <div class="input-group m-1 mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Holiday</span>
-                                    </div>
-                                    <input type="number" class="form-control" min="0" name="member_in_a" value="3">
-                                </div>
-                            </div>
-                            <div class="m-1 mb-3 custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="rest_next_day_a" name="rest_next_day_a">
-                                <label class="custom-control-label" for="rest_next_day_a">Rest Next Day</label>
-                            </div>
-                            <h5>Essential Skills</h5>
-                            <div class="essential-skill drop-region droppable ml-1">
-                            </div>
-                            <hr>
-                            <button type="button" class="btn btn-danger btn-block">Remove</button>
-                        </div>
+        <div class="row">
+            <div class="card-columns col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><input type="text" value="いけりり研修"></h4>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><input type="text" value="夜間帯"></h4>
+                    <div class="card-body">
+                        <div class="input-group m-1 mb-3 date" id="prefix" data-target-input="nearest">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Date</span>
+                            </div>
+                            <input type="text" class="form-control datetimepicker-input" data-target="#prefix">
+                            <div class="input-group-append" data-target="#prefix" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div>
-                                <div class="input-group m-1 mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Default</span>
-                                    </div>
-                                    <input type="number" class="form-control" min="0" name="member_in_a" value="3">
-                                </div>
-                                <div class="input-group m-1 mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Holiday</span>
-                                    </div>
-                                    <input type="number" class="form-control" min="0" name="member_in_a" value="3">
-                                </div>
+                        <div class="custom-control-inline mb-2">
+                            <div class="m-1 custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="day-time1" name="day-time1">
+                                <label class="custom-control-label" for="day-time1">日勤帯</label>
                             </div>
-                            <div class="m-1 mb-3 custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="rest_next_day_b" name="rest_next_day_b">
-                                <label class="custom-control-label" for="rest_next_day_b">Rest Next Day</label>
+                            <div class="m-1 custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="day-time2" name="day-time2">
+                                <label class="custom-control-label" for="day-time2">夜間帯</label>
                             </div>
-                            <h5>Essential Skills</h5>
-                            <div class="essential-skill drop-region droppable ml-1">
-                            </div>
-                            <hr>
-                            <button type="button" class="btn btn-danger btn-block">Remove</button>
                         </div>
+                        <h5>Attend Member</h5>
+                        <div class="attend-member drop-region droppable ml-1">
+                        </div>
+                        <hr>
+                        <button type="button" class="btn btn-danger btn-block">Remove</button>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <ul class="list-group">
-                        {% for skill in skills %}
-                            <li data-id="{{ skill.id }}" class="list-group-item draggable">
-                                {{ skill.name }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
             </div>
-            <div>
-                <button type="button" class="btn btn-primary btn-block">Save Permanently</button>
-                <p class="mt-3">* If you don't save these options, they will be temporary. Next time you open this page, you also need to set options again.</p>
+            <div class="col-md-2">
+                <ul class="list-group">
+                    {% for operator in operators %}
+                        <li data-id="{{ operator.id }}" class="list-group-item draggable">
+                            {{ operator.user.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
+    <hr />
+    <button class="btn btn-warning btn-block bt-3">Create Work Schedule</button>
 </form>
 {% endblock %}
 

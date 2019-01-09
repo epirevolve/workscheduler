@@ -11,5 +11,5 @@ from .. import OrmBase
 
 
 class Schedule(OrmBase):
-    __tablenames__ = "schedules"
+    __tablename__ = "schedules"
     id = Column(String, primary_key=True)

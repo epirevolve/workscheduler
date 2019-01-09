@@ -1,0 +1,12 @@
+.header input {
+    height: auto;
+}
+
+.list-group {
+    max-height: 22rem;
+    overflow-y: scroll;
+}
+
+.card-header input {
+    width: 100%;
+}

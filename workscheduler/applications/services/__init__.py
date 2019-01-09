@@ -2,6 +2,7 @@
 
 from .belong_query import BelongQuery
 from .operator_query import OperatorQuery
+from .schedule_query import ScheduleQuery
 from .skill_query import SkillQuery
 from .team_query import TeamQuery
 from .user_query import UserQuery

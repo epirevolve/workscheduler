@@ -13,6 +13,7 @@ from flask.cli import with_appcontext
 from jinja2 import FileSystemLoader
 from workscheduler.infrastructures import Database
 from workscheduler.applications.services import BelongQuery
+from .util import get_next_month
 
 
 def get_db_session(echo=False):
@@ -55,14 +56,22 @@ def create_app(test_config=None):
 
     # todo: need to refactor below configure setting
 
-    # database action
+    app.teardown_appcontext(close_db_session)
+
+    # cli action
     @click.command('init-db')
     @with_appcontext
     def init_db_command():
         Database(current_app.config['DATABASE']).init()
         click.echo('Initialized the database.')
-    app.teardown_appcontext(close_db_session)
     app.cli.add_command(init_db_command)
+    
+    @click.command('set-test-db')
+    @with_appcontext
+    def set_test_db_command():
+        Database(current_app.config['DATABASE']).set_test()
+        click.echo('Set the database to test.')
+    app.cli.add_command(set_test_db_command)
 
     from .controllers import (
         auths, menus, schedules,
@@ -104,14 +113,10 @@ def create_app(test_config=None):
     @app.before_first_request
     def extend_jinja_env():
         app.jinja_env.globals['today'] = date.today()
-
-        def get_next_month():
-            return (date.today().replace(day=1) + timedelta(days=32)).strftime('%Y-%m')
-
         app.jinja_env.globals['next_month'] = get_next_month()
 
         def get_default_belong():
-            return BelongQuery(get_db_session()).get_default_belong()
+            return next(filter(lambda x: not x.is_not_belong(), BelongQuery(get_db_session()).get_belongs()))
 
         app.jinja_env.globals['default_belong_id'] = get_default_belong().id
 
