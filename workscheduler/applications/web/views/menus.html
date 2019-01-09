@@ -4,7 +4,7 @@
     <a href="{{ url_for('schedules.show_schedules') }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/schedules.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">Schedules</h3>
             </div>
         </div>
@@ -13,7 +13,7 @@
     <a href="{{ url_for('operators.show_my_request', login_id=current_user.login_id, month_year=next_month) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/request.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">Requests</h3>
             </div>
         </div>
@@ -21,7 +21,7 @@
     <a href="{{ url_for('operators.show_myself', login_id=current_user.login_id) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/operator.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">As Operator</h3>
             </div>
         </div>
@@ -30,7 +30,7 @@
     <a href="{{ url_for('users.show_myself', login_id=current_user.login_id) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/user.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">As User</h3>
             </div>
         </div>
@@ -42,7 +42,7 @@
     <a href="{{ url_for('schedules.show_scheduler', belong_id=default_belong_id, month_year=next_month) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">Scheduler</h3>
             </div>
         </div>
@@ -50,7 +50,7 @@
     <a href="{{ url_for('operators.show_operators') }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/operators.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">Operators</h3>
             </div>
         </div>
@@ -58,7 +58,7 @@
     <a href="{{ url_for('users.show_users') }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/users.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">Users</h3>
             </div>
         </div>
@@ -66,7 +66,7 @@
     <a href="{{ url_for('belongs.show_belongs') }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/belongs.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">Belongs</h3>
             </div>
         </div>
@@ -74,7 +74,7 @@
     <a href="{{ url_for('skills.show_skills') }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/skills.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">Skills</h3>
             </div>
         </div>
@@ -82,7 +82,7 @@
     <a href="{{ url_for('teams.show_team_categories') }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/group.svg') }}" />
-            <div class="card-body">
+            <div class="card-footer">
                 <h3 class="card-title">Teams</h3>
             </div>
         </div>
