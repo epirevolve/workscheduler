@@ -15,7 +15,7 @@
                 <span class="input-group-text">Scheduler Of</span>
             </div>
             <input type="text" class="form-control datetimepicker-input" value="{{ form.schedule_of.data }}"
-                   name="schedule_of" data-target="#schedule-of">
+                   name="schedule-of" data-target="#schedule-of">
             <div class="input-group-append" data-target="#schedule-of" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
@@ -24,18 +24,18 @@
     <hr>
     <div class="custom-control-inline mb-3">
         <div class="m-1 mr-4 custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="certified_skill" name="certified_skill"
+            <input type="checkbox" class="custom-control-input" id="certified-skill" name="certified-skill"
                 {% if form.certified_skill.data %}checked{% endif %}>
-            <label class="custom-control-label" for="certified_skill">Certified skill</label>
+            <label class="custom-control-label" for="certified-skill">Certified skill</label>
         </div>
         <div class="m-1 custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="not_certified_skill" name="not_certified_skill"
+            <input type="checkbox" class="custom-control-input" id="not-certified-skill" name="not-certified-skill"
                 {% if form.not_certified_skill.data %}checked{% endif %}>
-            <label class="custom-control-label" for="not_certified_skill">Not certified skill</label>
+            <label class="custom-control-label" for="not-certified-skill">Not certified skill</label>
         </div>
     </div>
     <div class="flex">
-        <h4>Work Time Categories</h4>
+        <h4>Work Categories</h4>
         <button type="button" class="btn btn-info btn-small ml-4 mb-3" name="add-category">
             <i class="fa fa-pencil-alt"></i>
         </button>
@@ -43,7 +43,7 @@
     <div class="row">
         <div id="category-column" class="card-columns col-md-10">
             {% for work_category in form.work_categories %}
-                <div class="card">
+                <div class="card" data-id="{{ work_category.data.id }}">
                     <div class="card-header">
                         <h4><input type="text" name="{{ work_category.title.name }}" value="{{ work_category.title.data }}"></h4>
                     </div>
@@ -92,7 +92,11 @@
         </div>
     </div>
     <hr>
-    <button type="submit" class="btn btn-primary btn-block">Scheduler</button>
+    <div class="row m-1">
+        <button name="store-options" type="button" class="btn btn-primary btn-block"
+            data-action="{{ url_for('schedules.update_scheduler_option') }}"
+            data-redirect="/schedules/show_scheduler">Scheduler</button>
+    </div>
 </form>
 {% endblock %}
 

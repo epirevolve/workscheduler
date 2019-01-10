@@ -1,6 +1,8 @@
 ;
 'use strict';
 
+import { AlertManager } from './alert-helper.js';
+
 (function () {
     let removeDraggable = function ($this, $ui) {
         let $position = $ui.position;
@@ -49,7 +51,7 @@
                 $ui.helper.data('dropped', true);
                 $ui.helper.draggable({revert: true});
                 let id = $ui.draggable.data('id');
-                if ($(this).find(`span[data-id=${id}]`).length > 0) return;
+                if ($(this).find(`li[data-id=${id}]`).length > 0) return;
                 let $span =
                     $('<span>')
                         .data('id', id)
@@ -118,6 +120,38 @@
                                             .addClass('custom-control-input')
                                             .attr('id', 'rest_next_day'))))
 
+        });
+
+        let getFormData = function () {
+            let data = $('form').serialize();
+            let array = [];
+            $('#category-column').children('.card').map((_, card) => {
+                let $card = $(card);
+                array.push($card.data('id'));
+                $card.find('.essential-skill').find('span').each((index, skill) => {
+                    data += `&category-${$card.data('id')}-essential_skills-${index}=${$(skill).data('id')}`
+                });
+            });
+            data += `&work_categories=${array}`;
+            return data;
+        }
+
+        $('button[name="store-options"]').click(function () {
+            $.ajax({
+                url: $(this).data('action'),
+                type: 'POST',
+                data: getFormData()
+            })
+            .done((data) => {
+                let belong = $('select[name="belong"]').find('option:selected');
+                let monthYear = $('input[name="schedule-of"]').val();
+                location.href = `/schedules/show_scheduler/${$(belong).val()}/${monthYear}`;
+            })
+            .fail((data) => {
+                let alertManager = new AlertManager('#alert-container');
+                alertManager.append('Oops, Sorry we have some trouble with storing options...',
+                'alert-danger')
+            });
         });
     });
 })(jQuery);

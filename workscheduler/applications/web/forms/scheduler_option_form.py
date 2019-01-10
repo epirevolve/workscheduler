@@ -3,7 +3,8 @@
 from flask_wtf import FlaskForm
 from wtforms import (
     StringField, BooleanField, DateField,
-    IntegerField, Field, FieldList
+    IntegerField, Field, FieldList,
+    HiddenField
 )
 from wtforms.widgets import TextInput
 from wtforms.validators import (
@@ -24,6 +25,7 @@ class SkillField(Field):
 
 
 class WorkCategoryForm(FlaskForm):
+    id = HiddenField()
     title = StringField(validators=[DataRequired(), Length(max=WorkCategory.title.type.length)])
     default = IntegerField()
     holiday = IntegerField()
@@ -32,15 +34,6 @@ class WorkCategoryForm(FlaskForm):
     
     def __init__(self, *args, **kwargs):
         kwargs['csrf_enabled'] = False
-        
-        # if 'obj' in kwargs:
-        #     obj = kwargs.get('obj')
-        #
-        #     for skill in obj.essential_skills:
-        #         self.essential_skills.append(
-        #             SkillField(obj=skill)
-        #         )
-        
         super(WorkCategoryForm, self).__init__(*args, **kwargs)
 
 
@@ -66,10 +59,14 @@ class SchedulerOptionForm(FlaskForm):
         
         if 'obj' in kwargs:
             obj = kwargs.get('obj')
-            
             for work_category in obj.work_categories:
                 self.work_categories.append(
                     WorkCategoryForm(obj=work_category, prefix='category-{}'.format(work_category.id))
                 )
-
+        if 'request' in kwargs:
+            request = kwargs.get('request')
+            for work_category_id in request.get('work_categories').split(','):
+                self.work_categories.append(
+                    WorkCategoryForm(prefix='category-{}'.format(work_category_id))
+                )
         super(SchedulerOptionForm, self).__init__(*args, **kwargs)

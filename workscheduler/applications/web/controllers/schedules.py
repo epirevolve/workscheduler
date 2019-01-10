@@ -8,7 +8,8 @@ from datetime import (
     datetime, date
 )
 from flask import (
-    Blueprint, render_template
+    Blueprint, render_template, redirect,
+    jsonify, request
 )
 from flask_login import login_required
 from workscheduler.applications.services import (
@@ -47,7 +48,17 @@ def show_scheduler_option(belong_id: str):
                            belongs=belongs, skills=skill_query.get_skills())
 
 
-@bp.route('/schedules/show_scheduler/<belong_id>/<month_year>', methods=['POST'])
+@bp.route('/schedules/update_scheduler_option', methods=['POST'])
+@login_required
+@admin_required
+def update_scheduler_option():
+    session = get_db_session()
+    form = SchedulerOptionForm(request=request.form)
+    response = jsonify()
+    return response
+
+
+@bp.route('/schedules/show_scheduler/<belong_id>/<month_year>')
 @login_required
 @admin_required
 def show_scheduler(belong_id: str, month_year: str):

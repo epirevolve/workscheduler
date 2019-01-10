@@ -1,11 +1,14 @@
 {% extends "layout.html" %}
 {% block body %}
 <form method="post">
-    <div>
-        <h2>{{ selected_belong.name }}</h2>
-    </div>
-    <div id="month_year" data-month_year="{{ month_year }}">
-        <h2>{{ month_year.strftime('%b %Y') }}</h2>
+    <div class="form-inline my-3">
+        <div id="month_year" data-month-year="{{ month_year }}">
+            <h1>{{ month_year.strftime('%b %Y') }}</h1>
+        </div>
+        <h2 class="mx-4">of</h2>
+        <div id="belong" data-id="{{ belong.id }}">
+            <h1>{{ belong.name }}</h1>
+        </div>
     </div>
     <div id="date-set">
         <table class="table table-striped">
@@ -103,7 +106,10 @@
         </div>
     </div>
     <hr />
-    <button class="btn btn-warning btn-block bt-3">Create Work Schedule</button>
+    <div class="row m-1">
+        <button type="button" class="btn btn-secondary col-md-2" onclick="window.history.back()">Go Back</button>
+        <button class="btn btn-warning btn-block col-md-9 offset-md-1">Create Work Schedule</button>
+    </div>
 </form>
 {% endblock %}
 
