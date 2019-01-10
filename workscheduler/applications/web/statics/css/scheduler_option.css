@@ -10,3 +10,7 @@
 .card-header input {
     width: 100%;
 }
+
+.draggable {
+    z-index: 2;
+}

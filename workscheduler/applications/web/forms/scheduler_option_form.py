@@ -3,7 +3,7 @@
 from flask_wtf import FlaskForm
 from wtforms import (
     StringField, BooleanField, DateField,
-    IntegerField, Field
+    IntegerField, Field, FieldList
 )
 from wtforms.widgets import TextInput
 from wtforms.validators import (
@@ -14,7 +14,13 @@ from ..util import get_next_month
 
 
 class SkillField(Field):
-    pass
+    widget = TextInput()
+    
+    def _value(self):
+        if self.data:
+            return self.data.name
+        else:
+            return u''
 
 
 class WorkCategoryForm(FlaskForm):
@@ -22,7 +28,20 @@ class WorkCategoryForm(FlaskForm):
     default = IntegerField()
     holiday = IntegerField()
     rest_next_day = BooleanField()
-    essential_skills = []
+    essential_skills = FieldList(SkillField())
+    
+    def __init__(self, *args, **kwargs):
+        kwargs['csrf_enabled'] = False
+        
+        # if 'obj' in kwargs:
+        #     obj = kwargs.get('obj')
+        #
+        #     for skill in obj.essential_skills:
+        #         self.essential_skills.append(
+        #             SkillField(obj=skill)
+        #         )
+        
+        super(WorkCategoryForm, self).__init__(*args, **kwargs)
 
 
 class BelongField(Field):

@@ -71,6 +71,9 @@
                         </div>
                         <h5>Essential Skills</h5>
                         <div class="essential-skill drop-region droppable ml-1">
+                            {% for skill in work_category.essential_skills %}
+                                <span data-id="{{ skill.data.id }}" class="m-2 draggable">{{ skill.data.name }}</span>
+                            {% endfor %}
                         </div>
                         <hr>
                         <button type="button" class="btn btn-danger btn-block">Remove</button>
@@ -79,7 +82,7 @@
             {% endfor %}
         </div>
         <div class="col-md-2">
-            <ul class="list-group">
+            <ul class="selectable list-group">
                 {% for skill in skills %}
                     <li data-id="{{ skill.id }}" class="list-group-item draggable">
                         {{ skill.name }}
