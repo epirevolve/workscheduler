@@ -38,10 +38,10 @@ class Database:
         session.add(Belong.new_belong('Sec', ''))
         session.add(Belong.new_belong('Secフロント', ''))
         
-        default_id = BelongQuery(session).get_default_belong().id
+        belong_id = BelongQuery(session).get_default_belong().id
         user_command = UserCommand(session)
-        user_command.append_user('user', 'ユーザ', default_id, is_admin=False, is_operator=True)
-        user_command.append_user('adope', '管理ユーザ', default_id, is_admin=True, is_operator=True)
+        user_command.append_user('user', 'ユーザ', belong_id, is_admin=False, is_operator=True)
+        user_command.append_user('adope', '管理ユーザ', belong_id, is_admin=True, is_operator=True)
 
         from workscheduler.domains.models.operator.skill import Skill
         skill1 = Skill.new_certified_skill('ccna', 1)
@@ -70,40 +70,40 @@ class Database:
         from workscheduler.domains.models.team import Team
         team = Team.new_team(team_cat_1.id, 'Team A')
         session.add(team)
-        user1 = user_command.append_user('test_user1', 'テストユーザ1', default_id, is_admin=False, is_operator=True)
+        user1 = user_command.append_user('test_user1', 'テストユーザ1', belong_id, is_admin=False, is_operator=True)
         team.users.append(user1)
         team = Team.new_team(team_cat_2.id, 'Team B')
         session.add(team)
-        user2 = user_command.append_user('test_user2', 'テストユーザ2', default_id, is_admin=False, is_operator=True)
+        user2 = user_command.append_user('test_user2', 'テストユーザ2', belong_id, is_admin=False, is_operator=True)
         team.users.append(user2)
-        user3 = user_command.append_user('test_user3', 'テストユーザ3', default_id, is_admin=False, is_operator=True)
+        user3 = user_command.append_user('test_user3', 'テストユーザ3', belong_id, is_admin=False, is_operator=True)
         team.users.append(user3)
         team = Team.new_team(team_cat_2.id, 'Team C')
         session.add(team)
-        team.users.append(user_command.append_user('test_user4', 'テストユーザ4', default_id, is_admin=False, is_operator=True))
-        team.users.append(user_command.append_user('test_user5', 'テストユーザ5', default_id, is_admin=False, is_operator=True))
-        team.users.append(user_command.append_user('test_user6', 'テストユーザ6', default_id, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user4', 'テストユーザ4', belong_id, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user5', 'テストユーザ5', belong_id, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user6', 'テストユーザ6', belong_id, is_admin=False, is_operator=True))
         team = Team.new_team(team_cat_2.id, 'Team D')
         session.add(team)
-        team.users.append(user_command.append_user('test_user7', 'テストユーザ7', default_id, is_admin=False, is_operator=True))
-        team.users.append(user_command.append_user('test_user8', 'テストユーザ8', default_id, is_admin=False, is_operator=True))
-        team.users.append(user_command.append_user('test_user9', 'テストユーザ9', default_id, is_admin=False, is_operator=True))
-        team.users.append(user_command.append_user('test_user10', 'テストユーザ10', default_id, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user7', 'テストユーザ7', belong_id, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user8', 'テストユーザ8', belong_id, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user9', 'テストユーザ9', belong_id, is_admin=False, is_operator=True))
+        team.users.append(user_command.append_user('test_user10', 'テストユーザ10', belong_id, is_admin=False, is_operator=True))
         
         session.flush()
         
         from workscheduler.applications.services import OperatorQuery
         from workscheduler.domains.models.schedule import (
-            Scheduler, WorkCategory
+            SchedulerOption, WorkCategory
         )
         operator_query = OperatorQuery(session)
-        scheduler = Scheduler.new_scheduler(
+        scheduler = SchedulerOption.new_scheduler(
             front, True, True,
-            [WorkCategory.new_category('日勤帯', 7, 3, 0, [skill1, skill2],
+            [WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
                                        [operator_query.get_operator_of_user_id(user1.id),
                                         operator_query.get_operator_of_user_id(user2.id)],
                                        []),
-             WorkCategory.new_category('夜間帯', 3, 3, 2, [skill3], [],
+             WorkCategory.new_category('夜間帯', 3, 5, 3, 5, 2, 5, [skill3], [],
                                        [operator_query.get_operator_of_user_id(user3.id)])]
         )
         session.add(scheduler)

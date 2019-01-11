@@ -12,9 +12,20 @@ class ScheduleCommandAdapter(ScheduleCommand):
         if not validate_form(form):
             raise ValueError
         return super(ScheduleCommandAdapter, self).append_work_category(
-            form.title.data, form.default.data, form.holiday.data,
-            form.rest_days.data, form.essential_skills.data,
-            form.essential_operators.data, form.impossible_operators.data
+            form.title.data, form.week_day_require.data, form.week_day_max.data,
+            form.holiday_require.data, form.holiday_max.data,
+            form.rest_days.data, form.max_times.data,
+            form.essential_skills.data, form.essential_operators.data, form.impossible_operators.data
+        )
+    
+    def update_work_category(self, form: WorkCategoryForm):
+        if not validate_form(form):
+            raise ValueError
+        return super(ScheduleCommandAdapter, self).update_work_category(
+            form.id.data, form.title.data, form.week_day_require.data, form.week_day_max.data,
+            form.holiday_require.data, form.holiday_max.data,
+            form.rest_days.data, form.max_times.data,
+            form.essential_skills.data, form.essential_operators.data, form.impossible_operators.data
         )
     
     def append_scheduler(self, form: SchedulerOptionForm):
@@ -30,7 +41,8 @@ class ScheduleCommandAdapter(ScheduleCommand):
     def update_scheduler(self, form: SchedulerOptionForm):
         if not validate_form(form):
             raise ValueError
-        work_category_ids = [self.append_work_category(x).id for x in form.work_categories]
+        work_category_ids = [self.append_work_category(x).id if not x.id.data else self.update_work_category(x).id
+                             for x in form.work_categories]
         self._session.flush()
         return super(ScheduleCommandAdapter, self).update_scheduler(
             form.id.data, form.belong.data, form.certified_skill.data,

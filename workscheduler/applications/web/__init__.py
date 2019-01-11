@@ -113,19 +113,20 @@ def create_app(test_config=None):
     csrf = CSRFProtect()
     csrf.init_app(app)
 
-    @app.before_first_request
+    @app.before_request
     def extend_jinja_env():
         app.jinja_env.globals['today'] = date.today()
         app.jinja_env.globals['next_month'] = get_next_month()
-
+    
         def get_default_belong():
             return next(filter(lambda x: not x.is_not_belong(), BelongQuery(get_db_session()).get_belongs()))
-
+    
         app.jinja_env.globals['default_belong_id'] = get_default_belong().id
-        
-        def get_operator():
-            return OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
-        
-        app.jinja_env.globals['operator_id'] = get_operator().id
-
+    
+        def get_operator_id():
+            operator_query = OperatorQuery(get_db_session())
+            return operator_query.get_operator_of_user_id(current_user.id).id if current_user.is_authenticated else ""
+    
+        app.jinja_env.globals['operator_id'] = get_operator_id()
+    
     return app

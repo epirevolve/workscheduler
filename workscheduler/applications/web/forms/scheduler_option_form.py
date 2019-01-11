@@ -11,7 +11,6 @@ from wtforms.validators import (
     DataRequired, Length
 )
 from workscheduler.domains.models.schedule import WorkCategory
-from ..util import get_next_month
 
 
 class SkillField(Field):
@@ -37,9 +36,12 @@ class OperatorField(Field):
 class WorkCategoryForm(FlaskForm):
     id = HiddenField()
     title = StringField(validators=[DataRequired(), Length(max=WorkCategory.title.type.length)])
-    default = IntegerField()
-    holiday = IntegerField()
+    week_day_require = IntegerField()
+    week_day_max = IntegerField()
+    holiday_require = IntegerField()
+    holiday_max = IntegerField()
     rest_days = IntegerField()
+    max_times = IntegerField()
     essential_skills = FieldList(SkillField())
     essential_operators = FieldList(OperatorField())
     impossible_operators = FieldList(OperatorField())
@@ -62,7 +64,6 @@ class BelongField(Field):
 class SchedulerOptionForm(FlaskForm):
     id = HiddenField()
     belong = BelongField(validators=[DataRequired()])
-    schedule_of = DateField(default=get_next_month(), validators=[DataRequired()])
     certified_skill = BooleanField()
     not_certified_skill = BooleanField()
     work_categories = []
@@ -70,15 +71,12 @@ class SchedulerOptionForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         self.work_categories.clear()
         
-        if 'obj' in kwargs:
+        if 'obj' in kwargs and kwargs.get('obj'):
             obj = kwargs.get('obj')
-            if not obj:
-                kwargs.pop('obj')
-            else:
-                for work_category in obj.work_categories:
-                    self.work_categories.append(
-                        WorkCategoryForm(obj=work_category, prefix='category-{}'.format(work_category.id))
-                    )
+            for work_category in obj.work_categories:
+                self.work_categories.append(
+                    WorkCategoryForm(obj=work_category, prefix='category-{}'.format(work_category.id))
+                )
         if 'request' in kwargs:
             request = kwargs.get('request')
             for work_category_id in request.get('work_categories').split(','):

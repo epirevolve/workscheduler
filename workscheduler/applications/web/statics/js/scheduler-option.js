@@ -75,6 +75,13 @@ import { AlertManager } from './alert-helper.js';
             accept: '.operator'
         });
 
+        $('select[name="belong"]').change(function () {
+            let $this = $(this);
+            let belongId = $this.find('option:selected').val();
+            let url = $this.data('url') + belongId;
+            location.href = url;
+        });
+
         $('button[name="add-category"]').click(function () {
             let $card =
                 $('<div>')
@@ -116,7 +123,7 @@ import { AlertManager } from './alert-helper.js';
         let getFormData = function () {
             let data = $('form').serialize();
             let array = [];
-            $('#category-column').children('.card').map((_, card) => {
+            $('#category-column').children('.main').map((_, card) => {
                 let $card = $(card);
                 array.push($card.data('id'));
                 $card.find('.essential-skills').find('span').each((index, skill) => {
@@ -140,9 +147,7 @@ import { AlertManager } from './alert-helper.js';
                 data: getFormData()
             })
             .done((data) => {
-                let belong = $('select[name="belong"]').find('option:selected');
-                let monthYear = $('input[name="schedule-of"]').val();
-                location.href = `/schedules/show_scheduler/${$(belong).val()}/${monthYear}`;
+                location.href = data.redirect;
             })
             .fail((data) => {
                 let alertManager = new AlertManager('#alert-container');
