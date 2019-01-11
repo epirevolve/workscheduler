@@ -8,9 +8,11 @@ class TestUserManageCommand:
     def test_append_user(self, user_manage_command, session):
         user_repository = UserQuery(session)
         belong = Belong.new_belong('test', 'this is test')
+        session.add(belong)
+        session.commit()
         count = len(user_repository.get_users())
         user_manage_command.append_user(
-            'test1', 'テスト１', belong,
+            'test1', 'テスト１', belong.id,
             True, False
         )
         session.commit()
@@ -27,10 +29,12 @@ class TestUserManageCommand:
         user_repository = UserQuery(session)
         users = user_repository.get_users()
         belong = Belong.new_belong('new test', 'this is changed')
+        session.add(belong)
+        session.commit()
         count = len(users)
         user = users[0]
         user_manage_command.update_user(
-            user.id, 'random login id', 'random name', belong,
+            user.id, 'random login id', 'random name', belong.id,
             False, True)
         session.commit()
         assert count == len(user_repository.get_users())

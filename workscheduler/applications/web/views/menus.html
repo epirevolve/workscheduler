@@ -10,7 +10,7 @@
         </div>
     </a>
     {% if current_user.is_operator %}
-    <a href="{{ url_for('operators.show_my_request', login_id=current_user.login_id, month_year=next_month) }}">
+    <a href="{{ url_for('operators.show_my_request', operator_id=operator_id, month_year=next_month) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/request.svg') }}" />
             <div class="card-footer">
@@ -18,7 +18,7 @@
             </div>
         </div>
     </a>
-    <a href="{{ url_for('operators.show_myself', login_id=current_user.login_id) }}">
+    <a href="{{ url_for('operators.show_myself', operator_id=operator_id) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/operator.svg') }}" />
             <div class="card-footer">
@@ -27,7 +27,7 @@
         </div>
     </a>
     {% endif %}
-    <a href="{{ url_for('users.show_myself', login_id=current_user.login_id) }}">
+    <a href="{{ url_for('users.show_myself', user_id=current_user.id) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/user.svg') }}" />
             <div class="card-footer">

@@ -16,7 +16,7 @@ import { AlertManager } from './alert-helper.js';
 
     let addBelong = function () {
         $.ajax({
-            url: '/belongs/append_belong',
+            url: '/belongs',
             type: 'POST',
             data: getEventData()
         })

@@ -2,24 +2,14 @@
 {% block body %}
 <form method="post">
     {{ form.hidden_tag() }}
-    <div class="row header mb-3 pl-3">
-        <select class="custom-select custom-select-lg col-md-9" name="belong">
+    <div class="header mb-3">
+        <select class="custom-select custom-select-lg" name="belong">
             {% for belong in belongs %}
                 <option value="{{ belong.id }}" {% if belong.id==form.belong.data.id %}selected{% endif %}>
                     {{ belong.name }}
                 </option>
             {% endfor %}
         </select>
-        <div class="input-group date col-md-3" id="schedule-of" data-target-input="nearest">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Scheduler Of</span>
-            </div>
-            <input type="text" class="form-control datetimepicker-input" value="{{ form.schedule_of.data }}"
-                   name="schedule-of" data-target="#schedule-of">
-            <div class="input-group-append" data-target="#schedule-of" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-        </div>
     </div>
     <hr>
     <div class="custom-control-inline mb-3">
@@ -48,15 +38,15 @@
                         <h4><input type="text" name="{{ work_category.title.name }}" value="{{ work_category.title.data }}"></h4>
                     </div>
                     <div class="card-body">
-                        <div>
-                            <div class="input-group m-1 mb-3">
+                        <div class="custom-control-inline mb-3 mr-0">
+                            <div class="input-group m-1">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Default</span>
                                 </div>
                                 <input type="number" class="form-control" min="0" name="{{ work_category.default.name }}"
                                        value="{{ work_category.default.data }}">
                             </div>
-                            <div class="input-group m-1 mb-3">
+                            <div class="input-group m-1">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Holiday</span>
                                 </div>
@@ -64,15 +54,29 @@
                                        value="{{ work_category.holiday.data }}">
                             </div>
                         </div>
-                        <div class="m-1 mb-3 custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="{{ work_category.rest_next_day.id }}"
-                                   name="{{ work_category.rest_next_day.name }}" {% if work_category.rest_next_day.data %}checked{% endif %}>
-                            <label class="custom-control-label" for="{{ work_category.rest_next_day.id }}">Rest Next Day</label>
+                        <div class="input-group m-1 pr-1 mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rest Days</span>
+                            </div>
+                            <input type="number" class="form-control" min="0" name="{{ work_category.rest_days.name }}"
+                                   value="{{ work_category.rest_days.data }}">
                         </div>
                         <h5>Essential Skills</h5>
-                        <div class="essential-skill drop-region droppable ml-1">
+                        <div class="essential-skills drop-region droppable ml-1 mb-3">
                             {% for skill in work_category.essential_skills %}
                                 <span data-id="{{ skill.data.id }}" class="m-2 draggable">{{ skill.data.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <h5>Essential Operators</h5>
+                        <div class="essential-operators drop-region droppable ml-1 mb-3">
+                            {% for operator in work_category.essential_operators %}
+                                <span data-id="{{ operator.data.id }}" class="m-2 draggable">{{ operator.data.user.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <h5>Impossible Operators</h5>
+                        <div class="impossible-operators drop-region droppable ml-1 mb-3">
+                            {% for operator in work_category.impossible_operators %}
+                                <span data-id="{{ operator.data.id }}" class="m-2 draggable">{{ operator.data.user.name }}</span>
                             {% endfor %}
                         </div>
                         <hr>
@@ -81,11 +85,20 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" data-toggle="accordion">
+            <h3>Skills</h3>
             <ul class="selectable list-group">
                 {% for skill in skills %}
-                    <li data-id="{{ skill.id }}" class="list-group-item draggable">
+                    <li data-id="{{ skill.id }}" class="list-group-item draggable skill">
                         {{ skill.name }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <h3>Operators</h3>
+            <ul class="selectable list-group">
+                {% for operator in operators %}
+                    <li data-id="{{ operator.id }}" class="list-group-item draggable operator">
+                        {{ operator.user.name }}
                     </li>
                 {% endfor %}
             </ul>
@@ -94,7 +107,7 @@
     <hr>
     <div class="row m-1">
         <button name="store-options" type="button" class="btn btn-primary btn-block"
-            data-action="{{ url_for('schedules.update_scheduler_option') }}"
+            data-action="{{ action }}"
             data-redirect="/schedules/show_scheduler">Scheduler</button>
     </div>
 </form>

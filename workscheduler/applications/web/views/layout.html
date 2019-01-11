@@ -38,10 +38,10 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_schedules') }}">schedules</a></li>
                     {% if current_user.is_operator %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_my_request', login_id=current_user.login_id, month_year=next_month) }}">requests</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_myself', login_id=current_user.login_id) }}">as operator</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_my_request', operator_id=operator_id, month_year=next_month) }}">requests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_myself', operator_id=operator_id) }}">as operator</a></li>
                     {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', login_id=current_user.login_id) }}">as user</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', user_id=current_user.id) }}">as user</a></li>
                     {% if current_user.is_admin %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_scheduler_option', belong_id=default_belong_id) }}">scheduler</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_operators') }}">operators</a></li>
@@ -54,7 +54,8 @@
                 </ul>
             </div>
             <div class="login-user">
-                <span id="login-user-id">{{ current_user.login_id }}</span><span> : {{ current_user.name }}</span>
+                <input id="user-id" type="hidden" value="{{ current_user.id }}" />
+                <span>{{ current_user.login_id }}</span><span> : {{ current_user.name }}</span>
             </div>
             {% else %}
             <a class="navbar-brand" href="#">Work Scheduler</a>

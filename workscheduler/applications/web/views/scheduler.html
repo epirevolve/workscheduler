@@ -2,8 +2,15 @@
 {% block body %}
 <form method="post">
     <div class="form-inline my-3">
-        <div id="month_year" data-month-year="{{ month_year }}">
-            <h1>{{ month_year.strftime('%b %Y') }}</h1>
+        <div class="input-group date col-md-3" id="schedule-of" data-target-input="nearest">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Scheduler Of</span>
+            </div>
+            <input type="text" class="form-control datetimepicker-input" value="{{ form.schedule_of.data }}"
+                   name="schedule-of" data-target="#schedule-of">
+            <div class="input-group-append" data-target="#schedule-of" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
         </div>
         <h2 class="mx-4">of</h2>
         <div id="belong" data-id="{{ belong.id }}">

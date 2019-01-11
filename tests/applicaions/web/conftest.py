@@ -17,7 +17,9 @@ def app():
          'WTF_CSRF_ENABLED': False}
     )
     with app.app_context():
-        Database(app.config['DATABASE']).init()
+        database = Database(app.config['DATABASE'])
+        database.init()
+        database.set_test()
     yield app
 
     os.close(db_fd)

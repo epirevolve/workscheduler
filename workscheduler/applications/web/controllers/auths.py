@@ -20,7 +20,7 @@ def load_user(user_id):
     return UserQuery(get_db_session()).get_user(user_id)
 
 
-@bp.route('/', methods=['GET'])
+@bp.route('/')
 def index():
     return render_template('auth.html', form=AuthForm())
 

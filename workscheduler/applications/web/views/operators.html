@@ -22,7 +22,7 @@
     </table>
 </div>
 <hr />
-<form id="operator_form" action="{{ url_for('operators.update_operator') }}" method="post">
+<form id="operator_form" action="{{ url_for('operators.update_operator', operator_id='') }}" method="post">
     {{ form.hidden_tag() }}
     <input type="hidden" class="form-control" name="id" id="id" readonly>
 

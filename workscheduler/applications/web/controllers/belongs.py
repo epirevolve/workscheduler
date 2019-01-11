@@ -14,7 +14,7 @@ from . import admin_required
 bp = Blueprint('belongs', __name__)
 
 
-@bp.route('/belongs/show_belongs')
+@bp.route('/belongs')
 @login_required
 @admin_required
 def show_belongs():
@@ -23,7 +23,7 @@ def show_belongs():
     return render_template('belongs.html', belongs=belongs)
 
 
-@bp.route('/belongs/append_belong', methods=['POST'])
+@bp.route('/belongs', methods=['POST'])
 @login_required
 @admin_required
 def append_belong():

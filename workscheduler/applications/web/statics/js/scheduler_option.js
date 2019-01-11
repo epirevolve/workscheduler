@@ -51,7 +51,7 @@ import { AlertManager } from './alert-helper.js';
                 $ui.helper.data('dropped', true);
                 $ui.helper.draggable({revert: true});
                 let id = $ui.draggable.data('id');
-                if ($(this).find(`li[data-id=${id}]`).length > 0) return;
+                if ($(this).find(`[data-id=${id}]`).length > 0) return;
                 let $span =
                     $('<span>')
                         .data('id', id)
@@ -68,22 +68,13 @@ import { AlertManager } from './alert-helper.js';
                 $span.appendTo($(this));
             }
         });
-        $('#schedule-of').datetimepicker({
-            viewMode: 'months',
-            format: 'YYYY-MM',
-            useCurrent: false,
-            icons: {
-                time: 'far fa-clock',
-                date: 'far fa-calendar-alt',
-                up: 'fas fa-arrow-up',
-                down: 'fas fa-arrow-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-                today: 'far fa-calendar-check',
-                clear: 'far fa-trash-alt',
-                close: 'fas fa-times'
-            }
+        $('.essential-skills').droppable({
+            accept: '.skill'
         });
+        $('.essential-operators, .impossible-operators').droppable({
+            accept: '.operator'
+        });
+
         $('button[name="add-category"]').click(function () {
             let $card =
                 $('<div>')
@@ -128,8 +119,14 @@ import { AlertManager } from './alert-helper.js';
             $('#category-column').children('.card').map((_, card) => {
                 let $card = $(card);
                 array.push($card.data('id'));
-                $card.find('.essential-skill').find('span').each((index, skill) => {
+                $card.find('.essential-skills').find('span').each((index, skill) => {
                     data += `&category-${$card.data('id')}-essential_skills-${index}=${$(skill).data('id')}`
+                });
+                $card.find('.essential-operators').find('span').each((index, operator) => {
+                    data += `&category-${$card.data('id')}-essential_operators-${index}=${$(operator).data('id')}`
+                });
+                $card.find('.impossible-operators').find('span').each((index, operator) => {
+                    data += `&category-${$card.data('id')}-impossible_operators-${index}=${$(operator).data('id')}`
                 });
             });
             data += `&work_categories=${array}`;

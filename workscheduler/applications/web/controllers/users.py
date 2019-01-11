@@ -20,25 +20,25 @@ from . import admin_required
 bp = Blueprint('users', __name__)
 
 
-@bp.route('/users/show_myself/<login_id>')
+@bp.route('/users/myself/<user_id>')
 @login_required
-def show_myself(login_id):
+def show_myself(user_id):
     return render_template('user.html', form=UserForm(obj=current_user))
 
 
-@bp.route('/users/update_myself', methods=['POST'])
+@bp.route('/users/myself/<user_id>', methods=['POST'])
 @login_required
-def update_myself():
+def update_myself(user_id):
     session = get_db_session()
     UserCommandAdapter(session).update_myself(UserForm())
     session.commit()
     
     flash('My info is successfully changed.')
     
-    return redirect(url_for('users.show_myself', login_id=current_user.login_id))
+    return redirect(url_for('users.show_myself', user_id=current_user.id))
 
 
-@bp.route('/users/show_users')
+@bp.route('/users')
 @login_required
 @admin_required
 def show_users():
@@ -49,7 +49,7 @@ def show_users():
     return render_template('users.html', form=UsersForm(), users=users, belongs=belongs)
 
 
-@bp.route('/users/append_user', methods=['POST'])
+@bp.route('/users', methods=['POST'])
 @login_required
 @admin_required
 def append_user():
@@ -63,10 +63,10 @@ def append_user():
     return redirect(url_for('users.show_users'))
 
 
-@bp.route('/users/update_user', methods=['POST'])
+@bp.route('/users/<user_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_user():
+def update_user(user_id):
     session = get_db_session()
     UserCommandAdapter(session).update_user(UsersForm())
     session.commit()
@@ -76,7 +76,7 @@ def update_user():
     return redirect(url_for('users.show_users'))
 
 
-@bp.route('/users/reset_password', methods=['POST'])
+@bp.route('/users/<user_id>/reset-password', methods=['POST'])
 @login_required
 @admin_required
 def reset_password():
@@ -95,7 +95,7 @@ def reset_password():
     return response
 
 
-@bp.route('/users/inactivate', methods=['POST'])
+@bp.route('/users/<user_id>/inactivate', methods=['POST'])
 @login_required
 @admin_required
 def inactivate():

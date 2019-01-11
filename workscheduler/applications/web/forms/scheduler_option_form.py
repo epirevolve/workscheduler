@@ -24,13 +24,25 @@ class SkillField(Field):
             return u''
 
 
+class OperatorField(Field):
+    widget = TextInput()
+    
+    def _value(self):
+        if self.data:
+            return self.data.name
+        else:
+            return u''
+
+
 class WorkCategoryForm(FlaskForm):
     id = HiddenField()
     title = StringField(validators=[DataRequired(), Length(max=WorkCategory.title.type.length)])
     default = IntegerField()
     holiday = IntegerField()
-    rest_next_day = BooleanField()
+    rest_days = IntegerField()
     essential_skills = FieldList(SkillField())
+    essential_operators = FieldList(OperatorField())
+    impossible_operators = FieldList(OperatorField())
     
     def __init__(self, *args, **kwargs):
         kwargs['csrf_enabled'] = False
@@ -48,6 +60,7 @@ class BelongField(Field):
 
 
 class SchedulerOptionForm(FlaskForm):
+    id = HiddenField()
     belong = BelongField(validators=[DataRequired()])
     schedule_of = DateField(default=get_next_month(), validators=[DataRequired()])
     certified_skill = BooleanField()
@@ -59,10 +72,13 @@ class SchedulerOptionForm(FlaskForm):
         
         if 'obj' in kwargs:
             obj = kwargs.get('obj')
-            for work_category in obj.work_categories:
-                self.work_categories.append(
-                    WorkCategoryForm(obj=work_category, prefix='category-{}'.format(work_category.id))
-                )
+            if not obj:
+                kwargs.pop('obj')
+            else:
+                for work_category in obj.work_categories:
+                    self.work_categories.append(
+                        WorkCategoryForm(obj=work_category, prefix='category-{}'.format(work_category.id))
+                    )
         if 'request' in kwargs:
             request = kwargs.get('request')
             for work_category_id in request.get('work_categories').split(','):

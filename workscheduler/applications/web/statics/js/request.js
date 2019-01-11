@@ -11,13 +11,13 @@ import { AlertManager } from './alert-helper.js';
             return false;
         }
 
-        let login_id = $('#login-user-id').text();
+        let userId = $('#user-id').val();
         let date = new Date(stamp);
         date.setMonth(date.getMonth() + addMonth);
         let date_str = date.getFullYear() + '-' + (date.getMonth() + 1)
 
         $.ajax({
-            url: `/operators/show_my_request/${login_id}/${date_str}`
+            url: `/operators/show_my_request/${userId}/${date_str}`
         }).done((data) => {
             let $header = $(data).find('#month_year');
             $('#month_year').data('month_year', $header.data('month_year'));
@@ -55,7 +55,7 @@ import { AlertManager } from './alert-helper.js';
 
     let addEvent = function () {
         $.ajax({
-            url: '/operators/append_my_request',
+            url: '/operators/my-request',
             type: 'POST',
             data: getEventData()
         })

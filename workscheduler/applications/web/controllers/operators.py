@@ -29,9 +29,9 @@ from . import admin_required
 bp = Blueprint('operators', __name__)
 
 
-@bp.route('/operators/show_my_request/<login_id>/<month_year>')
+@bp.route('/operators/my-request/operators/<operator_id>/month_year/<month_year>')
 @login_required
-def show_my_request(login_id, month_year):
+def show_my_request(operator_id, month_year):
     if month_year and not isinstance(month_year, date):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
 
@@ -56,7 +56,7 @@ def show_my_request(login_id, month_year):
     return render_template('request.html', month_year=month_year, weeks=weeks)
 
 
-@bp.route('/operators/append_my_request', methods=['POST'])
+@bp.route('/operators/my-request', methods=['POST'])
 @login_required
 def append_my_request():
     session = get_db_session()
@@ -80,32 +80,32 @@ def append_my_request():
     return response
 
 
-@bp.route('/operators/update_my_request')
+@bp.route('/operators/my-request/<requst_id>', methods=['POST'])
 @login_required
-def update_my_request():
+def update_my_request(requst_id):
     pass
 
 
-@bp.route('/operators/show_myself/<login_id>')
+@bp.route('/operators/myself/<operator_id>')
 @login_required
-def show_myself(login_id):
+def show_myself(operator_id):
     operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
     return render_template('operator.html', form=OperatorForm(obj=operator))
 
 
-@bp.route('/operators/update_myself', methods=['POST'])
+@bp.route('/operators/myself/<operator_id>', methods=['POST'])
 @login_required
-def update_myself():
+def update_myself(operator_id):
     session = get_db_session()
     OperatorCommandAdapter(session).update_myself(OperatorForm())
     session.commit()
 
     flash('Operator info was successfully registered.')
     
-    return redirect(url_for('operators.show_myself', login_id=current_user.login_id))
+    return redirect(url_for('operators.show_myself', operator_id=operator_id))
 
 
-@bp.route('/operators/show_operators')
+@bp.route('/operators')
 @login_required
 @admin_required
 def show_operators():
@@ -117,7 +117,7 @@ def show_operators():
                            operators=operators, belongs=belongs)
 
 
-@bp.route('/operators/update_operator')
+@bp.route('/operators/<operator_id>', methods=['POST'])
 @login_required
 @admin_required
 def update_operator():

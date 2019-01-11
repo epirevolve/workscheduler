@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+
+from workscheduler.applications.services import ScheduleCommand
+from ..forms import (
+    SchedulerOptionForm, WorkCategoryForm
+)
+from .utils import validate_form
+
+
+class ScheduleCommandAdapter(ScheduleCommand):
+    def append_work_category(self, form: WorkCategoryForm):
+        if not validate_form(form):
+            raise ValueError
+        return super(ScheduleCommandAdapter, self).append_work_category(
+            form.title.data, form.default.data, form.holiday.data,
+            form.rest_days.data, form.essential_skills.data,
+            form.essential_operators.data, form.impossible_operators.data
+        )
+    
+    def append_scheduler(self, form: SchedulerOptionForm):
+        if not validate_form(form):
+            raise ValueError
+        work_category_ids = [self.append_work_category(x).id for x in form.work_categories]
+        self._session.flush()
+        return super(ScheduleCommandAdapter, self).append_scheduler(
+            form.belong.data, form.certified_skill.data,
+            form.not_certified_skill.data, work_category_ids
+        )
+    
+    def update_scheduler(self, form: SchedulerOptionForm):
+        if not validate_form(form):
+            raise ValueError
+        work_category_ids = [self.append_work_category(x).id for x in form.work_categories]
+        self._session.flush()
+        return super(ScheduleCommandAdapter, self).update_scheduler(
+            form.id.data, form.belong.data, form.certified_skill.data,
+            form.not_certified_skill.data, work_category_ids
+        )

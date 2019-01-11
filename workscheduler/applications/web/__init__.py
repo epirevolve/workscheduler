@@ -10,9 +10,14 @@ from flask import (
     Flask, g, current_app
 )
 from flask.cli import with_appcontext
+from flask_login import (
+    LoginManager, current_user
+)
 from jinja2 import FileSystemLoader
 from workscheduler.infrastructures import Database
-from workscheduler.applications.services import BelongQuery
+from workscheduler.applications.services import (
+    BelongQuery, OperatorQuery
+)
 from .util import get_next_month
 
 
@@ -92,8 +97,6 @@ def create_app(test_config=None):
     def not_found(error):
         from flask import render_template
         return render_template('not_found.html'), 404
-
-    from flask_login import LoginManager
     
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -119,5 +122,10 @@ def create_app(test_config=None):
             return next(filter(lambda x: not x.is_not_belong(), BelongQuery(get_db_session()).get_belongs()))
 
         app.jinja_env.globals['default_belong_id'] = get_default_belong().id
+        
+        def get_operator():
+            return OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
+        
+        app.jinja_env.globals['operator_id'] = get_operator().id
 
     return app

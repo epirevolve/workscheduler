@@ -15,3 +15,8 @@ class BelongQuery:
     
     def get_default_belong(self):
         return next(filter(lambda x: x.is_not_belong(), self.get_belongs()))
+    
+    def get_belongs_without_default(self):
+        default_belong = self.get_default_belong()
+        belongs = [b for b in self.get_belongs() if not b.id == default_belong.id]
+        return belongs

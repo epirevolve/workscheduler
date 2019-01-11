@@ -9,13 +9,14 @@ from datetime import (
 )
 from flask import (
     Blueprint, render_template, redirect,
-    jsonify, request
+    jsonify, request,url_for
 )
 from flask_login import login_required
 from workscheduler.applications.services import (
     BelongQuery, ScheduleQuery, SkillQuery,
     OperatorQuery
 )
+from ..adapters import ScheduleCommandAdapter
 from ..forms import SchedulerOptionForm
 from .. import get_db_session
 from . import admin_required
@@ -24,41 +25,64 @@ from . import admin_required
 bp = Blueprint('schedules', __name__)
 
 
-@bp.route('/schedules/show_schedules')
+@bp.route('/schedules')
 @login_required
 def show_schedules():
     return render_template('schedules.html')
 
 
-@bp.route('/schedules/show_scheduler_option/<belong_id>')
+@bp.route('/schedules/scheduler_option/belongs/<belong_id>')
 @login_required
 @admin_required
 def show_scheduler_option(belong_id: str):
     session = get_db_session()
     
-    belong_query = BelongQuery(session)
-    default_belong = belong_query.get_default_belong()
-    belongs = [b for b in belong_query.get_belongs() if not b.id == default_belong.id]
+    scheduler = ScheduleQuery(session).get_scheduler_of_belong_id(belong_id)
+    method = 'POST' if not scheduler else 'PUT'
     
+    belongs = BelongQuery(session).get_belongs_without_default()
     skill_query = SkillQuery(session)
-    schedule_query = ScheduleQuery(session)
-    scheduler = schedule_query.get_scheduler_of_belong_id(belong_id)
+    operator_query = OperatorQuery(session)
     
-    return render_template('scheduler_option.html', form=SchedulerOptionForm(obj=scheduler),
-                           belongs=belongs, skills=skill_query.get_skills())
+    return render_template('scheduler_option.html', method=method,
+                           form=SchedulerOptionForm(obj=scheduler),
+                           belongs=belongs, skills=skill_query.get_skills(),
+                           operators=operator_query.get_operators())
 
 
-@bp.route('/schedules/update_scheduler_option', methods=['POST'])
+@bp.route('/schedules/scheduler_option/belongs/<belong_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_scheduler_option():
+def append_scheduler_option(belong_id):
     session = get_db_session()
-    form = SchedulerOptionForm(request=request.form)
     response = jsonify()
+    try:
+        req = ScheduleCommandAdapter(session).append_scheduler(SchedulerOptionForm(request=request.form))
+        session.commit()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response.status_code = 400
     return response
 
 
-@bp.route('/schedules/show_scheduler/<belong_id>/<month_year>')
+@bp.route('/schedules/scheduler_option/<scheduler_id>/belongs/<belong_id>', methods=['POST'])
+@login_required
+@admin_required
+def update_scheduler_option(scheduler_id, belong_id):
+    session = get_db_session()
+    response = jsonify()
+    try:
+        req = ScheduleCommandAdapter(session).update_scheduler(SchedulerOptionForm(request=request.form))
+        session.commit()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response.status_code = 400
+    return response
+
+
+@bp.route('/schedules/scheduler/belongs/<belong_id>/month_year/<month_year>')
 @login_required
 @admin_required
 def show_scheduler(belong_id: str, month_year: str):
@@ -84,7 +108,7 @@ def show_scheduler(belong_id: str, month_year: str):
                            date_set=date_set, operators=operator_query.get_operators())
 
 
-@bp.route('/schedules/create_schedule/<belong_id>')
+@bp.route('/schedules/schedule/belongs/<belong_id>', methods=['POST'])
 @login_required
 @admin_required
 def create_schedule(belong_id: str):
