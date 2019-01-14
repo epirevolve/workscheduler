@@ -10,7 +10,7 @@ from sqlalchemy.orm import (
     relationship, validates
 )
 from sqlalchemy.sql.functions import current_timestamp
-from workscheduler.domains.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 from workscheduler.domains.models.user import Belong
 from .. import OrmBase
 from . import WorkCategory

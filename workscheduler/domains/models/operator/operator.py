@@ -9,7 +9,7 @@ from sqlalchemy.orm import (
 from sqlalchemy.types import (
     String, Integer
 )
-from workscheduler.domains.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 from workscheduler.domains.models.user import User
 

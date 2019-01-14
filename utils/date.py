@@ -7,3 +7,7 @@ from datetime import (
 
 def get_next_month():
     return (date.today().replace(day=1) + timedelta(days=32)).strftime('%Y-%m')
+
+
+def is_holiday(value: date):
+    return value.weekday() in [5, 6]

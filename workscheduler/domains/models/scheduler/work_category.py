@@ -4,17 +4,17 @@ from sqlalchemy import (
     Column, Table, ForeignKey
 )
 from sqlalchemy.types import (
-    String, Boolean, Integer,
+    String, Integer,
     DateTime
 )
 from sqlalchemy.orm import (
-    relationship, validates
+    relationship
 )
 from sqlalchemy.sql.functions import current_timestamp
 from workscheduler.domains.models.operator import (
     Skill, Operator
 )
-from workscheduler.domains.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 from .. import OrmBase
 
 

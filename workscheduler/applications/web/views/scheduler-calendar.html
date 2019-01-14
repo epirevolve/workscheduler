@@ -23,11 +23,11 @@
             <thead>
                 <tr>
                     <td></td>
-                    {% for date in date_set %}
+                    {% for day in calendar.calendar_days %}
                         <th>
-                            <span class="{{ date.week_day }}">{{ date.week_day }}</span>
+                            <span class="{{ day.day_name }}">{{ day.day_name }}</span>
                             <br />
-                            <span>{{ date.day }}</span>
+                            <span>{{ day.day }}</span>
                         </th>
                     {% endfor %}
                 </tr>
@@ -35,7 +35,7 @@
             <tbody>
                 <tr>
                     <th>日勤帯</th>
-                    {% for _ in date_set %}
+                    {% for _ in calendar.calendar_days %}
                         <td>
                             <select class="custom-select custom-select-sm" name="countOfA">
                                 {% for i in range(1, 21) %}
@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <th>夜間帯</th>
-                    {% for _ in date_set %}
+                    {% for _ in calendar.calendar_days %}
                         <td>
                             <select class="custom-select custom-select-sm" name="countOfB">
                                 {% for i in range(1, 21) %}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import (
-    date, timedelta
+    date
 )
 import os
 import sys
@@ -14,11 +14,11 @@ from flask_login import (
     LoginManager, current_user
 )
 from jinja2 import FileSystemLoader
+from utils.date import get_next_month
 from workscheduler.infrastructures import Database
 from workscheduler.applications.services import (
     BelongQuery, OperatorQuery
 )
-from .util import get_next_month
 
 
 def get_db_session(echo=False):

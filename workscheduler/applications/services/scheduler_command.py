@@ -2,14 +2,14 @@
 
 from workscheduler.applications.services import (
     BelongQuery, OperatorQuery, SkillQuery,
-    ScheduleQuery
+    SchedulerQuery
 )
 from workscheduler.domains.models.scheduler import (
     Options, WorkCategory
 )
 
 
-class ScheduleCommand:
+class SchedulerCommand:
     def __init__(self, session):
         self._session = session
     
@@ -31,7 +31,7 @@ class ScheduleCommand:
     def update_work_category(self, id: str, title: str, week_day_require: int, week_day_max: int,
                              holiday_require: int, holiday_max: int, rest_days: int, max_times: int,
                              essential_skill_ids: [str], essential_operator_ids: [str], impossible_operator_ids: [str]):
-        work_category = ScheduleQuery(self._session).get_work_category(id)
+        work_category = SchedulerQuery(self._session).get_work_category(id)
         work_category.title = title
         work_category.week_day_require = week_day_require
         work_category.week_day_max = week_day_max
@@ -49,7 +49,7 @@ class ScheduleCommand:
     def append_option(self, belong_id: str, certified_skill: bool,
                       not_certified_skill: bool, work_category_ids: [str]):
         belong = BelongQuery(self._session).get_belong(belong_id)
-        schedule_query = ScheduleQuery(self._session)
+        schedule_query = SchedulerQuery(self._session)
         work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
         scheduler = Options.new_scheduler(belong, certified_skill, not_certified_skill,
                                           work_categories)
@@ -58,7 +58,7 @@ class ScheduleCommand:
     
     def update_option(self, id: str, belong_id: str, certified_skill: bool,
                       not_certified_skill: bool, work_category_ids: [str]):
-        schedule_query = ScheduleQuery(self._session)
+        schedule_query = SchedulerQuery(self._session)
         scheduler = schedule_query.get_option(id)
         scheduler.belong = BelongQuery(self._session).get_belong(belong_id)
         scheduler.certified_skill = certified_skill

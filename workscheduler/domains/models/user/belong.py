@@ -7,7 +7,7 @@ from sqlalchemy.types import (
 )
 from sqlalchemy.sql.functions import current_timestamp
 from workscheduler.domains.models import OrmBase
-from workscheduler.domains.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 
 
 class Belong(OrmBase):

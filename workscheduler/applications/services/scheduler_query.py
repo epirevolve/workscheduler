@@ -2,11 +2,11 @@
 
 from workscheduler.domains.models.user import Belong
 from workscheduler.domains.models.scheduler import (
-    Options, WorkCategory
+    Options, WorkCategory, Calendar
 )
 
 
-class ScheduleQuery:
+class SchedulerQuery:
     def __init__(self, session):
         self._session = session
         
@@ -19,3 +19,9 @@ class ScheduleQuery:
     
     def get_work_category(self, id: str) -> WorkCategory:
         return self._session.query(WorkCategory).get(id)
+
+    def get_calendar(self, belong_id: str, year: int, month: int):
+        return self._session.query(Calendar)\
+            .filter(Calendar.belong.has(Belong.id == belong_id),
+                    Calendar.year == year,
+                    Calendar.month == month).one_or_none()

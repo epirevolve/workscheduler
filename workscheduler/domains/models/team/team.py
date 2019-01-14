@@ -8,11 +8,11 @@ from sqlalchemy.types import (
     String, DateTime
 )
 from sqlalchemy.sql.functions import current_timestamp
-from workscheduler.domains.models import OrmBase
-from workscheduler.domains.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
+from .. import OrmBase
 
 
-team_users\
+team_users_table\
     = Table("team_users", OrmBase.metadata,
             Column('team_id', String, ForeignKey('teams.id')),
             Column('user_id', String, ForeignKey('users.id'))
@@ -26,7 +26,7 @@ class Team(OrmBase):
     team_category_id = Column(String, ForeignKey('team_categories.id'))
     create_at = Column(DateTime, server_default=current_timestamp())
 
-    users = relationship("User", secondary=team_users, backref="teams")
+    users = relationship("User", secondary=team_users_table, backref="teams")
 
     def __init__(self, id: str, team_category_id: str, name: str):
         self.id = id

@@ -7,7 +7,7 @@ from sqlalchemy.types import (
     DateTime
 )
 from sqlalchemy.sql.functions import current_timestamp
-from workscheduler.domains.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 from .. import OrmBase
 
 
