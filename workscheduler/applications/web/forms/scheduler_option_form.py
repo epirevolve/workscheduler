@@ -10,7 +10,7 @@ from wtforms.widgets import TextInput
 from wtforms.validators import (
     DataRequired, Length
 )
-from workscheduler.domains.models.schedule import WorkCategory
+from workscheduler.domains.models.scheduler import WorkCategory
 
 
 class SkillField(Field):

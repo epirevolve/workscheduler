@@ -4,8 +4,8 @@ from workscheduler.applications.services import (
     BelongQuery, OperatorQuery, SkillQuery,
     ScheduleQuery
 )
-from workscheduler.domains.models.schedule import (
-    SchedulerOption, WorkCategory
+from workscheduler.domains.models.scheduler import (
+    Options, WorkCategory
 )
 
 
@@ -46,20 +46,20 @@ class ScheduleCommand:
         work_category.impossible_operators = [x for x in operators if x.id in impossible_operator_ids]
         return work_category
     
-    def append_scheduler(self, belong_id: str, certified_skill: bool,
-                         not_certified_skill: bool, work_category_ids: [str]):
+    def append_option(self, belong_id: str, certified_skill: bool,
+                      not_certified_skill: bool, work_category_ids: [str]):
         belong = BelongQuery(self._session).get_belong(belong_id)
         schedule_query = ScheduleQuery(self._session)
         work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
-        scheduler = SchedulerOption.new_scheduler(belong, certified_skill, not_certified_skill,
-                                                  work_categories)
+        scheduler = Options.new_scheduler(belong, certified_skill, not_certified_skill,
+                                          work_categories)
         self._session.add(scheduler)
         return scheduler
     
-    def update_scheduler(self, id: str, belong_id: str, certified_skill: bool,
-                         not_certified_skill: bool, work_category_ids: [str]):
+    def update_option(self, id: str, belong_id: str, certified_skill: bool,
+                      not_certified_skill: bool, work_category_ids: [str]):
         schedule_query = ScheduleQuery(self._session)
-        scheduler = schedule_query.get_scheduler(id)
+        scheduler = schedule_query.get_option(id)
         scheduler.belong = BelongQuery(self._session).get_belong(belong_id)
         scheduler.certified_skill = certified_skill
         scheduler.not_certified_skill = not_certified_skill

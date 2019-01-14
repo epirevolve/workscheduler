@@ -28,23 +28,23 @@ class ScheduleCommandAdapter(ScheduleCommand):
             form.essential_skills.data, form.essential_operators.data, form.impossible_operators.data
         )
     
-    def append_scheduler(self, form: SchedulerOptionForm):
+    def append_option(self, form: SchedulerOptionForm):
         if not validate_form(form):
             raise ValueError
         work_category_ids = [self.append_work_category(x).id for x in form.work_categories]
         self._session.flush()
-        return super(ScheduleCommandAdapter, self).append_scheduler(
+        return super(ScheduleCommandAdapter, self).append_option(
             form.belong.data, form.certified_skill.data,
             form.not_certified_skill.data, work_category_ids
         )
     
-    def update_scheduler(self, form: SchedulerOptionForm):
+    def update_option(self, form: SchedulerOptionForm):
         if not validate_form(form):
             raise ValueError
         work_category_ids = [self.append_work_category(x).id if not x.id.data else self.update_work_category(x).id
                              for x in form.work_categories]
         self._session.flush()
-        return super(ScheduleCommandAdapter, self).update_scheduler(
+        return super(ScheduleCommandAdapter, self).update_option(
             form.id.data, form.belong.data, form.certified_skill.data,
             form.not_certified_skill.data, work_category_ids
         )

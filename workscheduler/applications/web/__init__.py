@@ -79,7 +79,7 @@ def create_app(test_config=None):
     app.cli.add_command(set_test_db_command)
 
     from .controllers import (
-        auths, menus, schedules,
+        auths, menus, schedules, schedulers,
         operators, users, belongs,
         skills, teams
     )
@@ -87,6 +87,7 @@ def create_app(test_config=None):
     app.register_blueprint(auths.bp)
     app.register_blueprint(menus.bp)
     app.register_blueprint(schedules.bp)
+    app.register_blueprint(schedulers.bp)
     app.register_blueprint(operators.bp)
     app.register_blueprint(users.bp)
     app.register_blueprint(belongs.bp)

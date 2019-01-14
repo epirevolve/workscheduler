@@ -93,11 +93,11 @@ class Database:
         session.flush()
         
         from workscheduler.applications.services import OperatorQuery
-        from workscheduler.domains.models.schedule import (
-            SchedulerOption, WorkCategory
+        from workscheduler.domains.models.scheduler import (
+            Options, WorkCategory
         )
         operator_query = OperatorQuery(session)
-        scheduler = SchedulerOption.new_scheduler(
+        scheduler = Options.new_scheduler(
             front, True, True,
             [WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
                                        [operator_query.get_operator_of_user_id(user1.id),

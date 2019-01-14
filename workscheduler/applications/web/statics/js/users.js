@@ -41,7 +41,7 @@ import { AlertManager } from './alert-helper.js';
             if (!confirm('Would you really reset selected user password?')) return;
 
             $.ajax({
-                url: '/users/reset_password',
+                url: `/users/${id}/reset-password`,
                 type: 'POST',
                 data: {
                     'id': id
@@ -68,7 +68,7 @@ import { AlertManager } from './alert-helper.js';
             if (!confirm('Would you really inactivate selected user? this action cant be undo.')) return;
 
             $.ajax({
-                url: '/users/inactivate',
+                url: `/users/${id}/inactivate`,
                 type: 'POST',
                 data: {
                     'id': id

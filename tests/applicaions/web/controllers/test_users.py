@@ -57,7 +57,7 @@ class TestUsers:
     def test_reset_password_fail(self, client, users):
         with client:
             rv = users.reset_password('')
-            assert 400 == rv.status_code
+            assert 404 == rv.status_code
             rv = users.reset_password('test')
             assert 400 == rv.status_code
 

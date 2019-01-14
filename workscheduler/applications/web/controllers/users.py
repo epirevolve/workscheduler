@@ -79,7 +79,7 @@ def update_user(user_id):
 @bp.route('/users/<user_id>/reset-password', methods=['POST'])
 @login_required
 @admin_required
-def reset_password():
+def reset_password(user_id):
     response = Response()
 
     session = get_db_session()
@@ -98,7 +98,7 @@ def reset_password():
 @bp.route('/users/<user_id>/inactivate', methods=['POST'])
 @login_required
 @admin_required
-def inactivate():
+def inactivate(user_id):
     response = Response()
 
     session = get_db_session()

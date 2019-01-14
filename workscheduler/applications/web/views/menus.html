@@ -39,7 +39,7 @@
 <hr />
 {% if current_user.is_admin %}
 <div class="card-deck">
-    <a href="{{ url_for('schedules.show_scheduler_option', belong_id=default_belong_id) }}">
+    <a href="{{ url_for('schedulers.show_scheduler_option', belong_id=default_belong_id) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler.svg') }}" />
             <div class="card-footer">

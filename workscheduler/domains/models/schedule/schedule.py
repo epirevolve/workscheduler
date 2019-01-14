@@ -7,7 +7,7 @@ from sqlalchemy.types import (
     String, Boolean, Integer,
     DateTime
 )
-from .. import OrmBase
+from workscheduler.domains.models import OrmBase
 
 
 class Schedule(OrmBase):
