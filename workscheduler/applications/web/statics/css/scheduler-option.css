@@ -18,3 +18,9 @@
 [data-toggle="accordion"] h3 {
     font-size: 150% !important;
 }
+
+#selectable-list.fixed {
+    position: fixed;
+    top: 4rem;
+    right: 1rem;
+}

@@ -55,8 +55,10 @@
             }
         });
 
-        $('#prefix').datetimepicker({
-            format: 'L'
+        $('#from, #to').datetimepicker({
+            viewMode: 'days',
+            format: 'YYYY-MM-DD',
+            useCurrent: false
         });
     });
 })(jQuery);

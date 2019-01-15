@@ -34,14 +34,10 @@ def _public_request_body(month_year: date, scheduler_calendar):
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
                                              'notices', 'requests'))
     
-    def is_between(d, start, end):
-        return start.date() <= d <= end.date()
-
     def create_date(d, notices):
         return CalendarDay(d, d.year != month_year.year or d.month != month_year.month,
                            notices,
-                           [r for r in operator.requests
-                            if is_between(d, r.at_from, r.at_to)])
+                           [r for r in operator.requests if d == r.at_from.date()])
     
     sys_calender = SysCalendar()
     sys_calender.setfirstweekday(SUNDAY)
@@ -78,11 +74,11 @@ def append_my_request():
         session.commit()
 
         response = jsonify({
-            'eventId': req.id,
-            'eventTitle': req.title,
-            'eventNone': req.note,
-            'eventAtFrom': req.at_from,
-            'eventAtTo': req.at_to
+            'requestId': req.id,
+            'requestTitle': req.title,
+            'requestNone': req.note,
+            'requestAtFrom': req.at_from,
+            'requestAtTo': req.at_to
         })
         response.status_code = 200
     except Exception as e:
@@ -133,5 +129,5 @@ def show_operators():
 @bp.route('/operators/<operator_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_operator():
+def update_operator(operator_id):
     pass

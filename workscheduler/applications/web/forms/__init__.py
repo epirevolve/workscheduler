@@ -3,7 +3,7 @@
 from .auth_form import AuthForm
 from .operator_form import OperatorForm
 from .operators_form import OperatorsForm
-from .scheduler_date_setting_form import SchedulerDateSettingForm
+from .scheduler_calendar_form import SchedulerCalendarForm
 from .scheduler_option_form import (
     SchedulerOptionForm, WorkCategoryForm
 )

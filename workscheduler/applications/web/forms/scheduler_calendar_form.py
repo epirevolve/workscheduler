@@ -22,7 +22,7 @@ class BelongField(Field):
             return u''
 
 
-class SchedulerDateSettingForm(FlaskForm):
+class SchedulerCalendarForm(FlaskForm):
     schedule_of = DateField(validators=[DataRequired()])
     belong = BelongField(validators=[DataRequired()])
     holidays = IntegerField(default=8)

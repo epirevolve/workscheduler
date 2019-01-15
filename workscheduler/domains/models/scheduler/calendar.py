@@ -33,25 +33,31 @@ class Calendar(OrmBase):
     belong = relationship("Belong", uselist=False)
     year = Column(Integer)
     month = Column(Integer)
-    calendar_days = relationship("CalendarDay", secondary=associated_calendar_days_table)
+    days = relationship("CalendarDay", secondary=associated_calendar_days_table)
     holidays = Column(Integer)
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
 
     def __init__(self, id: str, belong: Belong,
-                 year: int, month: int, calendar_days: [],
-                 holidays: int, is_fixed: bool):
+                 year: int, month: int, days: [CalendarDay],
+                 holidays: int, fixed_schedule: [], is_fixed: bool):
         self.id = id
         self.belong = belong
         self.year = year
         self.month = month
-        self.calendar_days = calendar_days
+        self.days = days
         self.holidays = holidays
+        self.fixed_schedule = fixed_schedule
         self.is_fixed = is_fixed
-
+        
+    @property
+    def categories(self):
+        return [{'requires': [z.require for z in y], 'category': y[0].work_category}
+                for y in zip(*[x.details for x in self.days])]
+    
     @staticmethod
     def new_month_year(belong: Belong, work_categories: [],
-                       year: int, month: int, holidays: int):
+                       year: int, month: int, fixed_schedule, holidays: int):
         calendar = SysCalendar()
         calendar.setfirstweekday(SUNDAY)
         days = [CalendarDay.new_day(y, day_abbr[y.weekday()], work_categories)
@@ -59,4 +65,4 @@ class Calendar(OrmBase):
                 for y in x if y.year == year and y.month == month]
         return Calendar(UuidFactory.new_uuid(), belong,
                         year, month, days,
-                        holidays, is_fixed=False)
+                        holidays, fixed_schedule, is_fixed=False)

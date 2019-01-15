@@ -9,10 +9,10 @@ from .utils import validate_form
 
 class OperatorCommandAdapter(OperatorCommand):
     def append_my_request(self, form):
-        event_title = form.get('event-title')
-        event_note = form.get('event_note') or ''
-        event_at_from = form.get('event-at-from')
-        event_at_to = form.get('event-at-to')
+        event_title = form.get('requestTitle')
+        event_note = form.get('requestNote') or ''
+        event_at_from = form.get('requestAtFrom')
+        event_at_to = form.get('requestAtTo')
         if not event_title or not event_at_from or not event_at_to:
             raise ValueError()
         at_from = datetime.strptime(event_at_from, '%Y-%m-%d %H:%M')

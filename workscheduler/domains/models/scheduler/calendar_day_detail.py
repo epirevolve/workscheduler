@@ -15,7 +15,7 @@ from . import WorkCategory
 
 
 associated_work_category_table\
-    = Table("associated_calendar_date_details_work_category", OrmBase.metadata,
+    = Table("associated_calendar_date_detail_work_category", OrmBase.metadata,
             Column("left_id", String, ForeignKey('calendar_day_details.id')),
             Column("right_id", String, ForeignKey('work_categories.id')))
 

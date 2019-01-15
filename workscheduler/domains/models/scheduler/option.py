@@ -46,8 +46,8 @@ class Options(OrmBase):
         return super(Options, self).validate(Options, key, value)
     
     @staticmethod
-    def new_scheduler(belong: Belong, certified_skill: bool, not_certified_skill: bool,
-                      work_categories: [WorkCategory]):
+    def new_option(belong: Belong, certified_skill: bool, not_certified_skill: bool,
+                   work_categories: [WorkCategory]):
         return Options(UuidFactory.new_uuid(), belong,
                        certified_skill, not_certified_skill,
                        work_categories)

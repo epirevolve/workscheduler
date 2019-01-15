@@ -51,8 +51,8 @@ class SchedulerCommand:
         belong = BelongQuery(self._session).get_belong(belong_id)
         schedule_query = SchedulerQuery(self._session)
         work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
-        scheduler = Options.new_scheduler(belong, certified_skill, not_certified_skill,
-                                          work_categories)
+        scheduler = Options.new_option(belong, certified_skill, not_certified_skill,
+                                       work_categories)
         self._session.add(scheduler)
         return scheduler
     

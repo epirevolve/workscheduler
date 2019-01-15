@@ -16,7 +16,7 @@ from workscheduler.domains.models.scheduler import Calendar
 from utils.date import get_next_month
 from ..adapters import SchedulerCommandAdapter
 from ..forms import (
-    SchedulerOptionForm, SchedulerDateSettingForm
+    SchedulerOptionForm, SchedulerCalendarForm
 )
 from .. import get_db_session
 from . import admin_required
@@ -97,10 +97,12 @@ def show_calendar(belong_id: str, schedule_of: str):
     belong = BelongQuery(session).get_belong(belong_id)
     work_categories = SchedulerQuery(session).get_option_of_belong_id(belong_id).work_categories
     calendar = SchedulerQuery(session).get_calendar(belong_id, schedule_of.year, schedule_of.month)
-    calendar = calendar or Calendar.new_month_year(belong, work_categories, schedule_of.year, schedule_of.month, 8)
+    calendar = calendar or Calendar.new_month_year(
+        belong, work_categories, schedule_of.year, schedule_of.month,
+        [], 8)
     operators = OperatorQuery(session).get_operators()
     
-    form = SchedulerDateSettingForm(obj=type('temp', (object,), {
+    form = SchedulerCalendarForm(obj=type('temp', (object,), {
         'schedule_of': schedule_of,
         'belong': belong
     }))

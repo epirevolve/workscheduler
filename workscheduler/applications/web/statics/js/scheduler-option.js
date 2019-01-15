@@ -75,6 +75,15 @@ import { AlertManager } from './alert-helper.js';
             accept: '.operator'
         });
 
+        $(window).scroll(function () {
+            if ($(this).scrollTop() < 200) {
+                $('#selectable-list').removeClass('fixed');
+            }
+            else {
+                $('#selectable-list').addClass('fixed');
+            }
+        });
+
         $('select[name="belong"]').change(function () {
             let $this = $(this);
             let belongId = $this.find('option:selected').val();

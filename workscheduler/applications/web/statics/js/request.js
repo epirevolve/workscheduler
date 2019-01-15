@@ -14,16 +14,9 @@ import { AlertManager } from './alert-helper.js';
         let userId = $('#user-id').val();
         let date = new Date(stamp);
         date.setMonth(date.getMonth() + addMonth);
-        let date_str = date.getFullYear() + '-' + (date.getMonth() + 1)
+        let date_str = date.getFullYear() + '-' + (date.getMonth() + 1);
 
-        $.ajax({
-            url: `/operators/my-requests/month-year/${date_str}`
-        }).done((data) => {
-            let $header = $(data).find('#month_year');
-            $('#month_year').data('month_year', $header.data('month_year'));
-            $('#month_year').html($header.html());
-            $('.cl-body').html($(data).find('.cl-body').html());
-        });
+        location.href = `/operators/my-requests/month-year/${date_str}`;
     }
 
     let getEventData = function () {
@@ -33,82 +26,98 @@ import { AlertManager } from './alert-helper.js';
         let tostr = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()} ${to.getHours()}:${to.getMinutes()}`;
 
         let d = {
-                'event-id': $('#event-id').val(),
-                'event-title': $('#event-title').val(),
-                'event-note': $('#event-note').val(),
-                'event-at-from': fromstr,
-                'event-at-to': tostr
+                'requestId': $('#request-id').val(),
+                'requestTitle': $('#request-title').val(),
+                'requestNote': $('#request-note').val(),
+                'requestAtFrom': fromstr,
+                'requestAtTo': tostr
             };
 
         return d;
     }
 
+    const minDate = new Date(new Date().addMonths(1).setDate(1));
+    const maxDate = new Date(new Date().addMonths(7).setDate(0));
+
     let setDateLimit = function () {
         $('#datetime-from').datetimepicker("maxDate", false);
-        let minDate = new Date(new Date().addMonths(1).setDate(1)).setEarliestTime();
-        $('#datetime-from').datetimepicker("minDate", minDate);
+        $('#datetime-from').datetimepicker("minDate", minDate.setEarliestTime());
 
         $('#datetime-to').datetimepicker("minDate", false);
-        let maxDate = new Date(new Date().addMonths(7).setDate(0)).setLatestTime();
-        $('#datetime-to').datetimepicker("maxDate", maxDate);
+        $('#datetime-to').datetimepicker("maxDate", maxDate.setLatestTime());
     }
 
     let addEvent = function () {
+        let monthlyHolidays = parseInt($('#monthly-holidays').data('holidays'));
+        let remainedPaidHolidays = parseInt($('#paid-holidays').data('holidays'));
+
+        if (monthlyHolidays <= $('.request').length) {
+            let ret = confirm('adding more request will decrease your paid holidays.\r\nis it ok?');
+            if (!ret) return;
+        }
+        if (remainedPaidHolidays <= 0) {
+            let ret = confirm('maybe your paid holidays are still empty.\r\nare you keep going?');
+            if (!ret) return;
+        }
+
         $.ajax({
-            url: '/operators/my-request',
+            url: '/operators/my-requests',
             type: 'POST',
             data: getEventData()
         })
         .done((data) => {
             let alertManager = new AlertManager('#alert-container');
-            alertManager.append('Your event is correctly registered.',
+            alertManager.append('Your request is correctly registered.',
             'alert-info');
-            $('#event-modal').modal('hide');
-            let eventAtFrom = new Date(data.eventAtFrom);
-            let $eventPlace = $(`#events-${eventAtFrom.getFullYear()}${("0" + (eventAtFrom.getMonth()+1)).slice(-2)}${("0" + eventAtFrom.getDate()).slice(-2)}`);
-            if ($eventPlace == null) return;
+            $('#request-modal').modal('hide');
+            let requestAtFrom = new Date(data.requestAtFrom);
+            let $requestPlace = $(`#requests-${requestAtFrom.getFullYear()}${("0" + (requestAtFrom.getMonth()+1)).slice(-2)}${("0" + requestAtFrom.getDate()).slice(-2)}`);
+            if ($requestPlace == null) return;
             let $inner =
                 $('<div>')
                     .append(
                         $('<button>')
-                            .addClass('btn btn-basic btn-sm btn-block mb-3')
-                            .attr('id', 'edit-event')
-                            .data('id', data.eventId)
-                            .data('title', data.eventTitle)
-                            .data('note', data.eventNote)
+                            .addClass('btn btn-info btn-sm btn-block mb-3')
+                            .attr('id', 'edit-request')
+                            .data('id', data.requestId)
+                            .data('title', data.requestTitle)
+                            .data('note', data.requestNote)
                             .html('Edit'))
                     .append(
                         $('<div>')
                             .addClass('m-2')
-                            .html(data.eventNote))
+                            .html(data.requestNote))
                     .append(
                         $('<div>')
                             .addClass('m-2')
-                            .html(`${data.eventAtFrom}<br />~</br>${data.eventAtTo}`))
+                            .html(`${data.requestAtFrom}<br />~</br>${data.requestAtTo}`))
                     .append(
                         $('<button>')
-                            .addClass('btn btn-basic btn-sm btn-block mt-3')
-                            .attr('id', 'remove-event')
-                            .data('id', data.eventId)
+                            .addClass('btn btn-danger btn-sm btn-block mt-3')
+                            .attr('id', 'remove-request')
+                            .data('id', data.requestId)
                             .html('Remove'));
             let $button =
                 $('<button>')
-                    .addClass('btn btn-warning btn-block event-item')
-                    .attr('title', `<h4>${data.eventTitle}</h4>`)
+                    .addClass('btn btn-warning btn-block request-item')
+                    .attr('title', `<h4>${data.requestTitle}</h4>`)
                     .attr('type', 'button')
                     .data('toggle', 'popover')
                     .data('content', $inner)
-                    .html(data.eventTitle);
-            $eventPlace.append($button);
+                    .html(data.requestTitle);
+            $requestPlace.append($button);
             $button.popover(
             {
                 'html': true,
                 'placement': 'top'
             });
+
+            remainedPaidHolidays -= 1;
+            $('#paid-holidays').text(`${remainedPaidHolidays} days`);
         })
         .fail((data) => {
             let alertManager = new AlertManager('#alert-container');
-            alertManager.append('Oops, Sorry we have some trouble with appending event...',
+            alertManager.append('Oops, Sorry we have some trouble with appending request...',
             'alert-danger')
         });
     }
@@ -124,44 +133,44 @@ import { AlertManager } from './alert-helper.js';
             'placement': 'top'
         });
 
-        $(document).on('click', '#add-event', function () {
+        $(document).on('click', '#add-request', function () {
             let $button = $(this);
             let $container = $button.parents('.cl-body-cell').eq(0);
 
-            if ($container.find('.event-item').length >= 2) {
-                alert('cant append more event on this day');
+            if ($container.find('.request-item').length >= 2) {
+                alert('cant append more request on this day');
                 return;
             }
 
             let recipient = $container.data('date');
-            $('#event-title').val('');
-            $('#event-note').val('');
+            $('#request-title').val('');
+            $('#request-note').val('');
 
             setDateLimit();
 
             $('#datetime-from').datetimepicker("date", recipient + 'T09:30');
             $('#datetime-to').datetimepicker("date", recipient + 'T18:00');
 
-            let $save = $("#save-event");
+            let $save = $("#save-request");
             $save.off('click');
             $save.on('click', addEvent);
 
-            $('#event-modal').modal();
+            $('#request-modal').modal();
         });
 
-        $(document).on('click', '#edit-event', function () {
+        $(document).on('click', '#edit-request', function () {
             let $button = $(this);
 
-            $('#event-title').val($button.data('title'));
-            $('#event-note').val($button.data('note'));
+            $('#request-title').val($button.data('title'));
+            $('#request-note').val($button.data('note'));
 
             $('.popover').popover('hide');
 
-            let $save = $("#save-event");
+            let $save = $("#save-request");
             $save.off('click');
             $save.on('click', editEvent);
 
-            $('#event-modal').modal();
+            $('#request-modal').modal();
         });
 
         $('.date').datetimepicker({
@@ -188,30 +197,33 @@ import { AlertManager } from './alert-helper.js';
             $('#datetime-from').datetimepicker('maxDate', e.date);
         });
 
+        let setMonthChangeButtonAvailability = function () {
+            let stamp = new Date(Date.parse($('#month_year').data('month_year')));
+
+            $('button[name="previous-month"]').prop('disabled', true);
+            $('button[name="next-month"]').prop('disabled', true);
+
+            if (minDate.getFullYear() < stamp.getFullYear() || minDate.getMonth() < stamp.getMonth()) {
+                $('button[name="previous-month"]').prop('disabled', false);
+            }
+            if (maxDate.getFullYear() > stamp.getFullYear() || maxDate.getMonth() > stamp.getMonth()) {
+                $('button[name="next-month"]').prop('disabled', false);
+            }
+        };
+        setMonthChangeButtonAvailability();
+
         $('button[name="previous-month"]').click(function () {
             let stamp = Date.parse($('#month_year').data('month_year'));
             requestMonthYear(stamp, -1);
 
-            $('button[name="next-month"]').prop('disabled', false);
-
-            let d = new Date(stamp);
-            let minDate = new Date().addMonths(2);
-            if (d.getFullYear() <= minDate.getFullYear() && d.getMonth() <= minDate.getMonth()) {
-                $(this).prop('disabled', true);
-            };
+            setMonthChangeButtonAvailability();
         });
 
         $('button[name="next-month"]').click(function () {
             let stamp = Date.parse($('#month_year').data('month_year'));
             requestMonthYear(stamp, 1);
 
-            $('button[name="previous-month"]').prop('disabled', false);
-
-            let d = new Date(stamp);
-            let maxDate = new Date().addMonths(5);
-            if (d.getFullYear() >= maxDate.getFullYear() && d.getMonth() >= maxDate.getMonth()) {
-                $(this).prop('disabled', true);
-            };
+            setMonthChangeButtonAvailability();
         });
     });
 })(jQuery);

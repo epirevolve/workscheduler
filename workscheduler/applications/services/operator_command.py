@@ -16,6 +16,7 @@ class OperatorCommand:
         operator = OperatorQuery(self._session).get_operator_of_user_id(user_id)
         request = Request.new_request(title, note, at_from, at_to)
         operator.requests.append(request)
+        operator.remain_paid_holiday -= 1
         return request
     
     def update_myself(self, operator_id: str, skill_ids: [str], remain_paid_holiday: int):
