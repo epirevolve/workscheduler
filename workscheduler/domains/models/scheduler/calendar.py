@@ -7,7 +7,8 @@ from sqlalchemy import (
     Column, Table, ForeignKey
 )
 from sqlalchemy.types import (
-    String, DateTime, Integer
+    String, DateTime, Integer,
+    Boolean
 )
 from sqlalchemy.orm import (
     relationship
@@ -33,26 +34,29 @@ class Calendar(OrmBase):
     year = Column(Integer)
     month = Column(Integer)
     calendar_days = relationship("CalendarDay", secondary=associated_calendar_days_table)
-    usual_holidays = Column(Integer)
+    holidays = Column(Integer)
+    is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
 
     def __init__(self, id: str, belong: Belong,
                  year: int, month: int, calendar_days: [],
-                 usual_holidays: int):
+                 holidays: int, is_fixed: bool):
         self.id = id
         self.belong = belong
         self.year = year
         self.month = month
         self.calendar_days = calendar_days
-        self.usual_holidays = usual_holidays
+        self.holidays = holidays
+        self.is_fixed = is_fixed
 
     @staticmethod
     def new_month_year(belong: Belong, work_categories: [],
-                       year: int, month: int, usual_holidays: int):
+                       year: int, month: int, holidays: int):
         calendar = SysCalendar()
         calendar.setfirstweekday(SUNDAY)
         days = [CalendarDay.new_day(y, day_abbr[y.weekday()], work_categories)
                 for x in calendar.monthdatescalendar(year, month)
                 for y in x if y.year == year and y.month == month]
         return Calendar(UuidFactory.new_uuid(), belong,
-                        year, month, days, usual_holidays)
+                        year, month, days,
+                        holidays, is_fixed=False)

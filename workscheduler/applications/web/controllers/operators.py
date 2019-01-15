@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from calendar import (
-    Calendar, SUNDAY
+    Calendar as SysCalendar, SUNDAY
 )
 from collections import namedtuple
 from datetime import (
@@ -16,7 +16,7 @@ from flask_login import (
     login_required, current_user
 )
 from workscheduler.applications.services import (
-    OperatorQuery, BelongQuery
+    OperatorQuery, BelongQuery, SchedulerQuery
 )
 from .. import get_db_session
 from ..adapters import OperatorCommandAdapter
@@ -29,34 +29,47 @@ from . import admin_required
 bp = Blueprint('operators', __name__)
 
 
-@bp.route('/operators/my-request/operators/<operator_id>/month_year/<month_year>')
+def _public_request_body(month_year: date, scheduler_calendar):
+    operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
+    CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
+                                             'notices', 'requests'))
+    
+    def is_between(d, start, end):
+        return start.date() <= d <= end.date()
+
+    def create_date(d, notices):
+        return CalendarDay(d, d.year != month_year.year or d.month != month_year.month,
+                           notices,
+                           [r for r in operator.requests
+                            if is_between(d, r.at_from, r.at_to)])
+    
+    sys_calender = SysCalendar()
+    sys_calender.setfirstweekday(SUNDAY)
+    weeks = [[create_date(_date, None) for _date in week]
+             for week in sys_calender.monthdatescalendar(month_year.year, month_year.month)]
+    return render_template('request-public.html',
+                           month_year=month_year, weeks=weeks, paid_holidays=operator.remain_paid_holiday,
+                           scheduler_calendar=scheduler_calendar)
+
+
+def _non_public_request_body(month_year):
+    return render_template('request-non-public.html', month_year=month_year)
+
+
+@bp.route('/operators/my-requests/month-year/<month_year>')
 @login_required
-def show_my_request(operator_id, month_year):
+def show_my_request(month_year):
     if month_year and not isinstance(month_year, date):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
 
     session = get_db_session()
-    operator = OperatorQuery(session).get_operator_of_user_id(current_user.id)
-    
-    CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
-                                             'notices', 'requests'))
-
-    def is_between(_date, start, end):
-        return start.date() <= _date <= end.date()
-
-    def create_date(_date, notices):
-        return CalendarDay(_date, _date.year != month_year.year or _date.month != month_year.month,
-                           notices,
-                           [_request for _request in operator.requests
-                            if is_between(_date, _request.at_from, _request.at_to)])
-    calender = Calendar()
-    calender.setfirstweekday(SUNDAY)
-    weeks = [[create_date(_date, None) for _date in week]
-             for week in calender.monthdatescalendar(month_year.year, month_year.month)]
-    return render_template('request.html', month_year=month_year, weeks=weeks)
+    scheduler_calendar = SchedulerQuery(session).get_calendar(current_user.belong.id,
+                                                              month_year.year, month_year.month)
+    return _public_request_body(month_year, scheduler_calendar) if scheduler_calendar\
+        else _non_public_request_body(month_year)
 
 
-@bp.route('/operators/my-request', methods=['POST'])
+@bp.route('/operators/my-requests', methods=['POST'])
 @login_required
 def append_my_request():
     session = get_db_session()
@@ -80,7 +93,7 @@ def append_my_request():
     return response
 
 
-@bp.route('/operators/my-request/<requst_id>', methods=['POST'])
+@bp.route('/operators/my-requests/<requst_id>', methods=['POST'])
 @login_required
 def update_my_request(requst_id):
     pass

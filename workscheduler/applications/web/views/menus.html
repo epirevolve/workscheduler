@@ -10,7 +10,7 @@
         </div>
     </a>
     {% if current_user.is_operator %}
-    <a href="{{ url_for('operators.show_my_request', operator_id=operator_id, month_year=next_month) }}">
+    <a href="{{ url_for('operators.show_my_request', month_year=next_month) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/request.svg') }}" />
             <div class="card-footer">
