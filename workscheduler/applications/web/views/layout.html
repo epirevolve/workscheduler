@@ -43,10 +43,10 @@
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', user_id=current_user.id) }}">as user</a></li>
                     {% if current_user.is_admin %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedulers.show_scheduler_option', belong_id=default_belong_id) }}">scheduler</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedulers.show_scheduler_option', affiliation_id=default_affiliation_id) }}">scheduler</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_operators') }}">operators</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_users') }}">users</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('belongs.show_belongs') }}">belongs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('affiliations.show_affiliations') }}">affiliations</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('skills.show_skills') }}">skills</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('teams.show_team_categories') }}">teams</a></li>
                     {% endif %}

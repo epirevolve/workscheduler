@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .auth_command_adapter import AuthCommandAdapter
-from .belong_command_adapter import BelongCommandAdapter
+from .affiliation_command_adapter import AffiliationCommandAdapter
 from .operator_command_adapter import OperatorCommandAdapter
 from .schedule_command_adapter import SchedulerCommandAdapter
 from .skill_command_adapter import SkillCommandAdapter

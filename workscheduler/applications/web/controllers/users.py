@@ -9,7 +9,7 @@ from flask_login import (
     login_required, current_user
 )
 from workscheduler.applications.services import (
-    UserQuery, BelongQuery
+    UserQuery, AffiliationQuery
 )
 from .. import get_db_session
 from ..adapters import UserCommandAdapter
@@ -44,9 +44,9 @@ def update_myself(user_id):
 def show_users():
     session = get_db_session()
     users = UserQuery(session).get_users()
-    belongs = BelongQuery(session).get_belongs()
+    affiliations = AffiliationQuery(session).get_affiliations()
 
-    return render_template('users.html', form=UsersForm(), users=users, belongs=belongs)
+    return render_template('users.html', form=UsersForm(), users=users, affiliations=affiliations)
 
 
 @bp.route('/users', methods=['POST'])

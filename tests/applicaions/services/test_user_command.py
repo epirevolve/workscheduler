@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.applications.services import UserQuery
-from workscheduler.domains.models.user import Belong
+from workscheduler.domains.models.user import Affiliation
 
 
 class TestUserManageCommand:
     def test_append_user(self, user_manage_command, session):
         user_repository = UserQuery(session)
-        belong = Belong.new_belong('test', 'this is test')
-        session.add(belong)
+        affiliation = Affiliation.new_affiliation('test', 'this is test')
+        session.add(affiliation)
         session.commit()
         count = len(user_repository.get_users())
         user_manage_command.append_user(
-            'test1', 'テスト１', belong.id,
+            'test1', 'テスト１', affiliation.id,
             True, False
         )
         session.commit()
@@ -21,20 +21,20 @@ class TestUserManageCommand:
         assert user.id
         assert 'test1' == user.login_id
         assert 'テスト１' == user.name
-        assert 'test' == user.belong.name
+        assert 'test' == user.affiliation.name
         assert user.is_admin
         assert not user.is_operator
         
     def test_update_user(self, user_manage_command, session):
         user_repository = UserQuery(session)
         users = user_repository.get_users()
-        belong = Belong.new_belong('new test', 'this is changed')
-        session.add(belong)
+        affiliation = Affiliation.new_affiliation('new test', 'this is changed')
+        session.add(affiliation)
         session.commit()
         count = len(users)
         user = users[0]
         user_manage_command.update_user(
-            user.id, 'random login id', 'random name', belong.id,
+            user.id, 'random login id', 'random name', affiliation.id,
             False, True)
         session.commit()
         assert count == len(user_repository.get_users())
@@ -42,7 +42,7 @@ class TestUserManageCommand:
         assert user.id
         assert 'random login id' == user.login_id
         assert 'random name' == user.name
-        assert 'new test' == user.belong.name
+        assert 'new test' == user.affiliation.name
         assert not user.is_admin
         assert user.is_operator
     

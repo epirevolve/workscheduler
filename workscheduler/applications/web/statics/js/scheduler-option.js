@@ -84,10 +84,10 @@ import { AlertManager } from './alert-helper.js';
             }
         });
 
-        $('select[name="belong"]').change(function () {
+        $('select[name="affiliation"]').change(function () {
             let $this = $(this);
-            let belongId = $this.find('option:selected').val();
-            let url = $this.data('url') + belongId;
+            let affiliationId = $this.find('option:selected').val();
+            let url = $this.data('url') + affiliationId;
             location.href = url;
         });
 

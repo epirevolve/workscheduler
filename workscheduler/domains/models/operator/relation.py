@@ -9,7 +9,7 @@ from sqlalchemy.types import (
 from sqlalchemy.orm import (
     relationship, validates
 )
-from utils.uuid import UuidFactory
+from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 from workscheduler.domains.models.operator import Operator
 

@@ -6,14 +6,14 @@
         <thead>
             <tr>
                 <th>name</th>
-                <th>belong</th>
+                <th>affiliation</th>
             </tr>
         </thead>
         <tbody>
             {% for operator in operators %}
             <tr role="row" data-id="{{ operator.id }}">
                 <td>{{ operator.user.name }}</td>
-                <td>{{ operator.user.belong.name }}</td>
+                <td>{{ operator.user.affiliation.name }}</td>
             </tr>
             {% else %}
             <tr><td>No operators here so far.</td><td></td></tr>

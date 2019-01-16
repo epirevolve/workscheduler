@@ -18,7 +18,7 @@ class UserCommandAdapter(UserCommand):
             return
         return super(UserCommandAdapter, self).append_user(
             form.login_id.data, form.name.data,
-            form.belong.data, form.is_admin.data, form.is_operator.data
+            form.affiliation.data, form.is_admin.data, form.is_operator.data
         )
     
     def update_user(self, form: UsersForm):
@@ -26,7 +26,7 @@ class UserCommandAdapter(UserCommand):
             return
         super(UserCommandAdapter, self).update_user(
             form.id.data, form.login_id.data, form.name.data,
-            form.belong.data, form.is_admin.data, form.is_operator.data
+            form.affiliation.data, form.is_admin.data, form.is_operator.data
         )
     
     def reset_password(self, request):

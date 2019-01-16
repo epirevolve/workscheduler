@@ -12,7 +12,7 @@ from wtforms.validators import (
 )
 
 
-class BelongField(Field):
+class AffiliationField(Field):
     widget = TextInput()
     
     def _value(self):
@@ -24,5 +24,5 @@ class BelongField(Field):
 
 class SchedulerCalendarForm(FlaskForm):
     schedule_of = DateField(validators=[DataRequired()])
-    belong = BelongField(validators=[DataRequired()])
+    affiliation = AffiliationField(validators=[DataRequired()])
     holidays = IntegerField(default=8)

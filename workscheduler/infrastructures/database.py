@@ -3,10 +3,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from workscheduler.applications.services import (
-    UserCommand, BelongQuery
+    UserCommand, AffiliationQuery
 )
 from workscheduler.domains.models import OrmBase
-from workscheduler.domains.models.user.belong import Belong
+from workscheduler.domains.models.user.affiliation import Affiliation
 
 
 class Database:
@@ -20,10 +20,10 @@ class Database:
         # set initial data
         session = self.create_session()
 
-        session.add(Belong.not_belong())
+        session.add(Affiliation.not_affiliation())
         session.flush()
 
-        default_id = BelongQuery(session).get_default_belong().id
+        default_id = AffiliationQuery(session).get_default_affiliation().id
         user_command = UserCommand(session)
         user_command.append_user('admin', '管理者', default_id, is_admin=True, is_operator=False)
 
@@ -35,19 +35,19 @@ class Database:
         
         session = self.create_session()
         
-        # add belongs
+        # add affiliations
         
-        front = Belong.new_belong('フロント', '')
+        front = Affiliation.new_affiliation('フロント', '')
         session.add(front)
-        session.add(Belong.new_belong('Sec', ''))
-        session.add(Belong.new_belong('Secフロント', ''))
+        session.add(Affiliation.new_affiliation('Sec', ''))
+        session.add(Affiliation.new_affiliation('Secフロント', ''))
         
         # add role users
         
-        belong_id = BelongQuery(session).get_default_belong().id
+        affiliation_id = AffiliationQuery(session).get_default_affiliation().id
         append_user = UserCommand(session).append_user
-        append_user('user', 'ユーザ', belong_id, is_admin=False, is_operator=True)
-        append_user('adope', '管理ユーザ', belong_id, is_admin=True, is_operator=True)
+        append_user('user', 'ユーザ', affiliation_id, is_admin=False, is_operator=True)
+        append_user('adope', '管理ユーザ', affiliation_id, is_admin=True, is_operator=True)
         
         # add skills
         
@@ -65,13 +65,13 @@ class Database:
         
         from workscheduler.domains.models.team import TeamCategory
         team_cat_1 = TeamCategory.new_team_category(
-            'Night Operation Team', allow_multiple_belong=True,
+            'Night Operation Team', allow_multiple_affiliation=True,
             is_leader_required=False, min_member_count=0,
             max_member_count=3
         )
         session.add(team_cat_1)
         team_cat_2 = TeamCategory.new_team_category(
-            'Specific Operation Team', allow_multiple_belong=False,
+            'Specific Operation Team', allow_multiple_affiliation=False,
             is_leader_required=True, min_member_count=1,
             max_member_count=10
         )
@@ -80,25 +80,25 @@ class Database:
         from workscheduler.domains.models.team import Team
         team = Team.new_team(team_cat_1.id, 'Team A')
         session.add(team)
-        user1 = append_user('test_user1', 'テストユーザ1', belong_id, is_admin=False, is_operator=True)
+        user1 = append_user('test_user1', 'テストユーザ1', affiliation_id, is_admin=False, is_operator=True)
         team.users.append(user1)
         team = Team.new_team(team_cat_2.id, 'Team B')
         session.add(team)
-        user2 = append_user('test_user2', 'テストユーザ2', belong_id, is_admin=False, is_operator=True)
+        user2 = append_user('test_user2', 'テストユーザ2', affiliation_id, is_admin=False, is_operator=True)
         team.users.append(user2)
-        user3 = append_user('test_user3', 'テストユーザ3', belong_id, is_admin=False, is_operator=True)
+        user3 = append_user('test_user3', 'テストユーザ3', affiliation_id, is_admin=False, is_operator=True)
         team.users.append(user3)
         team = Team.new_team(team_cat_2.id, 'Team C')
         session.add(team)
-        team.users.append(append_user('test_user4', 'テストユーザ4', belong_id, is_admin=False, is_operator=True))
-        team.users.append(append_user('test_user5', 'テストユーザ5', belong_id, is_admin=False, is_operator=True))
-        team.users.append(append_user('test_user6', 'テストユーザ6', belong_id, is_admin=False, is_operator=True))
+        team.users.append(append_user('test_user4', 'テストユーザ4', affiliation_id, is_admin=False, is_operator=True))
+        team.users.append(append_user('test_user5', 'テストユーザ5', affiliation_id, is_admin=False, is_operator=True))
+        team.users.append(append_user('test_user6', 'テストユーザ6', affiliation_id, is_admin=False, is_operator=True))
         team = Team.new_team(team_cat_2.id, 'Team D')
         session.add(team)
-        team.users.append(append_user('test_user7', 'テストユーザ7', belong_id, is_admin=False, is_operator=True))
-        team.users.append(append_user('test_user8', 'テストユーザ8', belong_id, is_admin=False, is_operator=True))
-        team.users.append(append_user('test_user9', 'テストユーザ9', belong_id, is_admin=False, is_operator=True))
-        team.users.append(append_user('test_user10', 'テストユーザ10', belong_id, is_admin=False, is_operator=True))
+        team.users.append(append_user('test_user7', 'テストユーザ7', affiliation_id, is_admin=False, is_operator=True))
+        team.users.append(append_user('test_user8', 'テストユーザ8', affiliation_id, is_admin=False, is_operator=True))
+        team.users.append(append_user('test_user9', 'テストユーザ9', affiliation_id, is_admin=False, is_operator=True))
+        team.users.append(append_user('test_user10', 'テストユーザ10', affiliation_id, is_admin=False, is_operator=True))
         
         session.flush()
         

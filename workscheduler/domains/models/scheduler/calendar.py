@@ -14,8 +14,8 @@ from sqlalchemy.orm import (
     relationship
 )
 from sqlalchemy.sql.functions import current_timestamp
-from utils.uuid import UuidFactory
-from workscheduler.domains.models.user import Belong
+from mypackages.utils.uuid import UuidFactory
+from workscheduler.domains.models.user import Affiliation
 from .. import OrmBase
 from . import CalendarDay
 
@@ -29,8 +29,8 @@ associated_calendar_days_table\
 class Calendar(OrmBase):
     __tablename__ = "calendars"
     id = Column(String, primary_key=True)
-    _belong_id = Column(String, ForeignKey('belongs.id'))
-    belong = relationship("Belong", uselist=False)
+    _affiliation_id = Column(String, ForeignKey('affiliations.id'))
+    affiliation = relationship("Affiliation", uselist=False)
     year = Column(Integer)
     month = Column(Integer)
     days = relationship("CalendarDay", secondary=associated_calendar_days_table)
@@ -38,11 +38,11 @@ class Calendar(OrmBase):
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
 
-    def __init__(self, id: str, belong: Belong,
+    def __init__(self, id: str, affiliation: Affiliation,
                  year: int, month: int, days: [CalendarDay],
                  holidays: int, fixed_schedule: [], is_fixed: bool):
         self.id = id
-        self.belong = belong
+        self.affiliation = affiliation
         self.year = year
         self.month = month
         self.days = days
@@ -56,13 +56,13 @@ class Calendar(OrmBase):
                 for y in zip(*[x.details for x in self.days])]
     
     @staticmethod
-    def new_month_year(belong: Belong, work_categories: [],
+    def new_month_year(affiliation: Affiliation, work_categories: [],
                        year: int, month: int, fixed_schedule, holidays: int):
         calendar = SysCalendar()
         calendar.setfirstweekday(SUNDAY)
         days = [CalendarDay.new_day(y, day_abbr[y.weekday()], work_categories)
                 for x in calendar.monthdatescalendar(year, month)
                 for y in x if y.year == year and y.month == month]
-        return Calendar(UuidFactory.new_uuid(), belong,
+        return Calendar(UuidFactory.new_uuid(), affiliation,
                         year, month, days,
                         holidays, fixed_schedule, is_fixed=False)

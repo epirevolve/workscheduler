@@ -1,24 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from calendar import (
-    Calendar as SysCalendar, SUNDAY, day_abbr
-)
 from sqlalchemy import (
     Column, Table, ForeignKey
 )
 from sqlalchemy.types import (
-    String, DateTime, Integer,
-    Boolean
+    String, DateTime
 )
 from sqlalchemy.orm import (
     relationship
 )
-from sqlalchemy.sql.functions import current_timestamp
-from utils.uuid import UuidFactory
-from workscheduler.domains.models.user import Belong
 from .. import OrmBase
-from . import CalendarDay
-
 
 associated_work_category_table\
     = Table("associated_fixed_schedule_work_category", OrmBase.metadata,

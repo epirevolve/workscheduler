@@ -49,14 +49,14 @@ class UsersAction:
     def show_users(self):
         return self._client.get('/users', follow_redirects=True)
     
-    def append_user(self, login_id, name, belong_id, is_admin, is_operator):
-        return self._client.post('/users', data=dict(login_id=login_id, name=name, belong=belong_id,
+    def append_user(self, login_id, name, affiliation_id, is_admin, is_operator):
+        return self._client.post('/users', data=dict(login_id=login_id, name=name, affiliation=affiliation_id,
                                                      is_admin=is_admin, is_operator=is_operator),
                                  follow_redirects=True)
     
-    def update_user(self, user_id, login_id, name, belong_id, is_admin, is_operator):
+    def update_user(self, user_id, login_id, name, affiliation_id, is_admin, is_operator):
         return self._client.post('/users/{}'.format(user_id),
-                                 data=dict(id=user_id, login_id=login_id, name=name, belong=belong_id,
+                                 data=dict(id=user_id, login_id=login_id, name=name, affiliation=affiliation_id,
                                            is_admin=is_admin, is_operator=is_operator),
                                  follow_redirects=True)
     

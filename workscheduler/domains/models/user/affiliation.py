@@ -7,17 +7,17 @@ from sqlalchemy.types import (
 )
 from sqlalchemy.sql.functions import current_timestamp
 from workscheduler.domains.models import OrmBase
-from utils.uuid import UuidFactory
+from mypackages.utils.uuid import UuidFactory
 
 
-class Belong(OrmBase):
-    __tablename__ = 'belongs'
+class Affiliation(OrmBase):
+    __tablename__ = 'affiliations'
     id = Column(String, primary_key=True)
     name = Column(String(20), nullable=False)
     note = Column(String(50))
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    _not_belong_name = "未所属"
+    _not_affiliation_name = "未所属"
     
     def __init__(self, id: str, name: str, note: str):
         self.id = id
@@ -26,16 +26,16 @@ class Belong(OrmBase):
 
     @validates('id', 'name')
     def validate(self, key, value):
-        return super(Belong, self).validate(Belong, key, value)
+        return super(Affiliation, self).validate(Affiliation, key, value)
     
-    def is_not_belong(self):
-        return self.name == Belong._not_belong_name
-    
-    @staticmethod
-    def new_belong(name: str, note: str):
-        return Belong(UuidFactory.new_uuid(), name, note)
+    def is_not_affiliation(self):
+        return self.name == Affiliation._not_affiliation_name
     
     @staticmethod
-    def not_belong():
-        return Belong.new_belong(Belong._not_belong_name,
+    def new_affiliation(name: str, note: str):
+        return Affiliation(UuidFactory.new_uuid(), name, note)
+    
+    @staticmethod
+    def not_affiliation():
+        return Affiliation.new_affiliation(Affiliation._not_affiliation_name,
                                  '新規ユーザはこの所属となります。\r\nオペレータ画面にて所属を変更してください。')

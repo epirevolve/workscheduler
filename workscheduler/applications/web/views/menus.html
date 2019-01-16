@@ -39,7 +39,7 @@
 <hr />
 {% if current_user.is_admin %}
 <div class="card-deck">
-    <a href="{{ url_for('schedulers.show_scheduler_option', belong_id=default_belong_id) }}">
+    <a href="{{ url_for('schedulers.show_scheduler_option', affiliation_id=default_affiliation_id) }}">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler.svg') }}" />
             <div class="card-footer">
@@ -63,11 +63,11 @@
             </div>
         </div>
     </a>
-    <a href="{{ url_for('belongs.show_belongs') }}">
+    <a href="{{ url_for('affiliations.show_affiliations') }}">
         <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/belongs.svg') }}" />
+            <img class="card-img-top" src="{{ url_for('static', filename='img/affiliations.svg') }}" />
             <div class="card-footer">
-                <h3 class="card-title">Belongs</h3>
+                <h3 class="card-title">Affiliations</h3>
             </div>
         </div>
     </a>

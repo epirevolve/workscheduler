@@ -16,7 +16,7 @@ from flask_login import (
     login_required, current_user
 )
 from workscheduler.applications.services import (
-    OperatorQuery, BelongQuery, SchedulerQuery
+    OperatorQuery, AffiliationQuery, SchedulerQuery
 )
 from .. import get_db_session
 from ..adapters import OperatorCommandAdapter
@@ -59,7 +59,7 @@ def show_my_request(month_year):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
 
     session = get_db_session()
-    scheduler_calendar = SchedulerQuery(session).get_calendar(current_user.belong.id,
+    scheduler_calendar = SchedulerQuery(session).get_calendar(current_user.affiliation.id,
                                                               month_year.year, month_year.month)
     return _public_request_body(month_year, scheduler_calendar) if scheduler_calendar\
         else _non_public_request_body(month_year)
@@ -120,10 +120,10 @@ def update_myself(operator_id):
 def show_operators():
     session = get_db_session()
     operators = OperatorQuery(session).get_operators()
-    belongs = BelongQuery(session).get_belongs()
+    affiliations = AffiliationQuery(session).get_affiliations()
     
     return render_template('operators.html', form=OperatorsForm(),
-                           operators=operators, belongs=belongs)
+                           operators=operators, affiliations=affiliations)
 
 
 @bp.route('/operators/<operator_id>', methods=['POST'])

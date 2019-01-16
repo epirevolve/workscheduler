@@ -10,8 +10,8 @@ from sqlalchemy.types import (
 from sqlalchemy.orm import (
     relationship
 )
-from utils.uuid import UuidFactory
-from utils.date import is_holiday
+from mypackages.utils.uuid import UuidFactory
+from mypackages.utils.date import is_holiday
 from .. import OrmBase
 from . import (
     WorkCategory, CalendarDayDetail

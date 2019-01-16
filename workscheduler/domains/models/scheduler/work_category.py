@@ -14,7 +14,7 @@ from sqlalchemy.sql.functions import current_timestamp
 from workscheduler.domains.models.operator import (
     Skill, Operator
 )
-from utils.uuid import UuidFactory
+from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
 
 

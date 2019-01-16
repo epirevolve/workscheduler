@@ -14,10 +14,10 @@ from flask_login import (
     LoginManager, current_user
 )
 from jinja2 import FileSystemLoader
-from utils.date import get_next_month
+from mypackages.utils.date import get_next_month
 from workscheduler.infrastructures import Database
 from workscheduler.applications.services import (
-    BelongQuery, OperatorQuery
+    AffiliationQuery, OperatorQuery
 )
 
 
@@ -80,7 +80,7 @@ def create_app(test_config=None):
 
     from .controllers import (
         auths, menus, schedules, schedulers,
-        operators, users, belongs,
+        operators, users, affiliations,
         skills, teams
     )
 
@@ -90,7 +90,7 @@ def create_app(test_config=None):
     app.register_blueprint(schedulers.bp)
     app.register_blueprint(operators.bp)
     app.register_blueprint(users.bp)
-    app.register_blueprint(belongs.bp)
+    app.register_blueprint(affiliations.bp)
     app.register_blueprint(skills.bp)
     app.register_blueprint(teams.bp)
 
@@ -119,10 +119,10 @@ def create_app(test_config=None):
         app.jinja_env.globals['today'] = date.today()
         app.jinja_env.globals['next_month'] = get_next_month()
     
-        def get_default_belong():
-            return next(filter(lambda x: not x.is_not_belong(), BelongQuery(get_db_session()).get_belongs()))
+        def get_default_affiliation():
+            return next(filter(lambda x: not x.is_not_affiliation(), AffiliationQuery(get_db_session()).get_affiliations()))
     
-        app.jinja_env.globals['default_belong_id'] = get_default_belong().id
+        app.jinja_env.globals['default_affiliation_id'] = get_default_affiliation().id
     
         def get_operator_id():
             operator_query = OperatorQuery(get_db_session())

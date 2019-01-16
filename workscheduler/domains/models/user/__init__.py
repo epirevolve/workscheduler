@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 
-from .belong import Belong
+from .affiliation import Affiliation
 from .user import User

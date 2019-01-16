@@ -3,10 +3,10 @@
 <form method="post">
     {{ form.hidden_tag() }}
     <div class="header mb-3">
-        <select class="custom-select custom-select-lg" name="belong" data-url="{{ url }}">
-            {% for belong in belongs %}
-                <option value="{{ belong.id }}" {% if belong.id==belong_id %}selected{% endif %}>
-                    {{ belong.name }}
+        <select class="custom-select custom-select-lg" name="affiliation" data-url="{{ url }}">
+            {% for affiliation in affiliations %}
+                <option value="{{ affiliation.id }}" {% if affiliation.id==affiliation_id %}selected{% endif %}>
+                    {{ affiliation.name }}
                 </option>
             {% endfor %}
         </select>

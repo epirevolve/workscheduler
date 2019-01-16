@@ -7,7 +7,7 @@ from sqlalchemy.types import (
 )
 from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.orm import validates
-from utils.uuid import UuidFactory
+from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 
 

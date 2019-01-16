@@ -10,8 +10,8 @@ from sqlalchemy.orm import (
     relationship, validates
 )
 from sqlalchemy.sql.functions import current_timestamp
-from utils.uuid import UuidFactory
-from workscheduler.domains.models.user import Belong
+from mypackages.utils.uuid import UuidFactory
+from workscheduler.domains.models.user import Affiliation
 from .. import OrmBase
 from . import WorkCategory
 
@@ -25,29 +25,29 @@ associated_work_category_table\
 class Options(OrmBase):
     __tablename__ = 'options'
     id = Column(String, primary_key=True)
-    _belong_id = Column(String, ForeignKey('belongs.id'))
-    belong = relationship("Belong", uselist=False)
+    _affiliation_id = Column(String, ForeignKey('affiliations.id'))
+    affiliation = relationship("Affiliation", uselist=False)
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
     work_categories = relationship("WorkCategory", secondary=associated_work_category_table)
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id: str, belong: Belong,
+    def __init__(self, id: str, affiliation: Affiliation,
                  certified_skill: bool, not_certified_skill: bool,
                  work_categories: [WorkCategory]):
         self.id = id
-        self.belong = belong
+        self.affiliation = affiliation
         self.certified_skill = certified_skill
         self.not_certified_skill = not_certified_skill
         self.work_categories = work_categories
     
-    @validates("id, belong")
+    @validates("id, affiliation")
     def validate(self, key, value):
         return super(Options, self).validate(Options, key, value)
     
     @staticmethod
-    def new_option(belong: Belong, certified_skill: bool, not_certified_skill: bool,
+    def new_option(affiliation: Affiliation, certified_skill: bool, not_certified_skill: bool,
                    work_categories: [WorkCategory]):
-        return Options(UuidFactory.new_uuid(), belong,
+        return Options(UuidFactory.new_uuid(), affiliation,
                        certified_skill, not_certified_skill,
                        work_categories)

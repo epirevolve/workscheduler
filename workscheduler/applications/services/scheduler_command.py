@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.applications.services import (
-    BelongQuery, OperatorQuery, SkillQuery,
+    AffiliationQuery, OperatorQuery, SkillQuery,
     SchedulerQuery
 )
 from workscheduler.domains.models.scheduler import (
@@ -46,21 +46,21 @@ class SchedulerCommand:
         work_category.impossible_operators = [x for x in operators if x.id in impossible_operator_ids]
         return work_category
     
-    def append_option(self, belong_id: str, certified_skill: bool,
+    def append_option(self, affiliation_id: str, certified_skill: bool,
                       not_certified_skill: bool, work_category_ids: [str]):
-        belong = BelongQuery(self._session).get_belong(belong_id)
+        affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
         schedule_query = SchedulerQuery(self._session)
         work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
-        scheduler = Options.new_option(belong, certified_skill, not_certified_skill,
+        scheduler = Options.new_option(affiliation, certified_skill, not_certified_skill,
                                        work_categories)
         self._session.add(scheduler)
         return scheduler
     
-    def update_option(self, id: str, belong_id: str, certified_skill: bool,
+    def update_option(self, id: str, affiliation_id: str, certified_skill: bool,
                       not_certified_skill: bool, work_category_ids: [str]):
         schedule_query = SchedulerQuery(self._session)
         scheduler = schedule_query.get_option(id)
-        scheduler.belong = BelongQuery(self._session).get_belong(belong_id)
+        scheduler.affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
         scheduler.certified_skill = certified_skill
         scheduler.not_certified_skill = not_certified_skill
         scheduler.work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]

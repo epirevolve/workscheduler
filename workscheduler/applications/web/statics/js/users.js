@@ -18,7 +18,7 @@ import { AlertManager } from './alert-helper.js';
             $('input[name="id"]').val($this.data('id'));
             $('input[name="login_id"]').val($this.data('login_id'));
             $('input[name="name"]').val($this.data('name'));
-            $('select[name="belong"]').val($this.data('belong_id'));
+            $('select[name="affiliation"]').val($this.data('affiliation_id'));
             $('input[name="is_admin"]').prop('checked', ($this.data('is_admin') == 'True'));
             $('input[name="is_operator"]').prop('checked', ($this.data('is_operator') == 'True'));
 

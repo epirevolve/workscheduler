@@ -51,7 +51,7 @@ class WorkCategoryForm(FlaskForm):
         super(WorkCategoryForm, self).__init__(*args, **kwargs)
 
 
-class BelongField(Field):
+class AffiliationField(Field):
     widget = TextInput()
     
     def _value(self):
@@ -63,7 +63,7 @@ class BelongField(Field):
 
 class SchedulerOptionForm(FlaskForm):
     id = HiddenField()
-    belong = BelongField(validators=[DataRequired()])
+    affiliation = AffiliationField(validators=[DataRequired()])
     certified_skill = BooleanField()
     not_certified_skill = BooleanField()
     work_categories = []

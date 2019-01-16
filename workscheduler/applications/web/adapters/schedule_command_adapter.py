@@ -34,7 +34,7 @@ class SchedulerCommandAdapter(SchedulerCommand):
         work_category_ids = [self.append_work_category(x).id for x in form.work_categories]
         self._session.flush()
         return super(SchedulerCommandAdapter, self).append_option(
-            form.belong.data, form.certified_skill.data,
+            form.affiliation.data, form.certified_skill.data,
             form.not_certified_skill.data, work_category_ids
         )
     
@@ -45,6 +45,6 @@ class SchedulerCommandAdapter(SchedulerCommand):
                              for x in form.work_categories]
         self._session.flush()
         return super(SchedulerCommandAdapter, self).update_option(
-            form.id.data, form.belong.data, form.certified_skill.data,
+            form.id.data, form.affiliation.data, form.certified_skill.data,
             form.not_certified_skill.data, work_category_ids
         )
