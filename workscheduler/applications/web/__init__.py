@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import os
+import sys
 from datetime import (
     date
 )
-import os
-import sys
+
 import click
 from flask import (
     Flask, g, current_app
@@ -14,11 +15,14 @@ from flask_login import (
     LoginManager, current_user
 )
 from jinja2 import FileSystemLoader
-from mypackages.utils.date import get_next_month
-from workscheduler.infrastructures import Database
+
+from mypackages.utils.date import (
+    to_year_month_string, get_next_month
+)
 from workscheduler.applications.services import (
     AffiliationQuery, OperatorQuery
 )
+from workscheduler.infrastructures import Database
 
 
 def get_db_session(echo=False):
@@ -117,7 +121,7 @@ def create_app(test_config=None):
     @app.before_request
     def extend_jinja_env():
         app.jinja_env.globals['today'] = date.today()
-        app.jinja_env.globals['next_month'] = get_next_month()
+        app.jinja_env.globals['next_month'] = to_year_month_string(get_next_month())
     
         def get_default_affiliation():
             return next(filter(lambda x: not x.is_not_affiliation(), AffiliationQuery(get_db_session()).get_affiliations()))

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+
+from workscheduler.applications.errors import CalendarError
 from workscheduler.applications.services import (
-    OperatorQuery, SkillQuery
+    OperatorQuery, SkillQuery, SchedulerQuery
 )
 from workscheduler.domains.models.operator import Request
 
@@ -14,9 +16,12 @@ class OperatorCommand:
     def append_my_request(self, user_id: str, title: str, note: str,
                           at_from: datetime, at_to: datetime):
         operator = OperatorQuery(self._session).get_operator_of_user_id(user_id)
+        scheduler = SchedulerQuery(self._session).get_calendar(operator.user.affiliation.id,
+                                                               at_to.year, at_to.month)
+        if not scheduler:
+            raise CalendarError()
         request = Request.new_request(title, note, at_from, at_to)
         operator.requests.append(request)
-        operator.remain_paid_holiday -= 1
         return request
     
     def update_myself(self, operator_id: str, skill_ids: [str], remain_paid_holiday: int):

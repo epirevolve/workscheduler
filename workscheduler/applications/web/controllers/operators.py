@@ -7,6 +7,7 @@ from collections import namedtuple
 from datetime import (
     datetime, date
 )
+
 from flask import (
     Blueprint, redirect, url_for,
     render_template, flash, request,
@@ -15,16 +16,18 @@ from flask import (
 from flask_login import (
     login_required, current_user
 )
+
+from mypackages.utils.date import is_between
+from workscheduler.applications.errors import CalendarError
 from workscheduler.applications.services import (
     OperatorQuery, AffiliationQuery, SchedulerQuery
 )
+from . import admin_required
 from .. import get_db_session
 from ..adapters import OperatorCommandAdapter
 from ..forms import (
     OperatorForm, OperatorsForm
 )
-from . import admin_required
-
 
 bp = Blueprint('operators', __name__)
 
@@ -33,16 +36,20 @@ def _public_request_body(month_year: date, scheduler_calendar):
     operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
                                              'notices', 'requests'))
-    
-    def create_date(d, notices):
-        return CalendarDay(d, d.year != month_year.year or d.month != month_year.month,
-                           notices,
-                           [r for r in operator.requests if d == r.at_from.date()])
+
+    def is_display(date, request):
+        return is_between(date, request.at_from.date(), request.at_to.date())\
+               and (request.at_from.month == date.month - 1 and date.day == 1 or date == request.at_from.date())
+
+    def create_date(date, notices):
+        is_outer_month = date.year != month_year.year or date.month != month_year.month
+        return CalendarDay(date, is_outer_month, notices,
+                           [] if is_outer_month else [r for r in operator.requests if is_display(date, r)])
     
     sys_calender = SysCalendar()
     sys_calender.setfirstweekday(SUNDAY)
-    weeks = [[create_date(_date, None) for _date in week]
-             for week in sys_calender.monthdatescalendar(month_year.year, month_year.month)]
+    weeks = [[create_date(y, None) for y in x]
+             for x in sys_calender.monthdatescalendar(month_year.year, month_year.month)]
     return render_template('request-public.html',
                            month_year=month_year, weeks=weeks, paid_holidays=operator.remain_paid_holiday,
                            scheduler_calendar=scheduler_calendar)
@@ -82,6 +89,11 @@ def append_my_request():
         })
         response.status_code = 200
     except Exception as e:
+        session.rollback()
+        print(e)
+        response = jsonify()
+        response.status_code = 400
+    except CalendarError as e:
         session.rollback()
         print(e)
         response = jsonify()
