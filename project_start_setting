@@ -69,6 +69,12 @@ Run workscheduler:
         or
         access below url
             http://127.0.0.1:5000/
+    4. login with below users
+        administrator:
+            login id: admin
+        user:
+            login id: user
+        all initial passwords are 'p' + login id
 
 Mainly using frameworks:
     SQLAlchemy
