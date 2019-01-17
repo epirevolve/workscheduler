@@ -21,6 +21,10 @@ Date.prototype.addMonths = function (value) {
     this.setDate(Math.min(n, this.getDaysInMonth()));
     return this;
 }
+Date.prototype.addDays = function (value) {
+    this.setDate(this.getDate() + value);
+    return this;
+}
 
 Date.prototype.setEarliestTime = function () {
     this.setUTCHours(0);
@@ -36,6 +40,12 @@ Date.prototype.setLatestTime = function () {
     this.setUTCSeconds(59);
     this.setUTCMilliseconds(999);
     return this;
+}
+
+Date.prototype.toDateFormatString = function () {
+    let month = (this.getMonth()+1).toString().padStart(2, '0');
+    let day = (this.getDate()).toString().padStart(2, '0')
+    return `${this.getFullYear()}-${month}-${day}`
 }
 
 $.ajaxSetup({

@@ -75,7 +75,7 @@
                     {% for day in week %}
                     <div class="cl-body-cell col
                         {% if day.outer_month %}outer-month-cell{% endif %}"
-                        data-date="{{ day.date }}"  >
+                        data-date="{{ day.date }}">
                         <div>
                             {% if not day.outer_month %}
                                 <button class="add-request btn btn-danger btn-sm"
@@ -85,19 +85,22 @@
                             {% endif %}
                             <span class="cl-day">{{ day.date.day }}</span>
                         </div>
-                        <div class="request-container" id="requests-{{ day.date.strftime('%Y%m%d') }}">
+                        <div class="request-container">
                             {% for request in day.requests %}
                                 <button class="btn request btn-block request-item"
                                         title="<h4>{{ request.title }}</h4>" type="button"
                                         data-toggle="popover"
+                                        data-id="{{ request.id }}"
+                                        data-at-from="{{ request.at_from }}"
+                                        data-at-to="{{ request.at_to }}"
                                         data-content="
                                             <div>
                                                 <button id='edit-request' class='btn btn-info btn-sm btn-block mb-3'
-                                                        data-id={{ request.id }}
-                                                        data-title={{ request.title }}
-                                                        data-note={{ request.note }}
-                                                        data-at-from={{ request.at_from }}
-                                                        data-at-to={{ request.at_to }}>Edit</button>
+                                                        data-id='{{ request.id }}'
+                                                        data-title='{{ request.title }}'
+                                                        data-note='{{ request.note }}'
+                                                        data-at-from='{{ request.at_from }}'
+                                                        data-at-to='{{ request.at_to }}'>Edit</button>
                                                 <div class='m-2'>{{ request.note }}</div>
                                                 <div class='m-2'>
                                                     {{ request.at_from.strftime('%Y/%m/%d %H:%M') }}<br />

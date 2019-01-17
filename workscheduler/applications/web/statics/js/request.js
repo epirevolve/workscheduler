@@ -54,10 +54,10 @@ import { AlertManager } from './alert-helper.js';
         if (monthlyHolidays <= $('.request').length) {
             let ret = confirm('adding more request will decrease your paid holidays.\r\nis it ok?');
             if (!ret) return;
-        }
-        if (remainedPaidHolidays <= 0) {
-            let ret = confirm('maybe your paid holidays are still empty.\r\nare you keep going?');
-            if (!ret) return;
+            if (remainedPaidHolidays <= 0) {
+                let ret = confirm('maybe your paid holidays are still empty.\r\nare you keep going?');
+                if (!ret) return;
+            }
         }
 
         $.ajax({
@@ -66,14 +66,15 @@ import { AlertManager } from './alert-helper.js';
             data: getEventData()
         })
         .done((data) => {
-            let alertManager = new AlertManager('#alert-container');
+            const alertManager = new AlertManager('#alert-container');
             alertManager.append('Your request is correctly registered.',
             'alert-info');
             $('#request-modal').modal('hide');
-            let requestAtFrom = new Date(data.requestAtFrom);
-            let $requestPlace = $(`#requests-${requestAtFrom.getFullYear()}${("0" + (requestAtFrom.getMonth()+1)).slice(-2)}${("0" + requestAtFrom.getDate()).slice(-2)}`);
+            const requestAtFrom = new Date(data.requestAtFrom);
+            const requestAtTo = new Date(data.requestAtTo);
+            const $requestPlace = $(`#requests-${requestAtFrom.getFullYear()}${("0" + (requestAtFrom.getMonth()+1)).slice(-2)}${("0" + requestAtFrom.getDate()).slice(-2)}`);
             if ($requestPlace == null) return;
-            let $inner =
+            const $inner =
                 $('<div>')
                     .append(
                         $('<button>')
@@ -90,16 +91,16 @@ import { AlertManager } from './alert-helper.js';
                     .append(
                         $('<div>')
                             .addClass('m-2')
-                            .html(`${data.requestAtFrom}<br />~</br>${data.requestAtTo}`))
+                            .html(`${requestAtFrom.toDateFormatString()}<br />~</br>${requestAtTo.toDateFormatString()}`))
                     .append(
                         $('<button>')
                             .addClass('btn btn-danger btn-sm btn-block mt-3')
                             .attr('id', 'remove-request')
                             .data('id', data.requestId)
                             .html('Remove'));
-            let $button =
+            const $button =
                 $('<button>')
-                    .addClass('btn btn-warning btn-block request-item')
+                    .addClass('btn request btn-block request-item')
                     .attr('title', `<h4>${data.requestTitle}</h4>`)
                     .attr('type', 'button')
                     .data('toggle', 'popover')
@@ -115,9 +116,11 @@ import { AlertManager } from './alert-helper.js';
             remainedPaidHolidays -= 1;
             $('#paid-holidays').text(`${remainedPaidHolidays} days`);
         })
-        .fail((data) => {
-            let alertManager = new AlertManager('#alert-container');
-            alertManager.append('Oops, Sorry we have some trouble with appending request...',
+        .fail(($xhr) => {
+            const data = $xhr.responseJSON;
+            const alertManager = new AlertManager('#alert-container');
+            const message = data.errorMessage || 'we have some trouble with appending request...';
+            alertManager.append(`Oops, Sorry ${message}`,
             'alert-danger')
         });
     }
@@ -127,6 +130,31 @@ import { AlertManager } from './alert-helper.js';
     }
 
     $(document).ready(function () {
+        for (let request of $('.request')) {
+            const $request = $(request);
+            const from = new Date($request.data('atFrom'));
+            const to = new Date($request.data('atTo'));
+            if (from.toDateFormatString() == to.toDateFormatString()) continue;
+            let days = to.getDate() - from.getDate();
+            if (days <= 7 && from.getDay() < to.getDay()) {
+                $request.addClass(`day-${days + 1}`);
+            }
+            else {
+                const remainedDays = 6 - from.getDay();
+                days -= remainedDays;
+                let nextWeekDate = from.addDays(remainedDays + 1);
+                while (1 <= Math.floor(days/7)) {
+                    $(`[data-date='${nextWeekDate.toDateFormatString()}']`).find('.request-container')
+                        .append($request.clone().addClass('day-7'));
+                    days -= 7;
+                    nextWeekDate.addDays(7);
+                }
+                $(`[data-date='${nextWeekDate.toDateFormatString()}']`).find('.request-container')
+                    .append($request.clone().addClass(`day-${days}`));
+                $request.addClass(`day-${remainedDays + 1}`);
+            }
+        }
+
         $('[data-toggle="popover"]').popover(
         {
             'html': true,

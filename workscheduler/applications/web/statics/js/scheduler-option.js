@@ -158,7 +158,7 @@ import { AlertManager } from './alert-helper.js';
             .done((data) => {
                 location.href = data.redirect;
             })
-            .fail((data) => {
+            .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with storing options...',
                 'alert-danger')

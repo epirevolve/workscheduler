@@ -18,7 +18,9 @@ from flask_login import (
 )
 
 from mypackages.utils.date import is_between
-from workscheduler.applications.errors import CalendarError
+from workscheduler.applications.errors import (
+    CalendarError, RequestError
+)
 from workscheduler.applications.services import (
     OperatorQuery, AffiliationQuery, SchedulerQuery
 )
@@ -88,12 +90,21 @@ def append_my_request():
             'requestAtTo': req.at_to
         })
         response.status_code = 200
-    except Exception as e:
+    except CalendarError as e:
         session.rollback()
         print(e)
-        response = jsonify()
+        response = jsonify({
+            'errorMessage': 'not allowed month is included in you request.'
+        })
         response.status_code = 400
-    except CalendarError as e:
+    except RequestError as e:
+        session.rollback()
+        print(e)
+        response = jsonify({
+            'errorMessage': 'some requests are overlapping.'
+        })
+        response.status_code = 400
+    except Exception as e:
         session.rollback()
         print(e)
         response = jsonify()

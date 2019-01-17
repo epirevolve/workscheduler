@@ -2,7 +2,10 @@
 
 from datetime import datetime
 
-from workscheduler.applications.errors import CalendarError
+from mypackages.utils.datetime import is_overlap
+from workscheduler.applications.errors import (
+    CalendarError, RequestError
+)
 from workscheduler.applications.services import (
     OperatorQuery, SkillQuery, SchedulerQuery
 )
@@ -13,13 +16,19 @@ class OperatorCommand:
     def __init__(self, session):
         self._session = session
     
-    def append_my_request(self, user_id: str, title: str, note: str,
-                          at_from: datetime, at_to: datetime):
-        operator = OperatorQuery(self._session).get_operator_of_user_id(user_id)
-        scheduler = SchedulerQuery(self._session).get_calendar(operator.user.affiliation.id,
-                                                               at_to.year, at_to.month)
+    def _request_validity(self, operator, at_from, at_to):
+        scheduler = SchedulerQuery(self._session).get_calendar(
+            operator.user.affiliation.id, at_to.year, at_to.month)
         if not scheduler:
             raise CalendarError()
+        for request in operator.requests:
+            if is_overlap(at_from, at_to, request.at_from, request.at_to):
+                raise RequestError()
+    
+    def append_my_request(self, user_id: str, title: str, note: str,
+                          at_from: datetime, at_to: datetime) -> Request:
+        operator = OperatorQuery(self._session).get_operator_of_user_id(user_id)
+        self._request_validity(operator, at_from, at_to)
         request = Request.new_request(title, note, at_from, at_to)
         operator.requests.append(request)
         return request

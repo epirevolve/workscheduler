@@ -72,7 +72,7 @@ import { AlertManager } from './alert-helper.js';
                                     .append($('<i>').addClass('fa fa-trash-alt'))))
                 )
             })
-            .fail((data) => {
+            .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with appending skill...',
                 'alert-danger')

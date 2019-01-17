@@ -68,7 +68,7 @@ import { AlertManager } from './alert-helper.js';
                                             .html('Remove'))));
             $container.append($card);
         })
-        .fail((data) => {
+        .fail(($xhr) => {
             let alertManager = new AlertManager('#alert-container');
             alertManager.append('Oops, Sorry we have some trouble with appending affiliation...',
             'alert-danger')

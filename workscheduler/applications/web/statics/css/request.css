@@ -61,30 +61,31 @@
     border-color: #ffc107;
     position: absolute;
     width: 95%;
+    z-index: 3;
 }
 
-.2day {
+.day-2 {
     width: 195%;
 }
 
-.3day {
-    width: 295%;
+.day-3 {
+    width: 297%;
 }
 
-.4day {
+.day-4 {
     width: 395%;
 }
 
-.5day {
+.day-5 {
     width: 495%;
 }
 
-.6day {
-    width: 595%;
+.day-6 {
+    width: 600%;
 }
 
-.7day {
-    width: 695%;
+.day-7 {
+    width: 700%;
 }
 .add-request {
     float: left;

@@ -53,7 +53,7 @@ import { AlertManager } from './alert-helper.js';
                     'Please notice him/her new password is "p" + his/her login_id.',
                 'alert-info')
             })
-            .fail((data) => {
+            .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with reset password...',
                 'alert-danger')
@@ -81,7 +81,7 @@ import { AlertManager } from './alert-helper.js';
                 $(`tr[data-id=${id}]`).data('is_inactivated', 'True');
                 $(`tr[data-id=${id}]`).attr('data-is_inactivated', 'True');
             })
-            .fail((data) => {
+            .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with inactivating...',
                 'alert-danger')

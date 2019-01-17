@@ -20,7 +20,7 @@ import { AlertManager } from './alert-helper.js';
 
 
             })
-            .fail((data) => {
+            .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with store the team category...',
                 'alert-error');
