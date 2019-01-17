@@ -72,7 +72,7 @@ import { AlertManager } from './alert-helper.js';
             $('#request-modal').modal('hide');
             const requestAtFrom = new Date(data.requestAtFrom);
             const requestAtTo = new Date(data.requestAtTo);
-            const $requestPlace = $(`#requests-${requestAtFrom.getFullYear()}${("0" + (requestAtFrom.getMonth()+1)).slice(-2)}${("0" + requestAtFrom.getDate()).slice(-2)}`);
+            const $requestPlace = $(`[data-date='${requestAtFrom.toDateFormatString()}'`).find('.request-container');
             if ($requestPlace == null) return;
             const $inner =
                 $('<div>')

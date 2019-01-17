@@ -101,7 +101,7 @@ def create_app(test_config=None):
     @app.errorhandler(404)
     def not_found(error):
         from flask import render_template
-        return render_template('not_found.html'), 404
+        return render_template('not-found.html'), 404
     
     login_manager = LoginManager()
     login_manager.init_app(app)
