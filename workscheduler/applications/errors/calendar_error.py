@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import Error
+from .error import Error
 
 
 class CalendarError(Error):

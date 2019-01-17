@@ -57,6 +57,7 @@ Project Setting:
         on a terminal tool window of pycharm
         run below commands
             export FLASK_APP=runserver.py
+            flask init-db
             flask set-test-db
                 "Set the database to test." will be displayed.
 
