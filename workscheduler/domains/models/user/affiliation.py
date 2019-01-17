@@ -2,12 +2,13 @@
 
 from sqlalchemy import Column
 from sqlalchemy.orm import validates
+from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import (
     String, DateTime
 )
-from sqlalchemy.sql.functions import current_timestamp
-from workscheduler.domains.models import OrmBase
+
 from mypackages.utils.uuid import UuidFactory
+from workscheduler.domains.models import OrmBase
 
 
 class Affiliation(OrmBase):
@@ -19,8 +20,8 @@ class Affiliation(OrmBase):
     
     _not_affiliation_name = "未所属"
     
-    def __init__(self, id: str, name: str, note: str):
-        self.id = id
+    def __init__(self, id_: str, name: str, note: str):
+        self.id = id_
         self.name = name
         self.note = note
 
@@ -38,4 +39,4 @@ class Affiliation(OrmBase):
     @staticmethod
     def not_affiliation():
         return Affiliation.new_affiliation(Affiliation._not_affiliation_name,
-                                 '新規ユーザはこの所属となります。\r\nオペレータ画面にて所属を変更してください。')
+                                           '新規ユーザはこの所属となります。\r\nオペレータ画面にて所属を変更してください。')

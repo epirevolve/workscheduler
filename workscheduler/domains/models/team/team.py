@@ -4,13 +4,13 @@ from sqlalchemy import (
     Column, Table, ForeignKey
 )
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import (
     String, DateTime
 )
-from sqlalchemy.sql.functions import current_timestamp
+
 from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
-
 
 team_users_table\
     = Table("team_users", OrmBase.metadata,
@@ -28,8 +28,8 @@ class Team(OrmBase):
 
     users = relationship("User", secondary=team_users_table, backref="teams")
 
-    def __init__(self, id: str, team_category_id: str, name: str):
-        self.id = id
+    def __init__(self, id_: str, team_category_id: str, name: str):
+        self.id = id_
         self.team_category_id = team_category_id
         self.name = name
 

@@ -3,20 +3,20 @@
 from sqlalchemy import (
     Column, Table, ForeignKey
 )
-from sqlalchemy.types import (
-    String, Integer,
-    DateTime
-)
 from sqlalchemy.orm import (
     relationship
 )
 from sqlalchemy.sql.functions import current_timestamp
+from sqlalchemy.types import (
+    String, Integer,
+    DateTime
+)
+
+from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models.operator import (
     Skill, Operator
 )
-from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
-
 
 associated_skill_table\
     = Table("associated_essential_skill", OrmBase.metadata,
@@ -49,10 +49,10 @@ class WorkCategory(OrmBase):
     impossible_operators = relationship("Operator", secondary=associated_impossible_operator_table)
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id: str, title: str, week_day_require: int, week_day_max: int,
+    def __init__(self, id_: str, title: str, week_day_require: int, week_day_max: int,
                  holiday_require: int, holiday_max: int, rest_days: int, max_times: int,
                  essential_skills: [Skill], essential_operators: [Operator], impossible_operators: [Operator]):
-        self.id = id
+        self.id = id_
         self.title = title
         self.week_day_require = week_day_require
         self.week_day_max = week_day_max

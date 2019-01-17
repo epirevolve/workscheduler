@@ -3,18 +3,18 @@
 from sqlalchemy import (
     Column, Table, ForeignKey
 )
-from sqlalchemy.types import (
-    String, Boolean, DateTime
-)
 from sqlalchemy.orm import (
     relationship, validates
 )
 from sqlalchemy.sql.functions import current_timestamp
+from sqlalchemy.types import (
+    String, Boolean, DateTime
+)
+
 from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models.user import Affiliation
-from .. import OrmBase
 from . import WorkCategory
-
+from .. import OrmBase
 
 associated_work_category_table\
     = Table("associated_work_category", OrmBase.metadata,
@@ -32,10 +32,10 @@ class Options(OrmBase):
     work_categories = relationship("WorkCategory", secondary=associated_work_category_table)
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id: str, affiliation: Affiliation,
+    def __init__(self, id_: str, affiliation: Affiliation,
                  certified_skill: bool, not_certified_skill: bool,
                  work_categories: [WorkCategory]):
-        self.id = id
+        self.id = id_
         self.affiliation = affiliation
         self.certified_skill = certified_skill
         self.not_certified_skill = not_certified_skill

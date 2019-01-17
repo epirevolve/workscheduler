@@ -3,16 +3,16 @@
 from sqlalchemy import (
     Column, Table, ForeignKey
 )
-from sqlalchemy.types import (
-    String, Integer
-)
 from sqlalchemy.orm import (
     relationship
 )
-from mypackages.utils.uuid import UuidFactory
-from .. import OrmBase
-from . import WorkCategory
+from sqlalchemy.types import (
+    String, Integer
+)
 
+from mypackages.utils.uuid import UuidFactory
+from . import WorkCategory
+from .. import OrmBase
 
 associated_work_category_table\
     = Table("associated_calendar_date_detail_work_category", OrmBase.metadata,
@@ -27,9 +27,9 @@ class CalendarDayDetail(OrmBase):
     work_category = relationship("WorkCategory", uselist=False)
     require = Column(Integer)
 
-    def __init__(self, id: str, work_category: WorkCategory,
+    def __init__(self, id_: str, work_category: WorkCategory,
                  require: int):
-        self.id = id
+        self.id = id_
         self.work_category = work_category
         self.require = require
 

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import Column
+from sqlalchemy.orm import validates
+from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import (
     String, DateTime, Integer,
     Boolean
 )
-from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.orm import validates
+
 from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 
@@ -19,9 +20,9 @@ class Skill(OrmBase):
     is_certified = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id: str, name: str, score: int,
+    def __init__(self, id_: str, name: str, score: int,
                  is_certified: bool):
-        self.id = id
+        self.id = id_
         self.name = name
         self.score = score
         self.is_certified = is_certified

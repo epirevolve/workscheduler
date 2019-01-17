@@ -9,6 +9,7 @@ from sqlalchemy.orm import (
 from sqlalchemy.types import (
     String, Integer
 )
+
 from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 from workscheduler.domains.models.user import User
@@ -41,8 +42,8 @@ class Operator(OrmBase):
     relations = relationship("Relation", secondary=associated_relation_table)
     remain_paid_holiday = Column(Integer, default=0)
 
-    def __init__(self, id: str, user: User):
-        self.id = id
+    def __init__(self, id_: str, user: User):
+        self.id = id_
         self.user = user
         self.requests = []
         self.certified_skills = []

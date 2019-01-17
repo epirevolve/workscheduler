@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+
 from sqlalchemy import Column
+from sqlalchemy.orm import validates
+from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import (
     String, DateTime
 )
-from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.orm import validates
+
 from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 
@@ -20,9 +22,9 @@ class Request(OrmBase):
     at_to = Column(DateTime, nullable=False)
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id: str, title: str, note: str,
+    def __init__(self, id_: str, title: str, note: str,
                  at_from: datetime, at_to: datetime):
-        self.id = id
+        self.id = id_
         self.title = title
         self.note = note
         self.at_from = at_from

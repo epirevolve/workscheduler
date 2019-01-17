@@ -3,20 +3,20 @@
 from sqlalchemy import (
     Column, Table, ForeignKey
 )
+from sqlalchemy.orm import (
+    relationship
+)
 from sqlalchemy.types import (
     String, DateTime,
     Integer
 )
-from sqlalchemy.orm import (
-    relationship
-)
-from mypackages.utils.uuid import UuidFactory
+
 from mypackages.utils.date import is_holiday
-from .. import OrmBase
+from mypackages.utils.uuid import UuidFactory
 from . import (
     WorkCategory, CalendarDayDetail
 )
-
+from .. import OrmBase
 
 associated_calendar_day_details_table\
     = Table("associated_calendar_day_details", OrmBase.metadata,
@@ -31,9 +31,9 @@ class CalendarDay(OrmBase):
     day_name = Column(String)
     details = relationship("CalendarDayDetail", secondary=associated_calendar_day_details_table)
 
-    def __init__(self, id: str, day: int, day_name: str,
+    def __init__(self, id_: str, day: int, day_name: str,
                  details: []):
-        self.id = id
+        self.id = id_
         self.day = day
         self.day_name = day_name
         self.details = details

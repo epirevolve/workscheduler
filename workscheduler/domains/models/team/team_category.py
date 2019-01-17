@@ -2,11 +2,12 @@
 
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import (
     String, Boolean, Integer,
     DateTime
 )
-from sqlalchemy.sql.functions import current_timestamp
+
 from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
 
@@ -22,9 +23,9 @@ class TeamCategory(OrmBase):
     create_at = Column(DateTime, server_default=current_timestamp())
     teams = relationship("Team", backref="team_categories")
 
-    def __init__(self, id: str, name: str, allow_multiple_affiliation: bool,
+    def __init__(self, id_: str, name: str, allow_multiple_affiliation: bool,
                  is_leader_required: bool, min_member_count: int, max_member_count: int):
-        self.id = id
+        self.id = id_
         self.name = name
         self.allow_multiple_affiliation = allow_multiple_affiliation
         self.is_leader_required = is_leader_required

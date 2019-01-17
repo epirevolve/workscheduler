@@ -3,22 +3,23 @@
 from calendar import (
     Calendar as SysCalendar, SUNDAY, day_abbr
 )
+
 from sqlalchemy import (
     Column, Table, ForeignKey
-)
-from sqlalchemy.types import (
-    String, DateTime, Integer,
-    Boolean
 )
 from sqlalchemy.orm import (
     relationship
 )
 from sqlalchemy.sql.functions import current_timestamp
+from sqlalchemy.types import (
+    String, DateTime, Integer,
+    Boolean
+)
+
 from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models.user import Affiliation
-from .. import OrmBase
 from . import CalendarDay
-
+from .. import OrmBase
 
 associated_calendar_days_table\
     = Table("associated_calendar_days", OrmBase.metadata,
@@ -38,10 +39,10 @@ class Calendar(OrmBase):
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
 
-    def __init__(self, id: str, affiliation: Affiliation,
+    def __init__(self, id_: str, affiliation: Affiliation,
                  year: int, month: int, days: [CalendarDay],
                  holidays: int, fixed_schedule: [], is_fixed: bool):
-        self.id = id
+        self.id = id_
         self.affiliation = affiliation
         self.year = year
         self.month = month

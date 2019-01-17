@@ -39,14 +39,14 @@ def _public_request_body(month_year: date, scheduler_calendar):
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
                                              'notices', 'requests'))
 
-    def is_display(date, request):
-        return is_between(date, request.at_from.date(), request.at_to.date())\
-               and (request.at_from.month == date.month - 1 and date.day == 1 or date == request.at_from.date())
+    def is_display(date_, request_):
+        return is_between(date_, request_.at_from.date(), request_.at_to.date())\
+               and (request_.at_from.month == date_.month - 1 and date_.day == 1 or date_ == request_.at_from.date())
 
-    def create_date(date, notices):
-        is_outer_month = date.year != month_year.year or date.month != month_year.month
-        return CalendarDay(date, is_outer_month, notices,
-                           [] if is_outer_month else [r for r in operator.requests if is_display(date, r)])
+    def create_date(date_, notices):
+        is_outer_month = date_.year != month_year.year or date_.month != month_year.month
+        return CalendarDay(date_, is_outer_month, notices,
+                           [] if is_outer_month else [r for r in operator.requests if is_display(date_, r)])
     
     sys_calender = SysCalendar()
     sys_calender.setfirstweekday(SUNDAY)

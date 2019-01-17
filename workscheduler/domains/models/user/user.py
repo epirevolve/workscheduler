@@ -7,13 +7,14 @@ from sqlalchemy import (
 from sqlalchemy.orm import (
     relationship, validates
 )
+from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import (
     String, DateTime, Boolean
 )
-from sqlalchemy.sql.functions import current_timestamp
+
 from mypackages.utils.uuid import UuidFactory
-from .. import OrmBase
 from . import Affiliation
+from .. import OrmBase
 
 
 class User(OrmBase, UserMixin):
@@ -29,9 +30,9 @@ class User(OrmBase, UserMixin):
     is_inactivated = Column(Boolean, default=False)
     create_at = Column(DateTime, server_default=current_timestamp())
 
-    def __init__(self, id: str, login_id: str, name: str,
+    def __init__(self, id_: str, login_id: str, name: str,
                  affiliation: Affiliation, is_admin: bool, is_operator: bool):
-        self.id = id
+        self.id = id_
         self.login_id = login_id
         self.password = 'p' + login_id
         self.name = name

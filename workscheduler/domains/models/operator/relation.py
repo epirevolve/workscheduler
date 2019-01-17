@@ -3,12 +3,13 @@
 from sqlalchemy import (
     Column, ForeignKey
 )
-from sqlalchemy.types import (
-    String, Float
-)
 from sqlalchemy.orm import (
     relationship, validates
 )
+from sqlalchemy.types import (
+    String, Float
+)
+
 from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models import OrmBase
 from workscheduler.domains.models.operator import Operator
@@ -23,8 +24,8 @@ class Relation(OrmBase):
     colleague = relationship("Operator", uselist=False, foreign_keys=[_colleague_id])
     affinity = Column(Float, default=0.0)
     
-    def __init__(self, id: str, myself: Operator, colleague: Operator, affinity: float):
-        self.id = id
+    def __init__(self, id_: str, myself: Operator, colleague: Operator, affinity: float):
+        self.id = id_
         self.myself = myself
         self.colleague = colleague
         self.affinity = affinity
