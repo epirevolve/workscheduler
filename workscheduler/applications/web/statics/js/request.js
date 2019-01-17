@@ -66,55 +66,7 @@ import { AlertManager } from './alert-helper.js';
             data: getEventData()
         })
         .done((data) => {
-            const alertManager = new AlertManager('#alert-container');
-            alertManager.append('Your request is correctly registered.',
-            'alert-info');
-            $('#request-modal').modal('hide');
-            const requestAtFrom = new Date(data.requestAtFrom);
-            const requestAtTo = new Date(data.requestAtTo);
-            const $requestPlace = $(`[data-date='${requestAtFrom.toDateFormatString()}'`).find('.request-container');
-            if ($requestPlace == null) return;
-            const $inner =
-                $('<div>')
-                    .append(
-                        $('<button>')
-                            .addClass('btn btn-info btn-sm btn-block mb-3')
-                            .attr('id', 'edit-request')
-                            .data('id', data.requestId)
-                            .data('title', data.requestTitle)
-                            .data('note', data.requestNote)
-                            .html('Edit'))
-                    .append(
-                        $('<div>')
-                            .addClass('m-2')
-                            .html(data.requestNote))
-                    .append(
-                        $('<div>')
-                            .addClass('m-2')
-                            .html(`${requestAtFrom.toDateFormatString()}<br />~</br>${requestAtTo.toDateFormatString()}`))
-                    .append(
-                        $('<button>')
-                            .addClass('btn btn-danger btn-sm btn-block mt-3')
-                            .attr('id', 'remove-request')
-                            .data('id', data.requestId)
-                            .html('Remove'));
-            const $button =
-                $('<button>')
-                    .addClass('btn request btn-block request-item')
-                    .attr('title', `<h4>${data.requestTitle}</h4>`)
-                    .attr('type', 'button')
-                    .data('toggle', 'popover')
-                    .data('content', $inner)
-                    .html(data.requestTitle);
-            $requestPlace.append($button);
-            $button.popover(
-            {
-                'html': true,
-                'placement': 'top'
-            });
-
-            remainedPaidHolidays -= 1;
-            $('#paid-holidays').text(`${remainedPaidHolidays} days`);
+            location.reload(true);
         })
         .fail(($xhr) => {
             const data = $xhr.responseJSON;

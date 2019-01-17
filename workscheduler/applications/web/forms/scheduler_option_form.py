@@ -2,14 +2,14 @@
 
 from flask_wtf import FlaskForm
 from wtforms import (
-    StringField, BooleanField, DateField,
-    IntegerField, Field, FieldList,
+    StringField, BooleanField, IntegerField, Field, FieldList,
     HiddenField
 )
-from wtforms.widgets import TextInput
 from wtforms.validators import (
     DataRequired, Length
 )
+from wtforms.widgets import TextInput
+
 from workscheduler.domains.models.scheduler import WorkCategory
 
 
@@ -80,6 +80,8 @@ class SchedulerOptionForm(FlaskForm):
         if 'request' in kwargs:
             request = kwargs.get('request')
             for work_category_id in request.get('work_categories').split(','):
+                if not work_category_id:
+                    continue
                 self.work_categories.append(
                     WorkCategoryForm(prefix='category-{}'.format(work_category_id))
                 )

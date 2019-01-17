@@ -18,7 +18,9 @@ from sqlalchemy.types import (
 
 from mypackages.utils.uuid import UuidFactory
 from workscheduler.domains.models.user import Affiliation
-from . import CalendarDay
+from . import (
+    WorkCategory, CalendarDay
+)
 from .. import OrmBase
 
 associated_calendar_days_table\
@@ -55,6 +57,10 @@ class Calendar(OrmBase):
     def categories(self):
         return [{'requires': [z.require for z in y], 'category': y[0].work_category}
                 for y in zip(*[x.details for x in self.days])]
+    
+    def add_category(self, work_category: WorkCategory):
+        for day in self.days:
+            day.add_category(work_category)
     
     @staticmethod
     def new_month_year(affiliation: Affiliation, work_categories: [],

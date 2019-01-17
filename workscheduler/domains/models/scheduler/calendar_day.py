@@ -37,7 +37,10 @@ class CalendarDay(OrmBase):
         self.day = day
         self.day_name = day_name
         self.details = details
-
+    
+    def add_category(self, work_catgory: WorkCategory):
+        self.details.append(CalendarDayDetail.new_detail(work_catgory, 0))
+        
     @staticmethod
     def new_day(date: DateTime, date_name: str, work_categories: [WorkCategory]):
         details = [CalendarDayDetail.new_detail(x, x.week_day_require if not is_holiday(date) else x.holiday_require)

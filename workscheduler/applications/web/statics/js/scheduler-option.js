@@ -87,46 +87,145 @@ import { AlertManager } from './alert-helper.js';
         $('select[name="affiliation"]').change(function () {
             let $this = $(this);
             let affiliationId = $this.find('option:selected').val();
-            let url = $this.data('url') + affiliationId;
+            let url = $this.data('url').replace('affiliation_id', affiliationId);
             location.href = url;
         });
 
         $('button[name="add-category"]').click(function () {
+            const d = new Date();
+            const id = 'tmp' + d.getFullYear() + d.getMonth() + d.getDay() + d.getHours() + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
             let $card =
                 $('<div>')
-                    .addClass('card')
+                    .addClass('card main')
+                    .data('id', id)
+                    .append(
+                        $('<input>')
+                            .attr({'type': 'hidden', 'name': `category-${id}-id`})
+                            .val(id))
                     .append(
                         $('<div>')
                             .addClass('card-header')
                             .append(
-                                $('<h4>').append($('<input>').attr('type', 'text'))))
+                                $('<h4>').append($('<input>').attr({'type': 'text', 'name': `category-${id}-title`}))))
                     .append(
                         $('<div>')
                             .addClass('card-body')
                             .append(
                                 $('<div>')
-                                    .addClass('input-group m-1 mb-3')
+                                    .addClass('card')
+                                    .append(
+                                        $('<div>')
+                                            .addClass('card-header')
+                                            .html('Weekday'))
+                                    .append(
+                                        $('<div>')
+                                            .addClass('card-body custom-control-inline')
+                                            .append(
+                                                $('<div>')
+                                                    .addClass('input-group m-1')
+                                                    .append(
+                                                        $('<div>')
+                                                            .addClass('input-group-prepend')
+                                                            .append($('<span>').addClass('input-group-text').html('Require')))
+                                                    .append(
+                                                        $('<input>')
+                                                            .attr({'type': 'number', 'min': '0', 'name': `category-${id}-week_day_require`})
+                                                            .addClass('form-control')
+                                                            .val(0)))
+                                            .append(
+                                                $('<div>')
+                                                    .addClass('input-group m-1')
+                                                    .append(
+                                                        $('<div>')
+                                                            .addClass('input-group-prepend')
+                                                            .append($('<span>').addClass('input-group-text').html('Max')))
+                                                    .append(
+                                                        $('<input>')
+                                                            .attr({'type': 'number', 'min': '0', 'name': `category-${id}-week_day_max`})
+                                                            .addClass('form-control')
+                                                            .val(0)))))
+                            .append(
+                                $('<div>')
+                                    .addClass('card')
+                                    .append(
+                                        $('<div>')
+                                            .addClass('card-header')
+                                            .html('Holiday'))
+                                    .append(
+                                        $('<div>')
+                                            .addClass('card-body custom-control-inline')
+                                            .append(
+                                                $('<div>')
+                                                    .addClass('input-group m-1')
+                                                    .append(
+                                                        $('<div>')
+                                                            .addClass('input-group-prepend')
+                                                            .append($('<span>').addClass('input-group-text').html('Require')))
+                                                    .append(
+                                                        $('<input>')
+                                                            .attr({'type': 'number', 'min': '0', 'name': `category-${id}-holiday_require`})
+                                                            .addClass('form-control')
+                                                            .val(0)))
+                                            .append(
+                                                $('<div>')
+                                                    .addClass('input-group m-1')
+                                                    .append(
+                                                        $('<div>')
+                                                            .addClass('input-group-prepend')
+                                                            .append($('<span>').addClass('input-group-text').html('Max')))
+                                                    .append(
+                                                        $('<input>')
+                                                            .attr({'type': 'number', 'min': '0', 'name': `category-${id}-holiday_max`})
+                                                            .addClass('form-control')
+                                                            .val(0)))))
+                            .append(
+                                $('<div>')
+                                    .addClass('input-group m-1 pr-1 mb-4')
                                     .append(
                                         $('<div>')
                                             .addClass('input-group-prepend')
-                                            .append(
-                                                $('<span>')
-                                                    .addClass('input-group-text')
-                                                    .text('Default Count')))
+                                            .append($('<span>').addClass('input-group-text').html('Rest Days')))
                                     .append(
                                         $('<input>')
-                                            .attr('type', 'number')
+                                            .attr({'type': 'number', 'min': '0', 'name': `category-${id}-rest_days`})
                                             .addClass('form-control')
-                                            .attr('min', '0')))
+                                            .val(0)))
                             .append(
                                 $('<div>')
-                                    .addClass('m-1 mb-3 custom-control custom-checkbox')
+                                    .addClass('input-group m-1 pr-1')
+                                    .append(
+                                        $('<div>')
+                                            .addClass('input-group-prepend')
+                                            .append($('<span>').addClass('input-group-text').html('Max Times')))
                                     .append(
                                         $('<input>')
-                                            .attr('type', 'checkbox')
-                                            .addClass('custom-control-input')
-                                            .attr('id', 'rest_next_day'))))
-
+                                            .attr({'type': 'number', 'min': '0', 'name': `category-${id}-max_times`})
+                                            .addClass('form-control')
+                                            .val(0)))
+                            .append(
+                                $('<div>').html('*0 means not limited.').addClass('m-1 mb-4'))
+                            .append(
+                                $('<h5>').html('Essential Skills'))
+                            .append(
+                                $('<div>')
+                                    .addClass('essential-skills drop-region droppable ml-1 mb-3'))
+                            .append(
+                                $('<h5>').html('Essential Operators'))
+                            .append(
+                                $('<div>')
+                                    .addClass('essential-operators drop-region droppable ml-1 mb-3'))
+                            .append(
+                                $('<h5>').html('Impossible Operators'))
+                            .append(
+                                $('<div>')
+                                    .addClass('impossible-operators drop-region droppable ml-1 mb-3'))
+                            .append($('<hr>'))
+                            .append(
+                                $('<button>')
+                                    .addClass('btn btn-danger btn-block')
+                                    .attr('type', 'button')
+                                    .html('Remove')));
+            $('#category-column').append($card);
         });
 
         let getFormData = function () {

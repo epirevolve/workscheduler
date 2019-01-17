@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import SchedulerCommand
+from workscheduler.applications.services import (
+    SchedulerCommand
+)
+from .utils import validate_form
 from ..forms import (
     SchedulerOptionForm, WorkCategoryForm
 )
-from .utils import validate_form
 
 
 class SchedulerCommandAdapter(SchedulerCommand):
@@ -41,7 +43,8 @@ class SchedulerCommandAdapter(SchedulerCommand):
     def update_option(self, form: SchedulerOptionForm):
         if not validate_form(form):
             raise ValueError
-        work_category_ids = [self.append_work_category(x).id if not x.id.data else self.update_work_category(x).id
+        work_category_ids = [self.append_work_category(x).id if x.id.data.startswith('tmp')
+                             else self.update_work_category(x).id
                              for x in form.work_categories]
         self._session.flush()
         return super(SchedulerCommandAdapter, self).update_option(

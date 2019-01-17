@@ -3,26 +3,27 @@
 from datetime import (
     datetime, date
 )
+
 from flask import (
     Blueprint, render_template, jsonify,
     request, url_for
 )
 from flask_login import login_required
+
+from mypackages.utils.date import (
+    get_next_month, to_year_month_string
+)
 from workscheduler.applications.services import (
     AffiliationQuery, SchedulerQuery, SkillQuery,
     OperatorQuery
 )
 from workscheduler.domains.models.scheduler import Calendar
-from mypackages.utils.date import (
-    get_next_month, to_year_month_string
-)
+from . import admin_required
+from .. import get_db_session
 from ..adapters import SchedulerCommandAdapter
 from ..forms import (
     SchedulerOptionForm, SchedulerCalendarForm
 )
-from .. import get_db_session
-from . import admin_required
-
 
 bp = Blueprint('schedulers', __name__)
 
@@ -37,7 +38,7 @@ def show_scheduler_option(affiliation_id: str):
     
     action = url_for('schedulers.append_scheduler_option', affiliation_id=affiliation_id) if not option\
         else url_for('schedulers.update_scheduler_option', option_id=option.id, affiliation_id=affiliation_id)
-    url = url_for('schedulers.show_scheduler_option', affiliation_id="")
+    url = url_for('schedulers.show_scheduler_option', affiliation_id="affiliation_id")
 
     affiliations = AffiliationQuery(session).get_affiliations_without_default()
     skills = SkillQuery(session).get_skills()
@@ -102,6 +103,10 @@ def show_calendar(affiliation_id: str, schedule_of: str):
     calendar = calendar or Calendar.new_month_year(
         affiliation, work_categories, schedule_of.year, schedule_of.month,
         [], 8)
+    ids = [x['category'].id for x in calendar.categories]
+    for work_category in work_categories:
+        if work_category.id not in ids:
+            calendar.add_category(work_category)
     operators = OperatorQuery(session).get_operators()
     
     form = SchedulerCalendarForm(obj=type('temp', (object,), {

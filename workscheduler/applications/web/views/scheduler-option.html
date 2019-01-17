@@ -34,6 +34,7 @@
         <div id="category-column" class="card-columns col-md-10">
             {% for work_category in form.work_categories %}
                 <div class="card main" data-id="{{ work_category.data.id }}">
+                    <input type="hidden" name="{{ work_category.id.name }}" value="{{ work_category.id.data }}">
                     <div class="card-header">
                         <h4><input type="text" name="{{ work_category.title.name }}" value="{{ work_category.title.data }}"></h4>
                     </div>
