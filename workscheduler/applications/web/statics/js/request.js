@@ -20,17 +20,15 @@ import { AlertManager } from './alert-helper.js';
     }
 
     let getEventData = function () {
-        let from = new Date($('#datetime-from').datetimepicker("date"));
-        let fromstr = `${from.getFullYear()}-${from.getMonth() + 1}-${from.getDate()} ${from.getHours()}:${from.getMinutes()}`;
-        let to = new Date($('#datetime-to').datetimepicker("date"));
-        let tostr = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()} ${to.getHours()}:${to.getMinutes()}`;
+        let from = new Date($('#datetime-from').datetimepicker("date")).toDateTimeFormatString();
+        let to = new Date($('#datetime-to').datetimepicker("date")).toDateTimeFormatString();
 
         let d = {
                 'requestId': $('#request-id').val(),
                 'requestTitle': $('#request-title').val(),
                 'requestNote': $('#request-note').val(),
-                'requestAtFrom': fromstr,
-                'requestAtTo': tostr
+                'requestAtFrom': from,
+                'requestAtTo': to
             };
 
         return d;

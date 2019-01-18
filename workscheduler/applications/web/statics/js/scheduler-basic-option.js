@@ -84,13 +84,6 @@ import { AlertManager } from './alert-helper.js';
             }
         });
 
-        $('select[name="affiliation"]').change(function () {
-            let $this = $(this);
-            let affiliationId = $this.find('option:selected').val();
-            let url = $this.data('url').replace('affiliation_id', affiliationId);
-            location.href = url;
-        });
-
         $('button[name="add-category"]').click(function () {
             const d = new Date();
             const id = 'tmp' + d.getFullYear() + d.getMonth() + d.getDay() + d.getHours() + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
@@ -255,7 +248,6 @@ import { AlertManager } from './alert-helper.js';
                 data: getFormData()
             })
             .done((data) => {
-                location.href = data.redirect;
             })
             .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');

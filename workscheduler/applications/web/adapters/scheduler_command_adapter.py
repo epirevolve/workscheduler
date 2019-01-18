@@ -5,7 +5,7 @@ from workscheduler.applications.services import (
 )
 from .utils import validate_form
 from ..forms import (
-    SchedulerOptionForm, WorkCategoryForm
+    SchedulerBasicOptionForm, WorkCategoryForm
 )
 
 
@@ -30,7 +30,7 @@ class SchedulerCommandAdapter(SchedulerCommand):
             form.essential_skills.data, form.essential_operators.data, form.impossible_operators.data
         )
     
-    def append_option(self, form: SchedulerOptionForm):
+    def append_option(self, form: SchedulerBasicOptionForm):
         if not validate_form(form):
             raise ValueError
         work_category_ids = [self.append_work_category(x).id for x in form.work_categories]
@@ -40,7 +40,7 @@ class SchedulerCommandAdapter(SchedulerCommand):
             form.not_certified_skill.data, work_category_ids
         )
     
-    def update_option(self, form: SchedulerOptionForm):
+    def update_option(self, form: SchedulerBasicOptionForm):
         if not validate_form(form):
             raise ValueError
         work_category_ids = [self.append_work_category(x).id if x.id.data.startswith('tmp')

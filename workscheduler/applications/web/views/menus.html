@@ -39,9 +39,9 @@
 {% if current_user.is_admin %}
 <hr />
 <div class="card-deck">
-    <a href="{{ url_for('schedulers.show_scheduler_option', affiliation_id=default_affiliation_id) }}">
+    <a href="{{ url_for('schedulers.show_menu') }}">
         <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler.svg') }}" />
+            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler-menu.svg') }}" />
             <div class="card-footer">
                 <h3 class="card-title">Scheduler</h3>
             </div>
@@ -81,7 +81,7 @@
     </a>
     <a href="{{ url_for('teams.show_team_categories') }}">
         <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/group.svg') }}" />
+            <img class="card-img-top" src="{{ url_for('static', filename='img/teams.svg') }}" />
             <div class="card-footer">
                 <h3 class="card-title">Teams</h3>
             </div>

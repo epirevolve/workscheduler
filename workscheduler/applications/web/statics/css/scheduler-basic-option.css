@@ -24,3 +24,8 @@
     top: 4rem;
     right: 1rem;
 }
+
+#selectable-list li {
+    border: none !important;
+    border-top: 2px solid lightgray !important;
+}

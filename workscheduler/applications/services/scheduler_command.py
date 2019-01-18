@@ -5,7 +5,7 @@ from workscheduler.applications.services import (
     SchedulerQuery
 )
 from workscheduler.domains.models.scheduler import (
-    Options, WorkCategory
+    BasicOptions, WorkCategory
 )
 
 
@@ -51,8 +51,8 @@ class SchedulerCommand:
         affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
         schedule_query = SchedulerQuery(self._session)
         work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
-        scheduler = Options.new_option(affiliation, certified_skill, not_certified_skill,
-                                       work_categories)
+        scheduler = BasicOptions.new_option(affiliation, certified_skill, not_certified_skill,
+                                            work_categories)
         self._session.add(scheduler)
         return scheduler
     

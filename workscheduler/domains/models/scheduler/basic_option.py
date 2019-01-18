@@ -18,12 +18,12 @@ from .. import OrmBase
 
 associated_work_category_table\
     = Table("associated_work_category", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('options.id')),
+            Column("left_id", String, ForeignKey('basic_options.id')),
             Column("right_id", String, ForeignKey('work_categories.id')))
 
 
-class Options(OrmBase):
-    __tablename__ = 'options'
+class BasicOptions(OrmBase):
+    __tablename__ = 'basic_options'
     id = Column(String, primary_key=True)
     _affiliation_id = Column(String, ForeignKey('affiliations.id'))
     affiliation = relationship("Affiliation", uselist=False)
@@ -43,11 +43,11 @@ class Options(OrmBase):
     
     @validates("id, affiliation")
     def validate(self, key, value):
-        return super(Options, self).validate(Options, key, value)
+        return super(BasicOptions, self).validate(BasicOptions, key, value)
     
     @staticmethod
     def new_option(affiliation: Affiliation, certified_skill: bool, not_certified_skill: bool,
                    work_categories: [WorkCategory]):
-        return Options(UuidFactory.new_uuid(), affiliation,
-                       certified_skill, not_certified_skill,
-                       work_categories)
+        return BasicOptions(UuidFactory.new_uuid(), affiliation,
+                            certified_skill, not_certified_skill,
+                            work_categories)

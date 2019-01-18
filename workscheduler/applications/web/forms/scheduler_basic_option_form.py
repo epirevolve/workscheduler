@@ -61,7 +61,7 @@ class AffiliationField(Field):
             return u''
 
 
-class SchedulerOptionForm(FlaskForm):
+class SchedulerBasicOptionForm(FlaskForm):
     id = HiddenField()
     affiliation = AffiliationField(validators=[DataRequired()])
     certified_skill = BooleanField()
@@ -85,4 +85,4 @@ class SchedulerOptionForm(FlaskForm):
                 self.work_categories.append(
                     WorkCategoryForm(prefix='category-{}'.format(work_category_id))
                 )
-        super(SchedulerOptionForm, self).__init__(*args, **kwargs)
+        super(SchedulerBasicOptionForm, self).__init__(*args, **kwargs)

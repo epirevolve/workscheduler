@@ -2,6 +2,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from workscheduler.applications.services import (
     UserCommand, AffiliationQuery
 )
@@ -106,10 +107,10 @@ class Database:
         
         from workscheduler.applications.services import OperatorQuery
         from workscheduler.domains.models.scheduler import (
-            Options, WorkCategory
+            BasicOptions, WorkCategory
         )
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
-        option = Options.new_option(
+        option = BasicOptions.new_option(
             front, True, True,
             [WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
                                        [get_operator_of_user_id(user1.id),
