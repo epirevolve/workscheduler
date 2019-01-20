@@ -121,7 +121,7 @@ def update_my_request(requst_id):
 @bp.route('/operators/myself/<operator_id>')
 @login_required
 def show_myself(operator_id):
-    operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
+    operator = OperatorQuery(get_db_session()).get_operator(operator_id)
     return render_template('operator.html', form=OperatorForm(obj=operator))
 
 

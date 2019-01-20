@@ -33,6 +33,14 @@
             </div>
         </div>
     </a>
+    <a data-url="{{ url_for('schedulers.show_yearly_option', affiliation_id='affiliation_id') }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler-launch.svg') }}" />
+            <div class="card-footer">
+                <h3 class="card-title">Launch</h3>
+            </div>
+        </div>
+    </a>
 </div>
 {% endblock %}
 
