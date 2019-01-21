@@ -38,54 +38,57 @@ import { AlertManager } from './alert-helper.js';
             let id = $('input[name="id"]').val();
             if (id == '') return;
 
-            if (!confirm('Would you really reset selected user password?')) return;
-
-            $.ajax({
-                url: `/users/${id}/reset-password`,
-                type: 'POST',
-                data: {
-                    'id': id
-                }
-            })
-            .done((data) => {
-                let alertManager = new AlertManager('#alert-container');
-                alertManager.append('Successfully changed selected user password. ' +
-                    'Please notice him/her new password is "p" + his/her login_id.',
-                'alert-info')
-            })
-            .fail(($xhr) => {
-                let alertManager = new AlertManager('#alert-container');
-                alertManager.append('Oops, Sorry we have some trouble with reset password...',
-                'alert-danger')
-            });
+            showConfirmDialog('Would you really reset selected user password?', 'this action cant be undo.',
+                (value) => {
+                    if (!value) return;
+                    $.ajax({
+                        url: `/users/${id}/reset-password`,
+                        type: 'POST',
+                        data: {
+                            'id': id
+                        }
+                    })
+                    .done((data) => {
+                        let alertManager = new AlertManager('#alert-container');
+                        alertManager.append('Successfully changed selected user password. ' +
+                            'Please notice him/her new password is "p" + his/her login_id.',
+                        'alert-info')
+                    })
+                    .fail(($xhr) => {
+                        let alertManager = new AlertManager('#alert-container');
+                        alertManager.append('Oops, Sorry we have some trouble with reset password...',
+                        'alert-danger')
+                    });
+                });
         });
 
         $('#inactivate').click(function () {
             let id = $('input[name="id"]').val();
-
             if (id == '') return;
 
-            if (!confirm('Would you really inactivate selected user? this action cant be undo.')) return;
-
-            $.ajax({
-                url: `/users/${id}/inactivate`,
-                type: 'POST',
-                data: {
-                    'id': id
-                }
-            })
-            .done((data) => {
-                let alertManager = new AlertManager('#alert-container');
-                alertManager.append('Successfully inactivate user.',
-                'alert-info');
-                $(`tr[data-id=${id}]`).data('is_inactivated', 'True');
-                $(`tr[data-id=${id}]`).attr('data-is_inactivated', 'True');
-            })
-            .fail(($xhr) => {
-                let alertManager = new AlertManager('#alert-container');
-                alertManager.append('Oops, Sorry we have some trouble with inactivating...',
-                'alert-danger')
-            });
+            showConfirmDialog('Would you really inactivate selected user?', 'this action cant be undo.',
+                (value) => {
+                    if (!value) return;
+                    $.ajax({
+                        url: `/users/${id}/inactivate`,
+                        type: 'POST',
+                        data: {
+                            'id': id
+                        }
+                    })
+                    .done((data) => {
+                        let alertManager = new AlertManager('#alert-container');
+                        alertManager.append('Successfully inactivate user.',
+                        'alert-info');
+                        $(`tr[data-id=${id}]`).data('is_inactivated', 'True');
+                        $(`tr[data-id=${id}]`).attr('data-is_inactivated', 'True');
+                    })
+                    .fail(($xhr) => {
+                        let alertManager = new AlertManager('#alert-container');
+                        alertManager.append('Oops, Sorry we have some trouble with inactivating...',
+                        'alert-danger')
+                    });
+                });
         });
     });
 })(jQuery);

@@ -75,9 +75,49 @@
                 {% endif %}
             {% endfor %}
             </div>
-        {% block body %}{% endblock %}
+            {% block body %}{% endblock %}
+        </div>
+        <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalTitle">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body"><p id="modalBody"></p></div>
+
+                    <div class="modal-footer" id="modalFooter">
+                        <button type="button" class="btn btn-secondary" id="cancelButton" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="confirmButton">Yes</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
+    <script type="text/javascript">
+        let showConfirmDialog = function (title, body, callback) {
+            const $dialog = $('#confirmDialog');
+            $dialog.find('#modalTitle').text(title);
+            $dialog.find('#modalBody').html(body);
+            $dialog.find('#modalFooter').find('#confirmButton').click(
+                (e) => {
+                    e.preventDefault();
+                    $dialog.modal('hide');
+                    callback(true);
+                });
+            $dialog.find('#modalFooter').find('#cancelButton').click(
+                (e) => {
+                    e.preventDefault();
+                    $dialog.modal('hide');
+                    callback(false);
+                });
+            $dialog.modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        };
+    </script>
 {% block css %}{% endblock %}
 {% block script %}{% endblock %}
 </html>

@@ -49,30 +49,35 @@ import { AlertManager } from './alert-helper.js';
         let monthlyHolidays = parseInt($('#monthly-holidays').data('holidays'));
         let remainedPaidHolidays = parseInt($('#paid-holidays').data('holidays'));
 
-        if (monthlyHolidays <= $('.request').length) {
-            let ret = confirm('adding more request will decrease your paid holidays.\r\nis it ok?');
-            if (!ret) return;
-            if (remainedPaidHolidays <= 0) {
-                let ret = confirm('maybe your paid holidays are still empty.\r\nare you keep going?');
-                if (!ret) return;
-            }
+        const $postAction = () => {
+            $.ajax({
+                url: '/operators/my-requests',
+                type: 'POST',
+                data: getEventData()
+            })
+            .done((data) => {
+                location.reload(true);
+            })
+            .fail(($xhr) => {
+                const data = $xhr.responseJSON;
+                const alertManager = new AlertManager('#alert-container');
+                const message = data.errorMessage || 'we have some trouble with appending request...';
+                alertManager.append(`Oops, Sorry ${message}`,
+                'alert-danger')
+            });
         }
 
-        $.ajax({
-            url: '/operators/my-requests',
-            type: 'POST',
-            data: getEventData()
-        })
-        .done((data) => {
-            location.reload(true);
-        })
-        .fail(($xhr) => {
-            const data = $xhr.responseJSON;
-            const alertManager = new AlertManager('#alert-container');
-            const message = data.errorMessage || 'we have some trouble with appending request...';
-            alertManager.append(`Oops, Sorry ${message}`,
-            'alert-danger')
-        });
+        if (monthlyHolidays <= $('.request').length) {
+            const message = remainedPaidHolidays <= 0 ? '<br><br>and also maybe your paid holidays are empty.' : '';
+            showConfirmDialog('No Problem?', `adding more request will decrease your paid holidays.${message}`,
+                (value) => {
+                    if (!value) return;
+                    $postAction();
+                });
+        }
+        else {
+            $postAction();
+        }
     }
 
     let editEvent = function () {

@@ -4,7 +4,7 @@
     {{ form.hidden_tag() }}
     <div class="header mb-3">
         <div>
-            <input type="hidden" name="{{ form.affiliation.name }}" value="{{ form.affiliation.data }}">
+            <input type="hidden" name="{{ form.affiliation.name }}" value="{{ form.affiliation.data.id }}">
             <h1>{{ form.affiliation.data.name }}</h1>
         </div>
     </div>
