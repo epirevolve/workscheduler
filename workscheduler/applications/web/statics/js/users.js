@@ -49,13 +49,13 @@ import { AlertManager } from './alert-helper.js';
                         }
                     })
                     .done((data) => {
-                        let alertManager = new AlertManager('#alert-container');
+                        let alertManager = new AlertManager('#alertContainer');
                         alertManager.append('Successfully changed selected user password. ' +
                             'Please notice him/her new password is "p" + his/her login_id.',
                         'alert-info')
                     })
                     .fail(($xhr) => {
-                        let alertManager = new AlertManager('#alert-container');
+                        let alertManager = new AlertManager('#alertContainer');
                         alertManager.append('Oops, Sorry we have some trouble with reset password...',
                         'alert-danger')
                     });
@@ -77,14 +77,14 @@ import { AlertManager } from './alert-helper.js';
                         }
                     })
                     .done((data) => {
-                        let alertManager = new AlertManager('#alert-container');
+                        let alertManager = new AlertManager('#alertContainer');
                         alertManager.append('Successfully inactivate user.',
                         'alert-info');
                         $(`tr[data-id=${id}]`).data('is_inactivated', 'True');
                         $(`tr[data-id=${id}]`).attr('data-is_inactivated', 'True');
                     })
                     .fail(($xhr) => {
-                        let alertManager = new AlertManager('#alert-container');
+                        let alertManager = new AlertManager('#alertContainer');
                         alertManager.append('Oops, Sorry we have some trouble with inactivating...',
                         'alert-danger')
                     });

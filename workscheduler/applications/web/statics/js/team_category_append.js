@@ -13,7 +13,7 @@ import { AlertManager } from './alert-helper.js';
             })
             .done((data) => {
                 if (!confirm('Would you transfer in the edit page?')){
-                    let alertManager = new AlertManager('#alert-container');
+                    let alertManager = new AlertManager('#alertContainer');
                     alertManager.append('Team Category was successfully registered.',
                     'alert-info');
                 }
@@ -21,7 +21,7 @@ import { AlertManager } from './alert-helper.js';
 
             })
             .fail(($xhr) => {
-                let alertManager = new AlertManager('#alert-container');
+                let alertManager = new AlertManager('#alertContainer');
                 alertManager.append('Oops, Sorry we have some trouble with store the team category...',
                 'alert-error');
             })

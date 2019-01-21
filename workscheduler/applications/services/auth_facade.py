@@ -4,7 +4,7 @@ from workscheduler.applications.services import UserQuery
 from workscheduler.domains.models.user import User
 
 
-class AuthCommand:
+class AuthFacade:
     def __init__(self, session):
         self._session = session
     

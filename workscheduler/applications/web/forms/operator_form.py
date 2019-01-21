@@ -25,7 +25,7 @@ class OperatorForm(FlaskForm):
     remain_paid_holiday = IntegerField()
 
     def __init__(self, *args, **kwargs):
-        all_certified_skills = SkillQuery(get_db_session()).get_certified_skills()
+        certified_skills = SkillQuery(get_db_session()).get_certified_skills()
 
         self.all_certified_skills.clear()
 
@@ -33,11 +33,11 @@ class OperatorForm(FlaskForm):
             obj = kwargs.get('obj')
             certified_skill_ids = [x.id for x in obj.certified_skills]
             
-            for skill in all_certified_skills:
+            for skill in certified_skills:
                 if skill.id in certified_skill_ids:
                     setattr(skill, 'is_obtain', True)
         
-        for skill in all_certified_skills:
+        for skill in certified_skills:
             self.all_certified_skills.append(
                 SkillForm(obj=skill, prefix='skill-{}'.format(skill.id))
             )

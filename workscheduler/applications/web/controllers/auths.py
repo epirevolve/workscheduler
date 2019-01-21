@@ -8,7 +8,7 @@ from flask_login import (
     login_user, logout_user
 )
 from workscheduler.applications.services import UserQuery
-from ..adapters import AuthCommandAdapter
+from ..adapters import AuthFacadeAdapter
 from ..forms import AuthForm
 from .. import get_db_session
 
@@ -28,7 +28,7 @@ def index():
 @bp.route('/auth/login', methods=['POST'])
 def login():
     form = AuthForm()
-    user = AuthCommandAdapter(get_db_session()).login(form)
+    user = AuthFacadeAdapter(get_db_session()).login(form)
     if not user:
         flash('Invalid username or password, or inactivated user', 'error')
         return render_template('auth.html', form=form)

@@ -6,7 +6,7 @@ import { AlertManager } from './alert-helper.js';
 (function () {
     let requestMonthYear = function (stamp, addMonth) {
         if (isNaN(stamp) == true) {
-            let alertManager = new AlertManager('#alert-container');
+            let alertManager = new AlertManager('#alertContainer');
             alertManager.append('Sorry, we cant do more process due to invalid date.')
             return false;
         }
@@ -14,7 +14,7 @@ import { AlertManager } from './alert-helper.js';
         let userId = $('#user-id').val();
         let date = new Date(stamp);
         date.setMonth(date.getMonth() + addMonth);
-        let date_str = date.getFullYear() + '-' + (date.getMonth() + 1);
+        let date_str = date.toYearMonthFormatString();
 
         location.href = `/operators/my-requests/month-year/${date_str}`;
     }
@@ -60,7 +60,7 @@ import { AlertManager } from './alert-helper.js';
             })
             .fail(($xhr) => {
                 const data = $xhr.responseJSON;
-                const alertManager = new AlertManager('#alert-container');
+                const alertManager = new AlertManager('#alertContainer');
                 const message = data.errorMessage || 'we have some trouble with appending request...';
                 alertManager.append(`Oops, Sorry ${message}`,
                 'alert-danger')

@@ -39,7 +39,7 @@ import { AlertManager } from './alert-helper.js';
                 }
             })
             .done((data) => {
-                let alertManager = new AlertManager('#alert-container');
+                let alertManager = new AlertManager('#alertContainer');
                 alertManager.append('New skill is correctly registered.',
                 'alert-info');
                 $('#skill-modal').modal('hide');
@@ -73,7 +73,7 @@ import { AlertManager } from './alert-helper.js';
                 )
             })
             .fail(($xhr) => {
-                let alertManager = new AlertManager('#alert-container');
+                let alertManager = new AlertManager('#alertContainer');
                 alertManager.append('Oops, Sorry we have some trouble with appending skill...',
                 'alert-danger')
             });

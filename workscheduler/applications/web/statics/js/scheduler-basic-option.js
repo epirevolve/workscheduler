@@ -248,9 +248,12 @@ import { AlertManager } from './alert-helper.js';
                 data: getFormData()
             })
             .done((data) => {
+                let alertManager = new AlertManager('#alertContainer');
+                alertManager.append('Successfully storing scheduler basic options.',
+                'alert-info')
             })
             .fail(($xhr) => {
-                let alertManager = new AlertManager('#alert-container');
+                let alertManager = new AlertManager('#alertContainer');
                 alertManager.append('Oops, Sorry we have some trouble with storing options...',
                 'alert-danger')
             });

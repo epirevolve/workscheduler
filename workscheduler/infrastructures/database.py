@@ -110,24 +110,36 @@ class Database:
             BasicOptions, WorkCategory
         )
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
+        work_daily = WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
+                                               [get_operator_of_user_id(user1.id),
+                                                get_operator_of_user_id(user2.id)],
+                                               [])
         option = BasicOptions.new_option(
             front, True, True,
-            [WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
-                                       [get_operator_of_user_id(user1.id),
-                                        get_operator_of_user_id(user2.id)],
-                                       []),
+            [work_daily,
              WorkCategory.new_category('夜間帯', 3, 5, 3, 5, 2, 5, [skill3], [],
                                        [get_operator_of_user_id(user3.id)])]
         )
         session.add(option)
+        session.flush()
         
         # add scheduler calendar
         
-        from datetime import datetime
-        from workscheduler.domains.models.scheduler import Calendar
-        now = datetime.today()
+        from mypackages.utils.date import get_next_month
+        from workscheduler.domains.models.scheduler import (
+            Calendar, FixedSchedule
+        )
+        next_month = get_next_month()
         calendar = Calendar.new_month_year(front, option.work_categories,
-                                           now.year, now.month + 1, [], 8)
+                                           next_month.year, next_month.month,
+                                           [FixedSchedule.new_schedule('いけりり研修', next_month.replace(day=4),
+                                                                       next_month.replace(day=7), [work_daily],
+                                                                       [get_operator_of_user_id(user1.id),
+                                                                        get_operator_of_user_id(user3.id)]),
+                                            FixedSchedule.new_schedule('いけりり研修', next_month.replace(day=9),
+                                                                       next_month.replace(day=12), [work_daily],
+                                                                       [get_operator_of_user_id(user2.id)])
+                                            ])
         session.add(calendar)
         
         session.commit()

@@ -42,6 +42,11 @@ Date.prototype.setLatestTime = function () {
     return this;
 }
 
+Date.prototype.toYearMonthFormatString = function () {
+    let month = (this.getMonth()+1).toString().padStart(2, '0');
+    return `${this.getFullYear()}-${month}`
+}
+
 Date.prototype.toDateFormatString = function () {
     let month = (this.getMonth()+1).toString().padStart(2, '0');
     let day = (this.getDate()).toString().padStart(2, '0')

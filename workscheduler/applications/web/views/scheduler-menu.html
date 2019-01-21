@@ -33,7 +33,7 @@
             </div>
         </div>
     </a>
-    <a data-url="{{ url_for('schedulers.show_yearly_option', affiliation_id='affiliation_id') }}">
+    <a id="launch" href="#">
         <div class="card">
             <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler-launch.svg') }}" />
             <div class="card-footer">
@@ -49,5 +49,5 @@
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/scheduler-menu.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/scheduler-menu.js') }}"></script>
 {% endblock %}

@@ -15,7 +15,7 @@ from mypackages.utils.date import (
 )
 from workscheduler.applications.services import (
     AffiliationQuery, SchedulerQuery, SkillQuery,
-    OperatorQuery
+    OperatorQuery, SchedulerFacade
 )
 from workscheduler.domains.models.scheduler import Calendar
 from . import admin_required
@@ -46,22 +46,10 @@ def show_calendar(affiliation_id: str, schedule_of: str):
         schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
     
     session = get_db_session()
-    affiliation = AffiliationQuery(session).get_affiliation(affiliation_id)
-    work_categories = SchedulerQuery(session).get_option_of_affiliation_id(affiliation_id).work_categories
-    calendar = SchedulerQuery(session).get_calendar(affiliation_id, schedule_of.year, schedule_of.month)
-    calendar = calendar or Calendar.new_month_year(
-        affiliation, work_categories, schedule_of.year, schedule_of.month,
-        [], 8)
-    ids = [x['category'].id for x in calendar.categories]
-    for work_category in work_categories:
-        if work_category.id not in ids:
-            calendar.add_category(work_category)
+    calendar = SchedulerFacade(session).get_category_compensated_calendar(affiliation_id, schedule_of)
     operators = OperatorQuery(session).get_operators()
     
-    form = SchedulerCalendarForm(obj=type('temp', (object,), {
-        'schedule_of': schedule_of,
-        'affiliation': affiliation
-    }))
+    form = SchedulerCalendarForm(obj=calendar)
     
     return render_template('scheduler-calendar.html', form=form,
                            calendar=calendar, operators=operators)

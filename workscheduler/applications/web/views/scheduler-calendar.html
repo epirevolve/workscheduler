@@ -2,7 +2,8 @@
 {% block body %}
 <form method="post">
     <div class="form-inline my-3">
-        <div class="input-group date col-md-3" id="schedule-of" data-target-input="nearest">
+        <div class="input-group date col-md-3" id="schedule-of"
+             data-url="{{ url_for('schedulers.show_calendar', affiliation_id=form.affiliation.data.id, schedule_of='schedule_of') }}" data-target-input="nearest">
             <div class="input-group-prepend">
                 <span class="input-group-text">Scheduler Of</span>
             </div>
@@ -14,7 +15,7 @@
         </div>
         <h2 class="mx-4">of</h2>
         <div>
-            <input type="hidden" name="{{ form.affiliation.name }}" value="{{ form.affiliation.data }}">
+            <input type="hidden" name="{{ form.affiliation.name }}" value="{{ form.affiliation.data.id }}">
             <h1>{{ form.affiliation.data.name }}</h1>
         </div>
     </div>
@@ -67,48 +68,55 @@
         </div>
         <div class="row">
             <div class="card-columns col-md-10">
-                <div class="card">
-                    <div class="card-header">
-                        <h4><input type="text" value="いけりり研修"></h4>
+                {% for fixed_schedule in form.fixed_schedules %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h4><input type="text" value="{{ fixed_schedule.title.data }}"></h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group m-1 mb-3 date" id="from" data-target-input="nearest">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">From</span>
+                                </div>
+                                <input type="text" class="form-control datetimepicker-input" data-target="#from"
+                                    value="{{ fixed_schedule.date_from.data }}">
+                                <div class="input-group-append" data-target="#from" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                            <div class="input-group m-1 mb-3 date" id="to" data-target-input="nearest">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">To</span>
+                                </div>
+                                <input type="text" class="form-control datetimepicker-input" data-target="#to"
+                                    value="{{ fixed_schedule.date_to.data }}">
+                                <div class="input-group-append" data-target="#to" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                            <div class="custom-control-inline mb-2">
+                                {% for work_category in fixed_schedule.all_work_categories %}
+                                    <div class="m-1 custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="{{ work_category.id.data }}" name="{{ work_category.is_obtain.id }}"
+                                        {% if work_category.is_obtain.data %}checked{% endif %}>
+                                        <label class="custom-control-label" for="{{ work_category.id.data }}">{{ work_category.title.data }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <h5>Attend Member</h5>
+                            <div class="attend-member drop-region droppable ml-1 mb-3">
+                                {% for participant in fixed_schedule.participants %}
+                                    <span data-id="{{ participant.data.id }}" class="m-2 draggable">{{ participant.data.user.name }}</span>
+                                {% endfor %}
+                            </div>
+                            <hr>
+                            <button type="button" class="btn btn-danger btn-block">Remove</button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="input-group m-1 mb-3 date" id="from" data-target-input="nearest">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">From</span>
-                            </div>
-                            <input type="text" class="form-control datetimepicker-input" data-target="#from">
-                            <div class="input-group-append" data-target="#from" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                        <div class="input-group m-1 mb-3 date" id="to" data-target-input="nearest">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">To</span>
-                            </div>
-                            <input type="text" class="form-control datetimepicker-input" data-target="#to">
-                            <div class="input-group-append" data-target="#to" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                        <div class="custom-control-inline mb-2">
-                            <div class="m-1 custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="day-time1" name="day-time1">
-                                <label class="custom-control-label" for="day-time1">日勤帯</label>
-                            </div>
-                            <div class="m-1 custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="day-time2" name="day-time2">
-                                <label class="custom-control-label" for="day-time2">夜間帯</label>
-                            </div>
-                        </div>
-                        <h5>Attend Member</h5>
-                        <div class="attend-member drop-region droppable ml-1">
-                        </div>
-                        <hr>
-                        <button type="button" class="btn btn-danger btn-block">Remove</button>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 d-none d-sm-block">
+                <h3>Operators</h3>
                 <ul class="list-group">
                     {% for operator in operators %}
                         <li data-id="{{ operator.id }}" class="list-group-item draggable">
@@ -123,8 +131,8 @@
     <div class="row m-1">
         <button type="button" class="btn btn-secondary col-md-2"
             onclick="window.history.back()">Go Back</button>
-        <button class="btn btn-success col-md-3 offset-md-1">Save</button>
-        <button class="btn btn-primary col-md-6">Public Calendar</button>
+        <button type="button" class="btn btn-primary col-md-6 offset-md-1">Save</button>
+        <button type="button" class="btn btn-success col-md-3">Public Calendar</button>
     </div>
 </form>
 {% endblock %}

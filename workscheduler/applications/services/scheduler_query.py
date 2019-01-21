@@ -19,7 +19,7 @@ class SchedulerQuery:
     
     def get_work_category(self, id: str) -> WorkCategory:
         return self._session.query(WorkCategory).get(id)
-
+    
     def get_calendar(self, affiliation_id: str, year: int, month: int):
         return self._session.query(Calendar)\
             .filter(Calendar.affiliation.has(Affiliation.id == affiliation_id),
