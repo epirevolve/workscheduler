@@ -116,7 +116,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
             'placement': 'top'
         });
 
-        $(document).on('click', '#add-request', function () {
+        $('#add-request').click(function () {
             let $button = $(this);
             let $container = $button.parents('.cl-body-cell').eq(0);
 
@@ -138,7 +138,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
             $save.off('click');
             $save.on('click', addEvent);
 
-            $('#request-modal').modal();
+            $('#requestModal').modal();
         });
 
         $(document).on('click', '#edit-request', function () {
@@ -153,7 +153,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
             $save.off('click');
             $save.on('click', editEvent);
 
-            $('#request-modal').modal();
+            $('#requestModal').modal();
         });
 
         $('.date').datetimepicker({

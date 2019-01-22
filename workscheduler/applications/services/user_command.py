@@ -10,8 +10,8 @@ class UserCommand:
     def __init__(self, session):
         self._session = session
     
-    def update_myself(self, id: str, password: str, name: str):
-        user = UserQuery(self._session).get_user(id)
+    def update_myself(self, id_: str, password: str, name: str):
+        user = UserQuery(self._session).get_user(id_)
         user.password = password
         user.name = name
     
@@ -23,19 +23,19 @@ class UserCommand:
         self._session.add(Operator.new_operator(user))
         return user
     
-    def update_user(self, id: str, login_id: str, name: str,
+    def update_user(self, id_: str, login_id: str, name: str,
                     affiliation_id: str, is_admin: bool, is_operator: bool):
-        user = UserQuery(self._session).get_user(id)
+        user = UserQuery(self._session).get_user(id_)
         user.login_id = login_id
         user.name = name
         user.affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
         user.is_admin = is_admin
         user.is_operator = is_operator
     
-    def reset_password(self, id: str):
-        user = UserQuery(self._session).get_user(id)
+    def reset_password(self, id_: str):
+        user = UserQuery(self._session).get_user(id_)
         user.reset_password()
 
-    def inactivate(self, id: str):
-        user = UserQuery(self._session).get_user(id)
+    def inactivate(self, id_: str):
+        user = UserQuery(self._session).get_user(id_)
         user.is_inactivated = True

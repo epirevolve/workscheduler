@@ -1,7 +1,7 @@
 ;
 'use strict';
 
-import { newPseudoUuid } from './util.js';
+import { newPseudoUuid } from '/statics/js/util.js';
 
 (function () {
     let setRegulatedDate = function () {
@@ -77,25 +77,24 @@ import { newPseudoUuid } from './util.js';
                             .append($('<span class="input-group-text">').html('From')))
                         .append($(`<input type="text" class="form-control datetimepicker-input" data-target="#${id}-from">`))
                         .append($(`<div class="input-group-append" data-target="#${id}-from" data-toggle="datetimepicker">`)
-                            .append($('<div class="input-group-text">').append($('<i class="fa fa-calendar">'))))
-                        .datetimepicker({
-                            format: 'YYYY-MM-DD',
-                            useCurrent: false
-                        }))
+                            .append($('<div class="input-group-text">').append($('<i class="fa fa-calendar">')))))
                     .append($(`<div class="input-group m-1 mb-3 date" id="${id}-to" data-target-input="nearest">`)
                         .append($('<div class="input-group-prepend">')
                             .append($('<span class="input-group-text">').html('To')))
                         .append($(`<input type="text" class="form-control datetimepicker-input" data-target="#${id}-to">`))
                         .append($(`<div class="input-group-append" data-target="#${id}-to" data-toggle="datetimepicker">`)
-                            .append($('<div class="input-group-text">').append($('<i class="fa fa-calendar">'))))
-                        .datetimepicker({
-                            format: 'YYYY-MM-DD',
-                            useCurrent: false
-                        }))
+                            .append($('<div class="input-group-text">').append($('<i class="fa fa-calendar">')))))
                     .append($('<div class="custom-control-inline mb-2">'))
-                )
-
-            const $fixedScheduleColumns = $('#fixedScheduleColumns');
+                    .append($('<h5>').html('Attend Member'))
+                    .append($('<div class="attend-member drop-region droppable ml-1 mb-3">'))
+                    .append($('<hr>'))
+                    .append($('<button type="button" class="btn btn-danger btn-block">').html("Remove"))
+                );
+            $('#fixedScheduleColumns').append($card);
+            $('.date').datetimepicker({
+                format: 'YYYY-MM-DD',
+                useCurrent: false
+            });
         });
     });
 })(jQuery);

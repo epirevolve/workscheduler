@@ -68,8 +68,8 @@ def show_my_request(month_year):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
 
     session = get_db_session()
-    scheduler_calendar = SchedulerQuery(session).get_calendar(current_user.affiliation.id,
-                                                              month_year.year, month_year.month)
+    scheduler_calendar = SchedulerQuery(session).get_calendar_of_affiliation_id_year_month(current_user.affiliation.id,
+                                                                                           month_year.year, month_year.month)
     return _public_request_body(month_year, scheduler_calendar) if scheduler_calendar\
         else _non_public_request_body(month_year)
 

@@ -53,7 +53,7 @@ def create_app(test_config=None):
         app.config.from_pyfile('config.py', silent=True)
     else:
         app.config.update(test_config)
-
+    
     try:
         os.makedirs(app.instance_path)
     except OSError:
@@ -62,9 +62,6 @@ def create_app(test_config=None):
     app.config.from_envvar('WORK_SCHEDULER_SETTING', silent=True)
 
     sys.path.append(os.path.dirname(__file__))
-
-    # todo: need to refactor below configure setting
-
     app.teardown_appcontext(close_db_session)
 
     # cli action
@@ -82,17 +79,15 @@ def create_app(test_config=None):
         click.echo('Set the database to test.')
     app.cli.add_command(set_test_db_command)
 
-    from .util.controllers import (
-        menus_bp
-    )
-    from .user.controllers import (
+    from .util.controllers import menus_bp
+    from .models.user.controllers import (
         auth_bp, affiliations_bp, users_bp
     )
-    from .operator.controllers import (
+    from .models.operator.controllers import (
         operators_bp,  skills_bp, teams_bp
     )
-    from .scheduler.controllers import schedulers
-    from .schedule.controllers import schedules
+    from .models.scheduler.controllers import schedulers
+    from .models.schedule.controllers import schedules
 
     app.register_blueprint(menus_bp, url_prefix="/menus")
     app.register_blueprint(auth_bp)

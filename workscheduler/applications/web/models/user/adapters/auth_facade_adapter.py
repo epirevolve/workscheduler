@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.applications.services import AuthFacade
-from workscheduler.applications.web.user.forms.auth_form import AuthForm
+from ..forms.auth_form import AuthForm
 
 
 class AuthFacadeAdapter(AuthFacade):

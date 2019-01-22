@@ -12,8 +12,8 @@ class OperatorQuery:
     def __init__(self, session):
         self._session = session
     
-    def get_operator(self, id: str) -> Operator:
-        return self._session.query(Operator).get(id)
+    def get_operator(self, id_: str) -> Operator:
+        return self._session.query(Operator).get(id_)
     
     def get_operator_of_user_id(self, user_id: str) -> Operator:
         return self._session.query(Operator)\

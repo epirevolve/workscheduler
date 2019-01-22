@@ -1,58 +1,58 @@
 {% extends "request.html" %}
 {% block request_body %}
-<div class="modal fade" id="request-modal" tabindex="-1" role="dialog"
+<div class="modal fade" id="requestModal" tabindex="-1" role="dialog"
      aria-labelledby="requestLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Set your request</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <input type="hidden" id="request-id">
-          <div class="input-group m-1">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">title</span>
-              </div>
-              <input type="text" class="form-control" id="request-title">
-          </div>
-          <div class="input-group m-1">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">note</span>
-              </div>
-              <textarea class="form-control" id="request-note"></textarea>
-          </div>
-          <div class="form-group m-1">
-              <div class="input-group date" id="datetime-from" data-target-input="nearest">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text">from</span>
-                  </div>
-                  <input type="text" class="form-control datetimepicker-input" data-target="#datetime-from">
-                  <div class="input-group-append" data-target="#datetime-from" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                  </div>
-              </div>
-          </div>
-          <div class="form-group m-1">
-              <div class="input-group date" id="datetime-to" data-target-input="nearest">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text">to</span>
-                  </div>
-                  <input type="text" class="form-control datetimepicker-input" data-target="#datetime-to">
-                  <div class="input-group-append" data-target="#datetime-to" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="save-request">Save</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Set your request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="request-id">
+                <div class="input-group m-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">title</span>
+                    </div>
+                    <input type="text" class="form-control" id="request-title">
+                </div>
+                <div class="input-group m-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">note</span>
+                    </div>
+                    <textarea class="form-control" id="request-note"></textarea>
+                </div>
+                <div class="form-group m-1">
+                    <div class="input-group date" id="datetime-from" data-target-input="nearest">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">from</span>
+                        </div>
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetime-from">
+                        <div class="input-group-append" data-target="#datetime-from" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-1">
+                    <div class="input-group date" id="datetime-to" data-target-input="nearest">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">to</span>
+                        </div>
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetime-to">
+                        <div class="input-group-append" data-target="#datetime-to" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-request">Save</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="row">

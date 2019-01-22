@@ -7,8 +7,8 @@ class AffiliationQuery:
     def __init__(self, session):
         self._session = session
     
-    def get_affiliation(self, id: str):
-        return self._session.query(Affiliation).get(id)
+    def get_affiliation(self, id_: str):
+        return self._session.query(Affiliation).get(id_)
 
     def get_affiliations(self):
         return self._session.query(Affiliation).order_by(Affiliation.id).all()

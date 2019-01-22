@@ -37,7 +37,7 @@ def show_menu():
     return render_template('scheduler-menu.html', affiliations=affiliations)
 
 
-@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>')
+@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars')
 @login_required
 @admin_required
 def show_calendar(affiliation_id: str, schedule_of: str):
@@ -45,13 +45,37 @@ def show_calendar(affiliation_id: str, schedule_of: str):
         schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
     
     session = get_db_session()
-    calendar = SchedulerFacade(session).get_category_compensated_calendar(affiliation_id, schedule_of)
+    calendar, exist = SchedulerFacade(session).get_category_compensated_calendar(affiliation_id, schedule_of)
     operators = OperatorQuery(session).get_operators()
     
     form = SchedulerCalendarForm(obj=calendar)
+    action = url_for('schedulers.append_calendar', affiliation_id=affiliation_id, schedule_of=schedule_of) if exist\
+        else url_for('schedulers.update_calendar', affiliation_id=affiliation_id,
+                     schedule_of=schedule_of, calendar_id=calendar.id)
     
-    return render_template('scheduler-calendar.html', form=form,
+    return render_template('scheduler-calendar.html', form=form, action=action,
                            calendar=calendar, operators=operators)
+
+
+@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars', methods=['POST'])
+@login_required
+@admin_required
+def append_calendar(affiliation_id: str, schedule_of: str):
+    pass
+
+
+@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars/<calendar_id>', methods=['POST'])
+@login_required
+@admin_required
+def update_calendar(affiliation_id: str, schedule_of: str, calendar_id: str):
+    pass
+
+
+@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars/<calendar_id>/public', methods=['POST'])
+@login_required
+@admin_required
+def public_calendar(affiliation_id: str, schedule_of: str, calendar_id: str):
+    pass
 
 
 @bp.route('/affiliations/<affiliation_id>/basic-option')
@@ -124,8 +148,9 @@ def show_yearly_option(affiliation_id: str):
                            })))
 
 
-@bp.route('/affiliations/<affiliation_id>', methods=['POST'])
+@bp.route('/affiliations/<affiliation_id>/schedule-of/<schedule_of>', methods=['POST'])
 @login_required
 @admin_required
-def create_schedule(affiliation_id: str):
-    pass
+def launch_scheduler(affiliation_id: str, schedule_of: str):
+    response = jsonify()
+    return response
