@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Users</h2>
+<div class="table-responsive" style="height: 35vh">
+    <table class="table" id="user-table">
+        <thead>
+            <tr>
+                <th>login id</th>
+                <th>name</th>
+                <th>affiliation</th>
+                <th>is admin</th>
+                <th>is operator</th>
+                <th>is inactivated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr role="row" data-id="{{ user.id }}" data-login_id="{{ user.login_id }}"
+                data-name="{{ user.name }}" data-affiliation_id="{{ user.affiliation.id }}"
+                data-is_admin="{{ user.is_admin }}" data-is_operator="{{ user.is_operator }}"
+                data-is_inactivated="{{ user.is_inactivated }}">
+                <td>{{ user.login_id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.affiliation.name }}</td>
+                <td>{{ user.is_admin }}</td>
+                <td>{{ user.is_operator }}</td>
+                <td>{{ user.is_inactivated }}</td>
+            </tr>
+            {% else %}
+            <tr><td>No users here so far.</td><td></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<hr />
+<form name="user_form" action="{{ url_for('users.append_user') }}" method="post">
+    {{ form.hidden_tag() }}
+    <input type="hidden" class="form-control" name="id" readonly>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Login Id</span>
+        </div>
+        <input type="text" class="form-control" name="login_id">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+        </div>
+        <input type="text" class="form-control" name="name">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">affiliation</span>
+        </div>
+        <select class="custom-select" name="affiliation">
+            {% for affiliation in affiliations %}
+                <option value="{{ affiliation.id }}">{{ affiliation.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3 custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin">
+        <label class="custom-control-label" for="is_admin">Is Admin</label>
+    </div>
+    <div class="mb-3 custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="is_operator" name="is_operator">
+        <label class="custom-control-label" for="is_operator">Is Operator</label>
+    </div>
+    <div class="row">
+        <button class="btn btn-secondary col-md-2" type="reset" id="new">New User</button>
+        <button class="btn btn-primary col-md-5 offset-md-1" type="submit" id="store">Store User</button>
+        <button class="btn btn-warning col-md-2 offset-md-1" type="button" id="reset">Reset Password</button>
+        <button class="btn btn-danger col-md-1" type="button" id="inactivate">Inactivate</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block css %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('users.static', filename='css/users.css') }}" />
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('users.static', filename='js/users.js') }}"></script>
+{% endblock %}

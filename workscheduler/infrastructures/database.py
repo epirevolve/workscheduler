@@ -7,7 +7,7 @@ from workscheduler.applications.services import (
     UserCommand, AffiliationQuery
 )
 from workscheduler.domains.models import OrmBase
-from workscheduler.domains.models.user.affiliation import Affiliation
+from workscheduler.domains.models.user import Affiliation
 
 
 class Database:
@@ -52,7 +52,7 @@ class Database:
         
         # add skills
         
-        from workscheduler.domains.models.operator.skill import Skill
+        from workscheduler.domains.models.operator import Skill
         skill1 = Skill.new_certified_skill('ccna', 1)
         session.add(skill1)
         skill2 = Skill.new_certified_skill('ccnp', 3)
@@ -64,7 +64,7 @@ class Database:
         
         # add teams
         
-        from workscheduler.domains.models.team import TeamCategory
+        from workscheduler.domains.models.operator import TeamCategory
         team_cat_1 = TeamCategory.new_team_category(
             'Night Operation Team', allow_multiple_affiliation=True,
             is_leader_required=False, min_member_count=0,
@@ -78,7 +78,7 @@ class Database:
         )
         session.add(team_cat_2)
 
-        from workscheduler.domains.models.team import Team
+        from workscheduler.domains.models.operator import Team
         team = Team.new_team(team_cat_1.id, 'Team A')
         session.add(team)
         user1 = append_user('test_user1', 'テストユーザ1', affiliation_id, is_admin=False, is_operator=True)

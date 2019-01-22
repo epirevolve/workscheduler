@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.team import TeamCategory
+from workscheduler.domains.models.operator import TeamCategory
 
 
 class TeamCommand:

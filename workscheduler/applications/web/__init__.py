@@ -40,8 +40,8 @@ def close_db_session(e=None):
 
 def create_app(test_config=None):
     # create the application instance
-    app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'statics'))
-    app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'views'))
+    app = Flask(__name__, static_folder='util/statics')
+    app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'util/views'))
     app.config.from_object(__name__)
 
     app.config.from_mapping(
@@ -82,21 +82,27 @@ def create_app(test_config=None):
         click.echo('Set the database to test.')
     app.cli.add_command(set_test_db_command)
 
-    from .controllers import (
-        auths, menus, schedules, schedulers,
-        operators, users, affiliations,
-        skills, teams
+    from .util.controllers import (
+        menus_bp
     )
+    from .user.controllers import (
+        auth_bp, affiliations_bp, users_bp
+    )
+    from .operator.controllers import (
+        operators_bp,  skills_bp, teams_bp
+    )
+    from .scheduler.controllers import schedulers
+    from .schedule.controllers import schedules
 
-    app.register_blueprint(auths.bp)
-    app.register_blueprint(menus.bp)
-    app.register_blueprint(schedules.bp)
-    app.register_blueprint(schedulers.bp)
-    app.register_blueprint(operators.bp)
-    app.register_blueprint(users.bp)
-    app.register_blueprint(affiliations.bp)
-    app.register_blueprint(skills.bp)
-    app.register_blueprint(teams.bp)
+    app.register_blueprint(menus_bp, url_prefix="/menus")
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(affiliations_bp, url_prefix="/affiliations")
+    app.register_blueprint(users_bp, url_prefix="/users")
+    app.register_blueprint(operators_bp, url_prefix="/operators")
+    app.register_blueprint(skills_bp, url_prefix="/skills")
+    app.register_blueprint(teams_bp, url_prefix="/teams")
+    app.register_blueprint(schedulers.bp, url_prefix="/schedulers")
+    app.register_blueprint(schedules.bp, url_prefix="/schedules")
 
     @app.errorhandler(404)
     def not_found(error):

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+<select class="custom-select custom-select-lg" name="affiliation">
+    {% for affiliation in affiliations %}
+        <option value="{{ affiliation.id }}" {% if affiliation.id==default_affiliation_id %}selected{% endif %}>
+            {{ affiliation.name }}
+        </option>
+    {% endfor %}
+</select>
+<hr>
+<div class="card-deck">
+    <a data-url="{{ url_for('schedulers.show_calendar', affiliation_id='affiliation_id', schedule_of=next_month) }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler-calendar.svg') }}" />
+            <div class="card-footer">
+                <h3 class="card-title">Calendar</h3>
+            </div>
+        </div>
+    </a>
+    <a data-url="{{ url_for('schedulers.show_basic_option', affiliation_id='affiliation_id') }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler-basic-option.svg') }}" />
+            <div class="card-footer">
+                <h3 class="card-title">Basic Option</h3>
+            </div>
+        </div>
+    </a>
+    <a data-url="{{ url_for('schedulers.show_yearly_option', affiliation_id='affiliation_id') }}">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler-yearly-option.svg') }}" />
+            <div class="card-footer">
+                <h3 class="card-title">Yearly Option</h3>
+            </div>
+        </div>
+    </a>
+    <a id="launch" href="#">
+        <div class="card">
+            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler-launch.svg') }}" />
+            <div class="card-footer">
+                <h3 class="card-title">Launch</h3>
+            </div>
+        </div>
+    </a>
+</div>
+{% endblock %}
+
+{% block css %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/menu.css') }}" />
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('schedulers.static', filename='js/scheduler-menu.js') }}"></script>
+{% endblock %}
