@@ -1,18 +1,28 @@
 # -*- coding: utf-8 -*-
 
-from datetime import (
-    date, timedelta
-)
 import os
 import sys
+from datetime import (
+    date
+)
+
 import click
 from flask import (
     Flask, g, current_app
 )
 from flask.cli import with_appcontext
+from flask_login import (
+    LoginManager, current_user
+)
 from jinja2 import FileSystemLoader
+
+from mypackages.utils.date import (
+    to_year_month_string, get_next_month
+)
+from workscheduler.applications.services import (
+    AffiliationQuery, OperatorQuery
+)
 from workscheduler.infrastructures import Database
-from workscheduler.applications.services import BelongQuery
 
 
 def get_db_session(echo=False):
@@ -55,36 +65,43 @@ def create_app(test_config=None):
 
     # todo: need to refactor below configure setting
 
-    # database action
+    app.teardown_appcontext(close_db_session)
+
+    # cli action
     @click.command('init-db')
     @with_appcontext
     def init_db_command():
         Database(current_app.config['DATABASE']).init()
         click.echo('Initialized the database.')
-    app.teardown_appcontext(close_db_session)
     app.cli.add_command(init_db_command)
+    
+    @click.command('set-test-db')
+    @with_appcontext
+    def set_test_db_command():
+        Database(current_app.config['DATABASE']).set_test()
+        click.echo('Set the database to test.')
+    app.cli.add_command(set_test_db_command)
 
     from .controllers import (
-        auths, menus, schedules,
-        operators, users, belongs,
+        auths, menus, schedules, schedulers,
+        operators, users, affiliations,
         skills, teams
     )
 
     app.register_blueprint(auths.bp)
     app.register_blueprint(menus.bp)
     app.register_blueprint(schedules.bp)
+    app.register_blueprint(schedulers.bp)
     app.register_blueprint(operators.bp)
     app.register_blueprint(users.bp)
-    app.register_blueprint(belongs.bp)
+    app.register_blueprint(affiliations.bp)
     app.register_blueprint(skills.bp)
     app.register_blueprint(teams.bp)
 
     @app.errorhandler(404)
     def not_found(error):
         from flask import render_template
-        return render_template('not_found.html'), 404
-
-    from flask_login import LoginManager
+        return render_template('not-found.html'), 404
     
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -101,18 +118,20 @@ def create_app(test_config=None):
     csrf = CSRFProtect()
     csrf.init_app(app)
 
-    @app.before_first_request
+    @app.before_request
     def extend_jinja_env():
         app.jinja_env.globals['today'] = date.today()
-
-        def get_next_month():
-            return (date.today().replace(day=1) + timedelta(days=32)).strftime('%Y-%m')
-
-        app.jinja_env.globals['next_month'] = get_next_month()
-
-        def get_default_belong():
-            return BelongQuery(get_db_session()).get_default_belong()
-
-        app.jinja_env.globals['default_belong_id'] = get_default_belong().id
-
+        app.jinja_env.globals['next_month'] = to_year_month_string(get_next_month())
+    
+        def get_default_affiliation():
+            return next(filter(lambda x: not x.is_not_affiliation(), AffiliationQuery(get_db_session()).get_affiliations()))
+    
+        app.jinja_env.globals['default_affiliation_id'] = get_default_affiliation().id
+    
+        def get_operator_id():
+            operator_query = OperatorQuery(get_db_session())
+            return operator_query.get_operator_of_user_id(current_user.id).id if current_user.is_authenticated else ""
+    
+        app.jinja_env.globals['operator_id'] = get_operator_id()
+    
     return app

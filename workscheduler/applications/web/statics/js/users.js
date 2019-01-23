@@ -18,7 +18,7 @@ import { AlertManager } from './alert-helper.js';
             $('input[name="id"]').val($this.data('id'));
             $('input[name="login_id"]').val($this.data('login_id'));
             $('input[name="name"]').val($this.data('name'));
-            $('select[name="belong"]').val($this.data('belong_id'));
+            $('select[name="affiliation"]').val($this.data('affiliation_id'));
             $('input[name="is_admin"]').prop('checked', ($this.data('is_admin') == 'True'));
             $('input[name="is_operator"]').prop('checked', ($this.data('is_operator') == 'True'));
 
@@ -41,7 +41,7 @@ import { AlertManager } from './alert-helper.js';
             if (!confirm('Would you really reset selected user password?')) return;
 
             $.ajax({
-                url: '/users/reset_password',
+                url: `/users/${id}/reset-password`,
                 type: 'POST',
                 data: {
                     'id': id
@@ -53,7 +53,7 @@ import { AlertManager } from './alert-helper.js';
                     'Please notice him/her new password is "p" + his/her login_id.',
                 'alert-info')
             })
-            .fail((data) => {
+            .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with reset password...',
                 'alert-danger')
@@ -68,7 +68,7 @@ import { AlertManager } from './alert-helper.js';
             if (!confirm('Would you really inactivate selected user? this action cant be undo.')) return;
 
             $.ajax({
-                url: '/users/inactivate',
+                url: `/users/${id}/inactivate`,
                 type: 'POST',
                 data: {
                     'id': id
@@ -81,7 +81,7 @@ import { AlertManager } from './alert-helper.js';
                 $(`tr[data-id=${id}]`).data('is_inactivated', 'True');
                 $(`tr[data-id=${id}]`).attr('data-is_inactivated', 'True');
             })
-            .fail((data) => {
+            .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with inactivating...',
                 'alert-danger')

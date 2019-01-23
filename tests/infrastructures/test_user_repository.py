@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.domains.models.user import (
-    Belong, User
+    Affiliation, User
 )
 from workscheduler.applications.services import UserQuery
 
@@ -28,8 +28,8 @@ class TestUserRepository:
     
     def test_append_user(self, session):
         user_repository = UserQuery(session)
-        belong = Belong.new_belong('test', 'this is test')
-        user = User.new_member('test_login', 'tester', belong, is_admin=False, is_operator=True)
+        affiliation = Affiliation.new_affiliation('test', 'this is test')
+        user = User.new_member('test_login', 'tester', affiliation, is_admin=False, is_operator=True)
         session.add(user)
         session.commit()
         users = user_repository.get_users()
@@ -39,7 +39,7 @@ class TestUserRepository:
         assert 'test_login' == user.login_id
         assert 'ptest_login' == user.password
         assert 'tester' == user.name
-        assert belong.id == user.belong.id
+        assert affiliation.id == user.affiliation.id
         assert not user.is_inactivated
         assert not user.is_admin
         assert user.is_operator

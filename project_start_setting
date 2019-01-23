@@ -1,0 +1,84 @@
+IDE: pycharm
+VCS: github
+    repository: https://github.com/epirevolve/workscheduler
+Ticket: trello
+
+Initial Setting:
+    1. install pycharm
+    2. create an account on github and trello (if not having)
+    3. clone the repository
+    4. create a isolated environment
+        on pycharm
+        a. open File -> Settings -> Project: xxx
+            shortcut: Ctrl + Alt + s
+            xxx is workscheduler this time
+        b. open Project Interpreter
+        c. click a gear icon and then click a Add...
+        d. confirm the isolated environment settings
+            Virtualenv and New Environment
+            "Base interpreter" is python 3.6
+            not check "Inherit global packages" and "Make available to all project"
+        e. click ok
+        f. confirm project interpreter is what you made now
+            it will be Python 3.6(workscheduler) this time
+        g. click apply
+    5. confirm the isolated environment is activated
+        on pycharm
+        a. open a terminal tool window
+            shortcut: Alt + F12
+        b. confirm your prompt be whether (venv) or not
+            if not
+                close pycharm and reopen project again
+                or
+                on terminal tool window, run below command
+                    . venv/bin/activate
+    6. restore packages
+        on a terminal tool window of pycharm
+        a. install packages
+            run below command
+                pip install -r requirements.txt
+        b. confirm packages
+            run below command
+                pip freeze
+            maybe many packages are shown
+            if not
+                re-execute from 5
+    7. test setting
+        on pycharm
+        a. open File -> Settings -> Project: xxx
+            shortcut: Ctrl + Alt + s
+            xxx is workscheduler this time
+        b. open Tools -> Python Integrated Tools
+        c. set "Default test runner" to pytest
+
+Project Setting:
+    1. create a database and import test data
+        * this action will be required every time when the database definition is changed
+        on a terminal tool window of pycharm
+        run below commands
+            export FLASK_APP=runserver.py
+            flask init-db
+            flask set-test-db
+                "Set the database to test." will be displayed.
+
+Run workscheduler:
+    1. right click of a below file
+        runserver.py
+    2. click "run runserver.py"
+    3. access a site from browser
+        click url its displayed on a run tool window
+        or
+        access below url
+            http://127.0.0.1:5000/
+    4. login with below users
+        administrator:
+            login id: admin
+        user:
+            login id: user
+        all initial passwords are 'p' + login id
+
+Mainly using frameworks:
+    SQLAlchemy
+    Flask
+    Flask-Login
+    Flask-WTF

@@ -38,15 +38,15 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_schedules') }}">schedules</a></li>
                     {% if current_user.is_operator %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_my_request', login_id=current_user.login_id, month_year=next_month) }}">requests</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_myself', login_id=current_user.login_id) }}">as operator</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_my_request', month_year=next_month) }}">requests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_myself', operator_id=operator_id) }}">as operator</a></li>
                     {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', login_id=current_user.login_id) }}">as user</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', user_id=current_user.id) }}">as user</a></li>
                     {% if current_user.is_admin %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_scheduler', belong_id=default_belong_id, month_year=next_month) }}">scheduler</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedulers.show_menu') }}">scheduler</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_operators') }}">operators</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_users') }}">users</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('belongs.show_belongs') }}">belongs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('affiliations.show_affiliations') }}">affiliations</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('skills.show_skills') }}">skills</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('teams.show_team_categories') }}">teams</a></li>
                     {% endif %}
@@ -54,7 +54,8 @@
                 </ul>
             </div>
             <div class="login-user">
-                <span id="login-user-id">{{ current_user.login_id }}</span><span> : {{ current_user.name }}</span>
+                <input id="user-id" type="hidden" value="{{ current_user.id }}" />
+                <span>{{ current_user.login_id }}</span><span> : {{ current_user.name }}</span>
             </div>
             {% else %}
             <a class="navbar-brand" href="#">Work Scheduler</a>

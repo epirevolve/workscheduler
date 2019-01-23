@@ -1,0 +1,30 @@
+.Sun {
+    color: #dc3545;
+}
+
+.Sat {
+    color: #17a2b8;
+}
+
+#date-set table {
+    overflow-x: scroll;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+#date-set th, #date-set td {
+    font-weight: initial;
+    vertical-align: middle !important;
+    border: 0px !important;
+    border-right: solid 1px lightgray !important;
+    text-align: center;
+}
+
+#date-set select {
+    width: auto !important;
+}
+
+.list-group {
+    max-height: 22rem;
+    overflow-y: scroll;
+}

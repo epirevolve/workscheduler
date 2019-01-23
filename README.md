@@ -1,4 +1,7 @@
-## Work Scheduler
+# Work Scheduler
 
-*Work Scheduler* can provide fantastic experience to manager building work schedule every week or month.
-test
+*work scheduler* can provide fantastic experiment.
+
+administrator:\
+register skills and affiliations only one time\
+set a number of required operators for each day (default value can be set)

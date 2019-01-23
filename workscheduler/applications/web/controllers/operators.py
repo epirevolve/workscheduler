@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from calendar import (
-    Calendar, SUNDAY
+    Calendar as SysCalendar, SUNDAY
 )
 from collections import namedtuple
 from datetime import (
     datetime, date
 )
+
 from flask import (
     Blueprint, redirect, url_for,
     render_template, flash, request,
@@ -15,48 +16,65 @@ from flask import (
 from flask_login import (
     login_required, current_user
 )
-from workscheduler.applications.services import (
-    OperatorQuery, BelongQuery
+
+from mypackages.utils.date import is_between
+from workscheduler.applications.errors import (
+    CalendarError, RequestError
 )
+from workscheduler.applications.services import (
+    OperatorQuery, AffiliationQuery, SchedulerQuery
+)
+from . import admin_required
 from .. import get_db_session
 from ..adapters import OperatorCommandAdapter
 from ..forms import (
     OperatorForm, OperatorsForm
 )
-from . import admin_required
-
 
 bp = Blueprint('operators', __name__)
 
 
-@bp.route('/operators/show_my_request/<login_id>/<month_year>')
+def _public_request_body(month_year: date, scheduler_calendar):
+    operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
+    CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
+                                             'notices', 'requests'))
+
+    def is_display(date_, request_):
+        return is_between(date_, request_.at_from.date(), request_.at_to.date())\
+               and (request_.at_from.month == date_.month - 1 and date_.day == 1 or date_ == request_.at_from.date())
+
+    def create_date(date_, notices):
+        is_outer_month = date_.year != month_year.year or date_.month != month_year.month
+        return CalendarDay(date_, is_outer_month, notices,
+                           [] if is_outer_month else [r for r in operator.requests if is_display(date_, r)])
+    
+    sys_calender = SysCalendar()
+    sys_calender.setfirstweekday(SUNDAY)
+    weeks = [[create_date(y, None) for y in x]
+             for x in sys_calender.monthdatescalendar(month_year.year, month_year.month)]
+    return render_template('request-public.html',
+                           month_year=month_year, weeks=weeks, paid_holidays=operator.remain_paid_holiday,
+                           scheduler_calendar=scheduler_calendar)
+
+
+def _non_public_request_body(month_year):
+    return render_template('request-non-public.html', month_year=month_year)
+
+
+@bp.route('/operators/my-requests/month-year/<month_year>')
 @login_required
-def show_my_request(login_id, month_year):
+def show_my_request(month_year):
     if month_year and not isinstance(month_year, date):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
 
     session = get_db_session()
-    operator = OperatorQuery(session).get_operator_of_user_id(current_user.id)
-    
-    CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
-                                             'notices', 'requests'))
-
-    def is_between(_date, start, end):
-        return start.date() <= _date <= end.date()
-
-    def create_date(_date, notices):
-        return CalendarDay(_date, _date.year != month_year.year or _date.month != month_year.month,
-                           notices,
-                           [_request for _request in operator.requests
-                            if is_between(_date, _request.at_from, _request.at_to)])
-    calender = Calendar()
-    calender.setfirstweekday(SUNDAY)
-    weeks = [[create_date(_date, None) for _date in week]
-             for week in calender.monthdatescalendar(month_year.year, month_year.month)]
-    return render_template('request.html', month_year=month_year, weeks=weeks)
+    scheduler_calendar = SchedulerQuery(session).get_calendar(current_user.affiliation.id,
+                                                              month_year.year, month_year.month)
+    return _public_request_body(month_year, scheduler_calendar) if scheduler_calendar\
+        else _non_public_request_body(month_year)
 
 
-@bp.route('/operators/append_my_request', methods=['POST'])
+@bp.route('/operators/my-requests', methods=['POST'])
 @login_required
 def append_my_request():
     session = get_db_session()
@@ -65,13 +83,27 @@ def append_my_request():
         session.commit()
 
         response = jsonify({
-            'eventId': req.id,
-            'eventTitle': req.title,
-            'eventNone': req.note,
-            'eventAtFrom': req.at_from,
-            'eventAtTo': req.at_to
+            'requestId': req.id,
+            'requestTitle': req.title,
+            'requestNone': req.note,
+            'requestAtFrom': req.at_from,
+            'requestAtTo': req.at_to
         })
         response.status_code = 200
+    except CalendarError as e:
+        session.rollback()
+        print(e)
+        response = jsonify({
+            'errorMessage': 'not allowed month is included in you request.'
+        })
+        response.status_code = 400
+    except RequestError as e:
+        session.rollback()
+        print(e)
+        response = jsonify({
+            'errorMessage': 'some requests are overlapping.'
+        })
+        response.status_code = 400
     except Exception as e:
         session.rollback()
         print(e)
@@ -80,45 +112,45 @@ def append_my_request():
     return response
 
 
-@bp.route('/operators/update_my_request')
+@bp.route('/operators/my-requests/<requst_id>', methods=['POST'])
 @login_required
-def update_my_request():
+def update_my_request(requst_id):
     pass
 
 
-@bp.route('/operators/show_myself/<login_id>')
+@bp.route('/operators/myself/<operator_id>')
 @login_required
-def show_myself(login_id):
-    operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
+def show_myself(operator_id):
+    operator = OperatorQuery(get_db_session()).get_operator(operator_id)
     return render_template('operator.html', form=OperatorForm(obj=operator))
 
 
-@bp.route('/operators/update_myself', methods=['POST'])
+@bp.route('/operators/myself/<operator_id>', methods=['POST'])
 @login_required
-def update_myself():
+def update_myself(operator_id):
     session = get_db_session()
     OperatorCommandAdapter(session).update_myself(OperatorForm())
     session.commit()
 
     flash('Operator info was successfully registered.')
     
-    return redirect(url_for('operators.show_myself', login_id=current_user.login_id))
+    return redirect(url_for('operators.show_myself', operator_id=operator_id))
 
 
-@bp.route('/operators/show_operators')
+@bp.route('/operators')
 @login_required
 @admin_required
 def show_operators():
     session = get_db_session()
     operators = OperatorQuery(session).get_operators()
-    belongs = BelongQuery(session).get_belongs()
+    affiliations = AffiliationQuery(session).get_affiliations()
     
     return render_template('operators.html', form=OperatorsForm(),
-                           operators=operators, belongs=belongs)
+                           operators=operators, affiliations=affiliations)
 
 
-@bp.route('/operators/update_operator')
+@bp.route('/operators/<operator_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_operator():
+def update_operator(operator_id):
     pass

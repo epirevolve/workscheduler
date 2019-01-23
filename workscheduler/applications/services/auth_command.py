@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user.user import User
-from workscheduler.applications.services.user_query import UserQuery
+from workscheduler.applications.services import UserQuery
+from workscheduler.domains.models.user import User
 
 
 class AuthCommand:
@@ -10,9 +10,9 @@ class AuthCommand:
     
     @staticmethod
     def _login_check(login_id: str, password: str):
-        def _wapper(x):
-            return login_id == x.login_id and password == x.password
-        return _wapper
+        def _inner(x: User):
+            return login_id == x.login_id and password == x.password and not x.is_inactivated
+        return _inner
     
     def login(self, login_id: str, password: str) -> User:
         _login_check = self._login_check(login_id, password)

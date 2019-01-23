@@ -3,19 +3,18 @@
 from workscheduler.applications.services import TeamCommand
 from workscheduler.applications.services import TeamQuery
 from ..forms import TeamCategoryForm
-from .utils import validate_form
 
 
 class TeamCommandAdapter(TeamCommand):
     def append_team_category(self, id: str, form: TeamCategoryForm):
         super(TeamCommandAdapter, self).append_team_category(
-            id, form.name.data, form.is_permit_multi_belonging.data, form.is_leader_required.data, form.min_member_count.data, form.max_member_count.data
+            id, form.name.data, form.allow_multiple_affiliation.data, form.is_leader_required.data, form.min_member_count.data, form.max_member_count.data
         )
 
     def update_team_category(self, teamCategoryInfo, teamInfo):
         team_category = dict(teamCategoryInfo)
         super(TeamCommandAdapter, self).update_team_category(
-            team_category['id'], team_category['name'], team_category['is_permit_multi_belonging'], team_category['is_leader_required'],
+            team_category['id'], team_category['name'], team_category['allow_multiple_affiliation'], team_category['is_leader_required'],
             team_category['min_member_count'], team_category['max_member_count']
         )
 

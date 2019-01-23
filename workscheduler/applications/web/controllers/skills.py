@@ -14,7 +14,7 @@ from . import admin_required
 bp = Blueprint('skills', __name__)
 
 
-@bp.route('/skills/show_skills')
+@bp.route('/skills')
 @login_required
 @admin_required
 def show_skills():
@@ -45,14 +45,14 @@ def _append_skill(adapter_function):
     return response
 
 
-@bp.route('/skills/append_certified_skill', methods=['POST'])
+@bp.route('/skills/certified_skill', methods=['POST'])
 @login_required
 @admin_required
 def append_certified_skill():
     return _append_skill(lambda x: lambda y: x.append_certified_skill(y))
 
 
-@bp.route('/skills/append_not_certified_skill', methods=['POST'])
+@bp.route('/skills/not_certified_skill', methods=['POST'])
 @login_required
 @admin_required
 def append_not_certified_skill():

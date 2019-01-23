@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<form action="{{ url_for('operators.update_myself') }}" method="post">
+<form action="{{ url_for('operators.update_myself', operator_id=operator_id) }}" method="post">
     {{ form.hidden_tag() }}
     <h3>Skills</h3>
     <p>please set your skills. your skills are considered when creating a work schedule.</p>

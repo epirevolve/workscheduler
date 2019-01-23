@@ -12,7 +12,7 @@ from wtforms.validators import (
 from workscheduler.domains.models.user import User
 
 
-class BelongField(Field):
+class AffiliationField(Field):
     widget = TextInput()
 
     def _value(self):
@@ -27,4 +27,4 @@ class UserForm(FlaskForm):
     login_id = StringField()
     password = PasswordField(validators=[DataRequired(), Length(max=User.password.type.length)])
     name = StringField(validators=[DataRequired(), Length(max=User.name.type.length)])
-    belong = BelongField()
+    affiliation = AffiliationField()

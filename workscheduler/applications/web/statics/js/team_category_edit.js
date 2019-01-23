@@ -153,6 +153,9 @@ import { AlertManager } from './alert-helper.js';
                 if(!$('#check1').prop('checked')){
                     duplicateCheck();
                 }
+                if($('#check2').prop('checked')){
+                    leaderCheck();
+                }
                 memberCountCheck();
 		    }
         }
@@ -231,7 +234,7 @@ import { AlertManager } from './alert-helper.js';
             let teamCategoryInfo = [
                 ["id", $('#teamCategoryId').val()],
                 ["name", $('#teamCategoryName').val()],
-                ["is_permit_multi_belonging", $('#check1').prop('checked')],
+                ["allow_multiple_affiliation", $('#check1').prop('checked')],
                 ["is_leader_required", $('#check2').prop('checked')],
                 ["min_member_count", Number($('#min_member_count').val())],
                 ["max_member_count", Number($('#max_member_count').val())]
@@ -293,6 +296,9 @@ import { AlertManager } from './alert-helper.js';
 
             $('.memberArea').droppable(dropOption);
 
+            if($('#check2').prop('checked')){
+                leaderCheck();
+            }
             memberCountCheck();
         })
 

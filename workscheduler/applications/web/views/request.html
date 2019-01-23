@@ -1,63 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="modal fade" id="event-modal" tabindex="-1" role="dialog"
-     aria-labelledby="eventLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Set your event</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <input type="hidden" id="event-id">
-          <div class="input-group m-1">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">title</span>
-              </div>
-              <input type="text" class="form-control" id="event-title">
-          </div>
-          <div class="input-group m-1">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">note</span>
-              </div>
-              <textarea class="form-control" id="event-note"></textarea>
-          </div>
-          <div class="form-group m-1">
-              <div class="input-group date" id="datetime-from" data-target-input="nearest">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text">from</span>
-                  </div>
-                  <input type="text" class="form-control datetimepicker-input" data-target="#datetime-from">
-                  <div class="input-group-append" data-target="#datetime-from" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                  </div>
-              </div>
-          </div>
-          <div class="form-group m-1">
-              <div class="input-group date" id="datetime-to" data-target-input="nearest">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text">to</span>
-                  </div>
-                  <input type="text" class="form-control datetimepicker-input" data-target="#datetime-to">
-                  <div class="input-group-append" data-target="#datetime-to" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="save-event">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="cl-tool-header row">
     <div class="cl-tool-left col-md-3">
-        <button type="button" class="btn btn-link" name="previous-month" disabled=""><span class="fa fa-chevron-left"></span></button>
+        <button type="button" class="btn btn-link" name="previous-month"><span class="fa fa-chevron-left"></span></button>
     </div>
     <div class="cl-tool-center cl-title col-md-6" id="month_year" data-month_year="{{ month_year }}">
         <h2>{{ month_year.strftime('%b %Y') }}</h2>
@@ -66,66 +11,7 @@
         <button type="button" class="btn btn-link" name="next-month"><span class="fa fa-chevron-right"></span></button>
     </div>
 </div>
-<div class="cl">
-    <div class="cl-header d-none d-md-block">
-        <div class="row">
-            <div class="cl-header-cell col text-danger">Sun</div>
-            <div class="cl-header-cell col">Mon</div>
-            <div class="cl-header-cell col">Tue</div>
-            <div class="cl-header-cell col">Wed</div>
-            <div class="cl-header-cell col">Thu</div>
-            <div class="cl-header-cell col">Fri</div>
-            <div class="cl-header-cell col text-info">Sat</div>
-        </div>
-    </div>
-    <div class="cl-body">
-        {% for week in weeks %}
-        <div class="row">
-            {% for day in week %}
-            <div class="cl-body-cell col
-                {% if day.outer_month %}outer-month-cell{% endif %}"
-                data-date="{{ day.date }}"  >
-                <div>
-                    {% if not day.outer_month %}
-                        <button class="add-event btn btn-danger btn-sm"
-                                id="add-event">
-                            <i class="fa fa-pencil-alt"></i>
-                        </button>
-                    {% endif %}
-                    <span class="cl-day">{{ day.date.day }}</span>
-                </div>
-                <div class="event-container" id="events-{{ day.date.strftime('%Y%m%d') }}">
-                    {% for request in day.requests %}
-                        <button class="btn event btn-block event-item"
-                                title="<h4>{{ request.title }}</h4>" type="button"
-                                data-toggle="popover"
-                                data-content="
-                                    <div>
-                                        <button id='edit-event' class='btn btn-info btn-sm btn-block mb-3'
-                                                data-id={{ request.id }}
-                                                data-title={{ request.title }}
-                                                data-note={{ request.note }}
-                                                data-at-from={{ request.at_from }}
-                                                data-at-to={{ request.at_to }}>Edit</button>
-                                        <div class='m-2'>{{ request.note }}</div>
-                                        <div class='m-2'>
-                                            {{ request.at_from.strftime('%Y/%m/%d %H:%M') }}<br />
-                                            ~<br />
-                                            {{ request.at_to.strftime('%Y/%m/%d %H:%M') }}
-                                        </div>
-                                        <button id='remove-event' class='btn btn-danger btn-sm btn-block mt-3'
-                                                data-id={{ request.id }}>Remove</button>
-                                    </div>">
-                            {{ request.title }}
-                        </button>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endfor %}
-    </div>
-</div>
+{% block request_body %}{% endblock %}
 {% endblock %}
 
 {% block css %}

@@ -7,9 +7,9 @@ from sqlalchemy.types import (
     String, Boolean, Integer,
     DateTime
 )
-from .. import OrmBase
+from workscheduler.domains.models import OrmBase
 
 
 class Schedule(OrmBase):
-    __tablenames__ = "schedules"
+    __tablename__ = "schedules"
     id = Column(String, primary_key=True)

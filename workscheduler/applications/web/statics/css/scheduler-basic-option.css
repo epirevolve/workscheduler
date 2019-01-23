@@ -1,0 +1,31 @@
+.list-group {
+    max-height: 22rem;
+    overflow-y: scroll;
+}
+
+.card-header input {
+    width: 100%;
+}
+
+.draggable {
+    z-index: 2;
+}
+
+[data-toggle="accordion"] ul {
+    padding: 0 !important;
+}
+
+[data-toggle="accordion"] h3 {
+    font-size: 150% !important;
+}
+
+#selectable-list.fixed {
+    position: fixed;
+    top: 4rem;
+    right: 1rem;
+}
+
+#selectable-list li {
+    border: none !important;
+    border-top: 2px solid lightgray !important;
+}

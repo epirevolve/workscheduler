@@ -5,10 +5,10 @@ from flask import (
     Response
 )
 from flask_login import login_required
+from mypackages.utils.uuid import UuidFactory
 from workscheduler.applications.services import (
     TeamQuery, UserQuery
 )
-from workscheduler.domains.utils.uuid import UuidFactory
 from .. import get_db_session
 from ..adapters import TeamCommandAdapter
 from ..forms import TeamCategoryForm

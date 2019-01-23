@@ -9,7 +9,7 @@ import { AlertManager } from './alert-helper.js';
     let modalAddSkill = function (title) {
         let modalContainer = $('#skill-modal');
         modalContainer.find('#title').text(title);
-        modalContainer.find('#skill-name').val();
+        modalContainer.find('#skill-name').val('');
         modalContainer.find('#skill-score').val(1);
         modalContainer.modal();
     };
@@ -19,12 +19,12 @@ import { AlertManager } from './alert-helper.js';
 
         $('#add-certified-skill').click(function () {
             modalAddSkill('Set Certified Skill');
-            accessTo = '/skills/append_certified_skill';
+            accessTo = '/skills/certified_skill';
         });
 
         $('#add-not-certified-skill').click(function () {
             modalAddSkill('Set Not Certified Skill');
-            accessTo = '/skills/append_not_certified_skill';
+            accessTo = '/skills/not_certified_skill';
         });
 
         $('#save-skill').click(function () {
@@ -72,7 +72,7 @@ import { AlertManager } from './alert-helper.js';
                                     .append($('<i>').addClass('fa fa-trash-alt'))))
                 )
             })
-            .fail((data) => {
+            .fail(($xhr) => {
                 let alertManager = new AlertManager('#alert-container');
                 alertManager.append('Oops, Sorry we have some trouble with appending skill...',
                 'alert-danger')

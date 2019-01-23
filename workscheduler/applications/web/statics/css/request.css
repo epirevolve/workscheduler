@@ -56,24 +56,50 @@
     visibility: hidden;
 }
 
-.event {
+.request {
     background-color: #ffc107;
     border-color: #ffc107;
+    position: absolute;
+    width: 95%;
+    z-index: 3;
 }
 
-.add-event {
+.day-2 {
+    width: 195%;
+}
+
+.day-3 {
+    width: 297%;
+}
+
+.day-4 {
+    width: 398%;
+}
+
+.day-5 {
+    width: 499%;
+}
+
+.day-6 {
+    width: 600%;
+}
+
+.day-7 {
+    width: 701%;
+}
+.add-request {
     float: left;
     margin: .3rem;
     font-size: 0.7rem;
 }
 
-.event-container{
+.request-container{
     max-height: 60%;
     width: 95%;
     margin: .3rem;
 }
 
-.event-item {
+.request-item {
     padding: 0rem;
     margin: .1rem 0rem;
 }
