@@ -9,7 +9,7 @@
         <input type="text" class="form-control" name="name">
     </div>
     <div class="mb-3 custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" name="allow_multiple_belonging" id="check1" checked="checked">
+        <input type="checkbox" class="custom-control-input" name="is_permit_multi_belonging" id="check1" checked="checked">
         <label class="custom-control-label" for="check1">can belong to more than one team</label>
     </div>
     <div class="mb-3 custom-control custom-checkbox">
@@ -18,12 +18,12 @@
     </div>
     <div class="mb-3">
         <span>Team Member Count</span>
-        <input type="number" class="form-control d-inline-block ml-3" style="width:7rem" name="min_member_count">
+        <input type="number" class="form-control d-inline-block ml-3" name="min_member_count" style="width:7rem">
         <span class="d-inline-block ml-3">~</span>
-        <input type="number" class="form-control d-inline-block ml-3" style="width:7rem" name="max_member_count">
+        <input type="number" class="form-control d-inline-block ml-3" name="max_member_count" style="width:7rem">
     </div>
     <div>
-        <button class="btn btn-primary" type="button" id="append">Store Team Category</button>
+        <button type="button" id="append" class="btn btn-primary">Store Team Category</button>
         <button type="button" id="abort" class="btn btn-secondary" data-href="{{ url_for('teams.show_team_categories') }}">Abort</button>
     </div>
 </form>

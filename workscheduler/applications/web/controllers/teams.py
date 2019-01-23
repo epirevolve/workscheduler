@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from flask import (
-    Blueprint, request, render_template,
-    Response, flash
+    Blueprint, jsonify, request, render_template,
+    Response
 )
 from flask_login import login_required
 from workscheduler.applications.services import (
     TeamQuery, UserQuery
 )
-from workscheduler.domains.models.team import TeamCategory
+from workscheduler.domains.utils.uuid import UuidFactory
 from .. import get_db_session
 from ..adapters import TeamCommandAdapter
 from ..forms import TeamCategoryForm
@@ -37,19 +37,20 @@ def show_append_page():
 @login_required
 @admin_required
 def store_team_category():
-    response = Response()
-
     session = get_db_session()
     try:
-        TeamCommandAdapter(session).append_team_category(TeamCategoryForm())
+        team_category_id = UuidFactory.new_uuid()
+        TeamCommandAdapter(session).append_team_category(team_category_id, TeamCategoryForm())
         session.commit()
 
-        # session.query(TeamCategory).order_by(TeamCategory.id.desc()).first()
-        response.status_code = 200
+        response = jsonify({
+            'teamCategoryId': team_category_id
+        })
     except Exception as e:
-        print(e)
-        response.status_code = 400
         session.rollback()
+        print(e)
+        response = jsonify()
+        response.status_code = 400
     return response
 
 
@@ -61,3 +62,22 @@ def show_edit_page():
     team_repository = TeamQuery(session)
     user_repository = UserQuery(session)
     return render_template('team_category_edit.html', team_category=team_repository.get_team_category(request.form.get('team_category_id')), all_users=user_repository.get_users())
+
+
+@bp.route('/teams/edit_team_category/update', methods=['POST'])
+@login_required
+@admin_required
+def update_team_category():
+    response = Response()
+
+    session = get_db_session()
+    try:
+        TeamCommandAdapter(session).update_team_category(request.json['teamCategoryInfo'], request.json['teamInfo'])
+        session.commit()
+
+        response.status_code = 200
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response.status_code = 400
+    return response

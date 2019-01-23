@@ -9,7 +9,7 @@ from workscheduler.domains.models.user import (
 class TestUser:
     def test_validate(self):
         belong = Belong.new_belong('test', 'this is test')
-        user = User.new_member('user_1', 'User', belong.id, False, True)
+        user = User.new_member('user_1', 'User', belong.id, False, False, True)
         with pytest.raises(AssertionError) as error:
             user.id = ''
         assert 'no id provided' == str(error.value)
@@ -48,8 +48,8 @@ class TestUser:
     
     def test_user_factory_identifier(self):
         belong = Belong.new_belong('test', 'this is test')
-        user_1 = User.new_member('user_1', 'User', belong.id, False, True)
-        user_2 = User.new_member('user_2', 'UUSser', belong.id, True, False)
+        user_1 = User.new_member('user_1', 'User', belong.id, False, False, True)
+        user_2 = User.new_member('user_2', 'UUSser', belong.id, True, False, False)
         assert user_1.id != user_2.id
 
     def test_reset_password(self, random_user):

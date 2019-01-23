@@ -42,25 +42,25 @@ class Database:
         
         # sample data
         from workscheduler.domains.models.team.team_category import TeamCategoryFactory
-        session.add(TeamCategoryFactory.register_a_test_team_category('1', 'Night Operation Team', allow_multiple_belonging=True, is_leader_required=False, min_member_count=0, max_member_count=3))
-        session.add(TeamCategoryFactory.register_a_test_team_category('2', 'Specific Operation Team', allow_multiple_belonging=False, is_leader_required=True, min_member_count=1, max_member_count=10))
+        session.add(TeamCategoryFactory.register_a_test_team_category('1', 'Night Operation Team', is_permit_multi_belonging=True, is_leader_required=False, min_member_count=0, max_member_count=3))
+        session.add(TeamCategoryFactory.register_a_test_team_category('2', 'Specific Operation Team', is_permit_multi_belonging=False, is_leader_required=False, min_member_count=1, max_member_count=10))
 
         # sample data
         from workscheduler.domains.models.team.team import TeamFactory
         from workscheduler.domains.models.user.user import User
-        team = TeamFactory.register_a_test_team('1', '1', 'Team A')
+        team = TeamFactory.register_a_test_team('A', 'Team A', '1')
         session.add(team)
         team.users.append(User.new_member('test_user1', 'テストユーザ1', default, is_admin=False, is_operator=True))
-        team = TeamFactory.register_a_test_team('2', '2', 'Team B')
+        team = TeamFactory.register_a_test_team('B', 'Team B', '2')
         session.add(team)
         team.users.append(User.new_member('test_user2', 'テストユーザ2', default, is_admin=False, is_operator=True))
         team.users.append(User.new_member('test_user3', 'テストユーザ3', default, is_admin=False, is_operator=True))
-        team = TeamFactory.register_a_test_team('3', '2', 'Team C')
+        team = TeamFactory.register_a_test_team('C', 'Team C', '2')
         session.add(team)
         team.users.append(User.new_member('test_user4', 'テストユーザ4', default, is_admin=False, is_operator=True))
         team.users.append(User.new_member('test_user5', 'テストユーザ5', default, is_admin=False, is_operator=True))
         team.users.append(User.new_member('test_user6', 'テストユーザ6', default, is_admin=False, is_operator=True))
-        team = TeamFactory.register_a_test_team('4', '2', 'Team D')
+        team = TeamFactory.register_a_test_team('D', 'Team D', '2')
         session.add(team)
         team.users.append(User.new_member('test_user7', 'テストユーザ7', default, is_admin=False, is_operator=True))
         team.users.append(User.new_member('test_user8', 'テストユーザ8', default, is_admin=False, is_operator=True))
