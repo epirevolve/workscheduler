@@ -28,10 +28,10 @@ class SchedulerCommand:
         self._session.add(work_category)
         return work_category
     
-    def update_work_category(self, id: str, title: str, week_day_require: int, week_day_max: int,
+    def update_work_category(self, id_: str, title: str, week_day_require: int, week_day_max: int,
                              holiday_require: int, holiday_max: int, rest_days: int, max_times: int,
                              essential_skill_ids: [str], essential_operator_ids: [str], impossible_operator_ids: [str]):
-        work_category = SchedulerQuery(self._session).get_work_category(id)
+        work_category = SchedulerQuery(self._session).get_work_category(id_)
         work_category.title = title
         work_category.week_day_require = week_day_require
         work_category.week_day_max = week_day_max
@@ -56,10 +56,10 @@ class SchedulerCommand:
         self._session.add(scheduler)
         return scheduler
     
-    def update_option(self, id: str, affiliation_id: str, certified_skill: bool,
+    def update_option(self, id_: str, affiliation_id: str, certified_skill: bool,
                       not_certified_skill: bool, work_category_ids: [str]):
         schedule_query = SchedulerQuery(self._session)
-        scheduler = schedule_query.get_option(id)
+        scheduler = schedule_query.get_option(id_)
         scheduler.affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
         scheduler.certified_skill = certified_skill
         scheduler.not_certified_skill = not_certified_skill

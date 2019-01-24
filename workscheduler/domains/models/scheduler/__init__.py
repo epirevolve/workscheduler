@@ -6,4 +6,5 @@ from .basic_option import BasicOptions
 
 from .calendar_day_detail import CalendarDayDetail
 from .calendar_day import CalendarDay
+from .fixed_schedule import FixedSchedule
 from .calendar import Calendar

@@ -7,7 +7,7 @@ from workscheduler.applications.services import (
     UserCommand, AffiliationQuery
 )
 from workscheduler.domains.models import OrmBase
-from workscheduler.domains.models.user.affiliation import Affiliation
+from workscheduler.domains.models.user import Affiliation
 
 
 class Database:
@@ -51,8 +51,8 @@ class Database:
         append_user('adope', '管理ユーザ', affiliation_id, is_admin=True, is_operator=True)
 
         # add skills
-
-        from workscheduler.domains.models.operator.skill import Skill
+        
+        from workscheduler.domains.models.operator import Skill
         skill1 = Skill.new_certified_skill('ccna', 1)
         session.add(skill1)
         skill2 = Skill.new_certified_skill('ccnp', 3)
@@ -63,8 +63,8 @@ class Database:
         session.add(skill3)
 
         # add teams
-
-        from workscheduler.domains.models.team import TeamCategory
+        
+        from workscheduler.domains.models.operator import TeamCategory
         team_cat_1 = TeamCategory.new_team_category(
             'Night Operation Team', allow_multiple_affiliation=True,
             is_leader_required=False, min_member_count=0,
@@ -78,7 +78,7 @@ class Database:
         )
         session.add(team_cat_2)
 
-        from workscheduler.domains.models.team import Team
+        from workscheduler.domains.models.operator import Team
         team = Team.new_team('Team A', team_cat_1.id)
         session.add(team)
         user1 = append_user('test_user1', 'テストユーザ1', affiliation_id, is_admin=False, is_operator=True)
@@ -120,24 +120,36 @@ class Database:
             BasicOptions, WorkCategory
         )
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
+        work_daily = WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
+                                               [get_operator_of_user_id(user1.id),
+                                                get_operator_of_user_id(user2.id)],
+                                               [])
         option = BasicOptions.new_option(
             front, True, True,
-            [WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
-                                       [get_operator_of_user_id(user1.id),
-                                        get_operator_of_user_id(user2.id)],
-                                       []),
+            [work_daily,
              WorkCategory.new_category('夜間帯', 3, 5, 3, 5, 2, 5, [skill3], [],
                                        [get_operator_of_user_id(user3.id)])]
         )
         session.add(option)
-
+        session.flush()
+        
         # add scheduler calendar
-
-        from datetime import datetime
-        from workscheduler.domains.models.scheduler import Calendar
-        now = datetime.today()
+        
+        from mypackages.utils.date import get_next_month
+        from workscheduler.domains.models.scheduler import (
+            Calendar, FixedSchedule
+        )
+        next_month = get_next_month()
         calendar = Calendar.new_month_year(front, option.work_categories,
-                                           now.year, now.month + 1, [], 8)
+                                           next_month.year, next_month.month,
+                                           [FixedSchedule.new_schedule('いけりり研修', next_month.replace(day=4),
+                                                                       next_month.replace(day=7), [work_daily],
+                                                                       [get_operator_of_user_id(user1.id),
+                                                                        get_operator_of_user_id(user3.id)]),
+                                            FixedSchedule.new_schedule('いけりり研修', next_month.replace(day=9),
+                                                                       next_month.replace(day=12), [work_daily],
+                                                                       [get_operator_of_user_id(user2.id)])
+                                            ])
         session.add(calendar)
 
         session.commit()

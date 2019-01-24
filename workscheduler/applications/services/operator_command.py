@@ -17,7 +17,7 @@ class OperatorCommand:
         self._session = session
     
     def _request_validity(self, operator, at_from, at_to):
-        scheduler = SchedulerQuery(self._session).get_calendar(
+        scheduler = SchedulerQuery(self._session).get_calendar_of_affiliation_id_year_month(
             operator.user.affiliation.id, at_to.year, at_to.month)
         if not scheduler:
             raise CalendarError()

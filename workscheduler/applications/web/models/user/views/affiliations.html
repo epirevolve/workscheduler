@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript">var csrf_token = "{{ csrf_token() }}";</script>
+
+<div class="modal fade" id="affiliation-modal" tabindex="-1" role="dialog"
+     aria-labelledby="affiliationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Set affiliations</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="affiliationId">
+                <div class="input-group m-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">name</span>
+                    </div>
+                    <input type="text" class="form-control" id="affiliationName">
+                </div>
+                <div class="input-group m-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">note</span>
+                    </div>
+                    <textarea class="form-control" id="affiliationNote"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveAffiliation">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex mb-3">
+    <h2>Affiliations</h2>
+    <button id="addAffiliation" class="btn btn-info btn-sm mt-1 ml-4 mb-3">
+        <i class="fa fa-pencil-alt"></i>
+    </button>
+</div>
+<div class="card-columns">
+    {% for affiliation in affiliations %}
+        <div class="card">
+            <div class="card-header flex">
+                <h4 class="card-title mt-1">
+                    {{ affiliation.name }}
+                </h4>
+                <div class="ml-5">
+                    <button id="editAffiliation" type="button"
+                            data-id="{{ affiliation.id }}"
+                            data-name="{{ affiliation.name }}"
+                            data-note="{{ affiliation.note }}"
+                            class="btn btn-primary">Edit</button>
+                    <button id="removeAffiliation" type="button"
+                            data-id="{{ affiliation.id }}"
+                            class="btn btn-danger">Remove</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    {{ affiliation.note }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('affiliations.static', filename='js/affiliations.js') }}"></script>
+{% endblock %}

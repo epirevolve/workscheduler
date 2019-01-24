@@ -3,13 +3,10 @@
 from sqlalchemy import (
     Column, Table, ForeignKey
 )
-from sqlalchemy.orm import (
-    relationship
-)
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import (
-    String, Integer,
-    DateTime
+    String, Integer, DateTime
 )
 
 from mypackages.utils.uuid import UuidFactory
