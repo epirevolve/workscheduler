@@ -1,7 +1,7 @@
 ;
 'use strict';
 
-import { AlertManager } from './alert-helper.js';
+import { AlertManager } from '/statics/js/alert-helper.js';
 
 (function() {
     $(document).ready(function(){

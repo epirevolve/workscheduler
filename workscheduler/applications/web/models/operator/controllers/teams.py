@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from flask import (
-    Blueprint, jsonify, request, render_template,
-    Response
+    Blueprint, jsonify, request,
+    render_template, Response
 )
 from flask_login import login_required
 from mypackages.utils.uuid import UuidFactory
@@ -18,7 +18,7 @@ from ..forms import TeamCategoryForm
 bp = Blueprint('teams', __name__, template_folder='../views', static_folder='../statics')
 
 
-@bp.route('/show_team_categories')
+@bp.route('/')
 @login_required
 @admin_required
 def show_team_categories():
@@ -61,10 +61,12 @@ def show_edit_page():
     session = get_db_session()
     team_repository = TeamQuery(session)
     user_repository = UserQuery(session)
-    return render_template('team-category-edit.html', team_category=team_repository.get_team_category(request.form.get('team_category_id')), all_users=user_repository.get_users())
+    return render_template('team-category-edit.html',
+                           team_category=team_repository.get_team_category(request.form.get('team_category_id')),
+                           all_users=user_repository.get_users())
 
 
-@bp.route('/teams/edit_team_category/update', methods=['POST'])
+@bp.route('/edit_team_category/update', methods=['POST'])
 @login_required
 @admin_required
 def update_team_category():

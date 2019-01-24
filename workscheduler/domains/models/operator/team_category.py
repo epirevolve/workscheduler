@@ -23,8 +23,9 @@ class TeamCategory(OrmBase):
     create_at = Column(DateTime, server_default=current_timestamp())
     teams = relationship("Team", backref="team_categories")
 
-    def __init__(self, id: str, name: str, allow_multiple_affiliation: bool, is_leader_required: bool, min_member_count: int, max_member_count: int):
-        self.id = id
+    def __init__(self, id_: str, name: str, allow_multiple_affiliation: bool,
+                 is_leader_required: bool, min_member_count: int, max_member_count: int):
+        self.id = id_
         self.name = name
         self.allow_multiple_affiliation = allow_multiple_affiliation
         self.is_leader_required = is_leader_required
@@ -32,8 +33,10 @@ class TeamCategory(OrmBase):
         self.max_member_count = max_member_count
 
     @classmethod
-    def register_a_team_category(cls, id: str, name: str, allow_multiple_affiliation: bool, is_leader_required: bool, min_member_count: int, max_member_count: int):
-        return TeamCategory(id, name, allow_multiple_affiliation, is_leader_required, min_member_count, max_member_count)
+    def register_a_team_category(cls, id_: str, name: str, allow_multiple_affiliation: bool,
+                                 is_leader_required: bool, min_member_count: int, max_member_count: int):
+        return TeamCategory(id_, name, allow_multiple_affiliation,
+                            is_leader_required, min_member_count, max_member_count)
 
     @staticmethod
     def new_team_category(name: str, allow_multiple_affiliation: bool,
