@@ -38,7 +38,7 @@ import { newPseudoUuid } from '/statics/js/util.js';
             }
         });
 
-        $('#schedule-of').datetimepicker({
+        $('#scheduleOf').datetimepicker({
             viewMode: 'months',
             format: 'YYYY-MM',
             useCurrent: false,
@@ -60,8 +60,8 @@ import { newPseudoUuid } from '/statics/js/util.js';
             useCurrent: false
         });
 
-        $('#schedule-of').on('change.datetimepicker', function (e) {
-            const date = new Date($('#schedule-of').datetimepicker('date')).toYearMonthFormatString();
+        $('#scheduleOf').on('change.datetimepicker', function (e) {
+            const date = new Date($('#scheduleOf').datetimepicker('date')).toYearMonthFormatString();
             location.href = $(this).data('url').replace('schedule_of', date);
         });
 

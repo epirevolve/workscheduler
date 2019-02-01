@@ -48,13 +48,12 @@ def show_calendar(affiliation_id: str, schedule_of: str):
     calendar, exist = SchedulerFacade(session).get_category_compensated_calendar(affiliation_id, schedule_of)
     operators = OperatorQuery(session).get_operators()
     
-    form = SchedulerCalendarForm(obj=calendar)
     action = url_for('schedulers.append_calendar', affiliation_id=affiliation_id, schedule_of=schedule_of) if exist\
         else url_for('schedulers.update_calendar', affiliation_id=affiliation_id,
                      schedule_of=schedule_of, calendar_id=calendar.id)
     
-    return render_template('scheduler-calendar.html', form=form, action=action,
-                           calendar=calendar, operators=operators)
+    return render_template('scheduler-calendar.html',
+                           save_action=action, calendar=calendar, operators=operators)
 
 
 @bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars', methods=['POST'])

@@ -24,5 +24,4 @@ class SchedulerFacade:
         else:
             calendar = Calendar.new_month_year(
                 affiliation, work_categories, schedule_of.year, schedule_of.month, [])
-        setattr(calendar, 'schedule_of', schedule_of)
         return calendar, exist

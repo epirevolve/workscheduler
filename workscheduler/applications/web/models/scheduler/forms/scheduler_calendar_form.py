@@ -77,6 +77,7 @@ class SchedulerCalendarForm(FlaskForm):
     id = HiddenField()
     affiliation = AffiliationField(validators=[DataRequired()])
     schedule_of = DateField(validators=[DataRequired()])
+    days = []
     holidays = IntegerField(default=8)
     fixed_schedules = []
 

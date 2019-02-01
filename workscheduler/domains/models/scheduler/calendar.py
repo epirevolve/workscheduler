@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date
 from calendar import (
     Calendar as SysCalendar, SUNDAY, day_abbr
 )
@@ -67,6 +68,10 @@ class Calendar(OrmBase):
     def categories(self):
         return [{'requires': [z.require for z in y], 'category': y[0].work_category}
                 for y in zip(*[x.details for x in self.days])]
+
+    @property
+    def schedule_of(self):
+        return date(self.year, self.month, 1)
     
     def update_categories(self, work_categories: [WorkCategory]):
         work_category_ids = [x.id for x in work_categories]

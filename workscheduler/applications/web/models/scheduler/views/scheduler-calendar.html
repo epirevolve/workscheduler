@@ -2,21 +2,21 @@
 {% block body %}
 <form method="post">
     <div class="form-inline my-3">
-        <div class="input-group date col-md-3" id="schedule-of"
-             data-url="{{ url_for('schedulers.show_calendar', affiliation_id=form.affiliation.data.id, schedule_of='schedule_of') }}" data-target-input="nearest">
+        <div class="input-group date col-md-3" id="scheduleOf" data-target-input="nearest"
+             data-url="{{ url_for('schedulers.show_calendar', affiliation_id=calendar.affiliation.id, schedule_of='schedule_of') }}">
             <div class="input-group-prepend">
                 <span class="input-group-text">Scheduler Of</span>
             </div>
-            <input type="text" class="form-control datetimepicker-input" value="{{ form.schedule_of.data.strftime('%Y-%m') }}"
-                   name="{{ form.schedule_of.name }}" data-target="#schedule-of">
-            <div class="input-group-append" data-target="#schedule-of" data-toggle="datetimepicker">
+            <input type="text" class="form-control datetimepicker-input" value="{{ calendar.schedule_of }}"
+                   data-target="#scheduleOf">
+            <div class="input-group-append" data-target="#scheduleOf" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
         </div>
         <h2 class="mx-4">of</h2>
         <div>
-            <input type="hidden" name="{{ form.affiliation.name }}" value="{{ form.affiliation.data.id }}">
-            <h1>{{ form.affiliation.data.name }}</h1>
+            <input type="hidden" value="{{ calendar.affiliation.id }}">
+            <h1>{{ calendar.affiliation.name }}</h1>
         </div>
     </div>
     <div id="date-set">
@@ -55,8 +55,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">Holidays</span>
         </div>
-        <input type="number" class="form-control" min="0" name="{{ form.holidays.name }}"
-               value="{{ form.holidays.data }}">
+        <input type="number" class="form-control" min="0" name="holidays" value="{{ calendar.holidays }}">
     </div>
     <hr />
     <div>
@@ -68,10 +67,10 @@
         </div>
         <div class="row">
             <div id="fixedScheduleColumns" class="card-columns col-md-10">
-                {% for fixed_schedule in form.fixed_schedules %}
+                {% for fixed_schedule in calendar.fixed_schedules %}
                     <div class="card">
                         <div class="card-header">
-                            <h4><input type="text" value="{{ fixed_schedule.title.data }}"
+                            <h4><input type="text" value="{{ fixed_schedule.title }}"
                                     id="{{ fixed_schedule.title.id }}"></h4>
                         </div>
                         <div class="card-body">
@@ -82,7 +81,7 @@
                                 </div>
                                 <input type="text" class="form-control datetimepicker-input"
                                        data-target="#{{ fixed_schedule.date_from.id }}"
-                                       value="{{ fixed_schedule.date_from.data }}">
+                                       value="{{ fixed_schedule.date_from }}">
                                 <div class="input-group-append" data-target="#{{ fixed_schedule.date_from.id }}"
                                      data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -95,7 +94,7 @@
                                 </div>
                                 <input type="text" class="form-control datetimepicker-input"
                                        data-target="#{{ fixed_schedule.date_to.id }}"
-                                    value="{{ fixed_schedule.date_to.data }}">
+                                    value="{{ fixed_schedule.date_to }}">
                                 <div class="input-group-append" data-target="#{{ fixed_schedule.date_to.id }}"
                                      data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -105,17 +104,17 @@
                                 {% for work_category in fixed_schedule.all_work_categories %}
                                     <div class="m-1 custom-control custom-checkbox custom-control-inline">
                                         <input type="checkbox" class="custom-control-input"
-                                               id="{{ work_category.id.data }}" name="{{ work_category.is_obtain.id }}"
-                                        {% if work_category.is_obtain.data %}checked{% endif %}>
-                                        <label class="custom-control-label" for="{{ work_category.id.data }}">
-                                            {{ work_category.title.data }}</label>
+                                               id="{{ work_category.id }}" name="{{ work_category.is_obtain.id }}"
+                                        {% if work_category.is_obtain %}checked{% endif %}>
+                                        <label class="custom-control-label" for="{{ work_category.id }}">
+                                            {{ work_category.title }}</label>
                                     </div>
                                 {% endfor %}
                             </div>
                             <h5>Attend Member</h5>
                             <div class="attend-member drop-region droppable ml-1 mb-3">
                                 {% for participant in fixed_schedule.participants %}
-                                    <span data-id="{{ participant.data.id }}" class="m-2 draggable">{{ participant.data.user.name }}</span>
+                                    <span data-id="{{ participant.id }}" class="m-2 draggable">{{ participant.user.name }}</span>
                                 {% endfor %}
                             </div>
                             <hr>
@@ -139,10 +138,11 @@
     <hr />
     <div class="row m-1">
         <button type="button" class="btn btn-secondary col-md-2"
-            onclick="window.history.back()">Go Back</button>
-        <button id="saveCalendar" type="button" data-action="{{ action }}"
+                onclick="window.history.back()">Go Back</button>
+        <button id="saveCalendar" type="button" data-action="{{ save_action }}"
                 class="btn btn-primary col-md-6 offset-md-1">Save</button>
-        <button id="publicCalendar" type="button" class="btn btn-success col-md-3">Public Calendar</button>
+        <button id="publicCalendar" type="button"
+                class="btn btn-success col-md-3">Public Calendar</button>
     </div>
 </form>
 {% endblock %}
