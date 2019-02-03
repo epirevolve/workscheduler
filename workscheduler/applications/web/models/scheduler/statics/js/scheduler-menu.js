@@ -44,6 +44,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
                 }
             })
             .done((data) => {
+                $('#launchCalendarModal').modal('hide');
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('Started to make schedule. Please wait until it will be done.',
                 'alert-info');

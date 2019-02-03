@@ -96,5 +96,19 @@ import { newPseudoUuid } from '/statics/js/util.js';
                 useCurrent: false
             });
         });
+
+        $('#saveCalendar').click(function () {
+            $.ajax({
+                url: $(this).data('action'),
+                type: 'POST',
+                data: $(this).closest('form').serialize()
+            })
+            .done((data) => {
+
+            })
+            .fail(($xhr) => {
+
+            });
+        });
     });
 })(jQuery);
