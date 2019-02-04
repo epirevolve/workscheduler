@@ -2,6 +2,7 @@ IDE: pycharm
 VCS: github
     repository: https://github.com/epirevolve/workscheduler
 Ticket: trello
+    https://trello.com
 
 Initial Setting:
     1. install pycharm
@@ -11,7 +12,7 @@ Initial Setting:
         on pycharm
         a. open File -> Settings -> Project: xxx
             shortcut: Ctrl + Alt + s
-            xxx is workscheduler this time
+            xxx is your project name
         b. open Project Interpreter
         c. click a gear icon and then click a Add...
         d. confirm the isolated environment settings
@@ -20,7 +21,8 @@ Initial Setting:
             not check "Inherit global packages" and "Make available to all project"
         e. click ok
         f. confirm project interpreter is what you made now
-            it will be Python 3.6(workscheduler) this time
+            it will be Python 3.6(xxx) this time
+            xxx is your project name
         g. click apply
     5. confirm the isolated environment is activated
         on pycharm
@@ -47,9 +49,19 @@ Initial Setting:
         on pycharm
         a. open File -> Settings -> Project: xxx
             shortcut: Ctrl + Alt + s
-            xxx is workscheduler this time
+            xxx is your project name
         b. open Tools -> Python Integrated Tools
         c. set "Default test runner" to pytest
+    8. connect to trello
+        on pycharm
+        a. open -> Tools -> Tasks & Contexts -> Configure Servers
+        b. click plus icon to add server
+        c. select trello
+        d. get a token by access "Where can I get authorization token?" link
+        e. fill token, board and lists
+            board is project name
+            list is "ToDo"
+        f. test connection
 
 Project Setting:
     1. create a database and import test data
@@ -59,7 +71,7 @@ Project Setting:
             export FLASK_APP=runserver.py
             flask init-db
             flask set-test-db
-                "Set the database to test." will be displayed.
+                "Set the database to test." will be displayed
 
 Run workscheduler:
     1. right click of a below file
@@ -76,6 +88,24 @@ Run workscheduler:
         user:
             login id: user
         all initial passwords are 'p' + login id
+
+Open task and select ticket:
+    1. click drop down on right upper side
+        it will display 'Default task' if you've never touch
+    2. click "Open Task..."
+    3. select trello ticket you willing to do
+    4. name branch properly and update state "Working"
+    5. branch from develop
+    6. click "ok"
+
+Close task
+    1. open Tools -> Tasks & Contexts -> Close Active Task...
+        shortcut: Shift + Alt + w
+    2. confirm state
+        commit changes, merge branch and update issue status are checked
+        update issue states is Complete
+    3.
+
 
 Mainly using frameworks:
     SQLAlchemy
