@@ -2,14 +2,18 @@ atomicwrites==1.2.1
 attrs==18.2.0
 click==6.7
 coverage==4.5.1
+-e git+https://github.com/epirevolve/eart.git@57493ce3b165d91958b66682d950fcb37959657a#egg=eart
 Flask==1.0.2
 Flask-Login==0.4.1
 Flask-WTF==0.14.2
+Inject==3.4.0
 itsdangerous==0.24
 Jinja2==2.10
+joblib==0.13.1
 MarkupSafe==1.0
 more-itertools==4.3.0
 multipledispatch==0.6.0
+numpy==1.16.0
 pluggy==0.7.1
 py==1.6.0
 pytest==3.7.4
