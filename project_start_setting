@@ -104,7 +104,8 @@ Close task
     2. confirm state
         commit changes, merge branch and update issue status are checked
         update issue states is Complete
-    3.
+    3. click ok and confirm your changes committed properly
+    4. if you do next task, open other task
 
 
 Mainly using frameworks:
