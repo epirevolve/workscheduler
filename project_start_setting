@@ -107,6 +107,27 @@ Close task
     3. click ok and confirm your changes committed properly
     4. if you do next task, open other task
 
+Ticket:
+    ticket should be a few days work or less.
+    input below format
+    Title
+        brief summary
+        don't need auxiliary verb
+
+        e.g) fix oooo bug
+        e.g) remove affiliation
+    Description
+        write belows
+            workload days
+            user story
+            associated file
+            caution
+
+        e.g) 2 days
+             click remove button make this oooo removed
+             oooo.py, ooxx.py
+             take care about id inside xxxx
+
 
 Mainly using frameworks:
     SQLAlchemy
