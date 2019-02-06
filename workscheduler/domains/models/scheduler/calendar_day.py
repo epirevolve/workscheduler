@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
-from sqlalchemy.orm import (
-    relationship
-)
-from sqlalchemy.types import (
-    String, DateTime,
-    Integer
-)
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.types import String
+from sqlalchemy.types import DateTime
+from sqlalchemy.types import Integer
 
 from mypackages.utils.date import is_holiday
 from mypackages.utils.uuid import UuidFactory
-from . import (
-    WorkCategory, CalendarDayDetail
-)
+
 from .. import OrmBase
+from . import WorkCategory
+from . import CalendarDayDetail
 
 associated_calendar_day_details_table\
     = Table("associated_calendar_day_details", OrmBase.metadata,

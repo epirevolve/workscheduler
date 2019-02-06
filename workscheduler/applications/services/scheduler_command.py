@@ -1,18 +1,41 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import (
-    AffiliationQuery, OperatorQuery, SkillQuery,
-    SchedulerQuery
-)
-from workscheduler.domains.models.scheduler import (
-    BasicOptions, WorkCategory
-)
+from datetime import datetime
+
+from mypackages.utils.datetime import is_overlap
+
+from workscheduler.domains.models.scheduler import BasicOptions
+from workscheduler.domains.models.scheduler import Request
+from workscheduler.domains.models.scheduler import WorkCategory
+from ..errors import CalendarError
+from ..errors import RequestError
+from . import AffiliationQuery
+from . import OperatorQuery
+from . import SkillQuery
+from . import SchedulerQuery
 
 
 class SchedulerCommand:
     def __init__(self, session):
         self._session = session
-    
+
+    def _request_validity(self, operator, at_from, at_to):
+        scheduler = SchedulerQuery(self._session).get_calendar_of_affiliation_id_year_month(
+            operator.user.affiliation.id, at_to.year, at_to.month)
+        if not scheduler:
+            raise CalendarError()
+        for request in operator.requests:
+            if is_overlap(at_from, at_to, request.at_from, request.at_to):
+                raise RequestError()
+
+    def append_my_request(self, user_id: str, title: str, note: str,
+                          at_from: datetime, at_to: datetime) -> Request:
+        operator = OperatorQuery(self._session).get_operator_of_user_id(user_id)
+        self._request_validity(operator, at_from, at_to)
+        request = Request.new_request(title, note, at_from, at_to)
+        operator.requests.append(request)
+        return request
+
     def append_work_category(self, title: str, week_day_require: int, week_day_max: int,
                              holiday_require: int, holiday_max: int, rest_days: int, max_times: int,
                              essential_skill_ids: [str], essential_operator_ids: [str], impossible_operator_ids: [str]):

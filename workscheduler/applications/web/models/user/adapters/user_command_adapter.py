@@ -2,7 +2,8 @@
 
 from workscheduler.applications.services import UserCommand
 from workscheduler.applications.web.util.functions.adapter import validate_form
-from ..forms import UsersForm, UserForm
+from ..forms import UsersForm
+from ..forms import UserForm
 
 
 class UserCommandAdapter(UserCommand):

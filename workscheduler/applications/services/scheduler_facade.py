@@ -2,10 +2,9 @@
 
 from datetime import date
 
-from workscheduler.applications.services import (
-    AffiliationQuery, SchedulerQuery
-)
 from workscheduler.domains.models.scheduler import Calendar
+from . import AffiliationQuery
+from . import SchedulerQuery
 
 
 class SchedulerFacade:

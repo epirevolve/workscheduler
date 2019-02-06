@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, DateTime
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import DateTime
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models import OrmBase
+from .. import OrmBase
 
 team_users_table\
     = Table("team_users", OrmBase.metadata,

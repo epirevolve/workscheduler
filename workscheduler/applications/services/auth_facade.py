@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import UserQuery
 from workscheduler.domains.models.user import User
+from . import UserQuery
 
 
 class AuthFacade:

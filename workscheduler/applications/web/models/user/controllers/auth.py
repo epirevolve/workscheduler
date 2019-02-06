@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from flask import (
-    Blueprint, redirect, url_for,
-    render_template, flash
-)
-from flask_login import (
-    login_user, logout_user
-)
+from flask import Blueprint
+from flask import redirect
+from flask import url_for
+from flask import render_template
+from flask import flash
+from flask_login import login_user
+from flask_login import logout_user
+
 from workscheduler.applications.services import UserQuery
 from workscheduler.applications.web import get_db_session
 from ..adapters import AuthFacadeAdapter

@@ -3,13 +3,13 @@
 from sqlalchemy import Column
 from sqlalchemy.orm import validates
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, DateTime, Integer,
-    Boolean
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import DateTime
+from sqlalchemy.types import Integer
+from sqlalchemy.types import Boolean
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models import OrmBase
+from .. import OrmBase
 
 
 class Skill(OrmBase):

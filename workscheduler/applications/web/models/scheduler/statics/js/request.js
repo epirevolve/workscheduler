@@ -116,7 +116,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
             'placement': 'top'
         });
 
-        $('#add-request').click(function () {
+        $(document).on('click', '#add-request', function () {
             let $button = $(this);
             let $container = $button.parents('.cl-body-cell').eq(0);
 

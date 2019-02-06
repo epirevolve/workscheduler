@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from flask_wtf import FlaskForm
-from wtforms import (
-    StringField, BooleanField, IntegerField, Field, FieldList,
-    HiddenField
-)
-from wtforms.validators import (
-    DataRequired, Length
-)
+from wtforms import StringField
+from wtforms import BooleanField
+from wtforms import IntegerField
+from wtforms import Field
+from wtforms import FieldList
+from wtforms import HiddenField
+from wtforms.validators import DataRequired
+from wtforms.validators import Length
 from wtforms.widgets import TextInput
 
 from workscheduler.domains.models.scheduler import WorkCategory

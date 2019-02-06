@@ -1,28 +1,33 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date
-from calendar import (
-    Calendar as SysCalendar, SUNDAY, day_abbr
-)
+from calendar import Calendar as SysCalendar
+from calendar import SUNDAY
+from calendar import day_abbr
 
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
-from sqlalchemy.orm import (
-    relationship
-)
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, DateTime, Integer,
-    Boolean
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import DateTime
+from sqlalchemy.types import Integer
+from sqlalchemy.types import Boolean
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models.user import Affiliation
+
 from .. import OrmBase
+from ..user import Affiliation
 from . import (
     WorkCategory, CalendarDay
 )
+
+associated_request_table\
+    = Table("associated_request", OrmBase.metadata,
+            Column('left_id', String, ForeignKey('operators.id')),
+            Column('right_id', String, ForeignKey('requests.id')))
+
 
 associated_calendar_day_table\
     = Table("associated_calendar_day", OrmBase.metadata,
@@ -45,6 +50,7 @@ class Calendar(OrmBase):
     month = Column(Integer)
     days = relationship("CalendarDay", secondary=associated_calendar_day_table)
     holidays = Column(Integer)
+    requests = relationship("Request", secondary=associated_request_table)
     fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table)
     is_publish = Column(Boolean)
     is_fixed = Column(Boolean)
@@ -60,6 +66,7 @@ class Calendar(OrmBase):
         self.month = month
         self.days = days
         self.holidays = holidays
+        self.relations = []
         self.fixed_schedules = fixed_schedules
         self.is_publish = is_publish
         self.is_fixed = is_fixed

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from .request import Request
 from .work_category import WorkCategory
 from .specific_vacation import SpecificVacation
 from .basic_option import BasicOptions

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from flask_wtf import FlaskForm
-from wtforms import (
-    StringField, BooleanField, HiddenField,
-    IntegerField
-)
+from wtforms import StringField
+from wtforms import BooleanField
+from wtforms import HiddenField
+from wtforms import IntegerField
+
 from workscheduler.applications.services import SkillQuery
 from workscheduler.applications.web import get_db_session
 

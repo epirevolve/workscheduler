@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from flask import (
-    Blueprint, jsonify, request,
-    render_template, Response
-)
+from flask import Blueprint
+from flask import request
+from flask import Response
+from flask import jsonify
+from flask import render_template
 from flask_login import login_required
+
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.applications.services import (
-    TeamQuery, UserQuery
-)
+from workscheduler.applications.services import TeamQuery
+from workscheduler.applications.services import UserQuery
 from workscheduler.applications.web import get_db_session
 from workscheduler.applications.web.util.functions.controller import admin_required
 from ..adapters import TeamCommandAdapter

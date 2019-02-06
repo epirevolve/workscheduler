@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from flask import (
-    Blueprint, render_template, request,
-    jsonify
-)
+from flask import Blueprint
+from flask import request
+from flask import jsonify
+from flask import render_template
 from flask_login import login_required
+
 from workscheduler.applications.services import SkillQuery
 from workscheduler.applications.web import get_db_session
 from workscheduler.applications.web.util.functions.controller import admin_required

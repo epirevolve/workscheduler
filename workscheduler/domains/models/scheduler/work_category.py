@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, Integer, DateTime
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import Integer
+from sqlalchemy.types import DateTime
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models.operator import (
-    Skill, Operator
-)
+
 from .. import OrmBase
+from ..operator import Skill
+from ..operator import Operator
 
 associated_skill_table\
     = Table("associated_essential_skill", OrmBase.metadata,

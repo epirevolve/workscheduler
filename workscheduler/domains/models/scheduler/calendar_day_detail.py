@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
-from sqlalchemy.orm import (
-    relationship
-)
-from sqlalchemy.types import (
-    String, Integer
-)
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.types import String
+from sqlalchemy.types import Integer
 
 from mypackages.utils.uuid import UuidFactory
-from . import WorkCategory
+
 from .. import OrmBase
+from . import WorkCategory
 
 associated_work_category_table\
     = Table("associated_calendar_date_detail_work_category", OrmBase.metadata,

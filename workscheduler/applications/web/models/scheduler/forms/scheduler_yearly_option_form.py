@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from flask_wtf import FlaskForm
-from wtforms import (
-    Field, StringField, HiddenField,
-    DateField, IntegerField
-)
+from wtforms import StringField
+from wtforms import IntegerField
+from wtforms import Field
+from wtforms import HiddenField
+from wtforms import DateField
 from wtforms.validators import DataRequired
 from wtforms.widgets import TextInput
 

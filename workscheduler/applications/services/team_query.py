@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.operator import (
-    TeamCategory, Team
-)
+from workscheduler.domains.models.operator import TeamCategory
+from workscheduler.domains.models.operator import Team
+
 
 class TeamQuery:
     def __init__(self, session):

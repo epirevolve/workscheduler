@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from eart.selections import (
-    EliteSelection, TournamentSelection
-)
-from eart.mutations import (
-    WholeMutation, InvertMutation, TranslocateMutation
-)
-from eart.crossovers import (
-    CircuitCrossover, OrderlyCrossover
-)
-from eart import (
-    Genetic, MarriageSelection, TransitionSelection,
-    Mutation, Crossover
-)
+from eart.selections import EliteSelection
+from eart.selections import TournamentSelection
+from eart.mutations import WholeMutation
+from eart.mutations import InvertMutation
+from eart.mutations import TranslocateMutation
+from eart.crossovers import CircuitCrossover
+from eart.crossovers import OrderlyCrossover
+from eart import Genetic
+from eart import MarriageSelection
+from eart import TransitionSelection
+from eart import Mutation
+from eart import Crossover
 
 
 class Scheduler:

@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import (
-    Column, ForeignKey
-)
-from sqlalchemy.orm import (
-    relationship, validates
-)
-from sqlalchemy.types import (
-    String, Float
-)
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import validates
+from sqlalchemy.types import String
+from sqlalchemy.types import Float
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models import OrmBase
-from workscheduler.domains.models.operator import Operator
+from .. import OrmBase
+from . import Operator
 
 
 class Relation(OrmBase):

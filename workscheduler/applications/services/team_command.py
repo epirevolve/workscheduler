@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from . import TeamQuery, UserQuery
-from workscheduler.domains.models.operator import (
-    Team, TeamCategory
-)
+from workscheduler.domains.models.operator import Team
+from workscheduler.domains.models.operator import TeamCategory
+from . import TeamQuery
+from . import UserQuery
 
 
 class TeamCommand:

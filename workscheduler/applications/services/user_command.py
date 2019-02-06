@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from . import UserQuery
-from workscheduler.applications.services import AffiliationQuery
 from workscheduler.domains.models.operator import Operator
 from workscheduler.domains.models.user import User
+from . import AffiliationQuery
+from . import UserQuery
 
 
 class UserCommand:

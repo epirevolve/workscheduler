@@ -2,18 +2,15 @@
 
 from datetime import date
 
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
-from sqlalchemy.types import (
-    String, Date
-)
-from sqlalchemy.orm import (
-    relationship
-)
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.types import String
+from sqlalchemy.types import Date
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models.operator import Operator
+from ..operator import Operator
 from .. import OrmBase
 from . import WorkCategory
 

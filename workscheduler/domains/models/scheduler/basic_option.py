@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
-from sqlalchemy.orm import (
-    relationship, validates
-)
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import validates
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, Boolean, DateTime
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import Boolean
+from sqlalchemy.types import DateTime
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models.user import Affiliation
-from . import WorkCategory
 from .. import OrmBase
+from ..user import Affiliation
+from . import WorkCategory
 
 associated_work_category_table\
     = Table("associated_work_category", OrmBase.metadata,

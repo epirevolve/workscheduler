@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import (
-    Column, Table, ForeignKey
-)
-from sqlalchemy.orm import (
-    relationship, validates
-)
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import validates
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, DateTime
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import DateTime
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models.user import Affiliation
+
+from ..user import Affiliation
 from . import SpecificVacation
 from .. import OrmBase
 

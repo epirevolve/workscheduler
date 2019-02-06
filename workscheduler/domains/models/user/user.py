@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from flask_login import UserMixin
-from sqlalchemy import (
-    Column, ForeignKey
-)
-from sqlalchemy.orm import (
-    relationship, validates
-)
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import validates
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, DateTime, Boolean
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import DateTime
+from sqlalchemy.types import Boolean
 
 from mypackages.utils.uuid import UuidFactory
+
 from . import Affiliation
 from .. import OrmBase
 

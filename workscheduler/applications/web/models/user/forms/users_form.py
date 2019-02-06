@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from flask_wtf import FlaskForm
-from wtforms import (
-    StringField, HiddenField, BooleanField,
-    SelectField
-)
-from wtforms.validators import (
-    DataRequired, Length
-)
+from wtforms import StringField
+from wtforms import HiddenField
+from wtforms import BooleanField
+from wtforms import SelectField
+from wtforms.validators import DataRequired
+from wtforms.validators import Length
+
 from workscheduler.applications.services import AffiliationQuery
-from workscheduler.domains.models.user import User
 from workscheduler.applications.web import get_db_session
+from workscheduler.domains.models.user import User
 
 
 class UsersForm(FlaskForm):

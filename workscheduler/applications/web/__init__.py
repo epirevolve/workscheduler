@@ -2,26 +2,21 @@
 
 import os
 import sys
-from datetime import (
-    date
-)
+from datetime import date
 
 import click
-from flask import (
-    Flask, g, current_app
-)
+from flask import Flask
+from flask import g
+from flask import current_app
 from flask.cli import with_appcontext
-from flask_login import (
-    LoginManager, current_user
-)
+from flask_login import LoginManager
+from flask_login import current_user
 from jinja2 import FileSystemLoader
 
-from mypackages.utils.date import (
-    to_year_month_string, get_next_month
-)
-from workscheduler.applications.services import (
-    AffiliationQuery, OperatorQuery
-)
+from mypackages.utils.date import to_year_month_string
+from mypackages.utils.date import get_next_month
+from workscheduler.applications.services import AffiliationQuery
+from workscheduler.applications.services import OperatorQuery
 from workscheduler.infrastructures import Database
 
 
@@ -80,12 +75,12 @@ def create_app(test_config=None):
     app.cli.add_command(set_test_db_command)
 
     from .util.controllers import menus_bp
-    from .models.user.controllers import (
-        auth_bp, affiliations_bp, users_bp
-    )
-    from .models.operator.controllers import (
-        operators_bp,  skills_bp, teams_bp
-    )
+    from .models.user.controllers import auth_bp
+    from .models.user.controllers import affiliations_bp
+    from .models.user.controllers import users_bp
+    from .models.operator.controllers import operators_bp
+    from .models.operator.controllers import skills_bp
+    from .models.operator.controllers import teams_bp
     from .models.scheduler.controllers import schedulers
     from .models.schedule.controllers import schedules
 

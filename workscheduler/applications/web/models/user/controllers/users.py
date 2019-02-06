@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from flask import (
-    Blueprint, redirect,
-    url_for, render_template, flash,
-    Response, request
-)
-from flask_login import (
-    login_required, current_user
-)
-from workscheduler.applications.services import (
-    UserQuery, AffiliationQuery
-)
+from flask import Blueprint
+from flask import request
+from flask import Response
+from flask import redirect
+from flask import url_for
+from flask import render_template
+from flask import flash
+from flask_login import login_required
+from flask_login import current_user
+
+from workscheduler.applications.services import UserQuery
+from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.web import get_db_session
 from workscheduler.applications.web.util.functions.controller import admin_required
 from ..forms import UserForm, UsersForm

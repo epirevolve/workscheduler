@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import Column
-from sqlalchemy.types import (
-    String, DateTime, Integer
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import DateTime
+from sqlalchemy.types import Integer
 
 from .. import OrmBase
 

@@ -5,11 +5,11 @@ from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy.orm import validates
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, DateTime
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import DateTime
 
 from mypackages.utils.uuid import UuidFactory
+
 from workscheduler.domains.models import OrmBase
 
 

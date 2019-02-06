@@ -3,13 +3,13 @@
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import current_timestamp
-from sqlalchemy.types import (
-    String, Boolean, Integer,
-    DateTime
-)
+from sqlalchemy.types import String
+from sqlalchemy.types import Boolean
+from sqlalchemy.types import Integer
+from sqlalchemy.types import DateTime
 
 from mypackages.utils.uuid import UuidFactory
-from workscheduler.domains.models import OrmBase
+from .. import OrmBase
 
 
 class TeamCategory(OrmBase):

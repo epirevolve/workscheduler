@@ -3,9 +3,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from workscheduler.applications.services import (
-    UserCommand, AffiliationQuery
-)
+from workscheduler.applications.services import UserCommand
+from workscheduler.applications.services import AffiliationQuery
 from workscheduler.domains.models import OrmBase
 from workscheduler.domains.models.user import Affiliation
 
