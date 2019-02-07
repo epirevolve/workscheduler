@@ -3,11 +3,11 @@
 <form method="post">
     <div class="form-inline my-3">
         <div class="input-group date col-md-3" id="scheduleOf" data-target-input="nearest"
-             data-url="{{ url_for('schedulers.show_calendar', affiliation_id=calendar.affiliation.id, schedule_of='schedule_of') }}">
+             data-url="{{ url_for('schedulers.show_calendar', affiliation_id=scheduler.affiliation.id, schedule_of='schedule_of') }}">
             <div class="input-group-prepend">
                 <span class="input-group-text">Scheduler Of</span>
             </div>
-            <input type="text" class="form-control datetimepicker-input" value="{{ calendar.schedule_of }}"
+            <input type="text" class="form-control datetimepicker-input" value="{{ month_year_setting.schedule_of }}"
                    data-target="#scheduleOf">
             <div class="input-group-append" data-target="#scheduleOf" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -15,8 +15,8 @@
         </div>
         <h2 class="mx-4">of</h2>
         <div>
-            <input type="hidden" value="{{ calendar.affiliation.id }}">
-            <h1>{{ calendar.affiliation.name }}</h1>
+            <input type="hidden" value="{{ scheduler.affiliation.id }}">
+            <h1>{{ scheduler.affiliation.name }}</h1>
         </div>
     </div>
     <div id="date-set">
@@ -24,7 +24,7 @@
             <thead>
                 <tr>
                     <td></td>
-                    {% for day in calendar.days %}
+                    {% for day in month_year_setting.days %}
                         <th>
                             <span class="{{ day.day_name }}">{{ day.day_name }}</span>
                             <br />
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for category in calendar.categories %}
+                {% for category in month_year_setting.categories %}
                     <tr>
                         <th>{{ category.category.title }}</th>
                         {% for require in category.requires %}
@@ -55,7 +55,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">Holidays</span>
         </div>
-        <input type="number" class="form-control" min="0" name="holidays" value="{{ calendar.holidays }}">
+        <input type="number" class="form-control" min="0" name="holidays" value="{{ month_year_setting.holidays }}">
     </div>
     <hr />
     <div>
@@ -67,7 +67,7 @@
         </div>
         <div class="row">
             <div id="fixedScheduleColumns" class="card-columns col-md-10">
-                {% for fixed_schedule in calendar.fixed_schedules %}
+                {% for fixed_schedule in month_year_setting.fixed_schedules %}
                     <div class="card">
                         <div class="card-header">
                             <h4><input type="text" value="{{ fixed_schedule.title }}"

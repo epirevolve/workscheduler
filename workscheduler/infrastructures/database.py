@@ -19,8 +19,10 @@ class Database:
 
         # set initial data
         session = self.create_session()
-
-        session.add(Affiliation.not_affiliation())
+        
+        # default affiliation is directly added
+        # usual affiliation is added by facade and make scheduler inside facade
+        session.add(Affiliation.default())
         session.flush()
 
         default_id = AffiliationQuery(session).get_default_affiliation().id
@@ -36,11 +38,15 @@ class Database:
         session = self.create_session()
 
         # add affiliations
-
-        front = Affiliation.new_affiliation('フロント', '')
-        session.add(front)
-        session.add(Affiliation.new_affiliation('Sec', ''))
-        session.add(Affiliation.new_affiliation('Secフロント', ''))
+        
+        from workscheduler.applications.services import AffiliationFacade
+        
+        affiliation_facade = AffiliationFacade(session)
+        front = affiliation_facade.append_affiliation('フロント', '')
+        affiliation_facade.append_affiliation('Sec', '')
+        affiliation_facade.append_affiliation('Secフロント', '')
+        
+        session.flush()
 
         # add role users
 
@@ -52,6 +58,7 @@ class Database:
         # add skills
         
         from workscheduler.domains.models.operator import Skill
+        
         skill1 = Skill.new_certified_skill('ccna', 1)
         session.add(skill1)
         skill2 = Skill.new_certified_skill('ccnp', 3)
@@ -64,6 +71,7 @@ class Database:
         # add teams
         
         from workscheduler.domains.models.operator import TeamCategory
+        
         team_cat_1 = TeamCategory.new_team_category(
             'Night Operation Team', allow_multiple_affiliation=True,
             is_leader_required=False, min_member_count=0,
@@ -78,6 +86,7 @@ class Database:
         session.add(team_cat_2)
 
         from workscheduler.domains.models.operator import Team
+        
         team = Team.new_team('Team A', team_cat_1.id)
         session.add(team)
         user1 = append_user('test_user1', 'テストユーザ1', affiliation_id, is_admin=False, is_operator=True)
@@ -112,44 +121,46 @@ class Database:
 
         session.flush()
 
-        # add scheduler option
+        # add scheduler
 
         from workscheduler.applications.services import OperatorQuery
-        from workscheduler.domains.models.scheduler import (
-            BasicOptions, WorkCategory
-        )
+        from workscheduler.applications.services import SchedulerQuery
+        from workscheduler.domains.models.scheduler import WorkCategory
+        
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
         work_daily = WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
                                                [get_operator_of_user_id(user1.id),
                                                 get_operator_of_user_id(user2.id)],
                                                [])
-        option = BasicOptions.new_option(
-            front, True, True,
-            [work_daily,
-             WorkCategory.new_category('夜間帯', 3, 5, 3, 5, 2, 5, [skill3], [],
-                                       [get_operator_of_user_id(user3.id)])]
+        scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(front.id)
+        scheduler.work_categories.append(work_daily)
+        scheduler.work_categories.append(
+            WorkCategory.new_category('夜間帯', 3, 5, 3, 5, 2, 5, [skill3], [],
+                                      [get_operator_of_user_id(user3.id)])
         )
-        session.add(option)
         session.flush()
         
         # add scheduler calendar
         
         from mypackages.utils.date import get_next_month
-        from workscheduler.domains.models.scheduler import (
-            Calendar, FixedSchedule
-        )
+        from workscheduler.domains.models.scheduler import MonthYearSetting
+        from workscheduler.domains.models.scheduler import FixedSchedule
+        
         next_month = get_next_month()
-        calendar = Calendar.new_month_year(front, option.work_categories,
-                                           next_month.year, next_month.month,
-                                           [FixedSchedule.new_schedule('いけりり研修', next_month.replace(day=4),
-                                                                       next_month.replace(day=7), [work_daily],
-                                                                       [get_operator_of_user_id(user1.id),
-                                                                        get_operator_of_user_id(user3.id)]),
-                                            FixedSchedule.new_schedule('いけりり研修', next_month.replace(day=9),
-                                                                       next_month.replace(day=12), [work_daily],
-                                                                       [get_operator_of_user_id(user2.id)])
-                                            ])
-        session.add(calendar)
+        month_year_setting = MonthYearSetting.new_month_year(scheduler.work_categories,
+                                                             next_month.year, next_month.month)
+        month_year_setting.fixed_schedules.append(
+            FixedSchedule.new_schedule(
+                'いけりり研修', next_month.replace(day=4),
+                next_month.replace(day=7), [work_daily],
+                [get_operator_of_user_id(user1.id),
+                 get_operator_of_user_id(user3.id)]))
+        month_year_setting.fixed_schedules.append(
+            FixedSchedule.new_schedule(
+                'いけりり研修', next_month.replace(day=9),
+                next_month.replace(day=12), [work_daily],
+                [get_operator_of_user_id(user2.id)]))
+        scheduler.month_year_settings.append(month_year_setting)
 
         session.commit()
         session.close()

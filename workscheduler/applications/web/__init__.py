@@ -119,10 +119,10 @@ def create_app(test_config=None):
         app.jinja_env.globals['today'] = date.today()
         app.jinja_env.globals['next_month'] = to_year_month_string(get_next_month())
     
-        def get_default_affiliation():
-            return next(filter(lambda x: not x.is_not_affiliation(), AffiliationQuery(get_db_session()).get_affiliations()))
+        def get_affiliation():
+            return AffiliationQuery(get_db_session()).get_default_affiliation()
     
-        app.jinja_env.globals['default_affiliation_id'] = get_default_affiliation().id
+        app.jinja_env.globals['default_affiliation_id'] = get_affiliation().id
     
         def get_operator_id():
             operator_query = OperatorQuery(get_db_session())

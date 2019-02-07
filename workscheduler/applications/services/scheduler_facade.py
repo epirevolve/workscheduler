@@ -2,8 +2,7 @@
 
 from datetime import date
 
-from workscheduler.domains.models.scheduler import Calendar
-from . import AffiliationQuery
+from workscheduler.domains.models.scheduler import MonthYearSetting
 from . import SchedulerQuery
 
 
@@ -11,16 +10,14 @@ class SchedulerFacade:
     def __init__(self, session):
         self._session = session
     
-    def get_category_compensated_calendar(self, affiliation_id: str, schedule_of: date):
-        affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
-        work_categories = SchedulerQuery(self._session).get_option_of_affiliation_id(affiliation_id).work_categories
-        calendar = SchedulerQuery(self._session).get_calendar_of_affiliation_id_year_month(
-            affiliation_id, schedule_of.year, schedule_of.month)
-        exist = False
-        if calendar:
-            calendar.update_categories(work_categories)
-            exist = True
-        else:
-            calendar = Calendar.new_month_year(
-                affiliation, work_categories, schedule_of.year, schedule_of.month, [])
-        return calendar, exist
+    def get_calendar_builded_scheduler(self, affiliation_id: str, schedule_of: date):
+        scheduler = SchedulerQuery(self._session).get_scheduler_of_affiliation_id(affiliation_id)
+        work_categories = scheduler.work_categories
+        month_year_setting = list(filter(lambda x: x.year == schedule_of.year and x.month == schedule_of.month,
+                                         scheduler.month_year_settings))
+        if not month_year_setting:
+            month_year_setting = MonthYearSetting.new_month_year(
+                work_categories, schedule_of.year, schedule_of.month)
+            scheduler.month_year_settings.append(month_year_setting)
+            self._session.commit()
+        return scheduler

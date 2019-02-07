@@ -45,7 +45,7 @@ class FixedScheduleForm(FlaskForm):
     
     def __init__(self, *args, **kwargs):
         work_categories = SchedulerQuery(get_db_session())\
-            .get_option_of_affiliation_id(kwargs.get('affiliation_id')).work_categories
+            .get_scheduler_of_affiliation_id(kwargs.get('affiliation_id')).work_categories
         
         self.all_work_categories.clear()
 

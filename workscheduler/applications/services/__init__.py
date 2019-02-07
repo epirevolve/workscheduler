@@ -14,5 +14,6 @@ from .skill_command import SkillCommand
 from .team_command import TeamCommand
 from .user_command import UserCommand
 
+from .affiliation_facade import AffiliationFacade
 from .auth_facade import AuthFacade
 from .scheduler_facade import SchedulerFacade

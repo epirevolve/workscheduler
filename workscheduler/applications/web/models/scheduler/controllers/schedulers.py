@@ -35,7 +35,7 @@ from ..forms import SchedulerYearlyOptionForm
 bp = Blueprint('schedulers', __name__, template_folder='../views', static_folder='../statics')
 
 
-def _public_request_body(month_year: date, scheduler_calendar):
+def _public_request_body(month_year: date, calendar):
     operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
     CalendarDay = namedtuple('CalendarDay', ('date', 'outer_month',
                                              'notices', 'requests'))
@@ -55,7 +55,7 @@ def _public_request_body(month_year: date, scheduler_calendar):
              for x in sys_calender.monthdatescalendar(month_year.year, month_year.month)]
     return render_template('request-public.html',
                            month_year=month_year, weeks=weeks, paid_holidays=operator.remain_paid_holiday,
-                           scheduler_calendar=scheduler_calendar)
+                           scheduler_calendar=calendar)
 
 
 def _non_public_request_body(month_year):
@@ -69,11 +69,9 @@ def show_my_request(month_year):
         month_year = datetime.strptime(month_year, '%Y-%m').date()
     
     session = get_db_session()
-    scheduler_calendar = SchedulerQuery(session).get_calendar_of_affiliation_id_year_month(current_user.affiliation.id,
-                                                                                           month_year.year,
-                                                                                           month_year.month)
-    return _public_request_body(month_year, scheduler_calendar) if scheduler_calendar \
-        else _non_public_request_body(month_year)
+    calendar = SchedulerQuery(session).get_calendar_of_affiliation_id_year_month(
+        current_user.affiliation.id, month_year.year, month_year.month)
+    return _public_request_body(month_year, calendar) if calendar else _non_public_request_body(month_year)
 
 
 @bp.route('/my-requests', methods=['POST'])
@@ -138,15 +136,15 @@ def show_calendar(affiliation_id: str, schedule_of: str):
         schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
     
     session = get_db_session()
-    calendar, exist = SchedulerFacade(session).get_category_compensated_calendar(affiliation_id, schedule_of)
+    scheduler = SchedulerFacade(session).get_calendar_builded_scheduler(affiliation_id, schedule_of)
+    month_year_setting = scheduler.month_year_setting(schedule_of)
     operators = OperatorQuery(session).get_operators()
     
-    action = url_for('schedulers.append_calendar', affiliation_id=affiliation_id, schedule_of=schedule_of) if exist\
-        else url_for('schedulers.update_calendar', affiliation_id=affiliation_id,
-                     schedule_of=schedule_of, calendar_id=calendar.id)
+    action = url_for('schedulers.update_calendar', affiliation_id=affiliation_id,
+                     schedule_of=schedule_of, calendar_id=scheduler.id)
     
-    return render_template('scheduler-calendar.html',
-                           save_action=action, calendar=calendar, operators=operators)
+    return render_template('scheduler-calendar.html', save_action=action,
+                           scheduler=scheduler, month_year_setting=month_year_setting, operators=operators)
 
 
 @bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars', methods=['POST'])
@@ -176,42 +174,21 @@ def public_calendar(affiliation_id: str, schedule_of: str, calendar_id: str):
 def show_basic_option(affiliation_id: str):
     session = get_db_session()
     
-    option = SchedulerQuery(session).get_option_of_affiliation_id(affiliation_id)
+    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
     
-    action = url_for('schedulers.append_basic_option', affiliation_id=affiliation_id) if not option\
-        else url_for('schedulers.update_basic_option', option_id=option.id, affiliation_id=affiliation_id)
-
+    action = url_for('schedulers.update_basic_option', affiliation_id=affiliation_id, option_id=scheduler.id)
+    
     skills = SkillQuery(session).get_skills()
     operators = OperatorQuery(session).get_operators()
     
-    return render_template('scheduler-basic-option.html', action=action, form=SchedulerBasicOptionForm(obj=option),
+    return render_template('scheduler-basic-option.html', action=action, form=SchedulerBasicOptionForm(obj=scheduler),
                            skills=skills, operators=operators)
-
-
-@bp.route('/affiliations/<affiliation_id>/basic-option', methods=['POST'])
-@login_required
-@admin_required
-def append_basic_option(affiliation_id):
-    session = get_db_session()
-    try:
-        req = SchedulerCommandAdapter(session).append_option(SchedulerBasicOptionForm(request=request.form))
-        session.commit()
-        response = jsonify({
-            'redirect': url_for('schedulers.show_calendar',
-                                affiliation_id=affiliation_id, schedule_of=to_year_month_string(get_next_month()))
-        })
-    except Exception as e:
-        session.rollback()
-        print(e)
-        response = jsonify()
-        response.status_code = 400
-    return response
 
 
 @bp.route('/affiliations/<affiliation_id>/basic-option/<option_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_basic_option(option_id, affiliation_id):
+def update_basic_option(affiliation_id, option_id):
     session = get_db_session()
     try:
         req = SchedulerCommandAdapter(session).update_option(SchedulerBasicOptionForm(request=request.form))

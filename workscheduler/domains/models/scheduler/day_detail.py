@@ -13,13 +13,13 @@ from .. import OrmBase
 from . import WorkCategory
 
 associated_work_category_table\
-    = Table("associated_calendar_date_detail_work_category", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('calendar_day_details.id')),
+    = Table("associated_day_detail_work_category", OrmBase.metadata,
+            Column("left_id", String, ForeignKey('day_details.id')),
             Column("right_id", String, ForeignKey('work_categories.id')))
 
 
-class CalendarDayDetail(OrmBase):
-    __tablename__ = "calendar_day_details"
+class DayDetail(OrmBase):
+    __tablename__ = "day_details"
     id = Column(String, primary_key=True)
     _work_category_id = Column(String, ForeignKey('work_categories.id'))
     work_category = relationship("WorkCategory", uselist=False)
@@ -33,4 +33,4 @@ class CalendarDayDetail(OrmBase):
 
     @staticmethod
     def new_detail(work_category: WorkCategory, require: int):
-        return CalendarDayDetail(UuidFactory.new_uuid(), work_category, require)
+        return DayDetail(UuidFactory.new_uuid(), work_category, require)

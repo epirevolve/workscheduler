@@ -1,5 +1,17 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date
+
+from sqlalchemy import Column
+from sqlalchemy import Table
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import validates
+from sqlalchemy.sql.functions import current_timestamp
+from sqlalchemy.types import String
+from sqlalchemy.types import Boolean
+from sqlalchemy.types import DateTime
+
 from eart.selections import EliteSelection
 from eart.selections import TournamentSelection
 from eart.mutations import WholeMutation
@@ -13,11 +25,57 @@ from eart import TransitionSelection
 from eart import Mutation
 from eart import Crossover
 
+from mypackages.utils.uuid import UuidFactory
+from .. import OrmBase
+from ..user import Affiliation
+from . import WorkCategory
 
-class Scheduler:
-    def __init__(self, affiliation_id, calendar_id):
-        self._affiliation_id = affiliation_id
-        self._calendar_id = calendar_id
+associated_month_year_setting_table\
+    = Table("associated_month_year_setting", OrmBase.metadata,
+            Column("left_id", String, ForeignKey('schedulers.id')),
+            Column("right_id", String, ForeignKey('month_year_settings.id')))
+
+
+associated_work_category_table\
+    = Table("associated_work_category", OrmBase.metadata,
+            Column("left_id", String, ForeignKey('schedulers.id')),
+            Column("right_id", String, ForeignKey('work_categories.id')))
+
+
+class Scheduler(OrmBase):
+    __tablename__ = "schedulers"
+    id = Column(String, primary_key=True)
+    _affiliation_id = Column(String, ForeignKey('affiliations.id'))
+    affiliation = relationship("Affiliation", uselist=False)
+    month_year_settings = relationship("MonthYearSetting", secondary=associated_month_year_setting_table)
+    certified_skill = Column(Boolean)
+    not_certified_skill = Column(Boolean)
+    work_categories = relationship("WorkCategory", secondary=associated_work_category_table)
+    create_at = Column(DateTime, server_default=current_timestamp())
+    
+    def __init__(self, id_: str, affiliation: Affiliation,
+                 certified_skill: bool, not_certified_skill: bool,
+                 work_categories: [WorkCategory]):
+        self.id = id_
+        self.affiliation = affiliation
+        self.month_year_settings = []
+        self.certified_skill = certified_skill
+        self.not_certified_skill = not_certified_skill
+        self.work_categories = work_categories
+
+    @validates("id, affiliation")
+    def validate(self, key, value):
+        return super(Scheduler, self).validate(Scheduler, key, value)
+
+    @staticmethod
+    def new_scheduler(affiliation: Affiliation):
+        return Scheduler(UuidFactory.new_uuid(), affiliation,
+                         True, True, [])
+    
+    def month_year_setting(self, schedule_of: date):
+        month_year_setting = next(filter(lambda x: x.year == schedule_of.year and x.month == schedule_of.month,
+                                         self.month_year_settings))
+        return month_year_setting
     
     def _evaluate(self):
         pass

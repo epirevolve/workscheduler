@@ -9,7 +9,7 @@ from flask_login import login_required
 from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.web import get_db_session
 from workscheduler.applications.web.util.functions.controller import admin_required
-from ..adapters import AffiliationCommandAdapter
+from ..adapters import AffiliationFacadeAdapter
 
 
 bp = Blueprint('affiliations', __name__, template_folder='../views', static_folder="../statics")
@@ -30,7 +30,7 @@ def show_affiliations():
 def append_affiliation():
     session = get_db_session()
     try:
-        affiliation = AffiliationCommandAdapter(session).append_affiliation(request.form)
+        affiliation = AffiliationFacadeAdapter(session).append_affiliation(request.form)
         session.commit()
         
         response = jsonify({

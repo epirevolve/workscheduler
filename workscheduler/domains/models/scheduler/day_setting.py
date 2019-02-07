@@ -13,20 +13,20 @@ from mypackages.utils.uuid import UuidFactory
 
 from .. import OrmBase
 from . import WorkCategory
-from . import CalendarDayDetail
+from . import DayDetail
 
-associated_calendar_day_details_table\
-    = Table("associated_calendar_day_details", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('calendar_days.id')),
-            Column("right_id", String, ForeignKey('calendar_day_details.id')))
+associated_day_details_table\
+    = Table("associated_day_details", OrmBase.metadata,
+            Column("left_id", String, ForeignKey('day_settings.id')),
+            Column("right_id", String, ForeignKey('day_details.id')))
 
 
-class CalendarDay(OrmBase):
-    __tablename__ = "calendar_days"
+class DaySetting(OrmBase):
+    __tablename__ = "day_settings"
     id = Column(String, primary_key=True)
     day = Column(Integer)
     day_name = Column(String)
-    details = relationship("CalendarDayDetail", secondary=associated_calendar_day_details_table)
+    details = relationship("DayDetail", secondary=associated_day_details_table)
 
     def __init__(self, id_: str, day: int, day_name: str,
                  details: []):
@@ -36,10 +36,10 @@ class CalendarDay(OrmBase):
         self.details = details
     
     def add_category(self, work_catgory: WorkCategory):
-        self.details.append(CalendarDayDetail.new_detail(work_catgory, 0))
+        self.details.append(DayDetail.new_detail(work_catgory, 0))
         
     @staticmethod
     def new_day(date: DateTime, date_name: str, work_categories: [WorkCategory]):
-        details = [CalendarDayDetail.new_detail(x, x.week_day_require if not is_holiday(date) else x.holiday_require)
+        details = [DayDetail.new_detail(x, x.week_day_require if not is_holiday(date) else x.holiday_require)
                    for x in work_categories]
-        return CalendarDay(UuidFactory.new_uuid(), date.day, date_name, details)
+        return DaySetting(UuidFactory.new_uuid(), date.day, date_name, details)

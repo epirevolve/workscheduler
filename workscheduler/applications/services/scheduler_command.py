@@ -4,7 +4,7 @@ from datetime import datetime
 
 from mypackages.utils.datetime import is_overlap
 
-from workscheduler.domains.models.scheduler import BasicOptions
+from workscheduler.domains.models.scheduler import Scheduler
 from workscheduler.domains.models.scheduler import Request
 from workscheduler.domains.models.scheduler import WorkCategory
 from ..errors import CalendarError
@@ -69,22 +69,19 @@ class SchedulerCommand:
         work_category.impossible_operators = [x for x in operators if x.id in impossible_operator_ids]
         return work_category
     
-    def append_option(self, affiliation_id: str, certified_skill: bool,
-                      not_certified_skill: bool, work_category_ids: [str]):
+    def append_scheduler(self, affiliation_id: str):
         affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
-        schedule_query = SchedulerQuery(self._session)
-        work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
-        scheduler = BasicOptions.new_option(affiliation, certified_skill, not_certified_skill,
-                                            work_categories)
+        scheduler = Scheduler.new_scheduler(affiliation)
         self._session.add(scheduler)
         return scheduler
-    
+
     def update_option(self, id_: str, affiliation_id: str, certified_skill: bool,
                       not_certified_skill: bool, work_category_ids: [str]):
         schedule_query = SchedulerQuery(self._session)
-        scheduler = schedule_query.get_option(id_)
+        scheduler = schedule_query.get_scheduler(id_)
         scheduler.affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
         scheduler.certified_skill = certified_skill
         scheduler.not_certified_skill = not_certified_skill
         scheduler.work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
+        map(lambda x: x.update_categories(scheduler.work_categories), scheduler.month_year_settings)
         return scheduler

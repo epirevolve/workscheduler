@@ -85,7 +85,9 @@ import { newPseudoUuid } from '/statics/js/util.js';
             }
         });
 
-        $('button[name="add-category"]').click(function () {
+        let categoriesModified = false;
+
+        $('button[name="addCategory"]').click(function () {
             const id = newPseudoUuid();
             let $card =
                 $('<div class="card main">')
@@ -156,7 +158,7 @@ import { newPseudoUuid } from '/statics/js/util.js';
             return data;
         }
 
-        $('button[name="store-options"]').click(function () {
+        $('button[name="storeOption"]').click(function () {
             $.ajax({
                 url: $(this).data('action'),
                 type: 'POST',
