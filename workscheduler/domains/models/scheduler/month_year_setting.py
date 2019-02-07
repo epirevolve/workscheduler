@@ -5,6 +5,7 @@ from calendar import Calendar as SysCalendar
 from calendar import SUNDAY
 from calendar import day_abbr
 
+import numpy as np
 from sqlalchemy import Column
 from sqlalchemy import Table
 from sqlalchemy import ForeignKey
@@ -21,12 +22,6 @@ from .. import OrmBase
 from . import (
     WorkCategory, DaySetting
 )
-
-associated_request_table\
-    = Table("associated_request", OrmBase.metadata,
-            Column('left_id', String, ForeignKey('month_year_settings.id')),
-            Column('right_id', String, ForeignKey('requests.id')))
-
 
 associated_calendar_day_table\
     = Table("associated_calendar_day", OrmBase.metadata,
@@ -47,24 +42,21 @@ class MonthYearSetting(OrmBase):
     month = Column(Integer)
     days = relationship("DaySetting", secondary=associated_calendar_day_table)
     holidays = Column(Integer)
-    requests = relationship("Request", secondary=associated_request_table)
     fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table)
     is_publish = Column(Boolean)
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
 
     def __init__(self, id_: str, year: int, month: int,
-                 days: [DaySetting], holidays: int, requests: [],
-                 fixed_schedules: [], is_publish: bool, is_fixed: bool):
+                 days: [DaySetting], holidays: int):
         self.id = id_
         self.year = year
         self.month = month
         self.days = days
         self.holidays = holidays
-        self.requests = requests
-        self.fixed_schedules = fixed_schedules
-        self.is_publish = is_publish
-        self.is_fixed = is_fixed
+        self.fixed_schedules = []
+        self.is_publish = False
+        self.is_fixed = False
         
     @property
     def categories(self):
@@ -77,7 +69,13 @@ class MonthYearSetting(OrmBase):
     
     @property
     def as_calendar(self):
-        return None
+        first_day = list(day_abbr).index(self.days[0].day_name)
+        padding_left = 0 if first_day == 6 else first_day + 1
+        calendar = [None] * padding_left + self.days
+        last_day = list(day_abbr).index(self.days[-1].day_name)
+        padding_right = last_day if last_day == 6 else 6 - (last_day + 1)
+        calendar += [None] * padding_right
+        return np.reshape(calendar, (-1, 7))
     
     def update_categories(self, work_categories: [WorkCategory]):
         work_category_ids = [x.id for x in work_categories]
@@ -99,5 +97,4 @@ class MonthYearSetting(OrmBase):
                 for x in monthdatescalendar]
         return MonthYearSetting(UuidFactory.new_uuid(),
                                 year, month, days,
-                                len([x for x in monthdatescalendar if x.weekday() in [5, 6]]),
-                                [], [], is_publish=False, is_fixed=False)
+                                len([x for x in monthdatescalendar if x.weekday() in [5, 6]]))

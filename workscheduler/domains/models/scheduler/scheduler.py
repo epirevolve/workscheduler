@@ -29,6 +29,7 @@ from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
 from ..user import Affiliation
 from . import WorkCategory
+from . import MonthYearSetting
 
 associated_month_year_setting_table\
     = Table("associated_month_year_setting", OrmBase.metadata,
@@ -73,8 +74,14 @@ class Scheduler(OrmBase):
                          True, True, [])
     
     def month_year_setting(self, schedule_of: date):
-        month_year_setting = next(filter(lambda x: x.year == schedule_of.year and x.month == schedule_of.month,
+        month_year_setting = list(filter(lambda x: x.year == schedule_of.year and x.month == schedule_of.month,
                                          self.month_year_settings))
+        if not month_year_setting:
+            month_year_setting = MonthYearSetting.new_month_year(
+                self.work_categories, schedule_of.year, schedule_of.month)
+            self.month_year_settings.append(month_year_setting)
+        else:
+            month_year_setting = month_year_setting[0]
         return month_year_setting
     
     def _evaluate(self):

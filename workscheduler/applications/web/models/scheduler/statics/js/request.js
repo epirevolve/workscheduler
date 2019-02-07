@@ -16,7 +16,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
         date.setMonth(date.getMonth() + addMonth);
         let date_str = date.toYearMonthFormatString();
 
-        location.href = `/operators/my-requests/month-year/${date_str}`;
+        location.href = `/schedulers/my-requests/schedule-of/${date_str}`;
     }
 
     let getEventData = function () {
@@ -181,7 +181,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
         });
 
         let setMonthChangeButtonAvailability = function () {
-            let stamp = new Date(Date.parse($('#month_year').data('month_year')));
+            let stamp = new Date(Date.parse($('#scheduleOf').data('schedule-of')));
 
             $('button[name="previous-month"]').prop('disabled', true);
             $('button[name="next-month"]').prop('disabled', true);
@@ -196,14 +196,14 @@ import { AlertManager } from '/statics/js/alert-helper.js';
         setMonthChangeButtonAvailability();
 
         $('button[name="previous-month"]').click(function () {
-            let stamp = Date.parse($('#month_year').data('month_year'));
+            let stamp = Date.parse($('#scheduleOf').data('schedule-of'));
             requestMonthYear(stamp, -1);
 
             setMonthChangeButtonAvailability();
         });
 
         $('button[name="next-month"]').click(function () {
-            let stamp = Date.parse($('#month_year').data('month_year'));
+            let stamp = Date.parse($('#scheduleOf').data('schedule-of'));
             requestMonthYear(stamp, 1);
 
             setMonthChangeButtonAvailability();

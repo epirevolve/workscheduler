@@ -15,6 +15,12 @@ from .. import OrmBase
 from . import WorkCategory
 from . import DayDetail
 
+associated_request_table\
+    = Table("associated_request", OrmBase.metadata,
+            Column('left_id', String, ForeignKey('day_settings.id')),
+            Column('right_id', String, ForeignKey('requests.id')))
+
+
 associated_day_details_table\
     = Table("associated_day_details", OrmBase.metadata,
             Column("left_id", String, ForeignKey('day_settings.id')),
@@ -27,6 +33,7 @@ class DaySetting(OrmBase):
     day = Column(Integer)
     day_name = Column(String)
     details = relationship("DayDetail", secondary=associated_day_details_table)
+    requests = relationship("Request", secondary=associated_request_table)
 
     def __init__(self, id_: str, day: int, day_name: str,
                  details: []):
@@ -34,6 +41,7 @@ class DaySetting(OrmBase):
         self.day = day
         self.day_name = day_name
         self.details = details
+        self.requests = []
     
     def add_category(self, work_catgory: WorkCategory):
         self.details.append(DayDetail.new_detail(work_catgory, 0))

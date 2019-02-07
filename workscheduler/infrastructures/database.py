@@ -160,6 +160,7 @@ class Database:
                 'いけりり研修', next_month.replace(day=9),
                 next_month.replace(day=12), [work_daily],
                 [get_operator_of_user_id(user2.id)]))
+        month_year_setting.is_publish = True
         scheduler.month_year_settings.append(month_year_setting)
 
         session.commit()

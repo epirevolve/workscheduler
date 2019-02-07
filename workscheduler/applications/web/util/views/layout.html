@@ -38,7 +38,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_schedules') }}">schedules</a></li>
                     {% if current_user.is_operator %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedulers.show_my_request', month_year=next_month) }}">requests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedulers.show_my_request', schedule_of=next_month) }}">requests</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_myself', operator_id=operator_id) }}">as operator</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', user_id=current_user.id) }}">as user</a></li>
