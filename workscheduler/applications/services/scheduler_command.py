@@ -3,6 +3,7 @@
 from datetime import datetime
 
 from mypackages.utils.datetime import is_overlap
+from mypackages.utils.date import get_next_day
 
 from workscheduler.domains.models.scheduler import Scheduler
 from workscheduler.domains.models.scheduler import Request
@@ -19,21 +20,27 @@ class SchedulerCommand:
     def __init__(self, session):
         self._session = session
 
-    def _request_validity(self, operator, at_from, at_to):
-        scheduler = SchedulerQuery(self._session).get_calendar_of_affiliation_id_year_month(
-            operator.user.affiliation.id, at_to.year, at_to.month)
-        if not scheduler:
-            raise CalendarError()
-        for request in operator.requests:
-            if is_overlap(at_from, at_to, request.at_from, request.at_to):
-                raise RequestError()
+    def _request_validity(self, operator_id, month_year_setting,
+                          at_from, at_to):
+        for day in month_year_setting.days:
+            for request in filter(lambda x: x.operator.id == operator_id, day.requests):
+                if is_overlap(at_from, at_to, request.at_from, request.at_to):
+                    raise RequestError()
 
-    def append_my_request(self, user_id: str, title: str, note: str,
-                          at_from: datetime, at_to: datetime) -> Request:
+    def append_my_request(self, user_id: str, scheduler_id: str, month_year_setting_id: str,
+                          title: str, note: str, at_from: datetime, at_to: datetime) -> Request:
+        month_year_setting = SchedulerQuery(self._session).get_month_year_setting(month_year_setting_id)
+        if not month_year_setting:
+            raise CalendarError()
         operator = OperatorQuery(self._session).get_operator_of_user_id(user_id)
-        self._request_validity(operator, at_from, at_to)
-        request = Request.new_request(title, note, at_from, at_to)
-        operator.requests.append(request)
+        self._request_validity(operator.id, month_year_setting,
+                               at_from, at_to)
+        request = Request.new_request(title, note, at_from,
+                                      at_to, operator)
+        search_date = at_from
+        while at_to >= search_date:
+            month_year_setting.days[search_date.day - 1].requests.append(request)
+            search_date = get_next_day(search_date)
         return request
 
     def append_work_category(self, title: str, week_day_require: int, week_day_max: int,

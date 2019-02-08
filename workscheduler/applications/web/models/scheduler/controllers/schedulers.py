@@ -33,8 +33,8 @@ bp = Blueprint('schedulers', __name__, template_folder='../views', static_folder
 def _public_request_body(scheduler, month_year_setting):
     operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
     return render_template('request-public.html',
-                           paid_holidays=operator.remain_paid_holiday, schedule_of=month_year_setting.schedule_of,
-                           scheduler=scheduler, calendar=month_year_setting.as_calendar)
+                           operator=operator, schedule_of=month_year_setting.schedule_of,
+                           scheduler=scheduler, month_year_setting=month_year_setting)
 
 
 def _non_public_request_body(schedule_of):
@@ -59,12 +59,12 @@ def show_my_request(schedule_of):
         else _non_public_request_body(schedule_of)
 
 
-@bp.route('/my-requests', methods=['POST'])
+@bp.route('/my-requests/scheduler/<scheduler_id>/month-year-setting/<month_year_setting_id>', methods=['POST'])
 @login_required
-def append_my_request():
+def append_my_request(scheduler_id, month_year_setting_id: str):
     session = get_db_session()
     try:
-        req = SchedulerCommandAdapter(session).append_my_request(request.form)
+        req = SchedulerCommandAdapter(session).append_my_request(scheduler_id, month_year_setting_id, request.form)
         session.commit()
         
         response = jsonify({

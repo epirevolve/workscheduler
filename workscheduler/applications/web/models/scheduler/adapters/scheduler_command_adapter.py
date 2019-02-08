@@ -10,8 +10,11 @@ from ..forms import SchedulerBasicOptionForm
 from ..forms import WorkCategoryForm
 
 
-class SchedulerCommandAdapter(SchedulerCommand):
-    def append_my_request(self, form):
+class SchedulerCommandAdapter:
+    def __init__(self, session):
+        self._session = session
+    
+    def append_my_request(self, scheduler_id: str, month_year_setting_id: str, form):
         event_title = form.get('requestTitle')
         event_note = form.get('requestNote') or ''
         event_at_from = form.get('requestAtFrom')
@@ -20,8 +23,10 @@ class SchedulerCommandAdapter(SchedulerCommand):
             raise ValueError()
         at_from = datetime.strptime(event_at_from, '%Y-%m-%d %H:%M')
         at_to = datetime.strptime(event_at_to, '%Y-%m-%d %H:%M')
-        return super(SchedulerCommandAdapter, self).append_my_request(
-            current_user.id, event_title, event_note, at_from, at_to
+        
+        return SchedulerCommand(self._session).append_my_request(
+            current_user.id, scheduler_id, month_year_setting_id,
+            event_title, event_note, at_from, at_to
         )
     
     def update_my_request(self, form):
@@ -30,7 +35,7 @@ class SchedulerCommandAdapter(SchedulerCommand):
     def append_work_category(self, form: WorkCategoryForm):
         if not validate_form(form):
             raise ValueError
-        return super(SchedulerCommandAdapter, self).append_work_category(
+        return SchedulerCommand(self._session).append_work_category(
             form.title.data, form.week_day_require.data, form.week_day_max.data,
             form.holiday_require.data, form.holiday_max.data,
             form.rest_days.data, form.max_times.data,
@@ -40,7 +45,7 @@ class SchedulerCommandAdapter(SchedulerCommand):
     def update_work_category(self, form: WorkCategoryForm):
         if not validate_form(form):
             raise ValueError
-        return super(SchedulerCommandAdapter, self).update_work_category(
+        return SchedulerCommand(self._session).update_work_category(
             form.id.data, form.title.data, form.week_day_require.data, form.week_day_max.data,
             form.holiday_require.data, form.holiday_max.data,
             form.rest_days.data, form.max_times.data,
@@ -54,7 +59,7 @@ class SchedulerCommandAdapter(SchedulerCommand):
                              else self.update_work_category(x).id
                              for x in form.work_categories]
         self._session.flush()
-        return super(SchedulerCommandAdapter, self).update_option(
+        return SchedulerCommand(self._session).update_option(
             form.id.data, form.affiliation.data, form.certified_skill.data,
             form.not_certified_skill.data, work_category_ids
         )

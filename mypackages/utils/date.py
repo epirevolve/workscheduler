@@ -9,6 +9,10 @@ def get_next_month(value: date = date.today()) -> date:
     return (value.replace(day=1) + timedelta(days=32)).replace(day=1)
 
 
+def get_next_day(value: date = date.today()) -> date:
+    return value + timedelta(days=1)
+
+
 def to_year_month_string(value: date) -> str:
     return value.strftime('%Y-%m')
 

@@ -11,37 +11,37 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="request-id">
+                <input type="hidden" id="requestId">
                 <div class="input-group m-1">
                     <div class="input-group-prepend">
                         <span class="input-group-text">title</span>
                     </div>
-                    <input type="text" class="form-control" id="request-title">
+                    <input type="text" class="form-control" id="requestTitle">
                 </div>
                 <div class="input-group m-1">
                     <div class="input-group-prepend">
                         <span class="input-group-text">note</span>
                     </div>
-                    <textarea class="form-control" id="request-note"></textarea>
+                    <textarea class="form-control" id="requestNote"></textarea>
                 </div>
                 <div class="form-group m-1">
-                    <div class="input-group date" id="datetime-from" data-target-input="nearest">
+                    <div class="input-group date" id="datetimeFrom" data-target-input="nearest">
                         <div class="input-group-prepend">
                             <span class="input-group-text">from</span>
                         </div>
-                        <input type="text" class="form-control datetimepicker-input" data-target="#datetime-from">
-                        <div class="input-group-append" data-target="#datetime-from" data-toggle="datetimepicker">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimeFrom">
+                        <div class="input-group-append" data-target="#datetimeFrom" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group m-1">
-                    <div class="input-group date" id="datetime-to" data-target-input="nearest">
+                    <div class="input-group date" id="datetimeTo" data-target-input="nearest">
                         <div class="input-group-prepend">
                             <span class="input-group-text">to</span>
                         </div>
-                        <input type="text" class="form-control datetimepicker-input" data-target="#datetime-to">
-                        <div class="input-group-append" data-target="#datetime-to" data-toggle="datetimepicker">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimeTo">
+                        <div class="input-group-append" data-target="#datetimeTo" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="save-request">Save</button>
+                <button type="button" class="btn btn-primary" id="saveRequest">Save</button>
             </div>
         </div>
     </div>
@@ -70,47 +70,47 @@
                 </div>
             </div>
             <div class="cl-body">
-                {% for week in calendar %}
+                {% for week in month_year_setting.as_calendar %}
                 <div class="row">
                     {% for day in week %}
-                    <div class="cl-body-cell col
-                        {% if day.outer_month %}outer-month-cell{% endif %}"
-                        data-day="{{ day.day }}">
+                    <div class="cl-body-cell col" data-day="{{ day.day }}">
                         {% if day %}
                             <div>
                                 <button class="add-request btn btn-danger btn-sm"
-                                        id="add-request">
+                                        id="addRequest">
                                     <i class="fa fa-pencil-alt"></i>
                                 </button>
                                 <span class="cl-day">{{ day.day }}</span>
                             </div>
                             <div class="request-container">
                                 {% for request in day.requests %}
-                                    <button class="btn request btn-block request-item"
-                                            title="<h4>{{ request.title }}</h4>" type="button"
-                                            data-toggle="popover"
-                                            data-id="{{ request.id }}"
-                                            data-at-from="{{ request.at_from }}"
-                                            data-at-to="{{ request.at_to }}"
-                                            data-content="
-                                                <div>
-                                                    <button id='edit-request' class='btn btn-info btn-sm btn-block mb-3'
-                                                            data-id='{{ request.id }}'
-                                                            data-title='{{ request.title }}'
-                                                            data-note='{{ request.note }}'
-                                                            data-at-from='{{ request.at_from }}'
-                                                            data-at-to='{{ request.at_to }}'>Edit</button>
-                                                    <div class='m-2'>{{ request.note }}</div>
-                                                    <div class='m-2'>
-                                                        {{ request.at_from.strftime('%Y/%m/%d %H:%M') }}<br />
-                                                        ~<br />
-                                                        {{ request.at_to.strftime('%Y/%m/%d %H:%M') }}
-                                                    </div>
-                                                    <button id='remove-request' class='btn btn-danger btn-sm btn-block mt-3'
-                                                            data-id={{ request.id }}>Remove</button>
-                                                </div>">
-                                        {{ request.title }}
-                                    </button>
+                                    {% if request.operator.id == operator.id and request.at_from.day == day.day %}
+                                        <button class="btn request btn-block request-item"
+                                                title="<h4>{{ request.title }}</h4>" type="button"
+                                                data-toggle="popover"
+                                                data-id="{{ request.id }}"
+                                                data-at-from="{{ request.at_from }}"
+                                                data-at-to="{{ request.at_to }}"
+                                                data-content="
+                                                    <div>
+                                                        <button id='editRequest' class='btn btn-info btn-sm btn-block mb-3'
+                                                                data-id='{{ request.id }}'
+                                                                data-title='{{ request.title }}'
+                                                                data-note='{{ request.note }}'
+                                                                data-at-from='{{ request.at_from }}'
+                                                                data-at-to='{{ request.at_to }}'>Edit</button>
+                                                        <div class='m-2'>{{ request.note }}</div>
+                                                        <div class='m-2'>
+                                                            {{ request.at_from.strftime('%Y/%m/%d %H:%M') }}<br />
+                                                            ~<br />
+                                                            {{ request.at_to.strftime('%Y/%m/%d %H:%M') }}
+                                                        </div>
+                                                        <button id='remove-request' class='btn btn-danger btn-sm btn-block mt-3'
+                                                                data-id={{ request.id }}>Remove</button>
+                                                    </div>">
+                                            {{ request.title }}
+                                        </button>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         {% endif %}
@@ -124,13 +124,20 @@
     <div class="col-md-2">
         <div>
             <h5>Monthly Holidays</h5>
-            <p id="monthly-holidays" data-holidays="{{ scheduler.holidays }}">{{ scheduler.holidays }} days</p>
+            <p id="monthlyHolidays" data-holidays="{{ scheduler.holidays }}">{{ scheduler.holidays }} days</p>
         </div>
         <hr>
         <div>
             <h5>Remained Paid Holidays</h5>
-            <p id="paid-holidays" data-holidays="{{ paid_holidays }}">{{ paid_holidays }} days</p>
+            <p id="paidHolidays" data-holidays="{{ operator.paid_holidays }}">{{ operator.paid_holidays  }} days</p>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scriptAppend %}
+<script>
+    const appendRequestUrl = "{{ url_for('schedulers.append_my_request', scheduler_id=scheduler.id, month_year_setting_id=month_year_setting.id) }}";
+</script>
+<script type="module" src="{{ url_for('schedulers.static', filename='js/request-public.js') }}"></script>
 {% endblock %}

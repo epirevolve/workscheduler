@@ -2,13 +2,13 @@
 {% block body %}
 <div class="cl-tool-header row">
     <div class="cl-tool-left col-md-3">
-        <button type="button" class="btn btn-link" name="previous-month"><span class="fa fa-chevron-left"></span></button>
+        <button type="button" class="btn btn-link" id="previousMonth"><span class="fa fa-chevron-left"></span></button>
     </div>
     <div class="cl-tool-center cl-title col-md-6" id="scheduleOf" data-schedule-of="{{ schedule_of }}">
         <h2>{{ schedule_of.strftime('%b %Y') }}</h2>
     </div>
     <div class="cl-tool-right col-md-3">
-        <button type="button" class="btn btn-link" name="next-month"><span class="fa fa-chevron-right"></span></button>
+        <button type="button" class="btn btn-link" id="nextMonth"><span class="fa fa-chevron-right"></span></button>
     </div>
 </div>
 {% block request_body %}{% endblock %}
@@ -20,7 +20,13 @@
 {% endblock %}
 
 {% block script %}
+<script type="text/javascript">
+    const showRequestUrl = "{{ url_for('schedulers.show_my_request', schedule_of='schedule_of') }}";
+    const minDate = new Date(new Date().addMonths(1).setDate(1));
+    const maxDate = new Date(new Date().addMonths(7).setDate(0));
+</script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/moment.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/tempusdominus-bootstrap-4.js') }}"></script>
 <script type="module" src="{{ url_for('schedulers.static', filename='js/request.js') }}"></script>
+{% block scriptAppend %}{% endblock %}
 {% endblock %}

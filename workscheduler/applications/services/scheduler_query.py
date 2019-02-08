@@ -21,11 +21,9 @@ class SchedulerQuery:
     def get_work_category(self, id_: str) -> WorkCategory:
         return self._session.query(WorkCategory).get(id_)
     
-    def get_calendar_of_affiliation_id_year_month(self, affiliation_id: str, year: int, month: int) -> MonthYearSetting:
+    def get_month_year_setting(self, month_year_setting_id) -> MonthYearSetting:
         return self._session.query(MonthYearSetting)\
-            .filter(MonthYearSetting.affiliation.has(Affiliation.id == affiliation_id),
-                    MonthYearSetting.year == year,
-                    MonthYearSetting.month == month).one_or_none()
+            .filter(MonthYearSetting.id == month_year_setting_id).one_or_none()
     
     def get_calendar_of_request_id(self, request_id: str) -> [MonthYearSetting]:
         return self._session.query(MonthYearSetting)\

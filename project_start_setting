@@ -111,11 +111,10 @@ Ticket:
     ticket should be a few days work or less.
     input below format
     Title
-        brief summary
-        don't need auxiliary verb
+        brief summary or purpose
 
         e.g) fix oooo bug
-        e.g) remove affiliation
+        e.g) can remove affiliation
     Description
         write belows
             workload days
