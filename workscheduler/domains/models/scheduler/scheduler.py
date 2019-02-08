@@ -2,6 +2,8 @@
 
 from datetime import date
 
+import numpy as np
+
 from sqlalchemy import Column
 from sqlalchemy import Table
 from sqlalchemy import ForeignKey
@@ -17,8 +19,7 @@ from eart.selections import TournamentSelection
 from eart.mutations import WholeMutation
 from eart.mutations import InvertMutation
 from eart.mutations import TranslocateMutation
-from eart.crossovers import CircuitCrossover
-from eart.crossovers import OrderlyCrossover
+from eart.crossovers import SinglePointCrossover
 from eart import Genetic
 from eart import MarriageSelection
 from eart import TransitionSelection
@@ -84,8 +85,41 @@ class Scheduler(OrmBase):
             month_year_setting = month_year_setting[0]
         return month_year_setting
     
-    def _evaluate(self):
-        pass
+    @staticmethod
+    def _evaluate_by_day(day_dict, month_year_setting):
+        adaptability = 0
+        for schedule_day, scheduler_day in zip(day_dict.values(), month_year_setting.days):
+            for detail in scheduler_day.details:
+                members = schedule_day[detail.work_category.id]
+                count = len(members)
+                adaptability += 0.7 - min(0.7, (0 if count >= detail.require else (detail.require - count) * 0.1))
+                member_skills = [y for x in members for y in x.certified_skills]\
+                    + [y for x in members for y in x.not_certified_skills]
+                member_skill_ids = set(map(lambda y: y.id, member_skills))
+                for skill in detail.work_category.essential_skills:
+                    adaptability += 0.6 if skill.id in member_skill_ids else 0
+        return adaptability
+    
+    @staticmethod
+    def _evaluate_by_operator(schedule, month_year_setting):
+        return 0
+    
+    def _evaluate(self, operators, month_year_setting):
+        def _fnc(gene):
+            # column is day and row is operator
+            schedule = np.reshape(gene, (len(operators), -1))
+            
+            def dict_by_day(row):
+                d = {x.id: [] for x in self.work_categories}
+                for i, x in enumerate(row):
+                    if x == '0':
+                        continue
+                    d[x].append(operators[i])
+                return d
+            day_dict = {i: dict_by_day(x) for i, x in enumerate(schedule.T)}
+            adaptability = self._evaluate_by_day(day_dict, month_year_setting)
+            return adaptability
+        return _fnc
     
     @staticmethod
     def _build_marriage_selection():
@@ -115,15 +149,22 @@ class Scheduler(OrmBase):
     @staticmethod
     def _build_crossover():
         crossover = Crossover()
-        crossover.add(CircuitCrossover())
-        crossover.add(OrderlyCrossover())
+        crossover.add(SinglePointCrossover())
         crossover.compile()
         return crossover
     
-    def run(self):
-        genetic = Genetic(evaluation=self._evaluate, gene_kind='', generation_size=500)
+    def run(self, schedule_of: date, operators):
+        month_year_setting = self.month_year_setting(schedule_of)
+        evaluate = self._evaluate(operators, month_year_setting)
+        
+        base_kind = list(map(lambda x: x.id, self.work_categories))
+        
+        genetic = Genetic(evaluation=evaluate, base_kind=[0] + base_kind,
+                          gene_size=len(month_year_setting.days) * len(operators),
+                          generation_size=1000, population_size=1000)
         genetic.marriage_selection = self._build_marriage_selection()
         genetic.transition_selection = self._build_transition_selection(genetic.population_size)
         genetic.mutation = self._build_mutation()
         genetic.crossover = self._build_crossover()
+        genetic.compile()
         return genetic.run()

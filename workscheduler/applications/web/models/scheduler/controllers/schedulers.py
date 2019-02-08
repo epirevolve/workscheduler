@@ -199,5 +199,14 @@ def show_yearly_option(affiliation_id: str):
 @login_required
 @admin_required
 def launch_scheduler(affiliation_id: str, schedule_of: str):
+    if schedule_of and not isinstance(schedule_of, date):
+        schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
+    
+    session = get_db_session()
+    operators = OperatorQuery(session).get_operators()
+    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
+    
+    scheduler.run(schedule_of, operators)
+    
     response = jsonify()
     return response
