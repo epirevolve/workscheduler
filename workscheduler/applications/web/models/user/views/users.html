@@ -2,7 +2,7 @@
 {% block body %}
 <h2>Users</h2>
 <div class="table-responsive" style="height: 35vh">
-    <table class="table" id="user-table">
+    <table class="table" id="userTable">
         <thead>
             <tr>
                 <th>login id</th>
@@ -15,10 +15,10 @@
         </thead>
         <tbody>
             {% for user in users %}
-            <tr role="row" data-id="{{ user.id }}" data-login_id="{{ user.login_id }}"
-                data-name="{{ user.name }}" data-affiliation_id="{{ user.affiliation.id }}"
-                data-is_admin="{{ user.is_admin }}" data-is_operator="{{ user.is_operator }}"
-                data-is_inactivated="{{ user.is_inactivated }}">
+            <tr role="row" data-id="{{ user.id }}" data-login-id="{{ user.login_id }}"
+                data-name="{{ user.name }}" data-affiliation-id="{{ user.affiliation.id }}"
+                data-is-admin="{{ user.is_admin }}" data-is-operator="{{ user.is_operator }}"
+                data-is-inactivated="{{ user.is_inactivated }}">
                 <td>{{ user.login_id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.affiliation.name }}</td>
@@ -33,38 +33,39 @@
     </table>
 </div>
 <hr />
-<form name="user_form" action="{{ url_for('users.append_user') }}" method="post">
+<form id="userForm" action="{{ url_for('users.append_user') }}" method="post">
     {{ form.hidden_tag() }}
-    <input type="hidden" class="form-control" name="id" readonly>
+    <input id="id" type="hidden" class="form-control" name="{{ form.id.name }}" readonly>
+
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">Login Id</span>
         </div>
-        <input type="text" class="form-control" name="login_id">
+        <input id="loginId" type="text" class="form-control" name="{{ form.login_id.name }}">
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">Name</span>
         </div>
-        <input type="text" class="form-control" name="name">
+        <input id="name" type="text" class="form-control" name="{{ form.name.name }}">
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">affiliation</span>
         </div>
-        <select class="custom-select" name="affiliation">
+        <select class="custom-select" name="{{ form.affiliation.name }}">
             {% for affiliation in affiliations %}
                 <option value="{{ affiliation.id }}">{{ affiliation.name }}</option>
             {% endfor %}
         </select>
     </div>
     <div class="mb-3 custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin">
-        <label class="custom-control-label" for="is_admin">Is Admin</label>
+        <input type="checkbox" class="custom-control-input" id="isAdmin" name="{{ form.is_admin.name }}">
+        <label class="custom-control-label" for="isAdmin">Is Admin</label>
     </div>
     <div class="mb-3 custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="is_operator" name="is_operator">
-        <label class="custom-control-label" for="is_operator">Is Operator</label>
+        <input type="checkbox" class="custom-control-input" id="isOperator" name="{{ form.is_operator.name }}">
+        <label class="custom-control-label" for="isOperator">Is Operator</label>
     </div>
     <div class="row">
         <button class="btn btn-secondary col-md-2" type="reset" id="new">New User</button>

@@ -2,7 +2,7 @@
 {% block body %}
 <h2>Operators</h2>
 <div class="table-responsive" style="height: 35vh">
-    <table class="table">
+    <table class="table" id="operatorTable">
         <thead>
             <tr>
                 <th>name</th>
@@ -11,7 +11,8 @@
         </thead>
         <tbody>
             {% for operator in operators %}
-            <tr role="row" data-id="{{ operator.id }}">
+            <tr role="row" data-id="{{ operator.id }}" data-name="{{ operator.user.name }}"
+                data-affiliation-name="{{ operator.user.affiliation.name }}" data-json="{{ jsonify(operator) }}">
                 <td>{{ operator.user.name }}</td>
                 <td>{{ operator.user.affiliation.name }}</td>
             </tr>
@@ -22,10 +23,27 @@
     </table>
 </div>
 <hr />
-<form id="operator_form" action="{{ url_for('operators.update_operator', operator_id='') }}" method="post">
+<form id="operatorForm" action="{{ url_for('operators.update_operator', operator_id='') }}" method="post">
     {{ form.hidden_tag() }}
     <input type="hidden" class="form-control" name="id" id="id" readonly>
 
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+        </div>
+        <input id="name" readonly type="text" class="form-control">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">affiliation</span>
+        </div>
+        <input id="affiliation" readonly type="text" class="form-control">
+    </div>
+
     <button class="btn btn-primary btn-block" type="submit" id="store">Store Operator</button>
 </form>
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('operators.static', filename='js/operators.js') }}"></script>
 {% endblock %}

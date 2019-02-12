@@ -19,10 +19,11 @@ from eart.selections import TournamentSelection
 from eart.mutations import WholeMutation
 from eart.mutations import InvertMutation
 from eart.mutations import TranslocateMutation
-from eart.crossovers import SinglePointCrossover
+from eart.crossovers import MultiPointCrossover
+from eart.crossovers import UniformityCrossover
 from eart import Genetic
-from eart import MarriageSelection
-from eart import TransitionSelection
+from eart import ParentSelection
+from eart import SurvivorSelection
 from eart import Mutation
 from eart import Crossover
 
@@ -92,22 +93,27 @@ class Scheduler(OrmBase):
             for detail in scheduler_day.details:
                 members = schedule_day[detail.work_category.id]
                 count = len(members)
-                adaptability += 0.7 - min(0.7, (0 if count >= detail.require else (detail.require - count) * 0.1))
-                member_skills = [y for x in members for y in x.certified_skills]\
-                    + [y for x in members for y in x.not_certified_skills]
-                member_skill_ids = set(map(lambda y: y.id, member_skills))
+                adaptability += 0.3 - min(0.3, (0 if count >= detail.require else (detail.require - count) * 0.05))
+                member_skills = [y for x in members for y in x.skills]
+                skill_ids = set(map(lambda y: y.id, member_skills))
+                member_ids = set(map(lambda y: y.id, members))
                 for skill in detail.work_category.essential_skills:
-                    adaptability += 0.6 if skill.id in member_skill_ids else 0
+                    adaptability += 0.2 if skill.id in skill_ids else 0
+                for person in detail.work_category.essential_operators:
+                    adaptability += 0.2 if person.id in member_ids else 0
+                for person in detail.work_category.impossible_operators:
+                    adaptability += 0.2 if person.id not in member_ids else 0
         return adaptability
     
     @staticmethod
-    def _evaluate_by_operator(schedule, month_year_setting):
+    def _evaluate_by_operator(operator_dict, month_year_setting):
         return 0
     
     def _evaluate(self, operators, month_year_setting):
         def _fnc(gene):
             # column is day and row is operator
             schedule = np.reshape(gene, (len(operators), -1))
+            adaptability = 0
             
             def dict_by_day(row):
                 d = {x.id: [] for x in self.work_categories}
@@ -117,25 +123,23 @@ class Scheduler(OrmBase):
                     d[x].append(operators[i])
                 return d
             day_dict = {i: dict_by_day(x) for i, x in enumerate(schedule.T)}
-            adaptability = self._evaluate_by_day(day_dict, month_year_setting)
+            adaptability += self._evaluate_by_day(day_dict, month_year_setting)
             return adaptability
         return _fnc
     
     @staticmethod
-    def _build_marriage_selection():
-        marriage_selection = MarriageSelection()
-        marriage_selection.add(EliteSelection(), 0.05)
-        marriage_selection.add(TournamentSelection(group_size=3))
-        marriage_selection.compile()
-        return marriage_selection
+    def _build_parent_selection():
+        parent_selection = ParentSelection()
+        parent_selection.add(EliteSelection(), 0.05)
+        parent_selection.add(TournamentSelection(group_size=3))
+        return parent_selection
     
     @staticmethod
-    def _build_transition_selection(population_size):
-        transition_selection = TransitionSelection(const_population_size=population_size)
-        transition_selection.add(EliteSelection(), 0.05)
-        transition_selection.add(TournamentSelection(group_size=3))
-        transition_selection.compile()
-        return transition_selection
+    def _build_survivor_selection(population_size):
+        survivor_selection = SurvivorSelection(const_population_size=population_size)
+        survivor_selection.add(EliteSelection(), 0.05)
+        survivor_selection.add(TournamentSelection(group_size=3))
+        return survivor_selection
     
     @staticmethod
     def _build_mutation():
@@ -143,14 +147,13 @@ class Scheduler(OrmBase):
         mutation.add(WholeMutation(), 0.05)
         mutation.add(InvertMutation())
         mutation.add(TranslocateMutation())
-        mutation.compile()
         return mutation
     
     @staticmethod
     def _build_crossover():
         crossover = Crossover()
-        crossover.add(SinglePointCrossover())
-        crossover.compile()
+        crossover.add(MultiPointCrossover())
+        crossover.add(UniformityCrossover())
         return crossover
     
     def run(self, schedule_of: date, operators):
@@ -161,9 +164,9 @@ class Scheduler(OrmBase):
         
         genetic = Genetic(evaluation=evaluate, base_kind=[0] + base_kind,
                           gene_size=len(month_year_setting.days) * len(operators),
-                          generation_size=1000, population_size=1000)
-        genetic.marriage_selection = self._build_marriage_selection()
-        genetic.transition_selection = self._build_transition_selection(genetic.population_size)
+                          generation_size=1000, population_size=1000, debug=True)
+        genetic.parent_selection = self._build_parent_selection()
+        genetic.survivor_selection = self._build_survivor_selection(genetic.population_size)
         genetic.mutation = self._build_mutation()
         genetic.crossover = self._build_crossover()
         genetic.compile()

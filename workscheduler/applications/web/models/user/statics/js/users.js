@@ -11,18 +11,19 @@ import { AlertManager } from '/statics/js/alert-helper.js';
     }
 
     $(document).ready(function () {
-        $('#user-table tbody tr').click(function(){
-            $('form[name="user_form"]').attr('action', '/users/update_user');
-
+        $('#userTable tbody tr').click(function(){
             let $this = $(this);
-            $('input[name="id"]').val($this.data('id'));
-            $('input[name="login_id"]').val($this.data('login_id'));
-            $('input[name="name"]').val($this.data('name'));
-            $('select[name="affiliation"]').val($this.data('affiliation_id'));
-            $('input[name="is_admin"]').prop('checked', ($this.data('is_admin') == 'True'));
-            $('input[name="is_operator"]').prop('checked', ($this.data('is_operator') == 'True'));
 
-            if ($this.data('is_inactivated') == 'True'){
+            $('#userForm').attr('action', `/users/${$this.data('id')}`);
+
+            $('#id').val($this.data('id'));
+            $('#loginId').val($this.data('login-id'));
+            $('#name').val($this.data('name'));
+            $('#affiliation').val($this.data('affiliation-id'));
+            $('#isAdmin').prop('checked', ($this.data('is-admin') == 'True'));
+            $('#isOperator').prop('checked', ($this.data('is-operator') == 'True'));
+
+            if ($this.data('is-inactivated') == 'True'){
                 setButtonsDisability(true);
             } else {
                 setButtonsDisability(false);
@@ -30,7 +31,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
         });
 
         $('#new').click(function () {
-            $('form[name="user_form"]').attr('action', '/users/append_user');
+            $('#userForm').attr('action', '/users/');
             setButtonsDisability(false);
         });
 
@@ -51,7 +52,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
                     .done((data) => {
                         let alertManager = new AlertManager('#alertContainer');
                         alertManager.append('Successfully changed selected user password. ' +
-                            'Please notice him/her new password is "p" + his/her login_id.',
+                            'Please notice him/her new password is "p" + his/her login id.',
                         'alert-info')
                     })
                     .fail(($xhr) => {
@@ -80,8 +81,8 @@ import { AlertManager } from '/statics/js/alert-helper.js';
                         let alertManager = new AlertManager('#alertContainer');
                         alertManager.append('Successfully inactivate user.',
                         'alert-info');
-                        $(`tr[data-id=${id}]`).data('is_inactivated', 'True');
-                        $(`tr[data-id=${id}]`).attr('data-is_inactivated', 'True');
+                        $(`tr[data-id=${id}]`).data('is-inactivated', 'True');
+                        $(`tr[data-id=${id}]`).attr('data-is-inactivated', 'True');
                     })
                     .fail(($xhr) => {
                         let alertManager = new AlertManager('#alertContainer');

@@ -30,8 +30,7 @@ class Operator(OrmBase):
     id = Column(String, primary_key=True)
     _user_id = Column(String, ForeignKey('users.id'))
     user = relationship("User", uselist=False)
-    certified_skills = relationship("Skill", secondary=associated_skill_table)
-    not_certified_skills = relationship("Skill", secondary=associated_skill_table)
+    skills = relationship("Skill", secondary=associated_skill_table)
     relations = relationship("Relation", secondary=associated_relation_table)
     remain_paid_holiday = Column(Integer, default=0)
 
@@ -39,13 +38,20 @@ class Operator(OrmBase):
         self.id = id_
         self.user = user
         self.requests = []
-        self.certified_skills = []
-        self.not_certified_skills = []
+        self.skills = []
 
     @validates('id')
     def validate(self, key, value):
         return super(Operator, self).validate(Operator, key, value)
 
+    @property
+    def certified_skills(self):
+        return list(filter(lambda x: x.is_certified, self.skills))
+    
+    @property
+    def not_certified_skills(self):
+        return list(filter(lambda x: not x.is_certified, self.skills))
+    
     @staticmethod
     def new_operator(user: User):
         operator = Operator(UuidFactory.new_uuid(), user)
