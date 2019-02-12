@@ -28,5 +28,5 @@ class SpecificVacationForm(FlaskForm):
     days = IntegerField()
 
 
-class SchedulerYearlyOptionForm(FlaskForm):
+class YearlySettingForm(FlaskForm):
     affiliation = AffiliationField(validators=[DataRequired()])

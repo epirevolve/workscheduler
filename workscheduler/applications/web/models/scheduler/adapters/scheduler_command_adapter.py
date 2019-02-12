@@ -6,7 +6,7 @@ from flask_login import current_user
 
 from workscheduler.applications.services import SchedulerCommand
 from workscheduler.applications.web.util.functions.adapter import validate_form
-from ..forms import SchedulerBasicOptionForm
+from ..forms import BaseSettingForm
 from ..forms import WorkCategoryForm
 
 
@@ -52,7 +52,7 @@ class SchedulerCommandAdapter:
             form.essential_skills.data, form.essential_operators.data, form.impossible_operators.data
         )
     
-    def update_option(self, form: SchedulerBasicOptionForm):
+    def update_option(self, form: BaseSettingForm):
         if not validate_form(form):
             raise ValueError
         work_category_ids = [self.append_work_category(x).id if x.id.data.startswith('tmp')

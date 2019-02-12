@@ -8,7 +8,7 @@ from flask import flash
 from flask_login import login_required
 
 from workscheduler.applications.services import OperatorQuery
-from workscheduler.applications.services import AffiliationQuery
+from workscheduler.applications.services import SkillQuery
 from workscheduler.applications.web.util.functions.controller import admin_required
 from workscheduler.applications.web import get_db_session
 from ..adapters import OperatorCommandAdapter
@@ -43,10 +43,9 @@ def update_myself(operator_id):
 def show_operators():
     session = get_db_session()
     operators = OperatorQuery(session).get_operators()
-    affiliations = AffiliationQuery(session).get_affiliations()
-    
+    skills = SkillQuery(session).get_not_certified_skills()
     return render_template('operators.html', form=OperatorsForm(),
-                           operators=operators, affiliations=affiliations)
+                           operators=operators, skills=skills)
 
 
 @bp.route('/<operator_id>', methods=['POST'])

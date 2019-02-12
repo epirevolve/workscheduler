@@ -12,7 +12,7 @@
         <tbody>
             {% for operator in operators %}
             <tr role="row" data-id="{{ operator.id }}" data-name="{{ operator.user.name }}"
-                data-affiliation-name="{{ operator.user.affiliation.name }}" data-json="{{ jsonify(operator) }}">
+                data-affiliation-name="{{ operator.user.affiliation.name }}">
                 <td>{{ operator.user.name }}</td>
                 <td>{{ operator.user.affiliation.name }}</td>
             </tr>
@@ -35,9 +35,20 @@
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text">affiliation</span>
+            <span class="input-group-text">Affiliation</span>
         </div>
         <input id="affiliation" readonly type="text" class="form-control">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">On the job training</span>
+        </div>
+        <select class="custom-select" name="{{ form.ojt.name }}">
+            <option value=""></option>
+            {% for operator in operators %}
+                <option value="{{ operator.id }}">{{ operator.user.name }}</option>
+            {% endfor %}
+        </select>
     </div>
 
     <button class="btn btn-primary btn-block" type="submit" id="store">Store Operator</button>

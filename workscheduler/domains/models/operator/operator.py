@@ -8,7 +8,6 @@ from sqlalchemy.orm import validates
 from sqlalchemy.types import String
 from sqlalchemy.types import Integer
 
-
 from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
 from ..user import User
@@ -32,13 +31,15 @@ class Operator(OrmBase):
     user = relationship("User", uselist=False)
     skills = relationship("Skill", secondary=associated_skill_table)
     relations = relationship("Relation", secondary=associated_relation_table)
+    _ojt_id = Column(String, ForeignKey('operators.id'))
+    ojt = relationship("Operator", uselist=False)
     remain_paid_holiday = Column(Integer, default=0)
 
     def __init__(self, id_: str, user: User):
         self.id = id_
         self.user = user
-        self.requests = []
         self.skills = []
+        self.relations = []
 
     @validates('id')
     def validate(self, key, value):

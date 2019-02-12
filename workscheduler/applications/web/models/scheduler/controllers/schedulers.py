@@ -23,8 +23,8 @@ from workscheduler.applications.services import OperatorQuery
 from workscheduler.applications.web.util.functions.controller import admin_required
 from workscheduler.applications.web import get_db_session
 from ..adapters import SchedulerCommandAdapter
-from ..forms import SchedulerBasicOptionForm
-from ..forms import SchedulerYearlyOptionForm
+from ..forms import BaseSettingForm
+from ..forms import YearlySettingForm
 
 
 bp = Blueprint('schedulers', __name__, template_folder='../views', static_folder='../statics')
@@ -159,7 +159,7 @@ def show_basic_option(affiliation_id: str):
     skills = SkillQuery(session).get_skills()
     operators = OperatorQuery(session).get_operators()
     
-    return render_template('scheduler-basic-option.html', action=action, form=SchedulerBasicOptionForm(obj=scheduler),
+    return render_template('scheduler-basic-option.html', action=action, form=BaseSettingForm(obj=scheduler),
                            skills=skills, operators=operators)
 
 
@@ -169,7 +169,7 @@ def show_basic_option(affiliation_id: str):
 def update_basic_option(affiliation_id, option_id):
     session = get_db_session()
     try:
-        req = SchedulerCommandAdapter(session).update_option(SchedulerBasicOptionForm(request=request.form))
+        req = SchedulerCommandAdapter(session).update_option(BaseSettingForm(request=request.form))
         session.commit()
         response = jsonify({
             'redirect': url_for('schedulers.show_calendar',
@@ -190,7 +190,7 @@ def show_yearly_option(affiliation_id: str):
     session = get_db_session()
     affiliation = AffiliationQuery(session).get_affiliation(affiliation_id)
     return render_template('scheduler-yearly-option.html',
-                           form=SchedulerYearlyOptionForm(obj=type('temp', (object,), {
+                           form=YearlySettingForm(obj=type('temp', (object,), {
                                'affiliation': affiliation
                            })))
 

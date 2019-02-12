@@ -4,6 +4,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms import BooleanField
 from wtforms import HiddenField
+from wtforms import Field
+from wtforms.widgets import TextInput
 
 from workscheduler.applications.services import SkillQuery
 from workscheduler.applications.web import get_db_session
@@ -19,10 +21,21 @@ class SkillForm(FlaskForm):
         super(SkillForm, self).__init__(*args, **kwargs)
 
 
+class OperatorField(Field):
+    widget = TextInput()
+    
+    def _value(self):
+        if self.data:
+            return self.data.name
+        else:
+            return u''
+        
+        
 class OperatorsForm(FlaskForm):
     id = HiddenField()
     all_certified_skills = []
     all_not_certified_skills = []
+    ojt = OperatorField()
     
     def __init__(self, *args, **kwargs):
         skill_query = SkillQuery(get_db_session())

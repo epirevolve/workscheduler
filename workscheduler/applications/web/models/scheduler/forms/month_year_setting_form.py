@@ -76,7 +76,7 @@ class AffiliationField(Field):
             return u''
 
 
-class SchedulerCalendarForm(FlaskForm):
+class MonthYearSettingForm(FlaskForm):
     id = HiddenField()
     affiliation = AffiliationField(validators=[DataRequired()])
     schedule_of = DateField(validators=[DataRequired()])
@@ -103,4 +103,4 @@ class SchedulerCalendarForm(FlaskForm):
                     FixedScheduleForm(affiliation_id=request.affiliation,
                                       prefix='fixed-schedule-{}'.format(fixed_schedule_id))
                 )
-        super(SchedulerCalendarForm, self).__init__(*args, **kwargs)
+        super(MonthYearSettingForm, self).__init__(*args, **kwargs)
