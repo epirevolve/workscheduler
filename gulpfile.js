@@ -6,10 +6,10 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var plumber = require('gulp-plumber');
 
-// jsx reactify
-gulp.task('browserify', function(){
-    var b = browserify({
-        entries: ['./workscheduler/applications/web/models/user/statics/js/auth.jsx'],
+const doBrowserify = function (folder, file) {
+    const path = `./workscheduler/applications/web/models/${folder}/statics/js`;
+    const b = browserify({
+        entries: [path + '/' + file + '.jsx'],
         transform: [reactify],
         debug: true,
         cache: {},
@@ -17,8 +17,25 @@ gulp.task('browserify', function(){
         fullPaths: true,
     });
     return b.bundle()
-        .pipe(source('auth.min.js'))
-        .pipe(gulp.dest('./workscheduler/applications/web/models/user/statics/js'));
+        .pipe(source(file + '.js'))
+        .pipe(gulp.dest(path));
+}
+
+gulp.task('browserify-scheduler', async function () {
+    const folder = 'scheduler';
+
+    gulp.task(doBrowserify(folder, 'request-public'));
+});
+
+gulp.task('browserify-user', async function () {
+    const folder = 'user';
+
+    gulp.task(doBrowserify(folder, 'auth'));
+});
+
+// jsx reactify
+gulp.task('browserify', async function(){
+    gulp.task('browserify-user');
 });
 
 // js minify
