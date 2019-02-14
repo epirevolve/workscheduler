@@ -1,0 +1,36 @@
+{
+  "name": "workscheduler",
+  "version": "1.0.0",
+  "description": "*work scheduler* can provide fantastic experiment.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epirevolve/workscheduler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/epirevolve/workscheduler/issues"
+  },
+  "homepage": "https://github.com/epirevolve/workscheduler#readme",
+  "dependencies": {
+    "gulp": "^4.0.0",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.1",
+    "reactify": "^1.1.1"
+  }
+}
