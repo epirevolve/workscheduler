@@ -21,7 +21,7 @@ class TeamCategory(OrmBase):
     min_member_count = Column(Integer)
     max_member_count = Column(Integer)
     create_at = Column(DateTime, server_default=current_timestamp())
-    teams = relationship("Team", backref="team_categories")
+    teams = relationship("Team", backref="team_categories", lazy='joined')
 
     def __init__(self, id_: str, name: str, allow_multiple_affiliation: bool,
                  is_leader_required: bool, min_member_count: int, max_member_count: int):

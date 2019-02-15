@@ -32,8 +32,8 @@ class FixedSchedule(OrmBase):
     title = Column(String)
     date_from = Column(Date)
     date_to = Column(Date)
-    work_categories = relationship("WorkCategory", secondary=associated_work_category_table)
-    participants = relationship("Operator", secondary=associated_participant_table)
+    work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='joined')
+    participants = relationship("Operator", secondary=associated_participant_table, lazy='joined')
     
     def __init__(self, id_: str, title: str,
                  date_from: date, date_to: date,

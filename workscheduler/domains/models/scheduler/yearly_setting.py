@@ -21,7 +21,7 @@ associated_specific_vacation_table\
 class YearlySetting(OrmBase):
     __tablename__ = 'yearly_settings'
     id = Column(String, primary_key=True)
-    specific_vacations = relationship("SpecificVacation", secondary=associated_specific_vacation_table)
+    specific_vacations = relationship("SpecificVacation", secondary=associated_specific_vacation_table, lazy='joined')
     
     def __init__(self, id_: str, specific_vacations: [SpecificVacation]):
         self.id = id_

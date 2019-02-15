@@ -40,9 +40,9 @@ class MonthYearSetting(OrmBase):
     id = Column(String, primary_key=True)
     year = Column(Integer)
     month = Column(Integer)
-    days = relationship("DaySetting", secondary=associated_calendar_day_table)
+    days = relationship("DaySetting", secondary=associated_calendar_day_table, lazy='joined')
     holidays = Column(Integer)
-    fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table)
+    fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='joined')
     is_publish = Column(Boolean)
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
@@ -75,7 +75,7 @@ class MonthYearSetting(OrmBase):
         last_day = list(day_abbr).index(self.days[-1].day_name)
         padding_right = last_day if last_day == 6 else 6 - (last_day + 1)
         calendar += [None] * padding_right
-        return np.reshape(calendar, (-1, 7))
+        return np.reshape(calendar, (-1, 7)).tolist()
     
     def update_categories(self, work_categories: [WorkCategory]):
         work_category_ids = [x.id for x in work_categories]

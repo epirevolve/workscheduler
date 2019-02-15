@@ -140,4 +140,7 @@
     const appendRequestUrl = "{{ url_for('schedulers.append_my_request', scheduler_id=scheduler.id, month_year_setting_id=month_year_setting.id) }}";
 </script>
 <script type="module" src="{{ url_for('schedulers.static', filename='js/request-public.js') }}"></script>
+<script type="module" src="{{ url_for('schedulers.static', filename='js/request-public.min.js') }}"
+    data-calendar="{{ month_year_setting.as_calendar }}" data-holidays="{{ month_year_setting.holidays }}"
+    data-paid-holidays="{{ operator.paid_holidays }}"></script>
 {% endblock %}

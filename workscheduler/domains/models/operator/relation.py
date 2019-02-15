@@ -16,9 +16,9 @@ class Relation(OrmBase):
     __tablename__ = 'relations'
     id = Column(String, primary_key=True)
     _myself_id = Column(String, ForeignKey('operators.id'))
-    myself = relationship("Operator", uselist=False, foreign_keys=[_myself_id])
+    myself = relationship("Operator", uselist=False, foreign_keys=[_myself_id], lazy='joined')
     _colleague_id = Column(String, ForeignKey('operators.id'))
-    colleague = relationship("Operator", uselist=False, foreign_keys=[_colleague_id])
+    colleague = relationship("Operator", uselist=False, foreign_keys=[_colleague_id], lazy='joined')
     affinity = Column(Float, default=0.0)
     
     def __init__(self, id_: str, myself: Operator, colleague: Operator, affinity: float):

@@ -13,6 +13,8 @@ from flask_login import current_user
 
 from mypackages.utils.date import get_next_month
 from mypackages.utils.date import to_year_month_string
+from mypackages.utils.jsonify import to_json
+from mypackages.utils.jsonify import to_dict
 
 from workscheduler.applications.errors import CalendarError
 from workscheduler.applications.errors import RequestError
@@ -34,7 +36,8 @@ def _public_request_body(scheduler, month_year_setting):
     operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
     return render_template('request-public.html',
                            operator=operator, schedule_of=month_year_setting.schedule_of,
-                           scheduler=scheduler, month_year_setting=month_year_setting)
+                           scheduler=scheduler, month_year_setting=month_year_setting,
+                           json=to_json(month_year_setting.as_calendar))
 
 
 def _non_public_request_body(schedule_of):

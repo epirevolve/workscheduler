@@ -49,11 +49,11 @@ class Scheduler(OrmBase):
     __tablename__ = "schedulers"
     id = Column(String, primary_key=True)
     _affiliation_id = Column(String, ForeignKey('affiliations.id'))
-    affiliation = relationship("Affiliation", uselist=False)
-    month_year_settings = relationship("MonthYearSetting", secondary=associated_month_year_setting_table)
+    affiliation = relationship("Affiliation", uselist=False, lazy='joined')
+    month_year_settings = relationship("MonthYearSetting", secondary=associated_month_year_setting_table, lazy='joined')
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
-    work_categories = relationship("WorkCategory", secondary=associated_work_category_table)
+    work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='joined')
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id_: str, affiliation: Affiliation,

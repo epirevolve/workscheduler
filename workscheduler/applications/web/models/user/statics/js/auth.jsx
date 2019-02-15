@@ -1,7 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-function Publicity(props) {
+const Publicity = (props) => {
     return (
         <div className="jumbotron">
             <h1><strong>Work Scheduler</strong></h1>
@@ -16,7 +16,7 @@ function Publicity(props) {
     );
 }
 
-function Auth(props) {
+const Auth = (props) => {
     return (
         <React.Fragment>
             <div className="input-group mb-4">

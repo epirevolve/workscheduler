@@ -41,9 +41,9 @@ class WorkCategory(OrmBase):
     holiday_max = Column(Integer)
     rest_days = Column(Integer)
     max_times = Column(Integer)
-    essential_skills = relationship("Skill", secondary=associated_skill_table)
-    essential_operators = relationship("Operator", secondary=associated_essential_operator_table)
-    impossible_operators = relationship("Operator", secondary=associated_impossible_operator_table)
+    essential_skills = relationship("Skill", secondary=associated_skill_table, lazy='joined')
+    essential_operators = relationship("Operator", secondary=associated_essential_operator_table, lazy='joined')
+    impossible_operators = relationship("Operator", secondary=associated_impossible_operator_table, lazy='joined')
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id_: str, title: str, week_day_require: int, week_day_max: int,
