@@ -2,7 +2,7 @@ atomicwrites==1.2.1
 attrs==18.2.0
 click==6.7
 coverage==4.5.1
--e git+https://github.com/epirevolve/eart.git@57493ce3b165d91958b66682d950fcb37959657a#egg=eart
+-e git+https://github.com/epirevolve/eart.git@01764e8c7af18adc7633dda5551dc9ae6a2aba17#egg=eart
 Flask==1.0.2
 Flask-Login==0.4.1
 Flask-WTF==0.14.2
@@ -17,6 +17,7 @@ numpy==1.16.0
 pluggy==0.7.1
 py==1.6.0
 pytest==3.7.4
+python-dotenv==0.10.1
 selenium==3.14.0
 six==1.11.0
 SQLAlchemy==1.2.11

@@ -37,7 +37,7 @@ def _public_request_body(scheduler, month_year_setting):
     return render_template('request-public.html',
                            operator=operator, schedule_of=month_year_setting.schedule_of,
                            scheduler=scheduler, month_year_setting=month_year_setting,
-                           json=to_json(month_year_setting.as_calendar))
+                           calendar=to_json(month_year_setting.as_calendar))
 
 
 def _non_public_request_body(schedule_of):

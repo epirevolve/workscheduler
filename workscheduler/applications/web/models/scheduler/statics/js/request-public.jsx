@@ -4,6 +4,12 @@ const PropTypes = require('prop-types');
 
 const communicator = {};
 
+const $mainScript = $('#mainScript');
+
+const url = $mainScript.data('url');
+const scheduleOf = new Date($mainScript.data('scheduleOf'));
+const scheduleOfName = $mainScript.data('scheduleOfName');
+
 class RequestDialog extends React.Component {
     constructor (props) {
         super(props);
@@ -51,7 +57,7 @@ class RequestDialog extends React.Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text">note</span>
                                 </div>
-                                <textarea className="form-control" id="requestNote"></textarea>
+                                <textarea className="form-control"></textarea>
                             </div>
                             <div className="form-group m-1">
                                 <div className="input-group date" id="datetimeFrom" data-target-input="nearest">
@@ -78,7 +84,7 @@ class RequestDialog extends React.Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" id="saveRequest">Save</button>
+                            <button type="button" className="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
@@ -210,40 +216,38 @@ class Calendar extends React.Component {
     }
 }
 
-class Content extends React.Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-            calendar: props.calendar,
-            holidays: props.holidays,
-            paidHolidays: props.paidHolidays
-        }
-    }
+const Content = (props) => {
+    return (
+        <div>
+            <RequestDialog />
 
-    render () {
-        return (
-            <div>
-                <RequestDialog />
-
-                <div className="row">
-                    <Calendar calendar={this.state.calendar} />
+            <div className="row">
+                <Calendar calendar={props.calendar} />
+            </div>
+            <div className="col-md-2">
+                <div>
+                    <h5>Monthly Holidays</h5>
+                    <p>{ props.holidays } days</p>
                 </div>
-                <div class="col-md-2">
-                    <div>
-                        <h5>Monthly Holidays</h5>
-                        <p>{ this.state.holidays } days</p>
-                    </div>
-                    <hr />
-                    <div>
-                        <h5>Remained Paid Holidays</h5>
-                        <p>{ this.state.paidHolidays  } days</p>
-                    </div>
+                <hr />
+                <div>
+                    <h5>Remained Paid Holidays</h5>
+                    <p>{ props.paidHolidays  } days</p>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 Content.propTypes = {
     holidays: PropTypes.number,
     paidHolidays: PropTypes.number,
 }
+
+ReactDOM.render(
+    <RequestDialog />,
+    document.getElementById('dialogContainer')
+);
+ReactDOM.render(
+    <Content />,
+    document.getElementById('content')
+);
