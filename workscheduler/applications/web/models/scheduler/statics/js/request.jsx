@@ -1,11 +1,11 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-const $mainScript = $('#mainScript');
+const $script = $('script[src*="request"]');
 
-const url = $mainScript.data('url');
-const scheduleOf = new Date($mainScript.data('scheduleOf'));
-const scheduleOfName = $mainScript.data('scheduleOfName');
+const url = $script.data('url');
+const scheduleOf = new Date($script.data('scheduleOf'));
+const scheduleOfName = $script.data('scheduleOfName');
 
 class MonthYearSetting extends React.Component {
     constructor (props) {

@@ -16,8 +16,5 @@
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/moment.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/tempusdominus-bootstrap-4.js') }}"></script>
-<script id="mainScript" type="module" src="{{ url_for('schedulers.static', filename='js/request.min.js') }}"
-    data-url="{{ url_for('schedulers.show_my_request', schedule_of='schedule_of') }}"
-    data-schedule-of="{{ schedule_of }}" data-schedule-of-name="{{ schedule_of.strftime('%b %Y') }}"></script>
 {% block scriptAppend %}{% endblock %}
 {% endblock %}

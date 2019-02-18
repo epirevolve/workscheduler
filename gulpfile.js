@@ -1,24 +1,42 @@
 const gulp = require('gulp');
-const browserify = require('browserify');
 const source = require("vinyl-source-stream");
-const reactify = require('reactify');
 const terser = require('gulp-terser');
 const rename = require('gulp-rename');
 const plumber = require('gulp-plumber');
+const babelify = require('babelify');
+const webpack = require('webpack');
+const webpackStream = require("webpack-stream");
 
 const doBrowserify = (folder, file) => {
     const path = `./workscheduler/applications/web/models/${folder}/statics/js`;
-    const b = browserify({
-        entries: [path + '/' + file + '.jsx'],
-        transform: [reactify],
-        debug: true,
-        cache: {},
-        packageCache: {},
-        fullPaths: true,
-    });
-    return b.bundle()
-        .pipe(source(file + '.min.js'))
-        .pipe(gulp.dest(path));
+    return webpackStream(
+    {
+        mode: 'development',
+        entry: path + '/' + file + '.jsx',
+
+        output: {
+            filename: file + '.min.js'
+        },
+
+        module: {
+            rules: [
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                use: 'babel-loader'},
+            { test: /\.css$/,
+                use: 'css-loader' }
+            ]
+        },
+
+        resolve: {
+            extensions: ['.js', '.jsx']
+        },
+
+        plugins: []
+    }, webpack)
+    .pipe(terser())
+    .pipe(gulp.dest(path));
 }
 
 gulp.task('brow-scheduler', async function () {
@@ -52,6 +70,7 @@ const doMinify = (folder) => {
 // js minify
 gulp.task('jsmin', async function() {
     gulp.task(doMinify('user'));
+    gulp.task(doMinify('scheduler'));
 });
 
 // change detection

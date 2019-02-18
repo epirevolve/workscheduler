@@ -140,29 +140,5 @@ import { AlertManager } from '/statics/js/alert-helper.js';
 
             $('#requestModal').modal();
         });
-
-        $('.date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm',
-            useCurrent: false,
-            stepping: 15,
-            icons: {
-                time: 'far fa-clock',
-                date: 'far fa-calendar-alt',
-                up: 'fas fa-arrow-up',
-                down: 'fas fa-arrow-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-                today: 'far fa-calendar-check',
-                clear: 'far fa-trash-alt',
-                close: 'fas fa-times'
-            }
-        });
-
-        $("#datetimeFrom").on("change.datetimepicker", function (e) {
-            $('#datetimeTo').datetimepicker('minDate', e.date);
-        });
-        $("#datetimeTo").on("change.datetimepicker", function (e) {
-            $('#datetimeFrom').datetimepicker('maxDate', e.date);
-        });
     });
 })(jQuery);
