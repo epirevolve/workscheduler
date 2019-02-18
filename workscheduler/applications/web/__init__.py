@@ -15,6 +15,8 @@ from jinja2 import FileSystemLoader
 
 from mypackages.utils.date import to_year_month_string
 from mypackages.utils.date import get_next_month
+from mypackages.utils.jsonify import to_json
+
 from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.services import OperatorQuery
 from workscheduler.infrastructures import Database
@@ -113,6 +115,8 @@ def create_app(test_config=None):
     
     csrf = CSRFProtect()
     csrf.init_app(app)
+
+    app.jinja_env.globals.update(to_json=to_json)
 
     @app.before_request
     def extend_jinja_env():

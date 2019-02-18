@@ -36,8 +36,7 @@ def _public_request_body(scheduler, month_year_setting):
     operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
     return render_template('request-public.html',
                            operator=operator, schedule_of=month_year_setting.schedule_of,
-                           scheduler=scheduler, month_year_setting=month_year_setting,
-                           calendar=to_json(month_year_setting.as_calendar))
+                           scheduler=scheduler, month_year_setting=month_year_setting)
 
 
 def _non_public_request_body(schedule_of):

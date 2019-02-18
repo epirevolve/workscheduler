@@ -4,11 +4,12 @@ const PropTypes = require('prop-types');
 
 const communicator = {};
 
-const $mainScript = $('#mainScript');
+const $mainScript = $('script[src*="request-public.min.js"]');
 
 const url = $mainScript.data('url');
-const scheduleOf = new Date($mainScript.data('scheduleOf'));
-const scheduleOfName = $mainScript.data('scheduleOfName');
+const calendar = $mainScript.data('calendar');
+const holidays = $mainScript.data('holidays');
+const paidHolidays = $mainScript.data('paidHolidays');
 
 class RequestDialog extends React.Component {
     constructor (props) {
@@ -147,30 +148,36 @@ class CalendarCell extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            requests: props.requests
+            day: props.day ? props.day.day : '',
+            requests: props.day ? props.day.requests : []
         }
     }
 
     render () {
+        if (!this.state.day)
+            return <div className="cl-body-cell col"></div>;
+
         const requests = [];
 
         for (let request of this.state.requests) {
-            requests.push(<Request />)
+            requests.push(<Request key={request.id} />)
         }
 
         return (
-            <React.Fragment>
-                <div>
-                    <button className="add-request btn btn-danger btn-sm">
-                        <i className="fa fa-pencil-alt"></i>
-                    </button>
-                    <span className="cl-day">{ this.state.day }</span>
-                </div>
-                <div className="request-container">
-                    { requests }
-                </div>
-            </React.Fragment>
-        )
+            <div className="cl-body-cell col">
+                <React.Fragment>
+                    <div>
+                        <button className="add-request btn btn-danger btn-sm">
+                            <i className="fa fa-pencil-alt"></i>
+                        </button>
+                        <span className="cl-day">{ this.state.day }</span>
+                    </div>
+                    <div className="request-container">
+                        { requests }
+                    </div>
+                </React.Fragment>
+            </div>
+        );
     }
 }
 
@@ -185,12 +192,12 @@ class Calendar extends React.Component {
     render () {
         const weeks = [];
 
-        for (let week of this.state.calendar) {
+        for (let [index1, week] of this.state.calendar.entries()) {
             let week_ = [];
-            for (let day of week) {
-                week_.push(<CalendarCell />);
+            for (let [index2, day] of week.entries()) {
+                week_.push(<CalendarCell key={`${index1}-${index2}`} day={day} />);
             }
-            weeks.push(<div className="row">week_</div>);
+            weeks.push(<div key={`${index1}`} className="row">{week_}</div>);
         }
 
         return (
@@ -223,31 +230,27 @@ const Content = (props) => {
 
             <div className="row">
                 <Calendar calendar={props.calendar} />
-            </div>
-            <div className="col-md-2">
-                <div>
-                    <h5>Monthly Holidays</h5>
-                    <p>{ props.holidays } days</p>
-                </div>
-                <hr />
-                <div>
-                    <h5>Remained Paid Holidays</h5>
-                    <p>{ props.paidHolidays  } days</p>
+                <div className="col-md-2">
+                    <div>
+                        <h5>Monthly Holidays</h5>
+                        <p>{ props.holidays } days</p>
+                    </div>
+                    <hr />
+                    <div>
+                        <h5>Remained Paid Holidays</h5>
+                        <p>{ props.paidHolidays  } days</p>
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
-Content.propTypes = {
-    holidays: PropTypes.number,
-    paidHolidays: PropTypes.number,
-}
 
 ReactDOM.render(
     <RequestDialog />,
-    document.getElementById('dialogContainer')
+    document.getElementById('dialogContent')
 );
 ReactDOM.render(
-    <Content />,
-    document.getElementById('content')
+    <Content calendar={calendar} holidays={holidays} paidHolidays={paidHolidays} />,
+    document.getElementById('calendarContent')
 );
