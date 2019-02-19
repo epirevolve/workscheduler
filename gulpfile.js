@@ -6,13 +6,16 @@ const plumber = require('gulp-plumber');
 const babelify = require('babelify');
 const webpack = require('webpack');
 const webpackStream = require("webpack-stream");
+const path = require('path');
+const filter = require('gulp-filter');
 
-const doBrowserify = (folder, file) => {
-    const path = `./workscheduler/applications/web/models/${folder}/statics/js`;
+const _babelify = (folder, file) => {
+    const _path = `./workscheduler/applications/web/models/${folder}/statics/js`;
+    const f = filter(['*.min.js'], {restore: true});
     return webpackStream(
     {
         mode: 'development',
-        entry: path + '/' + file + '.jsx',
+        entry: _path + '/' + file + '.jsx',
 
         output: {
             filename: file + '.min.js'
@@ -25,52 +28,62 @@ const doBrowserify = (folder, file) => {
                 exclude: /node_modules/,
                 use: 'babel-loader'},
             { test: /\.css$/,
-                use: 'css-loader' }
+                use: ['style-loader', 'css-loader'] }
             ]
         },
 
+        devtool: "#source-map",
+
         resolve: {
-            extensions: ['.js', '.jsx']
+            modules: [
+                'node_modules',
+                path.resolve('.'),
+                path.join(path.resolve('.'), 'workscheduler/applications/web/util/statics/js'),
+                path.join(path.resolve('.'), 'workscheduler/applications/web/util/statics/css')
+            ],
+            extensions: ['.js', '.jsx', '.css']
         },
 
         plugins: []
     }, webpack)
-    .pipe(terser())
-    .pipe(gulp.dest(path));
+    .pipe(f)
+    .pipe(gulp.dest(_path))
+    .pipe(f.restore)
+    .pipe(gulp.dest(_path));
 }
 
-gulp.task('brow-scheduler', async function () {
+gulp.task('babel-scheduler', async function () {
     const folder = 'scheduler';
 
-    gulp.task(doBrowserify(folder, 'request'));
-    gulp.task(doBrowserify(folder, 'request-public'));
+    gulp.task(_babelify(folder, 'request'));
+    gulp.task(_babelify(folder, 'request-public'));
 });
 
-gulp.task('brow-user', async function () {
+gulp.task('babel-user', async function () {
     const folder = 'user';
 
-    gulp.task(doBrowserify(folder, 'auth'));
+    gulp.task(_babelify(folder, 'auth'));
 });
 
 // jsx reactify
-gulp.task('brow', async function(){
-    gulp.task('brow-user');
-    gulp.task('brow-scheduler');
+gulp.task('babel', async function(){
+    gulp.task('babel-user');
+    gulp.task('babel-scheduler');
 });
 
-const doMinify = (folder) => {
-    const path = `./workscheduler/applications/web/models/${folder}/statics/js`;
-    return gulp.src([path + '/*.js', '!' + path + '/*.min.js'])
+const _minify = (folder) => {
+    const _path = `./workscheduler/applications/web/models/${folder}/statics/js`;
+    return gulp.src([_path + '/*.js', '!' + _path + '/*.min.js'])
         .pipe(plumber())
         .pipe(terser())
         .pipe(rename({extname: '.min.js'}))
-        .pipe(gulp.dest(path));
+        .pipe(gulp.dest(_path));
 }
 
 // js minify
 gulp.task('jsmin', async function() {
-    gulp.task(doMinify('user'));
-    gulp.task(doMinify('scheduler'));
+    gulp.task(_minify('user'));
+    gulp.task(_minify('scheduler'));
 });
 
 // change detection

@@ -1,13 +1,18 @@
-require('./request.jsx')
-require('rc-calendar/assets/index.css')
+import './request';
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const PropTypes = require('prop-types');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
+import PropTypes from 'prop-types';
 
-const RcCalendar = require('rc-calendar');
-const DatePicker = require('rc-calendar/lib/Picker');
-const moment = require('moment');
+import DatePicker from 'rc-calendar/lib/Picker';
+import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
+import 'rc-calendar/assets/index';
+import 'rc-time-picker/assets/index';
+import TimePickerPanel from 'rc-time-picker/lib/Panel';
+import moment from 'moment';
+
+import { AlertManager } from 'alert-helper';
 
 const communicator = {};
 
@@ -17,6 +22,11 @@ const calendar = $script.data('calendar');
 const holidays = $script.data('holidays');
 const paidHolidays = $script.data('paidHolidays');
 const scheduleOf = new Date($script.data('scheduleOf'));
+const urlAddRequest = $script.data('urlAddRequest');
+
+function isValidRange(v) {
+  return v && v[0] && v[1];
+}
 
 class RequestDialog extends React.Component {
     constructor (props) {
@@ -31,10 +41,10 @@ class RequestDialog extends React.Component {
 
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onNoteChange = this.onNoteChange.bind(this);
-        this.onFromChange = this.onFromChange.bind(this);
-        this.onToChange = this.onToChange.bind(this);
+        this.onDateChange = this.onDateChange.bind(this);
 
-        this.disabledMinDate = this.disabledMinDate.bind(this);
+        this.disabledDate = this.disabledDate.bind(this);
+        this.handleToSave = this.handleToSave.bind(this);
     }
 
     componentWillMount () {
@@ -43,8 +53,8 @@ class RequestDialog extends React.Component {
                 id: data.id,
                 title: data.title,
                 note: data.note,
-                from: data.from,
-                to: data.to
+                from: moment(ata.from),
+                to: moment(data.to)
             })
 
             this.openDialog();
@@ -56,7 +66,7 @@ class RequestDialog extends React.Component {
                 title: '',
                 note: '',
                 from: moment(data.from),
-                to: data.to
+                to: moment(data.to)
             })
 
             this.openDialog();
@@ -75,25 +85,57 @@ class RequestDialog extends React.Component {
         this.setState({note: e.target.value});
     }
 
-    onFromChange (e) {
-        this.setState({from: e.date});
+    onDateChange (date) {
+        this.setState({from: date[0], to: date[1]});
     }
 
-    onToChange (e) {
-        this.setState({to: e.date});
-    }
-
-    disabledMinDate (current) {
+    disabledDate (current) {
         if (!current) {
             return false;
         }
-        return current.valueOf() < this.state.from
+        return current.valueOf() < minDate.valueOf() || maxDate.valueOf() < current.valueOf();
+    }
+
+    handleToSave (e) {
+        const data = Object.assign(this.state,
+            {from: this.state.from.toDate().toDateTimeFormatString(),
+            to: this.state.to.toDate().toDateTimeFormatString()});
+        const $postAction = () => {
+            $.ajax({
+                url: urlAddRequest,
+                type: 'POST',
+                data: data
+            })
+            .done((data) => {
+                location.reload(true);
+            })
+            .fail(($xhr) => {
+                const data = $xhr.responseJSON;
+                const alertManager = new AlertManager('#alertContainer');
+                const message = data.errorMessage || 'we have some trouble with appending request...';
+                alertManager.append(`Oops, Sorry ${message}`,
+                'alert-danger')
+            });
+        }
+
+        if (holidays <= $('.request').length) {
+            const message = paidHolidays <= 0 ? '<br><br>and also maybe your paid holidays are empty.' : '';
+            showConfirmDialog('No Problem?', `adding more request will decrease your paid holidays.${message}`,
+                (value) => {
+                    if (!value) return;
+                    $postAction();
+                });
+        }
+        else {
+            $postAction();
+        }
     }
 
     render () {
-        const calendar = <RcCalendar
-                            style={{ zIndex: 1000 }}
-                            showDateInput={false} />
+        const timePickerElement = <TimePickerPanel defaultValue={moment('00:00', 'HH:mm')}
+            showSecond={false} minuteStep={15} />;
+        const calendar = <RangeCalendar showDateInput={false} disabledDate={this.disabledDate}
+            timePicker={timePickerElement} showToday={false} format='YYYY-MM-DD HH:mm' />;
         return (
             <div className="modal fade" id="requestModal" tabIndex="-1" role="dialog"
                  aria-labelledby="requestLabel" aria-hidden="true">
@@ -121,32 +163,21 @@ class RequestDialog extends React.Component {
                             <div className="form-group m-1">
                                 <div className="input-group date" id="datetimeFrom">
                                     <div className="input-group-prepend">
-                                        <span className="input-group-text">from</span>
+                                        <span className="input-group-text">date</span>
                                     </div>
-                                    <DatePicker
-                                        animation="slide-up" calendar={calendar}
-                                        value={this.state.from} onChange={this.onFromChange}>
-                                        {({ value }) => {
-                                            return <input value={value ? value.format('YYYY-MM-DD HH:mm:ss') : ''} onChange={this.onFromChange} />;}}
+                                    <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1060 }}
+                                        value={[this.state.from, this.state.to]} onChange={this.onDateChange} >
+                                        { ({ value }) => {
+                                            return (
+                                                <input className="ant-calendar-picker-input ant-input form-control" readOnly tabIndex="-1"
+                                                    value={isValidRange(value) && `${value[0].format('YYYY-MM-DD HH:mm')} - ${value[1].format('YYYY-MM-DD HH:mm')}` || ''} />);}}
                                     </DatePicker>
-                                </div>
-                            </div>
-                            <div className="form-group m-1">
-                                <div className="input-group date" id="datetimeTo" data-target-input="nearest">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">to</span>
-                                    </div>
-                                    <input type="text" className="form-control datetimepicker-input" data-target="#datetimeTo"
-                                        value={this.state.to} onChange={this.onToChange} />
-                                    <div className="input-group-append" data-target="#datetimeTo" data-toggle="datetimepicker">
-                                        <div className="input-group-text"><i className="fa fa-calendar"></i></div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Save</button>
+                            <button type="button" className="btn btn-primary" onClick={this.handleToSave}>Save</button>
                         </div>
                     </div>
                 </div>
@@ -155,17 +186,19 @@ class RequestDialog extends React.Component {
     }
 }
 
-const requestMinDialog = (props) => {
+const RequestMinDialog = (props) => {
    return (
        <div>
             <button className='btn btn-info btn-sm btn-block mb-3'
-                onClick={props.onClickToEdit}>Edit</button>
-            <div className='m-2'>{ props.note }</div>
+                onClick={props.handleToEdit}>Edit</button>
+            <div className='m-2'>{props.request.note}</div>
             <div className='m-2'>
-                { props.from } ~ { props.to }
+                {props.request.from.toDateTimeFormatString()}<br />
+                 ~<br />
+                 {props.request.to.toDateTimeFormatString()}
             </div>
             <button className='btn btn-danger btn-sm btn-block mt-3'
-                onClick={props.onClickToRemove}>Remove</button>
+                onClick={props.handleToRemove}>Remove</button>
         </div>
     );
 };
@@ -174,35 +207,38 @@ class Request extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            title: props.title,
-            note: props.note,
-            from: props.from,
-            to: props.to
+            id: props.request.id,
+            title: props.request.title,
+            note: props.request.note,
+            from: new Date(props.request.at_from),
+            to: new Date(props.request.at_to)
         }
 
-        this.onClickToEdit = this.onClickToEdit.bind(this);
-        this.onClickToRemove = this.onClickToRemove.bind(this);
+        this.handleToEdit = this.handleToEdit.bind(this);
+        this.handleToRemove = this.handleToRemove.bind(this);
     }
 
     render () {
+        const title = ReactDOMServer.renderToStaticMarkup(<h4>{this.state.title}</h4>);
+        const content = ReactDOMServer.renderToStaticMarkup(
+            <RequestMinDialog request={this.state} handleToEdit={this.handleToEdit} handleToRemove={this.handleToRemove} />);
         return (
             <button className="btn request btn-block request-item"
-                    title="<h4>{ this.state.title }</h4>" type="button"
+                    title={title} type="button"
                     data-toggle="popover"
-                    data-at-from={ this.state.from.toYearMonthFormatString() }
-                    data-at-to={ this.state.to }
-                    data-content={<RequestMinDialog note={this.state.note} from={this.state.from} to={this.state.to}
-                        onClickToEdit={this.onClickToEdit} onClickToRemove={this.onClickToRemove} />}>
+                    data-at-from={this.state.from.toYearMonthFormatString()}
+                    data-at-to={this.state.to.toYearMonthFormatString()}
+                    data-content={content}>
                 { this.state.title }
             </button>
         )
     }
 
-    onClickToEdit (e) {
+    handleToEdit (e) {
         communicator.openRequestDialogToEdit(this.state);
     }
 
-    onClickToRemove (e) {
+    handleToRemove (e) {
 
     }
 }
@@ -215,10 +251,10 @@ class CalendarCell extends React.Component {
             requests: props.day ? props.day.requests : []
         }
 
-        this.onClickToAppend = this.onClickToAppend.bind(this);
+        this.handleToAppend = this.handleToAppend.bind(this);
     }
 
-    onClickToAppend (e) {
+    handleToAppend (e) {
         const $button = $(this);
         const $container = $button.parents('.cl-body-cell').eq(0);
 
@@ -232,8 +268,8 @@ class CalendarCell extends React.Component {
         const date = `${scheduleOf.getFullYear()}-${scheduleOf.getMonth() + 1}-${this.state.day}`;
 
         communicator.openRequestDialogToAppend({
-            from: new Date(date + 'T09:30').toDateTimeFormatString(),
-            to: new Date(date + 'T18:00').toDateTimeFormatString()
+            from: new Date(date + 'T09:30'),
+            to: new Date(date + 'T18:00')
         });
     }
 
@@ -244,7 +280,7 @@ class CalendarCell extends React.Component {
         const requests = [];
 
         for (let request of this.state.requests) {
-            requests.push(<Request key={request.id} />)
+            requests.push(<Request key={request.id} request={request} />)
         }
 
         return (
@@ -252,7 +288,7 @@ class CalendarCell extends React.Component {
                 <React.Fragment>
                     <div>
                         <button className="add-request btn btn-danger btn-sm"
-                            onClick={this.onClickToAppend}>
+                            onClick={this.handleToAppend}>
                             <i className="fa fa-pencil-alt"></i>
                         </button>
                         <span className="cl-day">{ this.state.day }</span>
@@ -310,21 +346,17 @@ class Calendar extends React.Component {
 
 const Content = (props) => {
     return (
-        <div>
-            <RequestDialog />
-
-            <div className="row">
-                <Calendar calendar={props.calendar} />
-                <div className="col-md-2">
-                    <div>
-                        <h5>Monthly Holidays</h5>
-                        <p>{ props.holidays } days</p>
-                    </div>
-                    <hr />
-                    <div>
-                        <h5>Remained Paid Holidays</h5>
-                        <p>{ props.paidHolidays  } days</p>
-                    </div>
+        <div className="row">
+            <Calendar calendar={props.calendar} />
+            <div className="col-md-2">
+                <div>
+                    <h5>Monthly Holidays</h5>
+                    <p>{ props.holidays } days</p>
+                </div>
+                <hr />
+                <div>
+                    <h5>Remained Paid Holidays</h5>
+                    <p>{ props.paidHolidays  } days</p>
                 </div>
             </div>
         </div>
