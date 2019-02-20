@@ -1,3 +1,5 @@
+// to-do: remove jquery object
+
 import './request';
 
 import React from 'react';
@@ -11,6 +13,8 @@ import 'rc-calendar/assets/index';
 import 'rc-time-picker/assets/index';
 import TimePickerPanel from 'rc-time-picker/lib/Panel';
 import moment from 'moment';
+
+import requestAgent from 'superagent';
 
 import { AlertManager } from 'alert-helper';
 
@@ -36,7 +40,8 @@ class RequestDialog extends React.Component {
             title: '',
             note: '',
             from: moment(),
-            to: moment()
+            to: moment(),
+            saveCallback: null
         }
 
         this.onTitleChange = this.onTitleChange.bind(this);
@@ -66,7 +71,8 @@ class RequestDialog extends React.Component {
                 title: '',
                 note: '',
                 from: moment(data.from),
-                to: moment(data.to)
+                to: moment(data.to),
+                saveCallback: data.saveCallback
             })
 
             this.openDialog();
@@ -97,25 +103,24 @@ class RequestDialog extends React.Component {
     }
 
     handleToSave (e) {
-        const data = Object.assign(this.state,
+        const data = Object.assign({}, this.state,
             {from: this.state.from.toDate().toDateTimeFormatString(),
             to: this.state.to.toDate().toDateTimeFormatString()});
+
         const $postAction = () => {
-            $.ajax({
-                url: urlAddRequest,
-                type: 'POST',
-                data: data
-            })
-            .done((data) => {
-                location.reload(true);
-            })
-            .fail(($xhr) => {
-                const data = $xhr.responseJSON;
-                const alertManager = new AlertManager('#alertContainer');
-                const message = data.errorMessage || 'we have some trouble with appending request...';
-                alertManager.append(`Oops, Sorry ${message}`,
-                'alert-danger')
-            });
+            requestAgent
+                .post(urlAddRequest)
+                .send(data)
+                .set('X-CSRFToken', csrfToken)
+                .then(res => {
+                    this.state.saveCallback(res);
+                })
+                .catch(err => {
+                    const alertManager = new AlertManager('#alertContainer');
+                    const message = 'we have some trouble with appending request...';
+                    alertManager.append(`Oops, Sorry ${message}`,
+                    'alert-danger')
+                });
         }
 
         if (holidays <= $('.request').length) {
@@ -226,8 +231,8 @@ class Request extends React.Component {
             <button className="btn request btn-block request-item"
                     title={title} type="button"
                     data-toggle="popover"
-                    data-at-from={this.state.from.toYearMonthFormatString()}
-                    data-at-to={this.state.to.toYearMonthFormatString()}
+                    data-at-from={this.state.from.toDateFormatString()}
+                    data-at-to={this.state.to.toDateFormatString()}
                     data-content={content}>
                 { this.state.title }
             </button>
@@ -251,7 +256,13 @@ class CalendarCell extends React.Component {
             requests: props.day ? props.day.requests : []
         }
 
+        this.saveCallback = this.saveCallback.bind(this);
         this.handleToAppend = this.handleToAppend.bind(this);
+    }
+
+    saveCallback (data) {
+        this.setState({requests: this.state.requests.concat([JSON.parse(data.text)])});
+        $('#requestModal').modal('hide');
     }
 
     handleToAppend (e) {
@@ -269,7 +280,8 @@ class CalendarCell extends React.Component {
 
         communicator.openRequestDialogToAppend({
             from: new Date(date + 'T09:30'),
-            to: new Date(date + 'T18:00')
+            to: new Date(date + 'T18:00'),
+            saveCallback: this.saveCallback
         });
     }
 
@@ -280,6 +292,8 @@ class CalendarCell extends React.Component {
         const requests = [];
 
         for (let request of this.state.requests) {
+            if (request.operator.id != operatorId || new Date(request.at_from).getDate() != this.state.day)
+                continue;
             requests.push(<Request key={request.id} request={request} />)
         }
 
@@ -291,10 +305,10 @@ class CalendarCell extends React.Component {
                             onClick={this.handleToAppend}>
                             <i className="fa fa-pencil-alt"></i>
                         </button>
-                        <span className="cl-day">{ this.state.day }</span>
+                        <span className="cl-day">{this.state.day}</span>
                     </div>
                     <div className="request-container">
-                        { requests }
+                        {requests}
                     </div>
                 </React.Fragment>
             </div>
@@ -336,7 +350,7 @@ class Calendar extends React.Component {
                         </div>
                     </div>
                     <div className="cl-body">
-                        { weeks }
+                        {weeks}
                     </div>
                 </div>
             </div>
@@ -351,12 +365,12 @@ const Content = (props) => {
             <div className="col-md-2">
                 <div>
                     <h5>Monthly Holidays</h5>
-                    <p>{ props.holidays } days</p>
+                    <p>{props.holidays || 0} days</p>
                 </div>
                 <hr />
                 <div>
                     <h5>Remained Paid Holidays</h5>
-                    <p>{ props.paidHolidays  } days</p>
+                    <p>{props.paidHolidays || 0} days</p>
                 </div>
             </div>
         </div>
@@ -371,6 +385,31 @@ ReactDOM.render(
     <Content calendar={calendar} holidays={holidays} paidHolidays={paidHolidays} />,
     document.getElementById('calendarContent')
 );
+
+for (let request of $('.request')) {
+    const $request = $(request);
+    const from = new Date($request.data('atFrom'));
+    const to = new Date($request.data('atTo'));
+    if (from.toDateFormatString() == to.toDateFormatString()) continue;
+    let days = to.getDate() - from.getDate();
+    if (days <= 7 && from.getDay() < to.getDay()) {
+        $request.addClass(`day-${days + 1}`);
+    }
+    else {
+        const remainedDays = 6 - from.getDay();
+        days -= remainedDays;
+        let nextWeekDate = from.addDays(remainedDays + 1);
+        while (1 <= Math.floor(days/7)) {
+            $(`span:contains('${nextWeekDate.getDate()}')`).closest('.cl-body-cell').find('.request-container')
+                .append($request.clone().addClass('day-7'));
+            days -= 7;
+            nextWeekDate.addDays(7);
+        }
+        $(`span:contains('${nextWeekDate.getDate()}')`).closest('.cl-body-cell').find('.request-container')
+            .append($request.clone().addClass(`day-${days}`));
+        $request.addClass(`day-${remainedDays + 1}`);
+    }
+}
 
 $('[data-toggle="popover"]').popover(
 {

@@ -2,19 +2,20 @@
 
 from datetime import datetime
 from datetime import date
+import json
 
 from flask import Blueprint
 from flask import url_for
 from flask import render_template
 from flask import request
 from flask import jsonify
+from flask import Response
 from flask_login import login_required
 from flask_login import current_user
 
 from mypackages.utils.date import get_next_month
 from mypackages.utils.date import to_year_month_string
 from mypackages.utils.jsonify import to_json
-from mypackages.utils.jsonify import to_dict
 
 from workscheduler.applications.errors import CalendarError
 from workscheduler.applications.errors import RequestError
@@ -66,16 +67,12 @@ def show_my_request(schedule_of):
 def append_my_request(scheduler_id, month_year_setting_id: str):
     session = get_db_session()
     try:
-        req = SchedulerCommandAdapter(session).append_my_request(scheduler_id, month_year_setting_id, request.form)
+        req = SchedulerCommandAdapter(session).append_my_request(
+            scheduler_id, month_year_setting_id, json.loads(request.data))
         session.commit()
         
-        response = jsonify({
-            'requestId': req.id,
-            'requestTitle': req.title,
-            'requestNone': req.note,
-            'requestAtFrom': req.at_from,
-            'requestAtTo': req.at_to
-        })
+        session.refresh(req)
+        response = Response(to_json(req))
         response.status_code = 200
     except CalendarError as e:
         session.rollback()
