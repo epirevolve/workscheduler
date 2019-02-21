@@ -58,7 +58,7 @@ class RequestDialog extends React.Component {
                 id: data.id,
                 title: data.title,
                 note: data.note,
-                from: moment(ata.from),
+                from: moment(data.from),
                 to: moment(data.to)
             })
 
@@ -103,9 +103,9 @@ class RequestDialog extends React.Component {
     }
 
     handleToSave (e) {
-        const data = Object.assign({}, this.state,
-            {from: this.state.from.toDate().toDateTimeFormatString(),
-            to: this.state.to.toDate().toDateTimeFormatString()});
+        const data = {...this.state,
+            from: this.state.from.toDate().toDateTimeFormatString(),
+            to: this.state.to.toDate().toDateTimeFormatString()};
 
         const $postAction = () => {
             requestAgent
@@ -358,7 +358,7 @@ class Calendar extends React.Component {
     }
 }
 
-const Content = (props) => {
+const MainContent = (props) => {
     return (
         <div className="row">
             <Calendar calendar={props.calendar} />
@@ -382,8 +382,8 @@ ReactDOM.render(
     document.getElementById('dialogContent')
 );
 ReactDOM.render(
-    <Content calendar={calendar} holidays={holidays} paidHolidays={paidHolidays} />,
-    document.getElementById('calendarContent')
+    <MainContent calendar={calendar} holidays={holidays} paidHolidays={paidHolidays} />,
+    document.getElementById('mainContent')
 );
 
 for (let request of $('.request')) {

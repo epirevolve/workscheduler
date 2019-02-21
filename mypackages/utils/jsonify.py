@@ -5,10 +5,17 @@ from datetime import date
 from datetime import datetime
 
 
+def to_capitalize(s):
+    if '_' not in s:
+        return s
+    parts = s.split('_')
+    return ''.join([y if x == 0 else y.capitalize() for x, y in enumerate(parts)])
+
+
 def to_dict(obj):
     ret = None
     if isinstance(obj, dict):
-        ret = {k: to_dict(v) for k, v in obj.items() if not str(k).startswith('_')}
+        ret = {to_capitalize(k): to_dict(v) for k, v in obj.items() if not str(k).startswith('_')}
     if isinstance(obj, list):
         ret = [to_dict(v) for v in obj]
     elif hasattr(obj, '__dict__'):

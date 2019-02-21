@@ -17,8 +17,8 @@ class SchedulerCommandAdapter:
     def append_my_request(self, scheduler_id: str, month_year_setting_id: str, form):
         event_title = form.get('title')
         event_note = form.get('note') or ''
-        event_at_from = form.get('from')
-        event_at_to = form.get('to')
+        event_at_from = form.get('atFrom')
+        event_at_to = form.get('atTo')
         if not event_title or not event_at_from or not event_at_to:
             raise ValueError()
         at_from = datetime.strptime(event_at_from, '%Y-%m-%d %H:%M')
