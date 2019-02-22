@@ -1,4 +1,4 @@
-import '../../request';
+import '../request';
 
 import React from 'react'
 import { render } from 'react-dom'

@@ -8,7 +8,7 @@ const $script = $('script[src*="request-public.min.js"]');
 const holidays = $script.data('holidays');
 const paidHolidays = $script.data('paidHolidays');
 
-const App = () => (
+const app = () => (
     <React.Fragment>
         <DialogContainer />
         <div className="row">
@@ -28,4 +28,4 @@ const App = () => (
     </React.Fragment>
 )
 
-export default App;
+export default app;
