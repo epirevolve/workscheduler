@@ -1,7 +1,7 @@
 import React from 'react'
 
-import RequestDialog from '../containers/RequestDialog'
-import RequestCalendar from '../containers/RequestCalendar'
+import DialogContainer from '../containers/DialogContainer'
+import CalendarContainer from '../containers/CalendarContainer'
 
 const $script = $('script[src*="request-public.min.js"]');
 
@@ -10,9 +10,9 @@ const paidHolidays = $script.data('paidHolidays');
 
 const App = () => (
     <React.Fragment>
-        <RequestDialog />
+        <DialogContainer />
         <div className="row">
-            <RequestCalendar />
+            <CalendarContainer />
             <div className="col-md-2">
                 <div>
                     <h5>Monthly Holidays</h5>
