@@ -55,7 +55,7 @@ def show_my_request(schedule_of):
     if not scheduler:
         return _non_public_request_body(schedule_of)
     
-    month_year_setting = scheduler.month_year_setting(schedule_of)
+    month_year_setting = scheduler.month_year_setting(schedule_of.month, schedule_of.year)
     
     return _public_request_body(scheduler, month_year_setting)\
         if month_year_setting and month_year_setting.is_publish and not month_year_setting.is_fixed\
@@ -121,7 +121,7 @@ def show_calendar(affiliation_id: str, schedule_of: str):
     
     session = get_db_session()
     scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
-    month_year_setting = scheduler.month_year_setting(schedule_of)
+    month_year_setting = scheduler.month_year_setting(schedule_of.month, schedule_of.year)
     operators = OperatorQuery(session).get_operators()
     
     action = url_for('schedulers.update_calendar', affiliation_id=affiliation_id,

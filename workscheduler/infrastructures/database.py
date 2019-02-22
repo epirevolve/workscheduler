@@ -53,7 +53,7 @@ class Database:
         affiliation_id = AffiliationQuery(session).get_default_affiliation().id
         append_user = UserCommand(session).append_user
         append_user('user', 'ユーザ', affiliation_id, is_admin=False, is_operator=True)
-        append_user('adope', '管理ユーザ', affiliation_id, is_admin=True, is_operator=True)
+        append_user('adope', '管理ユーザ', front.id, is_admin=True, is_operator=True)
 
         # add skills
         

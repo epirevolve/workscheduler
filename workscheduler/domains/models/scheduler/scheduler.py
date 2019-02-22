@@ -75,12 +75,12 @@ class Scheduler(OrmBase):
         return Scheduler(UuidFactory.new_uuid(), affiliation,
                          True, True, [])
     
-    def month_year_setting(self, schedule_of: date):
-        month_year_setting = list(filter(lambda x: x.year == schedule_of.year and x.month == schedule_of.month,
+    def month_year_setting(self, month: int, year: int):
+        month_year_setting = list(filter(lambda x: x.year == year and x.month == month,
                                          self.month_year_settings))
         if not month_year_setting:
             month_year_setting = MonthYearSetting.new_month_year(
-                self.work_categories, schedule_of.year, schedule_of.month)
+                self.work_categories, year, month)
             self.month_year_settings.append(month_year_setting)
         else:
             month_year_setting = month_year_setting[0]
@@ -157,7 +157,7 @@ class Scheduler(OrmBase):
         return crossover
     
     def run(self, schedule_of: date, operators):
-        month_year_setting = self.month_year_setting(schedule_of)
+        month_year_setting = self.month_year_setting(schedule_of.month, schedule_of.year)
         evaluate = self._evaluate(operators, month_year_setting)
         
         base_kind = list(map(lambda x: x.id, self.work_categories))

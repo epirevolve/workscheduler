@@ -29,17 +29,21 @@ class SchedulerCommand:
 
     def append_my_request(self, user_id: str, scheduler_id: str, month_year_setting_id: str,
                           title: str, note: str, at_from: datetime, at_to: datetime) -> Request:
-        month_year_setting = SchedulerQuery(self._session).get_month_year_setting(month_year_setting_id)
-        if not month_year_setting:
-            raise CalendarError()
+        scheduler = SchedulerQuery(self._session).get_scheduler(scheduler_id)
+        
         operator = OperatorQuery(self._session).get_operator_of_user_id(user_id)
-        self._request_validity(operator.id, month_year_setting,
-                               at_from, at_to)
         request = Request.new_request(title, note, at_from,
                                       at_to, operator)
         search_date = at_from
         while at_to >= search_date:
-            month_year_setting.days[search_date.day - 1].requests.append(request)
+            month_year_setting = scheduler.month_year_setting(search_date.month, search_date.year)
+            self._request_validity(operator.id, month_year_setting,
+                                   at_from, at_to)
+            if not month_year_setting.is_publish:
+                raise CalendarError()
+            while search_date.month == month_year_setting.month:
+                month_year_setting.days[search_date.day - 1].requests.append(request)
+                search_date = get_next_day(search_date)
             search_date = get_next_day(search_date)
         return request
 
