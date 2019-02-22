@@ -2,7 +2,7 @@ import React from 'react'
 
 import Request from './Request'
 
-const $script = $('script[src*="request-public.min.js"]');
+const $script = $('script[src*="request-public"]');
 
 const scheduleOf = new Date($script.data('scheduleOf'));
 

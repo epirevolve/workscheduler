@@ -9,7 +9,7 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="request-public.min.js"]');
+const $script = $('script[src*="request-public"]');
 
 const calendar = $script.data('calendar');
 

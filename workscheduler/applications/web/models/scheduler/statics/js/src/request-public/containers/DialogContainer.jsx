@@ -13,7 +13,7 @@ import { changeDate } from '../actions'
 
 import RequestDialog from '../components/RequestDialog'
 
-const $script = $('script[src*="request-public.min.js"]');
+const $script = $('script[src*="request-public"]');
 
 const holidays = $script.data('holidays');
 const paidHolidays = $script.data('paidHolidays');

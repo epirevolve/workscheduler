@@ -3,7 +3,7 @@ import React from 'react'
 import DialogContainer from '../containers/DialogContainer'
 import CalendarContainer from '../containers/CalendarContainer'
 
-const $script = $('script[src*="request-public.min.js"]');
+const $script = $('script[src*="request-public"]');
 
 const holidays = $script.data('holidays');
 const paidHolidays = $script.data('paidHolidays');

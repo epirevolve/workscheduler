@@ -4,7 +4,8 @@
 {% endblock %}
 
 {% block scriptAppend %}
-<script type="module" src="{{ url_for('schedulers.static', filename='js/request-public.min.js') }}"
+<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+<script type="module" src="{{ url_for('schedulers.static', filename='js/request-public.bundle.min.js') }}"
         data-url="{{ url_for('schedulers.show_my_request', schedule_of='schedule_of') }}"
         data-schedule-of="{{ schedule_of }}" data-schedule-of-name="{{ schedule_of.strftime('%b %Y') }}"
         data-url-add-request="{{ url_for('schedulers.append_my_request', scheduler_id=scheduler.id, month_year_setting_id=month_year_setting.id) }}"

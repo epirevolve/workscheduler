@@ -14,7 +14,7 @@ module.exports = {
     },
 
     output: {
-        filename: '[name].bundle.js'
+        filename: '[name].bundle.min.js'
     },
 
     module: {
@@ -27,6 +27,8 @@ module.exports = {
             use: ['style-loader', 'css-loader'] }
         ]
     },
+
+    devtool: "#source-map",
 
     resolve: {
         modules: [

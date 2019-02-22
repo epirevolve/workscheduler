@@ -10,7 +10,7 @@ import MonthCalendar from 'rc-calendar/lib/MonthCalendar';
 import 'rc-calendar/assets/index';
 import moment from 'moment';
 
-const $script = $('script[src*="scheduler-calendar.min.js"]');
+const $script = $('script[src*="scheduler-calendar"]');
 
 const url = $script.data('url');
 const paidHolidays = $script.data('paidHolidays');

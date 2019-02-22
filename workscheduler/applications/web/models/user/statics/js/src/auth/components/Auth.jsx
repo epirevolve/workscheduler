@@ -5,7 +5,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 
-const $script = $('script[src*="auth.min.js"]');
+const $script = $('script[src*="auth"]');
 
 const url = $script.data('url');
 const loginIdName = $script.data('loginIdName');

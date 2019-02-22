@@ -22,15 +22,16 @@ gulp.task('babel', async function(){
 });
 
 const _minify = () => {
-    return gulp.src(['./**/statics/js/**/*.bundle.js', '!./**/*.min.js'])
+    return gulp.src(['./**/*.bundle.js', '!./**/*.min.js'])
         .pipe(plumber())
         .pipe(terser())
-        .pipe(rename({extname: '.min.js'}));
+        .pipe(rename({extname: '.min.js'}))
+        .pipe(gulp.dest('.'));
 }
 
 // js minify
 gulp.task('jsmin', async function() {
-    gulp.task(_minify);
+    gulp.task(_minify());
 });
 
 // change detection
