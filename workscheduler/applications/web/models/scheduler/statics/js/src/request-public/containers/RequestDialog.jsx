@@ -32,6 +32,7 @@ const $script = $('script[src*="request-public.min.js"]');
 const holidays = $script.data('holidays');
 const paidHolidays = $script.data('paidHolidays');
 const url = $script.data('urlAddRequest');
+const scheduleOf = new Date($script.data('scheduleOf')).toYearMonthFormatString();
 
 function isValidRange(v) {
   return v && v[0] && v[1];
@@ -112,15 +113,14 @@ const mapDispatchToProps = (dispatch) => ({
                 .send(data)
                 .set('X-CSRFToken', csrfToken)
                 .then(res => {
-                    dispatch(addRequest(dialog.atFrom.toDate().getDate(), JSON.parse(res.text)));
+                    dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
                     dispatch(closeDialog());
                 })
                 .catch(err => {
                     const res = JSON.parse(err.response.text);
                     const alertManager = new AlertManager('#alertContainer');
                     const message = res.errorMessage || 'we have some trouble with appending request...';
-                    alertManager.append(`Oops, Sorry ${message}`,
-                    'alert-danger')
+                    alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
                 });
         }
 

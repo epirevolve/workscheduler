@@ -32,9 +32,18 @@ class CalendarCell extends React.Component {
         const requests = [];
 
         for (let request of day.requests) {
-            if (request.operator.id != operatorId || new Date(request.atFrom).getDate() != day.day)
+            if (request.operator.id != operatorId
+                || (new Date(request.atFrom).getDate() != day.day && day.day != 1 && day.dayName != 'Sun'))
                 continue;
-            requests.push(<Request key={request.id} request={request}
+            let from = new Date(request.atFrom);
+            from.setDate(day.day);
+            const to = new Date(request.atTo);
+            let days = to.getDate() - from.getDate();
+            if (days <= 7 && from.getDay() < to.getDay()) {
+            } else {
+                days = 6 - from.getDay();
+            }
+            requests.push(<Request key={request.id} request={request} className={`day-${days + 1}`}
                 handleEdit={() => handleEdit(request)} />)
         }
 

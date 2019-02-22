@@ -1,8 +1,8 @@
 import moment from 'moment';
 
-export const addRequest = (day, request) => ({
+export const addRequest = (scheduleOf, request) => ({
     type: 'APPEND_REQUEST',
-    day,
+    scheduleOf,
     request
 })
 

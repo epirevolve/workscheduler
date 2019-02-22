@@ -1,13 +1,12 @@
 const gulp = require('gulp');
-const source = require("vinyl-source-stream");
+const filter = require('gulp-filter');
 const terser = require('gulp-terser');
 const rename = require('gulp-rename');
 const plumber = require('gulp-plumber');
-const babelify = require('babelify');
+const source = require("vinyl-source-stream");
 const webpack = require('webpack');
 const webpackStream = require("webpack-stream");
 const path = require('path');
-const filter = require('gulp-filter');
 
 const _babelify = (folder, file) => {
     const _path = `./workscheduler/applications/web/models/${folder}/statics/js`;
@@ -23,12 +22,12 @@ const _babelify = (folder, file) => {
 
         module: {
             rules: [
-            {
-                test: /\.jsx$/,
-                exclude: /node_modules/,
-                use: 'babel-loader'},
-            { test: /\.css$/,
-                use: ['style-loader', 'css-loader'] }
+                {
+                    test: /\.jsx$/,
+                    exclude: /node_modules/,
+                    use: 'babel-loader' },
+                { test: /\.css$/,
+                    use: ['style-loader', 'css-loader'] }
             ]
         },
 
@@ -108,7 +107,7 @@ gulp.task('babel-user', async function () {
     gulp.task(_babelify(folder, 'auth'));
 });
 
-// jsx reactify
+// jsx babel
 gulp.task('babel', async function(){
     gulp.task('babel-user');
     gulp.task('babel-scheduler');
@@ -132,7 +131,7 @@ gulp.task('jsmin', async function() {
 // change detection
 gulp.task('watch', function() {
     gulp.watch(['./**/js/*.js', '!./js/*.min.js'], gulp.series('jsmin'));
-    gulp.watch('./**/js/*.jsx', gulp.series('brow'));
+    gulp.watch('./**/js/*.jsx', gulp.series('babel'));
 });
 
 gulp.task("default", gulp.series("watch"));
