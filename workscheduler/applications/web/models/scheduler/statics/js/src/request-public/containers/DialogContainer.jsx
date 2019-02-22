@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
     onDateChange: dates => dispatch(changeDate(dates)),
     handleClose: () => dispatch(closeDialog()),
     handleRemove: (id) => dispatch(removeRequest(id)),
-    handleSave: (dialog) => {
+    handleSave: (dialog, callback) => {
         const data = {...dialog,
             atFrom: dialog.atFrom.toDate().toDateTimeFormatString(),
             atTo: dialog.atTo.toDate().toDateTimeFormatString()};
@@ -41,8 +41,8 @@ const mapDispatchToProps = (dispatch) => ({
                 .send(data)
                 .set('X-CSRFToken', csrfToken)
                 .then(res => {
-                    dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
                     dispatch(closeDialog());
+                    dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
                 })
                 .catch(err => {
                     const res = JSON.parse(err.response.text);

@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
+<div id="root"></div>
 <form method="post">
-    <div class="form-inline my-3">
-        <div class="input-group date col-md-3" id="scheduleOf" data-target-input="nearest"
+    <div class="my-3">
+        <div class="input-group date" id="scheduleOf" data-target-input="nearest"
              data-url="{{ url_for('schedulers.show_calendar', affiliation_id=scheduler.affiliation.id, schedule_of='schedule_of') }}">
             <div class="input-group-prepend">
                 <span class="input-group-text">Scheduler Of</span>

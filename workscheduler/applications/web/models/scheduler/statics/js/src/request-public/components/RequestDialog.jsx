@@ -21,6 +21,11 @@ function isValidRange(v) {
 }
 
 class RequestDialog extends React.Component {
+    constructor (props) {
+        super(props);
+        this.state = {}
+    }
+
     disabledDate (current) {
         if (!current) {
             return false;
@@ -29,42 +34,46 @@ class RequestDialog extends React.Component {
     }
 
     render () {
+        const { dialog, onTitleChange, onNoteChange, onDateChange,
+            handleClose, handleRemove, handleSave } = this.props;
         const timePickerElement = <TimePickerPanel defaultValue={moment('00:00', 'HH:mm')}
             showSecond={false} minuteStep={15} />;
         const calendar = <RangeCalendar showDateInput={false} disabledDate={this.disabledDate}
             timePicker={timePickerElement} showToday={false} format='YYYY-MM-DD HH:mm' />;
         return (
-            <Dialog open={this.props.dialog.isOpen} aria-labelledby="request-store">
+            <Dialog open={dialog.isOpen} aria-labelledby="request-store">
                 <DialogTitle id="simple-dialog-title">Set request</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         To set your scheduled holiday, please submit your request.
                         This request is not notified to an administrators.
                     </DialogContentText>
-                    <TextField autoFocus margin="dense" label="title" type="text" fullWidth
-                        onChange={this.props.onTitleChange} value={this.props.dialog.title} />
-                    <TextField autoFocus margin="dense" label="note" type="text" fullWidth
-                        onChange={this.props.onNoteChange} value={this.props.dialog.note} />
+                    <TextField autoFocus margin="dense" label="title" fullWidth
+                        onChange={onTitleChange} value={dialog.title} />
+                    <TextField autoFocus margin="dense" label="note" fullWidth
+                        onChange={onNoteChange} value={dialog.note} />
                     <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                        value={[this.props.dialog.atFrom, this.props.dialog.atTo]} onChange={this.props.onDateChange} >
+                        value={[dialog.atFrom, dialog.atTo]} onChange={onDateChange} >
                         { ({ value }) => {
+                            const formatDate = (x) => x.format('YYYY-MM-DD HH:mm')
+                            const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
                             return (
-                                <TextField autoFocus margin="dense" label="date" type="text" fullWidth InputProps={{ readOnly: true, tabIndex: "-1" }}
-                                    value={isValidRange(value) && `${value[0].format('YYYY-MM-DD HH:mm')} - ${value[1].format('YYYY-MM-DD HH:mm')}` || ''} />
+                                <TextField autoFocus margin="dense" label="date"
+                                    fullWidth InputProps={{ readOnly: true, tabIndex: "-1" }} value={disp} />
                                 )}}
                     </DatePicker>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.props.handleClose} color="primary">
+                    <Button onClick={handleClose} color="primary">
                         Close
                     </Button>
                     { (() => {
-                        if (this.props.dialog.id)
-                            <Button onClick={() => this.props.handleRemove(this.props.dialog.id)} color="primary">
+                        if (dialog.id)
+                            <Button onClick={() => handleRemove(dialog.id)} color="primary">
                                 Remove
                             </Button>
                     })() }
-                    <Button onClick={() => this.props.handleSave(this.props.dialog)} color="primary">
+                    <Button onClick={() => handleSave(dialog)} color="primary">
                         Save
                     </Button>
                 </DialogActions>
