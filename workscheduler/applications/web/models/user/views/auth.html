@@ -1,13 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
-<div id="publicityContent"></div>
-<form action='{{ url_for("auths.login") }}' method="post">
-    {{form.hidden_tag()}}
-    <div id="authContent"></div>
-</form>
-<script>
-    var loginIdName = '{{ form.login_id.name }}';
-    var passwordName = '{{ form.password.name }}';
-</script>
-<script src="{{ url_for('users.static', filename='js/auth.min.js') }}"></script>
+<div id="root"></div>
+<script src="{{ url_for('users.static', filename='js/auth.min.js') }}"
+    data-url='{{ url_for("auths.login") }}' data-login-id-name= '{{ form.login_id.name }}'
+    data-password-name = '{{ form.password.name }}'></script>
 {% endblock %}
