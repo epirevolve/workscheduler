@@ -36,7 +36,7 @@ Initial Setting:
                     . venv/bin/activate
     6. restore packages
         on a terminal tool window of pycharm
-        a. install packages
+        a. install packages by pip
             run below command
                 pip install -r requirements.txt
         b. confirm packages
@@ -45,6 +45,13 @@ Initial Setting:
             maybe many packages are shown
             if not
                 re-execute from 5
+        c. install package by npm
+            run below command
+                npm install
+        d. confirm packages
+            run below command
+                npm list
+            maybe many packages are shown
     7. test setting
         on pycharm
         a. open File -> Settings -> Project: xxx
@@ -72,6 +79,18 @@ Project Setting:
             flask init-db
             flask set-test-db
                 "Set the database to test." will be displayed
+
+Gulp Tasks:
+    1. convert jsx to js
+        react sources are written by jsx
+        need to convert its to js source
+        on a terminal tool window of pycharm
+        run below command
+            gulp babel
+    2. minify script
+        almost don't need to minify files because splitChunk work to minify files when doing task by webpack
+        if need to minify manually, run below command on a terminal tool window of pycharm
+            gulp jsmin
 
 Run workscheduler:
     1. right click of a below file
@@ -133,3 +152,5 @@ Mainly using frameworks:
     Flask
     Flask-Login
     Flask-WTF
+    React
+    Redux
