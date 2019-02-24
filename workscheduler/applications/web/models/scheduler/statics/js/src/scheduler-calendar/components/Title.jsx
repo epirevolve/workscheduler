@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -15,7 +15,7 @@ const $script = $('script[src*="scheduler-calendar"]');
 const url = $script.data('url');
 const paidHolidays = $script.data('paidHolidays');
 
-class Header extends React.Component {
+class Title extends React.Component {
     onScheduleChange (date) {
         const s = date.toDate().toYearMonthFormatString();
         location.href = url.replace('schedule_of', s);
@@ -26,7 +26,7 @@ class Header extends React.Component {
         return (
             <div class="my-3" style={{ display: 'flex', alignItems: 'center' }}>
                 <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                    value={this.props.scheduleOf} onChange={this.props.onScheduleChange} >
+                    value={this.props.scheduleOf} onChange={this.onScheduleChange} >
                     { ({ value }) => {
                         return (
                             <TextField autoFocus margin="dense" label="date"
@@ -42,3 +42,5 @@ class Header extends React.Component {
         )
     }
 }
+
+export default Title;
