@@ -1,10 +1,9 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
 
-import { changeRequire } from '../actions';
-
 import DayRequireTable from '../components/DayRequireTable';
+
+import { changeRequire } from '../actions';
 
 const mapStateToProps = (state) => ({
     days: state.monthYearSetting.days,
@@ -12,7 +11,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onRequireChange: (day, categoryId) => (require) => dispatch(changeRequire(day, categoryId, require));
+    onRequireChange: (day, categoryId) => (require) => dispatch(changeRequire(day, categoryId, require))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DayRequireTable);

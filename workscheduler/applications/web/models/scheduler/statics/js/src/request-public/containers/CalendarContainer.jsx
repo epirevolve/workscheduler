@@ -2,10 +2,10 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
+import RequestCalendar from '../components/RequestCalendar';
+
 import { openDialogToAppend } from '../actions';
 import { openDialogToEdit } from '../actions';
-
-import RequestCalendar from '../components/RequestCalendar';
 
 const mapStateToProps = (state) => ({
     calendar: state.calendar

@@ -122,20 +122,22 @@ class Database:
         session.flush()
 
         # add scheduler
-
+        
+        from datetime import time
+        
         from workscheduler.applications.services import OperatorQuery
         from workscheduler.applications.services import SchedulerQuery
         from workscheduler.domains.models.scheduler import WorkCategory
         
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
-        work_daily = WorkCategory.new_category('日勤帯', 7, 10, 3, 5, 0, 0, [skill1, skill2],
+        work_daily = WorkCategory.new_category('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0, [skill1, skill2],
                                                [get_operator_of_user_id(user1.id),
                                                 get_operator_of_user_id(user2.id)],
                                                [])
         scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(front.id)
         scheduler.work_categories.append(work_daily)
         scheduler.work_categories.append(
-            WorkCategory.new_category('夜間帯', 3, 5, 3, 5, 2, 5, [skill3], [],
+            WorkCategory.new_category('夜間帯', time(17, 30), time(10, 00), 3, 5, 3, 5, 2, 5, [skill3], [],
                                       [get_operator_of_user_id(user3.id)])
         )
         session.flush()
@@ -151,14 +153,14 @@ class Database:
                                                              next_month.year, next_month.month)
         month_year_setting.fixed_schedules.append(
             FixedSchedule.new_schedule(
-                'いけりり研修', next_month.replace(day=4),
-                next_month.replace(day=7), [work_daily],
+                'いけりり研修', next_month.replace(day=4), next_month.replace(day=7),
+                time(9, 0), time(17, 30),
                 [get_operator_of_user_id(user1.id),
                  get_operator_of_user_id(user3.id)]))
         month_year_setting.fixed_schedules.append(
             FixedSchedule.new_schedule(
-                'いけりり研修', next_month.replace(day=9),
-                next_month.replace(day=12), [work_daily],
+                'いけりり研修', next_month.replace(day=9), next_month.replace(day=12),
+                time(9, 30), time(18, 00),
                 [get_operator_of_user_id(user2.id)]))
         month_year_setting.is_publish = True
         scheduler.month_year_settings.append(month_year_setting)

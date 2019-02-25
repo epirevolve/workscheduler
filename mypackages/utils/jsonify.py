@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import json
-from datetime import date
 from datetime import datetime
+from datetime import date
+from datetime import time
 
 
 def to_capitalize(s):
@@ -24,7 +25,7 @@ def to_dict(obj):
 
 
 def json_serial(obj):
-    if isinstance(obj, (datetime, date)):
+    if isinstance(obj, (datetime, date, time)):
         return obj.isoformat()
     raise TypeError("Type %s not serializable" % type(obj))
 

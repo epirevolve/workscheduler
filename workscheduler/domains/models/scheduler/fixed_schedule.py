@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date
+from datetime import time
 
 from sqlalchemy import Column
 from sqlalchemy import Table
@@ -8,11 +9,11 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import String
 from sqlalchemy.types import Date
+from sqlalchemy.types import Time
 
 from mypackages.utils.uuid import UuidFactory
 from ..operator import Operator
 from .. import OrmBase
-from . import WorkCategory
 
 associated_work_category_table\
     = Table("associated_fixed_schedule_work_category", OrmBase.metadata,
@@ -30,23 +31,26 @@ class FixedSchedule(OrmBase):
     __tablename__ = "fixed_schedules"
     id = Column(String, primary_key=True)
     title = Column(String)
-    date_from = Column(Date)
-    date_to = Column(Date)
-    work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='joined')
+    on_from = Column(Date)
+    on_to = Column(Date)
+    at_from = Column(Time)
+    at_to = Column(Time)
     participants = relationship("Operator", secondary=associated_participant_table, lazy='joined')
     
     def __init__(self, id_: str, title: str,
-                 date_from: date, date_to: date,
-                 work_categories: [WorkCategory], participants: [Operator]):
+                 on_from: date, on_to: date,
+                 at_from: time, at_to: time,
+                 participants: [Operator]):
         self.id = id_
         self.title = title
-        self.date_from = date_from
-        self.date_to = date_to
-        self.work_categories = work_categories
+        self.on_from = on_from
+        self.on_to = on_to
+        self.at_from = at_from
+        self.at_to = at_to
         self.participants = participants
         
     @staticmethod
-    def new_schedule(title: str, date_from: date, date_to: date,
-                     work_categories: [WorkCategory], participants: [Operator]):
-        return FixedSchedule(UuidFactory.new_uuid(), title, date_from, date_to,
-                             work_categories, participants)
+    def new_schedule(title: str, on_from: date, on_to: date,
+                     at_from: time, at_to: time, participants: [Operator]):
+        return FixedSchedule(UuidFactory.new_uuid(), title, on_from, on_to,
+                             at_from, at_to, participants)

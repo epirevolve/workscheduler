@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
             atFrom: dialog.atFrom.toDate().toDateTimeFormatString(),
             atTo: dialog.atTo.toDate().toDateTimeFormatString()};
 
-        const $postAction = () => {
+        const post = () => {
             requestAgent
                 .post(url)
                 .send(data)
@@ -57,11 +57,11 @@ const mapDispatchToProps = (dispatch) => ({
             showConfirmDialog('No Problem?', `adding more request will decrease your paid holidays.${message}`,
                 (value) => {
                     if (!value) return;
-                    $postAction();
+                    post();
                 });
         }
         else {
-            $postAction();
+            post();
         }
     }
 })

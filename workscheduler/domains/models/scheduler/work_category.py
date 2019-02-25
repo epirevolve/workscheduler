@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import time
+
 from sqlalchemy import Column
 from sqlalchemy import Table
 from sqlalchemy import ForeignKey
@@ -8,6 +10,7 @@ from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import String
 from sqlalchemy.types import Integer
 from sqlalchemy.types import DateTime
+from sqlalchemy.types import Time
 
 from mypackages.utils.uuid import UuidFactory
 
@@ -35,6 +38,8 @@ class WorkCategory(OrmBase):
     __tablename__ = 'work_categories'
     id = Column(String, primary_key=True)
     title = Column(String(200), nullable=False)
+    at_from = Column(Time)
+    at_to = Column(Time)
     week_day_require = Column(Integer)
     week_day_max = Column(Integer)
     holiday_require = Column(Integer)
@@ -46,11 +51,14 @@ class WorkCategory(OrmBase):
     impossible_operators = relationship("Operator", secondary=associated_impossible_operator_table, lazy='joined')
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id_: str, title: str, week_day_require: int, week_day_max: int,
-                 holiday_require: int, holiday_max: int, rest_days: int, max_times: int,
-                 essential_skills: [Skill], essential_operators: [Operator], impossible_operators: [Operator]):
+    def __init__(self, id_: str, title: str, at_from: time, at_to: time,
+                 week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
+                 rest_days: int, max_times: int, essential_skills: [Skill],
+                 essential_operators: [Operator], impossible_operators: [Operator]):
         self.id = id_
         self.title = title
+        self.at_from = at_from
+        self.at_to = at_to
         self.week_day_require = week_day_require
         self.week_day_max = week_day_max
         self.holiday_require = holiday_require
@@ -62,9 +70,11 @@ class WorkCategory(OrmBase):
         self.impossible_operators = impossible_operators
     
     @staticmethod
-    def new_category(title: str, week_day_require: int, week_day_max: int,
-                     holiday_require: int, holiday_max: int, rest_days: int, max_times: int,
-                     essential_skills: [Skill], essential_operators: [Operator], impossible_operators: [Operator]):
-        return WorkCategory(UuidFactory.new_uuid(), title, week_day_require, week_day_max,
-                            holiday_require, holiday_max, rest_days, max_times,
-                            essential_skills, essential_operators, impossible_operators)
+    def new_category(title: str, at_from: time, at_to: time,
+                     week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
+                     rest_days: int, max_times: int, essential_skills: [Skill],
+                     essential_operators: [Operator], impossible_operators: [Operator]):
+        return WorkCategory(UuidFactory.new_uuid(), title, at_from, at_to,
+                            week_day_require, week_day_max, holiday_require, holiday_max,
+                            rest_days, max_times, essential_skills,
+                            essential_operators, impossible_operators)
