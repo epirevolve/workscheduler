@@ -53,7 +53,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">affiliation</span>
         </div>
-        <select class="custom-select" name="{{ form.affiliation.name }}">
+        <select id="affiliation" class="custom-select" name="{{ form.affiliation.name }}">
             {% for affiliation in affiliations %}
                 <option value="{{ affiliation.id }}">{{ affiliation.name }}</option>
             {% endfor %}

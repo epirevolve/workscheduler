@@ -17,7 +17,7 @@ const auth = () => (
         <div className="mb-4">
             <TextField autoFocus name={loginIdName} margin="dense"
                 label="login id" type="text" fullWidth required />
-            <TextField autoFocus name={passwordName} margin="dense"
+            <TextField name={passwordName} margin="dense"
                 label="password" type="password" fullWidth required />
         </div>
         <ButtonBase type="submit">
