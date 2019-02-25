@@ -1,6 +1,6 @@
 import React from 'react';
 
-const dayHeaderCell = ({ day }) => {
+const dayRequireHeaderCell = ({ day }) => {
     return (
         <th>
             <span class={day.dayName}>{day.dayName}</span>
@@ -10,4 +10,4 @@ const dayHeaderCell = ({ day }) => {
     )
 }
 
-export default dayHeaderCell;
+export default dayRequireHeaderCell;

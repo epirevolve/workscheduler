@@ -5,18 +5,18 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-const dayCell = ({ require, handleChange }) => {
+const dayRequireCell = ({ require, onRequireChange }) => {
     const count = [];
     for (let i; i ++; i < 21) {
         count.push(<MenuItem value={i}>{i}</MenuItem>)
     }
     return (
         <InputLabel htmlFor="dayCell">require</InputLabel>
-        <Select value={require} onChange={handleChange}
+        <Select value={require} onChange={onRequireChange}
             inputProps={{ id: "dayCell" }}>
             {count}
         </Select>
     )
 }
 
-export default dayCell;
+export default dayRequireCell;

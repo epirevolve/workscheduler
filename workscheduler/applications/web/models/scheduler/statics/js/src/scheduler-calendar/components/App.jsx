@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
 
-import Header from './Header'
+import Title from './Title';
+import DayRequireContainer from './DayRequireContainer';
 
 const app = () => (
     <React.Fragment>
-        <Header />
+        <Title />
+        <DayRequireContainer />
     </React.Fragment>
 )
 

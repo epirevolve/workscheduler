@@ -1,8 +1,8 @@
 import React from 'react';
 
-import DayHeader from './DayHeader'
+import DayRequireHeader from './DayRequireHeader'
 
-const dayHeaderRow = ({ days }) => {
+const dayRequireHeaderRow = ({ days }) => {
 
     const headers = [];
     for (let [index, day] of days.entries()) {
@@ -19,4 +19,4 @@ const dayHeaderRow = ({ days }) => {
     )
 }
 
-export default dayHeaderRow;
+export default dayRequireHeaderRow;
