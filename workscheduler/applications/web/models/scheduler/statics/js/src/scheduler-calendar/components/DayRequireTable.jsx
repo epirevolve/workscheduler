@@ -3,12 +3,12 @@ import React from 'react';
 import DayRequireBody from './DayRequireBody';
 import DayRequireHeaderRow from './DayRequireHeaderRow';
 
-const dayRequireTable = ({ days, categories, onRequireChange }) => {
+const dayRequireTable = ({ days, onRequireChange }) => {
     return (
         <div id="date-set">
-            <table class="table table-striped">
+            <table className="table table-striped">
                 {<DayRequireHeaderRow days={days} />}
-                {<DayRequireBody categories={categories} onRequireChange={onRequireChange} />}
+                {<DayRequireBody days={days} onRequireChange={onRequireChange} />}
             </table>
         </div>
     )

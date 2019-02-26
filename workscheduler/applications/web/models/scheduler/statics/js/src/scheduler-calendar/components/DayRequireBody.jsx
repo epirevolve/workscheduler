@@ -2,11 +2,21 @@ import React from 'react';
 
 import DayRequireRow from './DayRequireRow';
 
-const dayRequireBody = ({ categories, onRequireChange }) => {
-    const dayRequireRow = [];
+const dayRequireBody = ({ days, onRequireChange }) => {
+    const requiresOfCategory = [];
+    for (let day of days) {
+        for (let detail of day.details) {
+            if (!(detail.workCategory.id in requiresOfCategory)) requiresOfCategory[detail.workCategory.id] = []
+            requiresOfCategory[detail.workCategory.id].push(detail.require)
+        }
+    }
 
-    for (let [index, category] of categories.entries()) {
-        dayRow.push(<DayRequireRow key={category.id} category={category} onRequireChange={onRequireChange} />)
+    const dayRequireRow = [];
+    for (let key in requiresOfCategory) {
+        const requires = requiresOfCategory[key];
+        const category = days[0].details.filter(detail => detail.workCategory.id == key)[0].workCategory;
+        dayRequireRow.push(<DayRequireRow key={key} category={category} requires={requires}
+            onRequireChange={onRequireChange} />)
     }
 
     return (

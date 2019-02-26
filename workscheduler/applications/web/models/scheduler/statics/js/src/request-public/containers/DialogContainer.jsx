@@ -25,9 +25,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    onTitleChange: e => dispatch(changeTitle(e.target.value)),
-    onNoteChange: e => dispatch(changeNote(e.target.value)),
-    onDateChange: dates => dispatch(changeDate(dates)),
+    onTitleChange: (e) => dispatch(changeTitle(e.target.value)),
+    onNoteChange: (e) => dispatch(changeNote(e.target.value)),
+    onDateChange: (dates) => dispatch(changeDate(dates)),
     handleClose: () => dispatch(closeDialog()),
     handleRemove: (id) => dispatch(removeRequest(id)),
     handleSave: (dialog, callback) => {

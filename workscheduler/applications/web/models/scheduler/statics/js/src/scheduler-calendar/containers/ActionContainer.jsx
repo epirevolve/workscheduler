@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
@@ -43,7 +44,9 @@ class ActionContainer extends React.Component {
             });
     }
 
-    render ({ monthYearSetting }) {
+    render () {
+        const { monthYearSetting } = this.props;
+
         return (
             <React.Fragment>
                 <Button variant="contained" color="default" onClick={() => window.history.back()}>

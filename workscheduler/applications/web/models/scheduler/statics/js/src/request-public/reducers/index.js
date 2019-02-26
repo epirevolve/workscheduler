@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import dialog from './dialog';
-import calendar from './calendar';
+import requestDialog from './request-dialog';
+import requestCalendar from './request-calendar';
 
 export default combineReducers({
-    dialog,
-    calendar
+    requestDialog,
+    requestCalendar
 })

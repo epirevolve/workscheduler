@@ -5,7 +5,7 @@ const _userPath = _path('user');
 const _schedulerPath = _path('scheduler');
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry: {
         'workscheduler/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-non-public': path.join(_schedulerPath, '/src/request-non-public/index.jsx'),

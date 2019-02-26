@@ -18,13 +18,32 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Checkbox from '@material-ui/core/Checkbox';
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
+import { TimeFormatInput } from 'material-ui-next-pickers'
 
 import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
 import 'rc-calendar/assets/index';
 import 'rc-time-picker/assets/index';
 import TimePickerPanel from 'rc-time-picker/lib/Panel';
+import TimePicker from 'rc-time-picker';
 import moment from 'moment';
+
+function isValidRange(v) {
+  return v && v[0] && v[1];
+}
+
+const styles = (theme) => ({
+    input: {
+        minWidth: '180px',
+        flexGrow: 1,
+        maxWidth: '100%',
+        height: 'auto',
+        padding: '6px 0 7px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+    }
+})
 
 class FixedSchedule extends React.Component {
     constructor (props) {
@@ -36,14 +55,16 @@ class FixedSchedule extends React.Component {
         return () => onParticipantChange(operator);
     };
 
-    render ({ schedule, onTitleChange, onDateChange, onAtFromChange, onAtToChange, onParticipantChange, handleRemove }) {
+    render () {
+        const { fixedSchedule, handleRemove, onTitleChange, onDateChange, onAtFromChange, onAtToChange, onParticipantChange } = this.props;
+
         const timePickerElement = <TimePickerPanel defaultValue={moment('00:00', 'HH:mm')}
             showSecond={false} minuteStep={15} />;
         const calendar = <RangeCalendar showDateInput={false} disabledDate={this.disabledDate}
             showToday={false} format='YYYY-MM-DD' />;
 
         const operators = [];
-        const participantIds = schedule.participants.map(x => x.id);
+        const participantIds = fixedSchedule.participants.map(x => x.id);
         for (let operator of operators) {
             operators.push(
                 <ListItem key={operator.id} button onClick={this.handleClick(operator, onParticipantChange)}>
@@ -62,27 +83,31 @@ class FixedSchedule extends React.Component {
             )
         }
 
+        const atFrom = moment().hour()
+
         return (
             <Card>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        <TextField autoFocus label="title" required value={schedule.title} onChange={onTitleChange} />
+                        <TextField autoFocus label="title" required value={fixedSchedule.title} onChange={onTitleChange} />
                     </Typography>
                     <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                        value={[schedule.onFrom, schedule.onTo]} onChange={onDateChange}>
+                        value={[moment(fixedSchedule.onFrom), moment(fixedSchedule.onTo)]} onChange={onDateChange}>
                         { ({ value }) => {
                             const formatDate = (x) => x.format('YYYY-MM-DD')
                             const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
                             return (
                                 <TextField margin="dense" label="date"
-                                    fullWidth InputProps={{ readOnly: true, tabIndex: "-1" }} value={disp} />
+                                    InputProps={{ readOnly: true, tabIndex: "-1" }} value={disp} />
                                 )}}
                     </DatePicker>
-                    <TimePickerPanel label="start time" value={moment(schedule.atFrom)} onChange={onAtFromChange}
-                        showSecond={false} minuteStep={15} />
-                    <TimePickerPanel label="end time" value={moment(schedule.atFrom)} onChange={onAtToChange}
-                        showSecond={false} minuteStep={15} />
-                    <Popover open={this.state.isOpen} anchorOrigin="{ vertical: 'top', horizontal: 'right',}">
+                    <div style={{ margin:'1rem 0' }}>
+                        <TimeFormatInput label="start time" mode="24h" value={moment(fixedSchedule.atFrom, 'HH:mm').toDate()}
+                            onChange={onAtFromChange} selectableMinutesInterval="15" margin="normal" />
+                        <TimeFormatInput label="end time" mode="24h" value={moment(fixedSchedule.atTo, 'HH:mm').toDate()}
+                            onChange={onAtToChange} selectableMinutesInterval="15" margin="normal" />
+                    </div>
+                    <Popover open={this.state.isOpen} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}>
                         <List subheader={<ListSubheader component="div">operators</ListSubheader>}>
                             {operators}
                         </List>
@@ -104,4 +129,4 @@ class FixedSchedule extends React.Component {
     }
 };
 
-export default fixedSchedule;
+export default FixedSchedule;

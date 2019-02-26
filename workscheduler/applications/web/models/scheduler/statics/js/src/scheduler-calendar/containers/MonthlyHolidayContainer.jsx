@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
 
 import { changeMonthlyHoliday } from '../actions';
@@ -11,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onChange: (holidays) => dispatch(changeMonthlyHoliday(holidays))
+    onChange: (count) => dispatch(changeMonthlyHoliday(count))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MonthlyHoliday);

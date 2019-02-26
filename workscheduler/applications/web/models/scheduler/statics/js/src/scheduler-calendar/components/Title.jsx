@@ -13,7 +13,8 @@ import moment from 'moment';
 const $script = $('script[src*="scheduler-calendar"]');
 
 const url = $script.data('url');
-const paidHolidays = $script.data('paidHolidays');
+const scheduleOf = $script.data('scheduleOf');
+const affiliationName = $script.data('affiliationName');
 
 class Title extends React.Component {
     onScheduleChange (date) {
@@ -24,19 +25,18 @@ class Title extends React.Component {
     render () {
         const calendar = <MonthCalendar />;
         return (
-            <div class="my-3" style={{ display: 'flex', alignItems: 'center' }}>
+            <div className="my-3" style={{ display: 'flex', alignItems: 'center' }}>
                 <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                    value={this.props.scheduleOf} onChange={this.onScheduleChange} >
+                    value={moment(scheduleOf)} onChange={this.onScheduleChange}>
                     { ({ value }) => {
                         return (
-                            <TextField autoFocus margin="dense" label="date"
-                                fullWidth InputProps={{ readOnly: true, tabIndex: "-1" }}
+                            <TextField inputProps={{ readOnly: true, tabIndex: "-1" }}
                                 value={`${value.format('YYYY-MM')}` || ''} />
-                            )}}
+                        )}}
                 </DatePicker>
-                <h2 class="mx-4">of</h2>
+                <h2 className="mx-4">of</h2>
                 <div>
-                    <h1>{ this.props.scheduler.affiliation.name }</h1>
+                    <h1>{affiliationName}</h1>
                 </div>
             </div>
         )
