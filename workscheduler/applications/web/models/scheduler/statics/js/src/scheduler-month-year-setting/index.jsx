@@ -7,7 +7,7 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="scheduler-calendar"]');
+const $script = $('script[src*="scheduler-month-year-setting"]');
 
 const monthYearSetting = $script.data('monthYearSetting');
 

@@ -10,7 +10,7 @@ module.exports = {
         'workscheduler/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-non-public': path.join(_schedulerPath, '/src/request-non-public/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-public': path.join(_schedulerPath, '/src/request-public/index.jsx'),
-        'workscheduler/applications/web/models/scheduler/statics/js/scheduler-calendar': path.join(_schedulerPath, '/src/scheduler-calendar/index.jsx'),
+        'workscheduler/applications/web/models/scheduler/statics/js/scheduler-month-year-setting': path.join(_schedulerPath, '/src/scheduler-month-year-setting/index.jsx'),
     },
 
     output: {

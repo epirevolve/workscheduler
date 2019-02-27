@@ -8,7 +8,7 @@ import { openDialogToAppend } from '../actions';
 import { openDialogToEdit } from '../actions';
 
 const mapStateToProps = (state) => ({
-    calendar: state.calendar
+    requestCalendar: state.requestCalendar
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -11,9 +11,9 @@ import App from './components/App'
 
 const $script = $('script[src*="request-public"]');
 
-const calendar = $script.data('calendar');
+const requestCalendar = $script.data('calendar');
 
-const store = createStore(rootReducer, {calendar, dialog: {isOpen: false}})
+const store = createStore(rootReducer, {requestCalendar, requestDialog: {isOpen: false}})
 
 render(
     <Provider store={store}>

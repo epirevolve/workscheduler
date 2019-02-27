@@ -21,15 +21,28 @@
     text-align: center;
 }
 
-#date-set select {
-    width: auto !important;
-}
-
-.list-group {
-    max-height: 22rem;
-    overflow-y: scroll;
-}
-
 *, ::after, ::before {
     box-sizing: initial;
+}
+
+.title input {
+    font-size: 2rem;
+    width: 9rem;
+}
+
+.add-fixed-schedule {
+    left: 90%;
+    position: absolute;
+}
+
+.add-participants {
+    position: relative;
+    left: 80%;
+    float: left;
+}
+
+.participants {
+    max-height: 12rem;
+    overflow-y: auto;
+    right: 20%;
 }

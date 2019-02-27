@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onRequireChange: (day, categoryId) => (require) => dispatch(changeRequire(day, categoryId, require))
+    onRequireChange: (day, categoryId) => (e) => dispatch(changeRequire(day, categoryId, e.target.value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DayRequireTable);

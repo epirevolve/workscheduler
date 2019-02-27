@@ -7,7 +7,7 @@ const dayRequireBody = ({ days, onRequireChange }) => {
     for (let day of days) {
         for (let detail of day.details) {
             if (!(detail.workCategory.id in requiresOfCategory)) requiresOfCategory[detail.workCategory.id] = []
-            requiresOfCategory[detail.workCategory.id].push(detail.require)
+            requiresOfCategory[detail.workCategory.id].push([day.day, detail.require])
         }
     }
 

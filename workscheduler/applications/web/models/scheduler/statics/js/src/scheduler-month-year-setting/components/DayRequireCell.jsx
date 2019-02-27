@@ -8,7 +8,7 @@ import Select from '@material-ui/core/Select';
 const dayRequireCell = ({ require, onRequireChange }) => {
     const count = [];
     for (let i = 0; i < 21; i ++) {
-        count.push(<MenuItem value={i}>{i}</MenuItem>)
+        count.push(<MenuItem key={i} value={i}>{i}</MenuItem>)
     }
     return (
         <td>

@@ -2,9 +2,7 @@ import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -18,64 +16,49 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Checkbox from '@material-ui/core/Checkbox';
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
-import { TimeFormatInput } from 'material-ui-next-pickers'
 
 import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
 import 'rc-calendar/assets/index';
-import 'rc-time-picker/assets/index';
-import TimePickerPanel from 'rc-time-picker/lib/Panel';
-import TimePicker from 'rc-time-picker';
 import moment from 'moment';
+
+const $script = $('script[src*="scheduler-month-year-setting"]');
+
+const operators = $script.data('operators');
 
 function isValidRange(v) {
   return v && v[0] && v[1];
 }
 
-const styles = (theme) => ({
-    input: {
-        minWidth: '180px',
-        flexGrow: 1,
-        maxWidth: '100%',
-        height: 'auto',
-        padding: '6px 0 7px',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis'
-    }
-})
-
 class FixedSchedule extends React.Component {
     constructor (props) {
         super(props);
-        this.state = {isOpen: false};
+        this.state = { anchorEl: null };
     }
 
-    handleClick (operator, onParticipantChange) {
-        return () => onParticipantChange(operator);
-    };
-
     render () {
-        const { fixedSchedule, handleRemove, onTitleChange, onDateChange, onAtFromChange, onAtToChange, onParticipantChange } = this.props;
+        const { fixedSchedule, handleRemove, onTitleChange, onDateChange,
+            onAtFromChange, onAtToChange, onParticipantChange } = this.props;
 
-        const timePickerElement = <TimePickerPanel defaultValue={moment('00:00', 'HH:mm')}
-            showSecond={false} minuteStep={15} />;
         const calendar = <RangeCalendar showDateInput={false} disabledDate={this.disabledDate}
             showToday={false} format='YYYY-MM-DD' />;
 
-        const operators = [];
+        const operatorsList = [];
         const participantIds = fixedSchedule.participants.map(x => x.id);
         for (let operator of operators) {
-            operators.push(
-                <ListItem key={operator.id} button onClick={this.handleClick(operator, onParticipantChange)}>
+            operatorsList.push(
+                <ListItem key={operator.id} button onClick={() => onParticipantChange(operator)}>
                     <Checkbox checked={participantIds.indexOf(operator.id) !== -1} tabIndex={-1} disableRipple />
                     <ListItemText primary={operator.user.name} />
                 </ListItem>
             )
         }
 
+        const { anchorEl } = this.state;
+        const isOpen = Boolean(anchorEl);
+
         const participants = [];
-        for (let participant of participants) {
+        for (let participant of fixedSchedule.participants) {
             participants.push(
                 <ListItem key={participant.id}>
                     <ListItemText primary={participant.user.name} />
@@ -101,26 +84,28 @@ class FixedSchedule extends React.Component {
                                     InputProps={{ readOnly: true, tabIndex: "-1" }} value={disp} />
                                 )}}
                     </DatePicker>
-                    <div style={{ margin:'1rem 0' }}>
-                        <TimeFormatInput label="start time" mode="24h" value={moment(fixedSchedule.atFrom, 'HH:mm').toDate()}
-                            onChange={onAtFromChange} selectableMinutesInterval="15" margin="normal" />
-                        <TimeFormatInput label="end time" mode="24h" value={moment(fixedSchedule.atTo, 'HH:mm').toDate()}
-                            onChange={onAtToChange} selectableMinutesInterval="15" margin="normal" />
+                    <div className="my-3">
+                        <TextField label="start time" type="time" className="mr-4" onChange={onAtFromChange}
+                            value={fixedSchedule.atFrom ? moment(fixedSchedule.atFrom, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
+                        <TextField label="end time" type="time" onChange={onAtToChange}
+                            value={fixedSchedule.atTo ? moment(fixedSchedule.atTo, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                     </div>
-                    <Popover open={this.state.isOpen} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}>
+                    <Popover open={isOpen} anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
+                        onClose={() => this.setState({anchorEl: null})}>
                         <List subheader={<ListSubheader component="div">operators</ListSubheader>}>
-                            {operators}
+                            {operatorsList}
                         </List>
                     </Popover>
-                    <List subheader={<ListSubheader component="div">participants</ListSubheader>}>
-                        {participants}
-                    </List>
-                    <Fab color="secondary" aria-label="Edit" onClick={() => this.setState({isOpen: true})}>
+                    <Fab color="secondary" aria-label="Edit" className="add-participants"
+                        onClick={(event) => this.setState({anchorEl: event.currentTarget})}>
                         <Icon>edit_icon</Icon>
                     </Fab>
+                    <List className="participants" subheader={<ListSubheader component="div">participants</ListSubheader>}>
+                        {participants}
+                    </List>
                 </CardContent>
                 <CardActions disableActionSpacing>
-                    <Button onClick={handleRemove}>
+                    <Button onClick={handleRemove} variant="outlined" color="secondary">
                         Remove
                     </Button>
                 </CardActions>

@@ -43,28 +43,26 @@ Date.prototype.setLatestTime = function () {
 }
 
 Date.prototype.toYearMonthFormatString = function () {
-    let month = (this.getMonth()+1).toString().padStart(2, '0');
+    const month = (this.getMonth()+1).toString().padStart(2, '0');
     return `${this.getFullYear()}-${month}`
 }
 
+Date.prototype.toHourMinuteFormatString = function () {
+    const hour = (this.getHours()).toString().padStart(2, '0');
+    const minute = (this.getMinutes()).toString().padStart(2, '0');
+    return `${hour}:${minute}`;
+}
+
 Date.prototype.toDateFormatString = function () {
-    let month = (this.getMonth()+1).toString().padStart(2, '0');
-    let day = (this.getDate()).toString().padStart(2, '0')
+    const month = (this.getMonth()+1).toString().padStart(2, '0');
+    const day = (this.getDate()).toString().padStart(2, '0')
     return `${this.getFullYear()}-${month}-${day}`
 }
 
 Date.prototype.toDateTimeFormatString = function () {
-    let month = (this.getMonth()+1).toString().padStart(2, '0');
-    let day = (this.getDate()).toString().padStart(2, '0');
-    let hour = (this.getHours()).toString().padStart(2, '0');
-    let minute = (this.getMinutes()).toString().padStart(2, '0');
+    const month = (this.getMonth()+1).toString().padStart(2, '0');
+    const day = (this.getDate()).toString().padStart(2, '0');
+    const hour = (this.getHours()).toString().padStart(2, '0');
+    const minute = (this.getMinutes()).toString().padStart(2, '0');
     return `${this.getFullYear()}-${month}-${day} ${hour}:${minute}`
 }
-
-$.ajaxSetup({
-    beforeSend: function (xhr, settings) {
-        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrfToken);
-        }
-    }
-});

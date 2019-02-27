@@ -2,7 +2,7 @@
 'use strict';
 
 import { AlertManager } from '/statics/js/alert-helper.js';
-import { newPseudoUuid } from '/statics/js/util.js';
+import { newPseudoUuid } from '/statics/js/id-util.js';
 
 (function () {
     let removeDraggable = function ($this, $ui) {

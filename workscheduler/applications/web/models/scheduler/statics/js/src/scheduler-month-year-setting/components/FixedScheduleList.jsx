@@ -11,19 +11,20 @@ const fixedScheduleList = ({ fixedSchedules, handleAppend, handleRemove, onTitle
     const fixedScheduleList = [];
     for (let fixedSchedule of fixedSchedules) {
         fixedScheduleList.push(
-        <Grid item xs={12} sm={3} key={fixedSchedule.id}>
+        <Grid item xs={12} sm={3} key={fixedSchedule.id} className="mr-4">
             <FixedSchedule fixedSchedule={fixedSchedule}
-                handleRemove={handleRemove} onTitleChange={onTitleChange} onDateChange={onDateChange}
-                onAtFromChange={onAtFromChange} onAtToChange={onAtToChange} onParticipantChange={onParticipantChange} />
+                handleRemove={handleRemove} onTitleChange={onTitleChange(fixedSchedule.id)}
+                onDateChange={onDateChange(fixedSchedule.id)} onAtFromChange={onAtFromChange(fixedSchedule.id)}
+                onAtToChange={onAtToChange(fixedSchedule.id)} onParticipantChange={onParticipantChange(fixedSchedule.id)} />
         </Grid>)
     }
 
     return (
-        <div style={{ margin:'1rem' }}>
-            <Grid container spacing={24}>
-                <Fab color="primary" aria-label="Append" onClick={handleAppend}>
-                    <AddIcon />
-                </Fab>
+        <div className="my-4">
+            <Fab color="primary" aria-label="Append" className="add-fixed-schedule" onClick={handleAppend}>
+                <AddIcon />
+            </Fab>
+            <Grid container>
                 {fixedScheduleList}
             </Grid>
         </div>

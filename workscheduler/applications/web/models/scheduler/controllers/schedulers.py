@@ -127,7 +127,7 @@ def show_calendar(affiliation_id: str, schedule_of: str):
     action = url_for('schedulers.update_calendar', affiliation_id=affiliation_id,
                      schedule_of=schedule_of, calendar_id=scheduler.id)
     
-    return render_template('scheduler-calendar.html', save_action=action,
+    return render_template('scheduler-month-year-setting.html', save_action=action,
                            scheduler=scheduler, month_year_setting=month_year_setting, operators=operators)
 
 

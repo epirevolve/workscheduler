@@ -4,8 +4,8 @@ import DayRequireCell from './DayRequireCell'
 
 const dayRequireRow = ({ category, requires, onRequireChange }) => {
     const cells = [];
-    for (let [index, require] of requires.entries()) {
-        cells.push(<DayRequireCell key={index} require={require} onRequireChange={onRequireChange} />)
+    for (let [day, require] of requires) {
+        cells.push(<DayRequireCell key={day} require={require} onRequireChange={onRequireChange(day, category.id)} />)
     }
 
     return (

@@ -4,13 +4,14 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import DatePicker from 'rc-calendar/lib/Picker';
 import MonthCalendar from 'rc-calendar/lib/MonthCalendar';
 import 'rc-calendar/assets/index';
 import moment from 'moment';
 
-const $script = $('script[src*="scheduler-calendar"]');
+const $script = $('script[src*="scheduler-month-year-setting"]');
 
 const url = $script.data('url');
 const scheduleOf = $script.data('scheduleOf');
@@ -25,12 +26,12 @@ class Title extends React.Component {
     render () {
         const calendar = <MonthCalendar />;
         return (
-            <div className="my-3" style={{ display: 'flex', alignItems: 'center' }}>
+            <div className="mt-2 mb-4" style={{ display: 'flex', alignItems: 'center' }}>
                 <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
                     value={moment(scheduleOf)} onChange={this.onScheduleChange}>
                     { ({ value }) => {
                         return (
-                            <TextField inputProps={{ readOnly: true, tabIndex: "-1" }}
+                            <TextField inputProps={{ readOnly: true, tabIndex: "-1" }} className="title"
                                 value={`${value.format('YYYY-MM')}` || ''} />
                         )}}
                 </DatePicker>

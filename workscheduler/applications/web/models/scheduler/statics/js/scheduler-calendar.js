@@ -1,7 +1,7 @@
 ;
 'use strict';
 
-import { newPseudoUuid } from '/statics/js/util.js';
+import { newPseudoUuid } from '/statics/js/id-util.js';
 
 (function () {
     let setRegulatedDate = function () {

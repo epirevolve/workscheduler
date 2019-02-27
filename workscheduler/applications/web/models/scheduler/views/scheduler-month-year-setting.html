@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="root"></div>
+{% endblock %}
+
+{% block css %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('schedulers.static', filename='css/scheduler-month-year-setting.css') }}" />
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+<script type="module" src="{{ url_for('schedulers.static', filename='js/scheduler-month-year-setting.bundle.min.js') }}"
+    data-schedule-of="{{ month_year_setting.schedule_of }}" data-affiliation-name="{{ scheduler.affiliation.name }}"
+    data-month-year-setting="{{ to_json(month_year_setting) }}" data-operators="{{ to_json(operators) }}"></script>
+{% endblock %}

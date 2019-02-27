@@ -34,14 +34,14 @@ class RequestDialog extends React.Component {
     }
 
     render () {
-        const { dialog, onTitleChange, onNoteChange, onDateChange,
+        const { requestDialog, onTitleChange, onNoteChange, onDateChange,
             handleClose, handleRemove, handleSave } = this.props;
         const timePickerElement = <TimePickerPanel defaultValue={moment('00:00', 'HH:mm')}
             showSecond={false} minuteStep={15} />;
         const calendar = <RangeCalendar showDateInput={false} disabledDate={this.disabledDate}
             timePicker={timePickerElement} showToday={false} format='YYYY-MM-DD HH:mm' />;
         return (
-            <Dialog open={dialog.isOpen} aria-labelledby="request-store">
+            <Dialog open={requestDialog.isOpen} aria-labelledby="request-store">
                 <DialogTitle id="simple-dialog-title">Set request</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -49,11 +49,11 @@ class RequestDialog extends React.Component {
                         This request is not notified to an administrators.
                     </DialogContentText>
                     <TextField autoFocus margin="dense" label="title" fullWidth
-                        onChange={onTitleChange} value={dialog.title} />
+                        onChange={onTitleChange} value={requestDialog.title} />
                     <TextField autoFocus margin="dense" label="note" fullWidth
-                        onChange={onNoteChange} value={dialog.note} />
+                        onChange={onNoteChange} value={requestDialog.note} />
                     <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                        value={[dialog.atFrom, dialog.atTo]} onChange={onDateChange} >
+                        value={[requestDialog.atFrom, requestDialog.atTo]} onChange={onDateChange} >
                         { ({ value }) => {
                             const formatDate = (x) => x.format('YYYY-MM-DD HH:mm')
                             const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
@@ -68,12 +68,12 @@ class RequestDialog extends React.Component {
                         Close
                     </Button>
                     { (() => {
-                        if (dialog.id)
-                            <Button onClick={() => handleRemove(dialog.id)} color="primary">
+                        if (requestDialog.id)
+                            <Button onClick={() => handleRemove(requestDialog.id)} color="primary">
                                 Remove
                             </Button>
                     })() }
-                    <Button onClick={() => handleSave(dialog)} color="primary">
+                    <Button onClick={() => handleSave(requestDialog)} color="primary">
                         Save
                     </Button>
                 </DialogActions>

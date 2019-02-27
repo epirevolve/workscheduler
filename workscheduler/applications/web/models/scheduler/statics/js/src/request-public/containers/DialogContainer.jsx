@@ -21,7 +21,7 @@ const url = $script.data('urlAddRequest');
 const scheduleOf = new Date($script.data('scheduleOf')).toYearMonthFormatString();
 
 const mapStateToProps = (state) => ({
-    dialog: state.dialog
+    requestDialog: state.requestDialog
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -30,10 +30,10 @@ const mapDispatchToProps = (dispatch) => ({
     onDateChange: (dates) => dispatch(changeDate(dates)),
     handleClose: () => dispatch(closeDialog()),
     handleRemove: (id) => dispatch(removeRequest(id)),
-    handleSave: (dialog, callback) => {
-        const data = {...dialog,
-            atFrom: dialog.atFrom.toDate().toDateTimeFormatString(),
-            atTo: dialog.atTo.toDate().toDateTimeFormatString()};
+    handleSave: (requestDialog, callback) => {
+        const data = {...requestDialog,
+            atFrom: requestDialog.atFrom.toDate().toDateTimeFormatString(),
+            atTo: requestDialog.atTo.toDate().toDateTimeFormatString()};
 
         const post = () => {
             requestAgent

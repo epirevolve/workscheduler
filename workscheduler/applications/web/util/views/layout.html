@@ -25,7 +25,8 @@
             const csrfToken = "{{ csrf_token() }}";
             const operatorId = "{{ operator_id }}";
         </script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/extension.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/date-extension.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-extension.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/default.js') }}"></script>
     </head>
     <body>
@@ -64,7 +65,7 @@
             <a class="navbar-brand" href="#">Work Scheduler</a>
             {% endif %}
         </nav>
-        <div class="container-fluid m-2 px-5 py-3" role="main">
+        <div class="container-fluid py-3 px-0" style="width: 95%" role="main">
             <div id="alertContainer">
             {% for category, message in get_flashed_messages(with_categories=true) %}
                 {% if category == 'message' %}

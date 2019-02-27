@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onChange: (count) => dispatch(changeMonthlyHoliday(count))
+    onChange: (e) => dispatch(changeMonthlyHoliday(e.target.value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MonthlyHoliday);
