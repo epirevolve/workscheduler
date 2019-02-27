@@ -112,10 +112,10 @@ def show_menu():
     return render_template('scheduler-menu.html', affiliations=affiliations)
 
 
-@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars')
+@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/month-year-settings')
 @login_required
 @admin_required
-def show_calendar(affiliation_id: str, schedule_of: str):
+def show_month_year_setting(affiliation_id: str, schedule_of: str):
     if schedule_of and not isinstance(schedule_of, date):
         schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
     
@@ -124,24 +124,21 @@ def show_calendar(affiliation_id: str, schedule_of: str):
     month_year_setting = scheduler.month_year_setting(schedule_of.month, schedule_of.year)
     operators = OperatorQuery(session).get_operators()
     
-    action = url_for('schedulers.update_calendar', affiliation_id=affiliation_id,
-                     schedule_of=schedule_of, calendar_id=scheduler.id)
-    
-    return render_template('scheduler-month-year-setting.html', save_action=action,
+    return render_template('scheduler-month-year-setting.html',
                            scheduler=scheduler, month_year_setting=month_year_setting, operators=operators)
 
 
-@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars/<calendar_id>', methods=['POST'])
+@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/month-year-settings/<month_year_setting_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_calendar(affiliation_id: str, schedule_of: str, calendar_id: str):
+def update_calendar(affiliation_id: str, schedule_of: str, month_year_setting_id: str):
     pass
 
 
-@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/calendars/<calendar_id>/public', methods=['POST'])
+@bp.route('/affiliations/<affiliation_id>/scheduler-of/<schedule_of>/month-year-settings/<month_year_setting_id>/public', methods=['POST'])
 @login_required
 @admin_required
-def public_calendar(affiliation_id: str, schedule_of: str, calendar_id: str):
+def public_calendar(affiliation_id: str, schedule_of: str, month_year_setting_id: str):
     pass
 
 
@@ -171,7 +168,7 @@ def update_basic_option(affiliation_id, option_id):
         req = SchedulerCommandAdapter(session).update_option(BaseSettingForm(request=request.form))
         session.commit()
         response = jsonify({
-            'redirect': url_for('schedulers.show_calendar',
+            'redirect': url_for('schedulers.show_month_year_setting',
                                 affiliation_id=affiliation_id, schedule_of=to_year_month_string(get_next_month()))
         })
     except Exception as e:

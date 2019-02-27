@@ -81,6 +81,10 @@ const monthYearSetting = (state = {}, action) => {
                         participants: []
                     })
             }
+        case 'REMOVE_FIXED_SCHEDULE':
+            return {...state,
+                fixedSchedules: state.fixedSchedules.filter(fixedSchedule => fixedSchedule.id != action.id)
+            }
         default:
             return state
     }

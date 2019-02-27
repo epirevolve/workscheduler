@@ -13,7 +13,7 @@ const fixedScheduleList = ({ fixedSchedules, handleAppend, handleRemove, onTitle
         fixedScheduleList.push(
         <Grid item xs={12} sm={3} key={fixedSchedule.id} className="mr-4">
             <FixedSchedule fixedSchedule={fixedSchedule}
-                handleRemove={handleRemove} onTitleChange={onTitleChange(fixedSchedule.id)}
+                handleRemove={handleRemove(fixedSchedule.id)} onTitleChange={onTitleChange(fixedSchedule.id)}
                 onDateChange={onDateChange(fixedSchedule.id)} onAtFromChange={onAtFromChange(fixedSchedule.id)}
                 onAtToChange={onAtToChange(fixedSchedule.id)} onParticipantChange={onParticipantChange(fixedSchedule.id)} />
         </Grid>)

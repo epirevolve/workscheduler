@@ -15,12 +15,12 @@ const $script = $('script[src*="scheduler-month-year-setting"]');
 
 const url = $script.data('url');
 const scheduleOf = $script.data('scheduleOf');
-const affiliationName = $script.data('affiliationName');
+const affiliation = $script.data('affiliation');
 
 class Title extends React.Component {
     onScheduleChange (date) {
         const s = date.toDate().toYearMonthFormatString();
-        location.href = url.replace('schedule_of', s);
+        location.href = url.replace('affiliation_id', affiliation.id).replace('schedule_of', s);
     }
 
     render () {
@@ -37,7 +37,7 @@ class Title extends React.Component {
                 </DatePicker>
                 <h2 className="mx-4">of</h2>
                 <div>
-                    <h1>{affiliationName}</h1>
+                    <h1>{affiliation.name}</h1>
                 </div>
             </div>
         )
