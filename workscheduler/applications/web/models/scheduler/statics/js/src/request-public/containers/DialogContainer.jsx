@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
     onDateChange: (dates) => dispatch(changeDate(dates)),
     handleClose: () => dispatch(closeDialog()),
     handleRemove: (id) => dispatch(removeRequest(id)),
-    handleSave: (requestDialog, callback) => {
+    handleSave: (requestDialog) => {
         const data = {...requestDialog,
             atFrom: requestDialog.atFrom.toDate().toDateTimeFormatString(),
             atTo: requestDialog.atTo.toDate().toDateTimeFormatString()};

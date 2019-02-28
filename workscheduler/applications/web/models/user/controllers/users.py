@@ -8,13 +8,14 @@ from flask import url_for
 from flask import render_template
 from flask import flash
 from flask_login import login_required
-from flask_login import current_user
+
+import mypackages.utils.jsonize as jsonize
 
 from workscheduler.applications.services import UserQuery
 from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.web import get_db_session
 from workscheduler.applications.web.util.functions.controller import admin_required
-from ..forms import UserForm, UsersForm
+from ..forms import UsersForm
 from ..adapters import UserCommandAdapter
 
 
@@ -24,19 +25,24 @@ bp = Blueprint('users', __name__, template_folder='../views', static_folder="../
 @bp.route('/myself/<user_id>')
 @login_required
 def show_myself(user_id):
-    return render_template('user.html', form=UserForm(obj=current_user))
+    return render_template('user.html')
 
 
 @bp.route('/myself/<user_id>', methods=['POST'])
 @login_required
 def update_myself(user_id):
     session = get_db_session()
-    UserCommandAdapter(session).update_myself(UserForm())
-    session.commit()
-    
-    flash('My info is successfully changed.')
-    
-    return redirect(url_for('users.show_myself', user_id=current_user.id))
+    try:
+        UserCommandAdapter(session).update_myself(jsonize.loads(request.data))
+        session.commit()
+
+        response = Response()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response
 
 
 @bp.route('/')

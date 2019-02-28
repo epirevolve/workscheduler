@@ -2,7 +2,6 @@
 
 from datetime import datetime
 from datetime import date
-import json
 
 from flask import Blueprint
 from flask import url_for
@@ -16,8 +15,7 @@ from flask_login import current_user
 
 from mypackages.utils.date import get_next_month
 from mypackages.utils.date import to_year_month_string
-from mypackages.utils.jsonify import to_json
-from mypackages.utils.jsonify import loads
+import mypackages.utils.jsonize as jsonize
 
 from workscheduler.applications.errors import CalendarError
 from workscheduler.applications.errors import RequestError
@@ -74,11 +72,11 @@ def append_my_request():
     session = get_db_session()
     try:
         req = SchedulerCommandAdapter(session).append_my_request(
-            scheduler_id, loads(request.data))
+            scheduler_id, jsonize.loads(request.data))
         session.commit()
         
         session.refresh(req)
-        response = Response(to_json(req))
+        response = Response(jsonize.dumps(req))
         response.status_code = 200
     except CalendarError as e:
         session.rollback()
@@ -157,7 +155,7 @@ def show_monthly_setting_inner(monthly_setting_id: str):
 def update_monthly_setting(monthly_setting_id: str):
     session = get_db_session()
     try:
-        SchedulerCommandAdapter(session).update_monthly_setting(loads(request.data))
+        SchedulerCommandAdapter(session).update_monthly_setting(jsonize.loads(request.data))
         session.commit()
         
         response = Response()

@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.applications.services import AuthFacade
-from ..forms.auth_form import AuthForm
 
 
 class AuthFacadeAdapter(AuthFacade):
-    def login(self, form: AuthForm):
-        if not form.validate_on_submit():
-            raise ValueError()
+    def login(self, data):
         return super(AuthFacadeAdapter, self).login(
-            form.login_id.data, form.password.data)
+            data.get('loginId'), data.get('password'))

@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
-import { AlertManager } from 'alert-helper';
-
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+
+import { AlertManager } from 'alert-helper';
 
 const $script = $('script[src*="scheduler-monthly-setting"]');
 

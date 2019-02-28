@@ -4,7 +4,7 @@ import Title from './Title';
 import DayRequireContainer from '../containers/DayRequireContainer';
 import MonthlyHolidayContainer from '../containers/MonthlyHolidayContainer';
 import FixedScheduleListContainer from '../containers/FixedScheduleListContainer';
-import ActionContainer from '../containers/ActionContainer';
+import MonthlySettingContainer from '../containers/MonthlySettingContainer';
 
 const app = () => (
     <React.Fragment>
@@ -12,7 +12,7 @@ const app = () => (
         <DayRequireContainer />
         <MonthlyHolidayContainer />
         <FixedScheduleListContainer />
-        <ActionContainer />
+        <MonthlySettingContainer />
     </React.Fragment>
 )
 

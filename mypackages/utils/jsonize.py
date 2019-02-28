@@ -31,7 +31,7 @@ def json_serial(obj):
     raise TypeError("Type %s not serializable" % type(obj))
 
 
-def to_json(obj):
+def dumps(obj):
     return json.dumps(to_dict(obj), default=json_serial)
 
 

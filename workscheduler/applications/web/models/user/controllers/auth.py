@@ -5,13 +5,15 @@ from flask import redirect
 from flask import url_for
 from flask import render_template
 from flask import flash
+from flask import request
 from flask_login import login_user
 from flask_login import logout_user
+
+import mypackages.utils.jsonize as jsonize
 
 from workscheduler.applications.services import UserQuery
 from workscheduler.applications.web import get_db_session
 from ..adapters import AuthFacadeAdapter
-from ..forms import AuthForm
 
 
 bp = Blueprint('auths', __name__, template_folder='../views', static_url_path="../statics")
@@ -23,16 +25,15 @@ def load_user(user_id):
 
 @bp.route('/')
 def index():
-    return render_template('auth.html', form=AuthForm())
+    return render_template('auth.html')
 
 
 @bp.route('/auth/login', methods=['POST'])
 def login():
-    form = AuthForm()
-    user = AuthFacadeAdapter(get_db_session()).login(form)
+    user = AuthFacadeAdapter(get_db_session()).login(jsonize.to_dict(request.form))
     if not user:
         flash('Invalid username or password, or inactivated user', 'error')
-        return render_template('auth.html', form=form)
+        return index()
     login_user(user)
     flash('You were logged in')
     return redirect(url_for('menus.show_menu'))
@@ -42,4 +43,4 @@ def login():
 def logout():
     logout_user()
     flash('You were logged out')
-    return render_template('auth.html', form=AuthForm())
+    return render_template('auth.html')

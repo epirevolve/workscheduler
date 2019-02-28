@@ -1,31 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
-<form action="{{ url_for('users.update_myself', user_id=current_user.id) }}" method="post">
-    {{ form.hidden_tag() }}
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Login Id</span>
-        </div>
-        <input type="text" class="form-control" name="login_id" value="{{ form.login_id.data }}" readonly>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Password</span>
-        </div>
-        <input type="password" class="form-control" name="password" value="{{ form.password.data }}">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Name</span>
-        </div>
-        <input type="text" class="form-control" name="name" value="{{ form.name.data }}">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Affiliation</span>
-        </div>
-        <input type="text" class="form-control" name="affiliation" value="{{ form.affiliation.data.name }}" readonly>
-    </div>
-    <button class="btn btn-primary btn-block" type="submit">Store User</button>
-</form>
+<div id="root"></div>
+<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+<script src="{{ url_for('users.static', filename='js/user.bundle.min.js') }}"
+    data-url="{{ url_for('users.update_myself', user_id=current_user.id) }}"
+    data-user="{{ to_json(current_user) }}"></script>
 {% endblock %}

@@ -3,15 +3,12 @@
 from workscheduler.applications.services import UserCommand
 from workscheduler.applications.web.util.functions.adapter import validate_form
 from ..forms import UsersForm
-from ..forms import UserForm
 
 
 class UserCommandAdapter(UserCommand):
-    def update_myself(self, form: UserForm):
-        if not validate_form(form):
-            return
+    def update_myself(self, data):
         super(UserCommandAdapter, self).update_myself(
-            form.id.data, form.password.data, form.name.data
+            data.get('id'), data.get('password'), data.get('name')
         )
     
     def append_user(self, form: UsersForm):
