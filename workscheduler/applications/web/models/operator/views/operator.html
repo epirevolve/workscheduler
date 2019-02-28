@@ -1,31 +1,11 @@
 {% extends "layout.html" %}
 {% block body %}
-<form action="{{ url_for('operators.update_myself', operator_id=operator_id) }}" method="post">
-    {{ form.hidden_tag() }}
-    <h3>Skills</h3>
-    <p>please set your skills. your skills are considered when creating a work schedule.</p>
-    <div id="skills" class="table-responsive mb-3">
-        {% for skill in form.all_certified_skills %}
-            <div class="m-1 custom-control custom-checkbox custom-control-inline">
-                <input type="checkbox" class="custom-control-input" id="{{ skill.id.data }}" name="{{ skill.is_obtain.id }}"
-                {% if skill.is_obtain.data %}checked{% endif %}>
-                <label class="custom-control-label" for="{{ skill.id.data }}">{{ skill.name.data }}</label>
-            </div>
-        {% endfor %}
-    </div>
+<div id="root"></div>
+{% endblock %}
 
-    <h3>Relations</h3>
-    <div class="table-responsive mb-3">
-
-    </div>
-
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Remain Paid Holiday</span>
-        </div>
-        <input type="number" class="form-control" name="remain_paid_holiday" value="{{ form.remain_paid_holiday.data }}">
-    </div>
-
-    <button class="btn btn-primary btn-block" type="submit" id="store">Store Operator</button>
-</form>
+{% block script %}
+<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+<script type="module" src="{{ url_for('operators.static', filename='js/operator.bundle.min.js') }}"
+    data-url="{{ url_for('operators.update_myself', operator_id=operator_id) }}"
+    data-operator="{{ to_json(operator) }}" data-skills="{{ to_json(skills) }}"></script>
 {% endblock %}

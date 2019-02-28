@@ -33,7 +33,7 @@ class Operator(OrmBase):
     relations = relationship("Relation", secondary=associated_relation_table, lazy='joined')
     _ojt_id = Column(String, ForeignKey('operators.id'))
     ojt = relationship("Operator", uselist=False, lazy='joined')
-    remain_paid_holiday = Column(Integer, default=0)
+    remain_paid_holidays = Column(Integer, default=0)
 
     def __init__(self, id_: str, user: User):
         self.id = id_

@@ -4,10 +4,10 @@ const monthlySetting = (state = {}, action) => {
     switch (action.type) {
         case 'CHANGE_REQUIRE':
             return {...state,
-                days: state.days.map(day => {
-                    if (day.day != action.day) return day;
-                    return {...day,
-                        details: day.details.map(detail => {
+                days: state.days.map(x => {
+                    if (x.day != action.day) return x;
+                    return {...x,
+                        details: x.details.map(detail => {
                             if (detail.workCategory.id != action.categoryId) return detail;
                             return {...detail,
                                 require: action.require
@@ -22,18 +22,18 @@ const monthlySetting = (state = {}, action) => {
             }
         case 'CHANGE_FIXED_SCHEDULE_TITLE':
             return {...state,
-                fixedSchedules: state.fixedSchedules.map(fixedSchedule => {
-                    if (fixedSchedule.id != action.id) return fixedSchedule;
-                    return {...fixedSchedule,
+                fixedSchedules: state.fixedSchedules.map(x => {
+                    if (x.id != action.id) return x;
+                    return {...x,
                         title: action.title
                     }
                 })
             }
         case 'CHANGE_FIXED_SCHEDULE_DATE':
             return {...state,
-                fixedSchedules: state.fixedSchedules.map(fixedSchedule => {
-                    if (fixedSchedule.id != action.id) return fixedSchedule;
-                    return {...fixedSchedule,
+                fixedSchedules: state.fixedSchedules.map(x => {
+                    if (x.id != action.id) return x;
+                    return {...x,
                         onFrom: action.date[0].toDate().toDateFormatString(),
                         onTo: action.date[1].toDate().toDateFormatString()
                     }
@@ -41,31 +41,31 @@ const monthlySetting = (state = {}, action) => {
             }
         case 'CHANGE_FIXED_SCHEDULE_AT_FROM':
             return {...state,
-                fixedSchedules: state.fixedSchedules.map(fixedSchedule => {
-                    if (fixedSchedule.id != action.id) return fixedSchedule;
-                    return {...fixedSchedule,
+                fixedSchedules: state.fixedSchedules.map(x => {
+                    if (x.id != action.id) return x;
+                    return {...x,
                         atFrom: action.atFrom + ':00'
                     }
                 })
             }
         case 'CHANGE_FIXED_SCHEDULE_AT_TO':
             return {...state,
-                fixedSchedules: state.fixedSchedules.map(fixedSchedule => {
-                    if (fixedSchedule.id != action.id) return fixedSchedule;
-                    return {...fixedSchedule,
+                fixedSchedules: state.fixedSchedules.map(x => {
+                    if (x.id != action.id) return x;
+                    return {...x,
                         atTo: action.atTo + ':00'
                     }
                 })
             }
         case 'CHANGE_FIXED_SCHEDULE_PARTICIPANT':
             return {...state,
-                fixedSchedules: state.fixedSchedules.map(fixedSchedule => {
-                    if (fixedSchedule.id != action.id) return fixedSchedule;
-                    const participantIds = fixedSchedule.participants.map(participant => participant.id);
-                    return {...fixedSchedule,
+                fixedSchedules: state.fixedSchedules.map(x => {
+                    if (x.id != action.id) return x;
+                    const participantIds = x.participants.map(y => y.id);
+                    return {...x,
                         participants: (participantIds.includes(action.participant.id))
-                            ? fixedSchedule.participants.filter(participant => participant.id != action.participant.id)
-                            : fixedSchedule.participants.concat(action.participant).sort((a, b) => (a.id < b.id) ? -1 : 1)
+                            ? x.participants.filter(y => y.id != action.participant.id)
+                            : x.participants.concat(action.participant).sort((a, b) => (a.id < b.id) ? -1 : 1)
                     }
                 })
             }
@@ -83,7 +83,7 @@ const monthlySetting = (state = {}, action) => {
             }
         case 'REMOVE_FIXED_SCHEDULE':
             return {...state,
-                fixedSchedules: state.fixedSchedules.filter(fixedSchedule => fixedSchedule.id != action.id)
+                fixedSchedules: state.fixedSchedules.filter(x => fixedSchedule.x != action.id)
             }
         default:
             return state

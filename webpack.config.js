@@ -2,6 +2,7 @@ const path = require('path');
 
 const _path = (folder) => `./workscheduler/applications/web/models/${folder}/statics/js`;
 const _userPath = _path('user');
+const _operatorPath = _path('operator');
 const _schedulerPath = _path('scheduler');
 
 module.exports = {
@@ -9,6 +10,7 @@ module.exports = {
     entry: {
         'workscheduler/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/user': path.join(_userPath, '/src/user/index.jsx'),
+        'workscheduler/applications/web/models/operator/statics/js/operator': path.join(_operatorPath, '/src/operator/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-non-public': path.join(_schedulerPath, '/src/request-non-public/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-public': path.join(_schedulerPath, '/src/request-public/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-monthly-setting': path.join(_schedulerPath, '/src/scheduler-monthly-setting/index.jsx'),

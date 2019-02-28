@@ -47,7 +47,7 @@ class FixedSchedule extends React.Component {
         for (let operator of operators) {
             operatorsList.push(
                 <ListItem key={operator.id} button onClick={() => onParticipantChange(operator)}>
-                    <Checkbox checked={participantIds.indexOf(operator.id) !== -1} tabIndex={-1} disableRipple />
+                    <Checkbox checked={participantIds.includes(operator.id)} tabIndex={-1} disableRipple />
                     <ListItemText primary={operator.user.name} />
                 </ListItem>
             )

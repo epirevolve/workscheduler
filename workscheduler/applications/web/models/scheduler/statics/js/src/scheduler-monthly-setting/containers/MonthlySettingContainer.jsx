@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button';
 import { AlertManager } from 'alert-helper';
 
 const $script = $('script[src*="scheduler-monthly-setting"]');
-
 const url = $script.data('urlSave');
 
 class ActionContainer extends React.Component {
