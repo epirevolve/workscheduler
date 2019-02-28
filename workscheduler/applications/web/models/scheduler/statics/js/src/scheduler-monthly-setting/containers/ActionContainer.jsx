@@ -8,54 +8,58 @@ import { AlertManager } from 'alert-helper';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+const $script = $('script[src*="scheduler-monthly-setting"]');
+
+const url = $script.data('urlSave');
+
 class ActionContainer extends React.Component {
-    handleSave (monthYearSetting) {
+    handleSave (monthlySetting) {
         requestAgent
             .post(url)
-            .send(monthYearSetting)
+            .send(monthlySetting)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we succeeded to store month-year setting.' +
+                alertManager.append('we succeeded to store monthly setting.' +
                     ' if you can public this calendar to operators, please click public calendar button.', 'alert-info')
             })
             .catch(err => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
-                const message = res.errorMessage || 'we have some trouble with storing month-year setting...';
+                const message = res.errorMessage || 'we have some trouble with storing monthly setting...';
                 alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
             });
     }
 
-    handlePublish (monthYearSetting) {
+    handlePublish (monthlySetting) {
         requestAgent
-            .post(url)
-            .send(monthYearSetting.id)
+            .post(`${url}/public`)
+            .send(monthlySetting)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we succeeded to publish month-year setting.', 'alert-info')
+                alertManager.append('we succeeded to publish monthly setting.', 'alert-info')
             })
             .catch(err => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
-                const message = res.errorMessage || 'we have some trouble with publishing month-year setting...';
+                const message = res.errorMessage || 'we have some trouble with publishing monthly setting...';
                 alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
             });
     }
 
     render () {
-        const { monthYearSetting } = this.props;
+        const { monthlySetting } = this.props;
 
         return (
             <React.Fragment>
                 <Button className="m-3" variant="contained" color="default" onClick={() => window.history.back()}>
                     Go Back
                 </Button>
-                <Button className="m-3" variant="contained" color="primary" onClick={() => this.handleSave(monthYearSetting)}>
+                <Button className="m-3" variant="contained" color="primary" onClick={() => this.handleSave(monthlySetting)}>
                     Save
                 </Button>
-                <Button className="m-3" variant="contained" color="secondary" onClick={() => this.handlePublish(monthYearSetting)}>
+                <Button className="m-3" variant="contained" color="secondary" onClick={() => this.handlePublish(monthlySetting)}>
                     Publish Calendar
                 </Button>
             </React.Fragment>
@@ -64,7 +68,7 @@ class ActionContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    monthYearSetting: state.monthYearSetting
+    monthlySetting: state.monthlySetting
 });
 
 export default connect(mapStateToProps)(ActionContainer);

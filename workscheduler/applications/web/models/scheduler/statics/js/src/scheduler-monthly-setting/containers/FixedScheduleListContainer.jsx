@@ -12,7 +12,7 @@ import { addFixedSchedule } from '../actions';
 import { removeFixedSchedule } from '../actions';
 
 const mapStateToProps = (state) => ({
-    fixedSchedules: state.monthYearSetting.fixedSchedules
+    fixedSchedules: state.monthlySetting.fixedSchedules
 });
 
 const mapDispatchToProps = (dispatch) => ({

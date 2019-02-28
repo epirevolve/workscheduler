@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import monthYearSetting from './month-year-setting';
+import monthlySetting from './monthly-setting';
 
 export default combineReducers({
-    monthYearSetting
+    monthlySetting
 })

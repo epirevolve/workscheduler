@@ -39,7 +39,7 @@ class CalendarCell extends React.Component {
             from.setDate(day.day);
             const to = new Date(request.atTo);
             let days = to.getDate() - from.getDate();
-            if (days <= 7 && from.getDay() < to.getDay()) {
+            if (days <= 7 && from.getDay() <= to.getDay()) {
             } else {
                 days = 6 - from.getDay();
             }

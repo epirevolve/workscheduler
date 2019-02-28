@@ -11,7 +11,7 @@ import MonthCalendar from 'rc-calendar/lib/MonthCalendar';
 import 'rc-calendar/assets/index';
 import moment from 'moment';
 
-const $script = $('script[src*="scheduler-month-year-setting"]');
+const $script = $('script[src*="scheduler-monthly-setting"]');
 
 const url = $script.data('url');
 const scheduleOf = $script.data('scheduleOf');
@@ -20,7 +20,7 @@ const affiliation = $script.data('affiliation');
 class Title extends React.Component {
     onScheduleChange (date) {
         const s = date.toDate().toYearMonthFormatString();
-        location.href = url.replace('affiliation_id', affiliation.id).replace('schedule_of', s);
+        location.href = url.replace('param_affiliation_id', affiliation.id).replace('param_calendar', s);
     }
 
     render () {

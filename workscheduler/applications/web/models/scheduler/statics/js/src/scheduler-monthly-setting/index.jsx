@@ -7,11 +7,11 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="scheduler-month-year-setting"]');
+const $script = $('script[src*="scheduler-monthly-setting"]');
 
-const monthYearSetting = $script.data('monthYearSetting');
+const monthlySetting = $script.data('monthlySetting');
 
-const store = createStore(rootReducer, {monthYearSetting});
+const store = createStore(rootReducer, {monthlySetting});
 
 render(
     <Provider store={store}>

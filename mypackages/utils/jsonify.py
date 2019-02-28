@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import re
 import json
 from datetime import datetime
 from datetime import date
@@ -17,7 +18,7 @@ def to_dict(obj):
     ret = None
     if isinstance(obj, dict):
         ret = {to_capitalize(k): to_dict(v) for k, v in obj.items() if not str(k).startswith('_')}
-    if isinstance(obj, list):
+    elif isinstance(obj, list):
         ret = [to_dict(v) for v in obj]
     elif hasattr(obj, '__dict__'):
         return to_dict(obj.__dict__)
@@ -32,3 +33,28 @@ def json_serial(obj):
 
 def to_json(obj):
     return json.dumps(to_dict(obj), default=json_serial)
+
+
+def to_snake(s):
+    first_cap_re = re.compile('(.)([A-Z][a-z]+)')
+    all_cap_re = re.compile('([a-z0-9])([A-Z])')
+    
+    def convert(name):
+        s1 = first_cap_re.sub(r'\1_\2', name)
+        return all_cap_re.sub(r'\1_\2', s1).lower()
+    
+    return convert(s)
+
+
+def recursive_to_snake(obj):
+    ret = None
+    if isinstance(obj, dict):
+        ret = {to_snake(k): recursive_to_snake(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        ret = [recursive_to_snake(v) for v in obj]
+    return ret or obj
+
+
+def loads(obj):
+    data = json.loads(obj)
+    return recursive_to_snake(data)

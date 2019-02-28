@@ -43,7 +43,7 @@ class MonthYearSetting(OrmBase):
     days = relationship("DaySetting", secondary=associated_calendar_day_table, lazy='joined')
     holidays = Column(Integer)
     fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='joined')
-    is_publish = Column(Boolean)
+    is_published = Column(Boolean)
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
 
@@ -55,7 +55,7 @@ class MonthYearSetting(OrmBase):
         self.days = days
         self.holidays = holidays
         self.fixed_schedules = []
-        self.is_publish = False
+        self.is_published = False
         self.is_fixed = False
         
     @property

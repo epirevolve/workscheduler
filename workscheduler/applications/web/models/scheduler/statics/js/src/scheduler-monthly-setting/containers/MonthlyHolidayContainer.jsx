@@ -6,7 +6,7 @@ import { changeMonthlyHoliday } from '../actions';
 import MonthlyHoliday from '../components/MonthlyHoliday';
 
 const mapStateToProps = (state) => ({
-    holidays: state.monthYearSetting.holidays
+    holidays: state.monthlySetting.holidays
 });
 
 const mapDispatchToProps = (dispatch) => ({

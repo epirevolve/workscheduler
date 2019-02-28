@@ -37,15 +37,7 @@ class MonthYearSetting extends React.Component {
         date.setMonth(date.getMonth() + addMonth);
         const date_str = date.toYearMonthFormatString();
 
-        location.href = url.replace('schedule_of', date_str);
-    }
-
-    handleToPrevious () {
-        this.requestOfOtherMonthYear(-1);
-    }
-
-    handleToNext () {
-        this.requestOfOtherMonthYear(1);
+        location.href = `${url}?calendar=${date_str}`;
     }
 
     render () {
@@ -54,7 +46,7 @@ class MonthYearSetting extends React.Component {
             <div className="cl-tool-header row">
                 <div className="cl-tool-left col-md-3">
                     <button type="button" className="btn btn-link" disabled={!prev}
-                        onClick={this.handleToPrevious}>
+                        onClick={() => this.requestOfOtherMonthYear(-1)}>
                         <span className="fa fa-chevron-left"></span>
                     </button>
                 </div>
@@ -63,7 +55,7 @@ class MonthYearSetting extends React.Component {
                 </div>
                 <div className="cl-tool-right col-md-3">
                     <button type="button" className="btn btn-link" disabled={!next}
-                        onClick={this.handleToNext}>
+                        onClick={() => this.requestOfOtherMonthYear(1)}>
                         <span className="fa fa-chevron-right"></span>
                     </button>
                 </div>

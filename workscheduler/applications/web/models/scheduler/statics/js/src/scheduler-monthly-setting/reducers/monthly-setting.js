@@ -1,6 +1,6 @@
 import { newPseudoUuid } from 'id-util';
 
-const monthYearSetting = (state = {}, action) => {
+const monthlySetting = (state = {}, action) => {
     switch (action.type) {
         case 'CHANGE_REQUIRE':
             return {...state,
@@ -44,7 +44,7 @@ const monthYearSetting = (state = {}, action) => {
                 fixedSchedules: state.fixedSchedules.map(fixedSchedule => {
                     if (fixedSchedule.id != action.id) return fixedSchedule;
                     return {...fixedSchedule,
-                        atFrom: action.atFrom
+                        atFrom: action.atFrom + ':00'
                     }
                 })
             }
@@ -53,7 +53,7 @@ const monthYearSetting = (state = {}, action) => {
                 fixedSchedules: state.fixedSchedules.map(fixedSchedule => {
                     if (fixedSchedule.id != action.id) return fixedSchedule;
                     return {...fixedSchedule,
-                        atTo: action.atTo
+                        atTo: action.atTo + ':00'
                     }
                 })
             }
@@ -75,9 +75,9 @@ const monthYearSetting = (state = {}, action) => {
                     {
                         id: newPseudoUuid(),
                         title: '',
-                        date: [undefined, undefined],
-                        atFrom: "00:00",
-                        atTo: "00:00",
+                        date: [moment(), moment()],
+                        atFrom: "00:00:00",
+                        atTo: "00:00:00",
                         participants: []
                     })
             }
@@ -90,4 +90,4 @@ const monthYearSetting = (state = {}, action) => {
     }
 }
 
-export default monthYearSetting;
+export default monthlySetting;

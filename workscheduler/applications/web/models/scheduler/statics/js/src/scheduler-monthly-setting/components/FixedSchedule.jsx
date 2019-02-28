@@ -22,7 +22,7 @@ import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
 import 'rc-calendar/assets/index';
 import moment from 'moment';
 
-const $script = $('script[src*="scheduler-month-year-setting"]');
+const $script = $('script[src*="scheduler-monthly-setting"]');
 
 const operators = $script.data('operators');
 
@@ -65,8 +65,6 @@ class FixedSchedule extends React.Component {
                 </ListItem>
             )
         }
-
-        const atFrom = moment().hour()
 
         return (
             <Card>

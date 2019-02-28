@@ -14,23 +14,38 @@ class SchedulerCommandAdapter:
     def __init__(self, session):
         self._session = session
     
-    def append_my_request(self, scheduler_id: str, month_year_setting_id: str, form):
-        event_title = form.get('title')
-        event_note = form.get('note') or ''
-        event_at_from = form.get('atFrom')
-        event_at_to = form.get('atTo')
-        if not event_title or not event_at_from or not event_at_to:
+    def append_my_request(self, scheduler_id: str, data: dict):
+        title = data.get('title')
+        note = data.get('note') or ''
+        at_from_str = data.get('at_from')
+        at_to_str = data.get('at_to')
+        if not title or not at_from_str or not at_to_str:
             raise ValueError()
-        at_from = datetime.strptime(event_at_from, '%Y-%m-%d %H:%M')
-        at_to = datetime.strptime(event_at_to, '%Y-%m-%d %H:%M')
+        at_from = datetime.strptime(at_from_str, '%Y-%m-%d %H:%M')
+        at_to = datetime.strptime(at_to_str, '%Y-%m-%d %H:%M')
         
         return SchedulerCommand(self._session).append_my_request(
-            current_user.id, scheduler_id, month_year_setting_id,
-            event_title, event_note, at_from, at_to
+            current_user.id, scheduler_id, title,
+            note, at_from, at_to
         )
     
     def update_my_request(self, form):
         pass
+    
+    def update_monthly_setting(self, data: dict):
+        id_ = data.get('id')
+        days = data.get('days')
+        holidays = data.get('holidays')
+        fixed_schedules = data.get('fixed_schedules')
+        is_published = data.get('is_published')
+        is_fixed = data.get('is_fixed')
+        return SchedulerCommand(self._session).update_monthly_setting(
+            id_, days, holidays,
+            fixed_schedules, is_published, is_fixed
+        )
+    
+    def public_monthly_setting(self, monthly_setting_id: str):
+        return SchedulerCommand(self._session).public_monthly_setting(monthly_setting_id)
     
     def append_work_category(self, form: WorkCategoryForm):
         if not validate_form(form):

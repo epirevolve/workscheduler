@@ -6,7 +6,7 @@ import DayRequireTable from '../components/DayRequireTable';
 import { changeRequire } from '../actions';
 
 const mapStateToProps = (state) => ({
-    days: state.monthYearSetting.days
+    days: state.monthlySetting.days
 });
 
 const mapDispatchToProps = (dispatch) => ({
