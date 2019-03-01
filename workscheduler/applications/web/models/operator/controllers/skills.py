@@ -2,9 +2,11 @@
 
 from flask import Blueprint
 from flask import request
-from flask import jsonify
 from flask import render_template
+from flask import Response
 from flask_login import login_required
+
+import mypackages.utils.jsonize as jsonize
 
 from workscheduler.applications.services import SkillQuery
 from workscheduler.applications.web import get_db_session
@@ -19,42 +21,61 @@ bp = Blueprint('skills', __name__, template_folder="../views", static_folder="..
 @login_required
 @admin_required
 def show_skills():
-    skill_repository = SkillQuery(get_db_session())
-    return render_template('skills.html',
-                           certified_skills=skill_repository.get_certified_skills(),
-                           not_certified_skills=skill_repository.get_not_certified_skills())
+    skill_query = SkillQuery(get_db_session())
+    return render_template('skills.html', skills=skill_query.get_skills())
 
 
-def _append_skill(adapter_function):
+@bp.route('/', methods=['POST'])
+@login_required
+@admin_required
+def append_skill():
     session = get_db_session()
     try:
-        req = adapter_function(SkillCommandAdapter(session))(request.form)
+        req = SkillCommandAdapter(session).append_skill(jsonize.loads(request.data))
         session.commit()
-
-        response = jsonify({
-            'skillId': req.id,
-            'skillName': req.name,
-            'skillScore': req.score,
-            'skillIsCertified': req.is_certified
-        })
-        response.status_code = 200
+        
+        session.refresh(req)
+        response = Response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()
         print(e)
-        response = jsonify()
+        response = Response()
         response.status_code = 400
     return response
 
 
-@bp.route('/certified_skill', methods=['POST'])
+@bp.route('/<skill_id>', methods=['POST'])
 @login_required
 @admin_required
-def append_certified_skill():
-    return _append_skill(lambda x: lambda y: x.append_certified_skill(y))
+def update_skill(skill_id: str):
+    session = get_db_session()
+    try:
+        req = SkillCommandAdapter(session).update_skill(jsonize.loads(request.data))
+        session.commit()
+        
+        session.refresh(req)
+        response = Response(jsonize.dumps(req))
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response
 
 
-@bp.route('/not_certified_skill', methods=['POST'])
+@bp.route('/<skill_id>', methods=['DELETE'])
 @login_required
 @admin_required
-def append_not_certified_skill():
-    return _append_skill(lambda x: lambda y: x.append_not_certified_skill(y))
+def remove_skill(skill_id: str):
+    session = get_db_session()
+    try:
+        req = SkillCommandAdapter(session).delete_skill(skill_id)
+        session.commit()
+        
+        response = Response(jsonize.dumps(req))
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response

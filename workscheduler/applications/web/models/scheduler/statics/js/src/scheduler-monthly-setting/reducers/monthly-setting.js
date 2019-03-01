@@ -1,4 +1,9 @@
+import moment from 'moment';
+
 import { newPseudoUuid } from 'id-util';
+
+const $script = $('script[src*="scheduler-monthly-setting"]');
+const scheduleOf = $script.data('scheduleOf');
 
 const monthlySetting = (state = {}, action) => {
     switch (action.type) {
@@ -75,7 +80,7 @@ const monthlySetting = (state = {}, action) => {
                     {
                         id: newPseudoUuid(),
                         title: '',
-                        date: [moment(), moment()],
+                        date: [moment(`${scheduleOf}`, 'YYYY-MM-DD'), moment(`${scheduleOf}`, 'YYYY-MM-DD')],
                         atFrom: "00:00:00",
                         atTo: "00:00:00",
                         participants: []
@@ -83,7 +88,7 @@ const monthlySetting = (state = {}, action) => {
             }
         case 'REMOVE_FIXED_SCHEDULE':
             return {...state,
-                fixedSchedules: state.fixedSchedules.filter(x => fixedSchedule.x != action.id)
+                fixedSchedules: state.fixedSchedules.filter(x => x.id != action.id)
             }
         default:
             return state

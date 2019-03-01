@@ -11,7 +11,6 @@ import 'rc-calendar/assets/index';
 import moment from 'moment';
 
 const $script = $('script[src*="scheduler-monthly-setting"]');
-
 const url = $script.data('url');
 const scheduleOf = $script.data('scheduleOf');
 const affiliation = $script.data('affiliation');

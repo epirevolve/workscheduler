@@ -6,6 +6,9 @@ from workscheduler.domains.models.operator import Skill
 class SkillQuery:
     def __init__(self, session):
         self._session = session
+
+    def get_skill(self, id_) -> Skill:
+        return self._session.query(Skill).get(id_)
     
     def get_skills(self) -> [Skill]:
         return self._session.query(Skill).order_by(Skill.id).all()

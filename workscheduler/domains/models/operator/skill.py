@@ -32,9 +32,5 @@ class Skill(OrmBase):
         return super(Skill, self).validate(Skill, key, value)
 
     @staticmethod
-    def new_certified_skill(name: str, score: int):
-        return Skill(UuidFactory.new_uuid(), name, score, True)
-    
-    @staticmethod
-    def new_not_certified_skill(name: str, score: int):
-        return Skill(UuidFactory.new_uuid(), name, score, False)
+    def new_skill(name: str, score: int, is_certified: bool):
+        return Skill(UuidFactory.new_uuid(), name, score, is_certified)

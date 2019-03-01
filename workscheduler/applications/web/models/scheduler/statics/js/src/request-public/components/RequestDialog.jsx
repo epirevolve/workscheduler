@@ -2,11 +2,11 @@ import React from 'react'
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
 
 import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
@@ -20,11 +20,6 @@ function isValidRange(v) {
 }
 
 class RequestDialog extends React.Component {
-    constructor (props) {
-        super(props);
-        this.state = {}
-    }
-
     disabledDate (current) {
         if (!current) {
             return false;
@@ -41,7 +36,7 @@ class RequestDialog extends React.Component {
             timePicker={timePickerElement} showToday={false} format='YYYY-MM-DD HH:mm' />;
         return (
             <Dialog open={requestDialog.isOpen} aria-labelledby="request-store">
-                <DialogTitle id="simple-dialog-title">Set request</DialogTitle>
+                <DialogTitle>Set request</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         To set your scheduled holiday, please submit your request.
@@ -66,12 +61,11 @@ class RequestDialog extends React.Component {
                     <Button onClick={handleClose} color="primary">
                         Close
                     </Button>
-                    { (() => {
-                        if (requestDialog.id)
-                            <Button onClick={() => handleRemove(requestDialog.id)} color="primary">
-                                Remove
-                            </Button>
-                    })() }
+                    {requestDialog.id && (
+                        <Button onClick={() => handleRemove(requestDialog.id)} color="primary">
+                            Remove
+                        </Button>
+                    )}
                     <Button onClick={() => handleSave(requestDialog)} color="primary">
                         Save
                     </Button>

@@ -11,7 +11,7 @@ const fixedScheduleList = ({ fixedSchedules, handleAppend, handleRemove, onTitle
     const fixedScheduleList = [];
     for (let fixedSchedule of fixedSchedules) {
         fixedScheduleList.push(
-            <Grid item xs={12} sm={3} key={fixedSchedule.id} className="mr-4">
+            <Grid item xs={12} sm={3} key={fixedSchedule.id} className="mr-4 mb-2">
                 <FixedSchedule fixedSchedule={fixedSchedule}
                     handleRemove={handleRemove(fixedSchedule.id)} onTitleChange={onTitleChange(fixedSchedule.id)}
                     onDateChange={onDateChange(fixedSchedule.id)} onAtFromChange={onAtFromChange(fixedSchedule.id)}
