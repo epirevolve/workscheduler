@@ -59,13 +59,13 @@ class Database:
         
         from workscheduler.domains.models.operator import Skill
         
-        skill1 = Skill.new_certified_skill('ccna', 1)
+        skill1 = Skill.new_skill('ccna', 1, is_certified=True)
         session.add(skill1)
-        skill2 = Skill.new_certified_skill('ccnp', 3)
+        skill2 = Skill.new_skill('ccnp', 3, is_certified=True)
         session.add(skill2)
-        session.add(Skill.new_certified_skill('lpic', 2))
+        session.add(Skill.new_skill('lpic', 2, is_certified=True))
 
-        skill3 = Skill.new_not_certified_skill('夜間統制', 5)
+        skill3 = Skill.new_skill('夜間統制', 5, is_certified=False)
         session.add(skill3)
 
         # add teams
