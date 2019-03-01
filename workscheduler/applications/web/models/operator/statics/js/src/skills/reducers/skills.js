@@ -1,10 +1,10 @@
-const calendar = (state = [], action) => {
+const skills = (state = [], action) => {
     switch (action.type) {
         case 'APPEND_SKILL':
             return state.concat([action.skill])
         case 'EDIT_SKILL':
-            return state.map(skill => {
-                if (skill.id != action.skill.id) return skill;
+            return state.map(x => {
+                if (x.id != action.skill.id) return x;
                 return action.skill;
             })
         case 'REMOVE_SKILL':
@@ -14,4 +14,4 @@ const calendar = (state = [], action) => {
     }
 }
 
-export default calendar;
+export default skills;

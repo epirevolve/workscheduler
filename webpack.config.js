@@ -11,6 +11,7 @@ module.exports = {
         'workscheduler/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/user': path.join(_userPath, '/src/user/index.jsx'),
         'workscheduler/applications/web/models/operator/statics/js/operator': path.join(_operatorPath, '/src/operator/index.jsx'),
+        'workscheduler/applications/web/models/operator/statics/js/operators': path.join(_operatorPath, '/src/operators/index.jsx'),
         'workscheduler/applications/web/models/operator/statics/js/skills': path.join(_operatorPath, '/src/skills/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-non-public': path.join(_schedulerPath, '/src/request-non-public/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-public': path.join(_schedulerPath, '/src/request-public/index.jsx'),
