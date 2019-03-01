@@ -37,11 +37,8 @@ class SchedulerCommandAdapter:
         days = data.get('days')
         holidays = data.get('holidays')
         fixed_schedules = data.get('fixed_schedules')
-        is_published = data.get('is_published')
-        is_fixed = data.get('is_fixed')
         return SchedulerCommand(self._session).update_monthly_setting(
-            id_, days, holidays,
-            fixed_schedules, is_published, is_fixed
+            id_, days, holidays, fixed_schedules
         )
     
     def public_monthly_setting(self, monthly_setting_id: str):

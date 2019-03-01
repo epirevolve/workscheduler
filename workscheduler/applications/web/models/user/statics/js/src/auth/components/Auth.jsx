@@ -12,12 +12,10 @@ const auth = () => (
     <form action={url} method="post">
         <Input name="csrf_token" type="hidden" value={csrfToken} readOnly />
         <div className="mb-4">
-            <TextField autoFocus name='loginId' margin="normal" className="m-2"
-                label="login id" type="text" required />
-            <TextField name='password' margin="normal" className="m-2"
-                label="password" type="password" required />
+            <TextField autoFocus name='loginId' className="m-2" label="login id" required />
+            <TextField name='password' className="m-2" label="password" type="password" required />
         </div>
-        <Button variant="contained" color="primary" type="submit" className="m-2 btn-lg" size="large">
+        <Button variant="contained" color="primary" type="submit" className="m-2" size="large">
             Login
         </Button>
     </form>

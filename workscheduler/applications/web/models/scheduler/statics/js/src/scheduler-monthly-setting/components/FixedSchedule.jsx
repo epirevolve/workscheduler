@@ -14,7 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Checkbox from '@material-ui/core/Checkbox';
 import Fab from '@material-ui/core/Fab';
-import Icon from '@material-ui/core/Icon';
+import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 
 import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
@@ -95,7 +95,7 @@ class FixedSchedule extends React.Component {
                     </Popover>
                     <Fab color="secondary" aria-label="Edit" className="add-participants"
                         onClick={(event) => this.setState({anchorEl: event.currentTarget})}>
-                        <Icon>edit_icon</Icon>
+                        <CheckBoxRoundedIcon />
                     </Fab>
                     <List className="participants" subheader={<ListSubheader component="div">participants</ListSubheader>}>
                         {participants}

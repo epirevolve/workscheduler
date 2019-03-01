@@ -51,8 +51,7 @@ class SchedulerCommand:
             search_date = get_next_day(search_date)
         return request
     
-    def update_monthly_setting(self, id_: str, days: [], holidays: int,
-                               fixed_schedules: [], is_published: bool, is_fixed: bool):
+    def update_monthly_setting(self, id_: str, days: [], holidays: int, fixed_schedules: []):
         def update_day(org: DaySetting, value):
             if org.id != value.get('id'):
                 raise ValueError()
@@ -92,8 +91,6 @@ class SchedulerCommand:
                if x.get('id') in fixed_schedule_ids
                else new_fixed_schedule(x)
                for x in fixed_schedules]
-        monthly_setting.is_published = is_published
-        monthly_setting.is_fixed = is_fixed
         return monthly_setting
     
     def public_monthly_setting(self, id_: str):
