@@ -6,6 +6,12 @@ export const addRequest = (scheduleOf, request) => ({
     request
 })
 
+export const editRequest = (scheduleOf, request) => ({
+    type: 'EDIT_REQUEST',
+    scheduleOf,
+    request
+})
+
 export const removeRequest = (id) => ({
     type: 'REMOVE_REQUEST',
     id

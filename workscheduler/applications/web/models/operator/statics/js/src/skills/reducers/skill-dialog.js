@@ -5,7 +5,7 @@ const dialog = (state = {isOpen: false}, action) => {
                 isOpen: true,
                 id: '',
                 name: '',
-                score: 0,
+                score: 1,
                 isCertified: true
             };
         case 'OPEN_DIALOG_EDIT':

@@ -99,9 +99,28 @@ def append_my_request():
     return response
 
 
-@bp.route('/my-requests/<requst_id>', methods=['POST'])
+@bp.route('/my-requests/<request_id>', methods=['POST'])
 @login_required
-def update_my_request(requst_id):
+def update_my_request(request_id):
+    scheduler_id = request.args.get('scheduler')
+    
+    session = get_db_session()
+    try:
+        req = SchedulerCommandAdapter(session).update_my_request(scheduler_id, jsonize.loads(request.data))
+        session.commit()
+    
+        response = Response()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = jsonify()
+        response.status_code = 400
+    return response
+
+
+@bp.route('/my-requests/<request_id>', methods=['DELETE'])
+@login_required
+def remove_my_request(request_id):
     pass
 
 

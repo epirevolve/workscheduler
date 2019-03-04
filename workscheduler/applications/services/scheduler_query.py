@@ -25,6 +25,5 @@ class SchedulerQuery:
         return self._session.query(MonthYearSetting)\
             .filter(MonthYearSetting.id == month_year_setting_id).one_or_none()
     
-    def get_calendar_of_request_id(self, request_id: str) -> [MonthYearSetting]:
-        return self._session.query(MonthYearSetting)\
-            .filter(MonthYearSetting.requests.has(Request.id == request_id)).all()
+    def get_requests_of_id(self, id_: str) -> [Request]:
+        return self._session.query(Request).filter(Request.id == id_).all()

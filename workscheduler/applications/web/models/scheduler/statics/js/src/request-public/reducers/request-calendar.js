@@ -1,23 +1,34 @@
+const _add = (state, action) => {
+    const atFromDate = new Date(action.request.atFrom).setEarliestTime();
+    const atToDate = new Date(action.request.atTo).setLatestTime();
+    return state.map(x => x.map(y => {
+            if (!y)
+                return y;
+            const date = new Date(`${action.scheduleOf}-${y.day}`);
+            if (!(atFromDate <= date && date <= atToDate))
+                return y;
+            return {...y, requests: y.requests.concat(action.request)};
+        })
+    )
+}
+
+const _remove = (state, action) => {
+    return state.map(x =>
+        x.map(y => (y)
+            ? {...y, requests: y.requests.filter(z => z.id != action.id)}
+            : y)
+    )
+}
+
 const calendar = (state = [], action) => {
     switch (action.type) {
         case 'APPEND_REQUEST':
-            const atFromDate = new Date(action.request.atFrom).setEarliestTime();
-            const atToDate = new Date(action.request.atTo).setLatestTime();
-            return state.map(week => week.map(day => {
-                    if (!day)
-                        return day;
-                    const date = new Date(`${action.scheduleOf}-${day.day}`);
-                    if (!(atFromDate <= date && date <= atToDate))
-                        return day;
-                    return {...day, requests: day.requests.concat(action.request)};
-                })
-            )
+            return _add(state, action);
+        case 'EDIT_REQUEST':
+            let _v = _remove(state, action);
+            return _add(_v, action);
         case 'REMOVE_REQUEST':
-            return state.map(week =>
-                week.map(day => (day)
-                    ? {...day, requests: day.requests.filter(x => x.id != action.id)}
-                    : day)
-            )
+            return _remove(state, action);
         default:
             return state
     }
