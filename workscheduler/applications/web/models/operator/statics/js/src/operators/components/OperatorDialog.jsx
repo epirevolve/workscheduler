@@ -20,13 +20,16 @@ const operators = $script.data('operators');
 const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
     handleClose, handleSave }) => {
     const operatorsList = [<MenuItem key="none" value=""></MenuItem>];
-    for (let operator of operators) {
+    for (let operator of operators.filter(x => x.id != operatorDialog.id)) {
         operatorsList.push(
             <MenuItem key={operator.id} value={operator}>
                 {operator.user.name}
             </MenuItem>
         )
     }
+
+    let ojt = operatorDialog.ojt || "";
+    if (ojt && operators.map(x => x.id).includes(ojt.id)) ojt = operators.find(x => x.id == ojt.id);
 
     return (
         <Dialog open={operatorDialog.isOpen} aria-labelledby="skill-store" maxWidth="lg">
@@ -40,7 +43,7 @@ const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
                 <SkillList operatorSkills={operatorDialog.skills} onChange={onSkillChange} />
                 <FormControl fullWidth>
                     <InputLabel htmlFor="ojt">supervisor(ojt)</InputLabel>
-                    <Select value={operatorDialog.ojt || ""} onChange={onOjtChange} inputProps={{id: 'ojt'}}>
+                    <Select value={ojt} onChange={onOjtChange} inputProps={{id: 'ojt'}}>
                         {operatorsList}
                     </Select>
                 </FormControl>

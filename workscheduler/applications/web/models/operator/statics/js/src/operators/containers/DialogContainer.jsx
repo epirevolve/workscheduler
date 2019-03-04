@@ -25,14 +25,14 @@ const mapDispatchToProps = (dispatch) => ({
     handleClose: () => dispatch(closeDialog()),
     handleSave: (operatorDialog) => {
         requestAgent
-            .post(`${url}${operatorDialog.id}`)
+            .post(url.replace('operator_id', operatorDialog.id))
             .send(operatorDialog)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('skill was successfully stored.', 'alert-info');
+                alertManager.append('operator was successfully stored.', 'alert-info');
                 dispatch(closeDialog());
-                dispatch(editSkill(JSON.parse(res.text)));
+                dispatch(editOperator(JSON.parse(res.text)));
             })
             .catch(err => {
                 const res = JSON.parse(err.response.text);

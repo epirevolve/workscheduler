@@ -32,7 +32,7 @@ def json_serial(obj):
 
 
 def dumps(obj):
-    return json.dumps(to_dict(obj), default=json_serial)
+    return json.dumps(to_dict(obj), default=json_serial, indent=2, separators=(', ', ': '))
 
 
 def to_snake(s):

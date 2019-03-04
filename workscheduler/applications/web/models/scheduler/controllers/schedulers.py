@@ -77,7 +77,6 @@ def append_my_request():
         
         session.refresh(req)
         response = Response(jsonize.dumps(req))
-        response.status_code = 200
     except CalendarError as e:
         session.rollback()
         print(e)

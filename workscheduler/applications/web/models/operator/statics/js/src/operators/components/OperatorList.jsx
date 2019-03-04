@@ -12,7 +12,7 @@ const operatorList = ({ operators, handleEdit }) => {
     }
 
     return (
-        <List subheader={<ListSubheader component="div">operator</ListSubheader>}>
+        <List subheader={<ListSubheader component="div">operator</ListSubheader>} style={{ maxHeight: '76vh', overflowY: 'auto' }}>
             {operatorList}
         </List>
     )
