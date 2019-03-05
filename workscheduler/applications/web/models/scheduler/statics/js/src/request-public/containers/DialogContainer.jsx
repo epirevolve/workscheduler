@@ -6,7 +6,7 @@ import requestAgent from 'superagent';
 import { AlertManager } from 'alert-helper';
 
 import { addRequest } from '../actions';
-import { editRequest } from '../actions';
+import { removeRequest } from '../actions';
 import { closeDialog } from '../actions';
 import { changeTitle } from '../actions';
 import { changeNote } from '../actions';
@@ -37,9 +37,11 @@ const mapDispatchToProps = (dispatch) => ({
             .send()
             .set('X-CSRFToken', csrfToken)
             .then(res => {
-                dispatch(closeDialog());
                 dispatch(removeRequest(id));
+                const alertManager = new AlertManager('#alertContainer');
+                alertManager.append('we are succeeded to delete your request', 'alert-info')
             });
+        dispatch(closeDialog());
     },
     handleSave: (requestDialog) => {
         const data = {...requestDialog,
@@ -52,11 +54,14 @@ const mapDispatchToProps = (dispatch) => ({
                 .send(data)
                 .set('X-CSRFToken', csrfToken)
                 .then(res => {
-                    dispatch(closeDialog());
-                    if (data.id)
-                        dispatch(editRequest(scheduleOf, JSON.parse(data)));
+                    if (data.id) {
+                        dispatch(removeRequest(data.id));
+                        dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
+                    }
                     else
                         dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
+                    const alertManager = new AlertManager('#alertContainer');
+                    alertManager.append('we are succeeded to store your request', 'alert-info')
                 })
                 .catch(err => {
                     const res = JSON.parse(err.response.text);
@@ -77,6 +82,8 @@ const mapDispatchToProps = (dispatch) => ({
         else {
             post();
         }
+
+        dispatch(closeDialog());
     }
 })
 

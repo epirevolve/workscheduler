@@ -9,6 +9,7 @@ from .user_query import UserQuery
 
 from .affiliation_command import AffiliationCommand
 from .operator_command import OperatorCommand
+from .request_command import RequestCommand
 from .scheduler_command import SchedulerCommand
 from .skill_command import SkillCommand
 from .team_command import TeamCommand
