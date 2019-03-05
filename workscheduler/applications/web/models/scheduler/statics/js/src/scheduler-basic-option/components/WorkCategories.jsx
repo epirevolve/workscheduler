@@ -11,11 +11,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import WorkCategoryList from './WorkCategoryList';
 
-const workCategories = ({ workCategories, handleAppend, handleRemove, onTitleChange,
-    onAtFromChange, onAtToChange, onWeekDayRequireChange, onWeekDayMaxChange,
-    onHolidayRequireChange, onHolidayMaxChange, onRestChange, onMaxTimesChange,
-    onEssentialSkillsChange, onEssentialOperatorsChange, onImpossibleOperatorsChange }) => {
-
+const workCategories = ({ handleAppend, ...other }) => {
+    const [expanded, setExpanded] = React.useState(true);
     const onExpandedChange = (event, isExpanded) => {
         setExpanded(isExpanded ? true : false);
     };
@@ -26,20 +23,14 @@ const workCategories = ({ workCategories, handleAppend, handleRemove, onTitleCha
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography style={{ fontSize: '2rem' }}>work categories</Typography>
                     <div className="ml-3">
-                        <IconButton onClick={handleAppend}>
+                        <IconButton onClick={(e) => { handleAppend(); e.stopPropagation(); }}>
                             <AddIcon />
                         </IconButton>
                     </div>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container>
-                        <WorkCategoryList workCategories={workCategories} handleRemove={handleRemove}
-                            onTitleChange={onTitleChange} onAtFromChange={onAtFromChange} onAtToChange={onAtToChange}
-                            onWeekDayRequireChange={onWeekDayRequireChange} onWeekDayMaxChange={onWeekDayMaxChange}
-                            onHolidayRequireChange={onHolidayRequireChange} onHolidayMaxChange={onHolidayMaxChange}
-                            onRestChange={onRestChange} onMaxTimesChange={onMaxTimesChange}
-                            onEssentialSkillsChange={onEssentialSkillsChange} onEssentialOperatorsChange={onEssentialOperatorsChange}
-                            onImpossibleOperatorsChange={onImpossibleOperatorsChange} />
+                        <WorkCategoryList {...other} />
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
