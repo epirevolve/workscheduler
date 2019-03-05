@@ -41,37 +41,32 @@ class FixedSchedule extends React.Component {
         const calendar = <RangeCalendar showDateInput={false} disabledDate={this.disabledDate}
             showToday={false} format='YYYY-MM-DD' />;
 
-        const operatorsList = [];
         const participantIds = fixedSchedule.participants.map(x => x.id);
-        for (let operator of operators) {
-            operatorsList.push(
-                <ListItem key={operator.id} button onClick={() => onParticipantChange(operator)}>
-                    <Checkbox checked={participantIds.includes(operator.id)} tabIndex={-1} disableRipple />
-                    <ListItemText primary={operator.user.name} />
-                </ListItem>
-            )
-        }
+        const operatorsList = operators.map(x =>
+            <ListItem key={x.id} button onClick={() => onParticipantChange(fixedSchedule.id)(x)}>
+                <Checkbox checked={participantIds.includes(x.id)} tabIndex={-1} disableRipple />
+                <ListItemText primary={x.user.name} />
+            </ListItem>);
 
         const { anchorEl } = this.state;
         const isOpen = Boolean(anchorEl);
 
-        const participants = [];
-        for (let participant of fixedSchedule.participants) {
-            participants.push(
-                <ListItem key={participant.id}>
-                    <ListItemText primary={participant.user.name} />
-                </ListItem>
-            )
-        }
+        const participants = fixedSchedule.participants.map(x =>
+            <ListItem key={x.id}>
+                <ListItemText primary={x.user.name} />
+            </ListItem>
+        );
 
         return (
             <Card>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        <TextField autoFocus label="title" required value={fixedSchedule.title} onChange={onTitleChange} />
+                        <TextField autoFocus label="title" required value={fixedSchedule.title}
+                            onChange={onTitleChange(fixedSchedule.id)} />
                     </Typography>
                     <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                        value={[moment(fixedSchedule.onFrom), moment(fixedSchedule.onTo)]} onChange={onDateChange}>
+                        value={[moment(fixedSchedule.onFrom), moment(fixedSchedule.onTo)]}
+                            onChange={onDateChange(fixedSchedule.id)}>
                         { ({ value }) => {
                             const formatDate = (x) => x.format('YYYY-MM-DD')
                             const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
@@ -81,9 +76,9 @@ class FixedSchedule extends React.Component {
                                 )}}
                     </DatePicker>
                     <div className="my-3">
-                        <TextField label="start time" type="time" className="mr-4" onChange={onAtFromChange}
+                        <TextField label="start time" type="time" className="mr-4" onChange={onAtFromChange(fixedSchedule.id)}
                             value={fixedSchedule.atFrom ? moment(fixedSchedule.atFrom, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
-                        <TextField label="end time" type="time" onChange={onAtToChange}
+                        <TextField label="end time" type="time" onChange={onAtToChange(fixedSchedule.id)}
                             value={fixedSchedule.atTo ? moment(fixedSchedule.atTo, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                     </div>
                     <Popover open={isOpen} anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
@@ -101,7 +96,7 @@ class FixedSchedule extends React.Component {
                     </List>
                 </CardContent>
                 <CardActions disableActionSpacing>
-                    <Button onClick={handleRemove} variant="outlined" color="secondary">
+                    <Button onClick={handleRemove(fixedSchedule.id)} variant="outlined" color="secondary">
                         Remove
                     </Button>
                 </CardActions>

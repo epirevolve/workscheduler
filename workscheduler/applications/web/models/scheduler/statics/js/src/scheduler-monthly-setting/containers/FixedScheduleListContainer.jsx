@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import FixedScheduleList from '../components/FixedScheduleList';
+import FixedSchedules from '../components/FixedSchedules';
 
 import { changeFixedScheduleTitle } from '../actions';
 import { changeFixedScheduleDate } from '../actions';
@@ -25,4 +25,4 @@ const mapDispatchToProps = (dispatch) => ({
     onParticipantChange: (id) => (e) => {dispatch(changeFixedScheduleParticipant(id, e))}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FixedScheduleList);
+export default connect(mapStateToProps, mapDispatchToProps)(FixedSchedules);

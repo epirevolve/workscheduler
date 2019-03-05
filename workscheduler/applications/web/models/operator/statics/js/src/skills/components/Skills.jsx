@@ -15,7 +15,7 @@ const skills = ({ certifiedSkills, notCertifiedSkills, handleAppend, handleEdit 
             <AppBar position="static" color="default">
                 <Toolbar>
                     <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
-                        Skills
+                        skills
                     </Typography>
                     <div style={{ textAlign: 'right' }}>
                         <IconButton onClick={handleAppend}>

@@ -6,10 +6,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Skill from './Skill';
 
 const skillList = ({ title, skills, handleEdit }) => {
-    const skillList = [];
-    for (let skill of skills) {
-        skillList.push(<Skill key={skill.id} skill={skill} handleEdit={() => handleEdit(skill)} />)
-    }
+    const skillList = skills.map(x =>
+        <Skill key={x.id} skill={x} handleEdit={() => handleEdit(x)} />
+    );
 
     return (
         <List subheader={<ListSubheader component="div">{title}</ListSubheader>}>
