@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import FixedSchedules from '../components/FixedSchedules';
 
+import { addFixedSchedule } from '../actions';
+import { removeFixedSchedule } from '../actions';
 import { changeFixedScheduleTitle } from '../actions';
 import { changeFixedScheduleDate } from '../actions';
 import { changeFixedScheduleAtFrom } from '../actions';
 import { changeFixedScheduleAtTo } from '../actions';
 import { changeFixedScheduleParticipant } from '../actions';
-import { addFixedSchedule } from '../actions';
-import { removeFixedSchedule } from '../actions';
 
 const mapStateToProps = (state) => ({
     fixedSchedules: state.monthlySetting.fixedSchedules

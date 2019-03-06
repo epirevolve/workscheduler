@@ -111,27 +111,27 @@ def public_monthly_setting(monthly_setting_id: str):
     return response
 
 
-@bp.route('/affiliations/<affiliation_id>/basic-option')
+@bp.route('/affiliations/<affiliation_id>/basic-setting')
 @login_required
 @admin_required
-def show_basic_option(affiliation_id: str):
+def show_basic_setting(affiliation_id: str):
     session = get_db_session()
     
     scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
     
-    action = url_for('schedulers.update_basic_option', affiliation_id=affiliation_id, option_id=scheduler.id)
+    action = url_for('schedulers.update_basic_setting', affiliation_id=affiliation_id, option_id=scheduler.id)
     
     skills = SkillQuery(session).get_skills()
     operators = OperatorQuery(session).get_operators()
     
-    return render_template('scheduler-basic-option.html', action=action, form=BaseSettingForm(obj=scheduler),
-                           skills=skills, operators=operators)
+    return render_template('scheduler-basic-setting.html', action=action, form=BaseSettingForm(obj=scheduler),
+                           scheduler=scheduler, skills=skills, operators=operators)
 
 
-@bp.route('/affiliations/<affiliation_id>/basic-option/<option_id>', methods=['POST'])
+@bp.route('/affiliations/<affiliation_id>/basic-setting/<option_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_basic_option(affiliation_id, option_id):
+def update_basic_setting(affiliation_id, option_id):
     session = get_db_session()
     try:
         SchedulerCommandAdapter(session).update_option(BaseSettingForm(request=request.form))
@@ -148,13 +148,13 @@ def update_basic_option(affiliation_id, option_id):
     return response
 
 
-@bp.route('/affiliations/<affiliation_id>/yearly-option')
+@bp.route('/affiliations/<affiliation_id>/yearly-setting')
 @login_required
 @admin_required
-def show_yearly_option(affiliation_id: str):
+def show_yearly_setting(affiliation_id: str):
     session = get_db_session()
     affiliation = AffiliationQuery(session).get_affiliation(affiliation_id)
-    return render_template('scheduler-yearly-option.html',
+    return render_template('scheduler-yearly-setting.html',
                            form=YearlySettingForm(obj=type('temp', (object,), {
                                'affiliation': affiliation
                            })))

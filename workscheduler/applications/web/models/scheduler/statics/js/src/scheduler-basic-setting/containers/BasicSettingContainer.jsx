@@ -7,14 +7,14 @@ import Button from '@material-ui/core/Button';
 
 import { AlertManager } from 'alert-helper';
 
-const $script = $('script[src*="scheduler-monthly-setting"]');
+const $script = $('script[src*="scheduler-basic-setting"]');
 const url = $script.data('urlSave');
 
-class MonthlySettingContainer extends React.Component {
-    handleSave (monthlySetting) {
+class BasicSettingContainer extends React.Component {
+    handleSave (scheduler) {
         requestAgent
             .post(url)
-            .send(monthlySetting)
+            .send(scheduler)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
@@ -29,25 +29,8 @@ class MonthlySettingContainer extends React.Component {
             });
     }
 
-    handlePublish (monthlySetting) {
-        requestAgent
-            .post(`${url}/public`)
-            .send(monthlySetting)
-            .set('X-CSRFToken', csrfToken)
-            .then(res => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we succeeded to publish monthly setting.', 'alert-info')
-            })
-            .catch(err => {
-                const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
-                const message = res.errorMessage || 'we have some trouble with publishing monthly setting...';
-                alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
-            });
-    }
-
     render () {
-        const { monthlySetting } = this.props;
+        const { scheduler } = this.props;
 
         return (
             <React.Fragment>
@@ -57,12 +40,8 @@ class MonthlySettingContainer extends React.Component {
                         Go Back
                     </Button>
                     <Button className="mr-3" variant="contained" color="primary" size="large"
-                        onClick={() => this.handleSave(monthlySetting)}>
+                        onClick={() => this.handleSave(scheduler)}>
                         Save
-                    </Button>
-                    <Button variant="contained" color="secondary" size="large"
-                        onClick={() => this.handlePublish(monthlySetting)}>
-                        Publish Calendar
                     </Button>
                 </div>
             </React.Fragment>
@@ -71,7 +50,7 @@ class MonthlySettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    monthlySetting: state.monthlySetting
+    scheduler: state.scheduler
 });
 
-export default connect(mapStateToProps)(MonthlySettingContainer);
+export default connect(mapStateToProps)(BasicSettingContainer);
