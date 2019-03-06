@@ -45,7 +45,7 @@ const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChang
         </ListItem>
     );
 
-    const { anchorEl } = React.useState(null);
+    const [ anchorEl, setAnchorEl ] = React.useState(null);
     const isOpen = Boolean(anchorEl);
 
     return (
@@ -73,13 +73,13 @@ const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChang
                         value={fixedSchedule.atTo ? moment(fixedSchedule.atTo, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                 </div>
                 <Popover open={isOpen} anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
-                    onClose={() => this.setState({anchorEl: null})}>
+                    onClose={() => setAnchorEl(null)}>
                     <List subheader={<ListSubheader component="div">operators</ListSubheader>}>
                         {operatorList}
                     </List>
                 </Popover>
                 <Fab color="secondary" aria-label="Edit" className="add-participants"
-                    onClick={(event) => this.setState({anchorEl: event.currentTarget})}>
+                    onClick={(event) => setAnchorEl(event.currentTarget)}>
                     <CheckBoxRoundedIcon />
                 </Fab>
                 <List className="participants" subheader={<ListSubheader component="div">participants</ListSubheader>}>
