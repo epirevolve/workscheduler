@@ -21,7 +21,7 @@ const fixedSchedules = ({ handleAppend, ...other }) => {
         <div className="mt-4 mb-3">
             <ExpansionPanel expanded={expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography style={{ fontSize: '2rem' }}>fixed schedules</Typography>
+                    <Typography style={{ fontSize: '2rem', color: 'gray' }}>fixed schedules</Typography>
                     <div className="ml-3">
                         <IconButton onClick={(e) => { handleAppend(); e.stopPropagation(); }}>
                             <AddIcon />

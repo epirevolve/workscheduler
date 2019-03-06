@@ -26,23 +26,12 @@
 }
 
 .title input {
-    font-size: 2rem;
+    font-size: 2.4rem;
     width: 9rem;
+    color: white;
 }
 
 .add-fixed-schedule {
     left: 90%;
     position: absolute;
-}
-
-.add-participants {
-    position: relative;
-    left: 80%;
-    float: left;
-}
-
-.participants {
-    max-height: 12rem;
-    overflow-y: auto;
-    right: 20%;
 }

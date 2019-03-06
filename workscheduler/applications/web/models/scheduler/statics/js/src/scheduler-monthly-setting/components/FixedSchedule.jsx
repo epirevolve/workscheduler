@@ -12,8 +12,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Checkbox from '@material-ui/core/Checkbox';
-import Fab from '@material-ui/core/Fab';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
+import IconButton from '@material-ui/core/IconButton';
 
 import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
@@ -48,6 +52,11 @@ const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChang
     const [ anchorEl, setAnchorEl ] = React.useState(null);
     const isOpen = Boolean(anchorEl);
 
+    const [expanded, setExpanded] = React.useState(true);
+    const onExpandedChange = (event, isExpanded) => {
+        setExpanded(isExpanded ? true : false);
+    };
+
     return (
         <Card>
             <CardContent>
@@ -78,13 +87,21 @@ const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChang
                         {operatorList}
                     </List>
                 </Popover>
-                <Fab color="secondary" aria-label="Edit" className="add-participants"
-                    onClick={(event) => setAnchorEl(event.currentTarget)}>
-                    <CheckBoxRoundedIcon />
-                </Fab>
-                <List className="participants" subheader={<ListSubheader component="div">participants</ListSubheader>}>
-                    {participants}
-                </List>
+                <ExpansionPanel expanded={expanded} onChange={onExpandedChange}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography variant="h6" style={{ color: 'gray' }} className="mt-2">participants</Typography>
+                        <div className="ml-3">
+                            <IconButton size="small" onClick={(e) => { setAnchorEl(e.currentTarget); e.stopPropagation(); }}>
+                                <CheckBoxRoundedIcon />
+                            </IconButton>
+                        </div>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <List>
+                            {participants}
+                        </List>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
             </CardContent>
             <CardActions disableActionSpacing>
                 <Button onClick={handleRemove(fixedSchedule.id)} variant="outlined" color="secondary">

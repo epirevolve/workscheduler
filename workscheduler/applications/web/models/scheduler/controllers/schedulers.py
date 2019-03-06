@@ -54,8 +54,8 @@ def show_monthly_setting():
     scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
     monthly_setting = scheduler.month_year_setting(calendar.month, calendar.year)
     
-    return redirect(url_for('schedulers.show_monthly_setting_inner', monthly_setting_id=monthly_setting.id)
-                    + '?affiliation={}'.format(affiliation_id))
+    return redirect(url_for('schedulers.show_monthly_setting_inner',
+                            monthly_setting_id=monthly_setting.id, affiliation=affiliation_id))
 
 
 @bp.route('/monthly-settings/<monthly_setting_id>')
@@ -65,8 +65,9 @@ def show_monthly_setting_inner(monthly_setting_id: str):
     affiliation_id = request.args.get('affiliation')
     
     session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
-    monthly_setting = SchedulerQuery(session).get_month_year_setting(monthly_setting_id)
+    scheduler_query = SchedulerQuery(session)
+    scheduler = scheduler_query.get_scheduler_of_affiliation_id(affiliation_id)
+    monthly_setting = scheduler_query.get_month_year_setting(monthly_setting_id)
     operators = OperatorQuery(session).get_operators()
 
     return render_template('scheduler-monthly-setting.html',

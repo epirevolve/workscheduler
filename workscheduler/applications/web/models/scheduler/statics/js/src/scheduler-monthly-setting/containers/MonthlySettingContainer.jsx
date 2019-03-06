@@ -51,15 +51,20 @@ class ActionContainer extends React.Component {
 
         return (
             <React.Fragment>
-                <Button className="m-3" variant="contained" color="default" onClick={() => window.history.back()}>
-                    Go Back
-                </Button>
-                <Button className="m-3" variant="contained" color="primary" onClick={() => this.handleSave(monthlySetting)}>
-                    Save
-                </Button>
-                <Button className="m-3" variant="contained" color="secondary" onClick={() => this.handlePublish(monthlySetting)}>
-                    Publish Calendar
-                </Button>
+                <div className="my-4">
+                    <Button className="mr-3" variant="outlined" color="default" size="large"
+                        onClick={() => window.history.back()}>
+                        Go Back
+                    </Button>
+                    <Button className="mr-3" variant="contained" color="primary" size="large"
+                        onClick={() => this.handleSave(monthlySetting)}>
+                        Save
+                    </Button>
+                    <Button variant="contained" color="secondary" size="large"
+                        onClick={() => this.handlePublish(monthlySetting)}>
+                        Publish Calendar
+                    </Button>
+                </div>
             </React.Fragment>
         )
     }
