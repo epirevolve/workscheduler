@@ -16,7 +16,7 @@ import ImpossibleOperators from './ImpossibleOperators';
 const workCategory = ({ workCategory, handleRemove, onTitleChange,
     onAtFromChange, onAtToChange, onWeekDayRequireChange,
     onWeekDayMaxChange, onHolidayRequireChange, onHolidayMaxChange,
-    onRestChange, onMaxTimesChange, onEssentialSkillChange,
+    onRestDaysChange, onMaxTimesChange, onEssentialSkillChange,
     onEssentialOperatorChange, onImpossibleOperatorChange }) => {
 
     return (
@@ -26,38 +26,38 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                     onChange={onTitleChange(workCategory.id)} className="mb-3" />
                 <Grid container className="mb-3">
                     <Grid item sm={6} xs={12} className="pr-2">
-                        <TextField type="time" label="from" required onChange={onTitleChange(workCategory.id)}
+                        <TextField type="time" label="from" required onChange={onAtFromChange(workCategory.id)}
                             value={workCategory.atFrom ? moment(workCategory.atFrom, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                     </Grid>
                     <Grid item sm={6} xs={12}>
-                        <TextField type="time" label="to" required onChange={onTitleChange(workCategory.id)}
+                        <TextField type="time" label="to" required onChange={onAtToChange(workCategory.id)}
                             value={workCategory.atTo ? moment(workCategory.atTo, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                     </Grid>
                 </Grid>
                 <Grid container className="mb-3">
                     <Grid item sm={6} xs={12} className="pr-2">
                         <TextField type="number" label="week day require" required value={workCategory.weekDayRequire}
-                            onChange={onTitleChange(workCategory.id)} />
+                            onChange={onWeekDayRequireChange(workCategory.id)} />
                     </Grid>
                     <Grid item sm={6} xs={12}>
                         <TextField type="number" label="week day max" required value={workCategory.weekDayMax}
-                            onChange={onTitleChange(workCategory.id)} />
+                            onChange={onWeekDayMaxChange(workCategory.id)} />
                     </Grid>
                 </Grid>
                 <Grid container className="mb-3">
                     <Grid item sm={6} xs={12} className="pr-2">
                         <TextField type="number" label="holiday require" required value={workCategory.holidayRequire}
-                            onChange={onTitleChange(workCategory.id)} />
+                            onChange={onHolidayRequireChange(workCategory.id)} />
                     </Grid>
                     <Grid item sm={6} xs={12}>
                         <TextField type="number" label="holiday max" required value={workCategory.holidayMax}
-                            onChange={onTitleChange(workCategory.id)} />
+                            onChange={onHolidayMaxChange(workCategory.id)} />
                     </Grid>
                 </Grid>
                 <TextField type="number" label="rest days" required value={workCategory.restDays}
-                    onChange={onTitleChange(workCategory.id)} className="mb-3" />
+                    onChange={onRestDaysChange(workCategory.id)} className="mb-3" />
                 <TextField type="number" label="max times" required value={workCategory.maxTimes} className="mb-3"
-                    onChange={onTitleChange(workCategory.id)} placeholder="0 means unlimited" />
+                    onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />
                 <EssentialSkills workCategory={workCategory} onEssentialSkillChange={onEssentialSkillChange} />
                 <EssentialOperators workCategory={workCategory} onEssentialOperatorChange={onEssentialOperatorChange} />
                 <ImpossibleOperators workCategory={workCategory} onImpossibleOperatorChange={onImpossibleOperatorChange} />

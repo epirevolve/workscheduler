@@ -76,15 +76,14 @@ const monthlySetting = (state = {}, action) => {
             }
         case 'ADD_FIXED_SCHEDULE':
             return {...state,
-                fixedSchedules: state.fixedSchedules.concat(
-                    {
-                        id: newPseudoUuid(),
-                        title: '',
-                        date: [moment(`${scheduleOf}`, 'YYYY-MM-DD'), moment(`${scheduleOf}`, 'YYYY-MM-DD')],
-                        atFrom: "00:00:00",
-                        atTo: "00:00:00",
-                        participants: []
-                    })
+                fixedSchedules: state.fixedSchedules.concat({
+                    id: newPseudoUuid(),
+                    title: '',
+                    date: [moment(`${scheduleOf}`, 'YYYY-MM-DD'), moment(`${scheduleOf}`, 'YYYY-MM-DD')],
+                    atFrom: "00:00:00",
+                    atTo: "00:00:00",
+                    participants: []
+                })
             }
         case 'REMOVE_FIXED_SCHEDULE':
             return {...state,

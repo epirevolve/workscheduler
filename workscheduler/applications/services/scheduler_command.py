@@ -81,11 +81,15 @@ class SchedulerCommand:
         self._session.add(work_category)
         return work_category
     
-    def update_work_category(self, id_: str, title: str, week_day_require: int, week_day_max: int,
-                             holiday_require: int, holiday_max: int, rest_days: int, max_times: int,
-                             essential_skill_ids: [str], essential_operator_ids: [str], impossible_operator_ids: [str]):
+    def update_work_category(self, id_: str, title: str, at_from: time,
+                             at_to: time, week_day_require: int, week_day_max: int,
+                             holiday_require: int, holiday_max: int, rest_days: int,
+                             max_times: int, essential_skill_ids: [str],
+                             essential_operator_ids: [str], impossible_operator_ids: [str]):
         work_category = SchedulerQuery(self._session).get_work_category(id_)
         work_category.title = title
+        work_category.at_from = at_from
+        work_category.at_to = at_to
         work_category.week_day_require = week_day_require
         work_category.week_day_max = week_day_max
         work_category.holiday_require = holiday_require

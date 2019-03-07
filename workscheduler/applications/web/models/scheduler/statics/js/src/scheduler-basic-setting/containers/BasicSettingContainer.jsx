@@ -18,13 +18,12 @@ class BasicSettingContainer extends React.Component {
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we succeeded to store monthly setting.' +
-                    ' if you can public this calendar to operators, please click public calendar button.', 'alert-info')
+                alertManager.append('successfully storing scheduler basic setting.', 'alert-info')
             })
             .catch(err => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
-                const message = res.errorMessage || 'we have some trouble with storing monthly setting...';
+                const message = res.errorMessage || 'we have some trouble with storing basic setting...';
                 alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
             });
     }

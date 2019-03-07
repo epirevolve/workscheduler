@@ -4,12 +4,12 @@
 {% endblock %}
 
 {% block css %}
-<link rel='stylesheet' type="text/css" href="{{ url_for('schedulers.static', filename='css/scheduler-basic-option.css') }}" />
+<link rel='stylesheet' type="text/css" href="{{ url_for('schedulers.static', filename='css/scheduler-basic-setting.css') }}" />
 {% endblock %}
 
 {% block script %}
 <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
 <script type="module" src="{{ url_for('schedulers.static', filename='js/scheduler-basic-setting.bundle.min.js') }}"
     data-scheduler="{{ to_json(scheduler) }}" data-skills="{{ to_json(skills) }}"
-    data-operators="{{ to_json(operators) }}"></script>
+    data-operators="{{ to_json(operators) }}" data-url="{{ url_for('schedulers.update_basic_setting', scheduler_id=scheduler.id) }}"></script>
 {% endblock %}

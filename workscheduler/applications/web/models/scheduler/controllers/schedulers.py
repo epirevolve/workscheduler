@@ -23,7 +23,6 @@ from workscheduler.applications.services import OperatorQuery
 from workscheduler.applications.web.util.functions.controller import admin_required
 from workscheduler.applications.web import get_db_session
 from ..adapters import SchedulerCommandAdapter
-from ..forms import BaseSettingForm
 from ..forms import YearlySettingForm
 
 
@@ -111,35 +110,37 @@ def public_monthly_setting(monthly_setting_id: str):
     return response
 
 
-@bp.route('/affiliations/<affiliation_id>/basic-setting')
+@bp.route('/')
 @login_required
 @admin_required
-def show_basic_setting(affiliation_id: str):
+def show_basic_setting():
+    affiliation_id = request.args.get('affiliation')
     session = get_db_session()
-    
     scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
-    
-    action = url_for('schedulers.update_basic_setting', affiliation_id=affiliation_id, option_id=scheduler.id)
-    
+    return redirect(url_for('schedulers.show_basic_setting_inner', scheduler_id=scheduler.id))
+
+
+@bp.route('/<scheduler_id>')
+@login_required
+@admin_required
+def show_basic_setting_inner(scheduler_id: str):
+    session = get_db_session()
+    scheduler = SchedulerQuery(session).get_scheduler(scheduler_id)
     skills = SkillQuery(session).get_skills()
     operators = OperatorQuery(session).get_operators()
-    
-    return render_template('scheduler-basic-setting.html', action=action, form=BaseSettingForm(obj=scheduler),
+    return render_template('scheduler-basic-setting.html',
                            scheduler=scheduler, skills=skills, operators=operators)
 
 
-@bp.route('/affiliations/<affiliation_id>/basic-setting/<option_id>', methods=['POST'])
+@bp.route('/<scheduler_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_basic_setting(affiliation_id, option_id):
+def update_basic_setting(scheduler_id):
     session = get_db_session()
     try:
-        SchedulerCommandAdapter(session).update_option(BaseSettingForm(request=request.form))
+        SchedulerCommandAdapter(session).update_option(jsonize.loads(request.data))
         session.commit()
-        response = jsonify({
-            'redirect': url_for('schedulers.show_month_year_setting',
-                                affiliation_id=affiliation_id, schedule_of=to_year_month_string(get_next_month()))
-        })
+        response = Response()
     except Exception as e:
         session.rollback()
         print(e)
@@ -148,10 +149,11 @@ def update_basic_setting(affiliation_id, option_id):
     return response
 
 
-@bp.route('/affiliations/<affiliation_id>/yearly-setting')
+@bp.route('/yearly-setting')
 @login_required
 @admin_required
-def show_yearly_setting(affiliation_id: str):
+def show_yearly_setting():
+    affiliation_id = request.args.get('affiliation')
     session = get_db_session()
     affiliation = AffiliationQuery(session).get_affiliation(affiliation_id)
     return render_template('scheduler-yearly-setting.html',

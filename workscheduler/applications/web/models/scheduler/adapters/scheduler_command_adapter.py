@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from datetime import time
-
 from workscheduler.applications.services import SchedulerCommand
-from workscheduler.applications.web.util.functions.adapter import validate_form
-from ..forms import BaseSettingForm
-from ..forms import WorkCategoryForm
+from workscheduler.applications.web.util.functions.converter import to_time
+from workscheduler.applications.web.util.functions.extractor import list_id
 
 
 class SchedulerCommandAdapter:
@@ -24,34 +21,30 @@ class SchedulerCommandAdapter:
     def public_monthly_setting(self, monthly_setting_id: str):
         return SchedulerCommand(self._session).public_monthly_setting(monthly_setting_id)
     
-    def append_work_category(self, form: WorkCategoryForm):
-        if not validate_form(form):
-            raise ValueError
+    def append_work_category(self, data: dict):
         return SchedulerCommand(self._session).append_work_category(
-            form.title.data, form.week_day_require.data, form.week_day_max.data,
-            form.holiday_require.data, form.holiday_max.data,
-            form.rest_days.data, form.max_times.data,
-            form.essential_skills.data, form.essential_operators.data, form.impossible_operators.data
+            data.get('title'), to_time(data.get('at_from')), to_time(data.get('at_to')),
+            data.get('week_day_require'), data.get('week_day_max'), data.get('holiday_require'),
+            data.get('holiday_max'), data.get('rest_days'), data.get('max_times'),
+            list_id(data.get('essential_skills')), list_id(data.get('essential_operators')),
+            list_id(data.get('impossible_operators'))
         )
     
-    def update_work_category(self, form: WorkCategoryForm):
-        if not validate_form(form):
-            raise ValueError
+    def update_work_category(self, data: dict):
         return SchedulerCommand(self._session).update_work_category(
-            form.id.data, form.title.data, form.week_day_require.data, form.week_day_max.data,
-            form.holiday_require.data, form.holiday_max.data,
-            form.rest_days.data, form.max_times.data,
-            form.essential_skills.data, form.essential_operators.data, form.impossible_operators.data
+            data.get('id'), data.get('title'), to_time(data.get('at_from')),
+            to_time(data.get('at_to')), data.get('week_day_require'), data.get('week_day_max'),
+            data.get('holiday_require'), data.get('holiday_max'), data.get('rest_days'),
+            data.get('max_times'), list_id(data.get('essential_skills')),
+            list_id(data.get('essential_operators')), list_id(data.get('impossible_operators'))
         )
     
-    def update_option(self, form: BaseSettingForm):
-        if not validate_form(form):
-            raise ValueError
-        work_category_ids = [self.append_work_category(x).id if x.id.data.startswith('tmp')
+    def update_option(self, data: dict):
+        work_category_ids = [self.append_work_category(x).id if x.get('id').startswith('tmp')
                              else self.update_work_category(x).id
-                             for x in form.work_categories]
+                             for x in data.get('work_categories')]
         self._session.flush()
         return SchedulerCommand(self._session).update_option(
-            form.id.data, form.affiliation.data, form.certified_skill.data,
-            form.not_certified_skill.data, work_category_ids
+            data.get('id'), data.get('affiliation').get('id'), data.get('certified_skill'),
+            data.get('not_certified_skill'), work_category_ids
         )
