@@ -1,79 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<h2>Users</h2>
-<div class="table-responsive" style="height: 35vh">
-    <table class="table" id="userTable">
-        <thead>
-            <tr>
-                <th>login id</th>
-                <th>name</th>
-                <th>affiliation</th>
-                <th>is admin</th>
-                <th>is operator</th>
-                <th>is inactivated</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr role="row" data-id="{{ user.id }}" data-login-id="{{ user.login_id }}"
-                data-name="{{ user.name }}" data-affiliation-id="{{ user.affiliation.id }}"
-                data-is-admin="{{ user.is_admin }}" data-is-operator="{{ user.is_operator }}"
-                data-is-inactivated="{{ user.is_inactivated }}">
-                <td>{{ user.login_id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.affiliation.name }}</td>
-                <td>{{ user.is_admin }}</td>
-                <td>{{ user.is_operator }}</td>
-                <td>{{ user.is_inactivated }}</td>
-            </tr>
-            {% else %}
-            <tr><td>No users here so far.</td><td></td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-<hr />
-<form id="userForm" action="{{ url_for('users.append_user') }}" method="post">
-    {{ form.hidden_tag() }}
-    <input id="id" type="hidden" class="form-control" name="{{ form.id.name }}" readonly>
-
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Login Id</span>
-        </div>
-        <input id="loginId" type="text" class="form-control" name="{{ form.login_id.name }}">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Name</span>
-        </div>
-        <input id="name" type="text" class="form-control" name="{{ form.name.name }}">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">affiliation</span>
-        </div>
-        <select id="affiliation" class="custom-select" name="{{ form.affiliation.name }}">
-            {% for affiliation in affiliations %}
-                <option value="{{ affiliation.id }}">{{ affiliation.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3 custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="isAdmin" name="{{ form.is_admin.name }}">
-        <label class="custom-control-label" for="isAdmin">Is Admin</label>
-    </div>
-    <div class="mb-3 custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="isOperator" name="{{ form.is_operator.name }}">
-        <label class="custom-control-label" for="isOperator">Is Operator</label>
-    </div>
-    <div class="row">
-        <button class="btn btn-secondary col-md-2" type="reset" id="new">New User</button>
-        <button class="btn btn-primary col-md-5 offset-md-1" type="submit" id="store">Store User</button>
-        <button class="btn btn-warning col-md-2 offset-md-1" type="button" id="reset">Reset Password</button>
-        <button class="btn btn-danger col-md-1" type="button" id="inactivate">Inactivate</button>
-    </div>
-</form>
+<div id="root"></div>
 {% endblock %}
 
 {% block css %}
@@ -81,5 +8,7 @@
 {% endblock %}
 
 {% block script %}
-<script type="module" src="{{ url_for('users.static', filename='js/users.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+<script type="module" src="{{ url_for('users.static', filename='js/users.bundle.min.js') }}"
+    data-users="{{ to_json(users) }}" data-affiliations="{{ to_json(affiliations) }}"></script>
 {% endblock %}

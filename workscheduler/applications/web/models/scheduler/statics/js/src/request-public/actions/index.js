@@ -12,7 +12,7 @@ export const removeRequest = (id) => ({
 })
 
 export const openDialogToAppend = (atFrom, atTo) => ({
-    type: 'OPEN__DIALOG_APPEND',
+    type: 'OPEN_DIALOG_APPEND',
     request: Object.assign({},
         {atFrom: moment(atFrom), atTo: moment(atTo)})
 })

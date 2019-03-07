@@ -14,7 +14,7 @@ export const removeSkill = (id) => ({
 })
 
 export const openDialogToAppend = () => ({
-    type: 'OPEN__DIALOG_APPEND'
+    type: 'OPEN_DIALOG_APPEND'
 })
 
 export const openDialogToEdit = (skill) => ({

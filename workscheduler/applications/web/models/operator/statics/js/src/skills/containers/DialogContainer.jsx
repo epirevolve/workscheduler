@@ -35,7 +35,6 @@ const mapDispatchToProps = (dispatch) => ({
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('skill was successfully deleted.', 'alert-info');
-                dispatch(closeDialog());
                 dispatch(removeSkill(id));
             })
             .catch(err => {
@@ -44,6 +43,7 @@ const mapDispatchToProps = (dispatch) => ({
                 const message = res.errorMessage || 'we have some trouble with deleting skill...';
                 alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
             });
+        dispatch(closeDialog());
     },
     handleSave: (skillDialog) => {
         requestAgent
@@ -53,7 +53,6 @@ const mapDispatchToProps = (dispatch) => ({
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('skill was successfully stored.', 'alert-info');
-                dispatch(closeDialog());
                 if (skillDialog.id)
                     dispatch(editSkill(JSON.parse(res.text)));
                 else
@@ -65,6 +64,7 @@ const mapDispatchToProps = (dispatch) => ({
                 const message = res.errorMessage || 'we have some trouble with appending skill...';
                 alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
             });
+        dispatch(closeDialog());
     }
 })
 

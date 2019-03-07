@@ -14,7 +14,7 @@ const skillDialog = ({ skillDialog, onNameChange, onScoreChange, onIsCertifiedCh
     handleClose, handleRemove, handleSave }) => {
     return (
         <Dialog open={skillDialog.isOpen} aria-labelledby="skill-store">
-            <DialogTitle id="simple-dialog-title">Set skill</DialogTitle>
+            <DialogTitle id="simple-dialog-title">register skill</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     To evaluate operator skill, please register proper skills.
@@ -26,19 +26,18 @@ const skillDialog = ({ skillDialog, onNameChange, onScoreChange, onIsCertifiedCh
                 <FormControlLabel
                     control={<Switch checked={skillDialog.isCertified}
                         onChange={onIsCertifiedChanged} color="primary" />}
-                    label="is certified"
-                />
+                    label="is certified" />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handleClose} color="default">
                     Close
                 </Button>
                 {skillDialog.id && (
-                    <Button onClick={() => handleRemove(skillDialog.id)} color="primary">
+                    <Button onClick={() => handleRemove(skillDialog.id)} variant="outlined" color="secondary">
                         Remove
                     </Button>
                 )}
-                <Button onClick={() => handleSave(skillDialog)} color="primary">
+                <Button onClick={() => handleSave(skillDialog)} variant="outlined" color="primary">
                     Save
                 </Button>
             </DialogActions>

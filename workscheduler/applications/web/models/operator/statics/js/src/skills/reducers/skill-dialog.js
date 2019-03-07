@@ -1,6 +1,6 @@
 const dialog = (state = {isOpen: false}, action) => {
     switch (action.type) {
-        case 'OPEN__DIALOG_APPEND':
+        case 'OPEN_DIALOG_APPEND':
             return {...state,
                 isOpen: true,
                 id: '',

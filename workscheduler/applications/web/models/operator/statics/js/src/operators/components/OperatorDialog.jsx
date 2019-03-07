@@ -19,6 +19,7 @@ const operators = $script.data('operators');
 
 const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
     handleClose, handleSave }) => {
+
     const operatorsList = [<MenuItem key="none" value=""></MenuItem>];
     for (let operator of operators.filter(x => x.id != operatorDialog.id)) {
         operatorsList.push(

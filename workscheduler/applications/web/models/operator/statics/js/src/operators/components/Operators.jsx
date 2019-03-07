@@ -13,7 +13,7 @@ const skills = ({ operators, handleEdit }) => {
             <AppBar position="static" color="default">
                 <Toolbar>
                     <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
-                        Operators
+                        operators
                     </Typography>
                 </Toolbar>
             </AppBar>

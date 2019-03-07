@@ -6,10 +6,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Operator from './Operator';
 
 const operatorList = ({ operators, handleEdit }) => {
-    const operatorList = [];
-    for (let operator of operators) {
-        operatorList.push(<Operator key={operator.id} operator={operator} handleEdit={() => handleEdit(operator)} />)
-    }
+    const operatorList = operators.map(x =>
+        <Operator key={x.id} operator={x} handleEdit={() => handleEdit(x)} />
+    );
 
     return (
         <List subheader={<ListSubheader component="div">operator</ListSubheader>} style={{ maxHeight: '76vh', overflowY: 'auto' }}>
