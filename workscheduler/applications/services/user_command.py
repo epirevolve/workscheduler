@@ -14,6 +14,7 @@ class UserCommand:
         user = UserQuery(self._session).get_user(id_)
         user.password = password
         user.name = name
+        return user
     
     def append_user(self, login_id: str, name: str,
                     affiliation_id: str, is_admin: bool, is_operator: bool):
@@ -31,11 +32,14 @@ class UserCommand:
         user.affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
         user.is_admin = is_admin
         user.is_operator = is_operator
+        return user
     
     def reset_password(self, id_: str):
         user = UserQuery(self._session).get_user(id_)
         user.reset_password()
+        return user
 
     def inactivate(self, id_: str):
         user = UserQuery(self._session).get_user(id_)
         user.is_inactivated = True
+        return user

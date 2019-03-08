@@ -51,12 +51,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     handleResetPassword: (id) => {
         requestAgent
-            .post(`${url}${id}/rest-password`)
+            .post(`${url}${id}/reset-password`)
             .send()
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('user was successfully reset password.', 'alert-info');
+                alertManager.append('user password was successfully reset.', 'alert-info');
             })
             .catch(err => {
                 const res = JSON.parse(err.response.text);
@@ -74,10 +74,13 @@ const mapDispatchToProps = (dispatch) => ({
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('user was successfully stored.', 'alert-info');
-                if (skillDialog.id)
+                if (userDialog.id)
                     dispatch(editUser(JSON.parse(res.text)));
                 else
+                {
+                    alertManager.append('his/her password is p + his/her login id. Please change it.', 'alert-info');
                     dispatch(addUser(JSON.parse(res.text)));
+                }
             })
             .catch(err => {
                 const res = JSON.parse(err.response.text);

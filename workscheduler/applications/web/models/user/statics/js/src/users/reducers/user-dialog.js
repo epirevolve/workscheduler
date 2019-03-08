@@ -1,3 +1,6 @@
+const $script = $('script[src*="users"]');
+const affiliations = $script.data('affiliations');
+
 const dialog = (state = {isOpen: false}, action) => {
     switch (action.type) {
         case 'OPEN_DIALOG_APPEND':
@@ -6,7 +9,7 @@ const dialog = (state = {isOpen: false}, action) => {
                 id: '',
                 loginId: '',
                 name: '',
-                affiliation: '',
+                affiliation: affiliations[0],
                 isAdmin: false,
                 isOperator: false
             };
@@ -16,7 +19,7 @@ const dialog = (state = {isOpen: false}, action) => {
                 id: action.user.id,
                 loginId: action.user.loginId,
                 name: action.user.name,
-                affiliation: action.user.affiliation.name,
+                affiliation: action.user.affiliation,
                 isAdmin: action.user.isAdmin,
                 isOperator: action.user.isOperator
             };

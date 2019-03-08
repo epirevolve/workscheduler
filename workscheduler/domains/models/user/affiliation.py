@@ -29,6 +29,7 @@ class Affiliation(OrmBase):
     def validate(self, key, value):
         return super(Affiliation, self).validate(Affiliation, key, value)
     
+    @property
     def is_default(self):
         return self.name == Affiliation._default_name
     

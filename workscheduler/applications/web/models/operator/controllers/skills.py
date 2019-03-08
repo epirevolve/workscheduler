@@ -33,7 +33,6 @@ def append_skill():
     try:
         req = SkillCommandAdapter(session).append_skill(jsonize.loads(request.data))
         session.commit()
-        
         session.refresh(req)
         response = Response(jsonize.dumps(req))
     except Exception as e:
@@ -52,7 +51,6 @@ def update_skill(skill_id: str):
     try:
         req = SkillCommandAdapter(session).update_skill(jsonize.loads(request.data))
         session.commit()
-        
         session.refresh(req)
         response = Response(jsonize.dumps(req))
     except Exception as e:
@@ -71,7 +69,6 @@ def remove_skill(skill_id: str):
     try:
         req = SkillCommandAdapter(session).delete_skill(skill_id)
         session.commit()
-        
         response = Response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()

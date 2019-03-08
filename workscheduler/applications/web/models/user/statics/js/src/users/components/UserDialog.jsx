@@ -12,12 +12,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const $script = $('script[src*="users"]');
 const affiliations = $script.data('affiliations');
 
 const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationChange,
-    onIsAdminChanged, onIsUserChanged, handleClose, handleInactivate, handleResetPassword, handleSave }) => {
+    onIsAdminChange, onIsOperatorChange, handleClose, handleInactivate, handleResetPassword, handleSave }) => {
 
     const affiliationList = affiliations.map(x =>
         <MenuItem key={x.id} value={x}>
@@ -28,38 +30,44 @@ const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationCh
     if (affiliation && affiliations.map(x => x.id).includes(affiliation.id)) affiliation = affiliations.find(x => x.id == affiliation.id);
 
     return (
-        <Dialog open={userDialog.isOpen} aria-labelledby="user-store">
-            <DialogTitle id="simple-dialog-title">register user</DialogTitle>
+        <Dialog open={userDialog.isOpen} aria-labelledby="user-store" maxWidth="lg">
+            <DialogTitle>register user</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Please register user info.
+                    automatically registered operator info after user registration if he/she is not operator.
                 </DialogContentText>
-                <TextField autoFocus margin="dense" label="login id" fullWidth
+                <TextField autoFocus margin="dense" label="login id" fullWidth required
                     onChange={onLoginIdChange} value={userDialog.loginId} />
-                <TextField autoFocus margin="dense" label="name" fullWidth
-                    onChange={onNameChange} value={userDialog.name} />
-                <Select value={affiliation} onChange={onAffiliationChange} label="affiliation">
-                    {affiliationList}
-                </Select>
-                <FormControlLabel
+                <TextField margin="dense" label="name" fullWidth required
+                    onChange={onNameChange} margin="dense" value={userDialog.name} />
+                <FormControl margin="dense">
+                    <InputLabel htmlFor="affiliation">affiliation</InputLabel>
+                    <Select value={affiliation} id="affiliation" onChange={onAffiliationChange}>
+                        {affiliationList}
+                    </Select>
+                </FormControl>
+                <br />
+                <FormControlLabel margin="dense"
                     control={<Checkbox checked={userDialog.isAdmin}
-                        onChange={onIsAdminChanged} color="primary" />}
+                        onChange={onIsAdminChange} color="primary" />}
                     label="is admin" />
-                <FormControlLabel
-                    control={<Checkbox checked={userDialog.isUser}
-                        onChange={onIsUserChanged} color="primary" />}
-                    label="is user" />
+                <FormControlLabel margin="dense"
+                    control={<Checkbox checked={userDialog.isOperator}
+                        onChange={onIsOperatorChange} color="primary" />}
+                    label="is operator" />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="default">
+                <Button onClick={handleClose} color="default" className="mr-1">
                     Close
                 </Button>
                 {userDialog.id && (
                     <React.Fragment>
-                        <Button onClick={() => handleInactivate(userDialog.id)} variant="outlined" color="secondary">
+                        <Button onClick={() => handleInactivate(userDialog.id)} variant="outlined"
+                            color="secondary" className="mr-1">
                             Inactivate
                         </Button>
-                        <Button onClick={() => handleResetPassword(userDialog.id)} variant="outlined" color="secondary">
+                        <Button onClick={() => handleResetPassword(userDialog.id)} variant="outlined"
+                            color="secondary" className="mr-1">
                             Reset Password
                         </Button>
                     </React.Fragment>

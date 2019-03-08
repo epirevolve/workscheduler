@@ -14,7 +14,7 @@ class AffiliationQuery:
         return self._session.query(Affiliation).order_by(Affiliation.id).all()
     
     def get_default_affiliation(self):
-        return next(filter(lambda x: x.is_default(), self.get_affiliations()))
+        return next(filter(lambda x: x.is_default, self.get_affiliations()))
     
     def get_affiliations_without_default(self):
         default_affiliation = self.get_default_affiliation()

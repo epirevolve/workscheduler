@@ -33,8 +33,8 @@ const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
     if (ojt && operators.map(x => x.id).includes(ojt.id)) ojt = operators.find(x => x.id == ojt.id);
 
     return (
-        <Dialog open={operatorDialog.isOpen} aria-labelledby="skill-store" maxWidth="lg">
-            <DialogTitle id="simple-dialog-title">Set operator</DialogTitle>
+        <Dialog open={operatorDialog.isOpen} aria-labelledby="operator-store" maxWidth="lg">
+            <DialogTitle>Set operator</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     Set operator info like not certified skills.

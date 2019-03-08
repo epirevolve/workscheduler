@@ -14,7 +14,7 @@ const skillDialog = ({ skillDialog, onNameChange, onScoreChange, onIsCertifiedCh
     handleClose, handleRemove, handleSave }) => {
     return (
         <Dialog open={skillDialog.isOpen} aria-labelledby="skill-store">
-            <DialogTitle id="simple-dialog-title">register skill</DialogTitle>
+            <DialogTitle>register skill</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     To evaluate operator skill, please register proper skills.

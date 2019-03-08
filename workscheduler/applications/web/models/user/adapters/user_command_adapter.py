@@ -1,40 +1,31 @@
 # -*- coding: utf-8 -*-
 
 from workscheduler.applications.services import UserCommand
-from workscheduler.applications.web.util.functions.adapter import validate_form
-from ..forms import UsersForm
 
 
-class UserCommandAdapter(UserCommand):
+class UserCommandAdapter:
+    def __init__(self, session):
+        self._session = session
+    
     def update_myself(self, data):
-        super(UserCommandAdapter, self).update_myself(
+        return UserCommand(self._session).update_myself(
             data.get('id'), data.get('password'), data.get('name')
         )
     
-    def append_user(self, form: UsersForm):
-        if not validate_form(form):
-            return
-        return super(UserCommandAdapter, self).append_user(
-            form.login_id.data, form.name.data,
-            form.affiliation.data, form.is_admin.data, form.is_operator.data
+    def append_user(self, data: dict):
+        return UserCommand(self._session).append_user(
+            data.get('login_id'), data.get('name'), data.get('affiliation').get('id'),
+            data.get('is_admin'), data.get('is_operator')
         )
     
-    def update_user(self, form: UsersForm):
-        if not validate_form(form):
-            return
-        super(UserCommandAdapter, self).update_user(
-            form.id.data, form.login_id.data, form.name.data,
-            form.affiliation.data, form.is_admin.data, form.is_operator.data
+    def update_user(self, data: dict):
+        return UserCommand(self._session).update_user(
+            data.get('id'), data.get('login_id'), data.get('name'),
+            data.get('affiliation').get('id'), data.get('is_admin'), data.get('is_operator')
         )
     
-    def reset_password(self, request):
-        id = request.get('id')
-        if not id:
-            raise ValueError()
-        super(UserCommandAdapter, self).reset_password(id)
+    def reset_password(self, id_):
+        return UserCommand(self._session).reset_password(id_)
 
-    def inactivate(self, request):
-        id = request.get('id')
-        if not id:
-            raise ValueError()
-        super(UserCommandAdapter, self).inactivate(id)
+    def inactivate(self, id_):
+        return UserCommand(self._session).inactivate(id_)

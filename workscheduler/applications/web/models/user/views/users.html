@@ -10,5 +10,6 @@
 {% block script %}
 <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
 <script type="module" src="{{ url_for('users.static', filename='js/users.bundle.min.js') }}"
+    data-url="{{ url_for('users.append_user') }}"
     data-users="{{ to_json(users) }}" data-affiliations="{{ to_json(affiliations) }}"></script>
 {% endblock %}
