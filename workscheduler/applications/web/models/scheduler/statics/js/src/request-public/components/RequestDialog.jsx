@@ -36,11 +36,13 @@ class RequestDialog extends React.Component {
             timePicker={timePickerElement} showToday={false} format='YYYY-MM-DD HH:mm' />;
         return (
             <Dialog open={requestDialog.isOpen} aria-labelledby="request-store">
-                <DialogTitle>Set request</DialogTitle>
+                <DialogTitle>register request</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To set your scheduled holiday, please submit your request.
-                        This request is not notified to an administrators.
+                        to set your scheduled holiday, please submit your request
+                    </DialogContentText>
+                    <DialogContentText>
+                        this request is not notified to an administrators
                     </DialogContentText>
                     <TextField autoFocus margin="dense" label="title" fullWidth
                         onChange={onTitleChange} value={requestDialog.title} />

@@ -3,12 +3,15 @@
 from flask import Blueprint
 from flask import render_template
 from flask import request
-from flask import jsonify
+from flask import Response
 from flask_login import login_required
+
+import mypackages.utils.jsonize as jsonize
 
 from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.web import get_db_session
 from workscheduler.applications.web.util.functions.controller import admin_required
+from ..adapters import AffiliationCommandAdapter
 from ..adapters import AffiliationFacadeAdapter
 
 
@@ -30,17 +33,48 @@ def show_affiliations():
 def append_affiliation():
     session = get_db_session()
     try:
-        affiliation = AffiliationFacadeAdapter(session).append_affiliation(request.form)
+        req = AffiliationFacadeAdapter(session).append_affiliation(jsonize.loads(request.data))
         session.commit()
-        
-        response = jsonify({
-            'affiliationId': affiliation.id,
-            'affiliationName': affiliation.name,
-            'affiliationNote': affiliation.note
-        })
+        session.refresh(req)
+        response = Response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()
         print(e)
-        response = jsonify()
+        response = Response()
+        response.status_code = 400
+    return response
+
+
+@bp.route('/<affiliation_id>', methods=['POST'])
+@login_required
+@admin_required
+def update_affiliation(affiliation_id: str):
+    session = get_db_session()
+    try:
+        req = AffiliationCommandAdapter(session).update_affiliation(jsonize.loads(request.data))
+        session.commit()
+        session.refresh(req)
+        response = Response(jsonize.dumps(req))
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response
+
+
+@bp.route('/<affiliation_id>', methods=['POST'])
+@login_required
+@admin_required
+def remove_affiliation(affiliation_id: str):
+    session = get_db_session()
+    try:
+        AffiliationCommandAdapter(session).remove_affiliation(affiliation_id)
+        session.commit()
+        response = Response()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
         response.status_code = 400
     return response

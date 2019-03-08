@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import OperatorList from './OperatorList';
 
-const skills = ({ operators, handleEdit }) => {
+const skills = ({ ...other }) => {
     return (
         <div>
             <AppBar position="static" color="default">
@@ -17,7 +17,7 @@ const skills = ({ operators, handleEdit }) => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <OperatorList operators={operators} handleEdit={handleEdit} />
+            <OperatorList {...other} />
         </div>
     )
 }

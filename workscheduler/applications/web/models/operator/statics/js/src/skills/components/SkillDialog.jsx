@@ -17,7 +17,10 @@ const skillDialog = ({ skillDialog, onNameChange, onScoreChange, onIsCertifiedCh
             <DialogTitle>register skill</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    To evaluate operator skill, please register proper skills.
+                    certified skills are shown to operators
+                </DialogContentText>
+                <DialogContentText>
+                    and not certified skills are shown to administrators
                 </DialogContentText>
                 <TextField autoFocus margin="dense" label="name" fullWidth
                     onChange={onNameChange} value={skillDialog.name} />

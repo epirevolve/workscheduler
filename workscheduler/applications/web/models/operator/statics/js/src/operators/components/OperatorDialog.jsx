@@ -34,11 +34,8 @@ const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
 
     return (
         <Dialog open={operatorDialog.isOpen} aria-labelledby="operator-store" maxWidth="lg">
-            <DialogTitle>Set operator</DialogTitle>
+            <DialogTitle>register operator</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    Set operator info like not certified skills.
-                </DialogContentText>
                 <TextField disabled value={operatorDialog.name} label="name" fullWidth margin="dense" />
                 <TextField disabled value={operatorDialog.affiliation} label="affiliation" fullWidth margin="dense" />
                 <SkillList operatorSkills={operatorDialog.skills} onChange={onSkillChange} />

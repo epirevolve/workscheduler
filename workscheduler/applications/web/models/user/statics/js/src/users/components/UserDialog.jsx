@@ -39,7 +39,7 @@ const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationCh
                 <TextField autoFocus margin="dense" label="login id" fullWidth required
                     onChange={onLoginIdChange} value={userDialog.loginId} />
                 <TextField margin="dense" label="name" fullWidth required
-                    onChange={onNameChange} margin="dense" value={userDialog.name} />
+                    onChange={onNameChange} value={userDialog.name} />
                 <FormControl margin="dense">
                     <InputLabel htmlFor="affiliation">affiliation</InputLabel>
                     <Select value={affiliation} id="affiliation" onChange={onAffiliationChange}>
