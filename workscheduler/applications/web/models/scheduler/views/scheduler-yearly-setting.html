@@ -1,51 +1,14 @@
 {% extends "layout.html" %}
 {% block body %}
-<form>
-    <div>
-        <input type="hidden" name="{{ form.affiliation.name }}" value="{{ form.affiliation.data }}">
-        <h1>{{ form.affiliation.data.name }}</h1>
-    </div>
-    <hr>
-    <h3>Specific Vacations</h3>
-    <div class="card-columns">
-        <div class="card">
-            <div class="card-header">
-                <h4><input type="text" value="Summer Vacation"></h4>
-            </div>
-            <div class="card-body">
-                <div class="input-group m-1 mb-3 date" id="vacation-from" data-target-input="nearest">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">From</span>
-                    </div>
-                    <input type="text" class="form-control datetimepicker-input" data-target="#vacation-from">
-                    <div class="input-group-append" data-target="#vacation-from" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-                <div class="input-group m-1 mb-3 date" id="vacation-to" data-target-input="nearest">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">To</span>
-                    </div>
-                    <input type="text" class="form-control datetimepicker-input" data-target="#vacation-to">
-                    <div class="input-group-append" data-target="#vacation-to" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-                <div class="input-group m-1">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Days</span>
-                    </div>
-                    <input type="number" class="form-control" min="0">
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-        <div class="row m-1">
-        <button type="button" class="btn btn-secondary col-md-2"
-            onclick="window.history.back()">Go Back</button>
-        <button name="storeOption" type="button" class="btn btn-primary col-md-9 offset-md-1"
-            data-action="{{ action }}">Save</button>
-    </div>
-</form>
+<div id="root"></div>
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+<script type="module" src="{{ url_for('schedulers.static', filename='js/scheduler-yearly-setting.bundle.min.js') }}"
+    data-scheduler="{{ to_json(scheduler) }}" data-yearlySetting="{{ to_json(yearly_setting) }}"
+    data-url="{{ url_for('schedulers.update_yearly_setting', scheduler_id=scheduler.id) }}"></script>
 {% endblock %}

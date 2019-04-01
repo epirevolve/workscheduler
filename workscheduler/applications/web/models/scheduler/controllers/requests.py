@@ -47,7 +47,7 @@ def show_my_request():
     if not scheduler:
         return _non_public_request_body(calendar)
     
-    monthly_setting = scheduler.month_year_setting(calendar.month, calendar.year)
+    monthly_setting = scheduler.monthly_setting(calendar.month, calendar.year)
     
     return _public_request_body(scheduler, monthly_setting) \
         if monthly_setting and monthly_setting.is_published and not monthly_setting.is_fixed \

@@ -31,12 +31,19 @@ from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
 from ..user import Affiliation
 from . import WorkCategory
-from . import MonthYearSetting
+from . import MonthlySetting
+from . import YearlySetting
 
-associated_month_year_setting_table\
-    = Table("associated_month_year_setting", OrmBase.metadata,
+associated_monthly_setting_table\
+    = Table("associated_monthly_setting", OrmBase.metadata,
             Column("left_id", String, ForeignKey('schedulers.id')),
-            Column("right_id", String, ForeignKey('month_year_settings.id')))
+            Column("right_id", String, ForeignKey('monthly_settings.id')))
+
+
+associated_yearly_setting_table\
+    = Table("associated_yearly_setting", OrmBase.metadata,
+            Column("left_id", String, ForeignKey('schedulers.id')),
+            Column("right_id", String, ForeignKey('yearly_settings.id')))
 
 
 associated_work_category_table\
@@ -50,7 +57,8 @@ class Scheduler(OrmBase):
     id = Column(String, primary_key=True)
     _affiliation_id = Column(String, ForeignKey('affiliations.id'))
     affiliation = relationship("Affiliation", uselist=False, lazy='joined')
-    month_year_settings = relationship("MonthYearSetting", secondary=associated_month_year_setting_table, lazy='joined')
+    monthly_settings = relationship("MonthlySetting", secondary=associated_monthly_setting_table, lazy='joined')
+    yearly_settings = relationship("YearlySetting", secondary=associated_yearly_setting_table, lazy='joined')
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
     work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='joined')
@@ -61,7 +69,8 @@ class Scheduler(OrmBase):
                  work_categories: [WorkCategory]):
         self.id = id_
         self.affiliation = affiliation
-        self.month_year_settings = []
+        self.monthly_settings = []
+        self.yearly_settings = []
         self.certified_skill = certified_skill
         self.not_certified_skill = not_certified_skill
         self.work_categories = work_categories
@@ -75,21 +84,30 @@ class Scheduler(OrmBase):
         return Scheduler(UuidFactory.new_uuid(), affiliation,
                          True, True, [])
     
-    def month_year_setting(self, month: int, year: int):
-        month_year_setting = list(filter(lambda x: x.year == year and x.month == month,
-                                         self.month_year_settings))
-        if not month_year_setting:
-            month_year_setting = MonthYearSetting.new_month_year(
+    def monthly_setting(self, month: int, year: int):
+        monthly_setting = list(filter(lambda x: x.year == year and x.month == month,
+                                      self.monthly_settings))
+        if not monthly_setting:
+            monthly_setting = MonthlySetting.new_monthly_setting(
                 self.work_categories, year, month)
-            self.month_year_settings.append(month_year_setting)
+            self.monthly_settings.append(monthly_setting)
         else:
-            month_year_setting = month_year_setting[0]
-        return month_year_setting
+            monthly_setting = monthly_setting[0]
+        return monthly_setting
+    
+    def yearly_setting(self, year: int):
+        yearly_setting = list(filter(lambda x: x.year == year, self.yearly_settings))
+        
+        if not yearly_setting:
+            yearly_setting = YearlySetting.new_yearly_setting(year)
+        else:
+            yearly_setting = yearly_setting[0]
+        return yearly_setting
     
     @staticmethod
-    def _evaluate_by_day(day_dict, month_year_setting):
+    def _evaluate_by_day(day_dict, monthly_setting):
         adaptability = 0
-        for schedule_day, scheduler_day in zip(day_dict.values(), month_year_setting.days):
+        for schedule_day, scheduler_day in zip(day_dict.values(), monthly_setting.days):
             for detail in scheduler_day.details:
                 members = schedule_day[detail.work_category.id]
                 count = len(members)
@@ -106,10 +124,10 @@ class Scheduler(OrmBase):
         return adaptability
     
     @staticmethod
-    def _evaluate_by_operator(operator_dict, month_year_setting):
+    def _evaluate_by_operator(operator_dict, monthly_setting):
         return 0
     
-    def _evaluate(self, operators, month_year_setting):
+    def _evaluate(self, operators, monthly_setting):
         def _fnc(gene):
             # column is day and row is operator
             schedule = np.reshape(gene, (len(operators), -1))
@@ -123,7 +141,7 @@ class Scheduler(OrmBase):
                     d[x].append(operators[i])
                 return d
             day_dict = {i: dict_by_day(x) for i, x in enumerate(schedule.T)}
-            adaptability += self._evaluate_by_day(day_dict, month_year_setting)
+            adaptability += self._evaluate_by_day(day_dict, monthly_setting)
             return adaptability
         return _fnc
     
@@ -157,13 +175,13 @@ class Scheduler(OrmBase):
         return crossover
     
     def run(self, schedule_of: date, operators):
-        month_year_setting = self.month_year_setting(schedule_of.month, schedule_of.year)
-        evaluate = self._evaluate(operators, month_year_setting)
+        monthly_setting = self.monthly_setting(schedule_of.month, schedule_of.year)
+        evaluate = self._evaluate(operators, monthly_setting)
         
         base_kind = list(map(lambda x: x.id, self.work_categories))
         
         genetic = Genetic(evaluation=evaluate, base_kind=[0] + base_kind,
-                          gene_size=len(month_year_setting.days) * len(operators),
+                          gene_size=len(monthly_setting.days) * len(operators),
                           generation_size=1000, population_size=1000, debug=True)
         genetic.parent_selection = self._build_parent_selection()
         genetic.survivor_selection = self._build_survivor_selection(genetic.population_size)

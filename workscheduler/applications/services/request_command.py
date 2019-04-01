@@ -17,8 +17,8 @@ class RequestCommand:
         self._session = session
 
     @staticmethod
-    def _request_validity(operator_id, month_year_setting, new_request):
-        for day in month_year_setting.days:
+    def _request_validity(operator_id, monthly_setting, new_request):
+        for day in monthly_setting.days:
             for request in filter(lambda x: x.operator.id == operator_id, day.requests):
                 if is_overlap(new_request.at_from, new_request.at_to,
                               request.at_from, request.at_to):
@@ -28,12 +28,12 @@ class RequestCommand:
         scheduler = SchedulerQuery(self._session).get_scheduler(scheduler_id)
         search_date = request.at_from
         while search_date <= request.at_to:
-            month_year_setting = scheduler.month_year_setting(search_date.month, search_date.year)
-            self._request_validity(request.operator.id, month_year_setting, request)
-            if not month_year_setting.is_published:
+            monthly_setting = scheduler.monthly_setting(search_date.month, search_date.year)
+            self._request_validity(request.operator.id, monthly_setting, request)
+            if not monthly_setting.is_published:
                 raise CalendarError()
-            while search_date.month == month_year_setting.month and search_date <= request.at_to:
-                month_year_setting.days[search_date.day - 1].requests.append(request)
+            while search_date.month == monthly_setting.month and search_date <= request.at_to:
+                monthly_setting.days[search_date.day - 1].requests.append(request)
                 search_date = get_next_day(search_date)
             search_date = get_next_day(search_date)
 

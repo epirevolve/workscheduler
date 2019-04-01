@@ -7,6 +7,7 @@ from .specific_vacation import SpecificVacation
 from .day_detail import DayDetail
 from .day_setting import DaySetting
 from .fixed_schedule import FixedSchedule
-from .month_year_setting import MonthYearSetting
+from .monthly_setting import MonthlySetting
+from .yearly_setting import YearlySetting
 
 from .scheduler import Scheduler

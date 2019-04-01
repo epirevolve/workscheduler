@@ -19,6 +19,7 @@ module.exports = {
         'workscheduler/applications/web/models/scheduler/statics/js/request-public': path.join(_schedulerPath, '/src/request-public/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-monthly-setting': path.join(_schedulerPath, '/src/scheduler-monthly-setting/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-basic-setting': path.join(_schedulerPath, '/src/scheduler-basic-setting/index.jsx'),
+        'workscheduler/applications/web/models/scheduler/statics/js/scheduler-yearly-setting': path.join(_schedulerPath, '/src/scheduler-yearly-setting/index.jsx'),
     },
 
     output: {

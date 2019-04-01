@@ -51,7 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('affiliation was successfully stored.', 'alert-info');
-                if (userDialog.id)
+                if (affiliationDialog.id)
                     dispatch(editAffiliation(JSON.parse(res.text)));
                 else
                     dispatch(addAffiliation(JSON.parse(res.text)));

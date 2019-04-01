@@ -19,24 +19,23 @@ from sqlalchemy.types import Boolean
 from mypackages.utils.uuid import UuidFactory
 
 from .. import OrmBase
-from . import (
-    WorkCategory, DaySetting
-)
+from . import WorkCategory
+from . import DaySetting
 
 associated_calendar_day_table\
     = Table("associated_calendar_day", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('month_year_settings.id')),
+            Column("left_id", String, ForeignKey('monthly_settings.id')),
             Column("right_id", String, ForeignKey('day_settings.id')))
 
 
 associated_fixed_schedule_table\
     = Table("associated_fixed_schedule", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('month_year_settings.id')),
+            Column("left_id", String, ForeignKey('monthly_settings.id')),
             Column("right_id", String, ForeignKey('fixed_schedules.id')))
 
 
-class MonthYearSetting(OrmBase):
-    __tablename__ = "month_year_settings"
+class MonthlySetting(OrmBase):
+    __tablename__ = "monthly_settings"
     id = Column(String, primary_key=True)
     year = Column(Integer)
     month = Column(Integer)
@@ -88,13 +87,13 @@ class MonthYearSetting(OrmBase):
                 day.add_category(work_category)
 
     @staticmethod
-    def new_month_year(work_categories: [], year: int, month: int):
+    def new_monthly_setting(work_categories: [], year: int, month: int):
         calendar = SysCalendar()
         calendar.setfirstweekday(SUNDAY)
         monthdatescalendar = [y for x in calendar.monthdatescalendar(year, month)
                               for y in x if y.year == year and y.month == month]
         days = [DaySetting.new_day(x, day_abbr[x.weekday()], work_categories)
                 for x in monthdatescalendar]
-        return MonthYearSetting(UuidFactory.new_uuid(),
-                                year, month, days,
-                                len([x for x in monthdatescalendar if x.weekday() in [5, 6]]))
+        return MonthlySetting(UuidFactory.new_uuid(),
+                              year, month, days,
+                              len([x for x in monthdatescalendar if x.weekday() in [5, 6]]))

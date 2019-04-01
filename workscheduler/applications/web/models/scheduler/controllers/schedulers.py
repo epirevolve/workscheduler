@@ -23,7 +23,6 @@ from workscheduler.applications.services import OperatorQuery
 from workscheduler.applications.web.util.functions.controller import admin_required
 from workscheduler.applications.web import get_db_session
 from ..adapters import SchedulerCommandAdapter
-from ..forms import YearlySettingForm
 
 
 bp = Blueprint('schedulers', __name__, template_folder='../views', static_folder='../statics')
@@ -51,7 +50,7 @@ def show_monthly_setting():
     
     session = get_db_session()
     scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
-    monthly_setting = scheduler.month_year_setting(calendar.month, calendar.year)
+    monthly_setting = scheduler.monthly_setting(calendar.month, calendar.year)
     
     return redirect(url_for('schedulers.show_monthly_setting_inner',
                             monthly_setting_id=monthly_setting.id, affiliation=affiliation_id))
@@ -110,7 +109,7 @@ def public_monthly_setting(monthly_setting_id: str):
     return response
 
 
-@bp.route('/')
+@bp.route('/basic-setting')
 @login_required
 @admin_required
 def show_basic_setting():
@@ -120,7 +119,7 @@ def show_basic_setting():
     return redirect(url_for('schedulers.show_basic_setting_inner', scheduler_id=scheduler.id))
 
 
-@bp.route('/<scheduler_id>')
+@bp.route('/basic-setting/<scheduler_id>')
 @login_required
 @admin_required
 def show_basic_setting_inner(scheduler_id: str):
@@ -132,7 +131,7 @@ def show_basic_setting_inner(scheduler_id: str):
                            scheduler=scheduler, skills=skills, operators=operators)
 
 
-@bp.route('/<scheduler_id>', methods=['POST'])
+@bp.route('/basic-setting/<scheduler_id>', methods=['POST'])
 @login_required
 @admin_required
 def update_basic_setting(scheduler_id):
@@ -149,17 +148,42 @@ def update_basic_setting(scheduler_id):
     return response
 
 
-@bp.route('/yearly-setting')
+@bp.route('/yearly-settings')
 @login_required
 @admin_required
 def show_yearly_setting():
     affiliation_id = request.args.get('affiliation')
+    year = request.args.get('year')
     session = get_db_session()
-    affiliation = AffiliationQuery(session).get_affiliation(affiliation_id)
+    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
+    return redirect(url_for('schedulers.show_yearly_setting_inner', scheduler_id=scheduler.id, year=year))
+
+
+@bp.route('/yearly-settings/<scheduler_id>')
+@login_required
+@admin_required
+def show_yearly_setting_inner(scheduler_id):
+    year = request.args.get('year') or datetime.now().year
+    session = get_db_session()
+    scheduler = SchedulerQuery(session).get_scheduler(scheduler_id)
+    yearly_setting = scheduler.yearly_setting(year)
     return render_template('scheduler-yearly-setting.html',
-                           form=YearlySettingForm(obj=type('temp', (object,), {
-                               'affiliation': affiliation
-                           })))
+                           scheduler=scheduler, yearly_setting=yearly_setting)
+
+
+@bp.route('/yearly-setting/<scheduler_id>', methods=['POST'])
+@login_required
+@admin_required
+def update_yearly_setting(scheduler_id):
+    session = get_db_session()
+    try:
+        response = Response()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = jsonify()
+        response.status_code = 400
+    return response
 
 
 @bp.route('/affiliations/<affiliation_id>/schedule-of/<schedule_of>', methods=['POST'])

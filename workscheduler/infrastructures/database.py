@@ -145,25 +145,25 @@ class Database:
         # add scheduler calendar
         
         from mypackages.utils.date import get_next_month
-        from workscheduler.domains.models.scheduler import MonthYearSetting
+        from workscheduler.domains.models.scheduler import MonthlySetting
         from workscheduler.domains.models.scheduler import FixedSchedule
         
         next_month = get_next_month()
-        month_year_setting = MonthYearSetting.new_month_year(scheduler.work_categories,
+        monthly_setting = MonthlySetting.new_monthly_setting(scheduler.work_categories,
                                                              next_month.year, next_month.month)
-        month_year_setting.fixed_schedules.append(
+        monthly_setting.fixed_schedules.append(
             FixedSchedule.new_schedule(
                 'いけりり研修', next_month.replace(day=4), next_month.replace(day=7),
                 time(9, 0), time(17, 30),
                 [get_operator_of_user_id(user1.id),
                  get_operator_of_user_id(user3.id)]))
-        month_year_setting.fixed_schedules.append(
+        monthly_setting.fixed_schedules.append(
             FixedSchedule.new_schedule(
                 'いけりり研修', next_month.replace(day=9), next_month.replace(day=12),
                 time(9, 30), time(18, 00),
                 [get_operator_of_user_id(user2.id)]))
-        month_year_setting.is_published = True
-        scheduler.month_year_settings.append(month_year_setting)
+        monthly_setting.is_published = True
+        scheduler.monthly_settings.append(monthly_setting)
 
         session.commit()
         session.close()

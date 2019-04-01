@@ -117,5 +117,5 @@ class SchedulerCommand:
         scheduler.certified_skill = certified_skill
         scheduler.not_certified_skill = not_certified_skill
         scheduler.work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
-        map(lambda x: x.update_categories(scheduler.work_categories), scheduler.month_year_settings)
+        map(lambda x: x.update_categories(scheduler.work_categories), scheduler.monthly_settings)
         return scheduler
