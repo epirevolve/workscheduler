@@ -15,8 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-const $script = $('script[src*="users"]');
-const affiliations = $script.data('affiliations');
+const affiliations = $('script[src*="users"]').data('affiliations');
 
 const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationChange,
     onIsAdminChange, onIsOperatorChange, handleClose, handleInactivate, handleResetPassword, handleSave }) => {

@@ -10,7 +10,7 @@ import { changeVacationDate } from '../actions';
 import { changeVacationDays } from '../actions';
 
 const mapStateToProps = (state) => ({
-    yearlySetting: state.yearlySetting
+    vacations: state.yearlySetting.vacations
 });
 
 const mapDispatchToProps = (dispatch) => ({

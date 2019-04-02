@@ -11,3 +11,5 @@ const yearlySetting = () => (
         <YearlySettingContainer />
     </React.Fragment>
 )
+
+export default yearlySetting;

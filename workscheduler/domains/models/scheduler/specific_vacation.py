@@ -8,8 +8,8 @@ from sqlalchemy.types import Integer
 from .. import OrmBase
 
 
-class SpecificVacation(OrmBase):
-    __tablename__ = "specific_vacations"
+class Vacation(OrmBase):
+    __tablename__ = "vacations"
     id = Column(String, primary_key=True)
     title = Column(String)
     at_from = Column(DateTime)

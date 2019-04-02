@@ -11,14 +11,6 @@
     z-index: 2;
 }
 
-[data-toggle="accordion"] ul {
-    padding: 0 !important;
-}
-
-[data-toggle="accordion"] h3 {
-    font-size: 150% !important;
-}
-
 #selectable-list.fixed {
     position: fixed;
     top: 4rem;

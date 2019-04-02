@@ -7,6 +7,7 @@ const _schedulerPath = _path('scheduler');
 
 module.exports = {
     mode: 'production',
+
     entry: {
         'workscheduler/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/affiliations': path.join(_userPath, '/src/affiliations/index.jsx'),
@@ -17,6 +18,7 @@ module.exports = {
         'workscheduler/applications/web/models/operator/statics/js/skills': path.join(_operatorPath, '/src/skills/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-non-public': path.join(_schedulerPath, '/src/request-non-public/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/request-public': path.join(_schedulerPath, '/src/request-public/index.jsx'),
+        'workscheduler/applications/web/models/scheduler/statics/js/scheduler-menu': path.join(_schedulerPath, '/src/scheduler-menu/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-monthly-setting': path.join(_schedulerPath, '/src/scheduler-monthly-setting/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-basic-setting': path.join(_schedulerPath, '/src/scheduler-basic-setting/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-yearly-setting': path.join(_schedulerPath, '/src/scheduler-yearly-setting/index.jsx'),
@@ -65,8 +67,14 @@ module.exports = {
 
     optimization: {
         splitChunks: {
-            name: 'workscheduler/applications/web/util/statics/js/vendor/common',
-            chunks: 'initial',
+            cacheGroups: {
+                common: {
+                    test: /node_modules/,
+                    name: 'workscheduler/applications/web/util/statics/js/vendor/common',
+                    chunks: 'initial',
+                    enforce: true
+                }
+            }
         }
     },
 

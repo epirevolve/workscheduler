@@ -97,9 +97,9 @@ class Scheduler(OrmBase):
     
     def yearly_setting(self, year: int):
         yearly_setting = list(filter(lambda x: x.year == year, self.yearly_settings))
-        
         if not yearly_setting:
             yearly_setting = YearlySetting.new_yearly_setting(year)
+            self.yearly_settings.append(yearly_setting)
         else:
             yearly_setting = yearly_setting[0]
         return yearly_setting

@@ -9,6 +9,6 @@
 {% block script %}
 <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
 <script type="module" src="{{ url_for('schedulers.static', filename='js/scheduler-yearly-setting.bundle.min.js') }}"
-    data-scheduler="{{ to_json(scheduler) }}" data-yearlySetting="{{ to_json(yearly_setting) }}"
-    data-url="{{ url_for('schedulers.update_yearly_setting', scheduler_id=scheduler.id) }}"></script>
+    data-scheduler="{{ to_json(scheduler) }}" data-yearly-setting="{{ to_json(yearly_setting) }}"
+    data-url="{{ url_for('schedulers.update_yearly_setting', yearly_setting_id=yearly_setting.id) }}"></script>
 {% endblock %}

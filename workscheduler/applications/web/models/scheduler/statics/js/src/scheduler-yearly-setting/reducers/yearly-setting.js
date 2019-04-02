@@ -46,3 +46,5 @@ const yearlySetting = (state = {}, action) => {
             return state
     }
 }
+
+export default yearlySetting;

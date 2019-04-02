@@ -2,7 +2,7 @@
 
 from .request import Request
 from .work_category import WorkCategory
-from .specific_vacation import SpecificVacation
+from .specific_vacation import Vacation
 
 from .day_detail import DayDetail
 from .day_setting import DaySetting

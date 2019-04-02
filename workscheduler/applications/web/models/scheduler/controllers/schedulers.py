@@ -7,13 +7,10 @@ from flask import Blueprint
 from flask import url_for
 from flask import render_template
 from flask import request
-from flask import jsonify
 from flask import Response
 from flask import redirect
 from flask_login import login_required
 
-from mypackages.utils.date import get_next_month
-from mypackages.utils.date import to_year_month_string
 import mypackages.utils.jsonize as jsonize
 
 from workscheduler.applications.services import AffiliationQuery
@@ -65,7 +62,7 @@ def show_monthly_setting_inner(monthly_setting_id: str):
     session = get_db_session()
     scheduler_query = SchedulerQuery(session)
     scheduler = scheduler_query.get_scheduler_of_affiliation_id(affiliation_id)
-    monthly_setting = scheduler_query.get_month_year_setting(monthly_setting_id)
+    monthly_setting = scheduler_query.get_monthly_setting(monthly_setting_id)
     operators = OperatorQuery(session).get_operators()
 
     return render_template('scheduler-monthly-setting.html',
@@ -85,7 +82,7 @@ def update_monthly_setting(monthly_setting_id: str):
     except Exception as e:
         session.rollback()
         print(e)
-        response = jsonify()
+        response = Response()
         response.status_code = 400
     return response
 
@@ -104,7 +101,7 @@ def public_monthly_setting(monthly_setting_id: str):
     except Exception as e:
         session.rollback()
         print(e)
-        response = jsonify()
+        response = Response()
         response.status_code = 400
     return response
 
@@ -143,7 +140,7 @@ def update_basic_setting(scheduler_id):
     except Exception as e:
         session.rollback()
         print(e)
-        response = jsonify()
+        response = Response()
         response.status_code = 400
     return response
 
@@ -153,35 +150,39 @@ def update_basic_setting(scheduler_id):
 @admin_required
 def show_yearly_setting():
     affiliation_id = request.args.get('affiliation')
-    year = request.args.get('year')
-    session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
-    return redirect(url_for('schedulers.show_yearly_setting_inner', scheduler_id=scheduler.id, year=year))
-
-
-@bp.route('/yearly-settings/<scheduler_id>')
-@login_required
-@admin_required
-def show_yearly_setting_inner(scheduler_id):
     year = request.args.get('year') or datetime.now().year
     session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler(scheduler_id)
+    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
     yearly_setting = scheduler.yearly_setting(year)
+    session.commit()
+    return redirect(url_for('schedulers.show_yearly_setting_inner',
+                            yearly_setting_id=yearly_setting.id, scheduler_id=scheduler.id))
+
+
+@bp.route('/yearly-settings/<yearly_setting_id>')
+@login_required
+@admin_required
+def show_yearly_setting_inner(yearly_setting_id):
+    scheduler_id = request.args.get('scheduler_id')
+    session = get_db_session()
+    scheduler_query = SchedulerQuery(session)
+    scheduler = scheduler_query.get_scheduler(scheduler_id)
+    yearly_setting = scheduler_query.get_yearly_setting(yearly_setting_id)
     return render_template('scheduler-yearly-setting.html',
                            scheduler=scheduler, yearly_setting=yearly_setting)
 
 
-@bp.route('/yearly-setting/<scheduler_id>', methods=['POST'])
+@bp.route('/yearly-setting/<yearly_setting_id>', methods=['POST'])
 @login_required
 @admin_required
-def update_yearly_setting(scheduler_id):
+def update_yearly_setting(yearly_setting_id):
     session = get_db_session()
     try:
         response = Response()
     except Exception as e:
         session.rollback()
         print(e)
-        response = jsonify()
+        response = Response()
         response.status_code = 400
     return response
 
@@ -193,11 +194,15 @@ def launch_scheduler(affiliation_id: str, schedule_of: str):
     if schedule_of and not isinstance(schedule_of, date):
         schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
     
-    session = get_db_session()
-    operators = OperatorQuery(session).get_operators()
-    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
-    
-    scheduler.run(schedule_of, operators)
-    
-    response = jsonify()
+    try:
+        session = get_db_session()
+        operators = OperatorQuery(session).get_operators()
+        scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
+        
+        scheduler.run(schedule_of, operators)
+        response = Response()
+    except Exception as e:
+        print(e)
+        response = Response()
+        response.status_code = 400
     return response

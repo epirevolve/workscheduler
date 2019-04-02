@@ -48,7 +48,7 @@ class SchedulerCommand:
         
         operators = OperatorQuery(self._session).get_operators()
         
-        monthly_setting = SchedulerQuery(self._session).get_month_year_setting(id_)
+        monthly_setting = SchedulerQuery(self._session).get_monthly_setting(id_)
         monthly_setting.days = [update_day(x, y) for x, y in zip(monthly_setting.days, days)]
         monthly_setting.holidays = holidays
         fixed_schedule_ids = [x.id for x in monthly_setting.fixed_schedules]
@@ -60,7 +60,7 @@ class SchedulerCommand:
         return monthly_setting
     
     def public_monthly_setting(self, id_: str):
-        monthly_setting = SchedulerQuery(self._session).get_month_year_setting(id_)
+        monthly_setting = SchedulerQuery(self._session).get_monthly_setting(id_)
         monthly_setting.is_published = True
         return monthly_setting
         
