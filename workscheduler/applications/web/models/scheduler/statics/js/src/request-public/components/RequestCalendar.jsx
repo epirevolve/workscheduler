@@ -2,14 +2,13 @@ import React from 'react'
 
 import CalendarCell from './CalendarCell'
 
-const requestCalendar = ({ requestCalendar, handleAppend, handleEdit }) => {
+const requestCalendar = ({ requestCalendar, ...other }) => {
     const weeks = [];
 
     for (let [index1, week] of requestCalendar.entries()) {
         let week_ = [];
         for (let [index2, day] of week.entries()) {
-            week_.push(<CalendarCell key={`${index1}-${index2}`} day={day}
-                handleAppend={handleAppend} handleEdit={handleEdit} />);
+            week_.push(<CalendarCell key={`${index1}-${index2}`} day={day} {...other} />);
         }
         weeks.push(<div key={`${index1}`} className="row">{week_}</div>);
     }

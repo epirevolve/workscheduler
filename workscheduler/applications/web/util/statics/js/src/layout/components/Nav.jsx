@@ -20,7 +20,7 @@ const nav = ({ auth, opened, handleOpenDrawer }) => {
     const open = Boolean(anchorEl);
 
     return (
-        <AppBar className="pl-2" position="initial">
+        <AppBar className="pl-2" position="static">
             <Toolbar disableGutters={!opened}>
                 {isAuthenticated && (
                     <React.Fragment>

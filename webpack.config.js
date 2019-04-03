@@ -78,6 +78,4 @@ module.exports = {
             }
         }
     },
-
-    plugins: []
 }
