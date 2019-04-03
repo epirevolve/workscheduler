@@ -7,8 +7,8 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="operators"]');
-const operators = $script.data('operators');
+const dataset = document.querySelector('script[src*="operators"]').dataset;
+const operators = JSON.parse(dataset.operators);
 
 const store = createStore(rootReducer, {operators, operatorDialog: {isOpen: false}})
 

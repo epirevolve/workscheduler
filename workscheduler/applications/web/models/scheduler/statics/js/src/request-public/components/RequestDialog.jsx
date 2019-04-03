@@ -13,10 +13,11 @@ import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
 import 'rc-calendar/assets/index';
 import 'rc-time-picker/assets/index';
 import TimePickerPanel from 'rc-time-picker/lib/Panel';
+
 import moment from 'moment';
 
-function isValidRange(v) {
-  return v && v[0] && v[1];
+const isValidRange = (v) => {
+    return v && v[0] && v[1];
 }
 
 class RequestDialog extends React.Component {

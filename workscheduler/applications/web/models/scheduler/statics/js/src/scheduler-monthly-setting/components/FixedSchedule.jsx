@@ -13,9 +13,8 @@ import moment from 'moment';
 
 import Participants from './Participants';
 
-const $script = $('script[src*="scheduler-monthly-setting"]');
-
-const operators = $script.data('operators');
+const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
+const operators = JSON.parse(dataset.operators);
 
 function isValidRange(v) {
   return v && v[0] && v[1];
@@ -50,7 +49,7 @@ const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChang
                 </div>
                 <Participants fixedSchedule={fixedSchedule} onParticipantChange={onParticipantChange} />
             </CardContent>
-            <CardActions disableActionSpacing>
+            <CardActions className="ml-2">
                 <Button onClick={handleRemove(fixedSchedule.id)} variant="outlined" color="secondary">
                     Remove
                 </Button>

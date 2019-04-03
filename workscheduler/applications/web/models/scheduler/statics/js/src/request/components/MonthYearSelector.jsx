@@ -1,11 +1,11 @@
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
-const $script = $('script[src*="request"]');
 
-const url = $script.data('url');
-const scheduleOf = new Date($script.data('scheduleOf'));
-const scheduleOfName = $script.data('scheduleOfName');
+const dataset = document.querySelector('script[src*="request"]').dataset;
+const url = dataset.url;
+const scheduleOf = new Date(dataset.scheduleOf);
+const scheduleOfName = dataset.scheduleOfName;
 
 class MonthYearSetting extends React.Component {
     setMonthChangeButtonAvailability () {

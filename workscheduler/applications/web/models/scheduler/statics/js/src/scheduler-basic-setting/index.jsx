@@ -7,9 +7,8 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="scheduler-basic-setting"]');
-
-const scheduler = $script.data('scheduler');
+const dataset = document.querySelector('script[src*="scheduler-basic-setting"]').dataset;
+const scheduler = JSON.parse(dataset.scheduler);
 
 const store = createStore(rootReducer, {scheduler});
 

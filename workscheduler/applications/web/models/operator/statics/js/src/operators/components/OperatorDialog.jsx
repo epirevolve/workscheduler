@@ -14,8 +14,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import SkillList from './SkillList';
 
-const $script = $('script[src*="operators"]');
-const operators = $script.data('operators');
+const dataset = document.querySelector('script[src*="operators"]').dataset;
+const operators = JSON.parse(dataset.operators);
 
 const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
     handleClose, handleSave }) => {

@@ -27,41 +27,8 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/default.js') }}"></script>
     </head>
     <body>
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top" role="navigation">
-            {% if current_user.is_authenticated %}
-            <a class="navbar-brand" href="{{ url_for('menus.show_menu') }}">Work Scheduler</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button"
-                    data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedules.show_schedules') }}">schedules</a></li>
-                    {% if current_user.is_operator %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('requests.show_my_request', calendar=next_month) }}">requests</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_myself', operator_id=operator_id) }}">as operator</a></li>
-                    {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_myself', user_id=current_user.id) }}">as user</a></li>
-                    {% if current_user.is_admin %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('schedulers.show_menu') }}">scheduler</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('operators.show_operators') }}">operators</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.show_users') }}">users</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('affiliations.show_affiliations') }}">affiliations</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('skills.show_skills') }}">skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('teams.show_team_categories') }}">teams</a></li>
-                    {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auths.logout') }}">log out</a></li>
-                </ul>
-            </div>
-            <div class="login-user">
-                <input id="user-id" type="hidden" value="{{ current_user.id }}" />
-                <span>{{ current_user.login_id }}</span><span> : {{ current_user.name }}</span>
-            </div>
-            {% else %}
-            <a class="navbar-brand" href="#">Work Scheduler</a>
-            {% endif %}
-        </nav>
+        <nav id="nav"></nav>
+        <div id="drawer"></div>
         <div class="container-fluid py-3 px-0" style="width: 95%" role="main">
             <div id="alertContainer">
             {% for category, message in get_flashed_messages(with_categories=true) %}
@@ -120,6 +87,22 @@
             });
         };
     </script>
-{% block css %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/layout.bundle.min.js') }}"
+        data-is-authenticated="{{ current_user.is_authenticated }}"
+        data-auth="{{ to_json(current_user) }}"
+        data-url-menu="{{ url_for('menus.show_menu') }}"
+        data-url-schedules="{{ url_for('schedules.show_schedules') }}"
+        data-url-requests="{{ url_for('requests.show_my_request', calendar=next_month) }}"
+        data-url-as-operator="{{ url_for('operators.show_myself', operator_id=operator_id) }}"
+        data-url-as-user="{{ url_for('users.show_myself', user_id=current_user.id) }}"
+        data-url-scheudler-menu="{{ url_for('schedulers.show_menu') }}"
+        data-url-operaotors="{{ url_for('operators.show_operators') }}"
+        data-url-users="{{ url_for('users.show_users') }}"
+        data-url-affiliations="{{ url_for('affiliations.show_affiliations') }}"
+        data-url-skills="{{ url_for('skills.show_skills') }}"
+        data-url-teams="{{ url_for('teams.show_team_categories') }}"
+        data-url-logout="{{ url_for('auths.logout') }}"></script>
+    {% block css %}{% endblock %}
 {% block script %}{% endblock %}
 </html>

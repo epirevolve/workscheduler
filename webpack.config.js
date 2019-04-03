@@ -9,6 +9,7 @@ module.exports = {
     mode: 'production',
 
     entry: {
+        'workscheduler/applications/web/util/statics/js/layout': path.join('./workscheduler/applications/web/util/statics/js', '/src/layout/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/affiliations': path.join(_userPath, '/src/affiliations/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/user': path.join(_userPath, '/src/user/index.jsx'),

@@ -10,9 +10,8 @@ import { changeName } from '../actions';
 
 import User from '../components/User';
 
-const $script = $('script[src*="user"]');
-
-const url = $script.data('url');
+const dataset = document.querySelector('script[src*="user"]').dataset;
+const url = dataset.url;
 
 const mapStateToProps = (state) => ({
     user: state.user

@@ -1,5 +1,5 @@
-const $script = $('script[src*="users"]');
-const affiliations = $script.data('affiliations');
+const dataset = document.querySelector('script[src*="users"]').dataset;
+const affiliations = JSON.parse(dataset.affiliations);
 
 const dialog = (state = {isOpen: false}, action) => {
     switch (action.type) {

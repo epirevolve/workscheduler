@@ -15,8 +15,8 @@ import { changeIsCertified } from '../actions';
 
 import SkillDialog from '../components/SkillDialog';
 
-const $script = $('script[src*="skills"]');
-const url = $script.data('url');
+const dataset = document.querySelector('script[src*="skills"]').dataset;
+const url = dataset.url;
 
 const mapStateToProps = (state) => ({
     skillDialog: state.skillDialog

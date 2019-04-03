@@ -7,8 +7,8 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="affiliations"]');
-const affiliations = $script.data('affiliations');
+const dataset = document.querySelector('script[src*="affiliations"]').dataset;
+const affiliations = JSON.parse(dataset.affiliations);
 
 const store = createStore(rootReducer, {affiliations, affiliationDialog: {isOpen: false}})
 

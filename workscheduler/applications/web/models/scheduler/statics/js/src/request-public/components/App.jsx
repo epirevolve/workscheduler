@@ -3,10 +3,9 @@ import React from 'react'
 import DialogContainer from '../containers/DialogContainer'
 import CalendarContainer from '../containers/CalendarContainer'
 
-const $script = $('script[src*="request-public"]');
-
-const holidays = $script.data('holidays');
-const paidHolidays = $script.data('paidHolidays');
+const dataset = document.querySelector('script[src*="request-public"]').dataset;
+const holidays = JSON.parse(dataset.holidays);
+const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
 
 const app = () => (
     <React.Fragment>

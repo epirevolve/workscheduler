@@ -62,7 +62,7 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                 <EssentialOperators workCategory={workCategory} onEssentialOperatorChange={onEssentialOperatorChange} />
                 <ImpossibleOperators workCategory={workCategory} onImpossibleOperatorChange={onImpossibleOperatorChange} />
             </CardContent>
-            <CardActions disableActionSpacing>
+            <CardActions className="ml-2">
                 <Button onClick={handleRemove(workCategory.id)} variant="outlined" color="secondary">
                     Remove
                 </Button>

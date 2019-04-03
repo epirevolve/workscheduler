@@ -2,9 +2,8 @@ import React from 'react'
 
 import Request from './Request'
 
-const $script = $('script[src*="request-public"]');
-
-const scheduleOf = new Date($script.data('scheduleOf'));
+const dataset = document.querySelector('script[src*="request-public"]').dataset;
+const scheduleOf = new Date(dataset.scheduleOf);
 
 class CalendarCell extends React.Component {
     handleAppend (day, action) {

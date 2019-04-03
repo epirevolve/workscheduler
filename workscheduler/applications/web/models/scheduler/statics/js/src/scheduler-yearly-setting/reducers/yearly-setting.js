@@ -1,4 +1,5 @@
 import { newPseudoUuid } from 'id-util';
+import moment from 'moment';
 
 const yearlySetting = (state = {}, action) => {
     switch (action.type) {
@@ -16,11 +17,12 @@ const yearlySetting = (state = {}, action) => {
                 vacations: state.vacations.map(x => {
                     if (x.id != action.id) return x;
                     return {...x,
-                        date: action.date
+                        onFrom: action.date[0],
+                        onTo: action.date[1]
                     }
                 })
             }
-        case 'CHANGE_VACATION_DAYS':
+        case 'CHANGE_VACATION_NUMBER_OF_DAYS':
             return {...state,
                 vacations: state.vacations.map(x => {
                     if (x.id != action.id) return x;
@@ -34,7 +36,8 @@ const yearlySetting = (state = {}, action) => {
                 vacations: state.vacations.concat({
                     id: newPseudoUuid(),
                     title: '',
-                    date: [moment(), moment()],
+                    onFrom: moment(),
+                    onTo: moment(),
                     days: 0
                 })
             }

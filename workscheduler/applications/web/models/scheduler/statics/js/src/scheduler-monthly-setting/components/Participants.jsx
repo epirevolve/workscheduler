@@ -14,9 +14,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import IconButton from '@material-ui/core/IconButton';
 
-const $script = $('script[src*="scheduler-monthly-setting"]');
-
-const operators = $script.data('operators');
+const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
+const operators = JSON.parse(dataset.operators);
 
 const essentialOperators = ({ fixedSchedule, onParticipantChange }) => {
     const participantIds = fixedSchedule.participants.map(x => x.id);

@@ -9,9 +9,8 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="request-public"]');
-
-const requestCalendar = $script.data('calendar');
+const dataset = document.querySelector('script[src*="request-public"]').dataset;
+const requestCalendar = JSON.parse(dataset.calendar);
 
 const store = createStore(rootReducer, {requestCalendar, requestDialog: {isOpen: false}})
 

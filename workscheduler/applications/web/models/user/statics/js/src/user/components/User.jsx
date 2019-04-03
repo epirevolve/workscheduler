@@ -3,8 +3,6 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const $script = $('script[src*="user"]');
-
 const user = ({ user, onPasswordChange, onNameChange, handleSave }) => {
     return (
         <React.Fragment>

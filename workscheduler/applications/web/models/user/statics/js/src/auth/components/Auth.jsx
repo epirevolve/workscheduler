@@ -4,9 +4,8 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 
-const $script = $('script[src*="auth"]');
-
-const url = $script.data('url');
+const dataset = document.querySelector('script[src*="auth"]').dataset;
+const url = dataset.url;
 
 const auth = () => (
     <form action={url} method="post">

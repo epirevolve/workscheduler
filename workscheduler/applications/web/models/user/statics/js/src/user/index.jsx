@@ -7,9 +7,8 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="user"]');
-
-const user = $script.data('user');
+const dataset = document.querySelector('script[src*="user"]').dataset;
+const user = JSON.parse(dataset.user);
 
 const store = createStore(rootReducer, {user});
 

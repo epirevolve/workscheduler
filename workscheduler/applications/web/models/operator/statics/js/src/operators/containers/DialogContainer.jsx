@@ -12,8 +12,8 @@ import { changeOjt } from '../actions';
 
 import OperatorDialog from '../components/OperatorDialog';
 
-const $script = $('script[src*="operators"]');
-const url = $script.data('url');
+const dataset = document.querySelector('script[src*="operators"]').dataset;
+const url = dataset.url;
 
 const mapStateToProps = (state) => ({
     operatorDialog: state.operatorDialog

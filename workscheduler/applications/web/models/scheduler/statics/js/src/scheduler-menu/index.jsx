@@ -7,9 +7,8 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="scheduler-menu"]');
-
-const menu = { affiliation: $script.data('affiliations')[0] };
+const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
+const menu = { affiliation: JSON.parse(dataset.affiliations)[0] };
 
 const store = createStore(rootReducer, {menu});
 

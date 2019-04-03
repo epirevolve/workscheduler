@@ -14,13 +14,12 @@ import { changeDate } from '../actions';
 
 import RequestDialog from '../components/RequestDialog';
 
-const $script = $('script[src*="request-public"]');
-
-const holidays = $script.data('holidays');
-const paidHolidays = $script.data('paidHolidays');
-const urlAdd = $script.data('urlAddRequest');
-const urlUpdate = $script.data('urlUpdateRequest');
-const scheduleOf = new Date($script.data('scheduleOf')).toYearMonthFormatString();
+const dataset = document.querySelector('script[src*="request-public"]').dataset;
+const holidays = JSON.parse(dataset.holidays || 0);
+const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
+const urlAdd = dataset.urlAddRequest;
+const urlUpdate = dataset.urlUpdateRequest;
+const scheduleOf = new Date(dataset.scheduleOf).toYearMonthFormatString();
 
 const mapStateToProps = (state) => ({
     requestDialog: state.requestDialog

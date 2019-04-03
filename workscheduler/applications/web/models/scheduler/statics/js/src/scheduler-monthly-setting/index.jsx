@@ -7,9 +7,8 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="scheduler-monthly-setting"]');
-
-const monthlySetting = $script.data('monthlySetting');
+const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
+const monthlySetting = JSON.parse(dataset.monthlySetting);
 
 const store = createStore(rootReducer, {monthlySetting});
 

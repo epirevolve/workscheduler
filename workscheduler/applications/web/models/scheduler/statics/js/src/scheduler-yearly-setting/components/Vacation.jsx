@@ -13,8 +13,12 @@ import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
 import 'rc-calendar/assets/index';
 
+const isValidRange = (v) => {
+    return v && v[0] && v[1];
+}
+
 const vacation = ({ vacation, onTitleChange, onDateChange,
-    onDaysChange }) => {
+    onDaysChange, handleRemove }) => {
 
     const calendar = <RangeCalendar showDateInput={false} showToday={false} format='YYYY-MM-DD' />;
 
@@ -34,9 +38,14 @@ const vacation = ({ vacation, onTitleChange, onDateChange,
                                 InputProps={{ readOnly: true, tabIndex: "-1" }} value={disp} />
                             )}}
                 </DatePicker>
-                <TextField type="number" label="days" required value={vacation.days}
+                <TextField type="number" label="number of days" required value={vacation.days}
                     onChange={onDaysChange(vacation.id)} />
             </CardContent>
+            <CardActions className="ml-2">
+                <Button onClick={() => handleRemove(vacation.id)} variant="outlined" color="secondary">
+                    Remove
+                </Button>
+            </CardActions>
         </Card>
     )
 }

@@ -17,8 +17,8 @@ import { changeIsOperator } from '../actions';
 
 import UserDialog from '../components/UserDialog';
 
-const $script = $('script[src*="users"]');
-const url = $script.data('url');
+const dataset = document.querySelector('script[src*="users"]').dataset;
+const url = dataset.url;
 
 const mapStateToProps = (state) => ({
     userDialog: state.userDialog

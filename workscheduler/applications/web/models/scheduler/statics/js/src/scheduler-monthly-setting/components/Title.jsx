@@ -14,10 +14,10 @@ import MonthCalendar from 'rc-calendar/lib/MonthCalendar';
 import 'rc-calendar/assets/index';
 import moment from 'moment';
 
-const $script = $('script[src*="scheduler-monthly-setting"]');
-const url = $script.data('url');
-const scheduleOf = $script.data('scheduleOf');
-const affiliation = $script.data('affiliation');
+const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
+const url = dataset.url;
+const scheduleOf = dataset.scheduleOf;
+const affiliation = JSON.parse(dataset.affiliation);
 
 class Title extends React.Component {
     onScheduleChange (date) {

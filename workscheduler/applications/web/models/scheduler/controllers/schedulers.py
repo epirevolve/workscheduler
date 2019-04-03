@@ -134,7 +134,7 @@ def show_basic_setting_inner(scheduler_id: str):
 def update_basic_setting(scheduler_id):
     session = get_db_session()
     try:
-        SchedulerCommandAdapter(session).update_option(jsonize.loads(request.data))
+        SchedulerCommandAdapter(session).update_basic_setting(jsonize.loads(request.data))
         session.commit()
         response = Response()
     except Exception as e:
@@ -176,8 +176,11 @@ def show_yearly_setting_inner(yearly_setting_id):
 @login_required
 @admin_required
 def update_yearly_setting(yearly_setting_id):
+    scheduler_id = request.args.get('scheduler_id')
     session = get_db_session()
     try:
+        SchedulerCommandAdapter(session).update_yearly_setting(scheduler_id, jsonize.loads(request.data))
+        session.commit()
         response = Response()
     except Exception as e:
         session.rollback()

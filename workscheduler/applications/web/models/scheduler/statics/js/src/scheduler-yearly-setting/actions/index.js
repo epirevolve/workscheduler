@@ -1,15 +1,18 @@
 export const changeVacationTitle = (id, text) => ({
     type: 'CHANGE_VACATION_TITLE',
+    id,
     text
 })
 
 export const changeVacationDate = (id, date) => ({
     type: 'CHANGE_VACATION_DATE',
+    id,
     date
 })
 
 export const changeVacationDays = (id, text) => ({
-    type: 'CHANGE_VACATION_DAYS',
+    type: 'CHANGE_VACATION_NUMBER_OF_DAYS',
+    id,
     text
 })
 

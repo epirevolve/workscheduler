@@ -7,8 +7,8 @@ import rootReducer from './reducers'
 
 import App from './components/App'
 
-const $script = $('script[src*="skills"]');
-const skills = $script.data('skills');
+const dataset = document.querySelector('script[src*="skills"]').dataset;
+const skills = JSON.parse(dataset.skills);
 
 const store = createStore(rootReducer, {skills, skillDialog: {isOpen: false}})
 

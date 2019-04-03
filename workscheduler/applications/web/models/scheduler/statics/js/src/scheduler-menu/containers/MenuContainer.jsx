@@ -16,11 +16,11 @@ import moment from 'moment';
 
 import { AlertManager } from 'alert-helper';
 
-const $script = $('script[src*="scheduler-menu"]');
-const urlMonthly = $script.data('urlMonthly');
-const urlBasic = $script.data('urlBasic');
-const urlYearly = $script.data('urlYearly');
-const urlLaunch = $script.data('urlLaunch');
+const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
+const urlMonthly = dataset.urlMonthly;
+const urlBasic = dataset.urlBasic;
+const urlYearly = dataset.urlYearly;
+const urlLaunch = dataset.urlLaunch;
 
 const disabledDate = (value) => {
     return false;

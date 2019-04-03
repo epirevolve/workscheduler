@@ -2,8 +2,8 @@ import moment from 'moment';
 
 import { newPseudoUuid } from 'id-util';
 
-const $script = $('script[src*="scheduler-monthly-setting"]');
-const scheduleOf = $script.data('scheduleOf');
+const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
+const scheduleOf = dataset.scheduleOf;
 
 const monthlySetting = (state = {}, action) => {
     switch (action.type) {
@@ -79,7 +79,8 @@ const monthlySetting = (state = {}, action) => {
                 fixedSchedules: state.fixedSchedules.concat({
                     id: newPseudoUuid(),
                     title: '',
-                    date: [moment(`${scheduleOf}`, 'YYYY-MM-DD'), moment(`${scheduleOf}`, 'YYYY-MM-DD')],
+                    onFrom: moment(`${scheduleOf}`, 'YYYY-MM-DD'),
+                    onTo: moment(`${scheduleOf}`, 'YYYY-MM-DD'),
                     atFrom: "00:00:00",
                     atTo: "00:00:00",
                     participants: []

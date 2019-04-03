@@ -109,8 +109,8 @@ class SchedulerCommand:
         self._session.add(scheduler)
         return scheduler
 
-    def update_option(self, id_: str, affiliation_id: str, certified_skill: bool,
-                      not_certified_skill: bool, work_category_ids: [str]):
+    def update_basic_setting(self, id_: str, affiliation_id: str, certified_skill: bool,
+                             not_certified_skill: bool, work_category_ids: [str]):
         schedule_query = SchedulerQuery(self._session)
         scheduler = schedule_query.get_scheduler(id_)
         scheduler.affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
@@ -119,3 +119,6 @@ class SchedulerCommand:
         scheduler.work_categories = [schedule_query.get_work_category(x) for x in work_category_ids]
         map(lambda x: x.update_categories(scheduler.work_categories), scheduler.monthly_settings)
         return scheduler
+    
+    def update_yearly_setting(self, id_: str, vadations: []):
+        pass

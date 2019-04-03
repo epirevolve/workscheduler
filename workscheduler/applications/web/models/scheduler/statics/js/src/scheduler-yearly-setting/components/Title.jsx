@@ -2,8 +2,8 @@ import React from 'react';
 
 import Typography from '@material-ui/core/Typography';
 
-const $script = $('script[src*="scheduler-yearly-setting"]');
-const scheduler = $script.data('scheduler');
+const dataset = document.querySelector('script[src*="scheduler-yearly-setting"]').dataset;
+const scheduler = JSON.parse(dataset.scheduler);
 
 const options = () => {
     return (

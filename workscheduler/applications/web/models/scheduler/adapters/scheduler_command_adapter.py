@@ -39,12 +39,15 @@ class SchedulerCommandAdapter:
             list_id(data.get('essential_operators')), list_id(data.get('impossible_operators'))
         )
     
-    def update_option(self, data: dict):
+    def update_basic_setting(self, data: dict):
         work_category_ids = [self.append_work_category(x).id if x.get('id').startswith('tmp')
                              else self.update_work_category(x).id
                              for x in data.get('work_categories')]
         self._session.flush()
-        return SchedulerCommand(self._session).update_option(
+        return SchedulerCommand(self._session).update_basic_setting(
             data.get('id'), data.get('affiliation').get('id'), data.get('certified_skill'),
             data.get('not_certified_skill'), work_category_ids
         )
+    
+    def update_yearly_setting(self, scheduler_id: str,  data: dict):
+        return SchedulerCommand(self._session).update_yearly_setting(scheduler_id, data.get('vacations'))

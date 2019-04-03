@@ -14,8 +14,8 @@ import { changeNote } from '../actions';
 
 import AffiliationDialog from '../components/AffiliationDialog';
 
-const $script = $('script[src*="affiliations"]');
-const url = $script.data('url');
+const dataset = document.querySelector('script[src*="affiliations"]').dataset;
+const url = dataset.url;
 
 const mapStateToProps = (state) => ({
     affiliationDialog: state.affiliationDialog

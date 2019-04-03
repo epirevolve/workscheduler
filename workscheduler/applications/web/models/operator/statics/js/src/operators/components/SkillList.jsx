@@ -6,9 +6,8 @@ import FormControl from '@material-ui/core/FormControl';
 
 import Skill from './Skill';
 
-const $script = $('script[src*="operators"]');
-
-const skills = $script.data('skills');
+const dataset = document.querySelector('script[src*="operators"]').dataset;
+const skills = JSON.parse(dataset.skills);
 
 const skillList = ({ operatorSkills, onChange }) => {
     const skillIds = operatorSkills.map(x => x.id);

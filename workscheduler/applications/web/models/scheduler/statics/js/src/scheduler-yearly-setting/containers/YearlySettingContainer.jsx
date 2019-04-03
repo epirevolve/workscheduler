@@ -7,8 +7,8 @@ import Button from '@material-ui/core/Button';
 
 import { AlertManager } from 'alert-helper';
 
-const $script = $('script[src*="scheduler-yearly-setting"]');
-const url = $script.data('urlSave');
+const dataset = document.querySelector('script[src*="scheduler-yearly-setting"]').dataset;
+const url = dataset.url;
 
 class YearlySettingContainer extends React.Component {
     handleSave (yearlySetting) {
@@ -34,10 +34,6 @@ class YearlySettingContainer extends React.Component {
         return (
             <React.Fragment>
                 <div className="my-4">
-                    <Button className="mr-3" variant="outlined" color="default" size="large"
-                        onClick={() => window.history.back()}>
-                        Go Back
-                    </Button>
                     <Button className="mr-3" variant="contained" color="primary" size="large"
                         onClick={() => this.handleSave(yearlySetting)}>
                         Save

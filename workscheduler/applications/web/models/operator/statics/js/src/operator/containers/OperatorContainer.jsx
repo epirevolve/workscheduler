@@ -10,8 +10,8 @@ import { AlertManager } from 'alert-helper';
 import { changeSkill } from '../actions';
 import { changeRemainPaidHolidays } from '../actions';
 
-const $script = $('script[src*="operator"]');
-const url = $script.data('url');
+const dataset = document.querySelector('script[src*="operator"]').dataset;
+const url = dataset.url;
 
 const mapStateToProps = (state) => ({
     operator: state.operator

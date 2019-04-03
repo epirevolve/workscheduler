@@ -14,9 +14,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import IconButton from '@material-ui/core/IconButton';
 
-const $script = $('script[src*="scheduler-basic-setting"]');
-
-const skills = $script.data('skills');
+const dataset = document.querySelector('script[src*="scheduler-basic-setting"]').dataset;
+const skills = JSON.parse(dataset.skills);
 
 const essentialSkills = ({ workCategory, onEssentialSkillChange }) => {
     const essentialSkillIds = workCategory.essentialSkills.map(x => x.id);
