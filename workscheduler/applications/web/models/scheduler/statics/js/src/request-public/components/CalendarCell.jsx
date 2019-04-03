@@ -2,6 +2,8 @@ import React from 'react'
 
 import Request from './Request'
 
+import { AlertManager } from 'alert-helper';
+
 const dataset = document.querySelector('script[src*="request-public"]').dataset;
 const scheduleOf = new Date(dataset.scheduleOf);
 

@@ -8,10 +8,7 @@ import rootReducer from './reducers'
 import NavContainer from './containers/NavContainer';
 import DrawerContainer from './containers/DrawerContainer';
 
-const dataset = document.querySelector('script[src*="layout"]').dataset;
-const auth = JSON.parse(dataset.auth);
-
-const store = createStore(rootReducer, {auth, open: false})
+const store = createStore(rootReducer, {open: false})
 
 render(
     <Provider store={store}>

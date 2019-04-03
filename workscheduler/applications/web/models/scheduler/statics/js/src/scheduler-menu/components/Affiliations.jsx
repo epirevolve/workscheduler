@@ -11,7 +11,7 @@ const affiliations_ = $('script[src*="scheduler-menu"]').data('affiliations');
 const affiliations = ({ affiliation, onAffiliationChange }) => {
     const affiliationList = affiliations_.map(x =>
         <MenuItem key={x.id} value={x}>
-            <Typography variant="h4" component="h2">
+            <Typography variant="h5" className="menuHeader">
                 {x.name}
             </Typography>
         </MenuItem>)

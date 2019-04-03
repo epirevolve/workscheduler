@@ -14,8 +14,9 @@ const dataset = document.querySelector('script[src*="layout"]').dataset;
 const isAuthenticated = JSON.parse(dataset.isAuthenticated.toLowerCase());
 const urlMenu = dataset.urlMenu;
 const urlLogout = dataset.urlLogout;
+const auth = JSON.parse(dataset.auth);
 
-const nav = ({ auth, opened, handleOpenDrawer }) => {
+const nav = ({ opened, handleOpenDrawer }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 

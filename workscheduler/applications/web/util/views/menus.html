@@ -1,94 +1,20 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="card-deck">
-    <a href="{{ url_for('schedules.show_schedules') }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/schedules.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">Schedules</h3>
-            </div>
-        </div>
-    </a>
-    {% if current_user.is_operator %}
-    <a href="{{ url_for('requests.show_my_request', calendar=next_month) }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/request.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">Requests</h3>
-            </div>
-        </div>
-    </a>
-    <a href="{{ url_for('operators.show_myself', operator_id=operator_id) }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/operator.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">As Operator</h3>
-            </div>
-        </div>
-    </a>
-    {% endif %}
-    <a href="{{ url_for('users.show_myself', user_id=current_user.id) }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/user.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">As User</h3>
-            </div>
-        </div>
-    </a>
-</div>
-{% if current_user.is_admin %}
-<hr />
-<div class="card-deck">
-    <a href="{{ url_for('schedulers.show_menu') }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/scheduler-menu.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">Scheduler</h3>
-            </div>
-        </div>
-    </a>
-    <a href="{{ url_for('operators.show_operators') }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/operators.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">Operators</h3>
-            </div>
-        </div>
-    </a>
-    <a href="{{ url_for('users.show_users') }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/users.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">Users</h3>
-            </div>
-        </div>
-    </a>
-    <a href="{{ url_for('affiliations.show_affiliations') }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/affiliations.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">Affiliations</h3>
-            </div>
-        </div>
-    </a>
-    <a href="{{ url_for('skills.show_skills') }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/skills.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">Skills</h3>
-            </div>
-        </div>
-    </a>
-    <a href="{{ url_for('teams.show_team_categories') }}">
-        <div class="card">
-            <img class="card-img-top" src="{{ url_for('static', filename='img/teams.svg') }}" />
-            <div class="card-footer">
-                <h3 class="card-title">Teams</h3>
-            </div>
-        </div>
-    </a>
-</div>
-{% endif %}
+<div id="root"></div>
+<script type="module" src="{{ url_for('static', filename='js/main-menu.bundle.min.js') }}"
+    data-auth="{{ to_json(current_user) }}"
+    data-url-menu="{{ url_for('menus.show_menu') }}"
+    data-url-schedules="{{ url_for('schedules.show_schedules') }}"
+    data-url-requests="{{ url_for('requests.show_my_request', calendar=next_month) }}"
+    data-url-as-operator="{{ url_for('operators.show_myself', operator_id=operator_id) }}"
+    data-url-as-user="{{ url_for('users.show_myself', user_id=current_user.id) }}"
+    data-url-scheduler-menu="{{ url_for('schedulers.show_menu') }}"
+    data-url-operators="{{ url_for('operators.show_operators') }}"
+    data-url-users="{{ url_for('users.show_users') }}"
+    data-url-affiliations="{{ url_for('affiliations.show_affiliations') }}"
+    data-url-skills="{{ url_for('skills.show_skills') }}"
+    data-url-teams="{{ url_for('teams.show_team_categories') }}"
+    data-url-logout="{{ url_for('auths.logout') }}"></script>
 {% endblock %}
 
 {% block css %}

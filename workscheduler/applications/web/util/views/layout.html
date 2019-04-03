@@ -96,13 +96,13 @@
         data-url-requests="{{ url_for('requests.show_my_request', calendar=next_month) }}"
         data-url-as-operator="{{ url_for('operators.show_myself', operator_id=operator_id) }}"
         data-url-as-user="{{ url_for('users.show_myself', user_id=current_user.id) }}"
-        data-url-scheudler-menu="{{ url_for('schedulers.show_menu') }}"
-        data-url-operaotors="{{ url_for('operators.show_operators') }}"
+        data-url-scheduler-menu="{{ url_for('schedulers.show_menu') }}"
+        data-url-operators="{{ url_for('operators.show_operators') }}"
         data-url-users="{{ url_for('users.show_users') }}"
         data-url-affiliations="{{ url_for('affiliations.show_affiliations') }}"
         data-url-skills="{{ url_for('skills.show_skills') }}"
         data-url-teams="{{ url_for('teams.show_team_categories') }}"
         data-url-logout="{{ url_for('auths.logout') }}"></script>
-    {% block css %}{% endblock %}
+{% block css %}{% endblock %}
 {% block script %}{% endblock %}
 </html>
