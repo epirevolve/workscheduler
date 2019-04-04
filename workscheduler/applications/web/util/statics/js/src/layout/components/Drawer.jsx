@@ -14,6 +14,8 @@ import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
 import GroupRoundedIcon from '@material-ui/icons/GroupRounded';
 import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
+import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
 
 const dataset = document.querySelector('script[src*="layout"]').dataset;
 const urlSchedules = dataset.urlSchedules
@@ -94,13 +96,13 @@ const drawer = ({ opened, handleCloseDrawer }) => {
                             </ListItem>
                             <ListItem button component="a" key="skills" href={urlSkills}>
                                 <ListItemIcon>
-                                    <CalendarTodayRoundedIcon />
+                                    <StarRoundedIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="skills" className="menuText" />
                             </ListItem>
                             <ListItem button component="a" key="teams" href={urlTeams}>
                                 <ListItemIcon>
-                                    <CalendarTodayRoundedIcon />
+                                    <MeetingRoomRoundedIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="teams" className="menuText" />
                             </ListItem>

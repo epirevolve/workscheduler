@@ -6,10 +6,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
-const menuCard = ({title, img, description, href}) => {
+const menuCard = ({title, img, description, href, onClick}) => {
     return (
-        <Card style={{ width: 300 }} className="m-2 p-3">
-            <CardActionArea href={href}>
+        <Card style={{ width: "100%", minWidth: 120, maxHeight: 320, minHeight: 320 }}>
+            <CardActionArea href={href} onClick={onClick}>
                 <CardContent>
                     <Typography gutterBottom variant="h4" className="menuHeader">
                         {title}

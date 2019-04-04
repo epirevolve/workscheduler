@@ -56,7 +56,7 @@ class RequestDialog extends React.Component {
                             const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
                             return (
                                 <TextField autoFocus margin="dense" label="date"
-                                    fullWidth InputProps={{ readOnly: true, tabIndex: "-1" }} value={disp} />
+                                    fullWidth InputProps={{ readOnly: true, tabIndex: -1 }} value={disp} />
                                 )}}
                     </DatePicker>
                 </DialogContent>

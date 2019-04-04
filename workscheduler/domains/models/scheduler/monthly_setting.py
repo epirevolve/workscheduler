@@ -94,6 +94,5 @@ class MonthlySetting(OrmBase):
                               for y in x if y.year == year and y.month == month]
         days = [DaySetting.new_day(x, day_abbr[x.weekday()], work_categories)
                 for x in monthdatescalendar]
-        return MonthlySetting(UuidFactory.new_uuid(),
-                              year, month, days,
+        return MonthlySetting(UuidFactory.new_uuid(), year, month, days,
                               len([x for x in monthdatescalendar if x.weekday() in [5, 6]]))

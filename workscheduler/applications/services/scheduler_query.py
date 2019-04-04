@@ -5,6 +5,7 @@ from workscheduler.domains.models.scheduler import WorkCategory
 from workscheduler.domains.models.scheduler import MonthlySetting
 from workscheduler.domains.models.scheduler import YearlySetting
 from workscheduler.domains.models.scheduler import Request
+from workscheduler.domains.models.scheduler import Vacation
 from workscheduler.domains.models.user import Affiliation
 
 
@@ -26,7 +27,11 @@ class SchedulerQuery:
         return self._session.query(MonthlySetting)\
             .filter(MonthlySetting.id == monthly_setting_id).one_or_none()
     
-    def get_yearly_setting(self, yearly_setting_id) -> YearlySetting:
+    def get_vacation(self, vacation_id: str) -> Vacation:
+        return self._session.query(Vacation)\
+            .filter(Vacation.id == vacation_id).one_or_none()
+    
+    def get_yearly_setting(self, yearly_setting_id: str) -> YearlySetting:
         return self._session.query(YearlySetting) \
             .filter(YearlySetting.id == yearly_setting_id).one_or_none()
     

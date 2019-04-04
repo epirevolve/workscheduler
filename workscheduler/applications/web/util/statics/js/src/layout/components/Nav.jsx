@@ -22,18 +22,18 @@ const nav = ({ opened, handleOpenDrawer }) => {
 
     return (
         <AppBar className="pl-2" position="static">
-            <Toolbar disableGutters={!opened}>
+            <Toolbar disableGutters>
                 {isAuthenticated && (
                     <React.Fragment>
-                        <IconButton color="inherit" aria-label="Open drawer"
+                        <IconButton color="inherit" aria-label="Open drawer" tabIndex="-1"
                             onClick={() => handleOpenDrawer()}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography component="a" variant="h5" style={{ color: 'white', flexGrow: 1 }}
+                        <Typography component="a" variant="h5" style={{ color: 'white', flexGrow: 1 }} tabIndex="-1"
                             noWrap href={urlMenu}>
                             Work Scheduler
                         </Typography>
-                        <IconButton className="mr-1" aria-owns={open ? 'menu-appbar' : undefined} color="inherit"
+                        <IconButton className="mr-1" aria-owns={open ? 'menu-appbar' : undefined} color="inherit" tabIndex="-1"
                             aria-haspopup="true" onClick={e => setAnchorEl(e.currentTarget)}>
                             <AccountCircle />
                         </IconButton>

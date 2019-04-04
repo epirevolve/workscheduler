@@ -3,10 +3,13 @@
 from datetime import datetime
 from datetime import time
 
+from workscheduler.applications.web.util.functions.converter import to_time
+from workscheduler.applications.web.util.functions.converter import to_date
 from workscheduler.domains.models.scheduler import Scheduler
 from workscheduler.domains.models.scheduler import WorkCategory
 from workscheduler.domains.models.scheduler import FixedSchedule
 from workscheduler.domains.models.scheduler import DaySetting
+from workscheduler.domains.models.scheduler import Vacation
 from . import AffiliationQuery
 from . import OperatorQuery
 from . import SkillQuery
@@ -30,18 +33,16 @@ class SchedulerCommand:
         def new_fixed_schedule(value):
             participant_ids = list(map(lambda x: x.get('id'), value.get('participants')))
             return FixedSchedule.new_schedule(
-                value.get('title'), datetime.strptime(value.get('on_from'), '%Y-%m-%d').date(),
-                datetime.strptime(value.get('on_to'), '%Y-%m-%d').date(),
-                datetime.strptime(value.get('at_from'), '%H:%M:%S').time(),
-                datetime.strptime(value.get('at_to'), '%H:%M:%S').time(),
+                value.get('title'), to_date(value.get('on_from')), to_date(value.get('on_to')),
+                to_time(value.get('at_from')), to_time(value.get('at_to')),
                 [x for x in operators if x.id in participant_ids])
         
         def update_fixed_schedule(org: FixedSchedule, value):
             org.title = value.get('title')
-            org.on_from = datetime.strptime(value.get('on_from'), '%Y-%m-%d').date()
-            org.on_to = datetime.strptime(value.get('on_to'), '%Y-%m-%d').date()
-            org.at_from = datetime.strptime(value.get('at_from'), '%H:%M:%S').time()
-            org.at_to = datetime.strptime(value.get('at_to'), '%H:%M:%S').time()
+            org.on_from = to_date(value.get('on_from'))
+            org.on_to = to_date(value.get('on_to'))
+            org.at_from = to_time(value.get('at_from'))
+            org.at_to = to_time(value.get('at_to'))
             participant_ids = list(map(lambda x: x.get('id'), value.get('participants')))
             org.participants = [x for x in operators if x.id in participant_ids]
             return org
@@ -120,5 +121,25 @@ class SchedulerCommand:
         map(lambda x: x.update_categories(scheduler.work_categories), scheduler.monthly_settings)
         return scheduler
     
-    def update_yearly_setting(self, id_: str, vadations: []):
-        pass
+    def append_vacation(self, title: str, on_from: datetime,
+                        on_to: datetime, days: int):
+        vacation = Vacation.new_vacation(title, on_from, on_to, days)
+        self._session.add(vacation)
+        return vacation
+    
+    def update_vacation(self, id_: str, title: str,
+                        on_from: datetime, on_to: datetime, days: int):
+        vacation = SchedulerQuery(self._session).get_vacation(id_)
+        vacation.title = title
+        vacation.on_from = on_from
+        vacation.on_to = on_to
+        vacation.days = days
+        return vacation
+        
+    def update_yearly_setting(self, scheduler_id: str, year: int, vacations: []):
+        scheduler = SchedulerQuery(self._session).get_scheduler(scheduler_id)
+        yearly_setting = scheduler.yearly_setting(year)
+        vacation_ids = [x.id for x in yearly_setting.vacations]
+        yearly_setting.vacations = [
+            self.append_vacation(x.title, x.on_from, x.on_to, x.days) if x.id not in vacation_ids
+            else self.update_vacation(x.id, x.title, x.on_from, x.on_to, x.days) for x in vacations]

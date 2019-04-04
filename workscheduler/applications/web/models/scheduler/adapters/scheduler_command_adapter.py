@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from collections import namedtuple
+
 from workscheduler.applications.services import SchedulerCommand
 from workscheduler.applications.web.util.functions.converter import to_time
+from workscheduler.applications.web.util.functions.converter import to_date
 from workscheduler.applications.web.util.functions.extractor import list_id
 
 
@@ -49,5 +52,10 @@ class SchedulerCommandAdapter:
             data.get('not_certified_skill'), work_category_ids
         )
     
-    def update_yearly_setting(self, scheduler_id: str,  data: dict):
-        return SchedulerCommand(self._session).update_yearly_setting(scheduler_id, data.get('vacations'))
+    def update_yearly_setting(self, scheduler_id: str, data: dict):
+        Vacation = namedtuple('Vacation', ('id', 'title', 'on_from', 'on_to', 'days'))
+        vacations = [Vacation(
+            x.get('id'), x.get('title'), to_date(x.get('on_from')),
+            to_date(x.get('on_to')), x.get('days')) for x in data.get('vacations')]
+        return SchedulerCommand(self._session).update_yearly_setting(
+            scheduler_id, data.get('year'), vacations)

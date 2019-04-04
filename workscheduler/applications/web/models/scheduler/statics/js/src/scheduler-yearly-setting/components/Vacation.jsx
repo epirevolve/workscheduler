@@ -35,7 +35,7 @@ const vacation = ({ vacation, onTitleChange, onDateChange,
                         const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
                         return (
                             <TextField margin="dense" label="date"
-                                InputProps={{ readOnly: true, tabIndex: "-1" }} value={disp} />
+                                InputProps={{ readOnly: true, tabIndex: -1 }} value={disp} />
                             )}}
                 </DatePicker>
                 <TextField type="number" label="number of days" required value={vacation.days}

@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
+import Grid from '@material-ui/core/Grid';
 
 import MenuCard from 'MenuCard';
 
@@ -70,30 +71,28 @@ class MenuItems extends React.Component {
                     <MonthCalendar style={{ zIndex: 1000, top: "40%", left: "40%" }} disabledDate={disabledDate}
                         onSelect={(date) => this.handleLunch(affiliation, date)} />
                 </Modal>
-                <div className="my-4" style={{ display: "flex" }}>
-                    <MenuCard title="Monthly Setting" img="/statics/img/scheduler-calendar.svg" href={urlMonthly.replace('affiliation_id', affiliation.id)}
-                        description="set require number of member each day and prefixed schedule" />
-                    <MenuCard title="Basic Setting" img="/statics/img/scheduler-basic-option.svg" href={urlBasic.replace('affiliation_id', affiliation.id)}
-                        description="set work category and witch parameter will be used when making a schedule" />
-                    <MenuCard title="Yearly Setting" img="/statics/img/scheduler-yearly-option.svg" href={urlYearly.replace('affiliation_id', affiliation.id)}
-                        description="set vacation in summer or winter" />
-                    <Card onClick={() => this.setState({ openCalendar: true })} style={{ width: 300 }} className="m-2 p-3">
-                        <CardActionArea href="#">
-                            <CardContent>
-                                <Typography gutterBottom variant="h4" className="menuHeader">
-                                    Launch
-                                </Typography>
-                            </CardContent>
-                            <CardMedia component="img" alt="Launch" title="Launch"
-                                height="140" image="/statics/img/scheduler-launch.svg" />
-                            <CardContent>
-                                <Typography gutterBottom component="p" className="menuContent">
-                                    create schedule of current affiliation and selected month
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                </div>
+                <Grid container spacing={16} className="my-4" style={{ marginLeft: "0.2rem" }}>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <MenuCard title="Monthly Setting" img="/statics/img/scheduler-calendar.svg"
+                            href={urlMonthly.replace('affiliation_id', affiliation.id)}
+                            description="set require number of member each day and prefixed schedule" />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <MenuCard title="Basic Setting" img="/statics/img/scheduler-basic-option.svg"
+                            href={urlBasic.replace('affiliation_id', affiliation.id)}
+                            description="set work category and witch parameter will be used when making a schedule" />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <MenuCard title="Yearly Setting" img="/statics/img/scheduler-yearly-option.svg"
+                            href={urlYearly.replace('affiliation_id', affiliation.id)}
+                            description="set vacation in summer or winter" />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <MenuCard title="Launch" img="/statics/img/scheduler-launch.svg"
+                            href="#" onClick={() => this.setState({ openCalendar: true })}
+                            description="create schedule of current affiliation and selected month" />
+                    </Grid>
+                </Grid>
             </React.Fragment>
         )
     }

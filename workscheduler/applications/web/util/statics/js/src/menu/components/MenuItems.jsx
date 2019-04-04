@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 
 import MenuCard from 'MenuCard';
 
@@ -20,39 +21,57 @@ const auth = JSON.parse(dataset.auth);
 const menuItems = () => {
     return (
         <React.Fragment>
-            <div className="my-4" style={{ display: "flex" }}>
-                <MenuCard title="Schedules" img="/statics/img/schedules.svg" href={urlSchedules}
-                    description="set require number of member each day and prefixed schedule" />
+            <Grid container spacing={16} className="my-4">
+                <Grid item xs={12} md={6} lg={3}>
+                    <MenuCard title="Schedules" img="/statics/img/schedules.svg" href={urlSchedules}
+                        description="your work schedule and ask change some days" />
+                </Grid>
                 {auth.isOperator && (
                     <React.Fragment>
-                        <MenuCard title="Requests" img="/statics/img/request.svg" href={urlRequests}
-                            description="set require number of member each day and prefixed schedule" />
-                        <MenuCard title="As Operator" img="/statics/img/operator.svg" href={urlAsOperator}
-                            description="set require number of member each day and prefixed schedule" />
+                        <Grid item xs={12} md={6} lg={3}>
+                            <MenuCard title="Requests" img="/statics/img/request.svg" href={urlRequests}
+                                description="request days you wanna get rest" />
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <MenuCard title="As Operator" img="/statics/img/operator.svg" href={urlAsOperator}
+                                description="appeal what you can do by registering skill" />
+                        </Grid>
                     </React.Fragment>
                 )}
-                <MenuCard title="As User" img="/statics/img/user.svg" href={urlAsUser}
-                    description="set require number of member each day and prefixed schedule" />
-            </div>
+                <Grid item xs={12} md={6} lg={3}>
+                    <MenuCard title="As User" img="/statics/img/user.svg" href={urlAsUser}
+                        description="reset your password" />
+                </Grid>
+            </Grid>
             {auth.isAdmin && (
                 <React.Fragment>
                     <Divider />
-                    <div className="my-3" style={{ display: "flex" }}>
-                        <MenuCard title="Scheduler" img="/statics/img/scheduler-menu.svg" href={urlSchedulerMenu}
-                            description="set require number of member each day and prefixed schedule" />
-                        <MenuCard title="Operators" img="/statics/img/operators.svg" href={urlOperators}
-                            description="set require number of member each day and prefixed schedule" />
-                        <MenuCard title="Users" img="/statics/img/users.svg" href={urlUsers}
-                            description="set require number of member each day and prefixed schedule" />
-                        <MenuCard title="Affiliations" img="/statics/img/affiliations.svg" href={urlAffiliations}
-                            description="set require number of member each day and prefixed schedule" />
-                    </div>
-                    <div className="my-3" style={{ display: "flex" }}>
-                        <MenuCard title="Skills" img="/statics/img/skills.svg" href={urlSkills}
-                            description="set require number of member each day and prefixed schedule" />
-                        <MenuCard title="Teams" img="/statics/img/teams.svg" href={urlTeams}
-                            description="set require number of member each day and prefixed schedule" />
-                    </div>
+                    <Grid container spacing={16} className="my-3">
+                        <Grid item xs={12} md={6} lg={3}>
+                            <MenuCard title="Scheduler" img="/statics/img/scheduler-menu.svg" href={urlSchedulerMenu}
+                                description="scheduler option and start to build" />
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <MenuCard title="Operators" img="/statics/img/operators.svg" href={urlOperators}
+                                description="what they can do" />
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <MenuCard title="Users" img="/statics/img/users.svg" href={urlUsers}
+                                description="start new user story from here" />
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <MenuCard title="Affiliations" img="/statics/img/affiliations.svg" href={urlAffiliations}
+                                description="manage affiliation - big unit team" />
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <MenuCard title="Skills" img="/statics/img/skills.svg" href={urlSkills}
+                                description="what you demand to operator" />
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <MenuCard title="Teams" img="/statics/img/teams.svg" href={urlTeams}
+                                description="small unit team" />
+                        </Grid>
+                    </Grid>
                 </React.Fragment>
             )}
         </React.Fragment>

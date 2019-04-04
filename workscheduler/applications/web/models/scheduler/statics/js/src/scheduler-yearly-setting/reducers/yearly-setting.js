@@ -17,8 +17,8 @@ const yearlySetting = (state = {}, action) => {
                 vacations: state.vacations.map(x => {
                     if (x.id != action.id) return x;
                     return {...x,
-                        onFrom: action.date[0],
-                        onTo: action.date[1]
+                        onFrom: action.date[0].toDate().toDateFormatString(),
+                        onTo: action.date[1].toDate().toDateFormatString()
                     }
                 })
             }
@@ -36,8 +36,8 @@ const yearlySetting = (state = {}, action) => {
                 vacations: state.vacations.concat({
                     id: newPseudoUuid(),
                     title: '',
-                    onFrom: moment(),
-                    onTo: moment(),
+                    onFrom: new Date().toDateFormatString(),
+                    onTo: new Date().toDateFormatString(),
                     days: 0
                 })
             }
