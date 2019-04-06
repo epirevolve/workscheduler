@@ -39,11 +39,11 @@ const drawer = ({ opened, handleCloseDrawer }) => {
                 </IconButton>
                 <Divider />
                 <List component="nav">
-                    <ListItem button component="a" key="schedules" href={urlSchedules}>
+                    <ListItem button component="a" key="schedule" href={urlSchedules}>
                         <ListItemIcon>
                             <CalendarTodayRoundedIcon />
                         </ListItemIcon>
-                        <ListItemText primary="schedules" className="menuText" />
+                        <ListItemText primary="schedule" className="menuText" />
                     </ListItem>
                     {auth.isOperator && (
                         <React.Fragment>

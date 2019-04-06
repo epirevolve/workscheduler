@@ -10,5 +10,5 @@ bp = Blueprint('schedules', __name__, template_folder='../views', static_folder=
 @bp.route('/')
 @login_required
 def show_schedules():
-    return render_template('schedules.html')
+    return render_template('schedule.html')
 

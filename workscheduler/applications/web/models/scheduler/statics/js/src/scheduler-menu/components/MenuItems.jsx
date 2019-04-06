@@ -73,17 +73,17 @@ class MenuItems extends React.Component {
                 </Modal>
                 <Grid container spacing={16} className="my-4" style={{ marginLeft: "0.2rem" }}>
                     <Grid item xs={12} md={6} lg={3}>
-                        <MenuCard title="Monthly Setting" img="/statics/img/scheduler-calendar.svg"
+                        <MenuCard title="Monthly Setting" img="/statics/img/scheduler-monthly-setting.svg"
                             href={urlMonthly.replace('affiliation_id', affiliation.id)}
                             description="set require number of member each day and prefixed schedule" />
                     </Grid>
                     <Grid item xs={12} md={6} lg={3}>
-                        <MenuCard title="Basic Setting" img="/statics/img/scheduler-basic-option.svg"
+                        <MenuCard title="Basic Setting" img="/statics/img/scheduler-basic-setting.svg"
                             href={urlBasic.replace('affiliation_id', affiliation.id)}
                             description="set work category and witch parameter will be used when making a schedule" />
                     </Grid>
                     <Grid item xs={12} md={6} lg={3}>
-                        <MenuCard title="Yearly Setting" img="/statics/img/scheduler-yearly-option.svg"
+                        <MenuCard title="Yearly Setting" img="/statics/img/scheduler-yearly-setting.svg"
                             href={urlYearly.replace('affiliation_id', affiliation.id)}
                             description="set vacation in summer or winter" />
                     </Grid>

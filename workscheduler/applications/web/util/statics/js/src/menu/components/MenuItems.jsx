@@ -23,7 +23,7 @@ const menuItems = () => {
         <React.Fragment>
             <Grid container spacing={16} className="my-4">
                 <Grid item xs={12} md={6} lg={3}>
-                    <MenuCard title="Schedules" img="/statics/img/schedules.svg" href={urlSchedules}
+                    <MenuCard title="Schedule" img="/statics/img/schedule.svg" href={urlSchedules}
                         description="your work schedule and ask change some days" />
                 </Grid>
                 {auth.isOperator && (
