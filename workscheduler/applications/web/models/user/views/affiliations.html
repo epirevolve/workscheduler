@@ -7,4 +7,5 @@
 <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
 <script type="module" src="{{ url_for('affiliations.static', filename='js/affiliations.bundle.min.js') }}"
     data-url="{{ url_for('affiliations.append_affiliation') }}" data-affiliations="{{ to_json(affiliations) }}"></script>
+<breadscram data-current="{{ to_json({'name': 'Affiliations'}) }}"></breadscram>
 {% endblock %}

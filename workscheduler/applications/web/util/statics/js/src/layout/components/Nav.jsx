@@ -9,12 +9,34 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
 
 const dataset = document.querySelector('script[src*="layout"]').dataset;
 const isAuthenticated = JSON.parse(dataset.isAuthenticated.toLowerCase());
 const urlMenu = dataset.urlMenu;
 const urlLogout = dataset.urlLogout;
 const auth = JSON.parse(dataset.auth);
+
+const breadScram = document.querySelector('breadscram');
+let breads = null;
+let current = null;
+if (breadScram)
+{
+    breads = JSON.parse(breadScram.dataset.breads || null);
+    current = JSON.parse(breadScram.dataset.current || null);
+}
+
+if (!breadScram || !current)
+{
+    current = { name: 'Work Scheduler'}
+}
+else
+{
+    if (!breads) breads = [];
+    breads.unshift({ url: urlMenu, name: 'Work Scheduler'})
+}
 
 const nav = ({ opened, handleOpenDrawer }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,10 +51,16 @@ const nav = ({ opened, handleOpenDrawer }) => {
                             onClick={() => handleOpenDrawer()}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography component="a" variant="h5" style={{ color: 'white', flexGrow: 1 }} tabIndex="-1"
-                            noWrap href={urlMenu}>
-                            Work Scheduler
-                        </Typography>
+                        <Breadcrumbs separator={<NavigateNextRoundedIcon fontSize="small" />} arial-label="Breadcrumb"
+                            style={{ color: 'white', flexGrow: 1 }}>
+                            {breads && (
+                                breads.map(x => <Link color="inherit" variant="h5" href={x.url}
+                                    style={{ color: 'white' }} tabIndex="-1" noWrap>
+                                    {x.name}
+                                </Link>)
+                            )}
+                            <Typography variant="h5" style={{ color: 'white' }} tabIndex="-1" noWrap>{current.name}</Typography>
+                        </Breadcrumbs>
                         <IconButton className="mr-1" aria-owns={open ? 'menu-appbar' : undefined} color="inherit" tabIndex="-1"
                             aria-haspopup="true" onClick={e => setAnchorEl(e.currentTarget)}>
                             <AccountCircle />

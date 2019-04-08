@@ -47,10 +47,10 @@ const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
                 </FormControl>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handleClose} color="default">
                     Close
                 </Button>
-                <Button onClick={() => handleSave(operatorDialog)} color="primary">
+                <Button onClick={() => handleSave(operatorDialog)} color="primary" variant="outlined">
                     Save
                 </Button>
             </DialogActions>

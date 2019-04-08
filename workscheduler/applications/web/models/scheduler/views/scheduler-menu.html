@@ -15,4 +15,5 @@
     data-url-yearly="{{ url_for('schedulers.show_yearly_setting', affiliation='affiliation_id') }}"
     data-url-launch="{{ url_for('schedulers.launch_scheduler', affiliation_id='affiliation_id', schedule_of='schedule_of') }}"
     data-affiliations="{{ to_json(affiliations) }}"></script>
+<breadscram data-current="{{ to_json({'name': 'Scheduler Menu'}) }}"></breadscram>
 {% endblock %}

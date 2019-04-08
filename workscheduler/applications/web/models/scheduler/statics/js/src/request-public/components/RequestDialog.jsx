@@ -61,15 +61,15 @@ class RequestDialog extends React.Component {
                     </DatePicker>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClose} color="default">
                         Close
                     </Button>
                     {requestDialog.id && (
-                        <Button onClick={() => handleRemove(requestDialog.id)} color="primary">
+                        <Button onClick={() => handleRemove(requestDialog.id)} color="secondary" variant="outlined">
                             Remove
                         </Button>
                     )}
-                    <Button onClick={() => handleSave(requestDialog)} color="primary">
+                    <Button onClick={() => handleSave(requestDialog)} color="primary" variant="outlined">
                         Save
                     </Button>
                 </DialogActions>
