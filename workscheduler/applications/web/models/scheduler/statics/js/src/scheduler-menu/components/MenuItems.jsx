@@ -2,8 +2,6 @@ import React from 'react';
 
 import requestAgent from 'superagent';
 
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Grid from '@material-ui/core/Grid';
@@ -36,16 +34,16 @@ class MenuItems extends React.Component {
         };
     }
 
-    handleLunch (affiliation, date) {
+    handleLunch (month) {
+        const { affiliation } = this.props;
         this.setState({ openCalendar: false })
 
         const alertManager = new AlertManager('#alertContainer');
         alertManager.append('Started to make schedule. Please wait until it will be done.', 'alert-info')
 
-        const dateString = date.toDate().toYearMonthFormatString();
         requestAgent
             .post(urlLaunch.replace('affiliation_id', affiliation.id)
-                .replace('schedule_of', dateString))
+                .replace('month_', month).replace('year_', this.state.year))
             .send(affiliation)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
@@ -53,10 +51,10 @@ class MenuItems extends React.Component {
                 alertManager.append('Finish to make schedule.', 'alert-info')
             })
             .catch(err => {
-                const res = JSON.parse(err.response.text);
+                const res = err.response.text;
                 const alertManager = new AlertManager('#alertContainer');
-                const message = res.errorMessage || 'we have some trouble with storing basic setting...';
-                alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
+                const message = res || 'we have some trouble with launching scheduler...';
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
             });
     }
 
@@ -66,20 +64,75 @@ class MenuItems extends React.Component {
         return (
             <React.Fragment>
                  <Dialog open={this.state.openCalendar} onClose={() => this.setState({ openCalendar: false })}>
-                    <DialogTitle>
+                    <DialogTitle style={{ textAlign: 'center' }}>
                         <IconButton aria-label="back year" onClick={() => this.setState({ year: this.state.year - 1})}>
                             <ArrowBackIosRoundedIcon />
                         </IconButton>
-                        <span style={{ fontSize: '2rem' }}>{this.state.year}</span>
+                        <span style={{ fontSize: '2rem', padding: '0 2rem' }}>{this.state.year}</span>
                         <IconButton aria-label="forward year" onClick={() => this.setState({ year: this.state.year + 1})}>
                             <ArrowForwardIosRoundedIcon />
                         </IconButton>
                     </DialogTitle>
-                    <div>
-                        <Grid container spacing={16} className="my-4" style={{ marginLeft: "0.2rem" }}>
+                    <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+                        <Grid container>
                             <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large">
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(1)}>
                                     Jan
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(2)}>
+                                    Feb
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(3)}>
+                                    Mar
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(4)}>
+                                    Apr
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(5)}>
+                                    May
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(6)}>
+                                    Jun
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(7)}>
+                                    Jul
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(8)}>
+                                    Aug
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(9)}>
+                                    Sep
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(10)}>
+                                    Oct
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(11)}>
+                                    Nov
+                                </Button>
+                            </Grid>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large" onClick={() => this.handleLunch(12)}>
+                                    Dec
                                 </Button>
                             </Grid>
                         </Grid>

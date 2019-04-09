@@ -176,8 +176,8 @@ class Scheduler(OrmBase):
         crossover.add(UniformityCrossover())
         return crossover
     
-    def run(self, schedule_of: date, operators):
-        monthly_setting = self.monthly_setting(schedule_of.month, schedule_of.year)
+    def run(self, month: int, year: int, operators):
+        monthly_setting = self.monthly_setting(month, year)
         evaluate = self._evaluate(operators, monthly_setting)
         
         base_kind = list(map(lambda x: x.id, self.work_categories))

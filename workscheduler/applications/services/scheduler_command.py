@@ -146,13 +146,13 @@ class SchedulerCommand:
             self.append_vacation(x.title, x.on_from, x.on_to, x.days) if x.id not in vacation_ids
             else self.update_vacation(x.id, x.title, x.on_from, x.on_to, x.days) for x in vacations]
     
-    def launch(self, affiliation_id: str, schedule_of: date):
+    def launch(self, affiliation_id: str, month: int, year: int):
         operators = OperatorQuery(self._session).get_operators()
         scheduler = SchedulerQuery(self._session).get_scheduler_of_affiliation_id(affiliation_id)
         if scheduler.is_launching:
             raise AlreadyLaunchError()
         scheduler.is_launching = True
         self._session.commit()
-        ret = scheduler.run(schedule_of, operators)
+        ret = scheduler.run(month, year, operators)
         scheduler.is_launching = False
         self._session.commit()

@@ -191,17 +191,17 @@ def update_yearly_setting(yearly_setting_id):
     return response
 
 
-@bp.route('/affiliations/<affiliation_id>/schedule-of/<schedule_of>', methods=['POST'])
+@bp.route('/affiliations/<affiliation_id>/month/<month>/year/<year>', methods=['POST'])
 @login_required
 @admin_required
-def launch_scheduler(affiliation_id: str, schedule_of: str):
+def launch_scheduler(affiliation_id: str, month: int, year: int):
     try:
         session = get_db_session()
-        SchedulerCommandAdapter(session).launch(affiliation_id, schedule_of)
+        SchedulerCommandAdapter(session).launch(affiliation_id, month, year)
         response = Response()
     except AlreadyLaunchError as e:
         print(e)
-        response = Response('Already launched this affiliation scheduler. Please wait util its completion.')
+        response = Response('already launched this affiliation scheduler. please wait util its completion.')
         response.status_code = 400
     except Exception as e:
         print(e)
