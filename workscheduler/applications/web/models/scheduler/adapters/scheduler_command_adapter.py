@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+from datetime import date
+
 from collections import namedtuple
 
 from workscheduler.applications.services import SchedulerCommand
@@ -59,3 +62,8 @@ class SchedulerCommandAdapter:
             to_date(x.get('on_to')), x.get('days')) for x in data.get('vacations')]
         return SchedulerCommand(self._session).update_yearly_setting(
             scheduler_id, data.get('year'), vacations)
+    
+    def launch(self, affiliation_id: str, schedule_of: str):
+        if schedule_of and not isinstance(schedule_of, date):
+            schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
+        return SchedulerCommand(self._session).launch(affiliation_id, schedule_of)

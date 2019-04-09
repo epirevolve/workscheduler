@@ -2,19 +2,17 @@ import React from 'react';
 
 import requestAgent from 'superagent';
 
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
+import Button from '@material-ui/core/Button';
 
 import MenuCard from 'MenuCard';
-
-import MonthCalendar from 'rc-calendar/lib/MonthCalendar';
-import 'rc-calendar/assets/index';
-import moment from 'moment';
 
 import { AlertManager } from 'alert-helper';
 
@@ -34,6 +32,7 @@ class MenuItems extends React.Component {
 
         this.state = {
             openCalendar: false,
+            year: new Date().getFullYear()
         };
     }
 
@@ -66,11 +65,26 @@ class MenuItems extends React.Component {
 
         return (
             <React.Fragment>
-                <Modal aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description"
-                    open={this.state.openCalendar} onClose={() => this.setState({ openCalendar: false })}>
-                    <MonthCalendar style={{ zIndex: 1000, top: "40%", left: "40%" }} disabledDate={disabledDate}
-                        onSelect={(date) => this.handleLunch(affiliation, date)} />
-                </Modal>
+                 <Dialog open={this.state.openCalendar} onClose={() => this.setState({ openCalendar: false })}>
+                    <DialogTitle>
+                        <IconButton aria-label="back year" onClick={() => this.setState({ year: this.state.year - 1})}>
+                            <ArrowBackIosRoundedIcon />
+                        </IconButton>
+                        <span style={{ fontSize: '2rem' }}>{this.state.year}</span>
+                        <IconButton aria-label="forward year" onClick={() => this.setState({ year: this.state.year + 1})}>
+                            <ArrowForwardIosRoundedIcon />
+                        </IconButton>
+                    </DialogTitle>
+                    <div>
+                        <Grid container spacing={16} className="my-4" style={{ marginLeft: "0.2rem" }}>
+                            <Grid item sm={12} md={3}>
+                                <Button color="primary" size="large">
+                                    Jan
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </div>
+                </Dialog>
                 <Grid container spacing={16} className="my-4" style={{ marginLeft: "0.2rem" }}>
                     <Grid item xs={12} md={6} lg={3}>
                         <MenuCard title="Monthly Setting" img="/statics/img/scheduler-calendar.svg"

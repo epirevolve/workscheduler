@@ -13,6 +13,7 @@ from flask_login import login_required
 
 import mypackages.utils.jsonize as jsonize
 
+from workscheduler.applications.errors import AlreadyLaunchError
 from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.services import SchedulerQuery
 from workscheduler.applications.services import SkillQuery
@@ -194,16 +195,14 @@ def update_yearly_setting(yearly_setting_id):
 @login_required
 @admin_required
 def launch_scheduler(affiliation_id: str, schedule_of: str):
-    if schedule_of and not isinstance(schedule_of, date):
-        schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
-    
     try:
         session = get_db_session()
-        operators = OperatorQuery(session).get_operators()
-        scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
-        
-        scheduler.run(schedule_of, operators)
+        SchedulerCommandAdapter(session).launch(affiliation_id, schedule_of)
         response = Response()
+    except AlreadyLaunchError as e:
+        print(e)
+        response = Response('Already launched this affiliation scheduler. Please wait util its completion.')
+        response.status_code = 400
     except Exception as e:
         print(e)
         response = Response()

@@ -54,7 +54,7 @@ const nav = ({ opened, handleOpenDrawer }) => {
                         <Breadcrumbs separator={<NavigateNextRoundedIcon fontSize="small" />} arial-label="Breadcrumb"
                             style={{ color: 'white', flexGrow: 1 }}>
                             {breads && (
-                                breads.map(x => <Link color="inherit" variant="h5" href={x.url}
+                                breads.map(x => <Link color="inherit" variant="h5" href={x.url} key={x.name}
                                     style={{ color: 'white' }} tabIndex="-1" noWrap>
                                     {x.name}
                                 </Link>)

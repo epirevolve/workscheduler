@@ -200,3 +200,6 @@ typings/
 .dynamodb/
 
 *.js.map
+
+# this project specific
+/workscheduler/applications/web/util/statics/img/*.svg

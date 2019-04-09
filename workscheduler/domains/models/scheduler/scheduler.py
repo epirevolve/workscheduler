@@ -61,6 +61,7 @@ class Scheduler(OrmBase):
     yearly_settings = relationship("YearlySetting", secondary=associated_yearly_setting_table, lazy='joined')
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
+    is_launching = Column(Boolean)
     work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='joined')
     create_at = Column(DateTime, server_default=current_timestamp())
     
@@ -74,6 +75,7 @@ class Scheduler(OrmBase):
         self.certified_skill = certified_skill
         self.not_certified_skill = not_certified_skill
         self.work_categories = work_categories
+        self.is_launching = False
 
     @validates("id, affiliation")
     def validate(self, key, value):

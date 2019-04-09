@@ -7,7 +7,7 @@ const _operatorPath = _path('operator');
 const _schedulerPath = _path('scheduler');
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
 
     entry: {
         'workscheduler/applications/web/util/statics/js/layout': path.join(_utilPath, '/src/layout/index.jsx'),
@@ -63,6 +63,7 @@ module.exports = {
             'node_modules',
             path.resolve('.'),
             path.join(path.resolve('.'), 'workscheduler/applications/web/util/statics/js'),
+            path.join(path.resolve('.'), 'workscheduler/applications/web/util/statics/js/src/functions'),
             path.join(path.resolve('.'), 'workscheduler/applications/web/util/statics/js/src/components'),
             path.join(path.resolve('.'), 'workscheduler/applications/web/util/statics/css')
         ],
@@ -75,6 +76,12 @@ module.exports = {
                 common: {
                     test: /node_modules/,
                     name: 'workscheduler/applications/web/util/statics/js/vendor/common',
+                    chunks: 'initial',
+                    enforce: true
+                },
+                utilCommon: {
+                    test: 'workscheduler/applications/web/util/statics/js/src/functions',
+                    name: 'workscheduler/applications/web/util/statics/js/util-common',
                     chunks: 'initial',
                     enforce: true
                 }
