@@ -14,6 +14,8 @@ from sqlalchemy.types import String
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import DateTime
 
+from mypackages.utils.date import is_between
+
 from eart.selections import EliteSelection
 from eart.selections import TournamentSelection
 from eart.mutations import WholeMutation
@@ -106,44 +108,96 @@ class Scheduler(OrmBase):
             yearly_setting = yearly_setting[0]
         return yearly_setting
     
+    def _dict_a_day(self, row, operators):
+        d = {x.id: [] for x in self.work_categories}
+        d['C'] = []
+        for i, x in enumerate(row):
+            if x == '-' or x == 'N':
+                continue
+            d[x].append(operators[i])
+        return d
+    
     @staticmethod
-    def _evaluate_by_day(day_dict, monthly_setting):
+    def _evaluate_by_require(participants, detail):
+        count = len(participants)
+        return 0.3 - min(0.3, (0 if count == detail.require else
+                               (count - detail.require) * 0.02 if count > detail.require else
+                               (detail.require - count) * 0.05))
+    
+    @staticmethod
+    def _evaluate_by_essential_skill(participants, detail):
+        skill_ids = set(map(lambda y: y.id, [y for x in participants for y in x.skills]))
         adaptability = 0
-        for schedule_day, scheduler_day in zip(day_dict.values(), monthly_setting.days):
-            for detail in scheduler_day.details:
-                members = schedule_day[detail.work_category.id]
-                count = len(members)
-                adaptability += 0.3 - min(0.3, (0 if count >= detail.require else (detail.require - count) * 0.05))
-                member_skills = [y for x in members for y in x.skills]
-                skill_ids = set(map(lambda y: y.id, member_skills))
-                member_ids = set(map(lambda y: y.id, members))
-                for skill in detail.work_category.essential_skills:
-                    adaptability += 0.2 if skill.id in skill_ids else 0
-                for person in detail.work_category.essential_operators:
-                    adaptability += 0.2 if person.id in member_ids else 0
-                for person in detail.work_category.impossible_operators:
-                    adaptability += 0.2 if person.id not in member_ids else 0
+        for skill in detail.work_category.essential_skills:
+            adaptability += 0.02 if skill.id in skill_ids else -0.02
         return adaptability
     
     @staticmethod
-    def _evaluate_by_operator(operator_dict, monthly_setting):
-        return 0
+    def _evaluate_by_essential_operator(participants, detail):
+        member_ids = set(map(lambda y: y.id, participants))
+        adaptability = 0
+        for person in detail.work_category.essential_operators:
+            adaptability += 0.02 if person.id in member_ids else -0.02
+        return adaptability
+
+    @staticmethod
+    def _evaluate_by_impossible_operator(participants, detail):
+        member_ids = set(map(lambda y: y.id, participants))
+        adaptability = 0
+        for person in detail.work_category.impossible_operators:
+            adaptability += 0.02 if person.id not in member_ids else -0.02
+        return adaptability
     
+    @staticmethod
+    def _evaluate_by_request(participants, requests):
+        member_ids = set(map(lambda y: y.id, participants))
+        adaptability = 0
+        for person in requests:
+            adaptability += 0.02 if person.id not in member_ids else -0.02
+        return adaptability
+    
+    def _evaluate_by_day(self, day_data, daily_setting):
+        adaptability = 0
+        for detail in daily_setting.details:
+            participants = day_data[detail.work_category.id]
+            adaptability += self._evaluate_by_require(participants, detail)
+            adaptability += self._evaluate_by_essential_skill(participants, detail)
+            adaptability += self._evaluate_by_essential_operator(participants, detail)
+            adaptability += self._evaluate_by_impossible_operator(participants, detail)
+            adaptability += self._evaluate_by_request(participants, daily_setting.requests)
+        return adaptability
+
+    @staticmethod
+    def _evaluate_by_prefixed_schedule(participants, daily_setting, monthly_setting):
+        adaptability = 0
+        date_ = date(monthly_setting.year, monthly_setting.month, daily_setting.day)
+        for fixed_schedule in monthly_setting.fixed_schedules:
+            if is_between(date_, fixed_schedule.on_from, fixed_schedule.on_to):
+                pass
+            member_ids = set(map(lambda y: y.id, participants))
+            for person in fixed_schedule.participants:
+                adaptability += 0.02 if person.id in member_ids else -0.02
+        return adaptability
+
+    def _evaluate_by_skill_sd(self):
+        pass
+    
+    def _evaluate_by_month(self, day_dict, monthly_setting):
+        adaptability = 0
+        for day_data, daily_setting in zip(day_dict.values(), monthly_setting.days):
+            adaptability = self._evaluate_by_day(day_data, daily_setting)
+            participants = day_data['C']
+            adaptability += self._evaluate_by_prefixed_schedule(participants, daily_setting, monthly_setting)
+        return adaptability
+        
     def _evaluate(self, operators, monthly_setting):
         def _fnc(gene):
             # column is day and row is operator
             schedule = np.reshape(gene, (len(operators), -1))
             adaptability = 0
             
-            def dict_by_day(row):
-                d = {x.id: [] for x in self.work_categories}
-                for i, x in enumerate(row):
-                    if x == '0':
-                        continue
-                    d[x].append(operators[i])
-                return d
-            day_dict = {i: dict_by_day(x) for i, x in enumerate(schedule.T)}
-            adaptability += self._evaluate_by_day(day_dict, monthly_setting)
+            day_dict = {i: self._dict_a_day(x, operators) for i, x in enumerate(schedule.T)}
+            adaptability += self._evaluate_by_month(day_dict, monthly_setting)
             return adaptability
         return _fnc
     
@@ -182,7 +236,7 @@ class Scheduler(OrmBase):
         
         base_kind = list(map(lambda x: x.id, self.work_categories))
         
-        genetic = Genetic(evaluation=evaluate, base_kind=[0] + base_kind,
+        genetic = Genetic(evaluation=evaluate, base_kind=['-', 'N', 'C'] + base_kind,
                           gene_size=len(monthly_setting.days) * len(operators),
                           generation_size=1000, population_size=1000, debug=True)
         genetic.parent_selection = self._build_parent_selection()

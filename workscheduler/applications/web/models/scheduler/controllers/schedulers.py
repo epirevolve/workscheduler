@@ -194,7 +194,7 @@ def update_yearly_setting(yearly_setting_id):
 @bp.route('/affiliations/<affiliation_id>/month/<month>/year/<year>', methods=['POST'])
 @login_required
 @admin_required
-def launch_scheduler(affiliation_id: str, month: int, year: int):
+def launch_scheduler(affiliation_id: str, month: str, year: str):
     try:
         session = get_db_session()
         SchedulerCommandAdapter(session).launch(affiliation_id, month, year)
