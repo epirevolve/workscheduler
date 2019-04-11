@@ -20,6 +20,7 @@ from mypackages.utils.jsonize import dumps
 from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.services import OperatorQuery
 from workscheduler.infrastructures import Database
+from workscheduler.infrastructures import InputInitData
 
 
 def get_db_session(echo=False):
@@ -74,6 +75,16 @@ def create_app(test_config=None):
     def set_test_db_command():
         Database(current_app.config['DATABASE']).set_test()
         click.echo('Set the database to test.')
+    app.cli.add_command(set_test_db_command)
+
+    @click.command('input-data')
+    @with_appcontext
+    def input_data_command():
+        Database(current_app.config['DATABASE']).init()
+        InputInitData(current_app.config['DATABASE']).input_init_data()
+        click.echo('Db initialized and input data.')
+    app.cli.add_command(input_data_command)
+
     app.cli.add_command(set_test_db_command)
 
     from .util.controllers import menus_bp

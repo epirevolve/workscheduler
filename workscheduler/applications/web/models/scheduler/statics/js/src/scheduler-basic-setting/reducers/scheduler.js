@@ -78,7 +78,7 @@ const scheduler = (state = {}, action) => {
                 workCategories: state.workCategories.map(x => {
                     if (x.id != action.id) return x;
                     return {...x,
-                        restDays: action.count
+                        dayOffs: action.count
                     }
                 })
             }
@@ -138,7 +138,7 @@ const scheduler = (state = {}, action) => {
                     weekDayMax: 0,
                     holidayRequire: 0,
                     holidayMax: 0,
-                    restDays: 0,
+                    dayOffs: 0,
                     maxTimes: 0,
                     essentialSkills: [],
                     essentialOperators: [],

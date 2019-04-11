@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from datetime import (
-    date, timedelta
-)
+from datetime import date
+from datetime import timedelta
 
 
 def get_next_month(value: date = date.today()) -> date:

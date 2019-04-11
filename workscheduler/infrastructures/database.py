@@ -48,7 +48,7 @@ class Database:
         
         session.flush()
 
-        # add role users
+        # add users
 
         affiliation_id = AffiliationQuery(session).get_default_affiliation().id
         append_user = UserCommand(session).append_user

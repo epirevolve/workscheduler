@@ -31,7 +31,7 @@ class SchedulerCommandAdapter:
         return SchedulerCommand(self._session).append_work_category(
             data.get('title'), to_time(data.get('at_from')), to_time(data.get('at_to')),
             data.get('week_day_require'), data.get('week_day_max'), data.get('holiday_require'),
-            data.get('holiday_max'), data.get('rest_days'), data.get('max_times'),
+            data.get('holiday_max'), data.get('day_offs'), data.get('max_times'),
             list_id(data.get('essential_skills')), list_id(data.get('essential_operators')),
             list_id(data.get('impossible_operators'))
         )
@@ -40,7 +40,7 @@ class SchedulerCommandAdapter:
         return SchedulerCommand(self._session).update_work_category(
             data.get('id'), data.get('title'), to_time(data.get('at_from')),
             to_time(data.get('at_to')), data.get('week_day_require'), data.get('week_day_max'),
-            data.get('holiday_require'), data.get('holiday_max'), data.get('rest_days'),
+            data.get('holiday_require'), data.get('holiday_max'), data.get('day_offs'),
             data.get('max_times'), list_id(data.get('essential_skills')),
             list_id(data.get('essential_operators')), list_id(data.get('impossible_operators'))
         )

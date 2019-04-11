@@ -44,7 +44,7 @@ class WorkCategory(OrmBase):
     week_day_max = Column(Integer)
     holiday_require = Column(Integer)
     holiday_max = Column(Integer)
-    rest_days = Column(Integer)
+    day_offs = Column(Integer)
     max_times = Column(Integer)
     essential_skills = relationship("Skill", secondary=associated_skill_table, lazy='joined')
     essential_operators = relationship("Operator", secondary=associated_essential_operator_table, lazy='joined')
@@ -53,7 +53,7 @@ class WorkCategory(OrmBase):
     
     def __init__(self, id_: str, title: str, at_from: time, at_to: time,
                  week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
-                 rest_days: int, max_times: int, essential_skills: [Skill],
+                 day_offs: int, max_times: int, essential_skills: [Skill],
                  essential_operators: [Operator], impossible_operators: [Operator]):
         self.id = id_
         self.title = title
@@ -63,7 +63,7 @@ class WorkCategory(OrmBase):
         self.week_day_max = week_day_max
         self.holiday_require = holiday_require
         self.holiday_max = holiday_max
-        self.rest_days = rest_days
+        self.day_offs = day_offs
         self.max_times = max_times
         self.essential_skills = essential_skills
         self.essential_operators = essential_operators
@@ -72,9 +72,9 @@ class WorkCategory(OrmBase):
     @staticmethod
     def new_category(title: str, at_from: time, at_to: time,
                      week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
-                     rest_days: int, max_times: int, essential_skills: [Skill],
+                     day_offs: int, max_times: int, essential_skills: [Skill],
                      essential_operators: [Operator], impossible_operators: [Operator]):
         return WorkCategory(UuidFactory.new_uuid(), title, at_from, at_to,
                             week_day_require, week_day_max, holiday_require, holiday_max,
-                            rest_days, max_times, essential_skills,
+                            day_offs, max_times, essential_skills,
                             essential_operators, impossible_operators)
