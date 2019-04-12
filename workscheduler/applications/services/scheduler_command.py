@@ -5,6 +5,7 @@ from datetime import time
 
 from workscheduler.applications.web.util.functions.converter import to_time
 from workscheduler.applications.web.util.functions.converter import to_date
+from workscheduler.applications.errors import AlreadyLaunchError
 from workscheduler.domains.models.scheduler import Scheduler
 from workscheduler.domains.models.scheduler import WorkCategory
 from workscheduler.domains.models.scheduler import FixedSchedule
@@ -14,6 +15,7 @@ from . import AffiliationQuery
 from . import OperatorQuery
 from . import SkillQuery
 from . import SchedulerQuery
+from . import ScheduleCommand
 
 
 class SchedulerCommand:
@@ -67,7 +69,7 @@ class SchedulerCommand:
         
     def append_work_category(self, title: str, at_from: time, at_to: time,
                              week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
-                             rest_days: int, max_times: int, essential_skill_ids: [str],
+                             day_offs: int, max_times: int, essential_skill_ids: [str],
                              essential_operator_ids: [str], impossible_operator_ids: [str]):
         skills = SkillQuery(self._session).get_skills()
         essential_skills = [x for x in skills if x.id in essential_skill_ids]
@@ -77,14 +79,14 @@ class SchedulerCommand:
         work_category = WorkCategory.new_category(
             title, at_from, at_to,
             week_day_require, week_day_max,
-            holiday_require, holiday_max, rest_days, max_times,
+            holiday_require, holiday_max, day_offs, max_times,
             essential_skills, essential_operators, impossible_operators)
         self._session.add(work_category)
         return work_category
     
     def update_work_category(self, id_: str, title: str, at_from: time,
                              at_to: time, week_day_require: int, week_day_max: int,
-                             holiday_require: int, holiday_max: int, rest_days: int,
+                             holiday_require: int, holiday_max: int, day_offs: int,
                              max_times: int, essential_skill_ids: [str],
                              essential_operator_ids: [str], impossible_operator_ids: [str]):
         work_category = SchedulerQuery(self._session).get_work_category(id_)
@@ -95,7 +97,7 @@ class SchedulerCommand:
         work_category.week_day_max = week_day_max
         work_category.holiday_require = holiday_require
         work_category.holiday_max = holiday_max
-        work_category.rest_days = rest_days
+        work_category.day_offs = day_offs
         work_category.max_times = max_times
         skills = SkillQuery(self._session).get_skills()
         work_category.essential_skills = [x for x in skills if x.id in essential_skill_ids]
@@ -143,3 +145,18 @@ class SchedulerCommand:
         yearly_setting.vacations = [
             self.append_vacation(x.title, x.on_from, x.on_to, x.days) if x.id not in vacation_ids
             else self.update_vacation(x.id, x.title, x.on_from, x.on_to, x.days) for x in vacations]
+    
+    def launch(self, affiliation_id: str, month: int, year: int):
+        operators = OperatorQuery(self._session).get_active_operators_of_affiliation_id(affiliation_id)
+        scheduler = SchedulerQuery(self._session).get_scheduler_of_affiliation_id(affiliation_id)
+        # if scheduler.is_launching:
+        #     raise AlreadyLaunchError()
+        try:
+            scheduler.is_launching = True
+            self._session.commit()
+            schedule = scheduler.run(month, year, operators)
+            ScheduleCommand(self._session).append_new_schedule(affiliation_id, year, month,
+                                                               operators, schedule)
+        finally:
+            scheduler.is_launching = False
+            self._session.commit()

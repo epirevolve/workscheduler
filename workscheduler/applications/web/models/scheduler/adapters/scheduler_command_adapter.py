@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+from datetime import date
+
 from collections import namedtuple
 
 from workscheduler.applications.services import SchedulerCommand
@@ -28,7 +31,7 @@ class SchedulerCommandAdapter:
         return SchedulerCommand(self._session).append_work_category(
             data.get('title'), to_time(data.get('at_from')), to_time(data.get('at_to')),
             data.get('week_day_require'), data.get('week_day_max'), data.get('holiday_require'),
-            data.get('holiday_max'), data.get('rest_days'), data.get('max_times'),
+            data.get('holiday_max'), data.get('day_offs'), data.get('max_times'),
             list_id(data.get('essential_skills')), list_id(data.get('essential_operators')),
             list_id(data.get('impossible_operators'))
         )
@@ -37,7 +40,7 @@ class SchedulerCommandAdapter:
         return SchedulerCommand(self._session).update_work_category(
             data.get('id'), data.get('title'), to_time(data.get('at_from')),
             to_time(data.get('at_to')), data.get('week_day_require'), data.get('week_day_max'),
-            data.get('holiday_require'), data.get('holiday_max'), data.get('rest_days'),
+            data.get('holiday_require'), data.get('holiday_max'), data.get('day_offs'),
             data.get('max_times'), list_id(data.get('essential_skills')),
             list_id(data.get('essential_operators')), list_id(data.get('impossible_operators'))
         )
@@ -59,3 +62,6 @@ class SchedulerCommandAdapter:
             to_date(x.get('on_to')), x.get('days')) for x in data.get('vacations')]
         return SchedulerCommand(self._session).update_yearly_setting(
             scheduler_id, data.get('year'), vacations)
+    
+    def launch(self, affiliation_id: str, month: str, year: str):
+        return SchedulerCommand(self._session).launch(affiliation_id, int(month), int(year))

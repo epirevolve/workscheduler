@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => ({
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with deleting skill...';
-                alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
             });
         dispatch(closeDialog());
     },
@@ -62,7 +62,7 @@ const mapDispatchToProps = (dispatch) => ({
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with appending skill...';
-                alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
             });
         dispatch(closeDialog());
     }

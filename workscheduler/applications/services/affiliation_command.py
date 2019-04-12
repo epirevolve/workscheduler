@@ -22,4 +22,4 @@ class AffiliationCommand:
     
     def remove_affiliation(self, id_: str):
         affiliation = AffiliationQuery(self._session).get_affiliation(id_)
-        self._session.remove(affiliation)
+        self._session.delete(affiliation)

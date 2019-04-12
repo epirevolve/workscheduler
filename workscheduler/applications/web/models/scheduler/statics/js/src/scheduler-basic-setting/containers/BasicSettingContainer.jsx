@@ -24,7 +24,7 @@ class BasicSettingContainer extends React.Component {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with storing basic setting...';
-                alertManager.append(`Oops, Sorry ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
             });
     }
 

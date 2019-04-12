@@ -54,7 +54,7 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                             onChange={onHolidayMaxChange(workCategory.id)} />
                     </Grid>
                 </Grid>
-                <TextField type="number" label="rest days" required value={workCategory.restDays}
+                <TextField type="number" label="day offs" required value={workCategory.dayOffs}
                     onChange={onRestDaysChange(workCategory.id)} className="mb-3" />
                 <TextField type="number" label="max times" required value={workCategory.maxTimes} className="mb-3"
                     onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />

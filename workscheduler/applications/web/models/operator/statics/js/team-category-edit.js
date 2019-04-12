@@ -270,7 +270,7 @@ import { AlertManager } from '/statics/js/alert-helper.js';
             })
             .fail((data) => {
                 let alertManager = new AlertManager('#alert-container');
-                alertManager.append('Oops, Sorry we have some trouble with updating the team category...',
+                alertManager.append('Oops, Sorry... we have some trouble with updating the team category...',
                 'alert-error');
             })
         });

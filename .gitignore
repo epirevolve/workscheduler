@@ -200,3 +200,7 @@ typings/
 .dynamodb/
 
 *.js.map
+
+# this project specific
+/workscheduler/applications/web/util/statics/img/*.svg
+/workscheduler/infrastructures/input_init.py

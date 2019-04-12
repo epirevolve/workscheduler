@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 const menuCard = ({title, img, description, href, onClick}) => {
     return (
         <Card style={{ width: "100%", minWidth: 120, maxHeight: 320, minHeight: 320 }}>
-            <CardActionArea href={href} style={{ height: 320 }} onClick={onClick}>
+            <CardActionArea href={href} onClick={onClick} style={{ height: 320 }}>
                 <CardContent>
                     <Typography gutterBottom variant="h4" className="menuHeader">
                         {title}
