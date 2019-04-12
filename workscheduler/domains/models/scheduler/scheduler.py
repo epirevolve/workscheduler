@@ -196,10 +196,6 @@ class Scheduler(OrmBase):
         return adaptability
     
     @staticmethod
-    def _evaluate_by_rest():
-        pass
-    
-    @staticmethod
     def _evaluate_by_skill_sd():
         pass
     
@@ -210,15 +206,13 @@ class Scheduler(OrmBase):
         return adaptability
     
     def _evaluate_by_work_hours_std(self, schedules, fixed_schedules):
-        hours = []
         work_category_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in self.work_categories}
         work_category_ids = [x.id for x in self.work_categories]
         fixed_schedule_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in fixed_schedules}
         fixed_schedule_ids = [x.id for x in fixed_schedules]
-        for schedule in schedules:
-            hours.append(sum([work_category_hour[x] if x in work_category_ids else
-                              fixed_schedule_hour[x] if x in fixed_schedule_ids else
-                              0 for x in schedule]))
+        hours = [sum([work_category_hour[y] if y in work_category_ids else
+                      fixed_schedule_hour[y] if y in fixed_schedule_ids else
+                      0 for y in x]) for x in schedules]
         return 10 - min(10, stdev(hours))
 
     @staticmethod
@@ -234,12 +228,48 @@ class Scheduler(OrmBase):
                                  for x in schedules]
         adaptability = sum([ratio for x in continuous_attendance for y in x if y > 5])
         return 10 - min(10, adaptability)
+    
+    @staticmethod
+    def _evaluate_by_n_day(schedules):
+        n_days = [sum([1 for y in x if y == 'N']) for x in schedules]
+        return 6 - min(6, stdev(n_days))
+    
+    def _evaluate_by_day_offs(self, schedules):
+        adaptability = 0
+        ratio = 10 / (len(schedules) * 16)
+        day_offs_work_category_ids = [x.id for x in self.work_categories if x.day_offs != 0]
+        work_categories = {x.id: x for x in self.work_categories}
+        for x in schedules:
+            i = 0
+            len_x = len(x)
+            while i < len_x:
+                if x[i] in day_offs_work_category_ids:
+                    day_offs = work_categories[x[i]].day_offs
+                    if i + day_offs >= len_x:
+                        day_offs = len_x - i - 1
+                    if list(x[i + 1: i + day_offs + 1]) != ['-'] * day_offs:
+                        adaptability += ratio
+                    i += day_offs
+                elif x[i] == '-':
+                    adaptability += ratio
+                i += 1
+        return 10 - min(10, adaptability)
+
+    @staticmethod
+    def _evaluate_by_rest(schedule):
+        pass
+    
+    @staticmethod
+    def _evaluate_by_available_max_times(schedules):
+        pass
 
     def _evaluate_by_operator(self, schedules, monthly_setting):
         adaptability = 0
         adaptability += self._evaluate_by_work_hours_std(schedules, monthly_setting.fixed_schedules)
         adaptability += self._evaluate_by_holiday(schedules, monthly_setting.holidays)
         adaptability += self._evaluate_by_continuous_attendance(schedules)
+        adaptability += self._evaluate_by_n_day(schedules)
+        adaptability += self._evaluate_by_day_offs(schedules)
         return adaptability
         
     def _evaluate(self, operators, monthly_setting):

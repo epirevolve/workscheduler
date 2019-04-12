@@ -15,6 +15,7 @@ from . import AffiliationQuery
 from . import OperatorQuery
 from . import SkillQuery
 from . import SchedulerQuery
+from . import ScheduleCommand
 
 
 class SchedulerCommand:
@@ -154,6 +155,8 @@ class SchedulerCommand:
             scheduler.is_launching = True
             self._session.commit()
             schedule = scheduler.run(month, year, operators)
+            ScheduleCommand(self._session).append_new_schedule(affiliation_id, year, month,
+                                                               operators, schedule)
         finally:
             scheduler.is_launching = False
             self._session.commit()
