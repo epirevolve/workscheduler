@@ -1,7 +1,7 @@
 import React from 'react'
 
 import DialogContainer from '../containers/DialogContainer'
-import CalendarContainer from '../containers/CalendarContainer'
+import RequestsContainer from '../containers/RequestsContainer'
 
 const dataset = document.querySelector('script[src*="request-public"]').dataset;
 const holidays = JSON.parse(dataset.holidays);
