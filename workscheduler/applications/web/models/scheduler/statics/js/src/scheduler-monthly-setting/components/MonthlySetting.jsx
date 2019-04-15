@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Title from './Title';
+import MonthSelect from './MonthSelect';
 import DayRequireContainer from '../containers/DayRequireContainer';
 import MonthlyHolidayContainer from '../containers/MonthlyHolidayContainer';
 import FixedSchedulesContainer from '../containers/FixedSchedulesContainer';
@@ -8,7 +8,7 @@ import MonthlySettingContainer from '../containers/MonthlySettingContainer';
 
 const monthlySetting = () => (
     <React.Fragment>
-        <Title />
+        <MonthSelect />
         <DayRequireContainer />
         <MonthlyHolidayContainer />
         <FixedSchedulesContainer />

@@ -19,7 +19,7 @@ const url = dataset.url;
 const scheduleOf = dataset.scheduleOf;
 const affiliation = JSON.parse(dataset.affiliation);
 
-class Title extends React.Component {
+class MonthSelect extends React.Component {
     onScheduleChange (date) {
         const s = date.toDate().toYearMonthFormatString();
         location.href = url.replace('param_affiliation_id', affiliation.id).replace('param_calendar', s);
@@ -54,4 +54,4 @@ class Title extends React.Component {
     }
 }
 
-export default Title;
+export default MonthSelect;

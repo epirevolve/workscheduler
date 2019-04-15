@@ -1,5 +1,9 @@
 import React from 'react'
 
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+
 import Request from './Request'
 
 import { AlertManager } from 'alert-helper';
@@ -28,7 +32,7 @@ class CalendarCell extends React.Component {
         const { day, handleAppend, handleEdit, ...other } = this.props;
 
         if (!day)
-            return <div className="cl-body-cell col"></div>;
+            return <Grid item xs className="cl-body-cell"></Grid>;
 
         const requests = [];
 
@@ -49,20 +53,20 @@ class CalendarCell extends React.Component {
         }
 
         return (
-            <div className="cl-body-cell col">
+            <Grid item xs className="cl-body-cell">
                 <React.Fragment>
                     <div>
-                        <button className="add-request btn btn-danger btn-sm"
+                        <IconButton aria-label="Add Request" color="secondary" className="add-request"
                             onClick={() => this.handleAppend(day, handleAppend)}>
-                            <i className="fa fa-pencil-alt"></i>
-                        </button>
+                            <EditRoundedIcon />
+                        </IconButton>
                         <span className="cl-day">{day.day}</span>
                     </div>
                     <div className="request-container">
                         {requests}
                     </div>
                 </React.Fragment>
-            </div>
+            </Grid>
         );
     }
 }

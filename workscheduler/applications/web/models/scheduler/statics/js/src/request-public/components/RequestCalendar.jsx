@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Grid from '@material-ui/core/Grid';
+
 import CalendarCell from './CalendarCell'
 
 const requestCalendar = ({ requestCalendar, ...other }) => {
@@ -10,23 +12,21 @@ const requestCalendar = ({ requestCalendar, ...other }) => {
         for (let [index2, day] of week.entries()) {
             week_.push(<CalendarCell key={`${index1}-${index2}`} day={day} {...other} />);
         }
-        weeks.push(<div key={`${index1}`} className="row">{week_}</div>);
+        weeks.push(<Grid container key={`${index1}`}>{week_}</Grid>);
     }
 
     return (
-        <div className="col-md-10">
+        <div style={{ margin: "0 1rem" }}>
             <div className="cl">
-                <div className="cl-header d-none d-md-block">
-                    <div className="row">
-                        <div className="cl-header-cell col text-danger">Sun</div>
-                        <div className="cl-header-cell col">Mon</div>
-                        <div className="cl-header-cell col">Tue</div>
-                        <div className="cl-header-cell col">Wed</div>
-                        <div className="cl-header-cell col">Thu</div>
-                        <div className="cl-header-cell col">Fri</div>
-                        <div className="cl-header-cell col text-info">Sat</div>
-                    </div>
-                </div>
+                <Grid container className="cl-header">
+                    <Grid item xs className="cl-header-cell text-danger">Sun</Grid>
+                    <Grid item xs className="cl-header-cell">Mon</Grid>
+                    <Grid item xs className="cl-header-cell">Tue</Grid>
+                    <Grid item xs className="cl-header-cell">Wed</Grid>
+                    <Grid item xs className="cl-header-cell">Thu</Grid>
+                    <Grid item xs className="cl-header-cell">Fri</Grid>
+                    <Grid item xs className="cl-header-cell text-info">Sat</Grid>
+                </Grid>
                 <div className="cl-body">
                     {weeks}
                 </div>

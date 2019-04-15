@@ -6,7 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 const skill = ({ skill, checked, onChange }) => {
     return (
         <FormControlLabel label={skill.name} control={
-                <Checkbox checked={checked} onChange={onChange} value={skill.id} />}>
+            <Checkbox checked={checked} onChange={onChange} value={skill.id} />}>
         </FormControlLabel>
     )
 }

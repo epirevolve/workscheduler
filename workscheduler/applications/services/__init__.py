@@ -19,3 +19,4 @@ from .user_command import UserCommand
 
 from .affiliation_facade import AffiliationFacade
 from .auth_facade import AuthFacade
+from .schedule_facade import ScheduleFacade

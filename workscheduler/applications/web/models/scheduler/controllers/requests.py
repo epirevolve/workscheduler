@@ -38,7 +38,6 @@ def _non_public_request_body(schedule_of):
 @login_required
 def show_my_request():
     calendar = request.args.get('calendar')
-    
     if calendar and not isinstance(calendar, date):
         calendar = datetime.strptime(calendar, '%Y-%m').date()
     

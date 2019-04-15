@@ -237,17 +237,16 @@ class Scheduler(OrmBase):
     def _evaluate_by_day_offs(self, schedules):
         adaptability = 0
         ratio = 10 / (len(schedules) * 16)
-        day_offs_work_category_ids = [x.id for x in self.work_categories if x.day_offs != 0]
-        work_categories = {x.id: x for x in self.work_categories}
+        day_offs_work_categories = {x.id: x for x in self.work_categories if x.day_offs != 0}
         for x in schedules:
             i = 0
             len_x = len(x)
             while i < len_x:
-                if x[i] in day_offs_work_category_ids:
-                    day_offs = work_categories[x[i]].day_offs
+                if x[i] in day_offs_work_categories:
+                    day_offs = day_offs_work_categories[x[i]].day_offs
                     if i + day_offs >= len_x:
                         day_offs = len_x - i - 1
-                    if list(x[i + 1: i + day_offs + 1]) != ['-'] * day_offs:
+                    if list(x[i+1: i+day_offs+1]) != ['-'] * day_offs:
                         adaptability += ratio
                     i += day_offs
                 elif x[i] == '-':

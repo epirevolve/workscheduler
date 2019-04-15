@@ -1,17 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="input-group">
-    <div class="input-group-prepend">
-        <span class="input-group-text">work schedule on</span>
-    </div>
-    <select class="custom-select">
-        {% for yearmonth in yearmonths %}
-        <option value="yearmonth">yearmonth</option>
-        {% endfor %}
-    </select>
-</div>
+<div id="root"></div>
 {% endblock %}
 
 {% block script %}
+<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+<script type="module" src="{{ url_for('schedules.static', filename='js/schedule.bundle.min.js') }}"
+    data-url="{{ url_for('operators.update_myself', operator_id=operator_id) }}"
+    data-operator="{{ to_json(operator) }}" data-skills="{{ to_json(skills) }}"></script>
 <breadscram data-current="{{ to_json({'name': 'Schedules'}) }}"></breadscram>
 {% endblock %}

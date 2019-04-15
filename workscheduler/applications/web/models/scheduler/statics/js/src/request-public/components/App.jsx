@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Grid from '@material-ui/core/Grid';
+
 import DialogContainer from '../containers/DialogContainer'
 import RequestsContainer from '../containers/RequestsContainer'
 
@@ -10,9 +12,11 @@ const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
 const app = () => (
     <React.Fragment>
         <DialogContainer />
-        <div className="row">
-            <CalendarContainer />
-            <div className="col-md-2">
+        <Grid container>
+            <Grid item sm={10}>
+                <RequestsContainer />
+            </Grid>
+            <Grid item sm={2}>
                 <div>
                     <h5>Monthly Holidays</h5>
                     <p>{holidays || 0} days</p>
@@ -22,8 +26,8 @@ const app = () => (
                     <h5>Remained Paid Holidays</h5>
                     <p>{paidHolidays || 0} days</p>
                 </div>
-            </div>
-        </div>
+            </Grid>
+        </Grid>
     </React.Fragment>
 )
 
