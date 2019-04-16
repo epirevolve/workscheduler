@@ -1,4 +1,6 @@
-import React from 'react';
+import '../schedule';
+
+import React from 'react'
 import { render } from 'react-dom'
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -10,5 +12,5 @@ render(
     <MuiThemeProvider theme={Theme}>
         <App />
     </MuiThemeProvider>,
-    document.getElementById('monthSelector')
+    document.getElementById('root')
 )

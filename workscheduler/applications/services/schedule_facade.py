@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from collections import namedtuple
-
 from . import ScheduleQuery
 from . import SchedulerQuery
+
+
+class Day:
+    def __init__(self, day: int, name: str):
+        self.day = day
+        self.name = name
 
 
 class ScheduleFacade:
@@ -15,9 +19,9 @@ class ScheduleFacade:
         work_categories = {x.id: x for x in scheduler.work_categories}
         schedules = ScheduleQuery(self._session).get_schedules_of_affiliation_year_month(
             affiliation_id, year, month)
-        Day = namedtuple('Day', ('day', 'name'))
         
         def get_category_name(category: str):
             return work_categories[category].title if category in work_categories else category
-        return [[Day(y.day, get_category_name(y.work_category)) for y in x.day_work_categories]
+        return [{'operator': x.operator,
+                 'schedule': [Day(y.day, get_category_name(y.work_category)) for y in x.day_work_categories]}
                 for x in schedules]

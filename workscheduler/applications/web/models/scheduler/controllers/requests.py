@@ -37,20 +37,20 @@ def _non_public_request_body(schedule_of):
 @bp.route('/')
 @login_required
 def show_my_request():
-    calendar = request.args.get('calendar')
-    if calendar and not isinstance(calendar, date):
-        calendar = datetime.strptime(calendar, '%Y-%m').date()
+    schedule_of = request.args.get('schedule_of')
+    if schedule_of and not isinstance(schedule_of, date):
+        schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
     
     session = get_db_session()
     scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(current_user.affiliation.id)
     if not scheduler:
-        return _non_public_request_body(calendar)
+        return _non_public_request_body(schedule_of)
     
-    monthly_setting = scheduler.monthly_setting(calendar.month, calendar.year)
+    monthly_setting = scheduler.monthly_setting(schedule_of.month, schedule_of.year)
     
     return _public_request_body(scheduler, monthly_setting) \
         if monthly_setting and monthly_setting.is_published and not monthly_setting.is_fixed \
-        else _non_public_request_body(calendar)
+        else _non_public_request_body(schedule_of)
 
 
 @bp.route('/', methods=['POST'])

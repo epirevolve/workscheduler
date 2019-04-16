@@ -1,6 +1,10 @@
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardArrowLeftRoundedIcon from '@material-ui/icons/KeyboardArrowLeftRounded';
+import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRightRounded';
+import Grid from '@material-ui/core/Grid';
 
 const dataset = document.querySelector('script[src*="request"]').dataset;
 const url = dataset.url;
@@ -37,29 +41,27 @@ class MonthYearSetting extends React.Component {
         date.setMonth(date.getMonth() + addMonth);
         const date_str = date.toYearMonthFormatString();
 
-        location.href = `${url}?calendar=${date_str}`;
+        location.href = `${url}?schedule_of=${date_str}`;
     }
 
     render () {
         const [prev, next] = this.setMonthChangeButtonAvailability();
         return (
-            <div className="cl-tool-header row">
-                <div className="cl-tool-left col-md-3">
-                    <button type="button" className="btn btn-link" disabled={!prev}
-                        onClick={() => this.requestOfOtherMonthYear(-1)}>
-                        <span className="fa fa-chevron-left"></span>
-                    </button>
-                </div>
-                <div className="cl-tool-center cl-title col-md-6">
+            <Grid container className="cl-tool-header">
+                <Grid item xs={3} className="cl-tool-left">
+                    <IconButton disabled={!prev} onClick={() => this.requestOfOtherMonthYear(-1)}>
+                        <KeyboardArrowLeftRoundedIcon />
+                    </IconButton>
+                </Grid>
+                <Grid item xs className="cl-tool-center cl-title">
                     <h2>{scheduleOfName}</h2>
-                </div>
-                <div className="cl-tool-right col-md-3">
-                    <button type="button" className="btn btn-link" disabled={!next}
-                        onClick={() => this.requestOfOtherMonthYear(1)}>
-                        <span className="fa fa-chevron-right"></span>
-                    </button>
-                </div>
-            </div>
+                </Grid>
+                <Grid item xs={3} className="cl-tool-right">
+                    <IconButton disabled={!next} onClick={() => this.requestOfOtherMonthYear(1)}>
+                        <KeyboardArrowRightRoundedIcon />
+                    </IconButton>
+                </Grid>
+            </Grid>
         );
     }
 }

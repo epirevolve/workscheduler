@@ -5,9 +5,10 @@ const _path = (folder) => `./workscheduler/applications/web/models/${folder}/sta
 const _userPath = _path('user');
 const _operatorPath = _path('operator');
 const _schedulerPath = _path('scheduler');
+const _schedulePath = _path('schedule');
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
 
     entry: {
         'workscheduler/applications/web/util/statics/js/layout': path.join(_utilPath, '/src/layout/index.jsx'),
@@ -25,6 +26,8 @@ module.exports = {
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-monthly-setting': path.join(_schedulerPath, '/src/scheduler-monthly-setting/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-basic-setting': path.join(_schedulerPath, '/src/scheduler-basic-setting/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-yearly-setting': path.join(_schedulerPath, '/src/scheduler-yearly-setting/index.jsx'),
+        'workscheduler/applications/web/models/schedule/statics/js/schedule-operator': path.join(_schedulePath, '/src/schedule-operator/index.jsx'),
+        'workscheduler/applications/web/models/schedule/statics/js/schedule-not-found': path.join(_schedulePath, '/src/schedule-not-found/index.jsx'),
     },
 
     output: {

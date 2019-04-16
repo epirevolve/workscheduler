@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 {% block body %}
-<div id="root"></div>
+<div id="monthSelector"></div>
+{% block schedule_body %}{% endblock %}
 {% endblock %}
 
 {% block script %}
-<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-<script type="module" src="{{ url_for('schedules.static', filename='js/schedule.bundle.min.js') }}"
-    data-url="{{ url_for('operators.update_myself', operator_id=operator_id) }}"
-    data-operator="{{ to_json(operator) }}" data-skills="{{ to_json(skills) }}"></script>
+{% block appendScript %}{% endblock %}
+<script type="module" src="schedule"
+    data-url="{{ url_for('schedules.show_schedules', affiliation_id='param_affiliation_id', schedule_of='param_schedule_of') }}"
+    data-affiliation="{{ to_json(current_user.affiliation) }}" data-schedule-of="{{ schedule_of }}"></script>
 <breadscram data-current="{{ to_json({'name': 'Schedules'}) }}"></breadscram>
 {% endblock %}

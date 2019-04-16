@@ -20,18 +20,7 @@ from mypackages.utils.date import is_between
 from mypackages.utils.time import get_time_diff
 from mypackages.utils.time import time_to_hour
 
-from eart.selections import EliteSelection
-from eart.selections import TournamentSelection
-from eart.mutations import WholeMutation
-from eart.mutations import InvertMutation
-from eart.mutations import TranslocateMutation
-from eart.crossovers import MultiPointCrossover
-from eart.crossovers import UniformityCrossover
 from eart import Genetic
-from eart import ParentSelection
-from eart import SurvivorSelection
-from eart import Mutation
-from eart import Crossover
 
 from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
@@ -39,6 +28,11 @@ from ..user import Affiliation
 from . import WorkCategory
 from . import MonthlySetting
 from . import YearlySetting
+
+from .scheduler_helper import build_parent_selection
+from .scheduler_helper import build_survivor_selection
+from .scheduler_helper import build_mutation
+from .scheduler_helper import build_crossover
 
 associated_monthly_setting_table\
     = Table("associated_monthly_setting", OrmBase.metadata,
@@ -283,35 +277,6 @@ class Scheduler(OrmBase):
             return adaptability
         return _fnc
     
-    @staticmethod
-    def _build_parent_selection():
-        parent_selection = ParentSelection()
-        parent_selection.add(EliteSelection(), 0.05)
-        parent_selection.add(TournamentSelection(group_size=3))
-        return parent_selection
-    
-    @staticmethod
-    def _build_survivor_selection(population_size):
-        survivor_selection = SurvivorSelection(const_population_size=population_size)
-        survivor_selection.add(EliteSelection(), 0.05)
-        survivor_selection.add(TournamentSelection(group_size=3))
-        return survivor_selection
-    
-    @staticmethod
-    def _build_mutation():
-        mutation = Mutation(proliferate_mutation=True)
-        mutation.add(WholeMutation(), 0.05)
-        mutation.add(InvertMutation())
-        mutation.add(TranslocateMutation())
-        return mutation
-    
-    @staticmethod
-    def _build_crossover():
-        crossover = Crossover()
-        crossover.add(MultiPointCrossover())
-        crossover.add(UniformityCrossover())
-        return crossover
-    
     def run(self, month: int, year: int, operators):
         monthly_setting = self.monthly_setting(month, year)
         evaluate = self._evaluate(operators, monthly_setting)
@@ -322,10 +287,10 @@ class Scheduler(OrmBase):
         genetic = Genetic(evaluation=evaluate, base_kind=[' ', 'N', '-'] + base_kind,
                           gene_size=len(monthly_setting.days) * len(operators),
                           generation_size=1000, population_size=1000, debug=True)
-        genetic.parent_selection = self._build_parent_selection()
-        genetic.survivor_selection = self._build_survivor_selection(genetic.population_size)
-        genetic.mutation = self._build_mutation()
-        genetic.crossover = self._build_crossover()
+        genetic.parent_selection = build_parent_selection()
+        genetic.survivor_selection = build_survivor_selection(genetic.population_size)
+        genetic.mutation = build_mutation()
+        genetic.crossover = build_crossover()
         genetic.compile()
         ret = genetic.run()
         return np.reshape(ret.gene, (len(operators), -1))

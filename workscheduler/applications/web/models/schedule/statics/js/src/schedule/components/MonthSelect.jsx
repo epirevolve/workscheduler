@@ -14,7 +14,7 @@ import MonthCalendar from 'rc-calendar/lib/MonthCalendar';
 import 'rc-calendar/assets/index';
 import moment from 'moment';
 
-const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
+const dataset = document.querySelector('script[src="schedule"]').dataset;
 const url = dataset.url;
 const scheduleOf = dataset.scheduleOf;
 const affiliation = JSON.parse(dataset.affiliation);
@@ -22,7 +22,7 @@ const affiliation = JSON.parse(dataset.affiliation);
 class MonthSelect extends React.Component {
     onScheduleChange (date) {
         const s = date.toDate().toYearMonthFormatString();
-        location.href = url.replace('param_affiliation_id', affiliation.id).replace('param_calendar', s);
+        location.href = url.replace('param_affiliation_id', affiliation.id).replace('param_schedule_of', s);
     }
 
     render () {
