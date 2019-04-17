@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-from datetime import date
-
 from collections import namedtuple
 
 from workscheduler.applications.services import SchedulerCommand
@@ -14,15 +11,26 @@ from workscheduler.applications.web.util.functions.extractor import list_id
 class SchedulerCommandAdapter:
     def __init__(self, session):
         self._session = session
+
+    def update_fixed_schedules(self, id_, data_fixed_schedules: []):
+        FixedSchedule = namedtuple('FixedSchedule', ('id', 'title', 'on_from', 'on_to',
+                                                     'at_from', 'at_to', 'participants'))
+        fixed_schedules = [FixedSchedule(x.get('id'), x.get('title'), to_date(x.get('on_from')),
+                                         to_date(x.get('on_to')), to_time(x.get('at_from')), to_time(x.get('at_to')),
+                                         [y.get('id') for y in x.get('participants')])
+                           for x in data_fixed_schedules]
+        return SchedulerCommand(self._session).update_fixed_schedules(
+            id_, fixed_schedules)
     
     def update_monthly_setting(self, data: dict):
         id_ = data.get('id')
-        days = data.get('days')
+        DayDetail = namedtuple('DayDetail', ('id', 'require'))
+        Day = namedtuple('Day', ('id', 'details'))
+        days = [Day(x.get('id'), [DayDetail(y.get('id'), y.get('require'))
+                                  for y in x.get('details')]) for x in data.get('days')]
         holidays = data.get('holidays')
-        fixed_schedules = data.get('fixed_schedules')
         return SchedulerCommand(self._session).update_monthly_setting(
-            id_, days, holidays, fixed_schedules
-        )
+            id_, days, holidays)
     
     def public_monthly_setting(self, monthly_setting_id: str):
         return SchedulerCommand(self._session).public_monthly_setting(monthly_setting_id)

@@ -64,10 +64,12 @@ def show_monthly_setting_inner(monthly_setting_id: str):
     scheduler_query = SchedulerQuery(session)
     scheduler = scheduler_query.get_scheduler_of_affiliation_id(affiliation_id)
     monthly_setting = scheduler_query.get_monthly_setting(monthly_setting_id)
+    fixed_schedules = list(set([y for x in monthly_setting.days for y in x.fixed_schedules]))
     operators = OperatorQuery(session).get_operators()
 
     return render_template('scheduler-monthly-setting.html',
-                           scheduler=scheduler, monthly_setting=monthly_setting, operators=operators)
+                           scheduler=scheduler, monthly_setting=monthly_setting,
+                           fixed_schedules=fixed_schedules, operators=operators)
 
 
 @bp.route('/monthly-settings/<monthly_setting_id>', methods=['POST'])
@@ -76,7 +78,10 @@ def show_monthly_setting_inner(monthly_setting_id: str):
 def update_monthly_setting(monthly_setting_id: str):
     session = get_db_session()
     try:
-        SchedulerCommandAdapter(session).update_monthly_setting(jsonize.loads(request.data))
+        data = jsonize.loads(request.data)
+        SchedulerCommandAdapter(session).update_fixed_schedules(monthly_setting_id, data['fixed_schedules'])
+        session.flush()
+        SchedulerCommandAdapter(session).update_monthly_setting(data['monthly_setting'])
         session.commit()
         
         response = Response()

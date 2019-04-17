@@ -43,7 +43,7 @@ class RequestDialog extends React.Component {
                         to set your scheduled holiday, please submit your request
                     </DialogContentText>
                     <DialogContentText>
-                        this request is not notified to an administrators
+                        this request is not shown to administrators
                     </DialogContentText>
                     <TextField autoFocus margin="dense" label="title" fullWidth
                         onChange={onTitleChange} value={requestDialog.title} />

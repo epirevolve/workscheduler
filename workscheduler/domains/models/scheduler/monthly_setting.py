@@ -28,12 +28,6 @@ associated_calendar_day_table\
             Column("right_id", String, ForeignKey('day_settings.id')))
 
 
-associated_fixed_schedule_table\
-    = Table("associated_fixed_schedule", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('monthly_settings.id')),
-            Column("right_id", String, ForeignKey('fixed_schedules.id')))
-
-
 class MonthlySetting(OrmBase):
     __tablename__ = "monthly_settings"
     id = Column(String, primary_key=True)
@@ -41,7 +35,6 @@ class MonthlySetting(OrmBase):
     month = Column(Integer)
     days = relationship("DaySetting", secondary=associated_calendar_day_table, lazy='joined')
     holidays = Column(Integer)
-    fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='joined')
     is_published = Column(Boolean)
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
@@ -53,7 +46,6 @@ class MonthlySetting(OrmBase):
         self.month = month
         self.days = days
         self.holidays = holidays
-        self.fixed_schedules = []
         self.is_published = False
         self.is_fixed = False
         

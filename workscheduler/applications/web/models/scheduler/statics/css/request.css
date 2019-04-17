@@ -60,7 +60,7 @@
     background-color: #ffc107;
     border-color: #ffc107;
     position: absolute;
-    width: 95%;
+    width: 10%;
     z-index: 3;
 }
 
@@ -68,27 +68,27 @@
 }
 
 .day-2 {
-    width: 195%;
+    width: 21%;
 }
 
 .day-3 {
-    width: 297%;
+    width: 32%;
 }
 
 .day-4 {
-    width: 398%;
+    width: 43%;
 }
 
 .day-5 {
-    width: 499%;
+    width: 54%;
 }
 
 .day-6 {
-    width: 600%;
+    width: 65%;
 }
 
 .day-7 {
-    width: 701%;
+    width: 76%;
 }
 .add-request {
     float: left;

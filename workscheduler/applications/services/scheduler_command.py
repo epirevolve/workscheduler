@@ -2,9 +2,10 @@
 
 from datetime import datetime
 from datetime import time
+from datetime import date
 
-from workscheduler.applications.web.util.functions.converter import to_time
-from workscheduler.applications.web.util.functions.converter import to_date
+from mypackages.utils.date import get_next_day
+
 from workscheduler.applications.errors import AlreadyLaunchError
 from workscheduler.domains.models.scheduler import Scheduler
 from workscheduler.domains.models.scheduler import WorkCategory
@@ -22,44 +23,64 @@ class SchedulerCommand:
     def __init__(self, session):
         self._session = session
     
-    def update_monthly_setting(self, id_: str, days: [], holidays: int, fixed_schedules: []):
-        def update_day(org: DaySetting, value):
-            if org.id != value.get('id'):
-                raise ValueError()
-            for x, y in zip(org.details, value.get('details')):
-                if x.id != y.get('id'):
-                    raise ValueError()
-                x.require = y.get('require')
-            return org
-        
-        def new_fixed_schedule(value):
-            participant_ids = list(map(lambda x: x.get('id'), value.get('participants')))
-            return FixedSchedule.new_schedule(
-                value.get('title'), to_date(value.get('on_from')), to_date(value.get('on_to')),
-                to_time(value.get('at_from')), to_time(value.get('at_to')),
-                [x for x in operators if x.id in participant_ids])
-        
-        def update_fixed_schedule(org: FixedSchedule, value):
-            org.title = value.get('title')
-            org.on_from = to_date(value.get('on_from'))
-            org.on_to = to_date(value.get('on_to'))
-            org.at_from = to_time(value.get('at_from'))
-            org.at_to = to_time(value.get('at_to'))
-            participant_ids = list(map(lambda x: x.get('id'), value.get('participants')))
-            org.participants = [x for x in operators if x.id in participant_ids]
-            return org
-        
+    def _add_fixed_schedule(self, monthly_setting_id: str, fixed_schedule: FixedSchedule):
+        scheduler = SchedulerQuery(self._session).get_scheduler_of_monthly_setting_id(monthly_setting_id)
+        search_date = fixed_schedule.on_from
+        while search_date <= fixed_schedule.on_to:
+            monthly_setting = scheduler.monthly_setting(search_date.month, search_date.year)
+            while search_date.month == monthly_setting.month and search_date <= fixed_schedule.on_to:
+                monthly_setting.days[search_date.day - 1].fixed_schedules.append(fixed_schedule)
+                search_date = get_next_day(search_date)
+    
+    def _append_fixed_schedule(self, monthly_setting_id: str, title: str,
+                               on_from: date, on_to: date,
+                               at_from: time, at_to: time, participants: []):
+        fixed_schedule = FixedSchedule.new_schedule(title, on_from, on_to,
+                                                    at_from, at_to, participants)
+        self._add_fixed_schedule(monthly_setting_id, fixed_schedule)
+        return fixed_schedule
+    
+    def _update_fixed_schedule(self, monthly_setting_id: str, id_: str, title: str,
+                               on_from: date, on_to: date,
+                               at_from: time, at_to: time, participants: []):
+        fixed_schedules = SchedulerQuery(self._session).get_fixed_schedules_of_id(id_)
+        for fixed_schedule in fixed_schedules:
+            self._session.delete(fixed_schedule)
+        self._session.flush()
+        fixed_schedule = FixedSchedule(id_, title, on_from, on_to,
+                                       at_from, at_to, participants)
+        self._add_fixed_schedule(monthly_setting_id, fixed_schedule)
+        return fixed_schedule
+    
+    def update_fixed_schedules(self, monthly_setting_id: str, fixed_schedules: []):
+        monthly_setting = SchedulerQuery(self._session).get_monthly_setting(monthly_setting_id)
         operators = OperatorQuery(self._session).get_operators()
+        
+        fixed_schedule_ids = [y.id for x in monthly_setting.days for y in x.fixed_schedules]
+        monthly_setting.fixed_schedules\
+            = [self._update_fixed_schedule(monthly_setting_id, x.id, x.title,
+                                           x.on_from, x.on_to, x.at_from, x.at_to,
+                                           [y for y in operators if y.id in x.participants])
+               if x.id in fixed_schedule_ids
+               else self._append_fixed_schedule(monthly_setting_id, x.title, x.on_from, x.on_to,
+                                                x.at_from, x.at_to,
+                                                [y for y in operators if y.id in x.participants])
+               for x in fixed_schedules]
+        return monthly_setting
+    
+    def update_monthly_setting(self, id_: str, days: [], holidays: int):
+        def update_day(org: DaySetting, value):
+            if org.id != value.id:
+                raise ValueError()
+            for x, y in zip(org.details, value.details):
+                if x.id != y.id:
+                    raise ValueError()
+                x.require = y.require
+            return org
         
         monthly_setting = SchedulerQuery(self._session).get_monthly_setting(id_)
         monthly_setting.days = [update_day(x, y) for x, y in zip(monthly_setting.days, days)]
         monthly_setting.holidays = holidays
-        fixed_schedule_ids = [x.id for x in monthly_setting.fixed_schedules]
-        monthly_setting.fixed_schedules\
-            = [update_fixed_schedule(next(filter(lambda y: y.id == x.get('id'), monthly_setting.fixed_schedules)), x)
-               if x.get('id') in fixed_schedule_ids
-               else new_fixed_schedule(x)
-               for x in fixed_schedules]
         return monthly_setting
     
     def public_monthly_setting(self, id_: str):

@@ -12,8 +12,9 @@ import App from './components/App'
 
 const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
 const monthlySetting = JSON.parse(dataset.monthlySetting);
+const fixedSchedules = JSON.parse(dataset.fixedSchedules || '[]');
 
-const store = createStore(rootReducer, {monthlySetting});
+const store = createStore(rootReducer, {monthlySetting, fixedSchedules});
 
 render(
     <MuiThemeProvider theme={Theme}>

@@ -12,7 +12,7 @@ import { changeFixedScheduleAtTo } from '../actions';
 import { changeFixedScheduleParticipant } from '../actions';
 
 const mapStateToProps = (state) => ({
-    fixedSchedules: state.monthlySetting.fixedSchedules
+    fixedSchedules: state.fixedSchedules
 });
 
 const mapDispatchToProps = (dispatch) => ({

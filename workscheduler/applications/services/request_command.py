@@ -35,7 +35,6 @@ class RequestCommand:
             while search_date.month == monthly_setting.month and search_date <= request.at_to:
                 monthly_setting.days[search_date.day - 1].requests.append(request)
                 search_date = get_next_day(search_date)
-            search_date = get_next_day(search_date)
 
     def append_my_request(self, user_id: str, scheduler_id: str,
                           title: str, note: str, at_from: datetime, at_to: datetime) -> Request:
