@@ -8,7 +8,7 @@ const _schedulerPath = _path('scheduler');
 const _schedulePath = _path('schedule');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
 
     entry: {
         'workscheduler/applications/web/util/statics/js/layout': path.join(_utilPath, '/src/layout/index.jsx'),
