@@ -10,14 +10,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 
 import EssentialSkills from './EssentialSkills';
-import EssentialOperators from './EssentialOperators';
+import ExclusiveOperators from './ExclusiveOperators';
 import ImpossibleOperators from './ImpossibleOperators';
 
 const workCategory = ({ workCategory, handleRemove, onTitleChange,
     onAtFromChange, onAtToChange, onWeekDayRequireChange,
     onWeekDayMaxChange, onHolidayRequireChange, onHolidayMaxChange,
     onRestDaysChange, onMaxTimesChange, onEssentialSkillChange,
-    onEssentialOperatorChange, onImpossibleOperatorChange }) => {
+    onExclusiveOperatorChange, onImpossibleOperatorChange }) => {
 
     return (
         <Card>
@@ -59,7 +59,7 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                 <TextField type="number" label="max times" required value={workCategory.maxTimes} className="mb-3"
                     onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />
                 <EssentialSkills workCategory={workCategory} onEssentialSkillChange={onEssentialSkillChange} />
-                <EssentialOperators workCategory={workCategory} onEssentialOperatorChange={onEssentialOperatorChange} />
+                <ExclusiveOperators workCategory={workCategory} onExclusiveOperatorChange={onExclusiveOperatorChange} />
                 <ImpossibleOperators workCategory={workCategory} onImpossibleOperatorChange={onImpossibleOperatorChange} />
             </CardContent>
             <CardActions className="ml-2">

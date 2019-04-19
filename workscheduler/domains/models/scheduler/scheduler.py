@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
-
 from sqlalchemy import Column
 from sqlalchemy import Table
 from sqlalchemy import ForeignKey
@@ -19,8 +17,9 @@ from . import WorkCategory
 from . import MonthlySetting
 from . import YearlySetting
 
-from .scheduler_individual_helper import SchedulerIndividualHelper
-from .scheduler_work_category_helper import SchedulerWorkCategoryHelper
+from .scheduler_outline_helper import SchedulerOutlineHelper
+from .scheduler_detail_helper import SchedulerDetailHelper
+from .scheduler_outline_detail_match_helper import SchedulerOutlineDetailMatchHelper
 from .scheduler_monthly_helper import SchedulerMonthlyHelper
 
 associated_monthly_setting_table\
@@ -95,49 +94,10 @@ class Scheduler(OrmBase):
             yearly_setting = yearly_setting[0]
         return yearly_setting
     
-    def _dict_a_day(self, day, operators):
-        d = {x.id: [] for x in self.work_categories}
-        d[' '] = []
-        d['-'] = []
-        d['N'] = []
-        for i, x in enumerate(day):
-            d[x].append(operators[i])
-        return d
-    
-    @staticmethod
-    def _evaluate_by_skill_sd():
-        pass
-    
-    def _evaluate_by_month(self, day_dict, monthly_setting):
-        adaptability = 0
-        for day_data, daily_setting in zip(day_dict.values(), monthly_setting.days):
-            adaptability += self._evaluate_by_day(day_data, daily_setting, monthly_setting)
-        return adaptability
-    
-    def _evaluate_by_operator(self, schedules, monthly_setting):
-        adaptability = 0
-        adaptability += self._evaluate_by_work_hours_std(schedules, monthly_setting.fixed_schedules)
-        adaptability += self._evaluate_by_holiday(schedules, monthly_setting.holidays)
-        adaptability += self._evaluate_by_continuous_attendance(schedules)
-        adaptability += self._evaluate_by_n_day(schedules)
-        adaptability += self._evaluate_by_day_offs(schedules)
-        return adaptability
-        
-    def _evaluate(self, operators, monthly_setting):
-        def _fnc(gene):
-            # column is day and row is operator
-            schedules = np.reshape(gene, (len(operators), -1))
-            adaptability = 0
-            
-            day_dict = {i: self._dict_a_day(x, operators) for i, x in enumerate(schedules.T)}
-            adaptability += self._evaluate_by_month(day_dict, monthly_setting)
-            adaptability += self._evaluate_by_operator(schedules, monthly_setting)
-            return adaptability
-        return _fnc
-    
     def run(self, month: int, year: int, operators):
         monthly_setting = self.monthly_setting(month, year)
-        schedule_frames = SchedulerIndividualHelper(monthly_setting, operators).run()
-        schedule_factors = SchedulerWorkCategoryHelper(monthly_setting, operators).run()
-        ret = SchedulerMonthlyHelper().run(schedule_frames)
+        outlines = SchedulerOutlineHelper(monthly_setting, operators).run()
+        details = SchedulerDetailHelper(monthly_setting, operators).run()
+        combinations = SchedulerOutlineDetailMatchHelper(outlines, details).run()
+        # ret = SchedulerMonthlyHelper().run(outlines)
         # return np.reshape(ret.gene, (len(operators), -1))

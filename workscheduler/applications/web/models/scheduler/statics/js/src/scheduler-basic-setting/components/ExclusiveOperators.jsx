@@ -17,14 +17,14 @@ import IconButton from '@material-ui/core/IconButton';
 const dataset = document.querySelector('script[src*="scheduler-basic-setting"]').dataset;
 const operators = JSON.parse(dataset.operators);
 
-const essentialOperators = ({ workCategory, onEssentialOperatorChange }) => {
-    const essentialOperatorIds = workCategory.essentialOperators.map(x => x.id);
+const exclusiveOperators = ({ workCategory, onExclusiveOperatorChange }) => {
+    const exclusiveOperatorIds = workCategory.exclusiveOperators.map(x => x.id);
     const operatorList = operators.map(x =>
-        <ListItem key={x.id} button onClick={() => onEssentialOperatorChange(workCategory.id, x)}>
-            <Checkbox checked={essentialOperatorIds.includes(x.id)} tabIndex={-1} disableRipple />
+        <ListItem key={x.id} button onClick={() => onExclusiveOperatorChange(workCategory.id, x)}>
+            <Checkbox checked={exclusiveOperatorIds.includes(x.id)} tabIndex={-1} disableRipple />
             <ListItemText primary={x.user.name} />
         </ListItem>);
-    const essentialOperators = workCategory.essentialOperators.map(x =>
+    const exclusiveOperators = workCategory.exclusiveOperators.map(x =>
         <ListItem key={x.id}>
             <ListItemText primary={x.user.name} />
         </ListItem>);
@@ -46,7 +46,7 @@ const essentialOperators = ({ workCategory, onEssentialOperatorChange }) => {
             </Popover>
             <ExpansionPanel expanded={expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6" style={{ color: 'gray' }} className="mt-2">essential operators</Typography>
+                    <Typography variant="h6" style={{ color: 'gray' }} className="mt-2">exclusive operators</Typography>
                     <div className="ml-3">
                         <IconButton size="small" onClick={(e) => { setAnchorEl(e.currentTarget); e.stopPropagation(); }}>
                             <CheckBoxRoundedIcon />
@@ -55,7 +55,7 @@ const essentialOperators = ({ workCategory, onEssentialOperatorChange }) => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <List>
-                        {essentialOperators}
+                        {exclusiveOperators}
                     </List>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -63,4 +63,4 @@ const essentialOperators = ({ workCategory, onEssentialOperatorChange }) => {
     )
 }
 
-export default essentialOperators;
+export default exclusiveOperators;

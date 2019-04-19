@@ -23,8 +23,8 @@ associated_skill_table\
             Column("left_id", String, ForeignKey('work_categories.id')),
             Column("right_id", String, ForeignKey('skills.id')))
 
-associated_essential_operator_table\
-    = Table("associated_essential_operator", OrmBase.metadata,
+associated_exclusive_operator_table\
+    = Table("associated_exclusive_operator", OrmBase.metadata,
             Column("left_id", String, ForeignKey('work_categories.id')),
             Column("right_id", String, ForeignKey('operators.id')))
 
@@ -47,14 +47,14 @@ class WorkCategory(OrmBase):
     day_offs = Column(Integer)
     max_times = Column(Integer)
     essential_skills = relationship("Skill", secondary=associated_skill_table, lazy='joined')
-    essential_operators = relationship("Operator", secondary=associated_essential_operator_table, lazy='joined')
+    exclusive_operators = relationship("Operator", secondary=associated_exclusive_operator_table, lazy='joined')
     impossible_operators = relationship("Operator", secondary=associated_impossible_operator_table, lazy='joined')
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id_: str, title: str, at_from: time, at_to: time,
                  week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
                  day_offs: int, max_times: int, essential_skills: [Skill],
-                 essential_operators: [Operator], impossible_operators: [Operator]):
+                 exclusive_operators: [Operator], impossible_operators: [Operator]):
         self.id = id_
         self.title = title
         self.at_from = at_from
@@ -66,15 +66,15 @@ class WorkCategory(OrmBase):
         self.day_offs = day_offs
         self.max_times = max_times
         self.essential_skills = essential_skills
-        self.essential_operators = essential_operators
+        self.exclusive_operators = exclusive_operators
         self.impossible_operators = impossible_operators
     
     @staticmethod
     def new_category(title: str, at_from: time, at_to: time,
                      week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
                      day_offs: int, max_times: int, essential_skills: [Skill],
-                     essential_operators: [Operator], impossible_operators: [Operator]):
+                     exclusive_operators: [Operator], impossible_operators: [Operator]):
         return WorkCategory(UuidFactory.new_uuid(), title, at_from, at_to,
                             week_day_require, week_day_max, holiday_require, holiday_max,
                             day_offs, max_times, essential_skills,
-                            essential_operators, impossible_operators)
+                            exclusive_operators, impossible_operators)

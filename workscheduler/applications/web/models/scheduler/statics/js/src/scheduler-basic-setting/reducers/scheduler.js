@@ -103,15 +103,15 @@ const scheduler = (state = {}, action) => {
                     }
                 })
             }
-        case 'CHANGE_WORK_CATEGORY_ESSENTIAL_OPERATOR':
+        case 'CHANGE_WORK_CATEGORY_EXCLUSIVE_OPERATOR':
             return {...state,
                 workCategories: state.workCategories.map(x => {
                     if (x.id != action.id) return x;
-                    const operatorIds = x.essentialOperators.map(y => y.id);
+                    const operatorIds = x.exclusiveOperators.map(y => y.id);
                     return {...x,
-                        essentialOperators: (operatorIds.includes(action.operator.id))
-                            ? x.essentialOperators.filter(y => y.id != action.operator.id)
-                            : x.essentialOperators.concat(action.operator).sort((a, b) => (a.id < b.id) ? -1 : 1)
+                        exclusiveOperators: (operatorIds.includes(action.operator.id))
+                            ? x.exclusiveOperators.filter(y => y.id != action.operator.id)
+                            : x.exclusiveOperators.concat(action.operator).sort((a, b) => (a.id < b.id) ? -1 : 1)
                     }
                 })
             }
@@ -141,7 +141,7 @@ const scheduler = (state = {}, action) => {
                     dayOffs: 0,
                     maxTimes: 0,
                     essentialSkills: [],
-                    essentialOperators: [],
+                    exclusiveOperators: [],
                     impossibleOperators: []
                 })
             }

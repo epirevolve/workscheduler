@@ -46,10 +46,10 @@ class SchedulerMonthlyHelper:
         return weight - adaptability
     
     @staticmethod
-    def _evaluate_by_essential_operator(participants, essential_operators, weight):
+    def _evaluate_by_exclusive_operator(participants, exclusive_operators, weight):
         member_ids = set(map(lambda y: y.id, participants))
-        ratio = weight / (len(essential_operators) or 1)
-        adaptability = sum([ratio for x in essential_operators if x.id not in member_ids])
+        ratio = weight / (len(exclusive_operators) or 1)
+        adaptability = sum([ratio for x in exclusive_operators if x.id not in member_ids])
         return weight - adaptability
     
     @staticmethod

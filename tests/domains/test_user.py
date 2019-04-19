@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from workscheduler.domains.models.user import (
-    Affiliation, User
-)
+
+from workscheduler.domains.models.user import Affiliation
+from workscheduler.domains.models.user import User
 
 
 class TestUser:

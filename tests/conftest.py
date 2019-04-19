@@ -2,6 +2,7 @@
 
 import pytest
 import tempfile
+
 from workscheduler.applications.services import UserQuery
 from workscheduler.infrastructures.database import Database
 
@@ -10,7 +11,6 @@ from workscheduler.infrastructures.database import Database
 def session():
     db_fd, db_path = tempfile.mkstemp()
     database = Database(db_path)
-    database.init()
     database.set_test()
     session = database.create_session()
     yield session

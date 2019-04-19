@@ -15,7 +15,7 @@ import { changeWorkCategoryHolidayMax } from '../actions';
 import { changeWorkCategoryRestDays } from '../actions';
 import { changeWorkCategoryMaxTimes } from '../actions';
 import { changeWorkCategoryEssentialSkill } from '../actions';
-import { changeWorkCategoryEssentialOperator } from '../actions';
+import { changeWorkCategoryExclusiveOperator } from '../actions';
 import { changeWorkCategoryImpossibleOperator } from '../actions';
 
 const mapStateToProps = (state) => ({
@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
     onRestDaysChange: (id) => (e) => dispatch(changeWorkCategoryRestDays(id, e.target.value)),
     onMaxTimesChange: (id) => (e) => dispatch(changeWorkCategoryMaxTimes(id, e.target.value)),
     onEssentialSkillChange: (id, data) => dispatch(changeWorkCategoryEssentialSkill(id, data)),
-    onEssentialOperatorChange: (id, data) => dispatch(changeWorkCategoryEssentialOperator(id, data)),
+    onExclusiveOperatorChange: (id, data) => dispatch(changeWorkCategoryExclusiveOperator(id, data)),
     onImpossibleOperatorChange: (id, data) => dispatch(changeWorkCategoryImpossibleOperator(id, data))
 });
 

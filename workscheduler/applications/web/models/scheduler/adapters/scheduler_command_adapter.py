@@ -40,7 +40,7 @@ class SchedulerCommandAdapter:
             data.get('title'), to_time(data.get('at_from')), to_time(data.get('at_to')),
             data.get('week_day_require'), data.get('week_day_max'), data.get('holiday_require'),
             data.get('holiday_max'), data.get('day_offs'), data.get('max_times'),
-            list_id(data.get('essential_skills')), list_id(data.get('essential_operators')),
+            list_id(data.get('essential_skills')), list_id(data.get('exclusive_operators')),
             list_id(data.get('impossible_operators'))
         )
     
@@ -50,7 +50,7 @@ class SchedulerCommandAdapter:
             to_time(data.get('at_to')), data.get('week_day_require'), data.get('week_day_max'),
             data.get('holiday_require'), data.get('holiday_max'), data.get('day_offs'),
             data.get('max_times'), list_id(data.get('essential_skills')),
-            list_id(data.get('essential_operators')), list_id(data.get('impossible_operators'))
+            list_id(data.get('exclusive_operators')), list_id(data.get('impossible_operators'))
         )
     
     def update_basic_setting(self, data: dict):

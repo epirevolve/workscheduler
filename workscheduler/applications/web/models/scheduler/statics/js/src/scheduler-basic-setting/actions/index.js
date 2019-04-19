@@ -68,8 +68,8 @@ export const changeWorkCategoryEssentialSkill = (id, skill) => ({
     skill
 })
 
-export const changeWorkCategoryEssentialOperator = (id, operator) => ({
-    type: 'CHANGE_WORK_CATEGORY_ESSENTIAL_OPERATOR',
+export const changeWorkCategoryExclusiveOperator = (id, operator) => ({
+    type: 'CHANGE_WORK_CATEGORY_EXCLUSIVE_OPERATOR',
     id,
     operator
 })

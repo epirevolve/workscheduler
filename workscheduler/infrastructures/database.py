@@ -128,43 +128,30 @@ class Database:
         from workscheduler.applications.services import OperatorQuery
         from workscheduler.applications.services import SchedulerQuery
         from workscheduler.domains.models.scheduler import WorkCategory
-        
+
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
-        work_daily = WorkCategory.new_category('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0, [skill1, skill2],
+        work_daily = WorkCategory.new_category('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0, [],
                                                [get_operator_of_user_id(user1.id),
                                                 get_operator_of_user_id(user2.id)],
                                                [])
         scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(front.id)
         scheduler.work_categories.append(work_daily)
         scheduler.work_categories.append(
-            WorkCategory.new_category('夜間帯', time(17, 30), time(10, 00), 3, 5, 3, 5, 2, 5, [skill3], [],
+            WorkCategory.new_category('夜間帯', time(17, 30), time(10, 00), 3, 5, 3, 5, 1, 5, [skill3], [],
                                       [get_operator_of_user_id(user3.id)])
         )
         session.flush()
         
         # add scheduler calendar
-        
+
         from mypackages.utils.date import get_next_month
         from workscheduler.domains.models.scheduler import MonthlySetting
-        from workscheduler.domains.models.scheduler import FixedSchedule
-        
+
         next_month = get_next_month()
         monthly_setting = MonthlySetting.new_monthly_setting(scheduler.work_categories,
                                                              next_month.year, next_month.month)
-        monthly_setting.fixed_schedules.append(
-            FixedSchedule.new_schedule(
-                'いけりり研修', next_month.replace(day=4), next_month.replace(day=7),
-                time(9, 0), time(17, 30),
-                [get_operator_of_user_id(user1.id),
-                 get_operator_of_user_id(user3.id)]))
-        monthly_setting.fixed_schedules.append(
-            FixedSchedule.new_schedule(
-                'いけりり研修', next_month.replace(day=9), next_month.replace(day=12),
-                time(9, 30), time(18, 00),
-                [get_operator_of_user_id(user2.id)]))
         monthly_setting.is_published = True
         scheduler.monthly_settings.append(monthly_setting)
-
         session.commit()
         session.close()
 
