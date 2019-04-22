@@ -59,3 +59,11 @@ class DaySetting(OrmBase):
         details = [DayDetail.new_detail(x, x.week_day_require if not is_holiday(date) else x.holiday_require)
                    for x in work_categories]
         return DaySetting(UuidFactory.new_uuid(), date.day, date_name, details)
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, DaySetting):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

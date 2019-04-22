@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""Contains helper class which make monthly schedule."""
 from statistics import stdev
+
+import numpy as np
 
 from eart import Genetic
 
@@ -14,72 +17,71 @@ from .scheduler_helper import build_crossover
 
 
 class SchedulerMonthlyHelper:
-    @staticmethod
-    def _evaluate_by_require(participants, require, weight):
-        count = len(participants)
-        ratio = weight / 10
-        return weight - min(weight, 0 if count == require else abs(count - require) * ratio)
+    """Helper class for adjustment all operators schedule.
     
-    def _evaluate_by_work_hours(self, gene, weight):
-        ratio = weight / 160
-        fixed_schedule_times = {x.id: time_to_hour(get_time_diff(x.at_from, x.at_to)) for x in self._fixed_schedules}
-        work_category_times = {x.id: time_to_hour(get_time_diff(x.at_from, x.at_to)) for x in self._work_categories}
-        work_hours = sum([work_category_times[x] if x in work_category_times else
-                          fixed_schedule_times[x] if x in fixed_schedule_times else
-                          7.5 if x == 'N' else
-                          0 for x in gene])
-        return weight - min(weight, abs(work_hours - 160) * ratio)
+    This helper adjustment all operator's schedules by considering daily require number,
+    skill level, and work hour average.
+    
+    """
+    
+    def __init__(self, monthly_setting, schedules):
+        self._monthly_setting = monthly_setting
+        self._schedules = schedules
+        self._work_categories = {y.work_category for x in self._monthly_setting.days for y in x.details}
+        self._fixed_schedules = {y for x in self._monthly_setting.days for y in x.fixed_schedules}
+    
+    def _evaluate_by_require(self, schedules, weight):
+        transpose = np.array(schedules.values()).T
+        ratio = weight / len(transpose)
+        adaptability = 0
+        for schedule, day_setting in zip(transpose, self._monthly_setting.days):
+            for detail in day_setting.details:
+                max_require = detail.work_category.week_day_max if day_setting.day_name in ['SAT', 'SUN'] \
+                    else detail.work_category.holiday_max
+                count = len([x for x in schedule if x == detail.work_category.id])
+                if count <= detail.require or count >= max_require:
+                    adaptability += ratio * abs(count - detail.require)
+        return weight - min(weight, adaptability)
+    
+    def _evaluate_by_essential_skill(self, schedules, weight):
+        transpose = np.array(schedules.values()).T
+        ratio = weight / len(transpose)
+        adaptability = 0
+        for schedule, day_setting in zip(transpose, self._monthly_setting):
+            for detail in day_setting.details:
+                participants = [schedules.keys()[i] for i, x in enumerate(schedules) if x == detail.work_category.id]
+                for skill in detail.essential_skills:
+                    if skill not in [x.skills for x in participants]:
+                        adaptability += ratio
+        return weight - min(weight, adaptability)
+    
+    def _evaluate_by_work_hours_std(self, schedules, weight):
+        work_category_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in self._work_categories}
+        fixed_schedule_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in self._fixed_schedules}
+        hours = [sum([work_category_hour[y] if y in work_category_hour else
+                      fixed_schedule_hour[y] if y in fixed_schedule_hour else
+                      0 for y in x]) for x in schedules.values()]
+        return weight - min(weight, stdev(hours))
 
     @staticmethod
-    def _evaluate_by_max(participants, work_category, day_setting, weight):
-        count = len(participants)
-        ratio = weight / 10
-        max_require = work_category.week_day_max if day_setting.day_name in ['SAT', 'SUN'] \
-            else work_category.holiday_max
-        return weight - min(weight, 0 if count <= max_require else abs(count - max_require) * ratio)
-    
-    @staticmethod
-    def _evaluate_by_essential_skill(participants, essential_skills, weight):
-        skill_ids = set(map(lambda y: y.id, [y for x in participants for y in x.skills]))
-        ratio = weight / (len(essential_skills) or 1)
-        adaptability = sum([ratio for x in essential_skills if x.id not in skill_ids])
-        return weight - adaptability
-    
-    @staticmethod
-    def _evaluate_by_exclusive_operator(participants, exclusive_operators, weight):
-        member_ids = set(map(lambda y: y.id, participants))
-        ratio = weight / (len(exclusive_operators) or 1)
-        adaptability = sum([ratio for x in exclusive_operators if x.id not in member_ids])
-        return weight - adaptability
-    
-    @staticmethod
-    def _evaluate_by_impossible_operator(participants, impossible_operators, weight):
-        member_ids = set(map(lambda y: y.id, participants))
-        ratio = weight / (len(impossible_operators) or 1)
-        adaptability = sum([ratio for x in impossible_operators if x.id in member_ids])
-        return weight - adaptability
-
-    def _evaluate_by_work_hours_std(self, schedules, fixed_schedules):
-        work_category_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in self.work_categories}
-        work_category_ids = [x.id for x in self.work_categories]
-        fixed_schedule_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in fixed_schedules}
-        fixed_schedule_ids = [x.id for x in fixed_schedules]
-        hours = [sum([work_category_hour[y] if y in work_category_ids else
-                      fixed_schedule_hour[y] if y in fixed_schedule_ids else
-                      0 for y in x]) for x in schedules]
-        return 10 - min(10, stdev(hours))
-
-    @staticmethod
-    def _evaluate_by_n_day(schedules):
+    def _evaluate_by_n_day_std(schedules):
         n_days = [sum([1 for y in x if y == 'N']) for x in schedules]
         return 6 - min(6, stdev(n_days))
     
-    def _evaluate(self):
-        pass
+    def _gene_to_schedule(self, gene):
+        return {y: z for i, x in enumerate(gene) for y, z in self._schedules[i][x]}
     
-    def run(self, protobionts: []):
-        genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(protobionts)),
-                          generation_size=1000, population_size=1000, debug=True)
+    def _evaluate(self, gene):
+        schedules = self._gene_to_schedule(gene)
+        adaptability = 0
+        adaptability += self._evaluate_by_require(schedules, 10)
+        adaptability += self._evaluate_by_essential_skill(schedules, 8)
+        adaptability += self._evaluate_by_work_hours_std(schedules, 8)
+        return adaptability
+    
+    def run(self):
+        genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(self._schedules.values()[0])),
+                          generation_size=1000, population_size=1000)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
         genetic.mutation = build_mutation()

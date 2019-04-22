@@ -54,3 +54,11 @@ class FixedSchedule(OrmBase):
                      at_from: time, at_to: time, participants: [Operator]):
         return FixedSchedule(UuidFactory.new_uuid(), title, on_from, on_to,
                              at_from, at_to, participants)
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, FixedSchedule):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

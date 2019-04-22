@@ -36,3 +36,11 @@ class YearlySetting(OrmBase):
     @staticmethod
     def new_yearly_setting(year: int):
         return YearlySetting(UuidFactory.new_uuid(), year)
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, YearlySetting):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

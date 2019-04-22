@@ -39,5 +39,13 @@ class Affiliation(OrmBase):
     
     @staticmethod
     def default():
-        return Affiliation.new_affiliation(Affiliation._default_name,
-                                           '新規ユーザはこの所属となります。\r\nオペレータ画面にて所属を変更してください。')
+        return Affiliation.new_affiliation(
+            Affiliation._default_name, '新規ユーザはこの所属となります。\r\nオペレータ画面にて所属を変更してください。')
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, Affiliation):
+            return False
+        return self.id == other.id
+    
+    def __hash__(self):
+        return hash(self.id)

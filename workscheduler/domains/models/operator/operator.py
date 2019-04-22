@@ -57,3 +57,11 @@ class Operator(OrmBase):
     def new_operator(user: User):
         operator = Operator(UuidFactory.new_uuid(), user)
         return operator
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, Operator):
+            return False
+        return self.id == other.id
+    
+    def __hash__(self):
+        return hash(self.id)

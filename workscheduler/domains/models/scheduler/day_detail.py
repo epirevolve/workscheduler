@@ -34,3 +34,11 @@ class DayDetail(OrmBase):
     @staticmethod
     def new_detail(work_category: WorkCategory, require: int):
         return DayDetail(UuidFactory.new_uuid(), work_category, require)
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, DayDetail):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

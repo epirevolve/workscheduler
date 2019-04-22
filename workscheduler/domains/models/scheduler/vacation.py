@@ -33,3 +33,11 @@ class Vacation(OrmBase):
                      on_to: datetime, days: int):
         return Vacation(UuidFactory.new_uuid(), title, on_from,
                         on_to, days)
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, Vacation):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

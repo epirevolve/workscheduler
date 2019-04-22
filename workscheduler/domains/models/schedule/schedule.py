@@ -45,3 +45,11 @@ class Schedule(OrmBase):
         return Schedule(UuidFactory.new_uuid(), operator, affiliation_id,
                         year, month,
                         [DayWorkCategory.new_day_work_category(i+1, x) for i, x in enumerate(schedule)])
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, Schedule):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

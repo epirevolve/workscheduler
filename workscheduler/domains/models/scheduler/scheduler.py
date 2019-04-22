@@ -99,5 +99,5 @@ class Scheduler(OrmBase):
         outlines = SchedulerOutlineHelper(monthly_setting, operators).run()
         details = SchedulerDetailHelper(monthly_setting, operators).run()
         combinations = SchedulerOutlineDetailMatchHelper(outlines, details).run()
-        # ret = SchedulerMonthlyHelper().run(outlines)
+        ret = SchedulerMonthlyHelper(monthly_setting, {x: y for x, y in zip(operators, combinations)}).run()
         # return np.reshape(ret.gene, (len(operators), -1))

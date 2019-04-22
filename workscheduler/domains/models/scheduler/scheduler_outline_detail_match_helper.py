@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """Contains helper class of matching outlines and details."""
+from multiprocessing import Pool
+import multiprocessing as multi
+
 import numpy as np
 
 from .scheduler_outline_helper import work_day_sign
@@ -32,18 +35,21 @@ class SchedulerOutlineDetailMatchHelper:
         len_gene = len(gene)
         return len([x for i, x in enumerate(gene)
                     if x == day_off_sign and i+1 < len_gene and gene[i+1] != holiday_sign]) == 0
-        
+    
+    def _combine(self, data):
+        outlines, details = data[0], data[1]
+        combinations = []
+        while True:
+            outline = np.random.choice(outlines)
+            detail = np.random.choice(details)
+            combination = self._combine_outline_detail(outline.gene[:], detail.gene[:])
+            if self._evaluate_by_rest_after_day_off(combination):
+                combinations.append(combination)
+            if len(combinations) > 1000:
+                break
+        return combinations
+    
     def run(self):
-        compatibles = []
-        for outlines, details in zip(self._all_outlines, self._all_details):
-            combinations = []
-            while True:
-                outline = np.random.choice(outlines)
-                detail = np.random.choice(details)
-                combination = self._combine_outline_detail(outline.gene[:], detail.gene[:])
-                if self._evaluate_by_rest_after_day_off(combination):
-                    combinations.append(combination)
-                if len(combinations) > 1000:
-                    break
-            compatibles.append(combinations)
+        with Pool(multi.cpu_count()) as p:
+            compatibles = p.map(self._combine, zip(self._all_outlines, self._all_details))
         return compatibles

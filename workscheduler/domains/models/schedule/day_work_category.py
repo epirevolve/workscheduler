@@ -23,3 +23,11 @@ class DayWorkCategory(OrmBase):
     @staticmethod
     def new_day_work_category(day: int, work_category: str):
         return DayWorkCategory(UuidFactory.new_uuid(), day, work_category)
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, DayWorkCategory):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

@@ -45,3 +45,11 @@ class Request(OrmBase):
                     at_to: datetime, operator: Operator):
         return Request(UuidFactory.new_uuid(), name, note,
                        at_from, at_to, operator)
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, Request):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

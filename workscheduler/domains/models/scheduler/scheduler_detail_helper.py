@@ -24,9 +24,6 @@ class SchedulerDetailHelper:
     Detail work category properlity is evaluated by day off, available times,
     rate by daily require number of work category.
     
-    Read-only properties:
-        day_off_sign (string): day off sign.
-    
     """
     
     def __init__(self, monthly_setting, operators):
@@ -67,9 +64,9 @@ class SchedulerDetailHelper:
         return weight - min(weight, adaptability)
     
     def _evaluate_by_available_max_times(self, gene, weight):
-        max_time_work_categories = {x.id: x for x in self._work_categories if x.max_times != 0}
+        max_time_work_categories = {x for x in self._work_categories if x.max_times != 0}
         ratio = weight / len(max_time_work_categories)
-        adaptability = sum([ratio for x in max_time_work_categories.values()
+        adaptability = sum([ratio for x in max_time_work_categories
                             if len([y for y in gene if y == x.id]) > x.max_times])
         return weight - adaptability
         

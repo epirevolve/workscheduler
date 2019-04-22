@@ -78,3 +78,11 @@ class WorkCategory(OrmBase):
                             week_day_require, week_day_max, holiday_require, holiday_max,
                             day_offs, max_times, essential_skills,
                             exclusive_operators, impossible_operators)
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, WorkCategory):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

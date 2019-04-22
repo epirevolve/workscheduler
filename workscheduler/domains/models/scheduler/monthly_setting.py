@@ -88,3 +88,11 @@ class MonthlySetting(OrmBase):
                 for x in monthdatescalendar]
         return MonthlySetting(UuidFactory.new_uuid(), year, month, days,
                               len([x for x in monthdatescalendar if x.weekday() in [5, 6]]))
+    
+    def __eq__(self, other):
+        if other is None or not isinstance(other, MonthlySetting):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

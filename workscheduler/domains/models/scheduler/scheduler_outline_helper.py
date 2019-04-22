@@ -27,11 +27,6 @@ class SchedulerOutlineHelper:
     by number of holiday, continuity of work day, adoption rate of operator request,
     and save a day for fixed schedule.
     
-    Read-only properties:
-        work_day_sign (string): work day sign.
-        fixed_schedule_day_sign (string): fixed schedule day sign.
-        holiday_sign (string): holiday sign.
-    
     """
     
     def __init__(self, monthly_setting, operators):
@@ -48,23 +43,23 @@ class SchedulerOutlineHelper:
         """
         self._monthly_setting = monthly_setting
         self._operators = operators
-        self._daily_requests = [[y.operator.id for y in x.requests] for x in self._monthly_setting.days]
-        self._daily_fixed_schedules = [[z.id for y in x.fixed_schedules for z in y.participants]
+        self._daily_requests = [[y.operator for y in x.requests] for x in self._monthly_setting.days]
+        self._daily_fixed_schedules = [[z for y in x.fixed_schedules for z in y.participants]
                                        for x in self._monthly_setting.days]
 
     def _evaluate_by_request(self, gene, operator, weight):
         ratio = weight / len(gene)
         adaptability = sum([ratio for x, y in zip(gene, self._daily_requests)
-                            if operator.id in y and x != holiday_sign])
+                            if operator in y and x != holiday_sign])
         return weight - adaptability
         
     def _evaluate_by_fixed_schedule(self, gene, operator, weight):
         ratio = weight / len(gene)
         adaptability = 0
-        for x, y in zip(gene, self._daily_fixed_schedules):
-            if operator.id in y and x != fixed_schedule_day_sign:
+        for schedule, fixed_schedule_participants in zip(gene, self._daily_fixed_schedules):
+            if operator in fixed_schedule_participants and schedule != fixed_schedule_day_sign:
                 adaptability += ratio
-            if operator.id not in y and x == fixed_schedule_day_sign:
+            if operator not in fixed_schedule_participants and schedule == fixed_schedule_day_sign:
                 adaptability += ratio
         return weight - adaptability
 
@@ -101,8 +96,8 @@ class SchedulerOutlineHelper:
         return _fnc
     
     def _has_request_or_fixed_schedule(self, operator):
-        return operator.id in [y for x in self._daily_requests for y in x]\
-               or operator.id in list(set(chain.from_iterable(self._daily_fixed_schedules)))
+        return operator in [y for x in self._daily_requests for y in x]\
+               or operator in list(set(chain.from_iterable(self._daily_fixed_schedules)))
 
     def _genetic_wrapper(self, operator):
         genetic = Genetic(evaluation=self._evaluate(operator),

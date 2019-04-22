@@ -52,7 +52,7 @@ class Database:
 
         affiliation_id = AffiliationQuery(session).get_default_affiliation().id
         append_user = UserCommand(session).append_user
-        append_user('user', 'ユーザ', affiliation_id, is_admin=False, is_operator=True)
+        append_user('user', 'ユーザ', front.id, is_admin=False, is_operator=True)
         append_user('adope', '管理ユーザ', front.id, is_admin=True, is_operator=True)
 
         # add skills
@@ -89,33 +89,33 @@ class Database:
         
         team = Team.new_team('Team A', team_cat_1.id)
         session.add(team)
-        user1 = append_user('test_user1', 'テストユーザ1', affiliation_id, is_admin=False, is_operator=True)
+        user1 = append_user('test_user1', 'テストユーザ1', front.id, is_admin=False, is_operator=True)
         team.users.append(user1)
         team = Team.new_team('Team B', team_cat_2.id)
         session.add(team)
-        user2 = append_user('test_user2', 'テストユーザ2', affiliation_id, is_admin=False, is_operator=True)
+        user2 = append_user('test_user2', 'テストユーザ2', front.id, is_admin=False, is_operator=True)
         team.users.append(user2)
-        user3 = append_user('test_user3', 'テストユーザ3', affiliation_id, is_admin=False, is_operator=True)
+        user3 = append_user('test_user3', 'テストユーザ3', front.id, is_admin=False, is_operator=True)
         team.users.append(user3)
         team.leader_user_id = user3.id
         team = Team.new_team('Team C', team_cat_2.id)
         session.add(team)
-        user4 = append_user('test_user4', 'テストユーザ4', affiliation_id, is_admin=False, is_operator=True)
+        user4 = append_user('test_user4', 'テストユーザ4', front.id, is_admin=False, is_operator=True)
         team.users.append(user4)
-        user5 = append_user('test_user5', 'テストユーザ5', affiliation_id, is_admin=False, is_operator=True)
+        user5 = append_user('test_user5', 'テストユーザ5', front.id, is_admin=False, is_operator=True)
         team.users.append(user5)
-        user6 = append_user('test_user6', 'テストユーザ6', affiliation_id, is_admin=False, is_operator=True)
+        user6 = append_user('test_user6', 'テストユーザ6', front.id, is_admin=False, is_operator=True)
         team.users.append(user6)
         team.leader_user_id = user6.id
         team = Team.new_team('Team D', team_cat_2.id)
         session.add(team)
-        user7 = append_user('test_user7', 'テストユーザ7', affiliation_id, is_admin=False, is_operator=True)
+        user7 = append_user('test_user7', 'テストユーザ7', front.id, is_admin=False, is_operator=True)
         team.users.append(user7)
-        user8 = append_user('test_user8', 'テストユーザ8', affiliation_id, is_admin=False, is_operator=True)
+        user8 = append_user('test_user8', 'テストユーザ8', front.id, is_admin=False, is_operator=True)
         team.users.append(user8)
-        user9 = append_user('test_user9', 'テストユーザ9', affiliation_id, is_admin=False, is_operator=True)
+        user9 = append_user('test_user9', 'テストユーザ9', front.id, is_admin=False, is_operator=True)
         team.users.append(user9)
-        user10 = append_user('test_user10', 'テストユーザ10', affiliation_id, is_admin=False, is_operator=True)
+        user10 = append_user('test_user10', 'テストユーザ10', front.id, is_admin=False, is_operator=True)
         team.users.append(user10)
         team.leader_user_id = user10.id
 
