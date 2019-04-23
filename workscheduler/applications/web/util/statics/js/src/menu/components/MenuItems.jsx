@@ -13,7 +13,7 @@ const urlAsUser = dataset.urlAsUser
 const urlSchedulerMenu = dataset.urlSchedulerMenu
 const urlOperators = dataset.urlOperators
 const urlUsers = dataset.urlUsers
-const urlAffiliations = dataset.urlAffiliations
+const urlMainTeams = dataset.urlAffiliations
 const urlSkills = dataset.urlSkills
 const urlTeams = dataset.urlTeams
 const auth = JSON.parse(dataset.auth);
@@ -60,15 +60,15 @@ const menuItems = () => {
                                 description="start new user story from here" />
                         </Grid>
                         <Grid item xs={12} md={6} lg={3}>
-                            <MenuCard title="Affiliations" img="/statics/img/affiliations.svg" href={urlAffiliations}
-                                description="manage affiliation - big unit team" />
+                            <MenuCard title="Main Teams" img="/statics/img/main-teams.svg" href={urlMainTeams}
+                                description="manage main teams - big unit team" />
                         </Grid>
                         <Grid item xs={12} md={6} lg={3}>
                             <MenuCard title="Skills" img="/statics/img/skills.svg" href={urlSkills}
                                 description="what you demand to operator" />
                         </Grid>
                         <Grid item xs={12} md={6} lg={3}>
-                            <MenuCard title="Teams" img="/statics/img/teams.svg" href={urlTeams}
+                            <MenuCard title="Sub Teams" img="/statics/img/sub-teams.svg" href={urlTeams}
                                 description="small unit team" />
                         </Grid>
                     </Grid>

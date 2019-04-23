@@ -128,7 +128,7 @@ class Database:
         from workscheduler.applications.services import OperatorQuery
         from workscheduler.applications.services import SchedulerQuery
         from workscheduler.domains.models.scheduler import WorkCategory
-
+        
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
         work_daily = WorkCategory.new_category('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0, [],
                                                [get_operator_of_user_id(user1.id),
@@ -152,6 +152,9 @@ class Database:
                                                              next_month.year, next_month.month)
         monthly_setting.is_published = True
         scheduler.monthly_settings.append(monthly_setting)
+        
+        session.flush()
+
         session.commit()
         session.close()
 

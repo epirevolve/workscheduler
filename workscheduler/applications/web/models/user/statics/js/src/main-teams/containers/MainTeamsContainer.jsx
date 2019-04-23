@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Affiliations from '../components/Affiliations';
+import MainTeams from '../components/MainTeams';
 
 import { openDialogToAppend } from '../actions';
 import { openDialogToEdit } from '../actions';
 
 const mapStateToProps = (state) => ({
-    affiliations: state.affiliations
+    mainTeams: state.mainTeams
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => ({
     handleEdit: (user) => dispatch(openDialogToEdit(user))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Affiliations);
+export default connect(mapStateToProps, mapDispatchToProps)(MainTeams);

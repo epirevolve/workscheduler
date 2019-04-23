@@ -16,6 +16,8 @@ class ScheduleFacade:
     
     def get_schedule(self, affiliation_id: str, year: int, month: int):
         scheduler = SchedulerQuery(self._session).get_scheduler_of_affiliation_id(affiliation_id)
+        if not scheduler:
+            raise Exception('no scheduler is made')
         work_categories = {x.id: x for x in scheduler.work_categories}
         schedules = ScheduleQuery(self._session).get_schedules_of_affiliation_year_month(
             affiliation_id, year, month)

@@ -6,15 +6,15 @@ import TableBody from '@material-ui/core/TableBody';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-import DayHeader from '../components/DayHeader';
-import DayRow from '../components/DayRow';
-import DayRows from '../components/DayRows';
+import DayHeader from '../../schedule/components/DayHeader';
+import DayRow from '../../schedule/components/DayRow';
+import DayRows from '../../schedule/components/DayRows';
 
 const dataset = document.querySelector('script[src*="schedule-operator"]').dataset;
 const mySchedule = JSON.parse(dataset.mySchedule);
 const othersSchedule = JSON.parse(dataset.othersSchedule);
 
-const schedule = () => {
+const schedules = () => {
     return (
         <React.Fragment>
             <Table>
@@ -28,4 +28,4 @@ const schedule = () => {
     )
 }
 
-export default schedule;
+export default schedules;

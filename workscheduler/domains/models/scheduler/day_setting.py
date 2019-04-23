@@ -38,9 +38,9 @@ class DaySetting(OrmBase):
     id = Column(String, primary_key=True)
     day = Column(Integer)
     day_name = Column(String)
-    details = relationship("DayDetail", secondary=associated_day_details_table, lazy='joined')
-    requests = relationship("Request", secondary=associated_request_table, lazy='joined')
-    fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='joined')
+    details = relationship("DayDetail", secondary=associated_day_details_table, lazy='subquery')
+    requests = relationship("Request", secondary=associated_request_table, lazy='subquery')
+    fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='subquery')
 
     def __init__(self, id_: str, day: int, day_name: str,
                  details: []):

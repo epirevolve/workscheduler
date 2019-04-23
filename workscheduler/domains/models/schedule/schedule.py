@@ -24,11 +24,11 @@ class Schedule(OrmBase):
     __tablename__ = "schedules"
     id = Column(String, primary_key=True)
     _operator_id = Column(String, ForeignKey('operators.id'))
-    operator = relationship("Operator", uselist=False, lazy='joined')
+    operator = relationship("Operator", uselist=False, lazy='subquery')
     affiliation_id = Column(String)
     year = Column(Integer)
     month = Column(Integer)
-    day_work_categories = relationship('DayWorkCategory', secondary=associated_day_work_category_table, lazy='joined')
+    day_work_categories = relationship('DayWorkCategory', secondary=associated_day_work_category_table, lazy='subquery')
     
     def __init__(self, id_: str, operator: Operator, affiliation_id: str,
                  year: int, month: int, day_work_categories: []):

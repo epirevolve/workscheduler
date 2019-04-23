@@ -10,10 +10,10 @@ import Theme from 'ColorTheme';
 
 import App from './components/App'
 
-const dataset = document.querySelector('script[src*="affiliations"]').dataset;
-const affiliations = JSON.parse(dataset.affiliations);
+const dataset = document.querySelector('script[src*="main-teams"]').dataset;
+const mainTeams = JSON.parse(dataset.mainTeams);
 
-const store = createStore(rootReducer, {affiliations, affiliationDialog: {isOpen: false}})
+const store = createStore(rootReducer, {mainTeams, mainTeamDialog: {isOpen: false}})
 
 render(
     <MuiThemeProvider theme={Theme}>

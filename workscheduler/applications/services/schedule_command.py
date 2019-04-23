@@ -11,9 +11,9 @@ class ScheduleCommand:
         self._session = session
     
     def append_new_schedule(self, affiliation_id: str, year: int, month: int,
-                            operators: [Operator], schedules):
+                            schedules):
         self.remove_schedule(affiliation_id, year, month)
-        for operator, schedule in zip(operators, schedules):
+        for operator, schedule in schedules:
             work_schedule = Schedule.new_schedule(operator, affiliation_id, year, month, schedule)
             self._session.add(work_schedule)
     

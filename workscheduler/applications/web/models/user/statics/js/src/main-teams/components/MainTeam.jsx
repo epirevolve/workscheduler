@@ -3,12 +3,12 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const affiliation = ({ affiliation, handleEdit }) => {
+const mainTeam = ({ mainTeam, handleEdit }) => {
     return (
         <ListItem button onClick={handleEdit}>
-            <ListItemText primary={affiliation.name} secondary={`note: ${affiliation.note}`} />
+            <ListItemText primary={mainTeam.name} secondary={`note: ${mainTeam.note}`} />
         </ListItem>
     )
 }
 
-export default affiliation;
+export default mainTeam;

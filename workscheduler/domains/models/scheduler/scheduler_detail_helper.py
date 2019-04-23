@@ -99,7 +99,7 @@ class SchedulerDetailHelper:
 
     def _batch_genetic_wrapper(self, available_work_category_ids):
         with Pool(multi.cpu_count()) as p:
-            batch = p.map(self._genetic_wrapper, [available_work_category_ids for _ in range(100)])
+            batch = p.map(self._genetic_wrapper, [available_work_category_ids for _ in range(200)])
         return batch
     
     def _get_available_work_categories(self, operator):
@@ -113,10 +113,8 @@ class SchedulerDetailHelper:
     def run(self):
         common_gene = {}
         compatibles = []
-        print("""
-Start schedule factor building
-====================
-        """)
+        print("""====================
+## start factors building""")
         for operator in self._operators:
             available_work_category_ids = self._get_available_work_categories(operator)
             available_work_category_ids_str = ''.join(available_work_category_ids)
@@ -125,8 +123,6 @@ Start schedule factor building
             else:
                 common_gene[available_work_category_ids_str] = self._batch_genetic_wrapper(available_work_category_ids)
                 compatibles.append(common_gene[available_work_category_ids_str][:])
-        print("""
-Schedule factor building is finished
-====================
-        """)
+        print("""## finished
+====================""")
         return compatibles

@@ -23,7 +23,7 @@ class User(OrmBase, UserMixin):
     password = Column(String(16), nullable=False)
     name = Column(String(50), nullable=False)
     _affiliation_id = Column(String, ForeignKey('affiliations.id'))
-    affiliation = relationship("Affiliation", uselist=False, lazy='joined')
+    affiliation = relationship("Affiliation", uselist=False, lazy='subquery')
     is_admin = Column(Boolean, default=False)
     is_operator = Column(Boolean, default=True)
     is_inactivated = Column(Boolean, default=False)

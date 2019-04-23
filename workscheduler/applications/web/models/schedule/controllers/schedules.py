@@ -35,13 +35,19 @@ def show_schedules_operator(schedule_of: date):
 
 
 def show_schedules_administrator(schedule_of: date):
-    affiliation = AffiliationQuery(get_db_session()).get_affiliation(request.args.get('affiliation_id'))
+    affiliations = AffiliationQuery(get_db_session()).get_affiliations_without_default()
+    affiliation_id = request.args.get('affiliation_id')
+    if affiliation_id:
+        affiliation = list(filter(lambda x: x.id == affiliation_id, affiliations))[0]
+    else:
+        affiliation = affiliations[0]
     schedules = ScheduleFacade(get_db_session()).get_schedule(
         affiliation.id, schedule_of.year, schedule_of.month)
     if not schedules:
         return show_schedules_not_found(schedule_of, affiliation)
     
-    return render_template('schedule-admin.html', schedule_of=to_year_month_string(schedule_of))
+    return render_template('schedule-admin.html', schedules=schedules, affiliations=affiliations,
+                           affiliation=affiliation, schedule_of=to_year_month_string(schedule_of))
 
 
 @bp.route('/')

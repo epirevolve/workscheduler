@@ -32,7 +32,6 @@ bp = Blueprint('schedulers', __name__, template_folder='../views', static_folder
 def show_menu():
     session = get_db_session()
     affiliations = AffiliationQuery(session).get_affiliations_without_default()
-    
     return render_template('scheduler-menu.html', affiliations=affiliations)
 
 
@@ -42,7 +41,6 @@ def show_menu():
 def show_monthly_setting():
     affiliation_id = request.args.get('affiliation')
     calendar = request.args.get('calendar')
-    
     if calendar and not isinstance(calendar, date):
         calendar = datetime.strptime(calendar, '%Y-%m').date()
     

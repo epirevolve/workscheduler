@@ -10,9 +10,9 @@ const dialog = (state = {isOpen: false}, action) => {
         case 'OPEN_DIALOG_EDIT':
             return {...state,
                 isOpen: true,
-                id: action.affiliation.id,
-                name: action.affiliation.name,
-                note: action.affiliation.note
+                id: action.mainTeam.id,
+                name: action.mainTeam.name,
+                note: action.mainTeam.note
             };
         case 'CLOSE_DIALOG':
             return {...state,

@@ -22,7 +22,7 @@ class YearlySetting(OrmBase):
     __tablename__ = 'yearly_settings'
     id = Column(String, primary_key=True)
     year = Column(Integer)
-    vacations = relationship("Vacation", secondary=associated_specific_vacation_table, lazy='joined')
+    vacations = relationship("Vacation", secondary=associated_specific_vacation_table, lazy='subquery')
     
     def __init__(self, id_: str, year: int):
         self.id = id_

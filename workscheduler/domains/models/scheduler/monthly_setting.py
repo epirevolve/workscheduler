@@ -33,7 +33,7 @@ class MonthlySetting(OrmBase):
     id = Column(String, primary_key=True)
     year = Column(Integer)
     month = Column(Integer)
-    days = relationship("DaySetting", secondary=associated_calendar_day_table, lazy='joined')
+    days = relationship("DaySetting", secondary=associated_calendar_day_table, lazy='subquery')
     holidays = Column(Integer)
     is_published = Column(Boolean)
     is_fixed = Column(Boolean)

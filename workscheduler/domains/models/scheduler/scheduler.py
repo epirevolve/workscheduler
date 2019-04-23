@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
+
 from sqlalchemy import Column
 from sqlalchemy import Table
 from sqlalchemy import ForeignKey
@@ -44,13 +46,13 @@ class Scheduler(OrmBase):
     __tablename__ = "schedulers"
     id = Column(String, primary_key=True)
     _affiliation_id = Column(String, ForeignKey('affiliations.id'))
-    affiliation = relationship("Affiliation", uselist=False, lazy='joined')
-    monthly_settings = relationship("MonthlySetting", secondary=associated_monthly_setting_table, lazy='joined')
-    yearly_settings = relationship("YearlySetting", secondary=associated_yearly_setting_table, lazy='joined')
+    affiliation = relationship("Affiliation", uselist=False, lazy='subquery')
+    monthly_settings = relationship("MonthlySetting", secondary=associated_monthly_setting_table, lazy='subquery')
+    yearly_settings = relationship("YearlySetting", secondary=associated_yearly_setting_table, lazy='subquery')
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
     is_launching = Column(Boolean)
-    work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='joined')
+    work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='subquery')
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id_: str, affiliation: Affiliation,
@@ -95,9 +97,13 @@ class Scheduler(OrmBase):
         return yearly_setting
     
     def run(self, month: int, year: int, operators):
-        monthly_setting = self.monthly_setting(month, year)
-        outlines = SchedulerOutlineHelper(monthly_setting, operators).run()
-        details = SchedulerDetailHelper(monthly_setting, operators).run()
-        combinations = SchedulerOutlineDetailMatchHelper(outlines, details).run()
-        ret = SchedulerMonthlyHelper(monthly_setting, {x: y for x, y in zip(operators, combinations)}).run()
-        # return np.reshape(ret.gene, (len(operators), -1))
+        try:
+            monthly_setting = self.monthly_setting(month, year)
+            outlines = SchedulerOutlineHelper(monthly_setting, operators).run()
+            details = SchedulerDetailHelper(monthly_setting, operators).run()
+            combinations = SchedulerOutlineDetailMatchHelper(outlines, details).run()
+            schedule = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
+            return [(x, y) for x, y in zip(operators, schedule)]
+        except Exception as e:
+            print("### error on scheduler process.")
+            print(e)

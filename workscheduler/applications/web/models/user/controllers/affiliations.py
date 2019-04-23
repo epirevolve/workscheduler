@@ -24,7 +24,7 @@ bp = Blueprint('affiliations', __name__, template_folder='../views', static_fold
 def show_affiliations():
     affiliation_repository = AffiliationQuery(get_db_session())
     affiliations = affiliation_repository.get_affiliations()
-    return render_template('affiliations.html', affiliations=affiliations)
+    return render_template('main-teams.html', main_teams=affiliations)
 
 
 @bp.route('/', methods=['POST'])

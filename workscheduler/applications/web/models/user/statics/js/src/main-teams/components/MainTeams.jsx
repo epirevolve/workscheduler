@@ -7,15 +7,15 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
-import AffiliationList from './AffiliationList';
+import MainTeamList from './MainTeamList';
 
-const affiliations = ({ handleAppend, ...other }) => {
+const mainTeams = ({ handleAppend, ...other }) => {
     return (
         <div>
             <AppBar position="static" color="default">
                 <Toolbar>
                     <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
-                        affiliations
+                        main teams
                     </Typography>
                     <div style={{ textAlign: 'right' }}>
                         <IconButton onClick={handleAppend}>
@@ -24,9 +24,9 @@ const affiliations = ({ handleAppend, ...other }) => {
                     </div>
                 </Toolbar>
             </AppBar>
-            <AffiliationList {...other} />
+            <MainTeamList {...other} />
         </div>
     )
 }
 
-export default affiliations;
+export default mainTeams;

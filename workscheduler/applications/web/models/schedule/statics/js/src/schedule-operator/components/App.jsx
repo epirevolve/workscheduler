@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Schedule from './Schedule';
+import Schedules from './Schedules';
 
 const app = () => (
     <React.Fragment>

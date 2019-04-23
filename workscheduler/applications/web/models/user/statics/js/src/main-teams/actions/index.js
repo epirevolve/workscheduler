@@ -1,15 +1,15 @@
-export const addAffiliation = (affiliation) => ({
-    type: 'APPEND_AFFILIATION',
-    affiliation
+export const addMainTeam = (mainTeam) => ({
+    type: 'APPEND_MAIN_TEAM',
+    mainTeam
 })
 
-export const editAffiliation = (affiliation) => ({
-    type: 'EDIT_AFFILIATION',
-    affiliation
+export const editMainTeam = (mainTeam) => ({
+    type: 'EDIT_MAIN_TEAM',
+    mainTeam
 })
 
-export const removeAffiliation = (id) => ({
-    type: 'REMOVE_AFFILIATION',
+export const removeMainTeam = (id) => ({
+    type: 'REMOVE_MAIN_TEAM',
     id
 })
 
@@ -17,9 +17,9 @@ export const openDialogToAppend = () => ({
     type: 'OPEN_DIALOG_APPEND'
 })
 
-export const openDialogToEdit = (affiliation) => ({
+export const openDialogToEdit = (mainTeam) => ({
     type: 'OPEN_DIALOG_EDIT',
-    affiliation
+    mainTeam
 })
 
 export const closeDialog = () => ({

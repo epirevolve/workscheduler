@@ -14,7 +14,7 @@ module.exports = {
         'workscheduler/applications/web/util/statics/js/layout': path.join(_utilPath, '/src/layout/index.jsx'),
         'workscheduler/applications/web/util/statics/js/main-menu': path.join(_utilPath, '/src/menu/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
-        'workscheduler/applications/web/models/user/statics/js/affiliations': path.join(_userPath, '/src/affiliations/index.jsx'),
+        'workscheduler/applications/web/models/user/statics/js/main-teams': path.join(_userPath, '/src/main-teams/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/user': path.join(_userPath, '/src/user/index.jsx'),
         'workscheduler/applications/web/models/user/statics/js/users': path.join(_userPath, '/src/users/index.jsx'),
         'workscheduler/applications/web/models/operator/statics/js/operator': path.join(_operatorPath, '/src/operator/index.jsx'),
@@ -28,6 +28,7 @@ module.exports = {
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-yearly-setting': path.join(_schedulerPath, '/src/scheduler-yearly-setting/index.jsx'),
         'workscheduler/applications/web/models/schedule/statics/js/schedule-operator': path.join(_schedulePath, '/src/schedule-operator/index.jsx'),
         'workscheduler/applications/web/models/schedule/statics/js/schedule-not-found': path.join(_schedulePath, '/src/schedule-not-found/index.jsx'),
+        'workscheduler/applications/web/models/schedule/statics/js/schedule-admin': path.join(_schedulePath, '/src/schedule-admin/index.jsx'),
     },
 
     output: {

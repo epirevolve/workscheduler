@@ -177,7 +177,7 @@ class SchedulerCommand:
             self._session.commit()
             schedule = scheduler.run(month, year, operators)
             ScheduleCommand(self._session).append_new_schedule(affiliation_id, year, month,
-                                                               operators, schedule)
+                                                               schedule)
         finally:
             scheduler.is_launching = False
             self._session.commit()

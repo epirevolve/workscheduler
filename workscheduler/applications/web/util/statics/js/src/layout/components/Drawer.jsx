@@ -25,7 +25,7 @@ const urlAsUser = dataset.urlAsUser
 const urlSchedulerMenu = dataset.urlSchedulerMenu
 const urlOperators = dataset.urlOperators
 const urlUsers = dataset.urlUsers
-const urlAffiliations = dataset.urlAffiliations
+const urlMainTeams = dataset.urlAffiliations
 const urlSkills = dataset.urlSkills
 const urlTeams = dataset.urlTeams
 const auth = JSON.parse(dataset.auth);
@@ -88,11 +88,11 @@ const drawer = ({ opened, handleCloseDrawer }) => {
                                 </ListItemIcon>
                                 <ListItemText primary="users" className="menuText" />
                             </ListItem>
-                            <ListItem button component="a" key="affiliations" href={urlAffiliations}>
+                            <ListItem button component="a" key="mainTeams" href={urlMainTeams}>
                                 <ListItemIcon>
                                     <LocationCityRoundedIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="affiliations" className="menuText" />
+                                <ListItemText primary="main teams" className="menuText" />
                             </ListItem>
                             <ListItem button component="a" key="skills" href={urlSkills}>
                                 <ListItemIcon>

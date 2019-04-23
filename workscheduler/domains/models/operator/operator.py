@@ -28,11 +28,11 @@ class Operator(OrmBase):
     __tablename__ = 'operators'
     id = Column(String, primary_key=True)
     _user_id = Column(String, ForeignKey('users.id'))
-    user = relationship("User", uselist=False, lazy='joined')
-    skills = relationship("Skill", secondary=associated_skill_table, lazy='joined')
-    relations = relationship("Relation", secondary=associated_relation_table, lazy='joined')
+    user = relationship("User", uselist=False, lazy='subquery')
+    skills = relationship("Skill", secondary=associated_skill_table, lazy='subquery')
+    relations = relationship("Relation", secondary=associated_relation_table, lazy='subquery')
     _ojt_id = Column(String, ForeignKey('operators.id'))
-    ojt = relationship("Operator", uselist=False, lazy='joined')
+    ojt = relationship("Operator", uselist=False, lazy='subquery')
     remain_paid_holidays = Column(Integer, default=0)
 
     def __init__(self, id_: str, user: User):

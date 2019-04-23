@@ -44,7 +44,7 @@ class SchedulerOutlineHelper:
         self._monthly_setting = monthly_setting
         self._operators = operators
         self._daily_requests = [[y.operator for y in x.requests] for x in self._monthly_setting.days]
-        self._daily_fixed_schedules = [[z for y in x.fixed_schedules for z in y.participants]
+        self._daily_fixed_schedules = [list(chain.from_iterable(y.participants for y in x.fixed_schedules))
                                        for x in self._monthly_setting.days]
 
     def _evaluate_by_request(self, gene, operator, weight):
@@ -65,7 +65,7 @@ class SchedulerOutlineHelper:
 
     def _evaluate_by_holiday(self, gene, weight):
         ratio = weight / (self._monthly_setting.holidays or 1)
-        holidays = len([x for x in gene if x == ' '])
+        holidays = len([x for x in gene if x == holiday_sign])
         return weight - min(weight, abs(self._monthly_setting.holidays - holidays) * ratio)
 
     @staticmethod
@@ -79,7 +79,7 @@ class SchedulerOutlineHelper:
     @staticmethod
     def _evaluate_by_holiday_continuity(gene, weight):
         continuous_holiday = [sum(1 for _ in z) for y, z in groupby(gene, key=lambda x: x == holiday_sign) if y]
-        ratio = weight / sum(continuous_holiday or 1)
+        ratio = weight / (sum(continuous_holiday) or 1)
         adaptability = ratio * (abs((sum(continuous_holiday) * 2 / 3) - len(continuous_holiday))
                                 + len([x for x in continuous_holiday if x > 2]))
         return weight - min(weight, adaptability)
@@ -90,14 +90,14 @@ class SchedulerOutlineHelper:
             adaptability += self._evaluate_by_request(gene, operator, 10)
             adaptability += self._evaluate_by_fixed_schedule(gene, operator, 10)
             adaptability += self._evaluate_by_holiday(gene, 5)
-            adaptability += self._evaluate_by_continuous_attendance(gene, 5)
+            adaptability += self._evaluate_by_continuous_attendance(gene, 6)
             adaptability += self._evaluate_by_holiday_continuity(gene, 3)
             return adaptability
         return _fnc
     
     def _has_request_or_fixed_schedule(self, operator):
-        return operator in [y for x in self._daily_requests for y in x]\
-               or operator in list(set(chain.from_iterable(self._daily_fixed_schedules)))
+        return operator in set([y for x in self._daily_requests for y in x])\
+               or operator in set([y for x in self._daily_fixed_schedules for y in x])
 
     def _genetic_wrapper(self, operator):
         genetic = Genetic(evaluation=self._evaluate(operator),
@@ -111,18 +111,25 @@ class SchedulerOutlineHelper:
         genetic.compile()
         return genetic.run()
     
+    def _filter_gene(self, gene, operator):
+        adaptability = 0
+        adaptability += self._evaluate_by_request(gene, operator, 10)
+        adaptability += self._evaluate_by_fixed_schedule(gene, operator, 10)
+        return adaptability == 20
+    
     def _batch_genetic_wrapper(self, operator):
-        with Pool(multi.cpu_count()) as p:
-            batch = p.map(self._genetic_wrapper, [operator for _ in range(200)])
+        batch = []
+        while len(batch) <= 300:
+            with Pool(multi.cpu_count()) as p:
+                batch = p.map(self._genetic_wrapper, [operator for _ in range(500)])
+            batch = [x for x in batch if self._filter_gene(x.gene, operator)]
         return batch
     
     def run(self):
         common_gene = None
         compatibles = []
-        print("""
-Start individual schedule building
-====================
-        """)
+        print("""====================
+## start outlines building""")
         for operator in self._operators:
             if self._has_request_or_fixed_schedule(operator):
                 compatibles.append(self._batch_genetic_wrapper(operator))
@@ -130,8 +137,6 @@ Start individual schedule building
                 if not common_gene:
                     common_gene = self._batch_genetic_wrapper(operator)
                 compatibles.append(common_gene[:])
-        print("""
-Individual schedule building is finished
-====================
-        """)
+        print("""## finished
+====================""")
         return compatibles
