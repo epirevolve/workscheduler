@@ -127,7 +127,7 @@ class SchedulerOutlineHelper:
     def _batch_genetic_wrapper(self, operator):
         self._set_codon(operator)
         with Pool(multi.cpu_count()) as p:
-            batch = p.map(self._genetic_wrapper, [operator for _ in range(100)])
+            batch = p.map(self._genetic_wrapper, [operator for _ in range(500)])
         return [self._gene_to_codon(x.gene) for x in batch]
     
     def run(self):
