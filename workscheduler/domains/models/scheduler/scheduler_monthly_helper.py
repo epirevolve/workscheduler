@@ -11,10 +11,10 @@ from eart import Genetic
 from mypackages.utils.time import get_time_diff
 from mypackages.utils.time import time_to_hour
 
-from .scheduler_helper import build_parent_selection
-from .scheduler_helper import build_survivor_selection
-from .scheduler_helper import build_mutation
-from .scheduler_helper import build_crossover
+from .ga_helper import build_parent_selection
+from .ga_helper import build_survivor_selection
+from .ga_helper import build_mutation_duplicate
+from .ga_helper import build_crossover_duplicate
 
 
 class SchedulerMonthlyHelperBase:
@@ -97,18 +97,21 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         adaptability += self._evaluate_by_skill_std(schedules, 2)
         return adaptability
     
-    def run(self):
-        print("""====================
-## start monthly schedule adjusting""")
+    def _genetic_wrapper(self):
         genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(self._schedules[0])),
-                          gene_size=len(self._schedules), generation_size=1000, population_size=1000,
+                          gene_size=len(self._schedules), generation_size=1000, population_size=500,
                           saturated_limit=20)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
-        genetic.mutation = build_mutation()
-        genetic.crossover = build_crossover()
+        genetic.mutation = build_mutation_duplicate()
+        genetic.crossover = build_crossover_duplicate()
         genetic.compile()
-        ret = genetic.run()
+        return genetic.run()
+    
+    def run(self):
+        print("""====================
+## start monthly schedule adjusting""")
+        ret = self._genetic_wrapper()
         print("""## finished
 ====================""")
         return self._gene_to_schedule(ret.gene)

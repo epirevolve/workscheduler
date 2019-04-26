@@ -6,10 +6,10 @@ from statistics import mean
 
 from eart import Genetic
 
-from .scheduler_helper import build_parent_selection
-from .scheduler_helper import build_survivor_selection
-from .scheduler_helper import build_mutation
-from .scheduler_helper import build_crossover
+from .ga_helper import build_parent_selection
+from .ga_helper import build_survivor_selection
+from .ga_helper import build_mutation
+from .ga_helper import build_crossover
 from .scheduler_monthly_helper import SchedulerMonthlyHelperBase
 
 

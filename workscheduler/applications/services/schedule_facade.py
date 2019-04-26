@@ -22,8 +22,8 @@ class ScheduleFacade:
         schedules = ScheduleQuery(self._session).get_schedules_of_affiliation_year_month(
             affiliation_id, year, month)
         
-        def get_category_name(category: str):
-            return work_categories[category].title if category in work_categories else category
+        def get_category_name(work_category_id: str):
+            return work_categories[work_category_id].title if work_category_id in work_categories else work_category_id
         return [{'operator': x.operator,
-                 'schedule': [Day(y.day, get_category_name(y.work_category)) for y in x.day_work_categories]}
+                 'schedule': [Day(y.day, get_category_name(y.work_category_id)) for y in x.day_work_categories]}
                 for x in schedules]

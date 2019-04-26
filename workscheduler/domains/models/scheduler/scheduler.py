@@ -21,7 +21,6 @@ from . import YearlySetting
 
 from .scheduler_outline_helper import SchedulerOutlineHelper
 from .scheduler_detail_helper import SchedulerDetailHelper
-from .scheduler_outline_detail_match_helper import SchedulerOutlineDetailMatchHelper
 from .scheduler_monthly_helper import SchedulerMonthlyHelper
 
 associated_monthly_setting_table\
@@ -100,8 +99,7 @@ class Scheduler(OrmBase):
         try:
             monthly_setting = self.monthly_setting(month, year)
             outlines = SchedulerOutlineHelper(monthly_setting, operators).run()
-            details = SchedulerDetailHelper(monthly_setting, operators).run()
-            combinations = SchedulerOutlineDetailMatchHelper(outlines, details).run()
+            combinations = SchedulerDetailHelper(monthly_setting, operators, outlines).run()
             schedule = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
             return [(x, y) for x, y in zip(operators, schedule)]
         except Exception as e:

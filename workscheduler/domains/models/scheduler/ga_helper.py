@@ -8,6 +8,8 @@ from eart.mutations import TranslocateMutation
 from eart.crossovers import TwoPointCrossover
 from eart.crossovers import MultiPointCrossover
 from eart.crossovers import UniformityCrossover
+from eart.crossovers import OrderlyCrossover
+from eart.crossovers import CircuitCrossover
 from eart import ParentSelection
 from eart import SurvivorSelection
 from eart import Mutation
@@ -28,7 +30,7 @@ def build_survivor_selection(population_size):
     return survivor_selection
 
 
-def build_mutation():
+def build_mutation_duplicate():
     mutation = Mutation(proliferate_mutation=True)
     mutation.add(WholeMutation(), 0.05)
     mutation.add(InvertMutation())
@@ -36,9 +38,24 @@ def build_mutation():
     return mutation
 
 
-def build_crossover():
+def build_crossover_duplicate():
     crossover = Crossover()
     crossover.add(TwoPointCrossover())
     crossover.add(MultiPointCrossover())
     crossover.add(UniformityCrossover())
+    return crossover
+
+
+def build_mutation_unique():
+    mutation = Mutation(proliferate_mutation=True)
+    mutation.add(WholeMutation(), 0.05)
+    mutation.add(InvertMutation())
+    mutation.add(TranslocateMutation())
+    return mutation
+
+
+def build_crossover_unique():
+    crossover = Crossover()
+    crossover.add(OrderlyCrossover())
+    crossover.add(CircuitCrossover())
     return crossover

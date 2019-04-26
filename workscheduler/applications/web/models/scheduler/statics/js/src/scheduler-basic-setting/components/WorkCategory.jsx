@@ -9,6 +9,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 
+import WeekDayOperators from './WeekDayOperators';
+import HolidayOperators from './HolidayOperators';
 import EssentialSkills from './EssentialSkills';
 import ExclusiveOperators from './ExclusiveOperators';
 import ImpossibleOperators from './ImpossibleOperators';
@@ -16,8 +18,9 @@ import ImpossibleOperators from './ImpossibleOperators';
 const workCategory = ({ workCategory, handleRemove, onTitleChange,
     onAtFromChange, onAtToChange, onWeekDayRequireChange,
     onWeekDayMaxChange, onHolidayRequireChange, onHolidayMaxChange,
-    onRestDaysChange, onMaxTimesChange, onEssentialSkillChange,
-    onExclusiveOperatorChange, onImpossibleOperatorChange }) => {
+    onRestDaysChange, onMaxTimesChange, onWeekDayOperatorChange,
+    onHolidayOperatorChange, onEssentialSkillChange, onExclusiveOperatorChange,
+    onImpossibleOperatorChange }) => {
 
     return (
         <Card>
@@ -54,10 +57,18 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                             onChange={onHolidayMaxChange(workCategory.id)} />
                     </Grid>
                 </Grid>
-                <TextField type="number" label="day offs" required value={workCategory.dayOffs}
-                    onChange={onRestDaysChange(workCategory.id)} className="mb-3" />
-                <TextField type="number" label="max times" required value={workCategory.maxTimes} className="mb-3"
-                    onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />
+                <Grid container className="mb-3">
+                    <Grid item sm={6} xs={12} className="pr-2">
+                        <TextField type="number" label="day offs" required value={workCategory.dayOffs}
+                            onChange={onRestDaysChange(workCategory.id)} className="mb-3" />
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
+                        <TextField type="number" label="max times" required value={workCategory.maxTimes} className="mb-3"
+                            onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />
+                    </Grid>
+                </Grid>
+                <WeekDayOperators workCategory={workCategory} onWeekDayOperatorChange={onWeekDayOperatorChange} />
+                <HolidayOperators workCategory={workCategory} onHolidayOperatorChange={onHolidayOperatorChange} />
                 <EssentialSkills workCategory={workCategory} onEssentialSkillChange={onEssentialSkillChange} />
                 <ExclusiveOperators workCategory={workCategory} onExclusiveOperatorChange={onExclusiveOperatorChange} />
                 <ImpossibleOperators workCategory={workCategory} onImpossibleOperatorChange={onImpossibleOperatorChange} />

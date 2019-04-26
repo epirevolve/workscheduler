@@ -1,128 +1,113 @@
 # -*- coding: utf-8 -*-
 
-"""Contains helper class which make detail of schedule."""
-from multiprocessing import Pool
-import multiprocessing as multi
+"""Contains helper class of matching outlines and details."""
+from collections import defaultdict
+import math
 
 import numpy as np
 
-from eart import Genetic
-
-from .scheduler_helper import build_parent_selection
-from .scheduler_helper import build_survivor_selection
-from .scheduler_helper import build_mutation
-from .scheduler_helper import build_crossover
-
+from .scheduler_outline_helper import work_day_sign
+from .scheduler_outline_helper import holiday_sign
 
 day_off_sign = "-"
 
 
 class SchedulerDetailHelper:
-    """Helper class for work category details.
+    """Helper class for matching outline and factor.
     
-    This helper create a work day detail from work categories.
-    Detail work category properlity is evaluated by day off, available times,
-    rate by daily require number of work category.
+    This helper adapt factor - detail work schedule category - to outline
+    which requires detail work schedule category only. Evaluation of
+    consistency rate is evaluated by day off continuity and holiday after day off.
+    Except not property outlines for operator like not adapted requests or
+    not saved time for fixed schedule.
     
     """
     
-    def __init__(self, monthly_setting, operators):
-        """
-        
-        Args:
-            monthly_setting (MonthlySetting):
-            operators (list of Operator):
-        
-        """
+    def __init__(self, monthly_setting, operators, all_outlines):
         self._monthly_setting = monthly_setting
         self._operators = operators
-        self._work_categories = set([y.work_category for x in monthly_setting.days for y in x.details])
-        require_sum = map(sum, np.array([[y.require for y in x.details] for x in self._monthly_setting.days]).T)
-        self._require_ave = []
-        for detail, require_sum in zip(self._monthly_setting.days[0].details, require_sum):
-            rate = require_sum / len([z for z in operators if z.id not in
-                                      [l.id for l in detail.work_category.impossible_operators]])
-            self._require_ave.append((detail.work_category, rate))
+        self._all_outlines = all_outlines
+        self._least_attendance, self._participants = self._calc_least_attendance()
     
-    def _evaluate_by_day_offs(self, gene, weight):
-        adaptability = 0
-        ratio = weight / len(gene)
-        day_offs_work_categories = {x.id: x for x in self._work_categories if x.day_offs != 0}
-        i = 0
-        len_x = len(gene)
-        while i < len_x:
-            if gene[i] in day_offs_work_categories:
-                day_offs = day_offs_work_categories[gene[i]].day_offs
-                if i+day_offs >= len_x:
-                    day_offs = len_x-i-1
-                if list(gene[i+1: i+1+day_offs]) != [day_off_sign]*day_offs:
-                    adaptability += ratio*day_offs
-                i += day_offs
-            elif gene[i] == day_off_sign:
-                adaptability += ratio
-            i += 1
-        return weight - min(weight, adaptability)
+    def _calc_least_attendance(self):
+        total_requires = defaultdict(int)
+        for day in self._monthly_setting.days:
+            for detail in day.details:
+                total_requires[detail.work_category] += detail.require
+        least_attendance = {}
+        participants = {}
+        for work_category, total_require in total_requires.items():
+            other_exclusives = [x.exclusive_operators for x in total_requires.keys() if x != work_category]
+            participants[work_category] = [x for x in self._operators if x not in work_category.impossible_operators
+                                           and x not in other_exclusives]
+            least_attendance[work_category] = math.ceil(total_require / len(participants[work_category]))
+        return least_attendance, participants
     
-    def _evaluate_by_available_max_times(self, gene, weight):
-        max_time_work_categories = {x for x in self._work_categories if x.max_times != 0}
-        ratio = weight / len(max_time_work_categories)
-        adaptability = sum([ratio for x in max_time_work_categories
-                            if len([y for y in gene if y == x.id]) > x.max_times])
-        return weight - adaptability
+    def _set_work_category_day_off(self, outline, work_category):
+        available_indices = []
+        for i, gene in enumerate(outline):
+            if gene != work_day_sign:
+                continue
+            day_offs = work_category.day_offs
+            if i + day_offs > len(outline):
+                day_offs = len(outline) - i
+            if (i != len(outline) - 1 and not all([x == work_day_sign for x in outline[i: i + 1 + day_offs]])) \
+                    or (i + day_offs + 1 < len(outline) and outline[i + day_offs + 1] != holiday_sign):
+                continue
+            available_indices.append(i)
+        amplitude = np.random.choice([-1, 0, 1], p=[0.2, 0.7, 0.1])
         
-    def _evaluate_by_work_category_require_ave(self, gene, weight):
-        total_require_ave = sum([x for _, x in self._require_ave])
-        ratio = weight / len(self._require_ave)
-        adaptability = 0
-        for x, y in self._require_ave:
-            ave_x_gene = len([n for n in gene if n == x.id]) / len(gene)
-            adaptability += ratio * abs((y / total_require_ave) - ave_x_gene)
-        return weight - adaptability
+        outline_indices = range(len(outline))
+        i = 0
+        while i < self._least_attendance[work_category] + amplitude:
+            if not available_indices:
+                return outline
+            index = np.random.choice(outline_indices)
+            if index not in available_indices:
+                continue
+            available_indices.remove(index)
+            for x in outline_indices:
+                if index - work_category.day_offs < x < index + work_category.day_offs:
+                    available_indices.remove(x)
+            outline[index] = work_category.id
+            outline[index + 1: index + work_category.day_offs] = day_off_sign
+            i += 1
+        return outline
     
-    def _evaluate(self, gene):
-        adaptability = 0
-        adaptability += self._evaluate_by_day_offs(gene, 10)
-        adaptability += self._evaluate_by_available_max_times(gene, 7)
-        adaptability += self._evaluate_by_work_category_require_ave(gene, 8)
-        return adaptability
+    def _set_work_category(self, outline, work_category):
+        for _ in range(self._least_attendance[work_category]):
+            work_day_indices = [i for i, x in enumerate(outline) if x == work_day_sign]
+            if not work_day_indices:
+                return outline
+            index = np.random.choice(work_day_indices)
+            outline[index] = work_category.id
+        return outline
     
-    def _genetic_wrapper(self, base_kind):
-        genetic = Genetic(evaluation=self._evaluate, base_kind=[day_off_sign] + base_kind,
-                          gene_size=len(self._monthly_setting.days), homo_progeny_restriction=True,
-                          saturated_limit=20, generation_size=1000, population_size=300)
-        genetic.parent_selection = build_parent_selection()
-        genetic.survivor_selection = build_survivor_selection(genetic.population_size)
-        genetic.mutation = build_mutation()
-        genetic.crossover = build_crossover()
-        genetic.compile()
-        return genetic.run()
-
-    def _batch_genetic_wrapper(self, available_work_category_ids):
-        with Pool(multi.cpu_count()) as p:
-            batch = p.map(self._genetic_wrapper, [available_work_category_ids for _ in range(200)])
-        return batch
+    def _set_work_categories(self, outline, work_categories):
+        for work_category in work_categories:
+            if not outline:
+                break
+            if work_category.day_offs != 0:
+                outline = self._set_work_category_day_off(outline, work_category)
+            else:
+                outline = self._set_work_category(outline, work_category)
+        else:
+            outline = [work_categories[-1].id if x == work_day_sign else x for x in outline]
+        return outline
     
-    def _get_available_work_categories(self, operator):
-        bases = list(set([x.id for x in self._work_categories
-                          if operator.id in [y.id for y in x.exclusive_operators]]))
-        if bases:
-            return bases
-        return list(set([x.id for x in self._work_categories
-                         if operator.id not in [y.id for y in x.impossible_operators]]))
+    def _put_details(self, outlines):
+        combines = []
+        for outline in outlines:
+            work_categories = sorted(self._least_attendance.keys(), key=lambda x: x.day_offs, reverse=True)
+            outline = self._set_work_categories(outline, work_categories)
+            if outline:
+                combines.append(outline)
+        return combines
     
     def run(self):
-        common_gene = {}
-        compatibles = []
         print("""====================
-## start factors building""")
-        for operator in self._operators:
-            available_work_category_ids = self._get_available_work_categories(operator)
-            available_work_category_ids_str = ''.join(available_work_category_ids)
-            if available_work_category_ids_str in common_gene:
-                compatibles.append(common_gene[available_work_category_ids_str][:])
-            else:
-                common_gene[available_work_category_ids_str] = self._batch_genetic_wrapper(available_work_category_ids)
-                compatibles.append(common_gene[available_work_category_ids_str][:])
+## start outlines and factors matching""")
+        compatibles = [self._put_details(x) for x in self._all_outlines]
         print("""## finished
 ====================""")
         return compatibles

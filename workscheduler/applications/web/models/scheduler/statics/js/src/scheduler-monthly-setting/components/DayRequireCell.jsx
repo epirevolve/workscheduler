@@ -1,8 +1,8 @@
 import React from 'react';
 
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import TableCell from '@material-ui/core/TableCell';
 
 const dayRequireCell = ({ require, onRequireChange }) => {
     const count = [];
@@ -10,11 +10,11 @@ const dayRequireCell = ({ require, onRequireChange }) => {
         count.push(<MenuItem key={i} value={i}>{i}</MenuItem>)
     }
     return (
-        <td>
+        <TableCell>
             <Select value={require} onChange={onRequireChange}>
                 {count}
             </Select>
-        </td>
+        </TableCell>
     )
 }
 

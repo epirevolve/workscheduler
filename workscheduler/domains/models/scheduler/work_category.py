@@ -18,6 +18,16 @@ from .. import OrmBase
 from ..operator import Skill
 from ..operator import Operator
 
+associated_week_day_operator_table\
+    = Table("associated_week_day_operator", OrmBase.metadata,
+            Column("left_id", String, ForeignKey('work_categories.id')),
+            Column("right_id", String, ForeignKey('operators.id')))
+
+associated_holiday_operator_table\
+    = Table("associated_holiday_operator", OrmBase.metadata,
+            Column("left_id", String, ForeignKey('work_categories.id')),
+            Column("right_id", String, ForeignKey('operators.id')))
+
 associated_skill_table\
     = Table("associated_essential_skill", OrmBase.metadata,
             Column("left_id", String, ForeignKey('work_categories.id')),
@@ -46,6 +56,8 @@ class WorkCategory(OrmBase):
     holiday_max = Column(Integer)
     day_offs = Column(Integer)
     max_times = Column(Integer)
+    week_day_operators = relationship("Operator", secondary=associated_week_day_operator_table, lazy='subquery')
+    holiday_operators = relationship("Operator", secondary=associated_holiday_operator_table, lazy='subquery')
     essential_skills = relationship("Skill", secondary=associated_skill_table, lazy='subquery')
     exclusive_operators = relationship("Operator", secondary=associated_exclusive_operator_table, lazy='subquery')
     impossible_operators = relationship("Operator", secondary=associated_impossible_operator_table, lazy='subquery')
@@ -53,8 +65,9 @@ class WorkCategory(OrmBase):
     
     def __init__(self, id_: str, title: str, at_from: time, at_to: time,
                  week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
-                 day_offs: int, max_times: int, essential_skills: [Skill],
-                 exclusive_operators: [Operator], impossible_operators: [Operator]):
+                 day_offs: int, max_times: int, week_day_operators: [Operator],
+                 holiday_operators: [Operator], essential_skills: [Skill], exclusive_operators: [Operator],
+                 impossible_operators: [Operator]):
         self.id = id_
         self.title = title
         self.at_from = at_from
@@ -65,6 +78,8 @@ class WorkCategory(OrmBase):
         self.holiday_max = holiday_max
         self.day_offs = day_offs
         self.max_times = max_times
+        self.week_day_operators = week_day_operators
+        self.holiday_operators = holiday_operators
         self.essential_skills = essential_skills
         self.exclusive_operators = exclusive_operators
         self.impossible_operators = impossible_operators
@@ -72,12 +87,13 @@ class WorkCategory(OrmBase):
     @staticmethod
     def new_category(title: str, at_from: time, at_to: time,
                      week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
-                     day_offs: int, max_times: int, essential_skills: [Skill],
-                     exclusive_operators: [Operator], impossible_operators: [Operator]):
+                     day_offs: int, max_times: int, week_day_operators: [Operator],
+                     holiday_operators: [Operator], essential_skills: [Skill], exclusive_operators: [Operator],
+                     impossible_operators: [Operator]):
         return WorkCategory(UuidFactory.new_uuid(), title, at_from, at_to,
                             week_day_require, week_day_max, holiday_require, holiday_max,
-                            day_offs, max_times, essential_skills,
-                            exclusive_operators, impossible_operators)
+                            day_offs, max_times, week_day_operators, holiday_operators,
+                            essential_skills, exclusive_operators, impossible_operators)
     
     def __eq__(self, other):
         if other is None or not isinstance(other, WorkCategory):

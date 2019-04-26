@@ -1,13 +1,15 @@
 import React from 'react';
 
-const dayRequireHeaderCell = ({ day }) => {
+import TableCell from '@material-ui/core/TableCell';
+
+const dayHeaderCell = ({ day }) => {
     return (
-        <th>
+        <TableCell>
             <span className={day.dayName}>{day.dayName}</span>
             <br />
             <span>{day.day}</span>
-        </th>
+        </TableCell>
     )
 }
 
-export default dayRequireHeaderCell;
+export default dayHeaderCell;

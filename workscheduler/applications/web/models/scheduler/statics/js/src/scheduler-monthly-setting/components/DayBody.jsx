@@ -1,8 +1,11 @@
 import React from 'react';
 
-import DayRequireRow from './DayRequireRow';
+import TableBody from '@material-ui/core/TableBody';
 
-const dayRequireBody = ({ days, onRequireChange }) => {
+import DayRequireRow from './DayRequireRow';
+import DayIsHolidayRow from './DayIsHolidayRow';
+
+const dayRequireBody = ({ days, onRequireChange, onIsHolidayChange }) => {
     const requiresOfCategory = [];
     for (let day of days) {
         for (let detail of day.details) {
@@ -20,9 +23,10 @@ const dayRequireBody = ({ days, onRequireChange }) => {
     }
 
     return (
-        <tbody>
+        <TableBody>
+            <DayIsHolidayRow days={days} onIsHolidayChange={onIsHolidayChange} />
             {dayRequireRow}
-        </tbody>
+        </TableBody>
     )
 };
 

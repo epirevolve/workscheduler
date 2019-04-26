@@ -25,9 +25,10 @@ class SchedulerCommandAdapter:
     def update_monthly_setting(self, data: dict):
         id_ = data.get('id')
         DayDetail = namedtuple('DayDetail', ('id', 'require'))
-        Day = namedtuple('Day', ('id', 'details'))
-        days = [Day(x.get('id'), [DayDetail(y.get('id'), y.get('require'))
-                                  for y in x.get('details')]) for x in data.get('days')]
+        Day = namedtuple('Day', ('id', 'is_holiday', 'details'))
+        days = [Day(x.get('id'), x.get('is_holiday'),
+                    [DayDetail(y.get('id'), y.get('require'))
+                     for y in x.get('details')]) for x in data.get('days')]
         holidays = data.get('holidays')
         return SchedulerCommand(self._session).update_monthly_setting(
             id_, days, holidays)
@@ -40,6 +41,7 @@ class SchedulerCommandAdapter:
             data.get('title'), to_time(data.get('at_from')), to_time(data.get('at_to')),
             data.get('week_day_require'), data.get('week_day_max'), data.get('holiday_require'),
             data.get('holiday_max'), data.get('day_offs'), data.get('max_times'),
+            list_id(data.get('week_day_operators')), list_id(data.get('holiday_operators')),
             list_id(data.get('essential_skills')), list_id(data.get('exclusive_operators')),
             list_id(data.get('impossible_operators'))
         )
@@ -49,8 +51,9 @@ class SchedulerCommandAdapter:
             data.get('id'), data.get('title'), to_time(data.get('at_from')),
             to_time(data.get('at_to')), data.get('week_day_require'), data.get('week_day_max'),
             data.get('holiday_require'), data.get('holiday_max'), data.get('day_offs'),
-            data.get('max_times'), list_id(data.get('essential_skills')),
-            list_id(data.get('exclusive_operators')), list_id(data.get('impossible_operators'))
+            data.get('max_times'), list_id(data.get('week_day_operators')), list_id(data.get('holiday_operators')),
+            list_id(data.get('essential_skills')), list_id(data.get('exclusive_operators')),
+            list_id(data.get('impossible_operators'))
         )
     
     def update_basic_setting(self, data: dict):

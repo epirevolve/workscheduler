@@ -5,6 +5,12 @@ export const changeRequire = (day, categoryId, require) => ({
     require
 })
 
+export const changeIsHoliday = (day, isHoliday) => ({
+    type: 'CHANGE_IS_HOLIDAY',
+    day,
+    isHoliday
+})
+
 export const changeMonthlyHoliday = (count) => ({
     type: 'CHANGE_MONTHLY_HOLIDAY',
     count

@@ -91,6 +91,30 @@ const scheduler = (state = {}, action) => {
                     }
                 })
             }
+        case 'CHANGE_WORK_CATEGORY_WEEK_DAY_OPERATOR':
+            return {...state,
+                workCategories: state.workCategories.map(x => {
+                    if (x.id != action.id) return x;
+                    const operatorIds = x.weekDayOperators.map(y => y.id);
+                    return {...x,
+                        weekDayOperators: (operatorIds.includes(action.operator.id))
+                            ? x.weekDayOperators.filter(y => y.id != action.operator.id)
+                            : x.weekDayOperators.concat(action.operator).sort((a, b) => (a.id < b.id) ? -1 : 1)
+                    }
+                })
+            }
+        case 'CHANGE_WORK_CATEGORY_HOLIDAY_OPERATOR':
+            return {...state,
+                workCategories: state.workCategories.map(x => {
+                    if (x.id != action.id) return x;
+                    const operatorIds = x.holidayOperators.map(y => y.id);
+                    return {...x,
+                        holidayOperators: (operatorIds.includes(action.operator.id))
+                            ? x.holidayOperators.filter(y => y.id != action.operator.id)
+                            : x.holidayOperators.concat(action.operator).sort((a, b) => (a.id < b.id) ? -1 : 1)
+                    }
+                })
+            }
         case 'CHANGE_WORK_CATEGORY_ESSENTIAL_SKILL':
             return {...state,
                 workCategories: state.workCategories.map(x => {
@@ -140,6 +164,8 @@ const scheduler = (state = {}, action) => {
                     holidayMax: 0,
                     dayOffs: 0,
                     maxTimes: 0,
+                    weekDayOperators: [],
+                    holidayOperators: [],
                     essentialSkills: [],
                     exclusiveOperators: [],
                     impossibleOperators: []

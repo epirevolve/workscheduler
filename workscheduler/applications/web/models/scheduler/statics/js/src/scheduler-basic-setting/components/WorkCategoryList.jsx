@@ -6,7 +6,7 @@ import WorkCategory from './WorkCategory';
 
 const workCategoryList = ({ workCategories, ...other }) => {
     return workCategories.map(x =>
-        <Grid item xs={12} sm={3} key={x.id} className="mr-4 mb-2">
+        <Grid item xs={12} sm={4} key={x.id} className="mr-4 mb-2">
             <WorkCategory workCategory={x} {...other} />
         </Grid>
     );

@@ -8,10 +8,10 @@ import multiprocessing as multi
 
 from eart import Genetic
 
-from .scheduler_helper import build_parent_selection
-from .scheduler_helper import build_survivor_selection
-from .scheduler_helper import build_mutation
-from .scheduler_helper import build_crossover
+from .ga_helper import build_parent_selection
+from .ga_helper import build_survivor_selection
+from .ga_helper import build_mutation_unique
+from .ga_helper import build_crossover_unique
 
 
 work_day_sign = "A"
@@ -73,25 +73,30 @@ class SchedulerOutlineHelper:
         ratio = weight / len(gene)
         continuous_attendance = [sum(1 for _ in z)
                                  for y, z in groupby(gene, key=lambda x: x == holiday_sign) if not y]
-        adaptability = sum([ratio * x for x in continuous_attendance if x > 5 or x < 3])
+        adaptability = sum([ratio * x for i, x in enumerate(continuous_attendance)
+                            if x > 5 or (x < 3 and i != 0 and i != len(continuous_attendance)-1)])
         return weight - min(weight, adaptability)
     
     @staticmethod
     def _evaluate_by_holiday_continuity(gene, weight):
         continuous_holiday = [sum(1 for _ in z) for y, z in groupby(gene, key=lambda x: x == holiday_sign) if y]
         ratio = weight / (sum(continuous_holiday) or 1)
-        adaptability = ratio * (abs((sum(continuous_holiday) * 2 / 3) - len(continuous_holiday))
-                                + len([x for x in continuous_holiday if x > 2]))
+        adaptability = ratio * len([x for x in continuous_holiday if x > 2])
+        if 2 not in continuous_holiday:
+            adaptability += ratio * 5
         return weight - min(weight, adaptability)
+    
+    def _gene_to_codon(self, gene):
+        return [self.codon_[i] for i in gene]
     
     def _evaluate(self, operator):
         def _fnc(gene):
             adaptability = 0
-            adaptability += self._evaluate_by_request(gene, operator, 10)
-            adaptability += self._evaluate_by_fixed_schedule(gene, operator, 10)
-            adaptability += self._evaluate_by_holiday(gene, 5)
-            adaptability += self._evaluate_by_continuous_attendance(gene, 6)
-            adaptability += self._evaluate_by_holiday_continuity(gene, 3)
+            codon = self._gene_to_codon(gene)
+            adaptability += self._evaluate_by_request(codon, operator, 10)
+            adaptability += self._evaluate_by_fixed_schedule(codon, operator, 10)
+            adaptability += self._evaluate_by_continuous_attendance(codon, 4)
+            adaptability += self._evaluate_by_holiday_continuity(codon, 3)
             return adaptability
         return _fnc
     
@@ -101,29 +106,29 @@ class SchedulerOutlineHelper:
 
     def _genetic_wrapper(self, operator):
         genetic = Genetic(evaluation=self._evaluate(operator),
-                          base_kind=[work_day_sign, fixed_schedule_day_sign, holiday_sign],
-                          gene_size=len(self._monthly_setting.days), homo_progeny_restriction=True,
-                          saturated_limit=20, generation_size=1000, population_size=300)
+                          base_kind=range(len(self._monthly_setting.days)), homo_progeny_restriction=True,
+                          saturated_limit=20, generation_size=1000, population_size=200)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
-        genetic.mutation = build_mutation()
-        genetic.crossover = build_crossover()
+        genetic.mutation = build_mutation_unique()
+        genetic.crossover = build_crossover_unique()
         genetic.compile()
         return genetic.run()
     
-    def _filter_gene(self, gene, operator):
-        adaptability = 0
-        adaptability += self._evaluate_by_request(gene, operator, 10)
-        adaptability += self._evaluate_by_fixed_schedule(gene, operator, 10)
-        return adaptability == 20
+    def _set_codon(self, operator):
+        requests = len(list(filter(lambda x: operator in x, self._daily_requests)))
+        self.codon_ = [holiday_sign]*max(self._monthly_setting.holidays, requests)
+        fixed_schedules = len(list(filter(lambda x: operator in x, self._daily_fixed_schedules)))
+        self.codon_ += [fixed_schedule_day_sign]*fixed_schedules
+        if len(self.codon_) > len(self._monthly_setting.days):
+            raise Exception('{} is excess request'.format(operator.user.name))
+        self.codon_ += [work_day_sign]*(len(self._monthly_setting.days)-len(self.codon_))
     
     def _batch_genetic_wrapper(self, operator):
-        batch = []
-        while len(batch) <= 300:
-            with Pool(multi.cpu_count()) as p:
-                batch = p.map(self._genetic_wrapper, [operator for _ in range(500)])
-            batch = [x for x in batch if self._filter_gene(x.gene, operator)]
-        return batch
+        self._set_codon(operator)
+        with Pool(multi.cpu_count()) as p:
+            batch = p.map(self._genetic_wrapper, [operator for _ in range(100)])
+        return [self._gene_to_codon(x.gene) for x in batch]
     
     def run(self):
         common_gene = None

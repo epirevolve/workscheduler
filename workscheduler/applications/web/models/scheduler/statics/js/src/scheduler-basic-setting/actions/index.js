@@ -62,6 +62,18 @@ export const changeWorkCategoryMaxTimes = (id, count) => ({
     count
 })
 
+export const changeWorkCategoryWeekDayOperator = (id, operator) => ({
+    type: 'CHANGE_WORK_CATEGORY_WEEK_DAY_OPERATOR',
+    id,
+    operator
+})
+
+export const changeWorkCategoryHolidayOperator = (id, operator) => ({
+    type: 'CHANGE_WORK_CATEGORY_HOLIDAY_OPERATOR',
+    id,
+    operator
+})
+
 export const changeWorkCategoryEssentialSkill = (id, skill) => ({
     type: 'CHANGE_WORK_CATEGORY_ESSENTIAL_SKILL',
     id,

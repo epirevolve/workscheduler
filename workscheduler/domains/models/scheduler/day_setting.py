@@ -7,8 +7,9 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.types import String
 from sqlalchemy.types import DateTime
 from sqlalchemy.types import Integer
+from sqlalchemy.types import Boolean
 
-from mypackages.utils.date import is_holiday
+from mypackages.utils.date import is_holiday as is_holiday_
 from mypackages.utils.uuid import UuidFactory
 
 from .. import OrmBase
@@ -38,27 +39,29 @@ class DaySetting(OrmBase):
     id = Column(String, primary_key=True)
     day = Column(Integer)
     day_name = Column(String)
+    is_holiday = Column(Boolean)
     details = relationship("DayDetail", secondary=associated_day_details_table, lazy='subquery')
     requests = relationship("Request", secondary=associated_request_table, lazy='subquery')
     fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='subquery')
 
     def __init__(self, id_: str, day: int, day_name: str,
-                 details: []):
+                 is_holiday: bool, details: []):
         self.id = id_
         self.day = day
         self.day_name = day_name
+        self.is_holiday = is_holiday
         self.details = details
         self.requests = []
         self.fixed_schedules = []
     
-    def add_category(self, work_catgory: WorkCategory):
-        self.details.append(DayDetail.new_detail(work_catgory, 0))
+    def add_category(self, work_category: WorkCategory):
+        self.details.append(DayDetail.new_detail(work_category, 0))
         
     @staticmethod
     def new_day(date: DateTime, date_name: str, work_categories: [WorkCategory]):
-        details = [DayDetail.new_detail(x, x.week_day_require if not is_holiday(date) else x.holiday_require)
+        details = [DayDetail.new_detail(x, x.week_day_require if not is_holiday_(date) else x.holiday_require)
                    for x in work_categories]
-        return DaySetting(UuidFactory.new_uuid(), date.day, date_name, details)
+        return DaySetting(UuidFactory.new_uuid(), date.day, date_name, is_holiday_(date), details)
     
     def __eq__(self, other):
         if other is None or not isinstance(other, DaySetting):

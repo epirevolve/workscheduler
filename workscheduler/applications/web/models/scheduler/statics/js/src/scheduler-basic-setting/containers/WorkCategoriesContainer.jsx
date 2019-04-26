@@ -14,6 +14,8 @@ import { changeWorkCategoryHolidayRequire } from '../actions';
 import { changeWorkCategoryHolidayMax } from '../actions';
 import { changeWorkCategoryRestDays } from '../actions';
 import { changeWorkCategoryMaxTimes } from '../actions';
+import { changeWorkCategoryWeekDayOperator } from '../actions';
+import { changeWorkCategoryHolidayOperator } from '../actions';
 import { changeWorkCategoryEssentialSkill } from '../actions';
 import { changeWorkCategoryExclusiveOperator } from '../actions';
 import { changeWorkCategoryImpossibleOperator } from '../actions';
@@ -34,6 +36,8 @@ const mapDispatchToProps = (dispatch) => ({
     onHolidayMaxChange: (id) => (e) => dispatch(changeWorkCategoryHolidayMax(id, e.target.value)),
     onRestDaysChange: (id) => (e) => dispatch(changeWorkCategoryRestDays(id, e.target.value)),
     onMaxTimesChange: (id) => (e) => dispatch(changeWorkCategoryMaxTimes(id, e.target.value)),
+    onWeekDayOperatorChange: (id, data) => dispatch(changeWorkCategoryWeekDayOperator(id, data)),
+    onHolidayOperatorChange: (id, data) => dispatch(changeWorkCategoryHolidayOperator(id, data)),
     onEssentialSkillChange: (id, data) => dispatch(changeWorkCategoryEssentialSkill(id, data)),
     onExclusiveOperatorChange: (id, data) => dispatch(changeWorkCategoryExclusiveOperator(id, data)),
     onImpossibleOperatorChange: (id, data) => dispatch(changeWorkCategoryImpossibleOperator(id, data))
