@@ -14,7 +14,7 @@ import MonthCalendar from 'rc-calendar/lib/MonthCalendar';
 import 'rc-calendar/assets/index';
 import moment from 'moment';
 
-const dataset = document.querySelector('script[src="schedule"]').dataset;
+const dataset = document.querySelector('script[src*="schedule"]').dataset;
 const url = dataset.url;
 const scheduleOf = dataset.scheduleOf;
 const affiliation = JSON.parse(dataset.affiliation);

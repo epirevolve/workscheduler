@@ -4,7 +4,7 @@ import Schedules from './Schedules';
 
 const app = () => (
     <React.Fragment>
-        <Schedule />
+        <Schedules />
     </React.Fragment>
 )
 

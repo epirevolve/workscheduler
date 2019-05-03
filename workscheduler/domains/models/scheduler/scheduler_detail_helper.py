@@ -42,7 +42,7 @@ class SchedulerDetailHelper:
                                            and x not in other_exclusives]
             least_attendance[work_category] = math.ceil(total_require / len(participants[work_category]))
         return least_attendance, participants
-    
+
     def _set_work_category_day_off(self, outline, work_category):
         available_indices = []
         for i, gene in enumerate(outline):
@@ -56,33 +56,31 @@ class SchedulerDetailHelper:
                 continue
             available_indices.append(i)
         amplitude = np.random.choice([-1, 0, 1], p=[0.4, 0.5, 0.1])
-        
+        outline_len = len(outline)
         i = 0
         while i < self._least_attendance[work_category] + amplitude:
             if not available_indices:
                 return outline
             index = np.random.choice(available_indices)
-            if index >= len(outline) - work_category.day_offs and np.random.rand() > 0.05:
+            if index >= outline_len - work_category.day_offs and np.random.rand() > 0.05:
                 continue
             available_indices.remove(index)
-            for x in available_indices:
-                if index - work_category.day_offs < x < index + work_category.day_offs:
-                    available_indices.remove(x)
+            for x in [x for x in available_indices if abs(index - x) <= work_category.day_offs]:
+                available_indices.remove(x)
             outline[index] = work_category.id
-            day_offs = work_category.day_offs
-            if index + day_offs > len(outline):
-                day_offs = len(outline) - index - 1
-            for x in range(1, day_offs + 1):
-                outline[index + x] = day_off_sign
+            day_offs = work_category.day_offs if index + work_category.day_offs < outline_len\
+                else outline_len - index - 1
+            outline[index + 1: index + 1 + day_offs] = [day_off_sign] * day_offs
             i += 1
         return outline
-    
+
     def _set_work_category(self, outline, work_category):
+        work_day_indices = [i for i, x in enumerate(outline) if x == work_day_sign]
         for _ in range(self._least_attendance[work_category]):
-            work_day_indices = [i for i, x in enumerate(outline) if x == work_day_sign]
             if not work_day_indices:
                 return outline
             index = np.random.choice(work_day_indices)
+            work_day_indices.remove(index)
             outline[index] = work_category.id
         return outline
     
