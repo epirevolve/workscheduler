@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import VacationList from './VacationList';
 
-const vacations = ({ handleAppend, ...other }) => {
+const vacations = ({ vacations, handleAppend, ...other }) => {
     const [expanded, setExpanded] = React.useState(true);
     const onExpandedChange = (event, isExpanded) => {
         setExpanded(isExpanded ? true : false);
@@ -30,7 +30,7 @@ const vacations = ({ handleAppend, ...other }) => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container>
-                        <VacationList {...other} />
+                        <VacationList vacations={vacations} {...other} />
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>

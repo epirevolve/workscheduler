@@ -1,10 +1,10 @@
 import React from 'react';
 
-import YearlySetting from './YearlySetting';
+import YearlySettings from './YearlySettings';
 
 const app = () => (
     <React.Fragment>
-        <YearlySetting />
+        <YearlySettings />
     </React.Fragment>
 )
 
