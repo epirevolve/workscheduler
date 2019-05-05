@@ -19,7 +19,8 @@ bp = Blueprint('schedules', __name__, template_folder='../views', static_folder=
 
 
 def show_schedules_not_found(schedule_of, affiliation):
-    return render_template('schedule-not-found.html', schedule_of=schedule_of, affiliation=affiliation)
+    return render_template('schedule-not-found.html', schedule_of=to_year_month_string(schedule_of),
+                           affiliation=affiliation)
 
 
 def show_schedules_operator(schedule_of: date):

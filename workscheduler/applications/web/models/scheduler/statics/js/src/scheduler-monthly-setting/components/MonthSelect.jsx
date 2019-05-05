@@ -42,12 +42,6 @@ class MonthSelect extends React.Component {
                                 )}}
                         </DatePicker>
                     </Typography>
-                    <Typography variant="h4" color="inherit" className="mx-4">
-                        of
-                    </Typography>
-                    <Typography variant="h4" color="inherit">
-                        {affiliation.name}
-                    </Typography>
                 </Toolbar>
             </AppBar>
         )
