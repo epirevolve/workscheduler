@@ -51,7 +51,7 @@ class SchedulerDetailHelper:
             day_offs = work_category.day_offs
             if i + day_offs > len(outline):
                 day_offs = len(outline) - i
-            if (i != len(outline) - 1 and not all([x == work_day_sign for x in outline[i: i + 1 + day_offs]])) \
+            if (i != len(outline) - 1 and not all([x == work_day_sign for x in outline[i: i + day_offs + 1]])) \
                     or (i + day_offs + 1 < len(outline) and outline[i + day_offs + 1] != holiday_sign):
                 continue
             available_indices.append(i)
@@ -62,16 +62,17 @@ class SchedulerDetailHelper:
             if not available_indices:
                 return outline
             index = np.random.choice(available_indices)
-            if index >= len(outline) - work_category.day_offs - 1 and np.random.rand() > 0.05:
+            if index >= len(outline) - work_category.day_offs and np.random.rand() > 0.05:
                 continue
             available_indices.remove(index)
             for x in available_indices:
-                if index - work_category.day_offs <= x <= index + work_category.day_offs:
+                if index - work_category.day_offs < x < index + work_category.day_offs:
                     available_indices.remove(x)
             outline[index] = work_category.id
-            for x in range(1, work_category.day_offs+1):
-                if index + x >= len(outline):
-                    break
+            day_offs = work_category.day_offs
+            if index + day_offs > len(outline):
+                day_offs = len(outline) - index - 1
+            for x in range(1, day_offs + 1):
                 outline[index + x] = day_off_sign
             i += 1
         return outline
@@ -108,7 +109,7 @@ class SchedulerDetailHelper:
     
     def run(self):
         print("""====================
-## start outlines and factors matching""")
+## start filling details""")
         compatibles = [self._put_details(x) for x in self._all_outlines]
         print("""## finished
 ====================""")
