@@ -1,10 +1,15 @@
 {% extends "layout.html" %}
 {% block body %}
-<div id="monthSelector"></div>
-{% block schedule_body %}{% endblock %}
+<div>
+    <div id="monthSelector" style="text-align: right;"></div>
+    {% block schedule_body %}{% endblock %}
+</div>
 {% endblock %}
 
 {% block script %}
 {% block appendScript %}{% endblock %}
+<script id="base-schedule"
+    data-url="{{ url_for('schedules.show_schedules', affiliation_id='param_affiliation_id', schedule_of='param_schedule_of') }}"
+    data-affiliation="{{ to_json(affiliation) }}" data-schedule-of="{{ schedule_of }}"></script>
 <breadscram data-current="{{ to_json({'name': 'Schedules'}) }}"></breadscram>
 {% endblock %}

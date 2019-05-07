@@ -36,10 +36,10 @@ class SchedulerMonthlyHelperBase:
                 max_require = detail.work_category.week_day_max if day_setting.day_name not in ['SAT', 'SUN'] \
                     else detail.work_category.holiday_max
                 count = len([x for x in schedule if x == detail.work_category.id])
-                if count != detail.require:
-                    adaptability += ratio * abs(count - detail.require)
-                if count > max_require:
-                    adaptability += ratio * abs(count - max_require)
+                if count < detail.require:
+                    adaptability += ratio * (detail.require - count) * 5
+                elif count > max_require:
+                    adaptability += ratio * (count - max_require) * 2
         return weight - min(weight, adaptability)
     
     def _evaluate_by_essential_skill(self, schedules, weight):

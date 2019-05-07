@@ -1,12 +1,11 @@
 {% extends "schedule.html" %}
 {% block schedule_body %}
-<div id="root" style="overflow: auto; height: 74vh; width: 94vw"></div>
+<div id="root"></div>
 {% endblock %}
 
 {% block appendScript %}
 <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
 <script type="module" src="{{ url_for('schedules.static', filename='js/schedule-operator.bundle.min.js') }}"
-    data-url="{{ url_for('schedules.show_schedules', affiliation_id='param_affiliation_id', schedule_of='param_schedule_of') }}"
-    data-affiliation="{{ to_json(current_user.affiliation) }}"
-    data-my-schedule="{{ to_json(my_schedule) }}" data-others-schedule="{{ to_json(others_schedule) }}"></script>
+    data-monthly-setting="{{ to_json(monthly_setting) }}" data-my-schedule="{{ to_json(my_schedule) }}"
+    data-others-schedule="{{ to_json(others_schedule) }}"></script>
 {% endblock %}

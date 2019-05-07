@@ -98,7 +98,7 @@ class Scheduler(OrmBase):
     def run(self, month: int, year: int, operators):
         try:
             monthly_setting = self.monthly_setting(month, year)
-            outlines = SchedulerOutlineHelper(monthly_setting, operators).run()
+            outlines = SchedulerOutlineHelper(self.work_categories, monthly_setting, operators).run()
             combinations = SchedulerDetailHelper(monthly_setting, operators, outlines).run()
             schedule = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
             return [(x, y) for x, y in zip(operators, schedule)]

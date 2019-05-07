@@ -6,17 +6,23 @@ import Typography from '@material-ui/core/Typography';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 
-const affiliations_ = $('script[src*="scheduler-menu"]').data('affiliations');
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
+
+const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
 
 const affiliations = ({ affiliation, onAffiliationChange }) => {
-    const affiliationList = affiliations_.map(x =>
+    const affiliations = JSON.parse(dataset.affiliations);
+    const affiliationList = affiliations.map(x =>
         <MenuItem key={x.id} value={x}>
-            <Typography variant="h5" className="menuHeader">
+            <Typography variant="h5" css={css`
+                    color: lightslategray !important;
+                `}>
                 {x.name}
             </Typography>
         </MenuItem>)
 
-    if (affiliations_.map(x => x.id).includes(affiliation.id)) affiliation = affiliations_.find(x => x.id == affiliation.id);
+    if (affiliations.map(x => x.id).includes(affiliation.id)) affiliation = affiliations.find(x => x.id == affiliation.id);
 
     return (
         <Select value={affiliation} onChange={onAffiliationChange}

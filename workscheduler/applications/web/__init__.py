@@ -135,6 +135,7 @@ def create_app(test_config=None):
     def extend_jinja_env():
         app.jinja_env.globals['today'] = date.today()
         app.jinja_env.globals['next_month'] = to_year_month_string(get_next_month())
+        app.jinja_env.globals['current_month'] = to_year_month_string(date.today())
     
         def get_affiliation():
             return AffiliationQuery(get_db_session()).get_default_affiliation()

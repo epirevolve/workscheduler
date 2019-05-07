@@ -85,6 +85,9 @@ class SchedulerDetailHelper:
         return outline
     
     def _set_work_categories(self, outline, work_categories):
+        if not work_categories:
+            outline = [' ' if x == work_day_sign else x for x in outline]
+            return outline
         for work_category in work_categories:
             if not outline:
                 break
@@ -96,10 +99,19 @@ class SchedulerDetailHelper:
             outline = [work_categories[-1].id if x == work_day_sign else x for x in outline]
         return outline
     
-    def _put_details(self, outlines):
+    def _find_operator_work_categories(self, operator):
+        work_categories = sorted(
+            filter(lambda x: operator not in x.impossible_operators, self._least_attendance.keys()),
+            key=lambda x: x.day_offs, reverse=True)
+        is_exclusive = any([operator in x.exclusive_operators for x in work_categories])
+        if is_exclusive:
+            work_categories = filter(lambda x: operator in x.exclusive_operators, work_categories)
+        return list(work_categories)
+    
+    def _put_details(self, outlines, operator):
         combines = []
+        work_categories = self._find_operator_work_categories(operator)
         for outline in outlines:
-            work_categories = sorted(self._least_attendance.keys(), key=lambda x: x.day_offs, reverse=True)
             outline = self._set_work_categories(outline, work_categories)
             if outline:
                 combines.append(outline)
@@ -108,7 +120,7 @@ class SchedulerDetailHelper:
     def run(self):
         print("""====================
 ## start filling details""")
-        compatibles = [self._put_details(x) for x in self._all_outlines]
+        compatibles = [self._put_details(x, y) for x, y in zip(self._all_outlines, self._operators)]
         print("""## finished
 ====================""")
         return compatibles

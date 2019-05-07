@@ -6,22 +6,22 @@ import TableRow from '@material-ui/core/TableRow';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-import DayCell from './DayCell';
-import DayRowHeader from './DayRowHeader';
+import DayHeaderCell from './DayHeaderCell';
+import RowHeader from './RowHeader';
 
-const dayHeader = ({ schedule, ...other }) => {
-    const days = schedule.map(x =>
-        <DayCell key={x.day} val={x.day} />
+const dayColumnHeaders = ({ headers, ...other }) => {
+    const cells = headers.map(x =>
+        <DayHeaderCell key={x.day} {...x} />
     );
 
     return (
         <TableHead>
             <TableRow>
-                <DayRowHeader />
-                {days}
+                <RowHeader />
+                {cells}
             </TableRow>
         </TableHead>
     )
 }
 
-export default dayHeader;
+export default dayColumnHeaders;

@@ -6,19 +6,26 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
+
 const menuCard = ({title, img, description, href, onClick}) => {
     return (
         <Card style={{ width: "100%", minWidth: 120, maxHeight: 320, minHeight: 320 }}>
             <CardActionArea href={href} onClick={onClick} style={{ height: 320 }}>
                 <CardContent>
-                    <Typography gutterBottom variant="h4" className="menuHeader">
+                    <Typography gutterBottom variant="h4" css={css`
+                            color: lightslategray !important;
+                        `}>
                         {title}
                     </Typography>
                 </CardContent>
                 <CardMedia component="img" alt={title} title={title}
                     height="140" image={img} />
                 <CardContent>
-                    <Typography gutterBottom component="p" className="menuContent">
+                    <Typography gutterBottom component="p" css={css`
+                            color: gray !important;
+                        `}>
                         {description}
                     </Typography>
                 </CardContent>

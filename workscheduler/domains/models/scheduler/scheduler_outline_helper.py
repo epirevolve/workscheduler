@@ -29,7 +29,7 @@ class SchedulerOutlineHelper:
     
     """
     
-    def __init__(self, monthly_setting, operators):
+    def __init__(self, work_categories, monthly_setting, operators):
         """Prepare to run a scheduling.
         
         Obtain daily requests and daily fixed schedules from monthly setting and make a bit of change.
@@ -41,6 +41,7 @@ class SchedulerOutlineHelper:
             operators (list of Operator): active operators of making work schedule.
         
         """
+        self._work_categories = work_categories
         self._monthly_setting = monthly_setting
         self._operators = operators
         self._daily_requests = [[y.operator for y in x.requests] for x in self._monthly_setting.days]
@@ -86,6 +87,15 @@ class SchedulerOutlineHelper:
             adaptability += ratio * 5
         return weight - min(weight, adaptability)
     
+    def _evaluate_by_week_day_operator(self, gene, operator, weight):
+        is_week_day_operator = any([operator in x.week_day_operators for x in self._work_categories])
+        ratio = weight / len(gene)
+        if not is_week_day_operator:
+            return weight
+        adaptability = sum([ratio for x, y in zip(gene, self._monthly_setting.days)
+                            if not y.is_holiday and x != work_day_sign])
+        return weight - min(weight, adaptability)
+    
     def _gene_to_codon(self, gene):
         return [self.codon_[i] for i in gene]
     
@@ -97,17 +107,19 @@ class SchedulerOutlineHelper:
             adaptability += self._evaluate_by_fixed_schedule(codon, operator, 10)
             adaptability += self._evaluate_by_continuous_attendance(codon, 4)
             adaptability += self._evaluate_by_holiday_continuity(codon, 3)
+            adaptability += self._evaluate_by_week_day_operator(codon, operator, 10)
             return adaptability
         return _fnc
     
-    def _has_request_or_fixed_schedule(self, operator):
+    def _need_unique_schedule(self, operator):
         return operator in set([y for x in self._daily_requests for y in x])\
-               or operator in set([y for x in self._daily_fixed_schedules for y in x])
+               or operator in set([y for x in self._daily_fixed_schedules for y in x])\
+               or operator in set([y for x in self._work_categories for y in x.week_day_operators])
 
     def _genetic_wrapper(self, operator):
         genetic = Genetic(evaluation=self._evaluate(operator),
                           base_kind=range(len(self._monthly_setting.days)), homo_progeny_restriction=True,
-                          saturated_limit=20, generation_size=1000, population_size=200)
+                          saturated_limit=20, generation_size=1000, population_size=300)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
         genetic.mutation = build_mutation_unique()
@@ -136,7 +148,7 @@ class SchedulerOutlineHelper:
         print("""====================
 ## start outlines building""")
         for operator in self._operators:
-            if self._has_request_or_fixed_schedule(operator):
+            if self._need_unique_schedule(operator):
                 compatibles.append(self._batch_genetic_wrapper(operator))
             else:
                 if not common_gene:

@@ -7,7 +7,5 @@
 
 {% block appendScript %}
 <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-<script type="module" src="{{ url_for('schedules.static', filename='js/schedule-not-found.bundle.min.js') }}"
-    data-url="{{ url_for('schedules.show_schedules', affiliation_id='param_affiliation_id', schedule_of='param_schedule_of') }}"
-    data-affiliation="{{ to_json(affiliation) }}"></script>
+<script type="module" src="{{ url_for('schedules.static', filename='js/schedule-not-found.bundle.min.js') }}"></script>
 {% endblock %}

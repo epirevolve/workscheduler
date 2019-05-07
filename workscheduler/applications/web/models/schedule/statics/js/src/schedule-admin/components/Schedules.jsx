@@ -6,21 +6,33 @@ import TableBody from '@material-ui/core/TableBody';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-import DayHeader from '../../schedule/components/DayHeader';
-import DayRow from '../../schedule/components/DayRow';
-import DayRows from '../../schedule/components/DayRows';
-
-const dataset = document.querySelector('script[src*="schedule-admin"]').dataset;
+import DayColumnHeaders from '../../schedule/components/DayColumnHeaders';
+import Rows from '../../schedule/components/Rows';
 
 const schedules = () => {
-    const schedules = JSON.parse(dataset.schedules);
+    const dataset = document.querySelector('script[src*="schedule-admin"]').dataset;
 
+    const monthlySetting = JSON.parse(dataset.monthlySetting)
+    const headers = monthlySetting.days.map(x => {return {name: x.dayName, day: x.day, isHoliday: x.isHoliday}})
+
+    const schedules = JSON.parse(dataset.schedules);
+    const rows = schedules.map(x => {
+        return {
+            key: x.operator.id,
+            header: x.operator.user.name,
+            cells: x.schedule.map(y => {return {key: y.day, val: y.name}})
+        }})
     return (
         <React.Fragment>
-            <Table>
-                <DayHeader schedule={schedules[0].schedule} />
+            <Table css={css`
+                    overflow: auto;
+                    height: 70vh;
+                    width: 95vw;
+                    display: block;
+                `}>
+                <DayColumnHeaders headers={headers} />
                 <TableBody>
-                    <DayRows schedules={schedules} />
+                    <Rows rows={rows} />
                 </TableBody>
             </Table>
         </React.Fragment>
