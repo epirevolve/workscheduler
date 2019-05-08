@@ -17,8 +17,10 @@ const dayHeaderCell = ({ name, day, isHoliday }) => {
         }
     return (
         <TableCell css={css`
-                font-weight: initial;
-                vertical-align: middle !important;
+                min-width: 5rem;
+                max-width: 5rem;
+                padding: 1rem;
+                vertical-align: middle;
                 text-align: center;
             `}>
             <span css={css(titleCss)}>{name}</span>

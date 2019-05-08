@@ -13,14 +13,23 @@ const schedules = () => {
     const dataset = document.querySelector('script[src*="schedule-admin"]').dataset;
 
     const monthlySetting = JSON.parse(dataset.monthlySetting)
-    const headers = monthlySetting.days.map(x => {return {name: x.dayName, day: x.day, isHoliday: x.isHoliday}})
+    const headers = ['', ''].concat(monthlySetting.days.map(x => {return {name: x.dayName, day: x.day, isHoliday: x.isHoliday}}))
 
     const schedules = JSON.parse(dataset.schedules);
-    const rows = schedules.map(x => {
+    const operatorRows = schedules.map(x => {
+        const totals = x.totals.map(y => {return {key: y.workCategory.id, val: y.total}})
+        const schedules = x.schedule.map(y => {return {key: y.day, val: y.name}})
         return {
             key: x.operator.id,
             header: x.operator.user.name,
-            cells: x.schedule.map(y => {return {key: y.day, val: y.name}})
+            cells: totals.concat(schedules)
+        }})
+    const totals = JSON.parse(dataset.totals);
+    const totalRows = totals.map((x, i) => {
+        return {
+            key: i,
+            header: x.workCategory.title,
+            cells: ['', ''].concat(x.totals.map((y, l) => {return {key: l, val: y}}))
         }})
     return (
         <React.Fragment>
@@ -32,7 +41,8 @@ const schedules = () => {
                 `}>
                 <DayColumnHeaders headers={headers} />
                 <TableBody>
-                    <Rows rows={rows} />
+                    <Rows rows={operatorRows} />
+                    <Rows rows={totalRows} />
                 </TableBody>
             </Table>
         </React.Fragment>

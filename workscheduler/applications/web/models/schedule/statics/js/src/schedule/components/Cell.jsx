@@ -11,6 +11,7 @@ const dayCell = ({ val }) => {
             min-width: 5rem;
             max-width: 5rem;
             padding: 1rem;
+            text-align: center;
         `}>
             {val}
         </TableCell>

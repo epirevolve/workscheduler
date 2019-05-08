@@ -3,6 +3,8 @@
 """Contains helper, and evaluation class which make monthly schedule."""
 from statistics import stdev
 from statistics import mean
+from multiprocessing import Pool
+import multiprocessing as multi
 
 import numpy as np
 
@@ -29,7 +31,7 @@ class SchedulerMonthlyHelperBase:
         self._fixed_schedules = {y for x in self._monthly_setting.days for y in x.fixed_schedules}
     
     def _evaluate_by_require(self, schedules, weight):
-        ratio = (weight / (len(schedules[0]) * len(self._monthly_setting.days[0].details))) * 0.3
+        ratio = (weight / (len(schedules[0]) * len(self._monthly_setting.days[0].details))) / 3
         adaptability = 0
         for schedule, day_setting in zip(np.array(schedules).T, self._monthly_setting.days):
             for detail in day_setting.details:
@@ -37,9 +39,11 @@ class SchedulerMonthlyHelperBase:
                     else detail.work_category.holiday_max
                 count = len([x for x in schedule if x == detail.work_category.id])
                 if count < detail.require:
-                    adaptability += ratio * (detail.require - count) * 5
-                elif count > max_require:
-                    adaptability += ratio * (count - max_require) * 2
+                    adaptability += ratio * (1.7 ** (detail.require - count))
+                elif count > detail.require:
+                    adaptability += ratio * (1.3 ** (count - detail.require))
+                if count > max_require:
+                    adaptability += ratio * (1.2 ** (count - max_require))
         return weight - min(weight, adaptability)
     
     def _evaluate_by_essential_skill(self, schedules, weight):
@@ -98,9 +102,9 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         return adaptability
     
     def _genetic_wrapper(self):
-        genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(self._schedules[0])),
-                          gene_size=len(self._schedules), generation_size=1000, population_size=500,
-                          saturated_limit=20)
+        protobionts = [[x] * len(self._schedules) for x in range(len(self._schedules[0]))]
+        genetic = Genetic(evaluation=self._evaluate, protobionts=protobionts, generation_size=1000,
+                          population_size=len(self._schedules[0]), debug=True)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
         genetic.mutation = build_mutation_duplicate()
@@ -108,9 +112,17 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         genetic.compile()
         return genetic.run()
     
+    def _batch_genetic_wrapper(self):
+        with Pool(multi.cpu_count()) as p:
+            batch = p.starmap(self._genetic_wrapper, [() for _ in range(10)])
+        return batch
+    
     def run(self):
         print("""====================
 ## start monthly schedule adjusting""")
+        # batch = self._batch_genetic_wrapper()
+        # sorted(batch, key=lambda x: x.adaptability, reverse=True)
+        # ret = batch[0]
         ret = self._genetic_wrapper()
         print("""## finished
 ====================""")

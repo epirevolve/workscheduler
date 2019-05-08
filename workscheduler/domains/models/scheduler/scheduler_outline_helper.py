@@ -72,10 +72,9 @@ class SchedulerOutlineHelper:
     @staticmethod
     def _evaluate_by_continuous_attendance(gene, weight):
         ratio = weight / len(gene)
-        continuous_attendance = [sum(1 for _ in z)
-                                 for y, z in groupby(gene, key=lambda x: x == holiday_sign) if not y]
-        adaptability = sum([ratio * x for i, x in enumerate(continuous_attendance)
-                            if x > 5 or (x < 3 and i != 0 and i != len(continuous_attendance)-1)])
+        continuous_attendance = [(y, len([_ for _ in z])) for y, z in groupby(gene, key=lambda x: x == holiday_sign)]
+        adaptability = sum([ratio * y for i, (x, y) in enumerate(continuous_attendance[1:-1])
+                            if y > 5 or y < 3 and not x])
         return weight - min(weight, adaptability)
     
     @staticmethod
@@ -153,7 +152,7 @@ class SchedulerOutlineHelper:
             else:
                 if not common_gene:
                     common_gene = self._batch_genetic_wrapper(operator)
-                compatibles.append(common_gene[:])
+                compatibles.append([x[:] for x in common_gene])
         print("""## finished
 ====================""")
         return compatibles

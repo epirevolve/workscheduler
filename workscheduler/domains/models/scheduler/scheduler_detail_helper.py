@@ -55,7 +55,7 @@ class SchedulerDetailHelper:
                     or (i + day_offs + 1 < len(outline) and outline[i + day_offs + 1] != holiday_sign):
                 continue
             available_indices.append(i)
-        amplitude = np.random.choice([-1, 0, 1], p=[0.4, 0.5, 0.1])
+        amplitude = np.random.choice([-1, 0, 1], p=[0.1, 0.5, 0.4])
         outline_len = len(outline)
         i = 0
         while i < self._least_attendance[work_category] + amplitude:

@@ -28,13 +28,13 @@ def show_schedules_operator(schedule_of: date):
     session = get_db_session()
     monthly_setting = SchedulerQuery(session).get_scheduler_of_affiliation_id(
         current_user.affiliation.id).monthly_setting(schedule_of.month, schedule_of.year)
-    schedules = ScheduleFacade(session).get_schedule(
+    schedules, totals = ScheduleFacade(session).get_schedule(
         current_user.affiliation.id, schedule_of.year, schedule_of.month)
     if not schedules:
         return show_schedules_not_found(schedule_of, current_user.affiliation)
     
-    my_schedule = list(filter(lambda x: x['operator'].user.id == current_user.id, schedules))[0]
-    others_schedule = list(filter(lambda x: x['operator'].user.id != current_user.id, schedules))
+    my_schedule = list(filter(lambda x: x['operator'].user == current_user, schedules))[0]
+    others_schedule = list(filter(lambda x: x['operator'].user != current_user, schedules))
     return render_template('schedule-operator.html', my_schedule=my_schedule, others_schedule=others_schedule,
                            schedule_of=to_year_month_string(schedule_of), monthly_setting=monthly_setting)
 
@@ -49,14 +49,14 @@ def show_schedules_administrator(schedule_of: date):
     session = get_db_session()
     monthly_setting = SchedulerQuery(session).get_scheduler_of_affiliation_id(
         affiliation.id).monthly_setting(schedule_of.month, schedule_of.year)
-    schedules = ScheduleFacade(session).get_schedule(
+    schedules, totals = ScheduleFacade(session).get_schedule(
         affiliation.id, schedule_of.year, schedule_of.month)
     if not schedules:
         return show_schedules_not_found(schedule_of, affiliation)
     
-    return render_template('schedule-admin.html', schedules=schedules, affiliations=affiliations,
-                           affiliation=affiliation, schedule_of=to_year_month_string(schedule_of),
-                           monthly_setting=monthly_setting)
+    return render_template('schedule-admin.html', schedules=schedules, totals=totals,
+                           affiliations=affiliations, affiliation=affiliation,
+                           schedule_of=to_year_month_string(schedule_of), monthly_setting=monthly_setting)
 
 
 @bp.route('/')
