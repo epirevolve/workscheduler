@@ -64,17 +64,12 @@ class SchedulerOutlineHelper:
                 adaptability += ratio
         return weight - adaptability
 
-    def _evaluate_by_holiday(self, gene, weight):
-        ratio = weight / (self._monthly_setting.holidays or 1)
-        holidays = len([x for x in gene if x == holiday_sign])
-        return weight - min(weight, abs(self._monthly_setting.holidays - holidays) * ratio)
-
     @staticmethod
     def _evaluate_by_continuous_attendance(gene, weight):
         ratio = weight / len(gene)
         continuous_attendance = [(y, len([_ for _ in z])) for y, z in groupby(gene, key=lambda x: x == holiday_sign)]
-        adaptability = sum([ratio * y for i, (x, y) in enumerate(continuous_attendance[1:-1])
-                            if y > 5 or y < 3 and not x])
+        adaptability = sum([ratio * y for x, y in continuous_attendance if y > 5 and not x])
+        adaptability += sum([ratio * y for x, y in continuous_attendance[1:-1] if y < 2 and not x])
         return weight - min(weight, adaptability)
     
     @staticmethod

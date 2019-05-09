@@ -40,30 +40,36 @@ class SchedulerDetailHelper:
             other_exclusives = [x.exclusive_operators for x in total_requires.keys() if x != work_category]
             participants[work_category] = [x for x in self._operators if x not in work_category.impossible_operators
                                            and x not in other_exclusives]
-            least_attendance[work_category] = math.ceil(total_require / len(participants[work_category]))
+            least_attendance[work_category] = math.floor(total_require / len(participants[work_category]))
         return least_attendance, participants
-
-    def _set_work_category_day_off(self, outline, work_category):
+    
+    @staticmethod
+    def _get_holiday_available_indices(outline, work_category):
         available_indices = []
-        for i, gene in enumerate(outline):
-            if gene != work_day_sign:
-                continue
-            day_offs = work_category.day_offs
-            if i + day_offs > len(outline):
-                day_offs = len(outline) - i
-            if (i != len(outline) - 1 and not all([x == work_day_sign for x in outline[i: i + day_offs + 1]])) \
-                    or (i + day_offs + 1 < len(outline) and outline[i + day_offs + 1] != holiday_sign):
+        day_offs = work_category.day_offs
+        for i, gene in filter(lambda x: x[1] == work_day_sign, list(enumerate(outline))[:-day_offs-1]):
+            if not all([x == work_day_sign for x in outline[i: i + day_offs + 1]])\
+                    or outline[i + day_offs + 1] != holiday_sign:
                 continue
             available_indices.append(i)
-        amplitude = np.random.choice([-1, 0, 1], p=[0.1, 0.5, 0.4])
+        if np.random.randint(1, 3) == 1:
+            last_index = len(outline) - 1
+            for i in range(day_offs, 0, -1):
+                if outline[-i:] == [work_day_sign] * i:
+                    for l in range(0, i + 1):
+                        available_indices.append(last_index - l)
+                    break
+        return available_indices
+    
+    def _set_work_category_day_off(self, outline, work_category):
+        available_indices = self._get_holiday_available_indices(outline, work_category)
+        amplitude = np.random.choice([-1, 0, 1, 2], p=[0.1, 0.4, 0.4, 0.1])
         outline_len = len(outline)
         i = 0
         while i < self._least_attendance[work_category] + amplitude:
             if not available_indices:
                 return outline
             index = np.random.choice(available_indices)
-            if index >= outline_len - work_category.day_offs and np.random.rand() > 0.05:
-                continue
             available_indices.remove(index)
             for x in [x for x in available_indices if abs(index - x) <= work_category.day_offs]:
                 available_indices.remove(x)

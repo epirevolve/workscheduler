@@ -130,15 +130,15 @@ class Database:
         from workscheduler.domains.models.scheduler import WorkCategory
         
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
-        work_daily = WorkCategory.new_category('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0, [],
+        work_daily = WorkCategory.new_category('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0,
                                                [get_operator_of_user_id(user1.id),
                                                 get_operator_of_user_id(user2.id)],
-                                               [])
+                                               [], [], [], [])
         scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(front.id)
         scheduler.work_categories.append(work_daily)
         scheduler.work_categories.append(
-            WorkCategory.new_category('夜間帯', time(17, 30), time(10, 00), 3, 5, 3, 5, 1, 5, [skill3], [],
-                                      [get_operator_of_user_id(user3.id)])
+            WorkCategory.new_category('夜間帯', time(17, 30), time(10, 00), 3, 5, 3, 5, 1, 5,
+                                      [], [], [skill3], [], [get_operator_of_user_id(user3.id)])
         )
         session.flush()
         
