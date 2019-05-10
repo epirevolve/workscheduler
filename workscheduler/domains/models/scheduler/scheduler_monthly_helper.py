@@ -3,20 +3,13 @@
 """Contains helper, and evaluation class which make monthly schedule."""
 from statistics import stdev
 from statistics import mean
-from multiprocessing import Pool
-import multiprocessing as multi
 
 import numpy as np
 
-from eart import Genetic
+from eart.indivisual import Individual
 
 from mypackages.utils.time import get_time_diff
 from mypackages.utils.time import time_to_hour
-
-from .ga_helper import build_parent_selection
-from .ga_helper import build_survivor_selection
-from .ga_helper import build_mutation_duplicate
-from .ga_helper import build_crossover_duplicate
 
 
 class SchedulerMonthlyHelperBase:
@@ -88,6 +81,9 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         super(SchedulerMonthlyHelper, self).__init__(monthly_setting, operators)
         self._operators = operators
         self._schedules = schedules
+        self._era = 0
+        self._base = range(len(self._schedules[0]))
+        self._max_perturbation_rate = 25
         
     def _gene_to_schedule(self, gene):
         return [self._schedules[i][x] for i, x in enumerate(gene)]
@@ -101,29 +97,45 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         adaptability += self._evaluate_by_skill_std(schedules, 2)
         return adaptability
     
-    def _genetic_wrapper(self):
-        protobionts = [[x] * len(self._schedules) for x in range(len(self._schedules[0]))]
-        genetic = Genetic(evaluation=self._evaluate, protobionts=protobionts, generation_size=1000,
-                          population_size=len(self._schedules[0]), debug=True)
-        genetic.parent_selection = build_parent_selection()
-        genetic.survivor_selection = build_survivor_selection(genetic.population_size)
-        genetic.mutation = build_mutation_duplicate()
-        genetic.crossover = build_crossover_duplicate()
-        genetic.compile()
-        return genetic.run()
+    def _evaluate_and_build_individual(self, gene):
+        individual = Individual.new(gene, self._era)
+        individual.adaptability = self._evaluate(gene)
+        return individual
     
-    def _batch_genetic_wrapper(self):
-        with Pool(multi.cpu_count()) as p:
-            batch = p.starmap(self._genetic_wrapper, [() for _ in range(10)])
-        return batch
+    def _perturb_genes(self, individual):
+        percentage = self._max_perturbation_rate - (individual.adaptability / 15 * 100 / 4)
+        indices = np.random.choice(range(len(individual.gene)), int(percentage / 100 * len(individual.gene)))
+        gene = individual.gene[:]
+        for index in indices:
+            gene[index] = np.random.choice(self._base)
+        return gene
+
+    def _is_terminate(self, adapters):
+        if not adapters:
+            return False
+        return self._era > 300 \
+            and len(set(map(lambda x: x.adaptability, adapters[-300:]))) == 1
+    
+    def _scheduling(self):
+        protobionts = [[np.random.choice(self._base) for _ in range(len(self._schedules))]
+                       for _ in range(len(self._schedules[0]))]
+        individuals = [self._evaluate_and_build_individual(x) for x in protobionts]
+        adapters = []
+        while not self._is_terminate(adapters):
+            perturbed_gebe = [self._perturb_genes(x) for x in individuals]
+            individuals = individuals + [self._evaluate_and_build_individual(x) for x in perturbed_gebe]
+            individuals = sorted(individuals, key=lambda x: x.adaptability, reverse=True)
+            individuals = individuals[:1000]
+            adapter = individuals[0]
+            adapters.append(adapter)
+            self._era += 1
+        return adapters[-1]
     
     def run(self):
         print("""====================
 ## start monthly schedule adjusting""")
-        # batch = self._batch_genetic_wrapper()
-        # sorted(batch, key=lambda x: x.adaptability, reverse=True)
-        # ret = batch[0]
-        ret = self._genetic_wrapper()
+        ret = self._scheduling()
+        print("last adaptability: {}".format(ret.adaptability))
         print("""## finished
 ====================""")
         return self._gene_to_schedule(ret.gene)

@@ -1,1 +1,1 @@
-FLASK_APP=runserver.py
+FLASK_APP=./workscheduler/runserver.py
