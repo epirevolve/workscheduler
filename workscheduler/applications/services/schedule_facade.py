@@ -16,13 +16,13 @@ class ScheduleFacade:
     def __init__(self, session):
         self._session = session
     
-    def get_schedule(self, affiliation_id: str, year: int, month: int):
+    def get_schedule(self, affiliation_id: str, month: int, year: int):
         scheduler = SchedulerQuery(self._session).get_scheduler_of_affiliation_id(affiliation_id)
         if not scheduler:
             raise Exception('no scheduler is made')
         work_categories = {x.id: x for x in scheduler.work_categories}
         schedules = ScheduleQuery(self._session).get_schedules_of_affiliation_year_month(
-            affiliation_id, year, month)
+            affiliation_id, month, year)
         
         if not schedules:
             return [], []
@@ -34,7 +34,7 @@ class ScheduleFacade:
             {
                 'workCategory': x,
                 'totals': [len([z for z in y if z.work_category_id == x.id])
-                           for y in np.array([x.day_work_categories for x in schedules]).T]
+                           for y in np.array([x.day_work_categories for x in schedules.components]).T]
             } for x in scheduler.work_categories]
 
         schedules = [
@@ -46,6 +46,6 @@ class ScheduleFacade:
                         'workCategory': y,
                         'total': len([z for z in x.day_work_categories if z.work_category_id == y.id])
                      } for y in scheduler.work_categories]
-            } for x in schedules]
+            } for x in schedules.components]
         
         return schedules, totals

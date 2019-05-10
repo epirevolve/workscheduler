@@ -29,7 +29,7 @@ def show_schedules_operator(schedule_of: date):
     monthly_setting = SchedulerQuery(session).get_scheduler_of_affiliation_id(
         current_user.affiliation.id).monthly_setting(schedule_of.month, schedule_of.year)
     schedules, totals = ScheduleFacade(session).get_schedule(
-        current_user.affiliation.id, schedule_of.year, schedule_of.month)
+        current_user.affiliation.id, schedule_of.month, schedule_of.year)
     if not schedules:
         return show_schedules_not_found(schedule_of, current_user.affiliation)
     
@@ -50,7 +50,7 @@ def show_schedules_administrator(schedule_of: date):
     monthly_setting = SchedulerQuery(session).get_scheduler_of_affiliation_id(
         affiliation.id).monthly_setting(schedule_of.month, schedule_of.year)
     schedules, totals = ScheduleFacade(session).get_schedule(
-        affiliation.id, schedule_of.year, schedule_of.month)
+        affiliation.id, schedule_of.month, schedule_of.year)
     if not schedules:
         return show_schedules_not_found(schedule_of, affiliation)
     

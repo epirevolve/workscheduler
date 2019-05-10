@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """Contains helper, and evaluation class which make monthly schedule."""
+from itertools import chain
 from statistics import stdev
 from statistics import mean
 
@@ -20,23 +21,26 @@ class SchedulerMonthlyHelperBase:
     def __init__(self, monthly_setting, operators):
         self._monthly_setting = monthly_setting
         self._operators = operators
-        self._work_categories = {y.work_category for x in self._monthly_setting.days for y in x.details}
-        self._fixed_schedules = {y for x in self._monthly_setting.days for y in x.fixed_schedules}
+        self._work_categories_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in
+                                      {y.work_category for x in self._monthly_setting.days for y in x.details}}
+        self._fixed_schedules_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from))
+                                      for x in {y for x in self._monthly_setting.days for y in x.fixed_schedules}}
     
     def _evaluate_by_require(self, schedules, weight):
         ratio = (weight / (len(schedules[0]) * len(self._monthly_setting.days[0].details))) / 3
         adaptability = 0
         for schedule, day_setting in zip(np.array(schedules).T, self._monthly_setting.days):
             for detail in day_setting.details:
-                max_require = detail.work_category.week_day_max if day_setting.day_name not in ['SAT', 'SUN'] \
-                    else detail.work_category.holiday_max
-                count = len([x for x in schedule if x == detail.work_category.id])
+                work_category = detail.work_category
+                max_require = work_category.week_day_max\
+                    if not day_setting.is_holiday else work_category.holiday_max
+                count = len([x for x in schedule if x == work_category.id])
                 if count < detail.require:
                     adaptability += ratio * (1.8 ** (detail.require - count))
+                elif count > max_require:
+                    adaptability += ratio * (1.6 ** (count - max_require))
                 elif count > detail.require:
                     adaptability += ratio * (1.5 ** (count - detail.require))
-                if count > max_require:
-                    adaptability += ratio * (1.1 ** (count - max_require))
         return weight - min(weight, adaptability)
     
     def _evaluate_by_essential_skill(self, schedules, weight):
@@ -44,17 +48,15 @@ class SchedulerMonthlyHelperBase:
         adaptability = 0
         for schedule, day_setting in zip(np.array(schedules).T, self._monthly_setting.days):
             for detail in day_setting.details:
-                participants = [self._operators[i] for i, x in enumerate(schedules) if x == detail.work_category.id]
-                for skill in detail.work_category.essential_skills:
-                    if skill not in [x.skills for x in participants]:
-                        adaptability += ratio
+                work_category = detail.work_category
+                participant_skills = [chain.from_iterable(self._operators[i].skills)
+                                      for i, x in enumerate(schedule) if x == work_category.id]
+                adaptability += sum([ratio for x in work_category.essential_skills if x not in participant_skills])
         return weight - min(weight, adaptability)
     
     def _evaluate_by_work_hours_std(self, schedules, weight):
-        work_category_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in self._work_categories}
-        fixed_schedule_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from)) for x in self._fixed_schedules}
-        hours = [sum([work_category_hour[y] if y in work_category_hour else
-                      fixed_schedule_hour[y] if y in fixed_schedule_hour else
+        hours = [sum([self._work_categories_hour[y] if y in self._work_categories_hour else
+                      self._fixed_schedules_hour[y] if y in self._fixed_schedules_hour else
                       0 for y in x]) for x in schedules]
         return weight - min(weight, stdev(hours) / (mean(hours) or 1))
     
@@ -125,10 +127,11 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
             perturbed_gebe = [self._perturb_genes(x) for x in individuals]
             individuals = individuals + [self._evaluate_and_build_individual(x) for x in perturbed_gebe]
             individuals = sorted(individuals, key=lambda x: x.adaptability, reverse=True)
-            individuals = individuals[:1000]
+            individuals = individuals[:500-min(self._era*2, 400)]
             adapter = individuals[0]
             adapters.append(adapter)
             self._era += 1
+            print("era: {}, adaptability: {}".format(self._era, adapter.adaptability))
         return adapters[-1]
     
     def run(self):
