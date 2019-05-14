@@ -11,16 +11,17 @@ class ScheduleCommand:
         self._session = session
     
     def append_new_schedule(self, affiliation_id: str, month: int, year: int,
-                            schedules):
+                            schedule_components: []):
         self.remove_schedule(affiliation_id, month, year)
         components = []
-        for operator, schedule in schedules:
+        for operator, schedule in schedule_components:
             components.append(ScheduleComponent.new_schedule_component(operator, schedule))
         schedule = Schedule.new_schedule(affiliation_id, month, year, components)
         self._session.add(schedule)
     
     def remove_schedule(self, affiliation_id: str, month: int, year: int):
-        schedules = ScheduleQuery(self._session).get_schedules_of_affiliation_year_month(
+        schedule = ScheduleQuery(self._session).get_schedules_of_affiliation_year_month(
             affiliation_id, month, year)
-        for schedule in schedules:
-            self._session.delete(schedule)
+        if not schedule:
+            return
+        self._session.delete(schedule)

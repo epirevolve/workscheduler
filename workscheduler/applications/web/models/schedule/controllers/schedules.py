@@ -33,9 +33,10 @@ def show_schedules_operator(schedule_of: date):
     if not schedules:
         return show_schedules_not_found(schedule_of, current_user.affiliation)
     
-    my_schedule = list(filter(lambda x: x['operator'].user == current_user, schedules))[0]
-    others_schedule = list(filter(lambda x: x['operator'].user != current_user, schedules))
+    my_schedule = list(filter(lambda x: x['operator'].user.id == current_user.id, schedules))[0]
+    others_schedule = list(filter(lambda x: x['operator'].user.id != current_user.id, schedules))
     return render_template('schedule-operator.html', my_schedule=my_schedule, others_schedule=others_schedule,
+                           totals=totals, affiliation=current_user.affiliation,
                            schedule_of=to_year_month_string(schedule_of), monthly_setting=monthly_setting)
 
 

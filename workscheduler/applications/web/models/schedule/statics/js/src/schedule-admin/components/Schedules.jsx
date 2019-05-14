@@ -29,13 +29,13 @@ const schedules = () => {
         return {
             key: i,
             header: x.workCategory.title,
-            cells: ['', ''].concat(x.totals.map((y, l) => {return {key: l, val: y}}))
+            cells: ['', ''].concat(x.totals.map((y, l) => {return {key: l, val: y.count}}))
         }})
     return (
         <React.Fragment>
             <Table css={css`
                     overflow: auto;
-                    height: 70vh;
+                    height: 74vh;
                     width: 95vw;
                     display: block;
                 `}>

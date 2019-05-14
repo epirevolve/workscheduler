@@ -9,11 +9,15 @@ const dayHeaderCell = ({ name, day, isHoliday }) => {
     let titleCss = {}
     if (name == 'Sat')
         titleCss = {
-            color: '#17a2b8'
+            color: 'red'
         }
-    else if (name == 'Sun' || isHoliday)
+    else if (name == 'Sun')
         titleCss = {
-            color: '#dc3545'
+            color: 'deepskyblue'
+        }
+    else if (isHoliday)
+        titleCss = {
+            color: 'orangered'
         }
     return (
         <TableCell css={css`
