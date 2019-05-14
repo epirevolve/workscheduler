@@ -29,24 +29,26 @@ class ScheduleFacade:
             raise Exception('no scheduler is made')
         work_categories = {x.id: x for x in scheduler.work_categories}
         monthly_setting = scheduler.monthly_setting(month, year)
+        fixed_schedules = {y.id: y for x in monthly_setting.days for y in x.fixed_schedules}
         schedules = ScheduleQuery(self._session).get_schedules_of_affiliation_year_month(
             affiliation_id, month, year)
         
         if not schedules:
-            return [], []
+            return [], [], schedules.is_published
             
         def get_total(work_category, day_setting, operator_schedules):
             participant_count = len([x for x in operator_schedules if x.work_category_id == work_category.id])
-            max_require = work_category.week_day_max if day_setting.day_name not in ['Sat', 'Sun'] else\
-                work_category.holiday_max
+            max_require = work_category.holiday_max if day_setting.is_holiday else work_category.week_day_max
             day_detail = list(filter(lambda x: x.work_category == work_category, day_setting.details))[0]
             state = 'excess' if participant_count > max_require else\
-                'over' if participant_count < day_detail.require else\
+                'over' if participant_count > day_detail.require else\
                 'under' if participant_count < day_detail.require else ''
             return Total(day_setting.day, participant_count, state)
         
-        def get_category_name(work_category_id: str):
-            return work_categories[work_category_id].title if work_category_id in work_categories else work_category_id
+        def get_name(work_id: str):
+            return work_categories[work_id].title if work_id in work_categories\
+                else fixed_schedules[work_id].title if work_id in fixed_schedules\
+                else work_id
         
         transpose = np.array([x.day_work_categories for x in schedules.components]).T
         totals = [
@@ -55,10 +57,10 @@ class ScheduleFacade:
                 'totals': [get_total(x, y, z) for y, z in zip(monthly_setting.days, transpose)]
             } for x in scheduler.work_categories]
 
-        schedules = [
+        schedules_components = [
             {
                 'operator': x.operator,
-                'schedule': [Day(y.day, get_category_name(y.work_category_id)) for y in x.day_work_categories],
+                'schedule': [Day(y.day, get_name(y.work_category_id)) for y in x.day_work_categories],
                 'totals': [
                     {
                         'workCategory': y,
@@ -66,4 +68,4 @@ class ScheduleFacade:
                      } for y in scheduler.work_categories]
             } for x in schedules.components]
         
-        return schedules, totals
+        return schedules_components, totals, schedules.is_published

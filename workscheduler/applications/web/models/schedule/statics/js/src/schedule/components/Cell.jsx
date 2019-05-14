@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const dayCell = ({ val }) => {
+const cell = ({ val }) => {
     return (
         <TableCell css={css`
             min-width: 5rem;
@@ -18,4 +18,4 @@ const dayCell = ({ val }) => {
     )
 }
 
-export default dayCell;
+export default cell;

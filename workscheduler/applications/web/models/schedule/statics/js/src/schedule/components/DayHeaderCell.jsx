@@ -7,11 +7,11 @@ import { css, jsx } from '@emotion/core'
 
 const dayHeaderCell = ({ name, day, isHoliday }) => {
     let titleCss = {}
-    if (name == 'Sat')
+    if (name == 'Sun')
         titleCss = {
             color: 'red'
         }
-    else if (name == 'Sun')
+    else if (name == 'Sat')
         titleCss = {
             color: 'deepskyblue'
         }

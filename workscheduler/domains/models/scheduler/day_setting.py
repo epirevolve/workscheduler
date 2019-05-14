@@ -56,7 +56,7 @@ class DaySetting(OrmBase):
     
     def add_category(self, work_category: WorkCategory):
         self.details.append(DayDetail.new_detail(work_category, 0))
-        
+    
     @staticmethod
     def new_day(date: DateTime, date_name: str, work_categories: [WorkCategory]):
         details = [DayDetail.new_detail(x, x.week_day_require if not is_holiday_(date) else x.holiday_require)

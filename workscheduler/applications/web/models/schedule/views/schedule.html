@@ -10,6 +10,7 @@
 {% block appendScript %}{% endblock %}
 <script id="base-schedule"
     data-url="{{ url_for('schedules.show_schedules', affiliation_id='param_affiliation_id', schedule_of='param_schedule_of') }}"
-    data-affiliation="{{ to_json(affiliation) }}" data-schedule-of="{{ schedule_of }}"></script>
+    data-affiliation="{{ to_json(affiliation) }}" data-schedule-of="{{ schedule_of }}"
+    data-schedule-id="{{ schedule_id }}"></script>
 <breadscram data-current="{{ to_json({'name': 'Schedules'}) }}"></breadscram>
 {% endblock %}

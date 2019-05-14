@@ -28,9 +28,9 @@ def show_schedules_operator(schedule_of: date):
     session = get_db_session()
     monthly_setting = SchedulerQuery(session).get_scheduler_of_affiliation_id(
         current_user.affiliation.id).monthly_setting(schedule_of.month, schedule_of.year)
-    schedules, totals = ScheduleFacade(session).get_schedule(
+    schedules, totals, is_published = ScheduleFacade(session).get_schedule(
         current_user.affiliation.id, schedule_of.month, schedule_of.year)
-    if not schedules:
+    if not schedules or not is_published:
         return show_schedules_not_found(schedule_of, current_user.affiliation)
     
     my_schedule = list(filter(lambda x: x['operator'].user.id == current_user.id, schedules))[0]
@@ -50,13 +50,13 @@ def show_schedules_administrator(schedule_of: date):
     session = get_db_session()
     monthly_setting = SchedulerQuery(session).get_scheduler_of_affiliation_id(
         affiliation.id).monthly_setting(schedule_of.month, schedule_of.year)
-    schedules, totals = ScheduleFacade(session).get_schedule(
+    schedules, totals, is_published = ScheduleFacade(session).get_schedule(
         affiliation.id, schedule_of.month, schedule_of.year)
     if not schedules:
         return show_schedules_not_found(schedule_of, affiliation)
     
     return render_template('schedule-admin.html', schedules=schedules, totals=totals,
-                           affiliations=affiliations, affiliation=affiliation,
+                           affiliations=affiliations, affiliation=affiliation, is_published=is_published,
                            schedule_of=to_year_month_string(schedule_of), monthly_setting=monthly_setting)
 
 
