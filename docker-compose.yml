@@ -2,7 +2,9 @@ version: "3"
 services:
 
   uwsgi:
-    build: ./workscheduler
+    build:
+      context: ./
+      dockerfile: ./workscheduler/Dockerfile
     volumes:
       - ./workscheduler:/var/www/
       - ./mypackages:/var/www

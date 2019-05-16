@@ -1,4 +1,4 @@
-NAME=flaskapp
+NAME=workscheduler
 
 run:
     docker-compose build
