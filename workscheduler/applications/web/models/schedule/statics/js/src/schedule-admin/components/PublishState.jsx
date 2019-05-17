@@ -5,7 +5,8 @@ import requestAgent from 'superagent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const dataset = document.querySelector('script[src*="schedule-admin"]').dataset;
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 
 class publishState extends React.Component {
     handlePublish () {
@@ -31,17 +32,21 @@ class publishState extends React.Component {
     }
 
     render () {
-        const isPublished = dataset.isPublished ? 'published' : 'not published'
+        const isPublished = true ? 'published' : 'not published'
         return (
-            <React.Fragment>
+            <div css={css`
+                display: flex;
+                color: lightslategray !important;
+                margin-top: 1rem;
+            `}>
                 <Typography variant="h5">{isPublished}</Typography>
-                <Button onClick={handlePublish} color="default">
+                <Button onClick={this.handlePublish} variant="outlined" color="default">
                     Publish
                 </Button>
-                <Button onClick={handleStop} color="default">
+                <Button onClick={this.handleStop} color="default">
                     Stop
                 </Button>
-            </React.Fragment>
+            </div>
         )
     }
 }

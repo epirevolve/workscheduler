@@ -6,7 +6,5 @@
 {% block appendScript %}
 <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
 <script type="module" src="{{ url_for('schedules.static', filename='js/schedule-admin.bundle.min.js') }}"
-    data-monthly-setting="{{ to_json(monthly_setting) }}" data-schedules="{{ to_json(schedules) }}"
-    data-totals="{{ to_json(totals) }}" data-affiliations="{{ to_json(affiliations) }}"
-    data-is-published="{{ is_published }}"></script>
+    data-affiliations="{{ to_json(affiliations) }}"></script>
 {% endblock %}

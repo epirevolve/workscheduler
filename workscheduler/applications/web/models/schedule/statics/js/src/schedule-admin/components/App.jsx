@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Affiliations from './Affiliations';
-import Schedules from './Schedules';
+import ChangeAffiliation from '../containers/ChangeAffiliation';
+import DisplaySchedules from '../containers/DisplaySchedules';
 import PublishState from './PublishState';
 
 const app = () => (
     <React.Fragment>
-        <Affiliations />
-        <Schedules />
+        <ChangeAffiliation />
+        <DisplaySchedules />
         <PublishState />
     </React.Fragment>
 )

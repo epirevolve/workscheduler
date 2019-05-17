@@ -4,7 +4,7 @@
 <script type="module" src="{{ url_for('static', filename='js/main-menu.bundle.min.js') }}"
     data-auth="{{ to_json(current_user) }}"
     data-url-menu="{{ url_for('menus.show_menu') }}"
-    data-url-schedules="{{ url_for('schedules.show_schedules', schedule_of=current_month) }}"
+    data-url-schedules="{{ url_for('schedules.show_schedules') }}"
     data-url-requests="{{ url_for('requests.show_my_request', schedule_of=next_month) }}"
     data-url-as-operator="{{ url_for('operators.show_myself', operator_id=operator_id) }}"
     data-url-as-user="{{ url_for('users.show_myself', user_id=current_user.id) }}"
