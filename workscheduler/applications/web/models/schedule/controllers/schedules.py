@@ -9,14 +9,7 @@ from flask_login import current_user
 from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.web import get_db_session
 
-from mypackages.utils.date import to_year_month_string
-
 bp = Blueprint('schedules', __name__, template_folder='../views', static_folder='../statics')
-
-
-def show_schedules_not_found(schedule_of, affiliation):
-    return render_template('schedule-not-found.html', schedule_of=to_year_month_string(schedule_of),
-                           affiliation=affiliation)
 
 
 def show_schedules_operator():
