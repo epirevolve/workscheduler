@@ -19,6 +19,12 @@ class schedules extends React.Component {
     render () {
         const { daySettings, schedules, totals } = this.props;
 
+        if (schedules.length == 0) {
+            return (
+                <div>Sorry this month is not create yet</div>
+            )
+        }
+
         const headers = [{day: ''}, {day: ' '}].concat(daySettings.map(x => ({name: x.dayName, ...x})))
         const operatorRows = schedules.map(x => {
             const totals = x.totals.map(y => ({key: y.workCategory.id, val: y.total}))

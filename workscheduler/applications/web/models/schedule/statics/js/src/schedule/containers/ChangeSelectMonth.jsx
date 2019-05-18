@@ -5,10 +5,10 @@ import requestAgent from 'superagent';
 
 import { changeScheduleOf } from '../actions';
 
-import Affiliations from '../components/Affiliations';
+import MonthSelect from '../components/MonthSelect';
 
 const mapStateToProps = (state) => ({
-    affiliation: state.affiliations.affiliation,
+    affiliation: state.schedules.affiliation,
     scheduleOf: state.schedules.scheduleOf
 })
 
@@ -25,4 +25,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Affiliations);
+export default connect(mapStateToProps, mapDispatchToProps)(MonthSelect);

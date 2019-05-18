@@ -34,7 +34,7 @@ class ScheduleFacade:
             affiliation_id, month, year)
         
         if not schedules:
-            return [], [], [], schedules.is_published
+            return [], [], [], False
             
         def get_total(work_category, day_setting, operator_schedules):
             participant_count = len([x for x in operator_schedules if x.work_category_id == work_category.id])

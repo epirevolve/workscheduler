@@ -11,7 +11,6 @@ import FormControl from '@material-ui/core/FormControl';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const baseDataset = document.querySelector('script[id="base-schedule"]').dataset;
 const dataset = document.querySelector('script[src*="schedule-admin"]').dataset;
 
 const affiliations = ({ affiliation, scheduleOf, onAffiliationChange }) => {

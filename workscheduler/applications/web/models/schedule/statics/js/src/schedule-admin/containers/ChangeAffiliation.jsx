@@ -8,7 +8,7 @@ import { changeAffiliation } from '../actions';
 import Affiliations from '../components/Affiliations';
 
 const mapStateToProps = (state) => ({
-    affiliation: state.affiliations.affiliation,
+    affiliation: state.schedules.affiliation,
     scheduleOf: state.schedules.scheduleOf
 })
 

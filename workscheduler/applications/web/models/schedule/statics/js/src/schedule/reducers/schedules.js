@@ -5,7 +5,7 @@ const schedules = (state = {}, action) => {
                 daySettings: action.daySettings,
                 schedules: action.schedules,
                 totals: action.totals,
-                isPublished: action.isPublished
+                isPublished: action.isPublished,
             }
         case 'CHANGE_SCHEDULE_OF':
             return {...state,
@@ -14,6 +14,10 @@ const schedules = (state = {}, action) => {
                 totals: action.totals,
                 isPublished: action.isPublished,
                 scheduleOf: actions.scheduleOf
+            }
+        case 'CHANGE_AFFILIATION':
+            return {...state,
+                affiliation: actions.affiliation
             }
         default:
             return state

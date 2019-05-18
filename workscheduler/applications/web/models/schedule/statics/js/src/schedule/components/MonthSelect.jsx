@@ -23,7 +23,7 @@ class MonthSelect extends React.Component {
     }
 
     render () {
-        const scheduleOf = dataset.scheduleOf;
+        const { scheduleOf } = this.props;
         const calendar = <MonthCalendar />;
         const date = moment(scheduleOf, 'YYYY-MM')
         return (

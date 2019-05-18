@@ -9,7 +9,7 @@ const mapStateToProps = (state) => ({
     daySettings: state.schedules.daySettings,
     schedules: state.schedules.schedules,
     totals: state.schedules.totals,
-    affiliation: state.affiliations.affiliation,
+    affiliation: state.schedules.affiliation,
     scheduleOf: state.schedules.scheduleOf
 })
 
