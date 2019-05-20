@@ -28,7 +28,7 @@ const affiliations = ({ affiliation, scheduleOf, onAffiliationChange }) => {
 
     return (
         <Select value={affiliation} fullWidth className="m-2" input={<OutlinedInput labelWidth={0}
-            onChange={scheduleOf => e => onAffiliationChange(scheduleOf, e)} />}>
+            onChange={e => onAffiliationChange(scheduleOf, e)} />}>
             {affiliationList}
         </Select>
     )

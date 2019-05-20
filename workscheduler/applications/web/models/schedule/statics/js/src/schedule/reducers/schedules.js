@@ -13,7 +13,7 @@ const schedules = (state = {}, action) => {
                 schedules: action.schedules,
                 totals: action.totals,
                 isPublished: action.isPublished,
-                scheduleOf: actions.scheduleOf
+                scheduleOf: action.scheduleOf
             }
         case 'CHANGE_AFFILIATION':
             return {...state,

@@ -12,18 +12,9 @@ import moment from 'moment';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const dataset = document.querySelector('script[id="base-schedule"]').dataset;
-
 class MonthSelect extends React.Component {
-    onScheduleChange (date) {
-        const url = dataset.url;
-        const affiliation = JSON.parse(dataset.affiliation);
-        const s = date.toDate().toYearMonthFormatString();
-        location.href = url.replace('param_affiliation_id', affiliation.id).replace('param_schedule_of', s);
-    }
-
     render () {
-        const { scheduleOf } = this.props;
+        const { scheduleOf, affiliation, onMonthChange } = this.props;
         const calendar = <MonthCalendar />;
         const date = moment(scheduleOf, 'YYYY-MM')
         return (
@@ -33,7 +24,7 @@ class MonthSelect extends React.Component {
                         margin: 0.5rem 1rem;
                     `}>{date.format("YYYY-MM")}</Typography>
                 <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                    value={date} onChange={this.onScheduleChange}>
+                    value={date} onChange={e => onMonthChange(affiliation, e)}>
                     { ({ value }) => {
                         return (
                             <Fab color="primary" css={css`

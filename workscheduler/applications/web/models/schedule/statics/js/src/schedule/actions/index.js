@@ -15,8 +15,7 @@ export const fetchSchedules = (affiliation, scheduleOf) => {
         }))
 }
 
-export const changeScheduleOf = (affiliation) => (e) => {
-    const scheduleOf = e.toDate().toYearMonthFormatString();
+export const changeScheduleOf = (affiliation, scheduleOf) => {
     return _fetchSchedules(affiliation, scheduleOf)
         .then(schedules => ({
             type: 'CHANGE_SCHEDULE_OF',

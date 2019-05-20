@@ -14,7 +14,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    onLoad: ({ affiliation, scheduleOf }) => {
+    onLoad: (affiliation, scheduleOf) => {
         fetchSchedules(affiliation, scheduleOf)
             .then(action => dispatch(action))
     }

@@ -13,7 +13,8 @@ import Rows from '../../schedule/components/Rows';
 
 class schedules extends React.Component {
     componentDidMount() {
-        this.props.onLoad(this.props);
+        const { affiliation, scheduleOf } = this.props;
+        this.props.onLoad(affiliation, scheduleOf);
     }
 
     render () {
