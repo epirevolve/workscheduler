@@ -8,6 +8,7 @@ import numpy as np
 
 from .scheduler_outline_helper import work_day_sign
 from .scheduler_outline_helper import holiday_sign
+from .scheduler_outline_helper import fixed_schedule_day_sign
 
 day_off_sign = "-"
 
@@ -114,11 +115,23 @@ class SchedulerDetailHelper:
             work_categories = filter(lambda x: operator in x.exclusive_operators, work_categories)
         return list(work_categories)
     
+    def _set_fixed_schedules(self, outline, operator):
+        if fixed_schedule_day_sign not in outline:
+            return outline
+        for day in self._monthly_setting.days:
+            index = day.day - 1
+            if outline[index] != fixed_schedule_day_sign:
+                continue
+            fixed_schedule = list(filter(lambda x: operator in x.participants, day.fixed_schedules))[0]
+            outline[index] = fixed_schedule.id
+        return outline
+    
     def _put_details(self, outlines, operator):
         combines = []
         work_categories = self._find_operator_work_categories(operator)
         for outline in outlines:
             outline = self._set_work_categories(outline, work_categories)
+            outline = self._set_fixed_schedules(outline, operator)
             if outline:
                 combines.append(outline)
         return combines

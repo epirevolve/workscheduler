@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import { css, jsx } from '@emotion/core';
 
 import Cell from '../../schedule/components/Cell';
+import SelectableCell from './SelectableCell';
 import TotalCell from '../../schedule/components/TotalCell';
 import DayHeaderColumns from '../../schedule/components/DayHeaderColumns';
 import Rows from '../../schedule/components/Rows';
@@ -27,21 +28,32 @@ class schedules extends React.Component {
         }
 
         const headers = [{day: ''}, {day: ' '}].concat(daySettings.map(x => ({name: x.dayName, ...x})))
-        const operatorRows = schedules.map(x => {
-            const totals = x.totals.map(y => ({key: y.workCategory.id, val: y.total}))
-            const schedules = x.schedule.map(y => ({key: y.day, val: y.name}))
-            const cells = totals.concat(schedules)
+        const zip = (array1, array2) => array1.map((_, i) => [array1[i], array2[i]]);
+        const categories = daySettings.map(x => [""].concat(x.details.map(y => y.workCategory.title)).concat(["-"])
+            .concat(x.fixedSchedules.map(y => y.title)));
+        let css_ = {
+            position: 'sticky',
+            background: 'white',
+            zIndex: 99,
+        }
+        const operatorRows = zip(schedules, daySettings).map(([x, y]) => {
+            const totals = x.totals.map(z => ({key: z.workCategory.id, val: z.total}))
+            const schedules = x.schedule.map(z => ({key: z.day, val: z.name}))
+            const cells = totals.map((z, i) => {
+                css_ = {...css_, left: 7+(5*i)+'rem'}
+                return <Cell key={z.key} {...z} css_={css_} />
+            }).concat(zip(schedules, categories).map(([y, z]) => <SelectableCell key={y.key} {...y} categories={z} />))
             return {
                 key: x.operator.user.id,
                 header: x.operator.user.name,
-                cells: cells.map(x => <Cell {...x} />)
+                cells: cells
             }})
         const totalRows = totals.map((x, i) => {
-            const cells = [{day: ''}, {day: ' '}].concat(x.totals.map((y, l) => ({key: l, val: y.count, ...y})))
+            const cells = [{val: '', key: ''}, {val: ' ', key: ' '}].concat(x.totals.map((y, l) => ({key: l, val: y.count, ...y})))
             return {
                 key: i,
                 header: x.workCategory.title,
-                cells: cells.map(z => <TotalCell {...z} />)
+                cells: cells.map(y => <TotalCell key={y.key} {...y} />)
             }})
         return (
             <React.Fragment>

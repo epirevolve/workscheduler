@@ -35,7 +35,7 @@ class SchedulerMonthlyHelperBase:
                                       for x in {y for x in self._monthly_setting.days for y in x.fixed_schedules}}
     
     def _evaluate_by_require(self, transpose, weight):
-        ratio = (weight / (len(transpose) * len(self._monthly_setting.days[0].details))) / 3
+        ratio = (weight / (len(transpose) * len(self._monthly_setting.days[0].details))) / 4
         adaptability = 0
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
@@ -44,11 +44,11 @@ class SchedulerMonthlyHelperBase:
                     if not day_setting.is_holiday else work_category.holiday_max
                 count = len([x for x in schedule if x == work_category.id])
                 if count < detail.require:
-                    adaptability += ratio * (1.9 ** (detail.require - count))
+                    adaptability += ratio * (1.9 ** (detail.require - count + 1))
                 elif count > max_require:
-                    adaptability += ratio * (1.6 ** (count - max_require))
+                    adaptability += ratio * (1.6 ** (count - max_require + 1))
                 elif count > detail.require:
-                    adaptability += ratio * (1.2 ** (count - detail.require))
+                    adaptability += ratio * (1.3 ** (count - detail.require + 1))
         return weight - min(weight, adaptability)
     
     def _evaluate_by_essential_skill(self, transpose, weight):
@@ -102,7 +102,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         schedules = self._gene_to_schedule(gene)
         transpose = np.array(schedules).T
         adaptability = 0
-        adaptability += self._evaluate_by_require(transpose, 7)
+        adaptability += self._evaluate_by_require(transpose, 8)
         adaptability += self._evaluate_by_essential_skill(transpose, 5)
         adaptability += self._evaluate_by_work_hours_std(schedules, 1)
         adaptability += self._evaluate_by_skill_std(transpose, 2)
@@ -114,7 +114,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         return individual
     
     def _perturb_genes(self, individual):
-        percentage = abs(self._max_perturbation_rate - (individual.adaptability / 15 * 100 / 3))
+        percentage = abs(self._max_perturbation_rate - (individual.adaptability / 16 * 100 / 3))
         count = math.ceil(percentage / 100 * len(individual.gene))
         indices = np.random.choice(range(len(individual.gene)), count)
         gene = individual.gene[:]
@@ -144,8 +144,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
     
     def _genetic_wrapper(self):
         genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(self._schedules[0])),
-                          gene_size=len(self._schedules), generation_size=1000, population_size=500,
-                          debug=True)
+                          gene_size=len(self._schedules), generation_size=1000, population_size=500, debug=True)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
         genetic.mutation = build_mutation_duplicate()

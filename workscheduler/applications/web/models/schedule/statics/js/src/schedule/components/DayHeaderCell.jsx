@@ -26,6 +26,10 @@ const dayHeaderCell = ({ name, day, isHoliday }) => {
                 padding: 1rem;
                 vertical-align: middle;
                 text-align: center;
+                position: sticky;
+                top: 0;
+                background: white;
+                z-index: 99;
             `}>
             <span css={css(titleCss)}>{name}</span>
             <br />

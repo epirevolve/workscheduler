@@ -12,6 +12,10 @@ const dayRowHeader = ({ val }) => {
                 min-width: 7rem;
                 max-width: 7rem;
                 padding: 1rem;
+                position: sticky;
+                left: 0;
+                background: white;
+                z-index: 99;
             `}>
             {val}
         </TableCell>
