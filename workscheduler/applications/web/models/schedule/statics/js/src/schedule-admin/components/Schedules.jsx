@@ -22,11 +22,11 @@ class schedules extends React.Component {
             workCategories: []
         }
         requestAgent
-            .get(`/api/scheduler?affiliation-id=${affiliation.id}`)
+            .get(`/api/scheduler?affiliation-id=${props.affiliation.id}`)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
-                res = JSON.parse(res.text)
-                this.setState({workCategories: res.workCategories})
+                const scheduler = JSON.parse(res.text)
+                this.setState({workCategories: scheduler.workCategories})
             })
     }
 
