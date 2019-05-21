@@ -12,32 +12,29 @@ import moment from 'moment';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-class MonthSelect extends React.Component {
-    render () {
-        const { scheduleOf, affiliation, onMonthChange } = this.props;
-        const calendar = <MonthCalendar />;
-        const date = moment(scheduleOf, 'YYYY-MM')
-        return (
-            <React.Fragment>
-                <Typography variant="h4" css={css`
-                        float: right;
-                        margin: 0.5rem 1rem;
-                    `}>{date.format("YYYY-MM")}</Typography>
-                <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                    value={date} onChange={e => onMonthChange(affiliation, e)}>
-                    { ({ value }) => {
-                        return (
-                            <Fab color="primary" css={css`
-                                    float: right;
-                                    z-index: 999;
-                                `}>
-                                <CalendarTodayRoundedIcon />
-                            </Fab>
-                        )}}
-                </DatePicker>
-            </React.Fragment>
-        )
-    }
+const MonthSelect = ({ scheduleOf, affiliation, onMonthChange }) => {
+    const calendar = <MonthCalendar />;
+    const date = moment(scheduleOf, 'YYYY-MM')
+    return (
+        <React.Fragment>
+            <Typography variant="h4" css={css`
+                    float: right;
+                    margin: 0.5rem 1rem;
+                `}>{date.format("YYYY-MM")}</Typography>
+            <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
+                value={date} onChange={e => onMonthChange(affiliation, e)}>
+                { ({ value }) => {
+                    return (
+                        <Fab color="primary" css={css`
+                                float: right;
+                                z-index: 999;
+                            `}>
+                            <CalendarTodayRoundedIcon />
+                        </Fab>
+                    )}}
+            </DatePicker>
+        </React.Fragment>
+    )
 }
 
 export default MonthSelect;

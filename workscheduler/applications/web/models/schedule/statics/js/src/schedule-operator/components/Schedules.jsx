@@ -6,6 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
+import DayHeaderCell from '../../schedule/components/DayHeaderCell';
 import Cell from '../../schedule/components/Cell';
 import TotalCell from '../../schedule/components/TotalCell';
 import DayHeaderColumns from '../../schedule/components/DayHeaderColumns';
@@ -19,18 +20,32 @@ class schedules extends React.Component {
     render () {
         const { daySettings, schedules, totals } = this.props;
 
-        const headers = [{day: ''}, {day: ' '}].concat(daySettings.map(x => ({name: x.dayName, day: x.day, isHoliday: x.isHoliday})))
+        if (schedules.length == 0) {
+            return (
+                <div>Sorry this month is not create yet</div>
+            )
+        }
+
+        let css_ = {
+            position: 'sticky',
+            background: 'white',
+            zIndex: 99,
+        }
+        const _cssByIndex = i => ({...css_, left: 7+(5*i)+'rem'})
+        const headers = [{day: ''}, {day: ' '}].map((x, i) => <DayHeaderCell key={x.day} {...x} css_={_cssByIndex(i)} />)
+            .concat(daySettings.map(x => ({name: x.dayName, ...x})).map(x => <DayHeaderCell key={x.day} {...x} />))
         const operatorRows = schedules.map(x => {
             const totals = x.totals.map(y => ({key: y.workCategory.id, val: y.total}))
             const schedules = x.schedule.map(y => ({key: y.day, val: y.name}))
-            const cells = totals.concat(schedules)
+            const cells = totals.map((y, i) => <Cell key={y.key} {...y} css_={_cssByIndex(i)} />)
+                .concat(schedules.map(y => <Cell key={y.key} {...y} />))
             return {
                 key: x.operator.user.id,
                 header: x.operator.user.name,
-                cells: cells.map(x => <Cell {...x} />)
+                cells: cells
             }})
         const totalRows = totals.map((x, i) => {
-            const cells = [{day: ''}, {day: ' '}].concat(x.totals.map((y, l) => {return {key: l, val: y.count, state: y.state}}))
+            const cells = [{day: ''}, {day: ' '}].concat(x.totals.map((y, l) => ({key: l, val: y.count, state: y.state})))
             return {
                 key: i,
                 header: x.workCategory.title,
@@ -43,6 +58,7 @@ class schedules extends React.Component {
                         height: 74vh;
                         width: 95vw;
                         display: block;
+                        border-collapse: initial;
                     `}>
                     <DayHeaderColumns headers={headers} />
                     <TableBody>

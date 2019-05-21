@@ -10,15 +10,16 @@ import DayHeaderCell from './DayHeaderCell';
 import RowHeader from './RowHeader';
 
 const dayColumnHeaders = ({ headers, ...other }) => {
-    const cells = headers.map(x =>
-        <DayHeaderCell key={x.day} {...x} />
-    );
-
     return (
         <TableHead>
-            <TableRow>
+            <TableRow css={css`
+                position: sticky;
+                top: 0;
+                background: white;
+                z-index: 999;
+            `}>
                 <RowHeader />
-                {cells}
+                {headers}
             </TableRow>
         </TableHead>
     )

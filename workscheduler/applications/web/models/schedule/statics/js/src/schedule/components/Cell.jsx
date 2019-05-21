@@ -6,14 +6,13 @@ import TableCell from '@material-ui/core/TableCell';
 import { css, jsx } from '@emotion/core'
 
 const cell = ({ val, css_ }) => {
-    css_ = {...css_,
-        minWidth: '5rem',
-        maxWidth: '5rem',
-        padding: '1rem',
-        textAlign: 'center'
-    }
     return (
-        <TableCell css={css(css_)}>
+        <TableCell css={css({...css_,
+            minWidth: '5rem',
+            maxWidth: '5rem',
+            padding: '1rem',
+            textAlign: 'center'
+        })}>
             {val}
         </TableCell>
     )

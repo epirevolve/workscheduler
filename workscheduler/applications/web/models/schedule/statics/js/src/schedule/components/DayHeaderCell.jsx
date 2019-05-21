@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const dayHeaderCell = ({ name, day, isHoliday }) => {
+const dayHeaderCell = ({ name, day, isHoliday, css_ }) => {
     let titleCss = {}
     if (name == 'Sun')
         titleCss = {
@@ -20,17 +20,13 @@ const dayHeaderCell = ({ name, day, isHoliday }) => {
             color: 'orangered'
         }
     return (
-        <TableCell css={css`
-                min-width: 5rem;
-                max-width: 5rem;
-                padding: 1rem;
-                vertical-align: middle;
-                text-align: center;
-                position: sticky;
-                top: 0;
-                background: white;
-                z-index: 99;
-            `}>
+        <TableCell css={css({...css_,
+                minWidth: '5rem',
+                maxWidth: '5rem',
+                padding: '1rem',
+                verticalAlign: 'middle',
+                textAlign: 'center'
+            })}>
             <span css={css(titleCss)}>{name}</span>
             <br />
             <span>{day}</span>

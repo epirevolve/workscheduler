@@ -48,7 +48,7 @@ class SchedulerMonthlyHelperBase:
                 elif count > max_require:
                     adaptability += ratio * (2.2 ** (count - max_require + 1))
                 elif count > detail.require:
-                    adaptability += ratio * (1.5 ** (count - detail.require + 1))
+                    adaptability += ratio * (1.4 ** (count - detail.require + 1))
         return weight - min(weight, adaptability)
     
     def _evaluate_by_essential_skill(self, transpose, weight):
@@ -125,8 +125,8 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
     def _is_terminate(self, adapters):
         if not adapters:
             return False
-        return self._era > 300 \
-            and len(set(map(lambda x: x.adaptability, adapters[-300:]))) == 1
+        return self._era > 5000 \
+            and len(set(map(lambda x: x.adaptability, adapters[-5000:]))) == 1
     
     def _scheduling(self, protobiont):
         individuals = [protobiont]
@@ -135,11 +135,12 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
             perturbed_gene = [self._perturb_genes(x) for x in individuals]
             individuals = individuals + [self._evaluate_and_build_individual(x) for x in perturbed_gene]
             individuals = sorted(individuals, key=lambda x: x.adaptability, reverse=True)
-            individuals = individuals[:500-min(int(self._era*1.5), 400)]
+            individuals = individuals[:3]
             adapter = individuals[0]
             adapters.append(adapter)
             self._era += 1
-            print("era: {}, adaptability: {}".format(self._era, adapter.adaptability))
+            if self._era % 50 == 0:
+                print("era: {}, adaptability: {}".format(self._era, adapter.adaptability))
         return adapters[-1]
     
     def _genetic_wrapper(self):
