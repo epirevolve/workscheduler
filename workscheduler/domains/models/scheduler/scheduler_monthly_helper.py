@@ -44,11 +44,11 @@ class SchedulerMonthlyHelperBase:
                     if not day_setting.is_holiday else work_category.holiday_max
                 count = len([x for x in schedule if x == work_category.id])
                 if count < detail.require:
-                    adaptability += ratio * (1.9 ** (detail.require - count + 1))
+                    adaptability += ratio * (1.8 ** (detail.require - count + 1))
                 elif count > max_require:
-                    adaptability += ratio * (1.6 ** (count - max_require + 1))
+                    adaptability += ratio * (2.2 ** (count - max_require + 1))
                 elif count > detail.require:
-                    adaptability += ratio * (1.3 ** (count - detail.require + 1))
+                    adaptability += ratio * (1.5 ** (count - detail.require + 1))
         return weight - min(weight, adaptability)
     
     def _evaluate_by_essential_skill(self, transpose, weight):

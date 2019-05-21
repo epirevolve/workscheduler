@@ -15,13 +15,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     onAffiliationChange: (scheduleOf, e) => {
         const affiliation = e.target.value;
-        const res = requestAgent
-            .get(`/schedules/api?affiliation-id=${affiliation.id}&schedule-of=${scheduleOf}`)
-            .set('X-CSRFToken', csrfToken)
-            .then(res => {
-                res = JSON.parse(res.text);
-                dispatch(changeAffiliation(res.schedules, res.totals))
-            })
+        changeAffiliation(affiliation, scheduleOf)
+            .then(action => dispatch(action))
     }
 })
 

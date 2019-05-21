@@ -2,7 +2,7 @@ import requestAgent from 'superagent';
 
 const _fetchSchedules = (affiliation, scheduleOf) => {
     return requestAgent
-        .get(`/schedules/api?affiliation-id=${affiliation.id}&schedule-of=${scheduleOf}`)
+        .get(`/api/schedules?affiliation-id=${affiliation.id}&schedule-of=${scheduleOf}`)
         .set('X-CSRFToken', csrfToken)
         .then(res => JSON.parse(res.text))
 }
@@ -16,10 +16,9 @@ export const fetchSchedules = (affiliation, scheduleOf) => {
 }
 
 export const changeScheduleOf = (affiliation, scheduleOf) => {
-    return _fetchSchedules(affiliation, scheduleOf)
-        .then(schedules => ({
+    return fetchSchedules(affiliation, scheduleOf)
+        .then(action => ({...action,
             type: 'CHANGE_SCHEDULE_OF',
             scheduleOf,
-            ...schedules
         }))
 }

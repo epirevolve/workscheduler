@@ -29,6 +29,7 @@ class MonthSelect extends React.Component {
                         return (
                             <Fab color="primary" css={css`
                                     float: right;
+                                    z-index: 999;
                                 `}>
                                 <CalendarTodayRoundedIcon />
                             </Fab>

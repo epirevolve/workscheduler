@@ -112,8 +112,8 @@ def create_app(test_config=None):
     app.register_blueprint(schedulers_bp, url_prefix="/schedulers")
     app.register_blueprint(schedules_bp, url_prefix="/schedules")
     
-    app.register_blueprint(users_apis_bp, url_prefix="/users/api")
-    app.register_blueprint(schedules_apis_bp, url_prefix="/schedules/api")
+    app.register_blueprint(users_apis_bp, url_prefix="/api")
+    app.register_blueprint(schedules_apis_bp, url_prefix="/api")
 
     @app.errorhandler(404)
     def not_found(error):

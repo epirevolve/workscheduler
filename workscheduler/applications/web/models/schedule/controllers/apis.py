@@ -30,7 +30,7 @@ def get_monthly_setting():
     return Response(jsonize.dumps(monthly_setting))
 
 
-@bp.route('/')
+@bp.route('/schedules')
 @login_required
 def get_schedules():
     affiliation_id = request.args.get('affiliation-id')

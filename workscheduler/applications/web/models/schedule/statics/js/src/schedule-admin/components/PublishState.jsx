@@ -35,17 +35,28 @@ class publishState extends React.Component {
         const isPublished = true ? 'published' : 'not published'
         return (
             <div css={css`
-                display: flex;
                 color: lightslategray !important;
                 margin-top: 1rem;
             `}>
-                <Typography variant="h5">{isPublished}</Typography>
-                <Button onClick={this.handlePublish} variant="outlined" color="default">
-                    Publish
-                </Button>
-                <Button onClick={this.handleStop} color="default">
-                    Stop
-                </Button>
+                <Typography variant="h5" css={css`
+                    float: left;
+                `}>This schedule is {isPublished}.</Typography>
+                <div css={css`
+                    float: right;
+                `}>
+                    <Button onClick={this.handlePublish} variant="outlined" color="default"
+                        sizeLarge css={css`
+                        margin-right: 1rem;
+                    `}>
+                        Publish
+                    </Button>
+                    <Button onClick={this.handleStop} color="default"
+                        sizeLarge css={css`
+                        margin-right: 1rem;
+                    `}>
+                        Stop
+                    </Button>
+                </div>
             </div>
         )
     }

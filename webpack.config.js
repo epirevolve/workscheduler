@@ -27,7 +27,6 @@ module.exports = {
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-basic-setting': path.join(_schedulerPath, '/src/scheduler-basic-setting/index.jsx'),
         'workscheduler/applications/web/models/scheduler/statics/js/scheduler-yearly-setting': path.join(_schedulerPath, '/src/scheduler-yearly-setting/index.jsx'),
         'workscheduler/applications/web/models/schedule/statics/js/schedule-operator': path.join(_schedulePath, '/src/schedule-operator/index.jsx'),
-        'workscheduler/applications/web/models/schedule/statics/js/schedule-not-found': path.join(_schedulePath, '/src/schedule-not-found/index.jsx'),
         'workscheduler/applications/web/models/schedule/statics/js/schedule-admin': path.join(_schedulePath, '/src/schedule-admin/index.jsx'),
     },
 
