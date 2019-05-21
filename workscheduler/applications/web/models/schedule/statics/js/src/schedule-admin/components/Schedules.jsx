@@ -1,5 +1,7 @@
 import React from 'react';
 
+import requestAgent from 'superagent';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 
@@ -14,6 +16,20 @@ import DayHeaderColumns from '../../schedule/components/DayHeaderColumns';
 import Rows from '../../schedule/components/Rows';
 
 class schedules extends React.Component {
+    constructor (props) {
+        super(props);
+        this.state = {
+            workCategories: []
+        }
+        requestAgent
+            .get(`/api/scheduler?affiliation-id=${affiliation.id}`)
+            .set('X-CSRFToken', csrfToken)
+            .then(res => {
+                res = JSON.parse(res.text)
+                this.setState({workCategories: res.workCategories})
+            })
+    }
+
     componentDidMount() {
         const { affiliation, scheduleOf } = this.props;
         this.props.onLoad(affiliation, scheduleOf);

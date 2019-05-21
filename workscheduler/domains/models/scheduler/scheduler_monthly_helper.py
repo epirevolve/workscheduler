@@ -94,6 +94,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         self._era = 0
         self._base = range(len(self._schedules[0]))
         self._max_perturbation_rate = 33
+        self._saturate_limit = 30000
         
     def _gene_to_schedule(self, gene):
         return [self._schedules[i][x] for i, x in enumerate(gene)]
@@ -125,8 +126,8 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
     def _is_terminate(self, adapters):
         if not adapters:
             return False
-        return self._era > 5000 \
-            and len(set(map(lambda x: x.adaptability, adapters[-5000:]))) == 1
+        return self._era > self._saturate_limit \
+            and len(set(map(lambda x: x.adaptability, adapters[-self._saturate_limit:]))) == 1
     
     def _scheduling(self, protobiont):
         individuals = [protobiont]

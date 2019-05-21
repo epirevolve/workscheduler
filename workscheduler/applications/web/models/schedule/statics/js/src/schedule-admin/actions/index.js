@@ -7,3 +7,11 @@ export const changeAffiliation = (affiliation, scheduleOf) => {
             affiliation,
         }))
 }
+
+export const changeWorkCategory = (operator, day, category, workCategories) => ({
+    type: 'CHANGE_WORK_CATEGORY',
+    operator,
+    day,
+    category,
+    workCategories
+})

@@ -27,7 +27,7 @@ const MonthSelect = ({ scheduleOf, affiliation, onMonthChange }) => {
                     return (
                         <Fab color="primary" css={css`
                                 float: right;
-                                z-index: 999;
+                                z-index: 9999;
                             `}>
                             <CalendarTodayRoundedIcon />
                         </Fab>
