@@ -53,6 +53,7 @@
     "vinyl-source-stream": "^2.0.0",
     "webpack": "^4.29.4",
     "webpack-cli": "^3.2.3",
-    "webpack-stream": "^5.2.1"
+    "webpack-stream": "^5.2.1",
+    "why-did-you-update": "^1.0.6"
   }
 }

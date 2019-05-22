@@ -17,7 +17,7 @@ const dayRequireBody = ({ days, onRequireChange, onIsHolidayChange }) => {
     const dayRequireRow = [];
     for (let key in requiresOfCategory) {
         const requires = requiresOfCategory[key];
-        const category = days[0].details.filter(x => x.workCategory.id == key)[0].workCategory;
+        const category = days[0].details.find(x => x.workCategory.id == key).workCategory;
         dayRequireRow.push(<DayRequireRow key={key} category={category} requires={requires}
             onRequireChange={onRequireChange} />)
     }

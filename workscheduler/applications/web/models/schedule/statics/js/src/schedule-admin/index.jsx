@@ -13,6 +13,11 @@ import App from './components/App'
 
 const store = createStore(rootReducer, {schedules: initValue})
 
+if (process.env.NODE_ENV !== 'production') {
+    const {whyDidYouUpdate} = require('why-did-you-update')
+    whyDidYouUpdate(React)
+}
+
 render(
     <MuiThemeProvider theme={Theme}>
         <Provider store={store}>

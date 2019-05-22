@@ -45,13 +45,13 @@ class publishState extends React.Component {
                     float: right;
                 `}>
                     <Button onClick={this.handlePublish} variant="outlined" color="default"
-                        sizeLarge css={css`
+                        size="large" css={css`
                         margin-right: 1rem;
                     `}>
                         Publish
                     </Button>
                     <Button onClick={this.handleStop} color="default"
-                        sizeLarge css={css`
+                        size="large" css={css`
                         margin-right: 1rem;
                     `}>
                         Stop

@@ -8,10 +8,11 @@ export const changeAffiliation = (affiliation, scheduleOf) => {
         }))
 }
 
-export const changeWorkCategory = (operator, day, category, workCategories) => ({
+export const changeWorkCategory = (operator, day, daySetting, category, workCategories) => ({
     type: 'CHANGE_WORK_CATEGORY',
     operator,
     day,
+    daySetting,
     category,
     workCategories
 })

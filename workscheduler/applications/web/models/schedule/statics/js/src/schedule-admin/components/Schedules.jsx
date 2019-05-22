@@ -36,7 +36,7 @@ class schedules extends React.Component {
     }
 
     render () {
-        const { daySettings, schedules, totals } = this.props;
+        const { daySettings, schedules, totals, onCategoryChange } = this.props;
 
         if (schedules.length == 0) {
             return (
@@ -44,33 +44,43 @@ class schedules extends React.Component {
             )
         }
 
-        let css_ = {
+        const zip = (...arrays) => {
+            const length = Math.min(...arrays.map(arr => arr.length));
+            return Array.from({ length }, (value, index) => arrays.map((array => array[index])));
+        };
+        const css_ = {
             position: 'sticky',
             background: 'white',
             zIndex: 99,
         }
         const _cssByIndex = i => ({...css_, left: 7+(5*i)+'rem'})
-        const headers = [{day: ''}, {day: ' '}].map((x, i) => <DayHeaderCell key={x.day} {...x} css_={_cssByIndex(i)} />)
+
+        const headers = this.state.workCategories.map(x => ({key: x.id, day: x.title}))
+            .map((x, i) => <DayHeaderCell key={x.key} {...x} css_={_cssByIndex(i)} />)
             .concat(daySettings.map(x => ({name: x.dayName, ...x})).map(x => <DayHeaderCell key={x.day} {...x} />))
-        const zip = (array1, array2) => array1.map((_, i) => [array1[i], array2[i]]);
         const categories = daySettings.map(x => [""].concat(x.details.map(y => y.workCategory.title)).concat(["-"])
             .concat(x.fixedSchedules.map(y => y.title)));
-        const operatorRows = zip(schedules, daySettings).map(([x, y]) => {
+        const onCategoryChange_ = onCategoryChange(this.state.workCategories)
+        const operatorRows = schedules.map(x => {
             const totals = x.totals.map(z => ({key: z.workCategory.id, val: z.total}))
             const schedules = x.schedule.map(z => ({key: z.day, val: z.name}))
-            const cells = totals.map((z, i) => <Cell key={z.key} {...z} css_={_cssByIndex(i)} />)
-                .concat(zip(schedules, categories).map(([y, z]) => <SelectableCell key={y.key} {...y} categories={z} />))
+            const onCategoryChange__ = onCategoryChange_(x.operator)
+            const cells = totals.map((z, i) => <Cell key={i} {...z} css_={_cssByIndex(i)} />)
+                .concat(zip(schedules, categories, daySettings).map(([a, b, c]) => <SelectableCell key={a.key} {...a} categories={b}
+                    onCategoryChange={onCategoryChange__(a.key, c)} />))
             return {
-                key: x.operator.user.id,
+                key: x.operator.id,
                 header: x.operator.user.name,
                 cells: cells
             }})
         const totalRows = totals.map((x, i) => {
-            const cells = [{val: '', key: ''}, {val: ' ', key: ' '}].concat(x.totals.map((y, l) => ({key: l, val: y.count, ...y})))
+            const cells = this.state.workCategories.map(y => ({key: y.id, val: ''}))
+                .map((y, i) => <TotalCell key={y.key} {...y} css_={_cssByIndex(i)} />)
+                .concat(x.totals.map((y, l) => ({key: l, val: y.count, ...y})).map(y => <TotalCell key={y.key} {...y} />))
             return {
                 key: i,
                 header: x.workCategory.title,
-                cells: cells.map(y => <TotalCell key={y.key} {...y} />)
+                cells: cells
             }})
         return (
             <React.Fragment>
