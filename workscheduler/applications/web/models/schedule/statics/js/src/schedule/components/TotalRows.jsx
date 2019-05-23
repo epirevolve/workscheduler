@@ -4,14 +4,13 @@ import TableFooter from '@material-ui/core/TableFooter';
 
 import TotalRow from './TotalRow';
 
-const rows = ({ rows }) => {
+const totalRows = ({ rows }) => {
     const count = rows.length;
-
     return (
         <TableFooter>
-            {rows.map((x, i) => <TotalRow key={x.key} {...x} bottom={count-i-1} />)}
+            {rows.map((x, i) => <TotalRow key={i} {...x} bottom={count-i-1} />)}
         </TableFooter>
     )
 }
 
-export default rows;
+export default totalRows;

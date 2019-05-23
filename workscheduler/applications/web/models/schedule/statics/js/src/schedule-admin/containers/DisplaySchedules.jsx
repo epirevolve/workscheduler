@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
         fetchSchedules(affiliation, scheduleOf)
             .then(action => dispatch(action))
     },
-    onCategoryChange: (workCategories) => (operator) => (day, daySetting) => (e) => {
+    onCategoryChange: (workCategories, operator) => (day, daySetting) => (e) => {
         const category = e.target.value;
         dispatch(changeWorkCategory(operator, day, daySetting, category, workCategories))
     }

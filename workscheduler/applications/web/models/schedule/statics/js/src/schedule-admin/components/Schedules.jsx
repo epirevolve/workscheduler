@@ -9,11 +9,8 @@ import TableBody from '@material-ui/core/TableBody';
 import { css, jsx } from '@emotion/core';
 
 import DayHeaderCell from '../../schedule/components/DayHeaderCell';
-import Cell from '../../schedule/components/Cell';
-import SelectableCell from './SelectableCell';
-import TotalCell from '../../schedule/components/TotalCell';
 import DayHeaderRow from '../../schedule/components/DayHeaderRow';
-import Rows from '../../schedule/components/Rows';
+import SelectableRow from '../../schedule/components/SelectableRow';
 import TotalRows from '../../schedule/components/TotalRows';
 
 import { zip } from 'array-util'
@@ -59,31 +56,17 @@ class schedules extends React.Component {
         const headers = this.state.workCategories.map(x => ({key: x.id, day: x.title}))
             .concat([{key: '-', day: '-'}, {key: '', day: ''}])
             .map((x, i) => <DayHeaderCell key={x.key} {...x} css_={_cssByIndex(i)} />)
-            .concat(daySettings.map(x => ({name: x.dayName, ...x})).map(x => <DayHeaderCell key={x.day} {...x} />))
-
-        const onCategoryChange_ = onCategoryChange(this.state.workCategories)
-        const operatorRows = schedules.map(x => {
-            const totals = x.totals.map(z => ({key: z.workCategory.id, val: z.total}))
-                .map((z, i) => <Cell key={i} {...z} css_={_cssByIndex(i)} />)
-            const schedules = x.schedule.map(z => ({key: z.day, val: z.name}))
-            const onCategoryChange__ = onCategoryChange_(x.operator)
-            const cells = zip(schedules, categories, daySettings).map(([a, b, c]) => <SelectableCell key={a.key} {...a}
-                categories={b} onCategoryChange={onCategoryChange__(a.key, c)} />)
-            return {
-                key: x.operator.id,
-                header: x.operator.user.name,
-                cells: totals.concat(cells)
-            }})
+            .concat(daySettings.map(x => ({name: x.dayName, ...x})).map(x => <DayHeaderCell key={x.day} {...x} />));
+        const operatorRows = schedules.map(x => ({
+                headers: [x.operator.user.name].concat(x.totals.map(y => y.total)),
+                cells: zip(x.schedule, categories, daySettings),
+                onCategoryChange: onCategoryChange(this.state.workCategories, x.operator)
+            }));
         const totalRows = totals.map((x, i) => {
-            const cells = this.state.workCategories.map(y => ({key: y.id, val: ''})).concat([{key: '-'}, {key: ''}])
-                .map((y, i) => <Cell key={y.key} {...y} css_={_cssByIndex(i)} />)
-                .concat(zip(x.totals, daySettings).map(([y, l]) => ({key: l.day, category: x.workCategory, daySetting: l, ...y}))
-                .map(y => <TotalCell key={y.key} {...y} />))
             return {
-                key: i,
-                header: x.workCategory.title,
-                cells: cells
-            }})
+                headers: [x.workCategory.title].concat(this.state.workCategories.map(x => '').concat(['', ''])),
+                cells: zip(x.totals, daySettings).map(([a, b]) => ({category: x.workCategory, daySetting: b, ...a}))
+            }});
         return (
             <>
                 <Table css={css`
@@ -95,7 +78,7 @@ class schedules extends React.Component {
                     `}>
                     <DayHeaderRow headers={headers} />
                     <TableBody>
-                        <Rows rows={operatorRows} />
+                        {operatorRows.map((x, i) => <SelectableRow key={i} {...x} />)}
                     </TableBody>
                     <TotalRows rows={totalRows} />
                 </Table>

@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const css_ = css({
+const css_ = {
     minWidth: '7rem',
     maxWidth: '7rem',
     padding: '1rem',
@@ -13,11 +13,13 @@ const css_ = css({
     left: 0,
     background: 'white',
     zIndex: 99
-})
+}
 
-const rowHeader = ({ val }) => {
+const rowHeader = ({ val, left }) => {
     return (
-        <TableCell component="th" scope="row" css={css_}>
+        <TableCell component="th" scope="row" css={css({...css_,
+            left: left ? 7+5*(left-1)+'rem' : '0'
+        })}>
             {val}
         </TableCell>
     )

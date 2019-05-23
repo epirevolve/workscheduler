@@ -6,6 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { css, jsx } from '@emotion/core'
 
 import RowHeader from './RowHeader';
+import TotalCell from './TotalCell';
 
 import { zip } from 'array-util'
 
@@ -17,20 +18,20 @@ const css_ = {
     maxHeight: '3rem'
 }
 
-const totalRow = ({ header, cells, bottom }) => {
+const totalRow = ({ headers, cells, bottom }) => {
     return (
         <TableRow css={css({...css_,
             bottom: 3.3*bottom+'rem'
         })}>
-            <RowHeader val={header} />
-            {cells}
+            {headers.map((x, i) => <RowHeader key={i} val={x} left={i} />)}
+            {cells.map((x, i) => <TotalCell key={i} {...x} />)}
         </TableRow>
     )
 }
 
 const areEqual = (prevProps, nextProps) => {
     return zip(prevProps["cells"], nextProps["cells"]).some(([x, y]) => x == y)
-        && prevProps["header"] == nextProps["header"]
+        && zip(prevProps["headers"], nextProps["headers"]).some(([x, y]) => x == y)
 }
 
 export default React.memo(totalRow, areEqual);
