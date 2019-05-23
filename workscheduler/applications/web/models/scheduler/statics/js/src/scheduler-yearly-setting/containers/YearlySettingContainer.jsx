@@ -32,14 +32,14 @@ class YearlySettingContainer extends React.Component {
         const { yearlySetting } = this.props;
 
         return (
-            <React.Fragment>
+            <>
                 <div className="my-4">
                     <Button className="mr-3" variant="contained" color="primary" size="large"
                         onClick={() => this.handleSave(yearlySetting)}>
                         Save
                     </Button>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }

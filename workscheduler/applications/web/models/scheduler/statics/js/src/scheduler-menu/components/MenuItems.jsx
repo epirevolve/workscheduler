@@ -62,7 +62,7 @@ class MenuItems extends React.Component {
         const { affiliation } = this.props;
 
         return (
-            <React.Fragment>
+            <>
                  <Dialog open={this.state.openCalendar} onClose={() => this.setState({ openCalendar: false })}>
                     <DialogTitle style={{ textAlign: 'center' }}>
                         <IconButton aria-label="back year" onClick={() => this.setState({ year: this.state.year - 1})}>
@@ -160,7 +160,7 @@ class MenuItems extends React.Component {
                             description="create schedule of current affiliation and selected month" />
                     </Grid>
                 </Grid>
-            </React.Fragment>
+            </>
         )
     }
 }

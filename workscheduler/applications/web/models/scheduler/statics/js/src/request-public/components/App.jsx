@@ -10,7 +10,7 @@ const holidays = JSON.parse(dataset.holidays);
 const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
 
 const app = () => (
-    <React.Fragment>
+    <>
         <DialogContainer />
         <Grid container>
             <Grid item sm={10}>
@@ -28,7 +28,7 @@ const app = () => (
                 </div>
             </Grid>
         </Grid>
-    </React.Fragment>
+    </>
 )
 
 export default app;

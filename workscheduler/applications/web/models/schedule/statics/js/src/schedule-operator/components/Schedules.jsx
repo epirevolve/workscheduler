@@ -9,7 +9,7 @@ import { css, jsx } from '@emotion/core'
 import DayHeaderCell from '../../schedule/components/DayHeaderCell';
 import Cell from '../../schedule/components/Cell';
 import TotalCell from '../../schedule/components/TotalCell';
-import DayHeaderColumns from '../../schedule/components/DayHeaderColumns';
+import DayHeaderRow from '../../schedule/components/DayHeaderRow';
 import Rows from '../../schedule/components/Rows';
 
 class schedules extends React.Component {
@@ -52,7 +52,7 @@ class schedules extends React.Component {
                 cells: cells.map(z => <TotalCell {...z} />)
             }})
         return (
-            <React.Fragment>
+            <>
                 <Table css={css`
                         overflow: auto;
                         height: 74vh;
@@ -60,14 +60,14 @@ class schedules extends React.Component {
                         display: block;
                         border-collapse: initial;
                     `}>
-                    <DayHeaderColumns headers={headers} />
+                    <DayHeaderRow headers={headers} />
                     <TableBody>
                         <Rows rows={operatorRows.filter(x => x.key == myId)} />
                         <Rows rows={operatorRows.filter(x => x.key != myId)} />
                         <Rows rows={totalRows} />
                     </TableBody>
                 </Table>
-            </React.Fragment>
+            </>
         )
     }
 }

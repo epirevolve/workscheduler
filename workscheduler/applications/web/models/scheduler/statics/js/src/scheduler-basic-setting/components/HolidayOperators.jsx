@@ -37,7 +37,7 @@ const holidayOperators = ({ workCategory, onHolidayOperatorChange }) => {
     };
 
     return (
-        <React.Fragment>
+        <>
             <Popover open={isOpen} anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
                 onClose={() => setAnchorEl(null)}>
                 <List subheader={<ListSubheader component="div">operators</ListSubheader>}>
@@ -59,7 +59,7 @@ const holidayOperators = ({ workCategory, onHolidayOperatorChange }) => {
                     </List>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        </React.Fragment>
+        </>
     )
 }
 

@@ -50,7 +50,7 @@ class MonthlySettingContainer extends React.Component {
         const { monthlySetting, fixedSchedules } = this.props;
 
         return (
-            <React.Fragment>
+            <>
                 <div className="my-4">
                     <Button className="mr-3" variant="contained" color="primary" size="large"
                         onClick={() => this.handleSave(monthlySetting, fixedSchedules)}>
@@ -61,7 +61,7 @@ class MonthlySettingContainer extends React.Component {
                         Publish Calendar
                     </Button>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }

@@ -9,7 +9,7 @@ import { css, jsx } from '@emotion/core'
 import DayHeaderCell from './DayHeaderCell';
 import RowHeader from './RowHeader';
 
-const dayColumnHeaders = ({ headers, ...other }) => {
+const dayHeaderRow = ({ headers, ...other }) => {
     return (
         <TableHead>
             <TableRow css={css`
@@ -25,4 +25,4 @@ const dayColumnHeaders = ({ headers, ...other }) => {
     )
 }
 
-export default dayColumnHeaders;
+export default dayHeaderRow;

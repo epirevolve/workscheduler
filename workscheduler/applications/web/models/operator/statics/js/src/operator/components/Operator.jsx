@@ -7,7 +7,7 @@ import SkillList from './SkillList';
 
 const operator = ({ operator, onSkillChange, onRemainPaidHolidaysChange, handleSave }) => {
     return (
-        <React.Fragment>
+        <>
             <SkillList operator={operator} onChange={onSkillChange} />
             <TextField type="number" value={operator.remainPaidHolidays} onChange={onRemainPaidHolidaysChange}
                 min="0" label="remain paid holidays" margin="dense" style={{ display: 'inherit' }} />
@@ -15,7 +15,7 @@ const operator = ({ operator, onSkillChange, onRemainPaidHolidaysChange, handleS
                 onClick={() => handleSave(operator)}>
                 Store Operator
             </Button>
-        </React.Fragment>
+        </>
     )
 }
 

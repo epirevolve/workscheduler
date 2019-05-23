@@ -16,7 +16,7 @@ const MonthSelect = ({ scheduleOf, affiliation, onMonthChange }) => {
     const calendar = <MonthCalendar />;
     const date = moment(scheduleOf, 'YYYY-MM')
     return (
-        <React.Fragment>
+        <>
             <Typography variant="h4" css={css`
                     float: right;
                     margin: 0.5rem 1rem;
@@ -33,7 +33,7 @@ const MonthSelect = ({ scheduleOf, affiliation, onMonthChange }) => {
                         </Fab>
                     )}}
             </DatePicker>
-        </React.Fragment>
+        </>
     )
 }
 

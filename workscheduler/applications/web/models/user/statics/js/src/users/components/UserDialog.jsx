@@ -60,7 +60,7 @@ const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationCh
                     Close
                 </Button>
                 {userDialog.id && (
-                    <React.Fragment>
+                    <>
                         <Button onClick={() => handleInactivate(userDialog.id)} variant="outlined"
                             color="secondary" className="mr-1">
                             Inactivate
@@ -69,7 +69,7 @@ const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationCh
                             color="secondary" className="mr-1">
                             Reset Password
                         </Button>
-                    </React.Fragment>
+                    </>
                 )}
                 <Button onClick={() => handleSave(userDialog)} variant="outlined" color="primary">
                     Save

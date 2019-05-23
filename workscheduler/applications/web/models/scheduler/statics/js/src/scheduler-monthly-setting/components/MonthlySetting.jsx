@@ -7,13 +7,13 @@ import FixedSchedulesContainer from '../containers/FixedSchedulesContainer';
 import MonthlySettingContainer from '../containers/MonthlySettingContainer';
 
 const monthlySetting = () => (
-    <React.Fragment>
+    <>
         <MonthSelect />
         <DayTableContainer />
         <MonthlyHolidayContainer />
         <FixedSchedulesContainer />
         <MonthlySettingContainer />
-    </React.Fragment>
+    </>
 )
 
 export default monthlySetting;

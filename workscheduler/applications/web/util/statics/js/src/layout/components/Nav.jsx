@@ -46,7 +46,7 @@ const nav = ({ opened, handleOpenDrawer }) => {
         <AppBar className="pl-2" position="static">
             <Toolbar disableGutters>
                 {isAuthenticated && (
-                    <React.Fragment>
+                    <>
                         <IconButton color="inherit" aria-label="Open drawer" tabIndex="-1"
                             onClick={() => handleOpenDrawer()}>
                             <MenuIcon />
@@ -70,15 +70,13 @@ const nav = ({ opened, handleOpenDrawer }) => {
                             <MenuItem component="span">{auth.loginId} : {auth.name}</MenuItem>
                             <MenuItem component="a" href={urlLogout}>Log out</MenuItem>
                         </Menu>
-                    </React.Fragment>
+                    </>
                 )}
                 {!isAuthenticated && (
-                    <React.Fragment>
-                        <Typography component="a" variant="h5" style={{ color: 'white', flexGrow: 1 }}
-                            noWrap href="#" className="ml-3">
-                            Work Scheduler
-                        </Typography>
-                    </React.Fragment>
+                    <Typography component="a" variant="h5" style={{ color: 'white', flexGrow: 1 }}
+                        noWrap href="#" className="ml-3">
+                        Work Scheduler
+                    </Typography>
                 )}
             </Toolbar>
         </AppBar>

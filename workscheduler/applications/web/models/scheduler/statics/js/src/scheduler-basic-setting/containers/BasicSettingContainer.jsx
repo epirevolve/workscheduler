@@ -32,14 +32,12 @@ class BasicSettingContainer extends React.Component {
         const { scheduler } = this.props;
 
         return (
-            <React.Fragment>
-                <div className="my-4">
-                    <Button className="mr-3" variant="contained" color="primary" size="large"
-                        onClick={() => this.handleSave(scheduler)}>
-                        Save
-                    </Button>
-                </div>
-            </React.Fragment>
+            <div className="my-4">
+                <Button className="mr-3" variant="contained" color="primary" size="large"
+                    onClick={() => this.handleSave(scheduler)}>
+                    Save
+                </Button>
+            </div>
         )
     }
 }

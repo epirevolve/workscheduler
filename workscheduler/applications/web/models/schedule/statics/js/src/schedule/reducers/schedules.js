@@ -59,7 +59,6 @@ const schedules = (state = {}, action) => {
                                 const newCount = y.count+1
                                 return {...y,
                                     count: newCount,
-                                    state: getStateName(newCount, x.workCategory, action.daySetting)
                                 }
                             })
                         }
@@ -71,7 +70,6 @@ const schedules = (state = {}, action) => {
                                 const newCount = y.count-1
                                 return {...y,
                                     count: newCount,
-                                    state: getStateName(newCount, x.workCategory, action.daySetting)
                                 }
                             })
                         }
@@ -83,15 +81,6 @@ const schedules = (state = {}, action) => {
         default:
             return state
     }
-}
-
-const getStateName = (count, workCategory, daySetting) => {
-    if (daySetting.isHoliday && count > workCategory.holidayMax ||
-        !daySetting.isHoliday && count > workCategory.weekDayMax) return 'excess'
-    const detail = daySetting.details.find(x => x.workCategory.id == workCategory.id);
-    if (count > detail.require) return 'over'
-    if (count < detail.require) return 'under'
-    return ''
 }
 
 export default schedules;

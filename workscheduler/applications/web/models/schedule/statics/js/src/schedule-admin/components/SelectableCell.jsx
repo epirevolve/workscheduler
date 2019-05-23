@@ -7,36 +7,35 @@ import MenuItem from '@material-ui/core/MenuItem';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-class cell extends React.Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        return zip(this.props["categories"], nextProps["categories"]).some(([x, y]) => x !== y)
-            || this.props["val"] !== nextProps["val"]
-    }
+import { zip } from 'array-util'
 
-    render () {
-        const { categories, val, onCategoryChange } = this.props;
-        const options = categories.map((x, i) =>
-            <MenuItem key={i} value={x}>{x}</MenuItem>);
+const css_ = css({
+    minWidth: '6rem',
+    maxWidth: '6rem',
+    padding: '1rem',
+    textAlign: 'center'
+})
 
-        return (
-            <TableCell css={css`
-                min-width: 6rem;
-                max-width: 6rem;
-                padding: 1rem;
-                text-align: center;
+const selectableCell = ({ categories, val, onCategoryChange }) => {
+    const options = categories.map((x, i) =>
+        <MenuItem key={i} value={x}>{x}</MenuItem>);
+
+    return (
+        <TableCell css={css_}>
+            <Select value={val} onChange={onCategoryChange}
+                css={css`
+                    min-width: 5rem;
+                    max-width: 5rem;
             `}>
-                <Select value={val} onChange={onCategoryChange}
-                    css={css`
-                        min-width: 5rem;
-                        max-width: 5rem;
-                `}>
-                    {options}
-                </Select>
-            </TableCell>
-        )
-    }
+                {options}
+            </Select>
+        </TableCell>
+    )
 }
 
-const zip = (array1, array2) => array1.map((_, i) => [array1[i], array2[i]]);
+const areEqual = (prevProps, nextProps) => {
+    return zip(prevProps["categories"], nextProps["categories"]).some(([x, y]) => x == y)
+        && prevProps["val"] == nextProps["val"]
+}
 
-export default cell;
+export default React.memo(selectableCell, areEqual);

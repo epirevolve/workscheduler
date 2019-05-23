@@ -46,7 +46,7 @@ const drawer = ({ opened, handleCloseDrawer }) => {
                         <ListItemText primary="schedule" className="menuText" />
                     </ListItem>
                     {auth.isOperator && (
-                        <React.Fragment>
+                        <>
                             <ListItem button component="a" key="requests" href={urlRequests}>
                                 <ListItemIcon>
                                     <HearingRoundedIcon />
@@ -59,7 +59,7 @@ const drawer = ({ opened, handleCloseDrawer }) => {
                                 </ListItemIcon>
                                 <ListItemText primary="as operator" className="menuText" />
                             </ListItem>
-                        </React.Fragment>
+                        </>
                     )}
                     <ListItem button component="a" key="asuser" href={urlAsUser}>
                         <ListItemIcon>
@@ -69,7 +69,7 @@ const drawer = ({ opened, handleCloseDrawer }) => {
                     </ListItem>
                     <Divider />
                     {auth.isAdmin && (
-                        <React.Fragment>
+                        <>
                             <ListItem button component="a" key="scheduler" href={urlSchedulerMenu}>
                                 <ListItemIcon>
                                     <BuildRoundedIcon />
@@ -106,7 +106,7 @@ const drawer = ({ opened, handleCloseDrawer }) => {
                                 </ListItemIcon>
                                 <ListItemText primary="teams" className="menuText" />
                             </ListItem>
-                        </React.Fragment>
+                        </>
                     )}
                 </List>
             </div>

@@ -20,14 +20,14 @@ const auth = JSON.parse(dataset.auth);
 
 const menuItems = () => {
     return (
-        <React.Fragment>
+        <>
             <Grid container spacing={16} className="my-4">
                 <Grid item xs={12} md={6} lg={3}>
                     <MenuCard title="Schedule" img="/statics/img/schedule.svg" href={urlSchedules}
                         description="your work schedule and ask change some days" />
                 </Grid>
                 {auth.isOperator && (
-                    <React.Fragment>
+                    <>
                         <Grid item xs={12} md={6} lg={3}>
                             <MenuCard title="Requests" img="/statics/img/request.svg" href={urlRequests}
                                 description="request days you wanna get rest" />
@@ -36,7 +36,7 @@ const menuItems = () => {
                             <MenuCard title="As Operator" img="/statics/img/operator.svg" href={urlAsOperator}
                                 description="appeal what you can do by registering skill" />
                         </Grid>
-                    </React.Fragment>
+                    </>
                 )}
                 <Grid item xs={12} md={6} lg={3}>
                     <MenuCard title="As User" img="/statics/img/user.svg" href={urlAsUser}
@@ -44,7 +44,7 @@ const menuItems = () => {
                 </Grid>
             </Grid>
             {auth.isAdmin && (
-                <React.Fragment>
+                <>
                     <Divider />
                     <Grid container spacing={16} className="my-3">
                         <Grid item xs={12} md={6} lg={3}>
@@ -72,9 +72,9 @@ const menuItems = () => {
                                 description="small unit team" />
                         </Grid>
                     </Grid>
-                </React.Fragment>
+                </>
             )}
-        </React.Fragment>
+        </>
     )
 }
 

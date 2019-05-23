@@ -13,10 +13,9 @@ class Day:
         
 
 class Total:
-    def __init__(self, day: int, count: int, state: str):
+    def __init__(self, day: int, count: int):
         self.day = day
         self.count = count
-        self.state = state
 
 
 class ScheduleFacade:
@@ -38,12 +37,7 @@ class ScheduleFacade:
             
         def get_total(work_category, day_setting, operator_schedules):
             participant_count = len([x for x in operator_schedules if x.work_category_id == work_category.id])
-            max_require = work_category.holiday_max if day_setting.is_holiday else work_category.week_day_max
-            day_detail = list(filter(lambda x: x.work_category == work_category, day_setting.details))[0]
-            state = 'excess' if participant_count > max_require else\
-                'over' if participant_count > day_detail.require else\
-                'under' if participant_count < day_detail.require else ''
-            return Total(day_setting.day, participant_count, state)
+            return Total(day_setting.day, participant_count)
         
         def get_name(work_id: str):
             return work_categories[work_id].title if work_id in work_categories\
@@ -66,6 +60,8 @@ class ScheduleFacade:
                         'workCategory': y,
                         'total': len([z for z in x.day_work_categories if z.work_category_id == y.id])
                      } for y in scheduler.work_categories]
+                + [{'workCategory': '-', 'total': len([z for z in x.day_work_categories if z.work_category_id == '-'])},
+                   {'workCategory': '', 'total': len([z for z in x.day_work_categories if z.work_category_id == ' '])}]
             } for x in schedules.components]
         
         return monthly_setting.days, schedules_components, totals, schedules.is_published

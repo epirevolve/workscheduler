@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 const options = ({ scheduler, onCertifiedSkillChange, onNotCertifiedSkillChange }) => {
     return (
-        <React.Fragment>
+        <>
             <FormGroup row>
                 <FormControlLabel
                     control={<Checkbox checked={scheduler.certifiedSkill}
@@ -19,7 +19,7 @@ const options = ({ scheduler, onCertifiedSkillChange, onNotCertifiedSkillChange 
                         onChange={onNotCertifiedSkillChange} />}
                     label="not certified skill" />
             </FormGroup>
-        </React.Fragment>
+        </>
     )
 }
 

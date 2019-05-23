@@ -54,18 +54,16 @@ class CalendarCell extends React.Component {
 
         return (
             <Grid item xs className="cl-body-cell">
-                <React.Fragment>
-                    <div>
-                        <IconButton aria-label="Add Request" color="secondary" className="add-request"
-                            onClick={() => this.handleAppend(day, handleAppend)}>
-                            <EditRoundedIcon />
-                        </IconButton>
-                        <span className="cl-day">{day.day}</span>
-                    </div>
-                    <div className="request-container">
-                        {requests}
-                    </div>
-                </React.Fragment>
+                <div>
+                    <IconButton aria-label="Add Request" color="secondary" className="add-request"
+                        onClick={() => this.handleAppend(day, handleAppend)}>
+                        <EditRoundedIcon />
+                    </IconButton>
+                    <span className="cl-day">{day.day}</span>
+                </div>
+                <div className="request-container">
+                    {requests}
+                </div>
             </Grid>
         );
     }

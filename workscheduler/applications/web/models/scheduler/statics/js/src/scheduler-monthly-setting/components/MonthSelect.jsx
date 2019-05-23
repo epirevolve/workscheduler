@@ -27,7 +27,7 @@ class MonthSelect extends React.Component {
         const calendar = <MonthCalendar />;
         const date = moment(scheduleOf, 'YYYY-MM')
         return (
-            <React.Fragment>
+            <>
                 <Typography variant="h4" css={css`
                         float: right;
                         margin: 0.5rem 1rem;
@@ -43,7 +43,7 @@ class MonthSelect extends React.Component {
                             </Fab>
                         )}}
                 </DatePicker>
-            </React.Fragment>
+            </>
         )
     }
 }

@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 
 const user = ({ user, onPasswordChange, onNameChange, handleSave }) => {
     return (
-        <React.Fragment>
+        <>
             <TextField disabled value={user.loginId} label="login id" fullWidth margin="dense" />
             <TextField type="password" value={user.password} label="password" fullWidth
                 autoFocus margin="dense" onChange={onPasswordChange} required />
@@ -15,7 +15,7 @@ const user = ({ user, onPasswordChange, onNameChange, handleSave }) => {
             <Button variant="contained" onClick={() => handleSave(user)} className="mt-3" color="primary">
                 Store User
             </Button>
-        </React.Fragment>
+        </>
     )
 }
 

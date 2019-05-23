@@ -37,7 +37,7 @@ const essentialOperators = ({ fixedSchedule, onParticipantChange }) => {
     };
 
     return (
-        <React.Fragment>
+        <>
             <Popover open={isOpen} anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
                 onClose={() => setAnchorEl(null)}>
                 <List subheader={<ListSubheader component="div">operators</ListSubheader>}>
@@ -59,7 +59,7 @@ const essentialOperators = ({ fixedSchedule, onParticipantChange }) => {
                     </List>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        </React.Fragment>
+        </>
     )
 }
 

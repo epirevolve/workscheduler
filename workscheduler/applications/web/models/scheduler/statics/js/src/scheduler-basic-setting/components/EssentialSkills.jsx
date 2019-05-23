@@ -37,7 +37,7 @@ const essentialSkills = ({ workCategory, onEssentialSkillChange }) => {
     };
 
     return (
-        <React.Fragment>
+        <>
             <Popover open={isOpen} anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
                 onClose={() => setAnchorEl(null)}>
                 <List subheader={<ListSubheader component="div">skills</ListSubheader>}>
@@ -59,7 +59,7 @@ const essentialSkills = ({ workCategory, onEssentialSkillChange }) => {
                     </List>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        </React.Fragment>
+        </>
     )
 }
 

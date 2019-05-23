@@ -12,8 +12,11 @@ import DayHeaderCell from '../../schedule/components/DayHeaderCell';
 import Cell from '../../schedule/components/Cell';
 import SelectableCell from './SelectableCell';
 import TotalCell from '../../schedule/components/TotalCell';
-import DayHeaderColumns from '../../schedule/components/DayHeaderColumns';
+import DayHeaderRow from '../../schedule/components/DayHeaderRow';
 import Rows from '../../schedule/components/Rows';
+import TotalRows from '../../schedule/components/TotalRows';
+
+import { zip } from 'array-util'
 
 class schedules extends React.Component {
     constructor (props) {
@@ -44,10 +47,6 @@ class schedules extends React.Component {
             )
         }
 
-        const zip = (...arrays) => {
-            const length = Math.min(...arrays.map(arr => arr.length));
-            return Array.from({ length }, (value, index) => arrays.map((array => array[index])));
-        };
         const css_ = {
             position: 'sticky',
             background: 'white',
@@ -55,35 +54,38 @@ class schedules extends React.Component {
         }
         const _cssByIndex = i => ({...css_, left: 7+(5*i)+'rem'})
 
-        const headers = this.state.workCategories.map(x => ({key: x.id, day: x.title}))
-            .map((x, i) => <DayHeaderCell key={x.key} {...x} css_={_cssByIndex(i)} />)
-            .concat(daySettings.map(x => ({name: x.dayName, ...x})).map(x => <DayHeaderCell key={x.day} {...x} />))
         const categories = daySettings.map(x => [""].concat(x.details.map(y => y.workCategory.title)).concat(["-"])
             .concat(x.fixedSchedules.map(y => y.title)));
+        const headers = this.state.workCategories.map(x => ({key: x.id, day: x.title}))
+            .concat([{key: '-', day: '-'}, {key: '', day: ''}])
+            .map((x, i) => <DayHeaderCell key={x.key} {...x} css_={_cssByIndex(i)} />)
+            .concat(daySettings.map(x => ({name: x.dayName, ...x})).map(x => <DayHeaderCell key={x.day} {...x} />))
+
         const onCategoryChange_ = onCategoryChange(this.state.workCategories)
         const operatorRows = schedules.map(x => {
             const totals = x.totals.map(z => ({key: z.workCategory.id, val: z.total}))
+                .map((z, i) => <Cell key={i} {...z} css_={_cssByIndex(i)} />)
             const schedules = x.schedule.map(z => ({key: z.day, val: z.name}))
             const onCategoryChange__ = onCategoryChange_(x.operator)
-            const cells = totals.map((z, i) => <Cell key={i} {...z} css_={_cssByIndex(i)} />)
-                .concat(zip(schedules, categories, daySettings).map(([a, b, c]) => <SelectableCell key={a.key} {...a} categories={b}
-                    onCategoryChange={onCategoryChange__(a.key, c)} />))
+            const cells = zip(schedules, categories, daySettings).map(([a, b, c]) => <SelectableCell key={a.key} {...a}
+                categories={b} onCategoryChange={onCategoryChange__(a.key, c)} />)
             return {
                 key: x.operator.id,
                 header: x.operator.user.name,
-                cells: cells
+                cells: totals.concat(cells)
             }})
         const totalRows = totals.map((x, i) => {
-            const cells = this.state.workCategories.map(y => ({key: y.id, val: ''}))
-                .map((y, i) => <TotalCell key={y.key} {...y} css_={_cssByIndex(i)} />)
-                .concat(x.totals.map((y, l) => ({key: l, val: y.count, ...y})).map(y => <TotalCell key={y.key} {...y} />))
+            const cells = this.state.workCategories.map(y => ({key: y.id, val: ''})).concat([{key: '-'}, {key: ''}])
+                .map((y, i) => <Cell key={y.key} {...y} css_={_cssByIndex(i)} />)
+                .concat(zip(x.totals, daySettings).map(([y, l]) => ({key: l.day, category: x.workCategory, daySetting: l, ...y}))
+                .map(y => <TotalCell key={y.key} {...y} />))
             return {
                 key: i,
                 header: x.workCategory.title,
                 cells: cells
             }})
         return (
-            <React.Fragment>
+            <>
                 <Table css={css`
                         overflow: auto;
                         height: 64vh;
@@ -91,13 +93,13 @@ class schedules extends React.Component {
                         display: block;
                         border-collapse: initial;
                     `}>
-                    <DayHeaderColumns headers={headers} />
+                    <DayHeaderRow headers={headers} />
                     <TableBody>
                         <Rows rows={operatorRows} />
-                        <Rows rows={totalRows} />
                     </TableBody>
+                    <TotalRows rows={totalRows} />
                 </Table>
-            </React.Fragment>
+            </>
         )
     }
 }
