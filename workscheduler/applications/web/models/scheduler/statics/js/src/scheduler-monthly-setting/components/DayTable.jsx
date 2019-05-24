@@ -9,8 +9,8 @@ const dayTable = ({ days, ...other }) => {
     return (
         <div id="date-set">
             <Table>
-                {<DayHeaderRow days={days} />}
-                {<DayBody days={days} {...other} />}
+                <DayHeaderRow days={days} />
+                <DayBody days={days} {...other} />
             </Table>
         </div>
     )

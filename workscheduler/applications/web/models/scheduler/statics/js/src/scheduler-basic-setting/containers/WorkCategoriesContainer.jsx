@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import WorkCategories from '../components/WorkCategories';
+import WorkCategoryList from '../components/WorkCategoryList';
 
 import { addWorkCategory } from '../actions';
 import { removeWorkCategory } from '../actions';
@@ -43,4 +43,4 @@ const mapDispatchToProps = (dispatch) => ({
     onImpossibleOperatorChange: (id, data) => dispatch(changeWorkCategoryImpossibleOperator(id, data))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkCategories);
+export default connect(mapStateToProps, mapDispatchToProps)(WorkCategoryList);

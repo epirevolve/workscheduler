@@ -16,8 +16,8 @@ import Participants from './Participants';
 const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
 const operators = JSON.parse(dataset.operators);
 
-function isValidRange(v) {
-  return v && v[0] && v[1];
+const isValidRange = (v) => {
+    return v && v[0] && v[1];
 }
 
 const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChange,

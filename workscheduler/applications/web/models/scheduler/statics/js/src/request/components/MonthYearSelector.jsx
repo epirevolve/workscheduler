@@ -11,23 +11,23 @@ const url = dataset.url;
 const scheduleOf = new Date(dataset.scheduleOf);
 const scheduleOfName = dataset.scheduleOfName;
 
+const setMonthChangeButtonAvailability = () => {
+    const stamp = new Date(Date.parse(scheduleOf));
+
+    let prev = false;
+    let next = false;
+
+    if (minDate.getFullYear() < stamp.getFullYear() || minDate.getMonth() < stamp.getMonth()) {
+        prev = true;
+    }
+    if (maxDate.getFullYear() > stamp.getFullYear() || maxDate.getMonth() > stamp.getMonth()) {
+        next = true;
+    }
+
+    return [prev, next];
+};
+
 class MonthYearSetting extends React.Component {
-    setMonthChangeButtonAvailability () {
-        const stamp = new Date(Date.parse(scheduleOf));
-
-        let prev = false;
-        let next = false;
-
-        if (minDate.getFullYear() < stamp.getFullYear() || minDate.getMonth() < stamp.getMonth()) {
-            prev = true;
-        }
-        if (maxDate.getFullYear() > stamp.getFullYear() || maxDate.getMonth() > stamp.getMonth()) {
-            next = true;
-        }
-
-        return [prev, next];
-    };
-
     requestOfOtherMonthYear (addMonth) {
         const stamp = Date.parse(scheduleOf);
 

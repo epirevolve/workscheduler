@@ -8,7 +8,7 @@ const request = ({ request, handleEdit, className }) => {
             data-at-to={request.atTo}>
             { request.title }
         </button>
-    )
+    );
 }
 
 export default request;

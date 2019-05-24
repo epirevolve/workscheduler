@@ -11,7 +11,7 @@ import SkillList from './SkillList';
 
 const skills = ({ certifiedSkills, notCertifiedSkills, handleAppend, handleEdit }) => {
     return (
-        <div>
+        <>
             <AppBar position="static" color="default">
                 <Toolbar>
                     <Typography variant="title" color="inherit" style={{ flexGrow: 1 }}>
@@ -32,7 +32,7 @@ const skills = ({ certifiedSkills, notCertifiedSkills, handleAppend, handleEdit 
                     <SkillList title="not certified skills" skills={notCertifiedSkills} handleEdit={handleEdit} />
                 </Grid>
             </Grid>
-        </div>
+        </>
     )
 }
 

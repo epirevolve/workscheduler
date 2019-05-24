@@ -20,9 +20,9 @@ const operators = JSON.parse(dataset.operators);
 const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
     handleClose, handleSave }) => {
 
-    const operatorsList = [<MenuItem key="none" value=""></MenuItem>];
+    const ojtList = [<MenuItem key="none" value=""></MenuItem>];
     for (let operator of operators.filter(x => x.id != operatorDialog.id)) {
-        operatorsList.push(
+        ojtList.push(
             <MenuItem key={operator.id} value={operator}>
                 {operator.user.name}
             </MenuItem>
@@ -42,7 +42,7 @@ const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
                 <FormControl fullWidth>
                     <InputLabel htmlFor="ojt">supervisor(ojt)</InputLabel>
                     <Select value={ojt} onChange={onOjtChange} inputProps={{id: 'ojt'}}>
-                        {operatorsList}
+                        {ojtList}
                     </Select>
                 </FormControl>
             </DialogContent>

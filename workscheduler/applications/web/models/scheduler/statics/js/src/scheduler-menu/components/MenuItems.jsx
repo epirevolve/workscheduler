@@ -69,6 +69,14 @@ class MenuItems extends React.Component {
                 </Grid>
             )
         };
+        const createCardInGrid = (title, img, href, description, onClick = () => {}) => {
+            img = '/statics/img/' + img;
+            return (
+                <Grid item xs={12} md={6} lg={3}>
+                    <MenuCard {...{title, img, href, description, onClick}} />
+                </Grid>
+            );
+        }
 
         return (
             <>
@@ -100,26 +108,18 @@ class MenuItems extends React.Component {
                     </div>
                 </Dialog>
                 <Grid container spacing={16} className="my-4" style={{ marginLeft: "0.2rem" }}>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MenuCard title="Monthly Setting" img="/statics/img/scheduler-monthly-setting.svg"
-                            href={urlMonthly.replace('affiliation_id', affiliation.id)}
-                            description="set require number of member each day and prefixed schedule" />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MenuCard title="Basic Setting" img="/statics/img/scheduler-basic-setting.svg"
-                            href={urlBasic.replace('affiliation_id', affiliation.id)}
-                            description="set work category and witch parameter will be used when making a schedule" />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MenuCard title="Yearly Setting" img="/statics/img/scheduler-yearly-setting.svg"
-                            href={urlYearly.replace('affiliation_id', affiliation.id)}
-                            description="set vacation in summer or winter" />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MenuCard title="Launch" img="/statics/img/scheduler-launch.svg"
-                            href="#" onClick={() => this.setState({ openCalendar: true })}
-                            description="create schedule of current affiliation and selected month" />
-                    </Grid>
+                    {createCardInGrid("Monthly Setting", "scheduler-monthly-setting.svg",
+                        urlMonthly.replace('affiliation_id', affiliation.id),
+                        "set require number of member each day and prefixed schedule")}
+                    {createCardInGrid("Basic Setting", "scheduler-basic-setting.svg",
+                        urlBasic.replace('affiliation_id', affiliation.id),
+                        "set work category and witch parameter will be used when making a schedule")}
+                    {createCardInGrid("Yearly Setting", "scheduler-yearly-setting.svg",
+                        urlMonthly.replace('affiliation_id', affiliation.id),
+                        "set require number of member each day and prefixed schedule")}
+                    {createCardInGrid("Launch", "scheduler-launch.svg",
+                        "#", "create schedule of current affiliation and selected month",
+                        () => this.setState({ openCalendar: true }))}
                 </Grid>
             </>
         )

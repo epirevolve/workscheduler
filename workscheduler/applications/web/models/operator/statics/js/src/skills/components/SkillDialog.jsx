@@ -10,8 +10,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-const skillDialog = ({ skillDialog, onNameChange, onScoreChange, onIsCertifiedChanged,
-    handleClose, handleRemove, handleSave }) => {
+const skillDialog = ({
+    skillDialog, onNameChange, onScoreChange,
+    onIsCertifiedChanged, handleClose, handleRemove, handleSave
+    }) => {
     return (
         <Dialog open={skillDialog.isOpen} aria-labelledby="skill-store">
             <DialogTitle>register skill</DialogTitle>
