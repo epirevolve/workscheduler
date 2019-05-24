@@ -5,7 +5,7 @@ import TableRow from '@material-ui/core/TableRow';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-import RowHeader from './RowHeader';
+import RowHeader from '../../schedule/components/RowHeader';
 import SelectableCell from './SelectableCell';
 
 import { zip } from 'array-util'

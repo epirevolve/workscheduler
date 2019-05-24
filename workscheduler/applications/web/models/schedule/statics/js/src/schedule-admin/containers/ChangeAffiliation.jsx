@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import requestAgent from 'superagent';
 
+import { requestSchedules } from '../../schedule/actions';
 import { changeAffiliation } from '../actions';
 
 import Affiliations from '../components/Affiliations';
@@ -15,8 +16,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     onAffiliationChange: (scheduleOf, e) => {
         const affiliation = e.target.value;
+        dispatch(requestSchedules());
         changeAffiliation(affiliation, scheduleOf)
-            .then(action => dispatch(action))
+            .then(action => dispatch(action));
     }
 })
 

@@ -1,7 +1,5 @@
 import React from 'react'
 
-import requestAgent from 'superagent';
-
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
@@ -22,7 +20,7 @@ const affiliations = ({ affiliation, scheduleOf, onAffiliationChange }) => {
                 `}>
                 {x.name}
             </Typography>
-        </MenuItem>)
+        </MenuItem>);
 
     if (affiliations.map(x => x.id).includes(affiliation.id)) affiliation = affiliations.find(x => x.id == affiliation.id);
 

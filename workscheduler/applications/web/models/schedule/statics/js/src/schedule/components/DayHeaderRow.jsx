@@ -9,15 +9,17 @@ import { css, jsx } from '@emotion/core'
 import DayHeaderCell from './DayHeaderCell';
 import RowHeader from './RowHeader';
 
-const dayHeaderRow = ({ headers, ...other }) => {
+const css_ = {
+    position: 'sticky',
+    top: 0,
+    background: 'white',
+    zIndex: 999
+}
+
+const dayHeaderRow = ({ headers }) => {
     return (
         <TableHead>
-            <TableRow css={css`
-                position: sticky;
-                top: 0;
-                background: white;
-                z-index: 999;
-            `}>
+            <TableRow css={css(css_)}>
                 <RowHeader />
                 {headers}
             </TableRow>

@@ -60,6 +60,15 @@ class MenuItems extends React.Component {
 
     render () {
         const { affiliation } = this.props;
+        const createGridButton = (handle, val) => {
+            return (
+                <Grid item sm={12} md={3}>
+                    <Button color="primary" size="large" onClick={handle}>
+                        {val}
+                    </Button>
+                </Grid>
+            )
+        };
 
         return (
             <>
@@ -75,66 +84,18 @@ class MenuItems extends React.Component {
                     </DialogTitle>
                     <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                         <Grid container>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(1)}>
-                                    Jan
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(2)}>
-                                    Feb
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(3)}>
-                                    Mar
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(4)}>
-                                    Apr
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(5)}>
-                                    May
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(6)}>
-                                    Jun
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(7)}>
-                                    Jul
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(8)}>
-                                    Aug
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(9)}>
-                                    Sep
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(10)}>
-                                    Oct
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(11)}>
-                                    Nov
-                                </Button>
-                            </Grid>
-                            <Grid item sm={12} md={3}>
-                                <Button color="primary" size="large" onClick={() => this.handleLunch(12)}>
-                                    Dec
-                                </Button>
-                            </Grid>
+                            {createGridButton(() => this.handleLunch(1), 'Jan')}
+                            {createGridButton(() => this.handleLunch(2), 'Feb')}
+                            {createGridButton(() => this.handleLunch(3), 'Mar')}
+                            {createGridButton(() => this.handleLunch(4), 'Apr')}
+                            {createGridButton(() => this.handleLunch(5), 'May')}
+                            {createGridButton(() => this.handleLunch(6), 'Jun')}
+                            {createGridButton(() => this.handleLunch(7), 'Jul')}
+                            {createGridButton(() => this.handleLunch(8), 'Aug')}
+                            {createGridButton(() => this.handleLunch(9), 'Sep')}
+                            {createGridButton(() => this.handleLunch(10), 'Oct')}
+                            {createGridButton(() => this.handleLunch(11), 'Nov')}
+                            {createGridButton(() => this.handleLunch(12), 'Dec')}
                         </Grid>
                     </div>
                 </Dialog>

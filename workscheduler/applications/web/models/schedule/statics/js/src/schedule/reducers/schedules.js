@@ -1,20 +1,22 @@
+import { ActionType } from '../actions';
+
 const schedules = (state = {}, action) => {
     switch (action.type) {
-        case 'FETCH_SCHEDULES':
+        case ActionType.fetchSchedules:
             return {...state,
                 daySettings: action.daySettings,
                 schedules: action.schedules,
                 totals: action.totals,
                 isPublished: action.isPublished,
-            }
-        case 'CHANGE_SCHEDULE_OF':
+            };
+        case ActionType.changeScheduleOf:
             return {...state,
                 daySettings: action.daySettings,
                 schedules: action.schedules,
                 totals: action.totals,
                 isPublished: action.isPublished,
                 scheduleOf: action.scheduleOf
-            }
+            };
         case 'CHANGE_AFFILIATION':
             return {...state,
                 daySettings: action.daySettings,
@@ -22,7 +24,7 @@ const schedules = (state = {}, action) => {
                 totals: action.totals,
                 isPublished: action.isPublished,
                 affiliation: action.affiliation
-            }
+            };
         case 'CHANGE_WORK_CATEGORY':
             const oldCategoryName = state.schedules.find(x => x.operator.id == action.operator.id)
                 .schedule.find(x => x.day == action.day).name;
@@ -77,9 +79,9 @@ const schedules = (state = {}, action) => {
                     else
                         return x
                 })
-            }
+            };
         default:
-            return state
+            return state;
     }
 }
 

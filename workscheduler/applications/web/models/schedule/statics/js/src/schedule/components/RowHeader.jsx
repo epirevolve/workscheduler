@@ -12,13 +12,17 @@ const css_ = {
     position: 'sticky',
     left: 0,
     background: 'white',
-    zIndex: 99
+    zIndex: 99,
+    fontWeight: 'initial'
 }
 
 const rowHeader = ({ val, left }) => {
     return (
         <TableCell component="th" scope="row" css={css({...css_,
-            left: left ? 7+5*(left-1)+'rem' : '0'
+            left: left ? 7+5*(left-1)+'rem' : '0',
+            minWidth: left ? '5rem' : '7rem',
+            maxWidth: left ? '5rem' : '7rem',
+            textAlign: left ? 'center' : 'left',
         })}>
             {val}
         </TableCell>

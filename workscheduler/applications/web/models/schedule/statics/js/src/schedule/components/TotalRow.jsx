@@ -21,7 +21,7 @@ const css_ = {
 const totalRow = ({ headers, cells, bottom }) => {
     return (
         <TableRow css={css({...css_,
-            bottom: 3.3*bottom+'rem'
+            bottom: 3.5*bottom+'rem'
         })}>
             {headers.map((x, i) => <RowHeader key={i} val={x} left={i} />)}
             {cells.map((x, i) => <TotalCell key={i} {...x} />)}

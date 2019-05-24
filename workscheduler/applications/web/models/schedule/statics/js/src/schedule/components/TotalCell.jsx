@@ -27,7 +27,7 @@ const totalCell = ({ count, category, daySetting }) => {
     React.useMemo(() => {
         const colorName = getColorByState(count, category, daySetting);
         setCssState(colorName ? {...css_, color: colorName} : css_);
-    }, [count]);
+    }, [count, category]);
 
     return (
         <TableCell css={css(cssState)}>

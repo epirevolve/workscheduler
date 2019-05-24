@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import Schedules from '../components/Schedules';
 
-import { fetchSchedules } from '../../schedule/actions';
+import { fetchSchedules, requestSchedules } from '../../schedule/actions';
 import { changeWorkCategory } from '../actions';
 
 const mapStateToProps = (state) => ({
@@ -11,17 +11,19 @@ const mapStateToProps = (state) => ({
     schedules: state.schedules.schedules,
     totals: state.schedules.totals,
     affiliation: state.schedules.affiliation,
-    scheduleOf: state.schedules.scheduleOf
+    scheduleOf: state.schedules.scheduleOf,
+    isLoading: state.ui.isLoading
 })
 
 const mapDispatchToProps = (dispatch) => ({
     onLoad: (affiliation, scheduleOf) => {
+        dispatch(requestSchedules());
         fetchSchedules(affiliation, scheduleOf)
-            .then(action => dispatch(action))
+            .then(action => dispatch(action));
     },
     onCategoryChange: (workCategories, operator) => (day, daySetting) => (e) => {
         const category = e.target.value;
-        dispatch(changeWorkCategory(operator, day, daySetting, category, workCategories))
+        dispatch(changeWorkCategory(operator, day, daySetting, category, workCategories));
     }
 })
 

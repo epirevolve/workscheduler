@@ -4,13 +4,14 @@ import requestAgent from 'superagent';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
 import DayHeaderCell from '../../schedule/components/DayHeaderCell';
 import DayHeaderRow from '../../schedule/components/DayHeaderRow';
-import SelectableRow from '../../schedule/components/SelectableRow';
+import SelectableRow from './SelectableRow';
 import TotalRows from '../../schedule/components/TotalRows';
 
 import { zip } from 'array-util'
@@ -36,7 +37,12 @@ class schedules extends React.Component {
     }
 
     render () {
-        const { daySettings, schedules, totals, onCategoryChange } = this.props;
+        const { daySettings, schedules, totals, isLoading, onCategoryChange } = this.props;
+        if (isLoading) {
+            return (
+                <LinearProgress variant="query" css={css`margin: 10rem`} />
+            )
+        }
 
         if (schedules.length == 0) {
             return (
@@ -68,21 +74,19 @@ class schedules extends React.Component {
                 cells: zip(x.totals, daySettings).map(([a, b]) => ({category: x.workCategory, daySetting: b, ...a}))
             }});
         return (
-            <>
-                <Table css={css`
-                        overflow: auto;
-                        height: 64vh;
-                        width: 95vw;
-                        display: block;
-                        border-collapse: initial;
-                    `}>
-                    <DayHeaderRow headers={headers} />
-                    <TableBody>
-                        {operatorRows.map((x, i) => <SelectableRow key={i} {...x} />)}
-                    </TableBody>
-                    <TotalRows rows={totalRows} />
-                </Table>
-            </>
+            <Table css={css`
+                    overflow: auto;
+                    height: 64vh;
+                    width: 95vw;
+                    display: block;
+                    border-collapse: initial;
+                `}>
+                <DayHeaderRow headers={headers} />
+                <TableBody>
+                    {operatorRows.map((x, i) => <SelectableRow key={i} {...x} />)}
+                </TableBody>
+                <TotalRows rows={totalRows} />
+            </Table>
         )
     }
 }

@@ -11,7 +11,7 @@ import Theme from 'ColorTheme';
 
 import App from './components/App'
 
-const store = createStore(rootReducer, {schedules: initValue})
+const store = createStore(rootReducer, {schedules: initValue, ui: {isLoading: true}})
 
 if (process.env.NODE_ENV !== 'production') {
     const {whyDidYouUpdate} = require('why-did-you-update')
