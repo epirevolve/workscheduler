@@ -9,16 +9,15 @@ import { changeAffiliation } from '../actions';
 import Affiliations from '../components/Affiliations';
 
 const mapStateToProps = (state) => ({
-    affiliation: state.schedules.affiliation,
+    affiliation: state.affiliations.affiliation,
     scheduleOf: state.schedules.scheduleOf
 })
 
 const mapDispatchToProps = (dispatch) => ({
     onAffiliationChange: (scheduleOf, e) => {
         const affiliation = e.target.value;
-        dispatch(requestSchedules());
-        changeAffiliation(affiliation, scheduleOf)
-            .then(action => dispatch(action));
+        dispatch(requestSchedules(affiliation, scheduleOf));
+        dispatch(changeAffiliation(affiliation));
     }
 })
 

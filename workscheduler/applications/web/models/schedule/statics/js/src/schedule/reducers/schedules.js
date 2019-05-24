@@ -1,29 +1,18 @@
-import { ActionType } from '../actions';
+import { SUCCESS_SCHEDULES, FAILURE_SCHEDULES, CHANGE_SCHEDULE_OF } from '../actionTypes';
 
 const schedules = (state = {}, action) => {
+    const payload = action.payload;
     switch (action.type) {
-        case ActionType.fetchSchedules:
+        case SUCCESS_SCHEDULES:
             return {...state,
-                daySettings: action.daySettings,
-                schedules: action.schedules,
-                totals: action.totals,
-                isPublished: action.isPublished,
+                daySettings: payload.daySettings,
+                schedules: payload.schedules,
+                totals: payload.totals,
+                isPublished: payload.isPublished,
             };
-        case ActionType.changeScheduleOf:
+        case CHANGE_SCHEDULE_OF:
             return {...state,
-                daySettings: action.daySettings,
-                schedules: action.schedules,
-                totals: action.totals,
-                isPublished: action.isPublished,
-                scheduleOf: action.scheduleOf
-            };
-        case 'CHANGE_AFFILIATION':
-            return {...state,
-                daySettings: action.daySettings,
-                schedules: action.schedules,
-                totals: action.totals,
-                isPublished: action.isPublished,
-                affiliation: action.affiliation
+                scheduleOf: payload.scheduleOf
             };
         case 'CHANGE_WORK_CATEGORY':
             const oldCategoryName = state.schedules.find(x => x.operator.id == action.operator.id)

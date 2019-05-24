@@ -1,15 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { requestSchedules, changeScheduleOf } from '../actions';
+import { requestSchedules, changeScheduleOf } from '../../schedule/actions';
 
-import MonthSelect from '../components/MonthSelect';
-
-const dataset = document.querySelector('script[id="base-schedule"]').dataset;
-const affiliation = JSON.parse(dataset.affiliation);
+import MonthSelect from '../../schedule/components/MonthSelect';
 
 const mapStateToProps = (state) => ({
-    affiliation,
+    affiliation: state.affiliations.affiliation,
     scheduleOf: state.schedules.scheduleOf
 })
 

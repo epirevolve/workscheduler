@@ -1,12 +1,9 @@
-import { fetchSchedules } from '../../schedule/actions';
+import { CHANGE_MAIN_TEAM } from '../actionTypes';
 
-export const changeAffiliation = (affiliation, scheduleOf) => {
-    return fetchSchedules(affiliation, scheduleOf)
-        .then(action => ({...action,
-            type: 'CHANGE_AFFILIATION',
-            affiliation,
-        }))
-}
+export const changeAffiliation = (affiliation) => ({
+    type: CHANGE_MAIN_TEAM,
+    payload: { affiliation }
+})
 
 export const changeWorkCategory = (operator, day, daySetting, category, workCategories) => ({
     type: 'CHANGE_WORK_CATEGORY',

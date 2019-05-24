@@ -1,22 +1,23 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import React from 'react';
+import { render } from 'react-dom';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { Provider } from 'react-redux';
 
-import rootReducer from './reducers'
-import { initValue } from '../schedule/reducers'
+import rootReducer from './reducers';
+import { initValue as schedules } from '../schedule/reducers';
+import { initValue as affiliations } from './reducers';
+
+import rootSaga from '../schedule/sagas';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import Theme from 'ColorTheme';
 
-import App from './components/App'
+import App from './components/App';
 
-const store = createStore(rootReducer, {schedules: initValue, ui: {isLoading: true}})
-
-if (process.env.NODE_ENV !== 'production') {
-    const {whyDidYouUpdate} = require('why-did-you-update')
-    whyDidYouUpdate(React)
-}
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer, {schedules, affiliations, ui: {isLoading: true}}, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
 
 render(
     <MuiThemeProvider theme={Theme}>
@@ -25,4 +26,4 @@ render(
         </Provider>
     </MuiThemeProvider>,
     document.getElementById('root')
-)
+);

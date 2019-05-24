@@ -1,34 +1,23 @@
 import requestAgent from 'superagent';
 
-export const ActionType = {
-    requestSchedules: Symbol(),
-    fetchSchedules: Symbol(),
-    changeScheduleOf: Symbol()
-};
+import { REQUEST_SCHEDULES, SUCCESS_SCHEDULES, FAILURE_SCHEDULES, CHANGE_SCHEDULE_OF } from '../actionTypes';
 
-const _fetchSchedules = (affiliation, scheduleOf) => {
-    return requestAgent
-        .get(`/api/schedules?affiliation-id=${affiliation.id}&schedule-of=${scheduleOf}`)
-        .set('X-CSRFToken', csrfToken)
-        .then(res => JSON.parse(res.text))
-}
-
-export const requestSchedules = () => ({
-    type: ActionType.requestSchedules
+export const requestSchedules = (affiliation, scheduleOf) => ({
+    type: REQUEST_SCHEDULES,
+    payload: { affiliation, scheduleOf }
 })
 
-export const fetchSchedules = (affiliation, scheduleOf) => {
-    return _fetchSchedules(affiliation, scheduleOf)
-        .then(schedules => ({
-            type: ActionType.fetchSchedules,
-            ...schedules
-        }))
-}
+export const successSchedules = (payload) => ({
+    type: SUCCESS_SCHEDULES,
+    payload
+})
 
-export const changeScheduleOf = (affiliation, scheduleOf) => {
-    return fetchSchedules(affiliation, scheduleOf)
-        .then(action => ({...action,
-            type: ActionType.changeScheduleOf,
-            scheduleOf,
-        }))
-}
+export const failureSchedules = (error) => ({
+    type: FAILURE_SCHEDULES,
+    error
+})
+
+export const changeScheduleOf = (scheduleOf) => ({
+    type: CHANGE_SCHEDULE_OF,
+    payload: { scheduleOf }
+})

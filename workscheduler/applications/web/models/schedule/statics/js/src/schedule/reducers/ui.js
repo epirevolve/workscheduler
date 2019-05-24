@@ -1,13 +1,12 @@
-import { ActionType } from '../actions';
+import { REQUEST_SCHEDULES, SUCCESS_SCHEDULES, FAILURE_SCHEDULES } from '../actionTypes';
 
 const ui = (state = {}, action) => {
     switch (action.type) {
-        case ActionType.requestSchedules:
+        case REQUEST_SCHEDULES:
             return {...state,
                 isLoading: true,
             };
-        case ActionType.fetchSchedules:
-        case ActionType.changeScheduleOf:
+        case SUCCESS_SCHEDULES:
             return {...state,
                 isLoading: false
             };
