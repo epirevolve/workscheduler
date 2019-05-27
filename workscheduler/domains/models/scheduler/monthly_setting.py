@@ -39,15 +39,16 @@ class MonthlySetting(OrmBase):
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
 
-    def __init__(self, id_: str, year: int, month: int,
-                 days: [DaySetting], holidays: int):
-        self.id = id_
+    def __init__(self, id: str, year: int, month: int,
+                 days: [DaySetting], holidays: int,
+                 is_published: bool = False, is_fixed: bool = False, **kwargs):
+        self.id = id
         self.year = year
         self.month = month
         self.days = days
         self.holidays = holidays
-        self.is_published = False
-        self.is_fixed = False
+        self.is_published = is_published
+        self.is_fixed = is_fixed
         
     @property
     def categories(self):
@@ -79,13 +80,12 @@ class MonthlySetting(OrmBase):
                 day.add_category(work_category)
 
     @staticmethod
-    def new_monthly_setting(work_categories: [], year: int, month: int):
+    def new(work_categories: [], year: int, month: int):
         calendar = SysCalendar()
         calendar.setfirstweekday(SUNDAY)
         monthdatescalendar = [y for x in calendar.monthdatescalendar(year, month)
                               for y in x if y.year == year and y.month == month]
-        days = [DaySetting.new_day(x, day_abbr[x.weekday()], work_categories)
-                for x in monthdatescalendar]
+        days = [DaySetting.new(x, day_abbr[x.weekday()], work_categories) for x in monthdatescalendar]
         return MonthlySetting(UuidFactory.new_uuid(), year, month, days,
                               len([x for x in monthdatescalendar if x.weekday() in [5, 6]]))
     

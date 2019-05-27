@@ -39,8 +39,8 @@ class RequestCommand:
     def append_my_request(self, user_id: str, scheduler_id: str,
                           title: str, note: str, at_from: datetime, at_to: datetime) -> Request:
         operator = OperatorQuery(self._session).get_operator_of_user_id(user_id)
-        request = Request.new_request(title, note, at_from,
-                                      at_to, operator)
+        request = Request.new(title, note, at_from,
+                              at_to, operator)
         self._add_request(scheduler_id, request)
         return request
 

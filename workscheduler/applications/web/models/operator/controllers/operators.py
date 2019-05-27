@@ -32,7 +32,6 @@ def update_myself(operator_id):
     try:
         OperatorCommandAdapter(session).update_myself(jsonize.loads(request.data))
         session.commit()
-
         response = Response()
     except Exception as e:
         session.rollback()
@@ -61,7 +60,6 @@ def update_operator(operator_id):
     try:
         req = OperatorCommandAdapter(session).update_operator(jsonize.loads(request.data))
         session.commit()
-
         session.refresh(req)
         # to-do: to include ojt field which sometime be NoneType, fetch that field without meaning
         response = Response(jsonize.dumps(req if req.ojt else req))

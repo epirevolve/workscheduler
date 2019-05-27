@@ -44,22 +44,23 @@ class DaySetting(OrmBase):
     requests = relationship("Request", secondary=associated_request_table, lazy='subquery')
     fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='subquery')
 
-    def __init__(self, id_: str, day: int, day_name: str,
-                 is_holiday: bool, details: []):
-        self.id = id_
+    def __init__(self, id: str, day: int, day_name: str,
+                 is_holiday: bool, details: [],
+                 requests: [] = None, fixed_schedules: [] = None, **kwargs):
+        self.id = id
         self.day = day
         self.day_name = day_name
         self.is_holiday = is_holiday
         self.details = details
-        self.requests = []
-        self.fixed_schedules = []
+        self.requests = requests or []
+        self.fixed_schedules = fixed_schedules or []
     
     def add_category(self, work_category: WorkCategory):
-        self.details.append(DayDetail.new_detail(work_category, 0))
+        self.details.append(DayDetail.new(work_category, 0))
     
     @staticmethod
-    def new_day(date: DateTime, date_name: str, work_categories: [WorkCategory]):
-        details = [DayDetail.new_detail(x, x.week_day_require if not is_holiday_(date) else x.holiday_require)
+    def new(date: DateTime, date_name: str, work_categories: [WorkCategory]):
+        details = [DayDetail.new(x, x.week_day_require if not is_holiday_(date) else x.holiday_require)
                    for x in work_categories]
         return DaySetting(UuidFactory.new_uuid(), date.day, date_name, is_holiday_(date), details)
     

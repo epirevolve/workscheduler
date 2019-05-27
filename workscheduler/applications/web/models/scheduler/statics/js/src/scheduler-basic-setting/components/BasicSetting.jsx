@@ -1,14 +1,14 @@
 import React from 'react';
 
-import OptionsContainer from '../containers/OptionsContainer';
-import WorkCategoriesContainer from '../containers/WorkCategoriesContainer';
-import BasicSettingContainer from '../containers/BasicSettingContainer';
+import SelectTrivialOptions from '../containers/SelectTrivialOptions';
+import DisplayWorkCategories from '../containers/DisplayWorkCategories';
+import SaveBaseSetting from '../containers/SaveBaseSetting';
 
 const basicSetting = () => (
     <>
-        <OptionsContainer />
-        <WorkCategoriesContainer />
-        <BasicSettingContainer />
+        <SelectTrivialOptions />
+        <DisplayWorkCategories />
+        <SaveBaseSetting />
     </>
 )
 

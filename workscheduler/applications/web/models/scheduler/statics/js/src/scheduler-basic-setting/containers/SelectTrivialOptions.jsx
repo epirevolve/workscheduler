@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Options from '../components/Options';
+import TrivialOptions from '../components/TrivialOptions';
 
 import { changeCertifiedSkill } from '../actions';
 import { changeNotCertifiedSkill } from '../actions';
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => ({
     onNotCertifiedSkillChange: (e) => dispatch(changeNotCertifiedSkill(e.target.value))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Options);
+export default connect(mapStateToProps, mapDispatchToProps)(TrivialOptions);

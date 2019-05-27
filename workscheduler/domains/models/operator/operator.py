@@ -11,6 +11,8 @@ from sqlalchemy.types import Integer
 from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
 from ..user import User
+from .skill import Skill
+from .relation import Relation
 
 associated_skill_table\
     = Table("associated_skill", OrmBase.metadata,
@@ -35,11 +37,15 @@ class Operator(OrmBase):
     ojt = relationship("Operator", uselist=False, lazy='subquery')
     remain_paid_holidays = Column(Integer, default=0)
 
-    def __init__(self, id_: str, user: User):
-        self.id = id_
+    def __init__(self, id: str, user: User,
+                 skills: [Skill] = None, relations: [Relation] = None,
+                 ojt: object = None, remain_paid_holidays: int = 0, **kwargs):
+        self.id = id
         self.user = user
-        self.skills = []
-        self.relations = []
+        self.skills = skills or []
+        self.relations = relations or []
+        self.ojt = ojt
+        self.remain_paid_holidays = remain_paid_holidays
 
     @validates('id')
     def validate(self, key, value):
@@ -54,7 +60,7 @@ class Operator(OrmBase):
         return list(filter(lambda x: not x.is_certified, self.skills))
     
     @staticmethod
-    def new_operator(user: User):
+    def new(user: User):
         operator = Operator(UuidFactory.new_uuid(), user)
         return operator
     

@@ -29,9 +29,9 @@ class Schedule(OrmBase):
                               lazy='subquery', cascade='all')
     is_published = Column(Boolean)
     
-    def __init__(self, id_: str, affiliation_id: str, month: int,
+    def __init__(self, id: str, affiliation_id: str, month: int,
                  year: int, schedule_components: []):
-        self.id = id_
+        self.id = id
         self.affiliation_id = affiliation_id
         self.year = year
         self.month = month
@@ -39,8 +39,8 @@ class Schedule(OrmBase):
         self.is_published = False
     
     @staticmethod
-    def new_schedule(affiliation_id: str, month: int, year: int,
-                     schedule_components: []):
+    def new(affiliation_id: str, month: int, year: int,
+            schedule_components: []):
         return Schedule(UuidFactory.new_uuid(), affiliation_id, month,
                         year, schedule_components)
     

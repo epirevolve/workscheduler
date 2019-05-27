@@ -1,17 +1,17 @@
 import React from 'react';
 
 import MonthSelect from './MonthSelect';
-import DayTableContainer from '../containers/DayTableContainer';
-import MonthlyHolidayContainer from '../containers/MonthlyHolidayContainer';
-import FixedSchedulesContainer from '../containers/FixedSchedulesContainer';
+import DisplayDaySettings from '../containers/DisplayDaySettings';
+import AdjustMonthlyHolidayCount from '../containers/AdjustMonthlyHolidayCount';
+import SetFixedSchedules from '../containers/SetFixedSchedules';
 import MonthlySettingContainer from '../containers/MonthlySettingContainer';
 
 const monthlySetting = () => (
     <>
         <MonthSelect />
-        <DayTableContainer />
-        <MonthlyHolidayContainer />
-        <FixedSchedulesContainer />
+        <DisplayDaySettings />
+        <AdjustMonthlyHolidayCount />
+        <SetFixedSchedules />
         <MonthlySettingContainer />
     </>
 )

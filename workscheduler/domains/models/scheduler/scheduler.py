@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
-
 from sqlalchemy import Column
 from sqlalchemy import Table
 from sqlalchemy import ForeignKey
@@ -13,9 +11,9 @@ from sqlalchemy.types import Boolean
 from sqlalchemy.types import DateTime
 
 from mypackages.utils.uuid import UuidFactory
+
 from .. import OrmBase
 from ..user import Affiliation
-from . import WorkCategory
 from . import MonthlySetting
 from . import YearlySetting
 
@@ -50,37 +48,35 @@ class Scheduler(OrmBase):
     yearly_settings = relationship("YearlySetting", secondary=associated_yearly_setting_table, lazy='subquery')
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
-    is_launching = Column(Boolean)
     work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='subquery')
+    is_launching = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id_: str, affiliation: Affiliation,
-                 certified_skill: bool, not_certified_skill: bool,
-                 work_categories: [WorkCategory]):
-        self.id = id_
+    def __init__(self, id: str, affiliation: Affiliation,
+                 monthly_settings: [] = None, yearly_settings: [] = None,
+                 certified_skill: bool = True, not_certified_skill: bool = True,
+                 work_categories: [] = None, is_launching: bool = False, **kwargs):
+        self.id = id
         self.affiliation = affiliation
-        self.monthly_settings = []
-        self.yearly_settings = []
+        self.monthly_settings = monthly_settings or []
+        self.yearly_settings = yearly_settings or []
         self.certified_skill = certified_skill
         self.not_certified_skill = not_certified_skill
-        self.work_categories = work_categories
-        self.is_launching = False
+        self.work_categories = work_categories or []
+        self.is_launching = is_launching
 
     @validates("id, affiliation")
     def validate(self, key, value):
         return super(Scheduler, self).validate(Scheduler, key, value)
 
     @staticmethod
-    def new_scheduler(affiliation: Affiliation):
-        return Scheduler(UuidFactory.new_uuid(), affiliation,
-                         True, True, [])
+    def new(affiliation: Affiliation):
+        return Scheduler(UuidFactory.new_uuid(), affiliation)
     
     def monthly_setting(self, month: int, year: int):
-        monthly_setting = list(filter(lambda x: x.year == year and x.month == month,
-                                      self.monthly_settings))
+        monthly_setting = list(filter(lambda x: x.year == year and x.month == month, self.monthly_settings))
         if not monthly_setting:
-            monthly_setting = MonthlySetting.new_monthly_setting(
-                self.work_categories, year, month)
+            monthly_setting = MonthlySetting.new(self.work_categories, year, month)
             self.monthly_settings.append(monthly_setting)
         else:
             monthly_setting = monthly_setting[0]
@@ -89,7 +85,7 @@ class Scheduler(OrmBase):
     def yearly_setting(self, year: int):
         yearly_setting = list(filter(lambda x: x.year == year, self.yearly_settings))
         if not yearly_setting:
-            yearly_setting = YearlySetting.new_yearly_setting(year)
+            yearly_setting = YearlySetting.new(year)
             self.yearly_settings.append(yearly_setting)
         else:
             yearly_setting = yearly_setting[0]

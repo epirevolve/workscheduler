@@ -8,10 +8,13 @@ const dayIsHolidayCell = ({ isHoliday, onIsHolidayChange }) => {
     return (
         <TableCell>
             <FormControlLabel className="m-0"
-                control={<Checkbox checked={isHoliday}
-                    onChange={onIsHolidayChange} />} />
+                control={<Checkbox checked={isHoliday} onChange={onIsHolidayChange} />} />
         </TableCell>
     )
 }
 
-export default dayIsHolidayCell;
+const areEqual = (prevProps, nextProps) => {
+    return prevProps["isHoliday"] == nextProps["isHoliday"];
+}
+
+export default React.memo(dayIsHolidayCell, areEqual);

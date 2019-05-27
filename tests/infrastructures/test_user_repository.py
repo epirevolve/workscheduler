@@ -28,8 +28,8 @@ class TestUserRepository:
     
     def test_append_user(self, session):
         user_repository = UserQuery(session)
-        affiliation = Affiliation.new_affiliation('test', 'this is test')
-        user = User.new_member('test_login', 'tester', affiliation, is_admin=False, is_operator=True)
+        affiliation = Affiliation.new('test', 'this is test')
+        user = User.new('test_login', 'tester', affiliation, is_admin=False, is_operator=True)
         session.add(user)
         session.commit()
         users = user_repository.get_users()

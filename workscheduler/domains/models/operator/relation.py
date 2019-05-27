@@ -9,7 +9,6 @@ from sqlalchemy.types import Float
 
 from mypackages.utils.uuid import UuidFactory
 from .. import OrmBase
-from . import Operator
 
 
 class Relation(OrmBase):
@@ -21,8 +20,8 @@ class Relation(OrmBase):
     colleague = relationship("Operator", uselist=False, foreign_keys=[_colleague_id], lazy='subquery')
     affinity = Column(Float, default=0.0)
     
-    def __init__(self, id_: str, myself: Operator, colleague: Operator, affinity: float):
-        self.id = id_
+    def __init__(self, id: str, myself, colleague, affinity: float, **kwargs):
+        self.id = id
         self.myself = myself
         self.colleague = colleague
         self.affinity = affinity
@@ -32,5 +31,5 @@ class Relation(OrmBase):
         return super(Relation, self).validate(Relation, key, value)
     
     @staticmethod
-    def new_relation(myself: Operator, colleage: Operator, affinity: int):
-        return Relation(UuidFactory.new_uuid(), myself, colleage, affinity)
+    def new(myself, colleague, affinity: int):
+        return Relation(UuidFactory.new_uuid(), myself, colleague, affinity)

@@ -7,7 +7,7 @@ from workscheduler.domains.models.user import Affiliation
 class TestUserManageCommand:
     def test_append_user(self, user_manage_command, session):
         user_repository = UserQuery(session)
-        affiliation = Affiliation.new_affiliation('test', 'this is test')
+        affiliation = Affiliation.new('test', 'this is test')
         session.add(affiliation)
         session.commit()
         count = len(user_repository.get_users())
@@ -28,7 +28,7 @@ class TestUserManageCommand:
     def test_update_user(self, user_manage_command, session):
         user_repository = UserQuery(session)
         users = user_repository.get_users()
-        affiliation = Affiliation.new_affiliation('new test', 'this is changed')
+        affiliation = Affiliation.new('new test', 'this is changed')
         session.add(affiliation)
         session.commit()
         count = len(users)

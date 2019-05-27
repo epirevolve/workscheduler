@@ -59,13 +59,13 @@ class Database:
         
         from workscheduler.domains.models.operator import Skill
         
-        skill1 = Skill.new_skill('ccna', 1, is_certified=True)
+        skill1 = Skill.new('ccna', 1, is_certified=True)
         session.add(skill1)
-        skill2 = Skill.new_skill('ccnp', 3, is_certified=True)
+        skill2 = Skill.new('ccnp', 3, is_certified=True)
         session.add(skill2)
-        session.add(Skill.new_skill('lpic', 2, is_certified=True))
+        session.add(Skill.new('lpic', 2, is_certified=True))
 
-        skill3 = Skill.new_skill('夜間統制', 5, is_certified=False)
+        skill3 = Skill.new('夜間統制', 5, is_certified=False)
         session.add(skill3)
 
         # add teams
@@ -130,15 +130,15 @@ class Database:
         from workscheduler.domains.models.scheduler import WorkCategory
         
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
-        work_daily = WorkCategory.new_category('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0,
-                                               [get_operator_of_user_id(user1.id),
+        work_daily = WorkCategory.new('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0,
+                                      [get_operator_of_user_id(user1.id),
                                                 get_operator_of_user_id(user2.id)],
-                                               [], [], [], [])
+                                      [], [], [], [])
         scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(front.id)
         scheduler.work_categories.append(work_daily)
         scheduler.work_categories.append(
-            WorkCategory.new_category('夜間帯', time(17, 30), time(10, 00), 3, 5, 3, 5, 1, 5,
-                                      [], [], [skill3], [], [get_operator_of_user_id(user3.id)])
+            WorkCategory.new('夜間帯', time(17, 30), time(10, 00), 3, 5, 3, 5, 1, 5,
+                             [], [], [skill3], [], [get_operator_of_user_id(user3.id)])
         )
         session.flush()
         
@@ -148,8 +148,8 @@ class Database:
         from workscheduler.domains.models.scheduler import MonthlySetting
 
         next_month = get_next_month()
-        monthly_setting = MonthlySetting.new_monthly_setting(scheduler.work_categories,
-                                                             next_month.year, next_month.month)
+        monthly_setting = MonthlySetting.new(scheduler.work_categories,
+                                             next_month.year, next_month.month)
         monthly_setting.is_published = True
         scheduler.monthly_settings.append(monthly_setting)
         

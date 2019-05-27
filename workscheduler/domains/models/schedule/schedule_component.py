@@ -28,14 +28,14 @@ class ScheduleComponent(OrmBase):
     operator = relationship("Operator", uselist=False, lazy='subquery')
     day_work_categories = relationship('DayWorkCategory', secondary=associated_category_table, lazy='subquery')
     
-    def __init__(self, id_: str, operator: Operator, day_work_categories: []):
-        self.id = id_
+    def __init__(self, id: str, operator: Operator, day_work_categories: []):
+        self.id = id
         self.operator = operator
         self.day_work_categories = day_work_categories
     
     @staticmethod
-    def new_schedule_component(operator: Operator, schedule: []):
-        day_work_categories = [DayWorkCategory.new_day_work_category(i+1, x) for i, x in enumerate(schedule)]
+    def new(operator: Operator, schedule: []):
+        day_work_categories = [DayWorkCategory.new(i + 1, x) for i, x in enumerate(schedule)]
         return ScheduleComponent(UuidFactory.new_uuid(), operator, day_work_categories)
     
     def __eq__(self, other):

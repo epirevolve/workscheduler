@@ -9,7 +9,7 @@ class SkillCommand:
         self._session = session
 
     def append_skill(self, name: str, score: int, is_certified: bool):
-        skill = Skill.new_skill(name, score, is_certified)
+        skill = Skill.new(name, score, is_certified)
         self._session.add(skill)
         return skill
     

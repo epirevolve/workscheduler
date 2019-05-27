@@ -29,16 +29,17 @@ class User(OrmBase, UserMixin):
     is_inactivated = Column(Boolean, default=False)
     create_at = Column(DateTime, server_default=current_timestamp())
 
-    def __init__(self, id_: str, login_id: str, name: str,
-                 affiliation: Affiliation, is_admin: bool, is_operator: bool):
-        self.id = id_
+    def __init__(self, id: str, login_id: str, name: str,
+                 affiliation: Affiliation, is_admin: bool, is_operator: bool,
+                 is_inactivate: bool = False, **kwargs):
+        self.id = id
         self.login_id = login_id
         self.password = 'p' + login_id
         self.name = name
         self.affiliation = affiliation
         self.is_admin = is_admin
         self.is_operator = is_operator
-        self.is_inactivated = False
+        self.is_inactivated = is_inactivate
 
     @validates('id', 'login_id', 'password', 'name')
     def validate(self, key, value):
@@ -51,8 +52,8 @@ class User(OrmBase, UserMixin):
         return self.id
 
     @staticmethod
-    def new_member(login_id: str, name: str, affiliation: Affiliation,
-                   is_admin: bool, is_operator: bool):
+    def new(login_id: str, name: str, affiliation: Affiliation,
+            is_admin: bool, is_operator: bool):
         user = User(UuidFactory.new_uuid(), login_id, name,
                     affiliation, is_admin, is_operator)
         return user

@@ -5,7 +5,6 @@ import Popover from '@material-ui/core/Popover';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import Checkbox from '@material-ui/core/Checkbox';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -14,19 +13,16 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import IconButton from '@material-ui/core/IconButton';
 
-const dataset = document.querySelector('script[src*="scheduler-basic-setting"]').dataset;
-const operators = JSON.parse(dataset.operators);
-
-const holidayOperators = ({ workCategory, onHolidayOperatorChange }) => {
-    const holidayOperatorIds = workCategory.holidayOperators.map(x => x.id);
-    const operatorList = operators.map(x =>
-        <ListItem key={x.id} button onClick={() => onHolidayOperatorChange(workCategory.id, x)}>
-            <Checkbox checked={holidayOperatorIds.includes(x.id)} tabIndex={-1} disableRipple />
-            <ListItemText primary={x.user.name} />
+const holidayOperators = ({ name, targets, current, onSelectChange }) => {
+    const currentIds = current.map(x => x.id);
+    const popupList = targets.map((x, i) =>
+        <ListItem key={i} button onClick={() => onSelectChange(x.obj)}>
+            <Checkbox checked={currentIds.includes(x.id)} tabIndex={-1} disableRipple />
+            <ListItemText primary={x.name} />
         </ListItem>);
-    const holidayOperators = workCategory.holidayOperators.map(x =>
-        <ListItem key={x.id}>
-            <ListItemText primary={x.user.name} />
+    const currentList = current.map((x, i) =>
+        <ListItem key={i}>
+            <ListItemText primary={x.name} />
         </ListItem>);
 
     const [ anchorEl, setAnchorEl ] = React.useState(null);
@@ -40,13 +36,13 @@ const holidayOperators = ({ workCategory, onHolidayOperatorChange }) => {
         <>
             <Popover open={isOpen} anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
                 onClose={() => setAnchorEl(null)}>
-                <List subheader={<ListSubheader component="div">operators</ListSubheader>}>
-                    {operatorList}
+                <List>
+                    {popupList}
                 </List>
             </Popover>
             <ExpansionPanel expanded={expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6" style={{ color: 'gray' }} className="mt-2">holiday operators</Typography>
+                    <Typography variant="h6" style={{ color: 'gray' }} className="mt-2">{name}</Typography>
                     <div className="ml-3">
                         <IconButton size="small" onClick={(e) => { setAnchorEl(e.currentTarget); e.stopPropagation(); }}>
                             <CheckBoxRoundedIcon />
@@ -55,7 +51,7 @@ const holidayOperators = ({ workCategory, onHolidayOperatorChange }) => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <List>
-                        {holidayOperators}
+                        {currentList}
                     </List>
                 </ExpansionPanelDetails>
             </ExpansionPanel>

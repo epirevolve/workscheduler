@@ -1,10 +1,12 @@
 import React from 'react';
 
-import Menu from './Menu';
+import ChangeSelectAffiliation from '../containers/ChangeSelectAffiliation';
+import LaunchScheduler from '../containers/LaunchScheduler';
 
 const app = () => (
     <>
-        <Menu />
+        <ChangeSelectAffiliation />
+        <LaunchScheduler />
     </>
 )
 

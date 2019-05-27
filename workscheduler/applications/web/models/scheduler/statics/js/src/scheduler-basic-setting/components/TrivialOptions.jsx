@@ -6,7 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
-const options = ({ scheduler, onCertifiedSkillChange, onNotCertifiedSkillChange }) => {
+const trivialOptions = ({ scheduler, onCertifiedSkillChange, onNotCertifiedSkillChange }) => {
     return (
         <>
             <FormGroup row>
@@ -23,4 +23,4 @@ const options = ({ scheduler, onCertifiedSkillChange, onNotCertifiedSkillChange 
     )
 }
 
-export default options;
+export default trivialOptions;

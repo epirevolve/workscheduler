@@ -14,7 +14,7 @@ from workscheduler.applications.services import ScheduleFacade
 from workscheduler.applications.services import SchedulerQuery
 from workscheduler.applications.web import get_db_session
 
-bp = Blueprint('schedules_apis', __name__)
+bp = Blueprint('schedules_api', __name__)
 
 
 @bp.route('/scheduler')

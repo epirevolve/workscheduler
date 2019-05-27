@@ -62,26 +62,21 @@ def show_monthly_setting_inner(monthly_setting_id: str):
     scheduler_query = SchedulerQuery(session)
     scheduler = scheduler_query.get_scheduler_of_affiliation_id(affiliation_id)
     monthly_setting = scheduler_query.get_monthly_setting(monthly_setting_id)
-    fixed_schedules = list(set([y for x in monthly_setting.days for y in x.fixed_schedules]))
     operators = OperatorQuery(session).get_operators()
 
     return render_template('scheduler-monthly-setting.html',
                            scheduler=scheduler, monthly_setting=monthly_setting,
-                           fixed_schedules=fixed_schedules, operators=operators)
+                           operators=operators)
 
 
-@bp.route('/monthly-settings/<monthly_setting_id>', methods=['POST'])
+@bp.route('/monthly-settings', methods=['POST'])
 @login_required
 @admin_required
-def update_monthly_setting(monthly_setting_id: str):
+def update_monthly_setting():
     session = get_db_session()
     try:
-        data = jsonize.loads(request.data)
-        SchedulerCommandAdapter(session).update_fixed_schedules(monthly_setting_id, data['fixed_schedules'])
-        session.flush()
-        SchedulerCommandAdapter(session).update_monthly_setting(data['monthly_setting'])
+        SchedulerCommandAdapter(session).update_monthly_setting(jsonize.loads(request.data))
         session.commit()
-        
         response = Response()
     except Exception as e:
         session.rollback()
@@ -91,16 +86,14 @@ def update_monthly_setting(monthly_setting_id: str):
     return response
 
 
-@bp.route('/monthly-settings/<monthly_setting_id>/public', methods=['POST'])
+@bp.route('/monthly-settings/public', methods=['POST'])
 @login_required
 @admin_required
-def public_monthly_setting(monthly_setting_id: str):
+def public_monthly_setting():
     session = get_db_session()
     try:
-        update_monthly_setting(monthly_setting_id)
-        SchedulerCommandAdapter(session).public_monthly_setting(monthly_setting_id)
+        SchedulerCommandAdapter(session).public_monthly_setting(jsonize.loads(request.data))
         session.commit()
-    
         response = Response()
     except Exception as e:
         session.rollback()
@@ -115,8 +108,7 @@ def public_monthly_setting(monthly_setting_id: str):
 @admin_required
 def show_basic_setting():
     affiliation_id = request.args.get('affiliation')
-    session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliation_id)
+    scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_affiliation_id(affiliation_id)
     return redirect(url_for('schedulers.show_basic_setting_inner', scheduler_id=scheduler.id))
 
 
@@ -132,10 +124,10 @@ def show_basic_setting_inner(scheduler_id: str):
                            scheduler=scheduler, skills=skills, operators=operators)
 
 
-@bp.route('/basic-setting/<scheduler_id>', methods=['POST'])
+@bp.route('/basic-setting', methods=['POST'])
 @login_required
 @admin_required
-def update_basic_setting(scheduler_id):
+def update_basic_setting():
     session = get_db_session()
     try:
         SchedulerCommandAdapter(session).update_basic_setting(jsonize.loads(request.data))

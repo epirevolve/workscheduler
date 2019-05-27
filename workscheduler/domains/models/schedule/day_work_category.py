@@ -15,13 +15,13 @@ class DayWorkCategory(OrmBase):
     day = Column(Integer)
     work_category_id = Column(String)
     
-    def __init__(self, id_: str, day: int, work_category_id: str):
-        self.id = id_
+    def __init__(self, id: str, day: int, work_category_id: str):
+        self.id = id
         self.day = day
         self.work_category_id = work_category_id
     
     @staticmethod
-    def new_day_work_category(day: int, work_category_id: str):
+    def new(day: int, work_category_id: str):
         return DayWorkCategory(UuidFactory.new_uuid(), day, work_category_id)
     
     def __eq__(self, other):

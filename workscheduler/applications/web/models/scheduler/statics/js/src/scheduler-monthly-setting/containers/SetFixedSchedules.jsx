@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import FixedSchedules from '../components/FixedSchedules';
+import FixedScheduleList from '../components/FixedScheduleList';
 
 import { addFixedSchedule } from '../actions';
 import { removeFixedSchedule } from '../actions';
@@ -12,7 +12,7 @@ import { changeFixedScheduleAtTo } from '../actions';
 import { changeFixedScheduleParticipant } from '../actions';
 
 const mapStateToProps = (state) => ({
-    fixedSchedules: state.fixedSchedules
+    fixedSchedules: Object.values(state.monthlySetting.days.map(x => x.fixedSchedules).flat().reduce((map, x) => {map[x.id] = x; return map;}, {}))
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -25,4 +25,4 @@ const mapDispatchToProps = (dispatch) => ({
     onParticipantChange: (id, data) => { dispatch(changeFixedScheduleParticipant(id, data)) }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FixedSchedules);
+export default connect(mapStateToProps, mapDispatchToProps)(FixedScheduleList);

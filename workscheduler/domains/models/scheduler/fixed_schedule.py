@@ -37,11 +37,11 @@ class FixedSchedule(OrmBase):
     at_to = Column(Time)
     participants = relationship("Operator", secondary=associated_participant_table, lazy='subquery')
     
-    def __init__(self, id_: str, title: str,
+    def __init__(self, id: str, title: str,
                  on_from: date, on_to: date,
                  at_from: time, at_to: time,
-                 participants: [Operator]):
-        self.id = id_
+                 participants: [Operator], **kwargs):
+        self.id = id
         self.title = title
         self.on_from = on_from
         self.on_to = on_to
@@ -50,8 +50,8 @@ class FixedSchedule(OrmBase):
         self.participants = participants
         
     @staticmethod
-    def new_schedule(title: str, on_from: date, on_to: date,
-                     at_from: time, at_to: time, participants: [Operator]):
+    def new(title: str, on_from: date, on_to: date,
+            at_from: time, at_to: time, participants: [Operator]):
         return FixedSchedule(UuidFactory.new_uuid(), title, on_from, on_to,
                              at_from, at_to, participants)
     

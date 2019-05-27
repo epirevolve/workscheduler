@@ -11,10 +11,10 @@ const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]
 const url = dataset.urlSave;
 
 class MonthlySettingContainer extends React.Component {
-    handleSave (monthlySetting, fixedSchedules) {
+    handleSave (monthlySetting) {
         requestAgent
             .post(url)
-            .send({'monthlySetting': monthlySetting, 'fixedSchedules': fixedSchedules})
+            .send(monthlySetting)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
@@ -29,10 +29,10 @@ class MonthlySettingContainer extends React.Component {
             });
     }
 
-    handlePublish (monthlySetting, fixedSchedules) {
+    handlePublish (monthlySetting) {
         requestAgent
             .post(`${url}/public`)
-            .send({'monthlySetting': monthlySetting, 'fixedSchedules': fixedSchedules})
+            .send(monthlySetting)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');
@@ -47,17 +47,17 @@ class MonthlySettingContainer extends React.Component {
     }
 
     render () {
-        const { monthlySetting, fixedSchedules } = this.props;
+        const { monthlySetting } = this.props;
 
         return (
             <>
                 <div className="my-4">
                     <Button className="mr-3" variant="contained" color="primary" size="large"
-                        onClick={() => this.handleSave(monthlySetting, fixedSchedules)}>
+                        onClick={() => this.handleSave(monthlySetting)}>
                         Save
                     </Button>
                     <Button variant="contained" color="secondary" size="large"
-                        onClick={() => this.handlePublish(monthlySetting, fixedSchedules)}>
+                        onClick={() => this.handlePublish(monthlySetting)}>
                         Publish Calendar
                     </Button>
                 </div>
@@ -67,8 +67,7 @@ class MonthlySettingContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    monthlySetting: state.monthlySetting,
-    fixedSchedules: state.fixedSchedules
+    monthlySetting: state.monthlySetting
 });
 
 export default connect(mapStateToProps)(MonthlySettingContainer);

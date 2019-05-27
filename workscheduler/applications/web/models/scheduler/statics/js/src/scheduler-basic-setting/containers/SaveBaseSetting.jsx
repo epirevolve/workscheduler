@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import { AlertManager } from 'alert-helper';
 
 const dataset = document.querySelector('script[src*="scheduler-basic-setting"]').dataset;
-const url = dataset.urlSave;
+const url = dataset.url;
 
 class BasicSettingContainer extends React.Component {
     handleSave (scheduler) {

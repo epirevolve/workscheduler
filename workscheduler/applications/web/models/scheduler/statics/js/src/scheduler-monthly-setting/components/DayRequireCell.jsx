@@ -18,4 +18,8 @@ const dayRequireCell = ({ require, onRequireChange }) => {
     )
 }
 
-export default dayRequireCell;
+const areEqual = (prevProps, nextProps) => {
+    return prevProps["require"] == nextProps["require"];
+}
+
+export default React.memo(dayRequireCell, areEqual);

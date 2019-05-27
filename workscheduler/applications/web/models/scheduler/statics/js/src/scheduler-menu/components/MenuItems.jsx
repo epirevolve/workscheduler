@@ -44,7 +44,6 @@ class MenuItems extends React.Component {
         requestAgent
             .post(urlLaunch.replace('affiliation_id', affiliation.id)
                 .replace('month_', month).replace('year_', this.state.year))
-            .send(affiliation)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
                 const alertManager = new AlertManager('#alertContainer');

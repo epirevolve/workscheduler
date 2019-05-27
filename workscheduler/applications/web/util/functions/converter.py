@@ -9,3 +9,7 @@ def to_date(value: str):
 
 def to_time(value: str):
     return datetime.strptime(value, '%H:%M:%S').time()
+
+
+def to_datetime(value: str):
+    return datetime.strptime(value, '%Y-%m-%d %H:%M')

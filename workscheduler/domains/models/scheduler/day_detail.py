@@ -25,14 +25,13 @@ class DayDetail(OrmBase):
     work_category = relationship("WorkCategory", uselist=False, lazy='subquery')
     require = Column(Integer)
 
-    def __init__(self, id_: str, work_category: WorkCategory,
-                 require: int):
-        self.id = id_
+    def __init__(self, id: str, work_category: WorkCategory, require: int, **kwargs):
+        self.id = id
         self.work_category = work_category
         self.require = require
 
     @staticmethod
-    def new_detail(work_category: WorkCategory, require: int):
+    def new(work_category: WorkCategory, require: int):
         return DayDetail(UuidFactory.new_uuid(), work_category, require)
     
     def __eq__(self, other):

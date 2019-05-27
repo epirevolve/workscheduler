@@ -24,17 +24,17 @@ class YearlySetting(OrmBase):
     year = Column(Integer)
     vacations = relationship("Vacation", secondary=associated_specific_vacation_table, lazy='subquery')
     
-    def __init__(self, id_: str, year: int):
-        self.id = id_
+    def __init__(self, id: str, year: int, vacations: [] = None, **kwargs):
+        self.id = id
         self.year = year
-        self.vacations = []
+        self.vacations = vacations or []
     
     @validates("id")
     def validate(self, key, value):
         return super(YearlySetting, self).validate(YearlySetting, key, value)
     
     @staticmethod
-    def new_yearly_setting(year: int):
+    def new(year: int):
         return YearlySetting(UuidFactory.new_uuid(), year)
     
     def __eq__(self, other):

@@ -9,11 +9,11 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 
-import WeekDayOperators from './WeekDayOperators';
-import HolidayOperators from './HolidayOperators';
-import EssentialSkills from './EssentialSkills';
-import ExclusiveOperators from './ExclusiveOperators';
-import ImpossibleOperators from './ImpossibleOperators';
+import PopupCheckList from './PopupCheckList';
+
+const dataset = document.querySelector('script[src*="scheduler-basic-setting"]').dataset;
+const operators = JSON.parse(dataset.operators);
+const skills = JSON.parse(dataset.skills);
 
 const workCategory = ({ workCategory, handleRemove, onTitleChange,
     onAtFromChange, onAtToChange, onWeekDayRequireChange,
@@ -67,11 +67,21 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                             onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />
                     </Grid>
                 </Grid>
-                <WeekDayOperators workCategory={workCategory} onWeekDayOperatorChange={onWeekDayOperatorChange} />
-                <HolidayOperators workCategory={workCategory} onHolidayOperatorChange={onHolidayOperatorChange} />
-                <EssentialSkills workCategory={workCategory} onEssentialSkillChange={onEssentialSkillChange} />
-                <ExclusiveOperators workCategory={workCategory} onExclusiveOperatorChange={onExclusiveOperatorChange} />
-                <ImpossibleOperators workCategory={workCategory} onImpossibleOperatorChange={onImpossibleOperatorChange} />
+                <PopupCheckList name={'WeekDay Operators'} targets={operators.map(x => ({id: x.id, name: x.user.name, obj: x}))}
+                    current={workCategory.weekDayOperators.map(x => ({id: x.id, name: x.user.name}))}
+                    onSelectChange={(x) => onWeekDayOperatorChange(workCategory.id, x)} />
+                <PopupCheckList name={'Holiday Operators'} targets={operators.map(x => ({id: x.id, name: x.user.name, obj: x}))}
+                    current={workCategory.holidayOperators.map(x => ({id: x.id, name: x.user.name}))}
+                    onSelectChange={(x) => onHolidayOperatorChange(workCategory.id, x)} />
+                <PopupCheckList name={'Essential Skills'} targets={skills.map(x => ({id: x.id, name: x.name, obj: x}))}
+                    current={workCategory.essentialSkills.map(x => ({id: x.id, name: x.name}))}
+                    onSelectChange={(x) => onEssentialSkillChange(workCategory.id, x)} />
+                <PopupCheckList name={'Exclusive Operators'} targets={operators.map(x => ({id: x.id, name: x.user.name, obj: x}))}
+                    current={workCategory.exclusiveOperators.map(x => ({id: x.id, name: x.user.name}))}
+                    onSelectChange={(x) => onExclusiveOperatorChange(workCategory.id, x)} />
+                <PopupCheckList name={'Impossible Operators'} targets={operators.map(x => ({id: x.id, name: x.user.name, obj: x}))}
+                    current={workCategory.impossibleOperators.map(x => ({id: x.id, name: x.user.name}))}
+                    onSelectChange={(x) => onImpossibleOperatorChange(workCategory.id, x)} />
             </CardContent>
             <CardActions className="ml-2">
                 <Button onClick={handleRemove(workCategory.id)} variant="outlined" color="secondary">

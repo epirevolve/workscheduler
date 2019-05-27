@@ -10,7 +10,7 @@ class AffiliationCommand:
         self._session = session
         
     def append_affiliation(self, name: str, note: str):
-        affiliation = Affiliation.new_affiliation(name, note)
+        affiliation = Affiliation.new(name, note)
         self._session.add(affiliation)
         return affiliation
     

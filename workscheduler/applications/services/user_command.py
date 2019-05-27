@@ -19,9 +19,9 @@ class UserCommand:
     def append_user(self, login_id: str, name: str,
                     affiliation_id: str, is_admin: bool, is_operator: bool):
         affiliation = AffiliationQuery(self._session).get_affiliation(affiliation_id)
-        user = User.new_member(login_id, name, affiliation, is_admin, is_operator)
+        user = User.new(login_id, name, affiliation, is_admin, is_operator)
         self._session.add(user)
-        self._session.add(Operator.new_operator(user))
+        self._session.add(Operator.new(user))
         return user
     
     def update_user(self, id_: str, login_id: str, name: str,

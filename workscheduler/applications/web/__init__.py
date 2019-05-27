@@ -98,8 +98,8 @@ def create_app(test_config=None):
     from .models.scheduler.controllers import schedulers_bp
     from .models.schedule.controllers import schedules_bp
     
-    from .models.user.controllers import users_apis_bp
-    from .models.schedule.controllers import schedules_apis_bp
+    from .models.user.controllers import users_api_bp
+    from .models.schedule.controllers import schedules_api_bp
 
     app.register_blueprint(menus_bp, url_prefix="/menus")
     app.register_blueprint(auth_bp)
@@ -112,8 +112,8 @@ def create_app(test_config=None):
     app.register_blueprint(schedulers_bp, url_prefix="/schedulers")
     app.register_blueprint(schedules_bp, url_prefix="/schedules")
     
-    app.register_blueprint(users_apis_bp, url_prefix="/api")
-    app.register_blueprint(schedules_apis_bp, url_prefix="/api")
+    app.register_blueprint(users_api_bp, url_prefix="/api")
+    app.register_blueprint(schedules_api_bp, url_prefix="/api")
 
     @app.errorhandler(404)
     def not_found(error):

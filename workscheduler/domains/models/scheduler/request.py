@@ -27,9 +27,9 @@ class Request(OrmBase):
     operator = relationship("Operator", uselist=False, lazy='subquery')
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id_: str, title: str, note: str,
-                 at_from: datetime, at_to: datetime, operator: Operator):
-        self.id = id_
+    def __init__(self, id: str, title: str, note: str,
+                 at_from: datetime, at_to: datetime, operator: Operator, **kwargs):
+        self.id = id
         self.title = title
         self.note = note
         self.at_from = at_from
@@ -41,8 +41,8 @@ class Request(OrmBase):
         return super(Request, self).validate(Request, key, value)
 
     @staticmethod
-    def new_request(name: str, note: str, at_from: datetime,
-                    at_to: datetime, operator: Operator):
+    def new(name: str, note: str, at_from: datetime,
+            at_to: datetime, operator: Operator):
         return Request(UuidFactory.new_uuid(), name, note,
                        at_from, at_to, operator)
     

@@ -63,12 +63,12 @@ class WorkCategory(OrmBase):
     impossible_operators = relationship("Operator", secondary=associated_impossible_operator_table, lazy='subquery')
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id_: str, title: str, at_from: time, at_to: time,
+    def __init__(self, id: str, title: str, at_from: time, at_to: time,
                  week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
                  day_offs: int, max_times: int, week_day_operators: [Operator],
                  holiday_operators: [Operator], essential_skills: [Skill], exclusive_operators: [Operator],
-                 impossible_operators: [Operator]):
-        self.id = id_
+                 impossible_operators: [Operator], **kwargs):
+        self.id = id
         self.title = title
         self.at_from = at_from
         self.at_to = at_to
@@ -85,11 +85,11 @@ class WorkCategory(OrmBase):
         self.impossible_operators = impossible_operators
     
     @staticmethod
-    def new_category(title: str, at_from: time, at_to: time,
-                     week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
-                     day_offs: int, max_times: int, week_day_operators: [Operator],
-                     holiday_operators: [Operator], essential_skills: [Skill], exclusive_operators: [Operator],
-                     impossible_operators: [Operator]):
+    def new(title: str, at_from: time, at_to: time,
+            week_day_require: int, week_day_max: int, holiday_require: int, holiday_max: int,
+            day_offs: int, max_times: int, week_day_operators: [Operator],
+            holiday_operators: [Operator], essential_skills: [Skill], exclusive_operators: [Operator],
+            impossible_operators: [Operator]):
         return WorkCategory(UuidFactory.new_uuid(), title, at_from, at_to,
                             week_day_require, week_day_max, holiday_require, holiday_max,
                             day_offs, max_times, week_day_operators, holiday_operators,

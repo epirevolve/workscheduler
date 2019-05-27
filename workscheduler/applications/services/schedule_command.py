@@ -15,8 +15,8 @@ class ScheduleCommand:
         self.remove_schedule(affiliation_id, month, year)
         components = []
         for operator, schedule in schedule_components:
-            components.append(ScheduleComponent.new_schedule_component(operator, schedule))
-        schedule = Schedule.new_schedule(affiliation_id, month, year, components)
+            components.append(ScheduleComponent.new(operator, schedule))
+        schedule = Schedule.new(affiliation_id, month, year, components)
         self._session.add(schedule)
     
     def remove_schedule(self, affiliation_id: str, month: int, year: int):

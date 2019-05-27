@@ -11,13 +11,15 @@ import { css, jsx } from '@emotion/core'
 
 const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
 
+const listCss = css({
+    color: 'lightslategray !important'
+});
+
 const affiliations = ({ affiliation, onAffiliationChange }) => {
     const affiliations = JSON.parse(dataset.affiliations);
     const affiliationList = affiliations.map(x =>
         <MenuItem key={x.id} value={x}>
-            <Typography variant="h5" css={css`
-                    color: lightslategray !important;
-                `}>
+            <Typography variant="h5" css={listCss}>
                 {x.name}
             </Typography>
         </MenuItem>)

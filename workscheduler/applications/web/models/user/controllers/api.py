@@ -9,7 +9,7 @@ import mypackages.utils.jsonize as jsonize
 from workscheduler.applications.services import AffiliationQuery
 from workscheduler.applications.web import get_db_session
 
-bp = Blueprint('users_apis', __name__)
+bp = Blueprint('users_api', __name__)
 
 
 @bp.route('/affiliations')
