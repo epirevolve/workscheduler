@@ -11,15 +11,15 @@ from flask import Response
 from flask import redirect
 from flask_login import login_required
 
-import mypackages.utils.jsonize as jsonize
+from utils import jsonize
 
-from workscheduler.applications.errors import AlreadyLaunchError
-from workscheduler.applications.services import AffiliationQuery
-from workscheduler.applications.services import SchedulerQuery
-from workscheduler.applications.services import SkillQuery
-from workscheduler.applications.services import OperatorQuery
-from workscheduler.applications.web.util.functions.controller import admin_required
-from workscheduler.applications.web import get_db_session
+from applications.errors import AlreadyLaunchError
+from applications.services import AffiliationQuery
+from applications.services import SchedulerQuery
+from applications.services import SkillQuery
+from applications.services import OperatorQuery
+from applications.web.util.functions.controller import admin_required
+from applications.web import get_db_session
 from ..adapters import SchedulerCommandAdapter
 
 

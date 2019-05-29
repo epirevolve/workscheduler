@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import AffiliationCommand
+from applications.services import AffiliationCommand
 
 
 class AffiliationCommandAdapter:

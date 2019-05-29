@@ -6,11 +6,11 @@ from flask import render_template
 from flask import Response
 from flask_login import login_required
 
-import mypackages.utils.jsonize as jsonize
+from utils import jsonize
 
-from workscheduler.applications.services import SkillQuery
-from workscheduler.applications.web import get_db_session
-from workscheduler.applications.web.util.functions.controller import admin_required
+from applications.services import SkillQuery
+from applications.web import get_db_session
+from applications.web.util.functions.controller import admin_required
 from ..adapters import SkillCommandAdapter
 
 

@@ -8,11 +8,11 @@ from flask import request
 from flask import Response
 from flask_login import login_required
 
-from mypackages.utils import jsonize
+from utils import jsonize
 
-from workscheduler.applications.services import ScheduleFacade
-from workscheduler.applications.services import SchedulerQuery
-from workscheduler.applications.web import get_db_session
+from applications.services import ScheduleFacade
+from applications.services import SchedulerQuery
+from applications.web import get_db_session
 
 bp = Blueprint('schedules_api', __name__)
 

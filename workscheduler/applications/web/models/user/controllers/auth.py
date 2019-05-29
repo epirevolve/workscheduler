@@ -9,10 +9,10 @@ from flask import request
 from flask_login import login_user
 from flask_login import logout_user
 
-import mypackages.utils.jsonize as jsonize
+from utils import jsonize
 
-from workscheduler.applications.services import UserQuery
-from workscheduler.applications.web import get_db_session
+from applications.services import UserQuery
+from applications.web import get_db_session
 from ..adapters import AuthFacadeAdapter
 
 

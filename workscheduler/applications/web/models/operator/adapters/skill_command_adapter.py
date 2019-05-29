@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import SkillCommand
+from applications.services import SkillCommand
 
 
 class SkillCommandAdapter:

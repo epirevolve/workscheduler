@@ -6,8 +6,8 @@ from flask import request
 from flask_login import login_required
 from flask_login import current_user
 
-from workscheduler.applications.services import AffiliationQuery
-from workscheduler.applications.web import get_db_session
+from applications.services import AffiliationQuery
+from applications.web import get_db_session
 
 bp = Blueprint('schedules', __name__, template_folder='../views', static_folder='../statics')
 

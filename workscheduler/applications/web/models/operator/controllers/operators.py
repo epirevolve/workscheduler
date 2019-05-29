@@ -6,12 +6,12 @@ from flask import Response
 from flask import request
 from flask_login import login_required
 
-import mypackages.utils.jsonize as jsonize
+from utils import jsonize
 
-from workscheduler.applications.services import OperatorQuery
-from workscheduler.applications.services import SkillQuery
-from workscheduler.applications.web.util.functions.controller import admin_required
-from workscheduler.applications.web import get_db_session
+from applications.services import OperatorQuery
+from applications.services import SkillQuery
+from applications.web.util.functions.controller import admin_required
+from applications.web import get_db_session
 from ..adapters import OperatorCommandAdapter
 
 bp = Blueprint('operators', __name__, template_folder="../views", static_folder="../statics")

@@ -7,11 +7,11 @@ from flask import jsonify
 from flask import render_template
 from flask_login import login_required
 
-from mypackages.utils.uuid import UuidFactory
-from workscheduler.applications.services import TeamQuery
-from workscheduler.applications.services import UserQuery
-from workscheduler.applications.web import get_db_session
-from workscheduler.applications.web.util.functions.controller import admin_required
+from utils.uuid import UuidFactory
+from applications.services import TeamQuery
+from applications.services import UserQuery
+from applications.web import get_db_session
+from applications.web.util.functions.controller import admin_required
 from ..adapters import TeamCommandAdapter
 from ..forms import TeamCategoryForm
 

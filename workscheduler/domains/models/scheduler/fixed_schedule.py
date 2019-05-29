@@ -11,7 +11,7 @@ from sqlalchemy.types import String
 from sqlalchemy.types import Date
 from sqlalchemy.types import Time
 
-from mypackages.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 from ..operator import Operator
 from .. import OrmBase
 

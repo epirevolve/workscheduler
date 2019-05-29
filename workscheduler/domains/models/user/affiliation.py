@@ -6,7 +6,7 @@ from sqlalchemy.sql.functions import current_timestamp
 from sqlalchemy.types import String
 from sqlalchemy.types import DateTime
 
-from mypackages.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 
 from .. import OrmBase
 

@@ -8,7 +8,7 @@ from wtforms import IntegerField
 from wtforms.validators import DataRequired
 from wtforms.validators import Length
 
-from workscheduler.domains.models.operator import TeamCategory
+from domains.models.operator import TeamCategory
 
 
 class TeamCategoryForm(FlaskForm):

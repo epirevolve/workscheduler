@@ -12,8 +12,8 @@ from eart.indivisual import Individual
 
 from eart import Genetic
 
-from mypackages.utils.time import get_time_diff
-from mypackages.utils.time import time_to_hour
+from utils.time import get_time_diff
+from utils.time import time_to_hour
 
 from .ga_helper import build_parent_selection
 from .ga_helper import build_survivor_selection

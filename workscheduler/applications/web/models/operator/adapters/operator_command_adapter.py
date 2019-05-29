@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import OperatorCommand
+from applications.services import OperatorCommand
 
 
 class OperatorCommandAdapter:

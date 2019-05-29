@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.operator import Skill
+from domains.models.operator import Skill
 from . import SkillQuery
 
 

@@ -9,8 +9,8 @@ from sqlalchemy.types import DateTime
 from sqlalchemy.types import Integer
 from sqlalchemy.types import Boolean
 
-from mypackages.utils.date import is_holiday as is_holiday_
-from mypackages.utils.uuid import UuidFactory
+from utils.date import is_holiday as is_holiday_
+from utils.uuid import UuidFactory
 
 from .. import OrmBase
 from . import WorkCategory

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.schedule import ScheduleComponent
-from workscheduler.domains.models.schedule import Schedule
+from domains.models.schedule import ScheduleComponent
+from domains.models.schedule import Schedule
 
 from . import ScheduleQuery
 

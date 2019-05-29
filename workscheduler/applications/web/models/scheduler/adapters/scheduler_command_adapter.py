@@ -2,11 +2,11 @@
 
 from collections import namedtuple
 
-from workscheduler.applications.services import SchedulerCommand
-from workscheduler.applications.web.util.functions.converter import to_date
+from applications.services import SchedulerCommand
+from applications.web.util.functions.converter import to_date
 
-from workscheduler.applications.services.json_orm import to_monthly_setting
-from workscheduler.applications.services.json_orm import to_scheduler
+from applications.services.json_orm import to_monthly_setting
+from applications.services.json_orm import to_scheduler
 
 
 class SchedulerCommandAdapter:

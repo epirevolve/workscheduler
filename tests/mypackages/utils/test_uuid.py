@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mypackages.utils.uuid import UuidFactory
+from workscheduler.utils import UuidFactory
 
 
 class TestUuid:

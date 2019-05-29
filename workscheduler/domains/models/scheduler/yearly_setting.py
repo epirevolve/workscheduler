@@ -8,7 +8,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.types import Integer
 from sqlalchemy.types import String
 
-from mypackages.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 
 from .. import OrmBase
 

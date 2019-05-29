@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.user import Affiliation
+from domains.models.user import Affiliation
 
 from .affiliation_query import AffiliationQuery
 

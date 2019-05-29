@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from mypackages.utils.date import (
+from workscheduler.utils import (
     get_next_month, to_year_month_string, is_holiday,
     is_between
 )

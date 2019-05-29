@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from mypackages.utils.datetime import is_overlap
+from workscheduler.utils import is_overlap
 
 
 class TestDateTime:

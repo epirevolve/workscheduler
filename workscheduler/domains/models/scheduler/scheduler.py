@@ -10,7 +10,7 @@ from sqlalchemy.types import String
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import DateTime
 
-from mypackages.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 
 from .. import OrmBase
 from ..user import Affiliation

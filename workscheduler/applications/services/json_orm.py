@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.scheduler import Scheduler
-from workscheduler.domains.models.scheduler import MonthlySetting
-from workscheduler.domains.models.scheduler import YearlySetting
-from workscheduler.domains.models.scheduler import WorkCategory
-from workscheduler.domains.models.scheduler import DaySetting
-from workscheduler.domains.models.scheduler import DayDetail
-from workscheduler.domains.models.scheduler import Request
-from workscheduler.domains.models.scheduler import FixedSchedule
-from workscheduler.domains.models.scheduler import Vacation
-from workscheduler.domains.models.user import Affiliation
-from workscheduler.domains.models.user import User
-from workscheduler.domains.models.operator import Skill
-from workscheduler.domains.models.operator import Relation
-from workscheduler.domains.models.operator import Operator
+from domains.models.scheduler import Scheduler
+from domains.models.scheduler import MonthlySetting
+from domains.models.scheduler import YearlySetting
+from domains.models.scheduler import WorkCategory
+from domains.models.scheduler import DaySetting
+from domains.models.scheduler import DayDetail
+from domains.models.scheduler import Request
+from domains.models.scheduler import FixedSchedule
+from domains.models.scheduler import Vacation
+from domains.models.user import Affiliation
+from domains.models.user import User
+from domains.models.operator import Skill
+from domains.models.operator import Relation
+from domains.models.operator import Operator
 
-from workscheduler.applications.web.util.functions.converter import to_date
-from workscheduler.applications.web.util.functions.converter import to_time
-from workscheduler.applications.web.util.functions.converter import to_datetime
+from applications.web.util.functions.converter import to_date
+from applications.web.util.functions.converter import to_time
+from applications.web.util.functions.converter import to_datetime
 
 
 def default_pop(data, key, default=None):

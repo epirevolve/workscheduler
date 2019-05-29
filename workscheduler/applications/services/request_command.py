@@ -2,10 +2,10 @@
 
 from datetime import datetime
 
-from mypackages.utils.datetime import is_overlap
-from mypackages.utils.date import get_next_day
+from utils.datetime import is_overlap
+from utils.date import get_next_day
 
-from workscheduler.domains.models.scheduler import Request
+from domains.models.scheduler import Request
 from ..errors import CalendarError
 from ..errors import RequestError
 from . import OperatorQuery

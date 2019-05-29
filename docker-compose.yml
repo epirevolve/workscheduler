@@ -4,10 +4,9 @@ services:
   uwsgi:
     build:
       context: ./
-      dockerfile: ./workscheduler/Dockerfile
+      dockerfile: workscheduler/docker/Dockerfile
     volumes:
       - ./workscheduler:/var/www/
-      - ./mypackages:/var/www
     ports:
       - "3928:3928"
     environment:

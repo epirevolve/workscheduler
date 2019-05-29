@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.types import String
 from sqlalchemy.types import Integer
 
-from mypackages.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 
 from .. import OrmBase
 from . import WorkCategory

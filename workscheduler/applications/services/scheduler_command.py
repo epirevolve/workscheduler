@@ -2,10 +2,10 @@
 
 from datetime import datetime
 
-from workscheduler.applications.errors import AlreadyLaunchError
-from workscheduler.domains.models.scheduler import Scheduler
-from workscheduler.domains.models.scheduler import MonthlySetting
-from workscheduler.domains.models.scheduler import Vacation
+from applications.errors import AlreadyLaunchError
+from domains.models.scheduler import Scheduler
+from domains.models.scheduler import MonthlySetting
+from domains.models.scheduler import Vacation
 from . import AffiliationQuery
 from . import OperatorQuery
 from . import SchedulerQuery

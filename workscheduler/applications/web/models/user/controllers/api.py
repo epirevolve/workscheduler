@@ -4,10 +4,10 @@ from flask import Blueprint
 from flask import Response
 from flask_login import login_required
 
-import mypackages.utils.jsonize as jsonize
+from utils import jsonize
 
-from workscheduler.applications.services import AffiliationQuery
-from workscheduler.applications.web import get_db_session
+from applications.services import AffiliationQuery
+from applications.web import get_db_session
 
 bp = Blueprint('users_api', __name__)
 

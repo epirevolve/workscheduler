@@ -4,7 +4,7 @@ from datetime import datetime
 
 from flask_login import current_user
 
-from workscheduler.applications.services import RequestCommand
+from applications.services import RequestCommand
 
 
 class RequestCommandAdapter:

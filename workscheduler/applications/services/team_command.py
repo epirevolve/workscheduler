@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.operator import Team
-from workscheduler.domains.models.operator import TeamCategory
+from domains.models.operator import Team
+from domains.models.operator import TeamCategory
 from . import TeamQuery
 from . import UserQuery
 

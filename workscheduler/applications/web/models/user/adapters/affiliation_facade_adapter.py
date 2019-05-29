@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import AffiliationFacade
+from applications.services import AffiliationFacade
 
 
 class AffiliationFacadeAdapter:

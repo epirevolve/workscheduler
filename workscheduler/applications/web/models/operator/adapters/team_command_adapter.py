@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import TeamCommand
-from workscheduler.applications.services import TeamQuery
+from applications.services import TeamCommand
+from applications.services import TeamQuery
 from ..forms import TeamCategoryForm
 
 

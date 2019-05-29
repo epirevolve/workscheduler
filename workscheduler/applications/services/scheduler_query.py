@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.domains.models.scheduler import Scheduler
-from workscheduler.domains.models.scheduler import FixedSchedule
-from workscheduler.domains.models.scheduler import WorkCategory
-from workscheduler.domains.models.scheduler import MonthlySetting
-from workscheduler.domains.models.scheduler import YearlySetting
-from workscheduler.domains.models.scheduler import Request
-from workscheduler.domains.models.scheduler import Vacation
-from workscheduler.domains.models.user import Affiliation
+from domains.models.scheduler import Scheduler
+from domains.models.scheduler import FixedSchedule
+from domains.models.scheduler import WorkCategory
+from domains.models.scheduler import MonthlySetting
+from domains.models.scheduler import YearlySetting
+from domains.models.scheduler import Request
+from domains.models.scheduler import Vacation
+from domains.models.user import Affiliation
 
 
 class SchedulerQuery:

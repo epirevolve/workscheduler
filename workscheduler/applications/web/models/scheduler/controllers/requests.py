@@ -11,13 +11,13 @@ from flask import Response
 from flask_login import login_required
 from flask_login import current_user
 
-import mypackages.utils.jsonize as jsonize
+from utils import jsonize
 
-from workscheduler.applications.errors import CalendarError
-from workscheduler.applications.errors import RequestError
-from workscheduler.applications.services import SchedulerQuery
-from workscheduler.applications.services import OperatorQuery
-from workscheduler.applications.web import get_db_session
+from applications.errors import CalendarError
+from applications.errors import RequestError
+from applications.services import SchedulerQuery
+from applications.services import OperatorQuery
+from applications.web import get_db_session
 from ..adapters import RequestCommandAdapter
 
 bp = Blueprint('requests', __name__, template_folder='../views', static_folder='../statics')

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import UserCommand
+from applications.services import UserCommand
 
 
 class UserCommandAdapter:

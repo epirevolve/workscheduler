@@ -13,14 +13,14 @@ from flask_login import LoginManager
 from flask_login import current_user
 from jinja2 import FileSystemLoader
 
-from mypackages.utils.date import to_year_month_string
-from mypackages.utils.date import get_next_month
-from mypackages.utils.jsonize import dumps
+from utils.date import to_year_month_string
+from utils.date import get_next_month
+from utils.jsonize import dumps
 
-from workscheduler.applications.services import AffiliationQuery
-from workscheduler.applications.services import OperatorQuery
-from workscheduler.infrastructures import Database
-from workscheduler.infrastructures import InputInitData
+from applications.services import AffiliationQuery
+from applications.services import OperatorQuery
+from infrastructures import Database
+from infrastructures import InputInitData
 
 
 def get_db_session(echo=False):
@@ -124,7 +124,7 @@ def create_app(test_config=None):
     login_manager.init_app(app)
     login_manager.login_view = 'auths.index'
 
-    from workscheduler.applications.services import UserQuery
+    from applications.services import UserQuery
 
     @login_manager.user_loader
     def load_user(user_id):

@@ -3,10 +3,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from workscheduler.applications.services import UserCommand
-from workscheduler.applications.services import AffiliationQuery
-from workscheduler.domains.models import OrmBase
-from workscheduler.domains.models.user import Affiliation
+from applications.services import UserCommand
+from applications.services import AffiliationQuery
+from domains.models import OrmBase
+from domains.models.user import Affiliation
 
 
 class Database:
@@ -39,7 +39,7 @@ class Database:
 
         # add affiliations
         
-        from workscheduler.applications.services import AffiliationFacade
+        from applications.services import AffiliationFacade
         
         affiliation_facade = AffiliationFacade(session)
         front = affiliation_facade.append_affiliation('フロント', '')
@@ -57,7 +57,7 @@ class Database:
 
         # add skills
         
-        from workscheduler.domains.models.operator import Skill
+        from domains.models.operator import Skill
         
         skill1 = Skill.new('ccna', 1, is_certified=True)
         session.add(skill1)
@@ -70,7 +70,7 @@ class Database:
 
         # add teams
         
-        from workscheduler.domains.models.operator import TeamCategory
+        from domains.models.operator import TeamCategory
         
         team_cat_1 = TeamCategory.new_team_category(
             'Night Operation Team', allow_multiple_affiliation=True,
@@ -85,7 +85,7 @@ class Database:
         )
         session.add(team_cat_2)
 
-        from workscheduler.domains.models.operator import Team
+        from domains.models.operator import Team
         
         team = Team.new_team('Team A', team_cat_1.id)
         session.add(team)
@@ -125,14 +125,13 @@ class Database:
         
         from datetime import time
         
-        from workscheduler.applications.services import OperatorQuery
-        from workscheduler.applications.services import SchedulerQuery
-        from workscheduler.domains.models.scheduler import WorkCategory
+        from applications.services import OperatorQuery
+        from applications.services import SchedulerQuery
+        from domains.models.scheduler import WorkCategory
         
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
         work_daily = WorkCategory.new('日勤帯', time(9, 30), time(18, 00), 7, 10, 3, 5, 0, 0,
-                                      [get_operator_of_user_id(user1.id),
-                                                get_operator_of_user_id(user2.id)],
+                                      [get_operator_of_user_id(user1.id), get_operator_of_user_id(user2.id)],
                                       [], [], [], [])
         scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(front.id)
         scheduler.work_categories.append(work_daily)
@@ -144,8 +143,8 @@ class Database:
         
         # add scheduler calendar
 
-        from mypackages.utils.date import get_next_month
-        from workscheduler.domains.models.scheduler import MonthlySetting
+        from utils.date import get_next_month
+        from domains.models.scheduler import MonthlySetting
 
         next_month = get_next_month()
         monthly_setting = MonthlySetting.new(scheduler.work_categories,

@@ -8,7 +8,7 @@ from sqlalchemy.types import DateTime
 from sqlalchemy.types import Integer
 from sqlalchemy.types import Boolean
 
-from mypackages.utils.uuid import UuidFactory
+from utils.uuid import UuidFactory
 from .. import OrmBase
 
 
