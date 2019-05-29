@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 <div id="root"></div>
-<script type="module" src="{{ url_for('static', filename='js/main-menu.bundle.min.js') }}"
+<script type="text/javascript" src="{{ url_for('static', filename='js/main-menu.bundle.min.js') }}"
     data-auth="{{ to_json(current_user) }}"
     data-url-menu="{{ url_for('menus.show_menu') }}"
     data-url-schedules="{{ url_for('schedules.show_schedules') }}"

@@ -85,8 +85,8 @@
             });
         };
     </script>
-    <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='js/layout.bundle.min.js') }}"
+    <script type="text/javascript" src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/layout.bundle.min.js') }}"
         data-is-authenticated="{{ current_user.is_authenticated }}"
         data-auth="{{ to_json(current_user) }}"
         data-url-menu="{{ url_for('menus.show_menu') }}"

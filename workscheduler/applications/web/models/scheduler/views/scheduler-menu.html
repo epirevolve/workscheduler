@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block script %}
-<script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-<script type="module" src="{{ url_for('schedulers.static', filename='js/scheduler-menu.bundle.min.js') }}"
+<script type="text/javascript"src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('schedulers.static', filename='js/scheduler-menu.bundle.min.js') }}"
     data-url-monthly="{{ url_for('schedulers.show_monthly_setting', affiliation='affiliation_id', calendar=next_month) }}"
     data-url-basic="{{ url_for('schedulers.show_basic_setting', affiliation='affiliation_id') }}"
     data-url-yearly="{{ url_for('schedulers.show_yearly_setting', affiliation='affiliation_id') }}"
