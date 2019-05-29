@@ -8,9 +8,8 @@
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('users.static', filename='js/users.bundle.min.js') }}"
-    data-url="{{ url_for('users.append_user') }}"
-    data-users="{{ to_json(users) }}" data-affiliations="{{ to_json(affiliations) }}"></script>
-<breadscram data-current="{{ to_json({'name': 'Users'}) }}"></breadscram>
+<script src="{{ url_for('users.static', filename='js/users.bundle.min.js') }}"
+        data-url="{{ url_for('users.append_user') }}"
+        data-users="{{ to_json(users) }}" data-affiliations="{{ to_json(affiliations) }}"></script>
+<script id="breadscram" data-current="{{ to_json({'name': 'Users'}) }}"></script>
 {% endblock %}

@@ -19,7 +19,7 @@ const urlMenu = dataset.urlMenu;
 const urlLogout = dataset.urlLogout;
 const auth = JSON.parse(dataset.auth);
 
-const breadScram = document.querySelector('breadscram');
+const breadScram = document.querySelector('script[id="breadscram"]');
 let breads = null;
 let current = null;
 if (breadScram)

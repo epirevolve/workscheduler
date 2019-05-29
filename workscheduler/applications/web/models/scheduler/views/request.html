@@ -9,7 +9,8 @@
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
+<script id="breadscram" data-current="{{ to_json({'name': 'Requests'}) }}"></script>
+<script>
     const d = new Date();
     const today = new Date(d.getFullYear(), d.getMonth(), d.getDate());
     const minDate = new Date(today.addMonths(1).setDate(1));
@@ -23,6 +24,5 @@
     maxDate.setSeconds(59);
     maxDate.setMilliseconds(99);
 </script>
-<breadscram data-current="{{ to_json({'name': 'Requests'}) }}"></breadscram>
 {% block scriptAppend %}{% endblock %}
 {% endblock %}

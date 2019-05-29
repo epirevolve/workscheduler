@@ -4,8 +4,7 @@
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('affiliations.static', filename='js/main-teams.bundle.min.js') }}"
-    data-url="{{ url_for('affiliations.append_affiliation') }}" data-main-teams="{{ to_json(main_teams) }}"></script>
-<breadscram data-current="{{ to_json({'name': 'Main Teams'}) }}"></breadscram>
+<script src="{{ url_for('affiliations.static', filename='js/main-teams.bundle.min.js') }}"
+        data-url="{{ url_for('affiliations.append_affiliation') }}" data-main-teams="{{ to_json(main_teams) }}"></script>
+<script id="breadscram" data-current="{{ to_json({'name': 'Main Teams'}) }}"></script>
 {% endblock %}

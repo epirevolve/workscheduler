@@ -4,8 +4,7 @@
 {% endblock %}
 
 {% block appendScript %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('schedules.static', filename='js/schedule-operator.bundle.min.js') }}">
+<script src="{{ url_for('schedules.static', filename='js/schedule-operator.bundle.min.js') }}">
     const myId = "{{ current_user.id }}";
 </script>
 {% endblock %}

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block script %}
+<script id="base-schedule" data-affiliation="{{ to_json(affiliation) }}" data-schedule-of="{{ schedule_of }}"></script>
+<script id="breadscram" data-current="{{ to_json({'name': 'Schedules'}) }}"></script>
 {% block appendScript %}{% endblock %}
-<script type="text/javascript" id="base-schedule" data-affiliation="{{ to_json(affiliation) }}" data-schedule-of="{{ schedule_of }}"></script>
-<breadscram data-current="{{ to_json({'name': 'Schedules'}) }}"></breadscram>
 {% endblock %}

@@ -15,7 +15,6 @@ from sqlalchemy.types import String
 from sqlalchemy.types import DateTime
 from sqlalchemy.types import Integer
 from sqlalchemy.types import Boolean
-from sqlalchemy.ext.orderinglist import ordering_list
 
 from utils.uuid import UuidFactory
 
@@ -35,7 +34,7 @@ class MonthlySetting(OrmBase):
     year = Column(Integer)
     month = Column(Integer)
     days = relationship("DaySetting", secondary=associated_calendar_day_table, lazy='subquery',
-                        collection_class=ordering_list('day'))
+                        order_by="asc(DaySetting.day)")
     holidays = Column(Integer)
     is_published = Column(Boolean)
     is_fixed = Column(Boolean)

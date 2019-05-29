@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block appendScript %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('schedules.static', filename='js/schedule-admin.bundle.min.js') }}"
-    data-affiliations="{{ to_json(affiliations) }}"></script>
+<script src="{{ url_for('schedules.static', filename='js/schedule-admin.bundle.min.js') }}"
+        data-affiliations="{{ to_json(affiliations) }}"></script>
 {% endblock %}

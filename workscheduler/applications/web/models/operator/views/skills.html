@@ -4,8 +4,7 @@
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('operators.static', filename='js/skills.bundle.min.js') }}"
-    data-url="{{ url_for('skills.append_skill') }}" data-skills="{{ to_json(skills) }}"></script>
-<breadscram data-current="{{ to_json({'name': 'Skills'}) }}"></breadscram>
+<script src="{{ url_for('operators.static', filename='js/skills.bundle.min.js') }}"
+        data-url="{{ url_for('skills.append_skill') }}" data-skills="{{ to_json(skills) }}"></script>
+<script id="breadscram" data-current="{{ to_json({'name': 'Skills'}) }}"></script>
 {% endblock %}
