@@ -8,4 +8,4 @@ COPY ./requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt && \
 	pip install uwsgi
 
-CMD ["uwsgi","--ini","/var/www/docker/uwsgi.ini"]
+CMD ["uwsgi","--ini","/var/www/uwsgi.ini"]

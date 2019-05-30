@@ -4,7 +4,7 @@ services:
   uwsgi:
     build:
       context: ./
-      dockerfile: workscheduler/docker/Dockerfile
+      dockerfile: workscheduler/Dockerfile
     volumes:
       - ./workscheduler:/var/www/
     ports:
