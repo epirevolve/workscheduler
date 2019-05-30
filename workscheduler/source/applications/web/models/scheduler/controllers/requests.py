@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-from datetime import date
-
 from flask import Blueprint
 from flask import render_template
 from flask import request
@@ -12,6 +9,7 @@ from flask_login import login_required
 from flask_login import current_user
 
 from utils import jsonize
+from utils.string import to_date
 
 from applications.errors import CalendarError
 from applications.errors import RequestError
@@ -37,9 +35,7 @@ def _non_public_request_body(schedule_of):
 @bp.route('/')
 @login_required
 def show_my_request():
-    schedule_of = request.args.get('schedule_of')
-    if schedule_of and not isinstance(schedule_of, date):
-        schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
+    schedule_of = to_date(request.args.get('schedule_of'), '%Y-%m')
     
     session = get_db_session()
     scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(current_user.affiliation.id)
@@ -114,7 +110,7 @@ def update_my_request(request_id):
 def remove_my_request(request_id):
     session = get_db_session()
     try:
-        req = RequestCommandAdapter(session).remove_my_request(request_id)
+        RequestCommandAdapter(session).remove_my_request(request_id)
         session.commit()
         
         response = Response()

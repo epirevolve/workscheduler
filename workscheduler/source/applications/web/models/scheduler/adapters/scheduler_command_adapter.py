@@ -18,8 +18,7 @@ class SchedulerCommandAdapter:
         return SchedulerCommand(self._session).update_monthly_setting(monthly_setting)
     
     def public_monthly_setting(self, data: dict):
-        monthly_setting = to_monthly_setting(data)
-        SchedulerCommand(self._session).update_monthly_setting(monthly_setting)
+        monthly_setting = self.update_monthly_setting(data)
         self._session.flush()
         return SchedulerCommand(self._session).public_monthly_setting(monthly_setting.id)
     

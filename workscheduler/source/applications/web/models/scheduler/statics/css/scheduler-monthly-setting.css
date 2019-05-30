@@ -5,30 +5,3 @@
 .Sat {
     color: #17a2b8;
 }
-
-#date-set table {
-    overflow-x: scroll;
-    display: inline-block;
-    white-space: nowrap;
-}
-
-#date-set th, #date-set td {
-    font-weight: initial;
-    vertical-align: middle !important;
-    text-align: center;
-}
-
-*, ::after, ::before {
-    box-sizing: initial;
-}
-
-.title input {
-    font-size: 2.4rem;
-    width: 9rem;
-    color: white;
-}
-
-.add-fixed-schedule {
-    left: 90%;
-    position: absolute;
-}

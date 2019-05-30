@@ -27,7 +27,8 @@ class ScheduleComponent(OrmBase):
     day_work_categories = relationship('DayWorkCategory', secondary=associated_category_table, lazy='subquery',
                                        order_by="asc(DayWorkCategory.day)")
     
-    def __init__(self, id: str, operator: Operator, day_work_categories: []):
+    def __init__(self, id: str, operator: Operator, day_work_categories: [],
+                 **kwargs):
         self.id = id
         self.operator = operator
         self.day_work_categories = day_work_categories

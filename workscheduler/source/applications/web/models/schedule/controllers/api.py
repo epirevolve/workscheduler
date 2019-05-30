@@ -9,6 +9,7 @@ from flask import Response
 from flask_login import login_required
 
 from utils import jsonize
+from utils.string import to_date
 
 from applications.services import ScheduleFacade
 from applications.services import SchedulerQuery
@@ -29,9 +30,7 @@ def get_scheduler():
 @login_required
 def get_monthly_setting():
     affiliation_id = request.args.get('affiliation-id')
-    schedule_of = request.args.get('schedule-of')
-    if schedule_of and not isinstance(schedule_of, date):
-        schedule_of = datetime.strptime(schedule_of, '%Y-%m').date()
+    schedule_of = to_date(request.args.get('schedule-of'), '%Y-%m')
     scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_affiliation_id(affiliation_id)
     monthly_setting = scheduler.monthly_setting(schedule_of.month, schedule_of.year)
     return Response(jsonize.dumps(monthly_setting))

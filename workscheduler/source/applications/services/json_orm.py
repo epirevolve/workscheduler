@@ -14,6 +14,9 @@ from domains.models.user import User
 from domains.models.operator import Skill
 from domains.models.operator import Relation
 from domains.models.operator import Operator
+from domains.models.schedule import DayWorkCategory
+from domains.models.schedule import ScheduleComponent
+from domains.models.schedule import Schedule
 
 from applications.web.util.functions.converter import to_date
 from applications.web.util.functions.converter import to_time
@@ -146,3 +149,24 @@ def to_scheduler(data):
     work_categories = [to_work_category(x) for x in default_pop(data, 'work_categories', [])]
     return Scheduler(**data, affiliation=affiliation, monthly_settings=monthly_settings,
                      yearly_settings=yearly_settings, work_categories=work_categories)
+
+
+def to_day_work_category(data):
+    if not data:
+        return None
+    return DayWorkCategory(**data)
+
+
+def to_schedule_component(data):
+    if not data:
+        return None
+    operator = to_operator(default_pop(data, 'operator'))
+    day_work_category = to_day_work_category(default_pop(data, 'day_work_category'))
+    return ScheduleComponent(**data, operator=operator, day_work_category=day_work_category)
+
+
+def to_schedule(data):
+    if not data:
+        return None
+    components = [to_schedule_component(x) for x in default_pop(data, 'schedule_component', [])]
+    return Schedule(**data, schedule_components=components)

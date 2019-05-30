@@ -99,6 +99,7 @@ def create_app(test_config=None):
     from .models.schedule.controllers import schedules_bp
     
     from .models.user.controllers import users_api_bp
+    from .models.scheduler.controllers import schedulers_api_bp
     from .models.schedule.controllers import schedules_api_bp
 
     app.register_blueprint(menus_bp, url_prefix="/menus")
@@ -113,6 +114,7 @@ def create_app(test_config=None):
     app.register_blueprint(schedules_bp, url_prefix="/schedules")
     
     app.register_blueprint(users_api_bp, url_prefix="/api")
+    app.register_blueprint(schedulers_api_bp, url_prefix="/api")
     app.register_blueprint(schedules_api_bp, url_prefix="/api")
 
     @app.errorhandler(404)

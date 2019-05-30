@@ -1,3 +1,7 @@
+import { START_UPDATE_MONTHLY_SETTING, START_PUBLIC_MONTHLY_SETTING,
+	SUCCESS_UPDATE_MONTHLY_SETTING, FAILURE_UPDATE_MONTHLY_SETTING,
+	SUCCESS_PUBLIC_MONTHLY_SETTING, FAILURE_PUBLIC_MONTHLY_SETTING } from '../actionTypes';
+
 export const changeRequire = (day, categoryId, require) => ({
     type: 'CHANGE_REQUIRE',
     day,
@@ -53,4 +57,34 @@ export const addFixedSchedule = () => ({
 export const removeFixedSchedule = (id) => ({
     type: 'REMOVE_FIXED_SCHEDULE',
     id
+})
+
+export const startSaveMonthlySetting = (monthlySetting) => ({
+	type: START_UPDATE_MONTHLY_SETTING,
+	payload: { monthlySetting }
+})
+
+export const startPublicMonthlySetting = (monthlySetting) => ({
+	type: START_PUBLIC_MONTHLY_SETTING,
+	payload: { monthlySetting }
+})
+
+export const successMonthlySettingUpdate = () => ({
+	type: SUCCESS_UPDATE_MONTHLY_SETTING,
+	payload: { message: '' }
+})
+
+export const failureMonthlySettingUpdate = () => ({
+	type: FAILURE_UPDATE_MONTHLY_SETTING,
+	payload: { message: '' }
+})
+
+export const successMonthlySettingPublic = () => ({
+	type: SUCCESS_PUBLIC_MONTHLY_SETTING,
+	payload: { message: '' }
+})
+
+export const failureMonthlySettingPublic = () => ({
+	type: FAILURE_PUBLIC_MONTHLY_SETTING,
+	payload: { message: '' }
 })

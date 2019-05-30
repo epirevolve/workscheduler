@@ -6,7 +6,7 @@ import { successSchedules, failureSchedules } from '../actions';
 import * as api from '../services/api';
 
 function* runRequestSchedules(action) {
-    const { res, error } = yield call(api.schedules, action.payload);
+    const { res, error } = yield call(api.fetchSchedules, action.payload);
     if (res && !error) {
         yield put(successSchedules(res));
     } else {

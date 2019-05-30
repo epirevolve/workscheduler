@@ -42,7 +42,7 @@ const nav = ({ opened, handleOpenDrawer }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
-    if (!isAuthenticated) return;
+    if (!isAuthenticated) return (<></>);
 
     return (
     	<AppBar className="pl-2" position="static">

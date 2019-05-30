@@ -1,9 +1,11 @@
 import requestAgent from 'superagent';
 
-export const schedules = (payload) => {
+export const fetchSchedules = (payload) => {
     const { affiliation, scheduleOf } = payload;
     return requestAgent
-        .get(`/api/schedules?affiliation-id=${affiliation.id}&schedule-of=${scheduleOf}`)
+        .get('/api/schedules')
+        .send({'affiliation-id': affiliation.id})
+        .send({'schedule-of': scheduleOf})
         .set('X-CSRFToken', csrfToken)
         .then(res => JSON.parse(res.text))
         .then(res => ({ res }))

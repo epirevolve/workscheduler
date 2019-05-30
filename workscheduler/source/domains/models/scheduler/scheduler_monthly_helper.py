@@ -146,7 +146,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
     
     def _genetic_wrapper(self):
         genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(self._schedules[0])),
-                          gene_size=len(self._schedules), generation_size=1000, population_size=500, debug=True)
+                          gene_size=len(self._schedules), generation_size=1000, population_size=500)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
         genetic.mutation = build_mutation_duplicate()

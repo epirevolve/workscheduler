@@ -13,7 +13,7 @@ const url = dataset.url;
 class BasicSettingContainer extends React.Component {
     handleSave (scheduler) {
         requestAgent
-            .post(url)
+            .put(url)
             .send(scheduler)
             .set('X-CSRFToken', csrfToken)
             .then(res => {

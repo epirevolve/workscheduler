@@ -1,5 +1,3 @@
-import requestAgent from 'superagent';
-
 import { REQUEST_SCHEDULES, SUCCESS_SCHEDULES, FAILURE_SCHEDULES, CHANGE_SCHEDULE_OF } from '../actionTypes';
 
 export const requestSchedules = (affiliation, scheduleOf) => ({

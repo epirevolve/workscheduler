@@ -11,8 +11,7 @@
 <script id="breadscram" data-current="{{ to_json({'name': 'Monthly Setting of {}'.format(scheduler.affiliation.name)}) }}"
         data-breads="{{ to_json([{ 'name': 'Scheduler Menu', 'url': url_for('schedulers.show_menu') }]) }}"></script>
 <script src="{{ url_for('schedulers.static', filename='js/scheduler-monthly-setting.bundle.min.js') }}"
-    data-url="{{ url_for('schedulers.show_monthly_setting', affiliation='param_affiliation_id', calendar='param_calendar') }}"
-    data-url-save="{{ url_for('schedulers.update_monthly_setting') }}"
-    data-schedule-of="{{ monthly_setting.schedule_of }}" data-affiliation="{{ to_json(scheduler.affiliation) }}"
-    data-monthly-setting="{{ to_json(monthly_setting) }}" data-operators="{{ to_json(operators) }}"></script>
+        data-url="{{ url_for('schedulers.show_monthly_setting', affiliation='param_affiliation_id', calendar='param_calendar') }}"
+        data-schedule-of="{{ monthly_setting.schedule_of }}" data-affiliation="{{ to_json(scheduler.affiliation) }}"
+        data-monthly-setting="{{ to_json(monthly_setting) }}" data-operators="{{ to_json(operators) }}"></script>
 {% endblock %}

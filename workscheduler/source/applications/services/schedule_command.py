@@ -25,3 +25,7 @@ class ScheduleCommand:
         if not schedule:
             return
         self._session.delete(schedule)
+
+    def update_schedule(self, schedule: Schedule):
+        self._session.merge(schedule)
+        return schedule
