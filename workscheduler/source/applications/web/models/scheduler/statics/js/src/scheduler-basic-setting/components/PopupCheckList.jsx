@@ -25,26 +25,25 @@ const holidayOperators = ({ name, targets, current, onSelectChange }) => {
             <ListItemText primary={x.name} />
         </ListItem>);
 
-    const [ anchorEl, setAnchorEl ] = React.useState(null);
-    const isOpen = Boolean(anchorEl);
-    const [ expanded, setExpanded ] = React.useState(false);
+    const [ state, setState ] = React.useState({anchorEl: null, expanded: false});
+    const isOpen = Boolean(state.anchorEl);
     const onExpandedChange = (event, isExpanded) => {
-        setExpanded(isExpanded ? true : false);
+        setState({expanded: isExpanded ? true : false});
     };
 
     return (
         <>
-            <Popover open={isOpen} anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
-                onClose={() => setAnchorEl(null)}>
+            <Popover open={isOpen} anchorEl={state.anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
+                onClose={() => setState({anchorEl: null})}>
                 <List>
                     {popupList}
                 </List>
             </Popover>
-            <ExpansionPanel expanded={expanded} onChange={onExpandedChange}>
+            <ExpansionPanel expanded={state.expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6" style={{ color: 'gray' }} className="mt-2">{name}</Typography>
                     <div className="ml-3">
-                        <IconButton size="small" onClick={(e) => { setAnchorEl(e.currentTarget); e.stopPropagation(); }}>
+                        <IconButton size="small" onClick={(e) => { setState({anchorEl: e.currentTarget}); e.stopPropagation(); }}>
                             <CheckBoxRoundedIcon />
                         </IconButton>
                     </div>

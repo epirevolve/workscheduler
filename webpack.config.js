@@ -66,8 +66,11 @@ module.exports = {
             'node_modules',
             path.resolve('.'),
             path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/functions'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/components'),
+            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/functions'),
+            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/components'),
+            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/containers'),
+            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/actions'),
+            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/reducers'),
             path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/css')
         ],
         extensions: ['.js', '.jsx', '.css']
@@ -83,7 +86,7 @@ module.exports = {
                     enforce: true
                 },
                 utilCommon: {
-                    test: 'workscheduler/source/applications/web/util/statics/js/src/functions',
+                    test: 'workscheduler/source/applications/web/util/statics/js/src/commons/functions',
                     name: 'workscheduler/source/applications/web/util/statics/js/util-common',
                     chunks: 'initial',
                     enforce: true

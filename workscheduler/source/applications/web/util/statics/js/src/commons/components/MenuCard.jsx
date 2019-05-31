@@ -46,7 +46,7 @@ const menuCard = ({title, img, description, href, onClick}) => {
                 </CardContent>
             </CardActionArea>
         </Card>
-    )
-}
+    );
+};
 
 export default menuCard;

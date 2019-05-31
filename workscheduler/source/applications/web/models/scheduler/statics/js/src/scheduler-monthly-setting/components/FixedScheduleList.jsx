@@ -12,14 +12,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FixedSchedule from './FixedSchedule';
 
 const fixedSchedules = ({ fixedSchedules, handleAppend, ...other }) => {
-    const [expanded, setExpanded] = React.useState(true);
+    const [state, setState] = React.useState({expanded: true});
     const onExpandedChange = (event, isExpanded) => {
-        setExpanded(isExpanded ? true : false);
+        setState({expanded: isExpanded ? true : false});
     };
 
     return (
         <div className="mt-4 mb-3">
-            <ExpansionPanel expanded={expanded} onChange={onExpandedChange}>
+            <ExpansionPanel expanded={state.expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography style={{ fontSize: '2rem', color: 'gray' }}>fixed schedules</Typography>
                     <div className="ml-3">

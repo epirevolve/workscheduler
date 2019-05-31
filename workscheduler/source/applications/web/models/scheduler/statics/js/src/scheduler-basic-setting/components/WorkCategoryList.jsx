@@ -12,9 +12,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import WorkCategory from './WorkCategory';
 
 const workCategoryList = ({ workCategories, handleAppend, ...other }) => {
-    const [expanded, setExpanded] = React.useState(true);
+    const [state, setState] = React.useState({expanded: true});
     const onExpandedChange = (event, isExpanded) => {
-        setExpanded(isExpanded ? true : false);
+        setState({expanded: isExpanded ? true : false});
     };
 
     const createWorkCategoryPanel = (x) => {
@@ -27,7 +27,7 @@ const workCategoryList = ({ workCategories, handleAppend, ...other }) => {
 
     return (
         <div className="mt-4 mb-3">
-            <ExpansionPanel expanded={expanded} onChange={onExpandedChange}>
+            <ExpansionPanel expanded={state.expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography style={{ fontSize: '2rem' }}>work categories</Typography>
                     <div className="ml-3">

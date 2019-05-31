@@ -4,14 +4,21 @@ import { eventChannel, END } from 'redux-saga';
 import { START_UPDATE_MONTHLY_SETTING, START_PUBLIC_MONTHLY_SETTING } from '../actionTypes';
 import { successMonthlySettingUpdate, failureMonthlySettingUpdate,
 	successMonthlySettingPublic, failureMonthlySettingPublic } from '../actions';
+import { showSnackbar } from 'snackbarActions';
 import * as api from '../services/api';
 
 function* runUpdateMonthlySetting(action) {
-    const { res, error } = yield call(api.updateMonthlySetting, action.payload);
-    if (res && !error) {
-        yield put(successMonthlySettingUpdate(res));
+    const { error } = yield call(api.updateMonthlySetting, action.payload);
+    if (!error) {
+        yield all([
+        	put(successMonthlySettingUpdate()),
+        	put(showSnackbar('Succeed to update monthly setting'))
+		]);
     } else {
-        yield put(failureMonthlySettingUpdate(error));
+        yield all([
+        	put(failureMonthlySettingUpdate()),
+        	put(showSnackbar('Fail to update monthly setting'))
+		]);
     }
 }
 
@@ -20,11 +27,17 @@ function* handleUpdateMonthlySetting() {
 }
 
 function* runPublicMonthlySetting(action) {
-    const { res, error } = yield call(api.publicMonthlySetting, action.payload);
-    if (res && !error) {
-        yield put(successMonthlySettingPublic(res));
+    const { error } = yield call(api.publicMonthlySetting, action.payload);
+    if (!error) {
+    	yield all([
+        	put(successMonthlySettingPublic()),
+        	put(showSnackbar('Succeed to public monthly setting'))
+		]);
     } else {
-        yield put(failureMonthlySettingPublic(error));
+    	yield all([
+        	put(failureMonthlySettingPublic()),
+        	put(showSnackbar('Fail to public monthly setting'))
+		]);
     }
 }
 

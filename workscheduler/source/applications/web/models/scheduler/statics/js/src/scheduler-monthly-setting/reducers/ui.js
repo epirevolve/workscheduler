@@ -19,6 +19,6 @@ const ui = (state = {isProgressing: false}, action) => {
 		default:
 			return state;
 	}
-}
+};
 
 export default ui;
