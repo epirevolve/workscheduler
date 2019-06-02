@@ -8,7 +8,7 @@ export const updateMonthlySetting = (payload) => {
         .set('X-CSRFToken', csrfToken)
         .then(res => ({}))
         .catch(error => ({ error }));
-}
+};
 
 export const publicMonthlySetting = (payload) => {
     const { monthlySetting } = payload;
@@ -18,4 +18,4 @@ export const publicMonthlySetting = (payload) => {
         .set('X-CSRFToken', csrfToken)
         .then(res => ({}))
         .catch(error => ({ error }));
-}
+};

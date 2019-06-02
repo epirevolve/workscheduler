@@ -10,4 +10,4 @@ export const fetchSchedules = (payload) => {
         .then(res => JSON.parse(res.text))
         .then(res => ({ res }))
         .catch(error => ({ error }));
-}
+};

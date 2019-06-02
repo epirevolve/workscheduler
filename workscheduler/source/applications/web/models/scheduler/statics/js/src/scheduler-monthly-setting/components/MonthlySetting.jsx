@@ -14,6 +14,6 @@ const monthlySetting = () => (
         <SetFixedSchedules />
         <CommitMonthlySetting />
     </>
-)
+);
 
 export default monthlySetting;
