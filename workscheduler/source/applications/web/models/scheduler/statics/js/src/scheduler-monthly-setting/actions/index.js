@@ -1,3 +1,5 @@
+import * as actionTypes from '../actionTypes';
+
 export const changeRequire = (day, categoryId, require) => ({
     type: 'CHANGE_REQUIRE',
     day,
@@ -54,3 +56,13 @@ export const removeFixedSchedule = (id) => ({
     type: 'REMOVE_FIXED_SCHEDULE',
     id
 })
+
+export const updateMonthlySetting = (monthlySetting) = ({
+    type: actionTypes.UPDATE_MONTHLY_SETTING,
+    payload: { monthlySetting }
+});
+
+export const publicMonthlySetting = (monthlySetting) = ({
+    type: actionTypes.PUBLIC_MONTHLY_SETTING,
+    payload: { monthlySetting }
+});

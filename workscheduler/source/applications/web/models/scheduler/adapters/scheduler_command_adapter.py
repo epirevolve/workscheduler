@@ -35,5 +35,6 @@ class SchedulerCommandAdapter:
         return SchedulerCommand(self._session).update_yearly_setting(
             scheduler_id, data.get('year'), vacations)
     
-    def launch(self, affiliation_id: str, month: str, year: str):
-        return SchedulerCommand(self._session).launch(affiliation_id, int(month), int(year))
+    def launch(self, data: dict):
+        return SchedulerCommand(self._session).launch(
+            data.get('affiliation_id'), int(data.get('month')), int(data.get('year')))
