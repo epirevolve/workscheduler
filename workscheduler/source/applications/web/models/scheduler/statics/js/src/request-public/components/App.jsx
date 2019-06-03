@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import DialogContainer from '../containers/DialogContainer';
 import RequestsContainer from '../containers/RequestsContainer';
 
+import MonthYearSelector from '../../request/components/MonthYearSelector';
+
 const dataset = document.querySelector('script[src*="request-public"]').dataset;
 const holidays = JSON.parse(dataset.holidays);
 const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
@@ -12,6 +14,7 @@ const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
 const app = () => (
     <>
         <DialogContainer />
+        <MonthYearSelector />
         <Grid container>
             <Grid item sm={10}>
                 <RequestsContainer />

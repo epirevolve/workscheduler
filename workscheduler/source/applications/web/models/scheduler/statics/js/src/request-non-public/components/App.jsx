@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MonthYearSelector from './MonthYearSelector';
+import MonthYearSelector from '../../request/components/MonthYearSelector';
 
 const app = () => (
     <MonthYearSelector />

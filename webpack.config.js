@@ -1,4 +1,6 @@
-const path = require('path');
+const path = require('path'),
+	  glob = require('glob'),
+	  _    = require('lodash');
 
 const _utilPath = './workscheduler/source/applications/web/util/statics/js';
 const _path = (folder) => `./workscheduler/source/applications/web/models/${folder}/statics/js`;
@@ -6,6 +8,31 @@ const _userPath = _path('user');
 const _operatorPath = _path('operator');
 const _schedulerPath = _path('scheduler');
 const _schedulePath = _path('schedule');
+
+// to-do: make import keeping its directory configuration without clearly assign a path
+// e.g. workscheduler/source/applications/web/util/statics/js/layout
+const jsBasePath = path.resolve(__dirname, 'workscheduler/source/applications/web');
+console.log(jsBasePath);
+
+String.prototype.filename = function () {
+	return this.match(".+/(.+?)([\?#;].*)?$")[1];
+}
+
+var targets = _.filter(glob.sync(`${jsBasePath}/**/index.jsx`), (item) => {
+	return !item.filename().match(/^_/);
+});
+
+var entries = {};
+
+targets.forEach(value => {
+	var re = new RegExp(`${jsBasePath}/`);
+	var key = value.replace(re, '');
+
+	console.log('--------------------------')
+	console.log(key)
+	console.log(value.filename())
+	entries[key] = value;
+});
 
 module.exports = {
     mode: 'production',
@@ -71,13 +98,13 @@ module.exports = {
         modules: [
             'node_modules',
             path.resolve('.'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/functions'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/components'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/containers'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/actions'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/reducers'),
-            path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/css')
+            path.join(__dirname, 'workscheduler/source/applications/web/util/statics/js'),
+            path.join(__dirname, 'workscheduler/source/applications/web/util/statics/js/src/commons/functions'),
+            path.join(__dirname, 'workscheduler/source/applications/web/util/statics/js/src/commons/components'),
+            path.join(__dirname, 'workscheduler/source/applications/web/util/statics/js/src/commons/containers'),
+            path.join(__dirname, 'workscheduler/source/applications/web/util/statics/js/src/commons/actions'),
+            path.join(__dirname, 'workscheduler/source/applications/web/util/statics/js/src/commons/reducers'),
+            path.join(__dirname, 'workscheduler/source/applications/web/util/statics/css')
         ],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
     },
