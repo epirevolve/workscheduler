@@ -36,6 +36,6 @@ const vacations = ({ vacations, handleAppend, ...other }) => {
             </ExpansionPanel>
         </div>
     )
-}
+};
 
 export default vacations;

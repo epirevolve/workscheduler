@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 
 import SkillList from './SkillList';
 
-const operator = ({ operator, onSkillChange, onRemainPaidHolidaysChange, handleSave }) => {
+const operator = ({ operator, onSkillChange, onRemainPaidHolidaysChange, handleSave }) => (
     <>
         <SkillList operator={operator} onChange={onSkillChange} />
         <TextField type="number" value={operator.remainPaidHolidays} onChange={onRemainPaidHolidaysChange}
@@ -14,7 +14,7 @@ const operator = ({ operator, onSkillChange, onRemainPaidHolidaysChange, handleS
             onClick={() => handleSave(operator)}>
             Store Operator
         </Button>
-    </>;
-};
+    </>
+);
 
 export default operator;

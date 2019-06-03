@@ -13,9 +13,7 @@ import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
 import 'rc-calendar/assets/index';
 
-const isValidRange = (v) => {
-    return v && v[0] && v[1];
-}
+const isValidRange = (v) => v && v[0] && v[1];
 
 const vacation = ({ vacation, onTitleChange, onDateChange,
     onDaysChange, handleRemove }) => {
@@ -48,6 +46,6 @@ const vacation = ({ vacation, onTitleChange, onDateChange,
             </CardActions>
         </Card>
     )
-}
+};
 
 export default vacation;

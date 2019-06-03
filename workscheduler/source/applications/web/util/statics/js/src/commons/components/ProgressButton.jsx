@@ -13,15 +13,15 @@ const wrapperCss = css({
 
 const progressButton = ({
 		label, isProgressing, variant="contained", color="secondary",
-		size="large", onClick=() => {}
-	}) => {
+		size="large", handleClick=() => {}
+	}) => (
 	<div css={wrapperCss}>
-		<Button variant={variant} color={color} size={size} disabled={isProgressing} onClick={onClick}>
+		<Button variant={variant} color={color} size={size} disabled={isProgressing} onClick={handleClick}>
 			{label}
 		</Button>
 		{isProgressing && <CircularProgress size={24} />}
-	</div>;
-};
+	</div>
+);
 
 progressButton.propTypes = {
 	label: PropTypes.string.isRequired,

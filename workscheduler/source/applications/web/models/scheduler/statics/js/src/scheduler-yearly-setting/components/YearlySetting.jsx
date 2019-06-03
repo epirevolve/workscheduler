@@ -8,6 +8,6 @@ const yearlySetting = ({}) => (
         <VacationsContainer />
         <YearlySettingContainer />
     </>
-)
+);
 
 export default yearlySetting;

@@ -6,6 +6,6 @@ const app = () => (
     <>
         <YearlySettings />
     </>
-)
+);
 
 export default app;

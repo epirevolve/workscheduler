@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import SkillList from './SkillList';
 
-const skills = ({ certifiedSkills, notCertifiedSkills, handleAppend, handleEdit }) => {
+const skills = ({ certifiedSkills, notCertifiedSkills, handleAppend, handleEdit }) => (
     <>
         <AppBar position="static" color="default">
             <Toolbar>
@@ -31,7 +31,7 @@ const skills = ({ certifiedSkills, notCertifiedSkills, handleAppend, handleEdit 
                 <SkillList title="not certified skills" skills={notCertifiedSkills} handleEdit={handleEdit} />
             </Grid>
         </Grid>
-    </>;
-};
+    </>
+);
 
 export default skills;

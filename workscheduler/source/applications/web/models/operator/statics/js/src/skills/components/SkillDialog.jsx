@@ -13,7 +13,7 @@ import Switch from '@material-ui/core/Switch';
 const skillDialog = ({
     skillDialog, onNameChange, onScoreChange,
     onIsCertifiedChanged, handleClose, handleRemove, handleSave
-    }) => {
+    }) => (
     <Dialog open={skillDialog.isOpen} aria-labelledby="skill-store">
         <DialogTitle>register skill</DialogTitle>
         <DialogContent>
@@ -45,7 +45,7 @@ const skillDialog = ({
                 Save
             </Button>
         </DialogActions>
-    </Dialog>;
-};
+    </Dialog>
+);
 
 export default skillDialog;

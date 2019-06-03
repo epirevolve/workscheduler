@@ -14,6 +14,6 @@ const yearlySettingList = ({ yearlySettings, handleEdit }) => {
             {yearlySettingList}
         </List>
     )
-}
+};
 
 export default yearlySettingList;

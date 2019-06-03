@@ -16,13 +16,13 @@ const rowCss = css({
     zIndex: 999
 });
 
-const dayHeaderRow = ({ headers, cells }) => {
+const dayHeaderRow = ({ headers, cells }) => (
     <TableHead>
         <TableRow css={rowCss}>
             {headers.map((x, i) => <RowHeader key={i} val={x} left={i} />)}
             {cells.map((x, i) => <DayHeaderCell key={i} {...x} />)}
         </TableRow>
-    </TableHead>;
-};
+    </TableHead>
+);
 
 export default dayHeaderRow;

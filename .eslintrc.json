@@ -11,6 +11,8 @@
   },
   "globals": {},
   "rules": {
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1,
     "semi": "error",
     "arrow-body-style": "error",
     "arrow-parens": "error",
@@ -30,5 +32,5 @@
     "rest-spread-spacing": "error",
     "template-curly-spacing": "error",
     "yield-star-spacing": "error"
-    }
+  }
 }

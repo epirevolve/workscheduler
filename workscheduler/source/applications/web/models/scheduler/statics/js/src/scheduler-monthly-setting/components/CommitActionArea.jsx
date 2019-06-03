@@ -14,14 +14,14 @@ const wrapperCss = css({
 	}
 });
 
-const commitMonthlySetting = ({ monthlySetting, isProgressing, onMonthlySettingSave, onMonthlySettingPublic }) => {
-	return (
-		<div css={wrapperCss}>
-			<ProgressButton label={'Save'} isProgressing={isProgressing} handleClick={() => onMonthlySettingSave(monthlySetting)} />
-			<ProgressButton label={'Publish Calendar'} color="primary" isProgressing={isProgressing}
-				handleClick={() => onMonthlySettingPublic(monthlySetting)} />
-		</div>
-	);
-};
+const commitMonthlySetting = ({
+		monthlySetting, isProgressing, onMonthlySettingSave, onMonthlySettingPublic
+	}) => (
+	<div css={wrapperCss}>
+		<ProgressButton label={'Save'} isProgressing={isProgressing} handleClick={() => onMonthlySettingSave(monthlySetting)} />
+		<ProgressButton label={'Publish Calendar'} color="primary" isProgressing={isProgressing}
+			handleClick={() => onMonthlySettingPublic(monthlySetting)} />
+	</div>
+);
 
 export default commitMonthlySetting;

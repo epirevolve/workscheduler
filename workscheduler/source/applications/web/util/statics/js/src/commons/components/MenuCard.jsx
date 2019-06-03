@@ -30,23 +30,23 @@ const contentCss = {
     color: 'gray !important'
 };
 
-const menuCard = ({title, img, description, href, onClick}) => {
-    <Card css={css(cardCss)}>
-        <CardActionArea href={href} onClick={onClick} css={css(actionAreaCss)}>
-            <CardContent>
-                <Typography gutterBottom variant="h5" css={css(titleCss)}>
-                    {title}
-                </Typography>
-            </CardContent>
-            <CardMedia component="img" alt={title} title={title} height="190" image={img} />
-            <CardContent>
-                <Typography gutterBottom component="p" css={css(contentCss)}>
-                    {description}
-                </Typography>
-            </CardContent>
-        </CardActionArea>
-    </Card>;
-};
+const menuCard = ({title, img, description, href, onClick}) => (
+	<Card css={css(cardCss)}>
+		<CardActionArea href={href} onClick={onClick} css={css(actionAreaCss)}>
+			<CardContent>
+				<Typography gutterBottom variant="h5" css={css(titleCss)}>
+					{title}
+				</Typography>
+			</CardContent>
+			<CardMedia component="img" alt={title} title={title} height="190" image={img} />
+			<CardContent>
+				<Typography gutterBottom component="p" css={css(contentCss)}>
+					{description}
+				</Typography>
+			</CardContent>
+		</CardActionArea>
+	</Card>
+);
 
 menuCard.propTypes = {
     title: propTypes.string.isRequired,

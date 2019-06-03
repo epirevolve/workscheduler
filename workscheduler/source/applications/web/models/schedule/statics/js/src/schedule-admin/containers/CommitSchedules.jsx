@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { saveSchedules } from '../actions';
 
-import PublishState from '../components/PublishState';
+import CommitActionArea from '../components/CommitActionArea';
 
 const mapStateToProps = (state) => ({
     schedules: state.schedules,
