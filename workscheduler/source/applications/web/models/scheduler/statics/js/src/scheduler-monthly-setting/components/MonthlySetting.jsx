@@ -4,7 +4,7 @@ import MonthSelect from './MonthSelect';
 import DisplayDaySettings from '../containers/DisplayDaySettings';
 import AdjustMonthlyHolidayCount from '../containers/AdjustMonthlyHolidayCount';
 import SetFixedSchedules from '../containers/SetFixedSchedules';
-import SaveAndPublicMonthlySetting from '../containers/SaveAndPublicMonthlySetting';
+import CommitMonthlySetting from '../containers/CommitMonthlySetting';
 
 const monthlySetting = () => (
     <>
@@ -12,8 +12,8 @@ const monthlySetting = () => (
         <DisplayDaySettings />
         <AdjustMonthlyHolidayCount />
         <SetFixedSchedules />
-        <SaveAndPublicMonthlySetting />
+        <CommitMonthlySetting />
     </>
-)
+);
 
 export default monthlySetting;

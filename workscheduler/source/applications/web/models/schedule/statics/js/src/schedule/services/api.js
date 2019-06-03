@@ -4,10 +4,10 @@ export const fetchSchedules = (payload) => {
     const { affiliation, scheduleOf } = payload;
     return requestAgent
         .get('/api/schedules')
-        .send({'affiliation-id': affiliation.id})
-        .send({'schedule-of': scheduleOf})
+        .query({'affiliation-id': affiliation.id})
+        .query({'schedule-of': scheduleOf})
         .set('X-CSRFToken', csrfToken)
         .then(res => JSON.parse(res.text))
         .then(res => ({ res }))
         .catch(error => ({ error }));
-}
+};
