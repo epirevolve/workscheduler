@@ -6,7 +6,7 @@ export const fetchSchedules = (payload) => {
         .get('/api/schedules')
         .query({'affiliation-id': affiliation.id, 'schedule-of': scheduleOf})
         .set('X-CSRFToken', csrfToken)
-        .then(res => JSON.parse(res.text))
-        .then(res => ({ res }))
-        .catch(error => ({ error }));
+        .then((res) => JSON.parse(res.text))
+        .then((res) => ({ res }))
+        .catch((error) => ({ error }));
 };

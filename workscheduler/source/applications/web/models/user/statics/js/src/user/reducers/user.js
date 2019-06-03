@@ -3,14 +3,14 @@ const user = (state = {}, action) => {
         case 'CHANGE_PASSWORD':
             return {...state,
                 password: action.password
-            }
+            };
         case 'CHANGE_NAME':
             return {...state,
                 name: action.name
-            }
+            };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default user;

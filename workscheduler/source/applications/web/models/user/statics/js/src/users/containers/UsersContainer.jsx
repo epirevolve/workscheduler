@@ -1,10 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 import Users from '../components/Users';
 
-import { openDialogToAppend } from '../actions';
-import { openDialogToEdit } from '../actions';
+import { openDialogToAppend, openDialogToEdit } from '../actions';
 
 const mapStateToProps = (state) => ({
     users: state.users

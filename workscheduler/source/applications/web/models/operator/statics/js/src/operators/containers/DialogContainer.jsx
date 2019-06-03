@@ -1,14 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
 import { AlertManager } from 'alert-helper';
 
-import { editOperator } from '../actions';
-import { closeDialog } from '../actions';
-import { changeSkill } from '../actions';
-import { changeOjt } from '../actions';
+import { editOperator, closeDialog, changeSkill, changeOjt } from '../actions';
 
 import OperatorDialog from '../components/OperatorDialog';
 
@@ -17,7 +14,7 @@ const url = dataset.url;
 
 const mapStateToProps = (state) => ({
     operatorDialog: state.operatorDialog
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
     onSkillChange: (skill) => dispatch(changeSkill(skill)),
@@ -28,19 +25,19 @@ const mapDispatchToProps = (dispatch) => ({
             .post(url.replace('operator_id', operatorDialog.id))
             .send(operatorDialog)
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then((res) => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('operator was successfully stored.', 'alert-info');
                 dispatch(closeDialog());
                 dispatch(editOperator(JSON.parse(res.text)));
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with appending skill...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
             });
     }
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(OperatorDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(OperatorDialog);

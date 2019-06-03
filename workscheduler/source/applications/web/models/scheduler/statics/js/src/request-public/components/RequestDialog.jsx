@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -16,16 +16,14 @@ import TimePickerPanel from 'rc-time-picker/lib/Panel';
 
 import moment from 'moment';
 
-const isValidRange = (v) => {
-    return v && v[0] && v[1];
-}
+const isValidRange = (v) => v && v[0] && v[1];
 
 const disabledDate = (current) => {
     if (!current) {
         return false;
     }
     return current.valueOf() < minDate.valueOf() || maxDate.valueOf() < current.valueOf();
-}
+};
 
 const requestDialog = ({
     requestDialog, onTitleChange, onNoteChange, onDateChange,
@@ -75,6 +73,6 @@ const requestDialog = ({
             </DialogActions>
         </Dialog>
     );
-}
+};
 
-export default RequestDialog;
+export default requestDialog;

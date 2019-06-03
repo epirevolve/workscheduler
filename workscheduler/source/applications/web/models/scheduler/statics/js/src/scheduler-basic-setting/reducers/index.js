@@ -3,4 +3,4 @@ import scheduler from './scheduler';
 
 export default combineReducers({
     scheduler
-})
+});

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import MonthYearSelector from './MonthYearSelector'
+import MonthYearSelector from './MonthYearSelector';
 
 const app = () => (
     <MonthYearSelector />
-)
+);
 
 export default app;

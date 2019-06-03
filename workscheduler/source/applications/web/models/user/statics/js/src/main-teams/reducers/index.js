@@ -6,4 +6,4 @@ import mainTeams from './main-teams';
 export default combineReducers({
     mainTeamDialog,
     mainTeams
-})
+});

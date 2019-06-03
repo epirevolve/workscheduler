@@ -6,6 +6,6 @@ const app = () => (
     <>
         <Menu />
     </>
-)
+);
 
 export default app;

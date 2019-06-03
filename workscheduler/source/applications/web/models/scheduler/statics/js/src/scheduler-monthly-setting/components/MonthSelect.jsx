@@ -10,7 +10,7 @@ import 'rc-calendar/assets/index';
 import moment from 'moment';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/core';
 
 const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
 const url = dataset.url;
@@ -25,7 +25,7 @@ class MonthSelect extends React.Component {
 
     render () {
         const calendar = <MonthCalendar />;
-        const date = moment(scheduleOf, 'YYYY-MM')
+        const date = moment(scheduleOf, 'YYYY-MM');
         return (
             <>
                 <Typography variant="h4" css={css`
@@ -34,17 +34,16 @@ class MonthSelect extends React.Component {
                     `}>{date.format("YYYY-MM")}</Typography>
                 <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
                     value={date} onChange={this.onScheduleChange}>
-                    { ({ value }) => {
-                        return (
+                    { () => (
                             <Fab color="primary" css={css`
                                     float: right;
                                 `}>
                                 <CalendarTodayRoundedIcon />
                             </Fab>
-                        )}}
+                        )}
                 </DatePicker>
             </>
-        )
+        );
     }
 }
 

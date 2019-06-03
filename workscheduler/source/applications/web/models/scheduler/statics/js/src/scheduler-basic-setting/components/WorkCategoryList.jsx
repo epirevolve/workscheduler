@@ -17,13 +17,11 @@ const workCategoryList = ({ workCategories, handleAppend, ...other }) => {
         setState({expanded: isExpanded ? true : false});
     };
 
-    const createWorkCategoryPanel = (x) => {
-        return (
-            <Grid item xs={12} sm={4} key={x.id} className="mr-4 mb-2">
-                <WorkCategory workCategory={x} {...other} />
-            </Grid>
-        )
-    }
+    const createWorkCategoryPanel = (x) => (
+        <Grid item xs={12} sm={4} key={x.id} className="mr-4 mb-2">
+            <WorkCategory workCategory={x} {...other} />
+        </Grid>
+    );
 
     return (
         <div className="mt-4 mb-3">
@@ -38,12 +36,12 @@ const workCategoryList = ({ workCategories, handleAppend, ...other }) => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container>
-                        {workCategories.map(x => createWorkCategoryPanel(x))}
+                        {workCategories.map((x) => createWorkCategoryPanel(x))}
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </div>
-    )
-}
+    );
+};
 
 export default workCategoryList;

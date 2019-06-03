@@ -8,6 +8,6 @@ const app = () => (
         <ChangeSelectAffiliation />
         <LaunchScheduler />
     </>
-)
+);
 
 export default app;

@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
-import CalendarCell from './CalendarCell'
+import CalendarCell from './CalendarCell';
 
 const requestCalendar = ({ requestCalendar, ...other }) => {
     const weeks = [];
 
-    for (let [index1, week] of requestCalendar.entries()) {
-        let week_ = [];
-        for (let [index2, day] of week.entries()) {
+    for (const [index1, week] of requestCalendar.entries()) {
+        const week_ = [];
+        for (const [index2, day] of week.entries()) {
             week_.push(<CalendarCell key={`${index1}-${index2}`} day={day} {...other} />);
         }
         weeks.push(<Grid container key={`${index1}`}>{week_}</Grid>);
@@ -32,7 +32,7 @@ const requestCalendar = ({ requestCalendar, ...other }) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default requestCalendar;

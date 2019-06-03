@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -14,40 +14,38 @@ const skillDialog = ({
     skillDialog, onNameChange, onScoreChange,
     onIsCertifiedChanged, handleClose, handleRemove, handleSave
     }) => {
-    return (
-        <Dialog open={skillDialog.isOpen} aria-labelledby="skill-store">
-            <DialogTitle>register skill</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    certified skills are shown to operators
-                </DialogContentText>
-                <DialogContentText>
-                    and not certified skills are shown to administrators
-                </DialogContentText>
-                <TextField autoFocus margin="dense" label="name" fullWidth
-                    onChange={onNameChange} value={skillDialog.name} />
-                <TextField autoFocus margin="dense" label="score" fullWidth type="number"
-                    onChange={onScoreChange} value={skillDialog.score} />
-                <FormControlLabel
-                    control={<Switch checked={skillDialog.isCertified}
-                        onChange={onIsCertifiedChanged} color="primary" />}
-                    label="is certified" />
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose} color="default">
-                    Close
+    <Dialog open={skillDialog.isOpen} aria-labelledby="skill-store">
+        <DialogTitle>register skill</DialogTitle>
+        <DialogContent>
+            <DialogContentText>
+                certified skills are shown to operators
+            </DialogContentText>
+            <DialogContentText>
+                and not certified skills are shown to administrators
+            </DialogContentText>
+            <TextField autoFocus margin="dense" label="name" fullWidth
+                onChange={onNameChange} value={skillDialog.name} />
+            <TextField autoFocus margin="dense" label="score" fullWidth type="number"
+                onChange={onScoreChange} value={skillDialog.score} />
+            <FormControlLabel
+                control={<Switch checked={skillDialog.isCertified}
+                    onChange={onIsCertifiedChanged} color="primary" />}
+                label="is certified" />
+        </DialogContent>
+        <DialogActions>
+            <Button onClick={handleClose} color="default">
+                Close
+            </Button>
+            {skillDialog.id && (
+                <Button onClick={() => handleRemove(skillDialog.id)} variant="outlined" color="secondary">
+                    Remove
                 </Button>
-                {skillDialog.id && (
-                    <Button onClick={() => handleRemove(skillDialog.id)} variant="outlined" color="secondary">
-                        Remove
-                    </Button>
-                )}
-                <Button onClick={() => handleSave(skillDialog)} variant="outlined" color="primary">
-                    Save
-                </Button>
-            </DialogActions>
-        </Dialog>
-    )
-}
+            )}
+            <Button onClick={() => handleSave(skillDialog)} variant="outlined" color="primary">
+                Save
+            </Button>
+        </DialogActions>
+    </Dialog>;
+};
 
 export default skillDialog;

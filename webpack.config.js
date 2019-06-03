@@ -40,6 +40,12 @@ module.exports = {
                 test: [/\.jsx$/, /\.js$/],
                 exclude: /node_modules/,
                 use: 'babel-loader' },
+			{
+				test: [/\.tsx$/, /\.ts$/],
+				loader: 'babel-loader!ts-loader',
+				include: __dirname,
+				exclude: /node_modules/,
+			},
             { test: [/\.css$/],
                 use: ['style-loader', 'css-loader'] },
             {
@@ -73,7 +79,7 @@ module.exports = {
             path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/js/src/commons/reducers'),
             path.join(path.resolve('.'), 'workscheduler/source/applications/web/util/statics/css')
         ],
-        extensions: ['.js', '.jsx', '.css']
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
     },
 
     optimization: {

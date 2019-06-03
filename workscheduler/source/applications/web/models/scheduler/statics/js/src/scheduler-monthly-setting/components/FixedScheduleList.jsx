@@ -30,7 +30,7 @@ const fixedSchedules = ({ fixedSchedules, handleAppend, ...other }) => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container>
-                        {fixedSchedules.map(x =>
+                        {fixedSchedules.map((x) =>
                             <Grid item xs={12} sm={3} key={x.id} className="mr-4 mb-2">
                                 <FixedSchedule fixedSchedule={x} {...other} />
                             </Grid>
@@ -39,7 +39,7 @@ const fixedSchedules = ({ fixedSchedules, handleAppend, ...other }) => {
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </div>
-    )
-}
+    );
+};
 
 export default fixedSchedules;

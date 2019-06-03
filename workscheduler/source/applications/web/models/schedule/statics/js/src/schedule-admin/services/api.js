@@ -6,6 +6,6 @@ export const updateSchedules = (payload) => {
         .post('/api/schedules')
         .send(schedules)
         .set('X-CSRFToken', csrfToken)
-        .then(res => {})
-        .catch(error => ({ error }));
-}
+        .then(() => {})
+        .catch((error) => ({ error }));
+};

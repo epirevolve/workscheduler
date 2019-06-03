@@ -1,19 +1,13 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
 import { AlertManager } from 'alert-helper';
 
-import { addUser } from '../actions';
-import { editUser } from '../actions';
-import { inactivateUser } from '../actions';
-import { closeDialog } from '../actions';
-import { changeLoginId } from '../actions';
-import { changeName } from '../actions';
-import { changeAffiliation } from '../actions';
-import { changeIsAdmin } from '../actions';
-import { changeIsOperator } from '../actions';
+import { addUser, editUser, inactivateUser,
+    closeDialog, changeLoginId, changeName,
+    changeAffiliation, changeIsAdmin, changeIsOperator } from '../actions';
 
 import UserDialog from '../components/UserDialog';
 
@@ -22,7 +16,7 @@ const url = dataset.url;
 
 const mapStateToProps = (state) => ({
     userDialog: state.userDialog
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
     onLoginIdChange: (e) => dispatch(changeLoginId(e.target.value)),
@@ -36,16 +30,16 @@ const mapDispatchToProps = (dispatch) => ({
             .post(`${url}${id}/inactivate`)
             .send()
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then(() => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('user was successfully inactivated.', 'alert-info');
                 dispatch(inactivateUser(id));
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with inactivate user...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
             });
         dispatch(closeDialog());
     },
@@ -54,15 +48,15 @@ const mapDispatchToProps = (dispatch) => ({
             .post(`${url}${id}/reset-password`)
             .send()
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then(() => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('user password was successfully reset.', 'alert-info');
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with resetting password...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
             });
         dispatch(closeDialog());
     },
@@ -71,7 +65,7 @@ const mapDispatchToProps = (dispatch) => ({
             .post(userDialog.id ? `${url}${userDialog.id}` : url)
             .send(userDialog)
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then((res) => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('user was successfully stored.', 'alert-info');
                 if (userDialog.id)
@@ -82,14 +76,14 @@ const mapDispatchToProps = (dispatch) => ({
                     dispatch(addUser(JSON.parse(res.text)));
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with appending user...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
             });
         dispatch(closeDialog());
     }
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(UserDialog);

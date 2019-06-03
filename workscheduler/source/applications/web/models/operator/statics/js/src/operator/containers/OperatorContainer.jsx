@@ -7,8 +7,7 @@ import Operator from '../components/Operator';
 
 import { AlertManager } from 'alert-helper';
 
-import { changeSkill } from '../actions';
-import { changeRemainPaidHolidays } from '../actions';
+import { changeSkill, changeRemainPaidHolidays } from '../actions';
 
 const dataset = document.querySelector('script[src*="operator"]').dataset;
 const url = dataset.url;
@@ -23,19 +22,19 @@ const mapDispatchToProps = (dispatch) => ({
             .post(url)
             .send(operator)
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then(() => {
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we succeeded to store your operator info.', 'alert-info')
+                alertManager.append('we succeeded to store your operator info.', 'alert-info');
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with storing your operator info...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
             });
     },
-    onSkillChange: (e) => {dispatch(changeSkill(e))},
-    onRemainPaidHolidaysChange: (e) => {dispatch(changeRemainPaidHolidays(e.target.value))}
+    onSkillChange: (e) => dispatch(changeSkill(e)),
+    onRemainPaidHolidaysChange: (e) => dispatch(changeRemainPaidHolidays(e.target.value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Operator);

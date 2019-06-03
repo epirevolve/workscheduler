@@ -13,21 +13,22 @@ const dialog = (state = {isOpen: false}, action) => {
             return {...state,
                 isOpen: false
             };
-        case 'CHANGE_SKILL':
-            const skillIds = state.skills.map(x => x.id);
+        case 'CHANGE_SKILL':{
+            const skillIds = state.skills.map((x) => x.id);
             return {...state,
                 skills:
                     (skillIds.includes(action.skill.id))
-                        ? state.skills.filter(x => x.id != action.skill.id)
+                        ? state.skills.filter((x) => x.id != action.skill.id)
                         : state.skills.concat(action.skill)
             };
+        }
         case 'CHANGE_OJT':
             return {...state,
                 ojt: action.operator
             };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default dialog;

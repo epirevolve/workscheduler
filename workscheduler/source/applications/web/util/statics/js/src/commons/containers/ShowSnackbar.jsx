@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleClose: () => { dispatch(closeSnackbar()) },
+    handleClose: () => dispatch(closeSnackbar()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Snackbar);

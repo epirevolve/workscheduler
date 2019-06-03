@@ -1,5 +1,4 @@
-import { take, put, all, call, fork, race, cancelled, takeEvery } from 'redux-saga/effects';
-import { eventChannel, END } from 'redux-saga';
+import { put, all, call, fork, takeEvery } from 'redux-saga/effects';
 
 import { START_UPDATE_MONTHLY_SETTING, START_PUBLIC_MONTHLY_SETTING } from '../actionTypes';
 import { successMonthlySettingUpdate, failureMonthlySettingUpdate,
@@ -7,45 +6,45 @@ import { successMonthlySettingUpdate, failureMonthlySettingUpdate,
 import { showSnackbar } from 'snackbarActions';
 import * as api from '../services/api';
 
-function* runUpdateMonthlySetting(action) {
+function *runUpdateMonthlySetting(action) {
     const { error } = yield call(api.updateMonthlySetting, action.payload);
     if (!error) {
         yield all([
-        	put(successMonthlySettingUpdate()),
-        	put(showSnackbar('Succeed to update monthly setting'))
+			put(successMonthlySettingUpdate()),
+			put(showSnackbar('Succeed to update monthly setting'))
 		]);
     } else {
         yield all([
-        	put(failureMonthlySettingUpdate()),
-        	put(showSnackbar('Fail to update monthly setting'))
+			put(failureMonthlySettingUpdate()),
+			put(showSnackbar('Fail to update monthly setting'))
 		]);
     }
 }
 
-function* handleUpdateMonthlySetting() {
+function *handleUpdateMonthlySetting() {
     yield takeEvery(START_UPDATE_MONTHLY_SETTING, runUpdateMonthlySetting);
 }
 
-function* runPublicMonthlySetting(action) {
+function *runPublicMonthlySetting(action) {
     const { error } = yield call(api.publicMonthlySetting, action.payload);
     if (!error) {
-    	yield all([
-        	put(successMonthlySettingPublic()),
-        	put(showSnackbar('Succeed to public monthly setting'))
+		yield all([
+			put(successMonthlySettingPublic()),
+			put(showSnackbar('Succeed to public monthly setting'))
 		]);
     } else {
-    	yield all([
-        	put(failureMonthlySettingPublic()),
-        	put(showSnackbar('Fail to public monthly setting'))
+		yield all([
+			put(failureMonthlySettingPublic()),
+			put(showSnackbar('Fail to public monthly setting'))
 		]);
     }
 }
 
-function* handlePublicMonthlySetting() {
+function *handlePublicMonthlySetting() {
     yield takeEvery(START_PUBLIC_MONTHLY_SETTING, runPublicMonthlySetting);
 }
 
-export default function* rootSaga() {
+export default function *rootSaga() {
 	yield all([
 		fork(handleUpdateMonthlySetting),
 		fork(handlePublicMonthlySetting)

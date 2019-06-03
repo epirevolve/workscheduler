@@ -33,8 +33,8 @@ const dialog = (state = {isOpen: false}, action) => {
                 isCertified: action.isChecked
             };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default dialog;

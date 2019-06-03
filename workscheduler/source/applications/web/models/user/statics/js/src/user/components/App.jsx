@@ -6,6 +6,6 @@ const app = () => (
     <>
         <UserContainer />
     </>
-)
+);
 
 export default app;

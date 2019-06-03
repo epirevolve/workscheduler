@@ -6,4 +6,4 @@ import skills from './skills';
 export default combineReducers({
     skillDialog,
     skills
-})
+});

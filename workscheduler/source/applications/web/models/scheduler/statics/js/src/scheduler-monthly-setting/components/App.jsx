@@ -8,6 +8,6 @@ const app = () => (
         <MonthlySetting />
         <ShowSnackbar />
     </>
-)
+);
 
 export default app;

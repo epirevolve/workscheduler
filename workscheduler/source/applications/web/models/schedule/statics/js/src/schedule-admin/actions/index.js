@@ -12,4 +12,8 @@ export const changeWorkCategory = (operator, day, daySetting, category, workCate
     daySetting,
     category,
     workCategories
-})
+});
+
+export const saveSchedules = () => ({
+
+});

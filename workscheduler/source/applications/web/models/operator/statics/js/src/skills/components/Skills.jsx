@@ -10,30 +10,28 @@ import AddIcon from '@material-ui/icons/Add';
 import SkillList from './SkillList';
 
 const skills = ({ certifiedSkills, notCertifiedSkills, handleAppend, handleEdit }) => {
-    return (
-        <>
-            <AppBar position="static" color="default">
-                <Toolbar>
-                    <Typography variant="title" color="inherit" style={{ flexGrow: 1 }}>
-                        skills
-                    </Typography>
-                    <div style={{ textAlign: 'right' }}>
-                        <IconButton onClick={handleAppend}>
-                            <AddIcon />
-                        </IconButton>
-                    </div>
-                </Toolbar>
-            </AppBar>
-            <Grid container>
-                <Grid item sm={6} xs={12}>
-                    <SkillList title="certified skills" skills={certifiedSkills} handleEdit={handleEdit} />
-                </Grid>
-                <Grid item sm={6} xs={12}>
-                    <SkillList title="not certified skills" skills={notCertifiedSkills} handleEdit={handleEdit} />
-                </Grid>
+    <>
+        <AppBar position="static" color="default">
+            <Toolbar>
+                <Typography variant="title" color="inherit" style={{ flexGrow: 1 }}>
+                    skills
+                </Typography>
+                <div style={{ textAlign: 'right' }}>
+                    <IconButton onClick={handleAppend}>
+                        <AddIcon />
+                    </IconButton>
+                </div>
+            </Toolbar>
+        </AppBar>
+        <Grid container>
+            <Grid item sm={6} xs={12}>
+                <SkillList title="certified skills" skills={certifiedSkills} handleEdit={handleEdit} />
             </Grid>
-        </>
-    )
-}
+            <Grid item sm={6} xs={12}>
+                <SkillList title="not certified skills" skills={notCertifiedSkills} handleEdit={handleEdit} />
+            </Grid>
+        </Grid>
+    </>;
+};
 
 export default skills;

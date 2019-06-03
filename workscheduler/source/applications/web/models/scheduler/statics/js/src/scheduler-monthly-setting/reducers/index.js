@@ -8,4 +8,4 @@ export default combineReducers({
     monthlySetting,
     ui,
     snackbar
-})
+});

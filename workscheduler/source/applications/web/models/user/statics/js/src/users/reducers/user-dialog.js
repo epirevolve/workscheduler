@@ -48,8 +48,8 @@ const dialog = (state = {isOpen: false}, action) => {
                 isOperator: action.isChecked
             };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default dialog;

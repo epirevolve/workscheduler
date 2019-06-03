@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { CommitActionArea } from '../components/CommitActionArea';
+import CommitActionArea from '../components/CommitActionArea';
 
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => ({
-    monthlySetting: state.monthlySetting
+    monthlySetting: state.monthlySetting,
+    isProgressing: state.ui.isProgressing
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onSaveMonthlySetting: (monthlySetting) => dispatch(actions.updateMonthlySetting(monthlySetting)),
-    onPublicMonthlySetting: (monthlySetting) => dispatch(actions.publicMonthlySetting(monthlySetting))
+    onMonthlySettingSave: (monthlySetting) => dispatch(actions.startSaveMonthlySetting(monthlySetting)),
+    onMonthlySettingPublic: (monthlySetting) => dispatch(actions.startPublicMonthlySetting(monthlySetting))
 });
 
-export default connect(mapStateToProps)(CommitActionArea);
+export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

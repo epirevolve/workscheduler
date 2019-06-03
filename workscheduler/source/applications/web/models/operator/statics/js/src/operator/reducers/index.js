@@ -3,4 +3,4 @@ import operator from './operator';
 
 export default combineReducers({
     operator
-})
+});

@@ -6,4 +6,4 @@ import users from './users';
 export default combineReducers({
     userDialog,
     users
-})
+});

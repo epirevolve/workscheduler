@@ -6,4 +6,4 @@ import operators from './operators';
 export default combineReducers({
     operatorDialog,
     operators
-})
+});

@@ -6,6 +6,6 @@ const app = () => (
     <>
         <OperatorContainer />
     </>
-)
+);
 
 export default app;

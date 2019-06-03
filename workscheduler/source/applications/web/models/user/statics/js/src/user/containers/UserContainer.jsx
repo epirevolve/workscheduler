@@ -5,8 +5,7 @@ import requestAgent from 'superagent';
 
 import { AlertManager } from 'alert-helper';
 
-import { changePassword } from '../actions';
-import { changeName } from '../actions';
+import { changePassword, changeName } from '../actions';
 
 import User from '../components/User';
 
@@ -25,11 +24,11 @@ const mapDispatchToProps = (dispatch) => ({
             .post(url)
             .send(user)
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then(() => {
                 const alertManager = new AlertManager('#alertContainer');
                 alertManager.append('Your info is successfully changed.', 'alert-info');
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with storing your info...';

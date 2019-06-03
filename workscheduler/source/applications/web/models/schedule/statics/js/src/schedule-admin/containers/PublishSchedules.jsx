@@ -8,7 +8,7 @@ import PublishState from '../components/PublishState';
 const mapStateToProps = (state) => ({
     schedules: state.schedules,
     isPublished: state.isPublished
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
     onSaveSchedules: (schedules) => {
@@ -16,6 +16,6 @@ const mapDispatchToProps = (dispatch) => ({
     },
     onPublicSchedule: () => {},
     onTerminateSchedule: () => {}
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PublishState);

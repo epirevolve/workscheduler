@@ -6,8 +6,8 @@ export const updateMonthlySetting = (payload) => {
         .put('/api/monthly-settings')
         .send(monthlySetting)
         .set('X-CSRFToken', csrfToken)
-        .then(res => ({}))
-        .catch(error => ({ error }));
+        .then(() => ({}))
+        .catch((error) => ({ error }));
 };
 
 export const publicMonthlySetting = (payload) => {
@@ -16,6 +16,6 @@ export const publicMonthlySetting = (payload) => {
         .put('/api/monthly-settings/public')
         .send(monthlySetting)
         .set('X-CSRFToken', csrfToken)
-        .then(res => ({}))
-        .catch(error => ({ error }));
+        .then(() => ({}))
+        .catch((error) => ({ error }));
 };

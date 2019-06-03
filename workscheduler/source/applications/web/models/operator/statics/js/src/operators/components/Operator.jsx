@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -14,10 +15,15 @@ const operator = ({ operator, handleEdit }) => {
             div { flex: 1; }
         `}>
             <ListItemText primary={operator.user.name} secondary={`main team: ${operator.user.affiliation.name}`} />
-            <ListItemText primary="Skills" secondary={`${operator.skills.map(x => x.name + ' ')}`} />
+            <ListItemText primary="Skills" secondary={`${operator.skills.map((x) => `${x.name} `)}`} />
             {ojt && (<ListItemText primary="Ojt" secondary={`${ojt}`} />)}
         </ListItem>
-    )
-}
+    );
+};
+
+operator.propTypes = {
+    operator: propTypes.object.isRequired,
+    handleEdit: propTypes.func.isRequired
+};
 
 export default operator;

@@ -10,6 +10,6 @@ const affiliations = (state = {}, action) => {
         default:
             return state;
     }
-}
+};
 
 export default affiliations;

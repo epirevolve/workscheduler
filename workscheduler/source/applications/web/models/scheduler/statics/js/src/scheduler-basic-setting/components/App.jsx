@@ -6,6 +6,6 @@ const app = () => (
     <>
         <BasicSetting />
     </>
-)
+);
 
 export default app;

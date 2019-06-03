@@ -1,14 +1,13 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 import Skills from '../components/Skills';
 
-import { openDialogToAppend } from '../actions';
-import { openDialogToEdit } from '../actions';
+import { openDialogToAppend, openDialogToEdit } from '../actions';
 
 const mapStateToProps = (state) => ({
-    certifiedSkills: state.skills.filter(x => x.isCertified),
-    notCertifiedSkills: state.skills.filter(x => !x.isCertified)
+    certifiedSkills: state.skills.filter((x) => x.isCertified),
+    notCertifiedSkills: state.skills.filter((x) => !x.isCertified)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,14 +3,14 @@ const layout = (state = {}, action) => {
         case 'OPEN_DRAWER':
             return {...state,
                 opened: true
-            }
+            };
         case 'CLOSE_DRAWER':
             return {...state,
                 opened: false
-            }
+            };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default layout;

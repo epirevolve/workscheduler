@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -11,12 +12,12 @@ const skills = JSON.parse(dataset.skills);
 
 const skillList = ({ operator, onChange }) => {
     const skillList = [];
-    const skillIds = operator.skills.map(x => x.id);
-    for (let skill of skills) {
+    const skillIds = operator.skills.map((x) => x.id);
+    for (const skill of skills) {
         skillList.push(
             <Skill key={skill.id} skill={skill} checked={skillIds.includes(skill.id)}
                 onChange={() => onChange(skill)} />
-        )
+        );
     }
 
     return (
@@ -26,7 +27,12 @@ const skillList = ({ operator, onChange }) => {
                 {skillList}
             </FormGroup>
         </FormControl>
-    )
-}
+    );
+};
+
+skillList.propTypes = {
+    operator: propTypes.object.isRequired,
+    onChange: propTypes.func.isRequired
+};
 
 export default skillList;

@@ -13,12 +13,7 @@ import moment from 'moment';
 
 import Participants from './Participants';
 
-const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
-const operators = JSON.parse(dataset.operators);
-
-const isValidRange = (v) => {
-    return v && v[0] && v[1];
-}
+const isValidRange = (v) => v && v[0] && v[1];
 
 const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChange,
     onAtFromChange, onAtToChange, onParticipantChange }) => {
@@ -34,12 +29,12 @@ const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChang
                     value={[moment(fixedSchedule.onFrom), moment(fixedSchedule.onTo)]}
                         onChange={onDateChange(fixedSchedule.id)}>
                     { ({ value }) => {
-                        const formatDate = (x) => x.format('YYYY-MM-DD')
+                        const formatDate = (x) => x.format('YYYY-MM-DD');
                         const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
                         return (
                             <TextField margin="dense" label="date"
                                 InputProps={{ readOnly: true, tabIndex: -1 }} value={disp} />
-                            )}}
+                            );}}
                 </DatePicker>
                 <div className="my-3">
                     <TextField label="start time" type="time" className="mr-4" onChange={onAtFromChange(fixedSchedule.id)}
@@ -55,7 +50,7 @@ const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChang
                 </Button>
             </CardActions>
         </Card>
-    )
+    );
 };
 
 export default fixedSchedule;

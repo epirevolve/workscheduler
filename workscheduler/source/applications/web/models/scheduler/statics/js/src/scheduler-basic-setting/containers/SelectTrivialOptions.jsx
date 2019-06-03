@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 
 import TrivialOptions from '../components/TrivialOptions';
 
-import { changeCertifiedSkill } from '../actions';
-import { changeNotCertifiedSkill } from '../actions';
+import { changeCertifiedSkill, changeNotCertifiedSkill } from '../actions';
 
 const mapStateToProps = (state) => ({
     scheduler: state.scheduler

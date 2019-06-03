@@ -8,8 +8,8 @@ const dataset = document.querySelector('script[id="base-schedule"]').dataset;
 
 export const initValue = {
     affiliation: JSON.parse(dataset.affiliation)
-}
+};
 
 export default combineReducers({
     schedules, affiliations, ui
-})
+});

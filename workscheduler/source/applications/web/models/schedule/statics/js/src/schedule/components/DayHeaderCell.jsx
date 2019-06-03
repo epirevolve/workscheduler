@@ -3,7 +3,7 @@ import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/core';
 
 const cellCss = css({
     minWidth: '5rem',
@@ -11,7 +11,7 @@ const cellCss = css({
     padding: '1rem',
     verticalAlign: 'middle',
     textAlign: 'center'
-})
+});
 
 const getCssByHoliday = (name, isHoliday) => {
     if (name == 'Sun')
@@ -27,7 +27,7 @@ const getCssByHoliday = (name, isHoliday) => {
             color: 'orangered'
         };
     return {};
-}
+};
 
 const dayHeaderCell = ({ name, day, isHoliday }) => {
     const titleCss = css(getCssByHoliday(name, isHoliday));
@@ -37,9 +37,7 @@ const dayHeaderCell = ({ name, day, isHoliday }) => {
             <br />
             <span>{day}</span>
         </TableCell>
-    )
-}
-
-
+    );
+};
 
 export default React.memo(dayHeaderCell);

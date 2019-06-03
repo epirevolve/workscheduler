@@ -10,11 +10,11 @@ import 'rc-calendar/assets/index';
 import moment from 'moment';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/core';
 
 const MonthSelect = ({ scheduleOf, affiliation, onMonthChange }) => {
     const calendar = <MonthCalendar />;
-    const date = moment(scheduleOf, 'YYYY-MM')
+    const date = moment(scheduleOf, 'YYYY-MM');
     return (
         <>
             <Typography variant="h4" css={css`
@@ -22,19 +22,18 @@ const MonthSelect = ({ scheduleOf, affiliation, onMonthChange }) => {
                     margin: 0.5rem 1rem;
                 `}>{date.format("YYYY-MM")}</Typography>
             <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                value={date} onChange={e => onMonthChange(affiliation, e)}>
-                { ({ value }) => {
-                    return (
+                value={date} onChange={(e) => onMonthChange(affiliation, e)}>
+                { () => (
                         <Fab color="primary" css={css`
                                 float: right;
                                 z-index: 9999;
                             `}>
                             <CalendarTodayRoundedIcon />
                         </Fab>
-                    )}}
+                    )}
             </DatePicker>
         </>
-    )
-}
+    );
+};
 
 export default MonthSelect;

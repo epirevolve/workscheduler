@@ -6,4 +6,4 @@ import requestCalendar from './request-calendar';
 export default combineReducers({
     requestDialog,
     requestCalendar
-})
+});

@@ -4,9 +4,8 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
 
-import rootReducer from './reducers';
+import rootReducer, { initValue as affiliations} from './reducers';
 import { initValue as schedules } from '../schedule/reducers';
-import { initValue as affiliations } from './reducers';
 
 import rootSaga from '../schedule/sagas';
 

@@ -1,6 +1,4 @@
-import React from 'react'
-
-import requestAgent from 'superagent';
+import React from 'react';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -28,30 +26,30 @@ const publishState = ({ schedules, isPublished, onSaveSchedules, onPublicSchedul
 			<div css={css`
 				float: right;
 			`}>
-				<Button onClick={() => onSave(schedules)} variant="outlined" color="primary"
+				<Button onClick={() => onSaveSchedules(schedules)} variant="outlined" color="primary"
 					size="large" css={mr1Css}>
 					Save
 				</Button>
 				{() => {
 					if (isPublished) {
 						return (
-							<Button onClick={onTerminate} color="default" size="large" css={mr1Css}>
+							<Button onClick={onTerminateSchedule} color="default" size="large" css={mr1Css}>
 								Terminate
 							</Button>
-						)
+						);
 					}
 					else {
 						return (
-							<Button onClick={onPublic} variant="outlined" color="secondary"
+							<Button onClick={onPublicSchedule} variant="outlined" color="secondary"
 								size="large" css={mr1Css}>
 								Publish
 							</Button>
-						)
+						);
 					}
 				}}
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 export default publishState;

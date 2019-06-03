@@ -18,13 +18,13 @@ const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]
 const operators = JSON.parse(dataset.operators);
 
 const essentialOperators = ({ fixedSchedule, onParticipantChange }) => {
-    const participantIds = fixedSchedule.participants.map(x => x.id);
-    const operatorList = operators.map(x =>
+    const participantIds = fixedSchedule.participants.map((x) => x.id);
+    const operatorList = operators.map((x) =>
         <ListItem key={x.id} button onClick={() => onParticipantChange(fixedSchedule.id, x)}>
             <Checkbox checked={participantIds.includes(x.id)} tabIndex={-1} disableRipple />
             <ListItemText primary={x.user.name} />
         </ListItem>);
-    const participants = fixedSchedule.participants.map(x =>
+    const participants = fixedSchedule.participants.map((x) =>
         <ListItem key={x.id}>
             <ListItemText primary={x.user.name} />
         </ListItem>);
@@ -59,7 +59,7 @@ const essentialOperators = ({ fixedSchedule, onParticipantChange }) => {
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </>
-    )
-}
+    );
+};
 
 export default essentialOperators;

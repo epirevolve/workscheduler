@@ -10,7 +10,7 @@ const user = ({ user, handleEdit }) => {
             <ListItemText primary={user.name} secondary={`login id: ${user.loginId}, affiliation: ${user.affiliation.name},
                 is admin: ${user.isAdmin}, is operator: ${user.isOperator}`} />
         </ListItem>
-    )
-}
+    );
+};
 
 export default user;

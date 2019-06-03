@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
-import DialogContainer from '../containers/DialogContainer'
-import RequestsContainer from '../containers/RequestsContainer'
+import DialogContainer from '../containers/DialogContainer';
+import RequestsContainer from '../containers/RequestsContainer';
 
 const dataset = document.querySelector('script[src*="request-public"]').dataset;
 const holidays = JSON.parse(dataset.holidays);
@@ -29,6 +29,6 @@ const app = () => (
             </Grid>
         </Grid>
     </>
-)
+);
 
 export default app;

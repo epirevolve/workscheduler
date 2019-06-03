@@ -1,9 +1,9 @@
 const calendar = (state = [], action) => {
     switch (action.type) {
-        case 'APPEND_REQUEST':
+        case 'APPEND_REQUEST':{
             const atFromDate = new Date(action.request.atFrom).setEarliestTime();
             const atToDate = new Date(action.request.atTo).setLatestTime();
-            return state.map(x => x.map(y => {
+            return state.map((x) => x.map((y) => {
                     if (!y)
                         return y;
                     const date = new Date(`${action.scheduleOf}-${y.day}`);
@@ -11,15 +11,16 @@ const calendar = (state = [], action) => {
                         return y;
                     return {...y, requests: y.requests.concat(action.request)};
                 })
-            )
+            );
+        }
         case 'REMOVE_REQUEST':
-            return state.map(x => x.map(y => (y)
-                ? {...y, requests: y.requests.filter(z => z.id != action.id)}
+            return state.map((x) => x.map((y) => (y)
+                ? {...y, requests: y.requests.filter((z) => z.id != action.id)}
                 : y)
-            )
+            );
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default calendar;

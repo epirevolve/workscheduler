@@ -20,13 +20,13 @@ const auth = JSON.parse(dataset.auth);
 
 const menu = () => {
     const createCardInGrid = (title, img, href, description) => {
-        img = '/statics/img/' + img;
+        img = `/statics/img/${img}`;
         return (
             <Grid item xs={12} md={6} lg={3}>
                 <MenuCard {...{title, img, href, description}} />
             </Grid>
         );
-    }
+    };
 
     return (
         <>
@@ -54,7 +54,7 @@ const menu = () => {
                 </>
             )}
         </>
-    )
-}
+    );
+};
 
 export default menu;

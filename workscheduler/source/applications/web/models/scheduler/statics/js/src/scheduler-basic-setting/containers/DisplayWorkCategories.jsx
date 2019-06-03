@@ -3,30 +3,20 @@ import { connect } from 'react-redux';
 
 import WorkCategoryList from '../components/WorkCategoryList';
 
-import { addWorkCategory } from '../actions';
-import { removeWorkCategory } from '../actions';
-import { changeWorkCategoryTitle } from '../actions';
-import { changeWorkCategoryAtFrom } from '../actions';
-import { changeWorkCategoryAtTo } from '../actions';
-import { changeWorkCategoryWeekDayRequire } from '../actions';
-import { changeWorkCategoryWeekDayMax } from '../actions';
-import { changeWorkCategoryHolidayRequire } from '../actions';
-import { changeWorkCategoryHolidayMax } from '../actions';
-import { changeWorkCategoryRestDays } from '../actions';
-import { changeWorkCategoryMaxTimes } from '../actions';
-import { changeWorkCategoryWeekDayOperator } from '../actions';
-import { changeWorkCategoryHolidayOperator } from '../actions';
-import { changeWorkCategoryEssentialSkill } from '../actions';
-import { changeWorkCategoryExclusiveOperator } from '../actions';
-import { changeWorkCategoryImpossibleOperator } from '../actions';
+import { addWorkCategory, removeWorkCategory, changeWorkCategoryTitle,
+    changeWorkCategoryAtFrom, changeWorkCategoryAtTo, changeWorkCategoryWeekDayRequire,
+    changeWorkCategoryWeekDayMax, changeWorkCategoryHolidayRequire, changeWorkCategoryHolidayMax,
+    changeWorkCategoryRestDays, changeWorkCategoryMaxTimes, changeWorkCategoryWeekDayOperator,
+    changeWorkCategoryHolidayOperator, changeWorkCategoryEssentialSkill, changeWorkCategoryExclusiveOperator,
+    changeWorkCategoryImpossibleOperator } from '../actions';
 
 const mapStateToProps = (state) => ({
     workCategories: state.scheduler.workCategories
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleAppend: () => {dispatch(addWorkCategory())},
-    handleRemove: (id) => () => {dispatch(removeWorkCategory(id))},
+    handleAppend: () => {dispatch(addWorkCategory());},
+    handleRemove: (id) => () => {dispatch(removeWorkCategory(id));},
     onTitleChange: (id) => (e) => dispatch(changeWorkCategoryTitle(id, e.target.value)),
     onAtFromChange: (id) => (e) => dispatch(changeWorkCategoryAtFrom(id, e.target.value)),
     onAtToChange: (id) => (e) => dispatch(changeWorkCategoryAtTo(id, e.target.value)),

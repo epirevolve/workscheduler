@@ -16,15 +16,15 @@ class BasicSettingContainer extends React.Component {
             .put(url)
             .send(scheduler)
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then(() => {
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('successfully storing scheduler basic setting.', 'alert-info')
+                alertManager.append('successfully storing scheduler basic setting.', 'alert-info');
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with storing basic setting...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
             });
     }
 
@@ -38,7 +38,7 @@ class BasicSettingContainer extends React.Component {
                     Save
                 </Button>
             </div>
-        )
+        );
     }
 }
 

@@ -1,5 +1,5 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 import { requestSchedules, changeScheduleOf } from '../actions';
 
@@ -11,7 +11,7 @@ const affiliation = JSON.parse(dataset.affiliation);
 const mapStateToProps = (state) => ({
     affiliation,
     scheduleOf: state.schedules.scheduleOf
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
     onMonthChange: (affiliation, e) => {
@@ -19,6 +19,6 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(requestSchedules(affiliation, scheduleOf));
         dispatch(changeScheduleOf(scheduleOf));
     }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MonthSelect);

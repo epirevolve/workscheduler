@@ -5,16 +5,16 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/core';
 
-import { zip } from 'array-util'
+import { zip } from 'array-util';
 
 const css_ = css({
     minWidth: '6rem',
     maxWidth: '6rem',
     padding: '1rem',
     textAlign: 'center'
-})
+});
 
 const selectableCell = ({ categories, val, onCategoryChange }) => {
     const options = categories.map((x, i) =>
@@ -30,12 +30,10 @@ const selectableCell = ({ categories, val, onCategoryChange }) => {
                 {options}
             </Select>
         </TableCell>
-    )
-}
+    );
+};
 
-const areEqual = (prevProps, nextProps) => {
-    return zip(prevProps["categories"], nextProps["categories"]).some(([x, y]) => x == y)
+const areEqual = (prevProps, nextProps) => zip(prevProps["categories"], nextProps["categories"]).some(([x, y]) => x == y)
         && prevProps["val"] == nextProps["val"];
-}
 
 export default React.memo(selectableCell, areEqual);

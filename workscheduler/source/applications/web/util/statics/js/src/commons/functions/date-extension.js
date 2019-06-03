@@ -15,16 +15,17 @@ Date.prototype.getDaysInMonth = function () {
 };
 
 Date.prototype.addMonths = function (value) {
-    var n = this.getDate();
+    const n = this.getDate();
     this.setDate(1);
     this.setMonth(this.getMonth() + value);
     this.setDate(Math.min(n, this.getDaysInMonth()));
     return this;
-}
+};
+
 Date.prototype.addDays = function (value) {
     this.setDate(this.getDate() + value);
     return this;
-}
+};
 
 Date.prototype.setEarliestTime = function () {
     this.setUTCHours(0);
@@ -32,7 +33,7 @@ Date.prototype.setEarliestTime = function () {
     this.setUTCSeconds(0);
     this.setUTCMilliseconds(0);
     return this;
-}
+};
 
 Date.prototype.setLatestTime = function () {
     this.setUTCHours(23);
@@ -40,29 +41,29 @@ Date.prototype.setLatestTime = function () {
     this.setUTCSeconds(59);
     this.setUTCMilliseconds(999);
     return this;
-}
+};
 
 Date.prototype.toYearMonthFormatString = function () {
     const month = (this.getMonth()+1).toString().padStart(2, '0');
-    return `${this.getFullYear()}-${month}`
-}
+    return `${this.getFullYear()}-${month}`;
+};
 
 Date.prototype.toHourMinuteFormatString = function () {
     const hour = (this.getHours()).toString().padStart(2, '0');
     const minute = (this.getMinutes()).toString().padStart(2, '0');
     return `${hour}:${minute}`;
-}
+};
 
 Date.prototype.toDateFormatString = function () {
     const month = (this.getMonth()+1).toString().padStart(2, '0');
-    const day = (this.getDate()).toString().padStart(2, '0')
-    return `${this.getFullYear()}-${month}-${day}`
-}
+    const day = (this.getDate()).toString().padStart(2, '0');
+    return `${this.getFullYear()}-${month}-${day}`;
+};
 
 Date.prototype.toDateTimeFormatString = function () {
     const month = (this.getMonth()+1).toString().padStart(2, '0');
     const day = (this.getDate()).toString().padStart(2, '0');
     const hour = (this.getHours()).toString().padStart(2, '0');
     const minute = (this.getMinutes()).toString().padStart(2, '0');
-    return `${this.getFullYear()}-${month}-${day} ${hour}:${minute}`
-}
+    return `${this.getFullYear()}-${month}-${day} ${hour}:${minute}`;
+};

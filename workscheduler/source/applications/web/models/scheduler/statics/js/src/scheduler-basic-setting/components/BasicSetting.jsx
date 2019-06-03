@@ -10,6 +10,6 @@ const basicSetting = () => (
         <DisplayWorkCategories />
         <SaveBaseSetting />
     </>
-)
+);
 
 export default basicSetting;

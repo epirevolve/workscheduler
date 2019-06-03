@@ -7,8 +7,8 @@ export const initValue = {
     schedules: [],
     totals: [],
     scheduleOf: new Date().toYearMonthFormatString()
-}
+};
 
 export default combineReducers({
     schedules
-})
+});

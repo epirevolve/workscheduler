@@ -14,12 +14,12 @@ const css_ = {
 
 const getColorByState = (count, category, daySetting) => {
     const maxCount = daySetting.isHoliday ? category.holidayMax : category.weekDayMax;
-    if (count > maxCount) return 'deepskyblue'
-    const detail = daySetting.details.find(x => x.workCategory.id == category.id);
-    if (count > detail.require) return 'greenyellow'
-    if (count < detail.require) return 'red'
-    return ''
-}
+    if (count > maxCount) return 'deepskyblue';
+    const detail = daySetting.details.find((x) => x.workCategory.id == category.id);
+    if (count > detail.require) return 'greenyellow';
+    if (count < detail.require) return 'red';
+    return '';
+};
 
 const totalCell = ({ count, category, daySetting }) => {
     const [state, setState] = React.useState({css: {}});
@@ -34,6 +34,6 @@ const totalCell = ({ count, category, daySetting }) => {
             {count}
         </TableCell>
     );
-}
+};
 
 export default React.memo(totalCell);

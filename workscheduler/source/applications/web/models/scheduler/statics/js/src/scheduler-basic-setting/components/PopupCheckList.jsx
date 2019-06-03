@@ -14,7 +14,7 @@ import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import IconButton from '@material-ui/core/IconButton';
 
 const holidayOperators = ({ name, targets, current, onSelectChange }) => {
-    const currentIds = current.map(x => x.id);
+    const currentIds = current.map((x) => x.id);
     const popupList = targets.map((x, i) =>
         <ListItem key={i} button onClick={() => onSelectChange(x.obj)}>
             <Checkbox checked={currentIds.includes(x.id)} tabIndex={-1} disableRipple />
@@ -55,7 +55,7 @@ const holidayOperators = ({ name, targets, current, onSelectChange }) => {
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </>
-    )
-}
+    );
+};
 
 export default holidayOperators;

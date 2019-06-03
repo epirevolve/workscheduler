@@ -3,10 +3,10 @@ const menu = (state = {}, action) => {
         case 'CHANGE_AFFILIATION':
             return {...state,
                 affiliation: action.affiliation
-            }
+            };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default menu;

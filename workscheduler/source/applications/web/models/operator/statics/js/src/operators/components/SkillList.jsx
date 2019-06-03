@@ -10,14 +10,14 @@ const dataset = document.querySelector('script[src*="operators"]').dataset;
 const skills = JSON.parse(dataset.skills);
 
 const skillList = ({ operatorSkills, onChange }) => {
-    const skillIds = operatorSkills.map(x => x.id);
+    const skillIds = operatorSkills.map((x) => x.id);
 
     const notCertifiedSkillList = [];
-    for (let skill of skills.filter(x => !x.isCertified)) {
+    for (const skill of skills.filter((x) => !x.isCertified)) {
         notCertifiedSkillList.push(
             <Skill key={skill.id} skill={skill} checked={skillIds.includes(skill.id)}
                 onChange={() => onChange(skill)} />
-        )
+        );
     }
 
     return (
@@ -27,7 +27,7 @@ const skillList = ({ operatorSkills, onChange }) => {
                 {notCertifiedSkillList}
             </FormGroup>
         </FormControl>
-    )
-}
+    );
+};
 
 export default skillList;

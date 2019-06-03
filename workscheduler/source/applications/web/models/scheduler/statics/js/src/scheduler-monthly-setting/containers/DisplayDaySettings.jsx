@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 
 import DayTable from '../components/DayTable';
 
-import { changeRequire } from '../actions';
-import { changeIsHoliday } from '../actions';
+import { changeRequire, changeIsHoliday } from '../actions';
 
 const mapStateToProps = (state) => ({
     days: state.monthlySetting.days

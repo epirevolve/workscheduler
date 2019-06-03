@@ -7,4 +7,4 @@ export const showSnackbar = (message) => ({
 
 export const closeSnackbar = () => ({
 	type: CLOSE_SNACKBAR
-})
+});

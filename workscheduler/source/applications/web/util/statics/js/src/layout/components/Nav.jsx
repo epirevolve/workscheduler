@@ -3,7 +3,6 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -30,12 +29,12 @@ if (breadScram)
 
 if (!breadScram || !current)
 {
-    current = { name: 'Work Scheduler'}
+    current = { name: 'Work Scheduler'};
 }
 else
 {
     if (!breads) breads = [];
-    breads.unshift({ url: urlMenu, name: 'Work Scheduler'})
+    breads.unshift({ url: urlMenu, name: 'Work Scheduler'});
 }
 
 const nav = ({ opened, handleOpenDrawer }) => {
@@ -45,7 +44,7 @@ const nav = ({ opened, handleOpenDrawer }) => {
     if (!isAuthenticated) return (<></>);
 
     return (
-    	<AppBar className="pl-2" position="static">
+		<AppBar className="pl-2" position="static">
 			<Toolbar disableGutters>
 				<IconButton color="inherit" aria-label="Open drawer" tabIndex="-1"
 					onClick={() => handleOpenDrawer()}>
@@ -54,7 +53,7 @@ const nav = ({ opened, handleOpenDrawer }) => {
 				<Breadcrumbs separator={<NavigateNextRoundedIcon fontSize="small" />} arial-label="Breadcrumb"
 					style={{ color: 'white', flexGrow: 1 }}>
 					{breads && (
-						breads.map(x => <Link color="inherit" variant="h5" href={x.url} key={x.name}
+						breads.map((x) => <Link color="inherit" variant="h5" href={x.url} key={x.name}
 							style={{ color: 'white' }} tabIndex="-1" noWrap>
 							{x.name}
 						</Link>)
@@ -62,7 +61,7 @@ const nav = ({ opened, handleOpenDrawer }) => {
 					<Typography variant="h5" style={{ color: 'white' }} tabIndex="-1" noWrap>{current.name}</Typography>
 				</Breadcrumbs>
 				<IconButton className="mr-1" aria-owns={open ? 'menu-appbar' : undefined} color="inherit" tabIndex="-1"
-					aria-haspopup="true" onClick={e => setState({anchorEl: e.currentTarget})}>
+					aria-haspopup="true" onClick={(e) => setState({anchorEl: e.currentTarget})}>
 					<AccountCircle />
 				</IconButton>
 				<Menu anchorEl={state.anchorEl} open={open}
@@ -73,6 +72,6 @@ const nav = ({ opened, handleOpenDrawer }) => {
 			</Toolbar>
 		</AppBar>
     );
-}
+};
 
 export default nav;

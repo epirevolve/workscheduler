@@ -6,7 +6,7 @@ import DayBody from './DayBody';
 import DayHeaderRow from './DayHeaderRow';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/core';
 
 const wrapperCss = css({
 	overflowX: 'scroll',
@@ -14,13 +14,11 @@ const wrapperCss = css({
 	whiteSpace: 'nowrap'
 });
 
-const dayTable = ({ days, ...other }) => {
-    return (
-        <Table css={wrapperCss}>
-			<DayHeaderRow days={days} />
-			<DayBody days={days} {...other} />
-		</Table>
-    )
-};
+const dayTable = ({ days, ...other }) => (
+	<Table css={wrapperCss}>
+		<DayHeaderRow days={days} />
+		<DayBody days={days} {...other} />
+	</Table>
+);
 
 export default dayTable;

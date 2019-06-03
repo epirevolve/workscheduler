@@ -1,11 +1,10 @@
-import { take, put, call, fork, race, cancelled, takeEvery } from 'redux-saga/effects';
-import { eventChannel, END } from 'redux-saga';
+import { put, call, fork, takeEvery } from 'redux-saga/effects';
 
-import { REQUEST_SCHEDULES, UPDATE_SCHEDULES, PUBLIC_SCHEDULES } from '../actionTypes';
+import { REQUEST_SCHEDULES } from '../actionTypes';
 import { successSchedules, failureSchedules } from '../actions';
 import * as api from '../services/api';
 
-function* runRequestSchedules(action) {
+function *runRequestSchedules(action) {
     const { res, error } = yield call(api.fetchSchedules, action.payload);
     if (res && !error) {
         yield put(successSchedules(res));
@@ -14,10 +13,10 @@ function* runRequestSchedules(action) {
     }
 }
 
-function* handleRequestSchedules() {
+function *handleRequestSchedules() {
     yield takeEvery(REQUEST_SCHEDULES, runRequestSchedules);
 }
 
-export default function* rootSaga() {
+export default function *rootSaga() {
     yield fork(handleRequestSchedules);
 }

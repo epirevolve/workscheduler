@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -7,7 +7,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
@@ -20,13 +19,13 @@ const affiliations = $('script[src*="users"]').data('affiliations');
 const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationChange,
     onIsAdminChange, onIsOperatorChange, handleClose, handleInactivate, handleResetPassword, handleSave }) => {
 
-    const affiliationList = affiliations.map(x =>
+    const affiliationList = affiliations.map((x) =>
         <MenuItem key={x.id} value={x}>
             {x.name}
-        </MenuItem>)
+        </MenuItem>);
 
     let affiliation = userDialog.affiliation || "";
-    if (affiliation && affiliations.map(x => x.id).includes(affiliation.id)) affiliation = affiliations.find(x => x.id == affiliation.id);
+    if (affiliation && affiliations.map((x) => x.id).includes(affiliation.id)) affiliation = affiliations.find((x) => x.id == affiliation.id);
 
     return (
         <Dialog open={userDialog.isOpen} aria-labelledby="user-store" maxWidth="lg">
@@ -76,7 +75,7 @@ const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationCh
                 </Button>
             </DialogActions>
         </Dialog>
-    )
-}
+    );
+};
 
 export default userDialog;

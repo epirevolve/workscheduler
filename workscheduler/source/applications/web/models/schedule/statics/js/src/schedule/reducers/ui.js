@@ -13,6 +13,6 @@ const ui = (state = {}, action) => {
         default:
             return state;
     }
-}
+};
 
 export default ui;

@@ -1,16 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
 import { AlertManager } from 'alert-helper';
 
-import { addRequest } from '../actions';
-import { removeRequest } from '../actions';
-import { closeDialog } from '../actions';
-import { changeTitle } from '../actions';
-import { changeNote } from '../actions';
-import { changeDate } from '../actions';
+import { addRequest, removeRequest, closeDialog, 
+    changeTitle, changeNote, changeDate } from '../actions';
 
 import RequestDialog from '../components/RequestDialog';
 
@@ -23,7 +19,7 @@ const scheduleOf = new Date(dataset.scheduleOf).toYearMonthFormatString();
 
 const mapStateToProps = (state) => ({
     requestDialog: state.requestDialog
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
     onTitleChange: (e) => dispatch(changeTitle(e.target.value)),
@@ -35,10 +31,10 @@ const mapDispatchToProps = (dispatch) => ({
             .delete(urlUpdate.replace('request_id', id))
             .send()
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then(() => {
                 dispatch(removeRequest(id));
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we are succeeded to delete your request', 'alert-info')
+                alertManager.append('we are succeeded to delete your request', 'alert-info');
             });
         dispatch(closeDialog());
     },
@@ -52,7 +48,7 @@ const mapDispatchToProps = (dispatch) => ({
                 .post(data.id ? urlUpdate.replace('request_id', data.id) : urlAdd)
                 .send(data)
                 .set('X-CSRFToken', csrfToken)
-                .then(res => {
+                .then((res) => {
                     if (data.id) {
                         dispatch(removeRequest(data.id));
                         dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
@@ -60,15 +56,15 @@ const mapDispatchToProps = (dispatch) => ({
                     else
                         dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
                     const alertManager = new AlertManager('#alertContainer');
-                    alertManager.append('we are succeeded to store your request', 'alert-info')
+                    alertManager.append('we are succeeded to store your request', 'alert-info');
                 })
-                .catch(err => {
+                .catch((err) => {
                     const res = JSON.parse(err.response.text);
                     const alertManager = new AlertManager('#alertContainer');
                     const message = res.errorMessage || 'we have some trouble with appending request...';
-                    alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                    alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
                 });
-        }
+        };
 
         if (holidays <= $('.request').length) {
             const message = paidHolidays <= 0 ? '<br><br>and also maybe your paid holidays are empty.' : '';
@@ -84,6 +80,6 @@ const mapDispatchToProps = (dispatch) => ({
 
         dispatch(closeDialog());
     }
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(RequestDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(RequestDialog);

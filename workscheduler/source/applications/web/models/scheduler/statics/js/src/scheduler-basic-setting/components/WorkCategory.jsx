@@ -20,76 +20,73 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
     onWeekDayMaxChange, onHolidayRequireChange, onHolidayMaxChange,
     onRestDaysChange, onMaxTimesChange, onWeekDayOperatorChange,
     onHolidayOperatorChange, onEssentialSkillChange, onExclusiveOperatorChange,
-    onImpossibleOperatorChange }) => {
-
-    return (
-        <Card>
-            <CardContent>
-                <TextField autoFocus label="title" required value={workCategory.title}
-                    onChange={onTitleChange(workCategory.id)} className="mb-3" />
-                <Grid container className="mb-3">
-                    <Grid item sm={6} xs={12} className="pr-2">
-                        <TextField type="time" label="from" required onChange={onAtFromChange(workCategory.id)}
-                            value={workCategory.atFrom ? moment(workCategory.atFrom, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
-                    </Grid>
-                    <Grid item sm={6} xs={12}>
-                        <TextField type="time" label="to" required onChange={onAtToChange(workCategory.id)}
-                            value={workCategory.atTo ? moment(workCategory.atTo, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
-                    </Grid>
+    onImpossibleOperatorChange }) => (
+    <Card>
+        <CardContent>
+            <TextField autoFocus label="title" required value={workCategory.title}
+                onChange={onTitleChange(workCategory.id)} className="mb-3" />
+            <Grid container className="mb-3">
+                <Grid item sm={6} xs={12} className="pr-2">
+                    <TextField type="time" label="from" required onChange={onAtFromChange(workCategory.id)}
+                        value={workCategory.atFrom ? moment(workCategory.atFrom, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                 </Grid>
-                <Grid container className="mb-3">
-                    <Grid item sm={6} xs={12} className="pr-2">
-                        <TextField type="number" label="week day require" required value={workCategory.weekDayRequire}
-                            onChange={onWeekDayRequireChange(workCategory.id)} />
-                    </Grid>
-                    <Grid item sm={6} xs={12}>
-                        <TextField type="number" label="week day max" required value={workCategory.weekDayMax}
-                            onChange={onWeekDayMaxChange(workCategory.id)} />
-                    </Grid>
+                <Grid item sm={6} xs={12}>
+                    <TextField type="time" label="to" required onChange={onAtToChange(workCategory.id)}
+                        value={workCategory.atTo ? moment(workCategory.atTo, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                 </Grid>
-                <Grid container className="mb-3">
-                    <Grid item sm={6} xs={12} className="pr-2">
-                        <TextField type="number" label="holiday require" required value={workCategory.holidayRequire}
-                            onChange={onHolidayRequireChange(workCategory.id)} />
-                    </Grid>
-                    <Grid item sm={6} xs={12}>
-                        <TextField type="number" label="holiday max" required value={workCategory.holidayMax}
-                            onChange={onHolidayMaxChange(workCategory.id)} />
-                    </Grid>
+            </Grid>
+            <Grid container className="mb-3">
+                <Grid item sm={6} xs={12} className="pr-2">
+                    <TextField type="number" label="week day require" required value={workCategory.weekDayRequire}
+                        onChange={onWeekDayRequireChange(workCategory.id)} />
                 </Grid>
-                <Grid container className="mb-3">
-                    <Grid item sm={6} xs={12} className="pr-2">
-                        <TextField type="number" label="day offs" required value={workCategory.dayOffs}
-                            onChange={onRestDaysChange(workCategory.id)} className="mb-3" />
-                    </Grid>
-                    <Grid item sm={6} xs={12}>
-                        <TextField type="number" label="max times" required value={workCategory.maxTimes} className="mb-3"
-                            onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />
-                    </Grid>
+                <Grid item sm={6} xs={12}>
+                    <TextField type="number" label="week day max" required value={workCategory.weekDayMax}
+                        onChange={onWeekDayMaxChange(workCategory.id)} />
                 </Grid>
-                <PopupCheckList name={'WeekDay Operators'} targets={operators.map(x => ({id: x.id, name: x.user.name, obj: x}))}
-                    current={workCategory.weekDayOperators.map(x => ({id: x.id, name: x.user.name}))}
-                    onSelectChange={(x) => onWeekDayOperatorChange(workCategory.id, x)} />
-                <PopupCheckList name={'Holiday Operators'} targets={operators.map(x => ({id: x.id, name: x.user.name, obj: x}))}
-                    current={workCategory.holidayOperators.map(x => ({id: x.id, name: x.user.name}))}
-                    onSelectChange={(x) => onHolidayOperatorChange(workCategory.id, x)} />
-                <PopupCheckList name={'Essential Skills'} targets={skills.map(x => ({id: x.id, name: x.name, obj: x}))}
-                    current={workCategory.essentialSkills.map(x => ({id: x.id, name: x.name}))}
-                    onSelectChange={(x) => onEssentialSkillChange(workCategory.id, x)} />
-                <PopupCheckList name={'Exclusive Operators'} targets={operators.map(x => ({id: x.id, name: x.user.name, obj: x}))}
-                    current={workCategory.exclusiveOperators.map(x => ({id: x.id, name: x.user.name}))}
-                    onSelectChange={(x) => onExclusiveOperatorChange(workCategory.id, x)} />
-                <PopupCheckList name={'Impossible Operators'} targets={operators.map(x => ({id: x.id, name: x.user.name, obj: x}))}
-                    current={workCategory.impossibleOperators.map(x => ({id: x.id, name: x.user.name}))}
-                    onSelectChange={(x) => onImpossibleOperatorChange(workCategory.id, x)} />
-            </CardContent>
-            <CardActions className="ml-2">
-                <Button onClick={handleRemove(workCategory.id)} variant="outlined" color="secondary">
-                    Remove
-                </Button>
-            </CardActions>
-        </Card>
-    )
-}
+            </Grid>
+            <Grid container className="mb-3">
+                <Grid item sm={6} xs={12} className="pr-2">
+                    <TextField type="number" label="holiday require" required value={workCategory.holidayRequire}
+                        onChange={onHolidayRequireChange(workCategory.id)} />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                    <TextField type="number" label="holiday max" required value={workCategory.holidayMax}
+                        onChange={onHolidayMaxChange(workCategory.id)} />
+                </Grid>
+            </Grid>
+            <Grid container className="mb-3">
+                <Grid item sm={6} xs={12} className="pr-2">
+                    <TextField type="number" label="day offs" required value={workCategory.dayOffs}
+                        onChange={onRestDaysChange(workCategory.id)} className="mb-3" />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                    <TextField type="number" label="max times" required value={workCategory.maxTimes} className="mb-3"
+                        onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />
+                </Grid>
+            </Grid>
+            <PopupCheckList name={'WeekDay Operators'} targets={operators.map((x) => ({id: x.id, name: x.user.name, obj: x}))}
+                current={workCategory.weekDayOperators.map((x) => ({id: x.id, name: x.user.name}))}
+                onSelectChange={(x) => onWeekDayOperatorChange(workCategory.id, x)} />
+            <PopupCheckList name={'Holiday Operators'} targets={operators.map((x) => ({id: x.id, name: x.user.name, obj: x}))}
+                current={workCategory.holidayOperators.map((x) => ({id: x.id, name: x.user.name}))}
+                onSelectChange={(x) => onHolidayOperatorChange(workCategory.id, x)} />
+            <PopupCheckList name={'Essential Skills'} targets={skills.map((x) => ({id: x.id, name: x.name, obj: x}))}
+                current={workCategory.essentialSkills.map((x) => ({id: x.id, name: x.name}))}
+                onSelectChange={(x) => onEssentialSkillChange(workCategory.id, x)} />
+            <PopupCheckList name={'Exclusive Operators'} targets={operators.map((x) => ({id: x.id, name: x.user.name, obj: x}))}
+                current={workCategory.exclusiveOperators.map((x) => ({id: x.id, name: x.user.name}))}
+                onSelectChange={(x) => onExclusiveOperatorChange(workCategory.id, x)} />
+            <PopupCheckList name={'Impossible Operators'} targets={operators.map((x) => ({id: x.id, name: x.user.name, obj: x}))}
+                current={workCategory.impossibleOperators.map((x) => ({id: x.id, name: x.user.name}))}
+                onSelectChange={(x) => onImpossibleOperatorChange(workCategory.id, x)} />
+        </CardContent>
+        <CardActions className="ml-2">
+            <Button onClick={handleRemove(workCategory.id)} variant="outlined" color="secondary">
+                Remove
+            </Button>
+        </CardActions>
+    </Card>
+);
 
 export default workCategory;

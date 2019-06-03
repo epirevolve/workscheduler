@@ -1,5 +1,5 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 import Schedules from '../components/Schedules';
 
@@ -13,7 +13,7 @@ const mapStateToProps = (state) => ({
     affiliation: state.affiliations.affiliation,
     scheduleOf: state.schedules.scheduleOf,
     isLoading: state.ui.isLoading
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
     onLoad: (affiliation, scheduleOf) => {
@@ -23,6 +23,6 @@ const mapDispatchToProps = (dispatch) => ({
         const category = e.target.value;
         dispatch(changeWorkCategory(operator, day, daySetting, category, workCategories));
     }
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedules);

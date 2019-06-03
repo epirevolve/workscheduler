@@ -17,12 +17,6 @@ import { AlertManager } from 'alert-helper';
 const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
 const urlMonthly = dataset.urlMonthly;
 const urlBasic = dataset.urlBasic;
-const urlYearly = dataset.urlYearly;
-const urlLaunch = dataset.urlLaunch;
-
-const disabledDate = (value) => {
-    return false;
-}
 
 class MenuItems extends React.Component {
     constructor (props) {
@@ -36,46 +30,44 @@ class MenuItems extends React.Component {
 
     handleLunch (month) {
         const { affiliation } = this.props;
-        this.setState({ openCalendar: false })
+        this.setState({ openCalendar: false });
 
         const alertManager = new AlertManager('#alertContainer');
-        alertManager.append('Started to make schedule. Please wait until it will be done.', 'alert-info')
+        alertManager.append('Started to make schedule. Please wait until it will be done.', 'alert-info');
 
         requestAgent
-            .post(urlLaunch.replace('affiliation_id', affiliation.id)
-                .replace('month_', month).replace('year_', this.state.year))
+            .post('/api/launch-scheduler')
+            .send({'affiliationId': affiliation.id, month, 'year': this.state.year})
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then(() => {
                 const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('Finish to make schedule.', 'alert-info')
+                alertManager.append('Finish to make schedule.', 'alert-info');
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = err.response.text;
                 const alertManager = new AlertManager('#alertContainer');
                 const message = res || 'we have some trouble with launching scheduler...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
             });
     }
 
     render () {
         const { affiliation } = this.props;
-        const createGridButton = (handle, val) => {
-            return (
-                <Grid item sm={12} md={3}>
-                    <Button color="primary" size="large" onClick={handle}>
-                        {val}
-                    </Button>
-                </Grid>
-            )
-        };
+        const createGridButton = (handle, val) => (
+            <Grid item sm={12} md={3}>
+                <Button color="primary" size="large" onClick={handle}>
+                    {val}
+                </Button>
+            </Grid>
+        );
         const createCardInGrid = (title, img, href, description, onClick = () => {}) => {
-            img = '/statics/img/' + img;
+            img = `/statics/img/${img}`;
             return (
                 <Grid item xs={12} md={6} lg={3}>
                     <MenuCard {...{title, img, href, description, onClick}} />
                 </Grid>
             );
-        }
+        };
 
         return (
             <>
@@ -121,7 +113,7 @@ class MenuItems extends React.Component {
                         () => this.setState({ openCalendar: true }))}
                 </Grid>
             </>
-        )
+        );
     }
 }
 

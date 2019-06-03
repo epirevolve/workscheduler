@@ -27,8 +27,8 @@ const dialog = (state = {isOpen: false}, action) => {
                 note: action.text
             };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default dialog;

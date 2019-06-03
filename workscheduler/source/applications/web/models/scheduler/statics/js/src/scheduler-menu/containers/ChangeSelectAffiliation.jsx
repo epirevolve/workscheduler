@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onAffiliationChange: (e) => { dispatch(changeAffiliation(e.target.value)) }
-})
+    onAffiliationChange: (e) => { dispatch(changeAffiliation(e.target.value)); }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Affiliations);

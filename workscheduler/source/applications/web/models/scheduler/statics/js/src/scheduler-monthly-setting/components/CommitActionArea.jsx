@@ -1,31 +1,27 @@
 import React from 'react';
 
-import Button from '@material-ui/core/Button';
+import ProgressButton from 'ProgressButton';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/core';
 
 const wrapperCss = css({
-    marginTop: '4rem',
-    marginBottom: '1rem',
-    '& > div': {
-        marginRight: '3rem'
-    }
+	display: 'inline-flex',
+	marginTop: '3rem',
+	marginBottom: '1rem',
+	'& > div': {
+		marginRight: '3rem'
+	}
 });
 
-const commitMonthlySetting = ({ monthlySetting, handleSave, handlePublish }) => {
-    return (
-        <div css={wrapperCss}>
-            <Button variant="contained" color="primary" size="large"
-                onClick={() => handleSave(monthlySetting)}>
-                Save
-            </Button>
-            <Button variant="contained" color="secondary" size="large"
-                onClick={() => handlePublish(monthlySetting)}>
-                Publish Calendar
-            </Button>
-        </div>
-    )
-}
+const commitMonthlySetting = ({ monthlySetting, isProgressing, onMonthlySettingSave, onMonthlySettingPublic }) => {
+	return (
+		<div css={wrapperCss}>
+			<ProgressButton label={'Save'} isProgressing={isProgressing} handleClick={() => onMonthlySettingSave(monthlySetting)} />
+			<ProgressButton label={'Publish Calendar'} color="primary" isProgressing={isProgressing}
+				handleClick={() => onMonthlySettingPublic(monthlySetting)} />
+		</div>
+	);
+};
 
 export default commitMonthlySetting;

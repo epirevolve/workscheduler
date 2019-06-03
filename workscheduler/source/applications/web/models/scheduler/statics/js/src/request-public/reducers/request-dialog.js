@@ -38,8 +38,8 @@ const dialog = (state = {isOpen: false}, action) => {
                 atTo: action.atTo
             };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default dialog;

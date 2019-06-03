@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 
-import Request from './Request'
+import Request from './Request';
 
 import { AlertManager } from 'alert-helper';
 
@@ -23,8 +23,8 @@ class CalendarCell extends React.Component {
         const date = `${scheduleOf.getFullYear()}-${scheduleOf.getMonth() + 1}-${day.day}`;
 
         action(
-            new Date(date + 'T09:30'),
-            new Date(date + 'T18:00')
+            new Date(`${date}T09:30`),
+            new Date(`${date}T18:00`)
         );
     }
 
@@ -36,11 +36,11 @@ class CalendarCell extends React.Component {
 
         const requests = [];
 
-        for (let request of day.requests) {
+        for (const request of day.requests) {
             if (request.operator.id != operatorId
                 || (new Date(request.atFrom).getDate() != day.day && day.day != 1 && day.dayName != 'Sun'))
                 continue;
-            let from = new Date(request.atFrom);
+            const from = new Date(request.atFrom);
             from.setDate(day.day);
             const to = new Date(request.atTo);
             let days = to.getDate() - from.getDate();
@@ -49,7 +49,7 @@ class CalendarCell extends React.Component {
                 days = 6 - from.getDay();
             }
             requests.push(<Request key={request.id} request={request} className={`day-${days + 1}`}
-                handleEdit={() => handleEdit(request)} />)
+                handleEdit={() => handleEdit(request)} />);
         }
 
         return (

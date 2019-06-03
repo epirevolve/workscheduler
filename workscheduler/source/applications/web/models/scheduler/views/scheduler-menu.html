@@ -13,6 +13,5 @@
         data-url-monthly="{{ url_for('schedulers.show_monthly_setting', affiliation='affiliation_id', calendar=next_month) }}"
         data-url-basic="{{ url_for('schedulers.show_basic_setting', affiliation='affiliation_id') }}"
         data-url-yearly="{{ url_for('schedulers.show_yearly_setting', affiliation='affiliation_id') }}"
-        data-url-launch="{{ url_for('schedulers.launch_scheduler', affiliation_id='affiliation_id', month='month_', year='year_') }}"
         data-affiliations="{{ to_json(affiliations) }}"></script>
 {% endblock %}
