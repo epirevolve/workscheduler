@@ -8,58 +8,50 @@ import Typography from '@material-ui/core/Typography';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-class publishState extends React.Component {
-    handlePublish () {
-        requestAgent
-            .post(url)
-            .send({'scheduleId': scheduleId})
-            .set('X-CSRFToken', csrfToken)
-            .then(res => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we succeeded to store monthly setting.' +
-                    ' if you can public this calendar to operators, please click public calendar button.', 'alert-info')
-            })
-            .catch(err => {
-                const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
-                const message = res.errorMessage || 'we have some trouble with storing monthly setting...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
-            });
-    }
+const typographyCss = css({
+	float: 'left'
+});
 
-    handleStop () {
+const mr1Css = css({
+	marginRight: '1rem'
+});
 
-    }
-
-    render () {
-        const isPublished = true ? 'published' : 'not published'
-        return (
-            <div css={css`
-                color: lightslategray !important;
-                margin-top: 1rem;
-            `}>
-                <Typography variant="h5" css={css`
-                    float: left;
-                `}>This schedule is {isPublished}.</Typography>
-                <div css={css`
-                    float: right;
-                `}>
-                    <Button onClick={this.handlePublish} variant="outlined" color="default"
-                        size="large" css={css`
-                        margin-right: 1rem;
-                    `}>
-                        Publish
-                    </Button>
-                    <Button onClick={this.handleStop} color="default"
-                        size="large" css={css`
-                        margin-right: 1rem;
-                    `}>
-                        Stop
-                    </Button>
-                </div>
-            </div>
-        )
-    }
+const publishState = ({ schedules, isPublished, onSaveSchedules, onPublicSchedule, onTerminateSchedule }) => {
+	return (
+		<div css={css`
+			color: lightslategray !important;
+			margin-top: 1rem;
+		`}>
+			<Typography variant="h5" css={typographyCss}>
+				This schedule is {isPublished ? 'published' : 'not published'}.
+			</Typography>
+			<div css={css`
+				float: right;
+			`}>
+				<Button onClick={() => onSave(schedules)} variant="outlined" color="primary"
+					size="large" css={mr1Css}>
+					Save
+				</Button>
+				{() => {
+					if (isPublished) {
+						return (
+							<Button onClick={onTerminate} color="default" size="large" css={mr1Css}>
+								Terminate
+							</Button>
+						)
+					}
+					else {
+						return (
+							<Button onClick={onPublic} variant="outlined" color="secondary"
+								size="large" css={mr1Css}>
+								Publish
+							</Button>
+						)
+					}
+				}}
+			</div>
+		</div>
+	)
 }
 
 export default publishState;

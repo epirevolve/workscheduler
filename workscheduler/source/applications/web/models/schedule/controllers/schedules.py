@@ -3,16 +3,11 @@
 from flask import Blueprint
 from flask import render_template
 from flask import request
-from flask import Response
 from flask_login import login_required
 from flask_login import current_user
 
-from utils import jsonize
-
 from applications.services import AffiliationQuery
 from applications.web import get_db_session
-from applications.web.util.functions.controller import admin_required
-from ..adapters import ScheduleCommandAdapter
 
 bp = Blueprint('schedules', __name__, template_folder='../views', static_folder='../statics')
 
@@ -38,20 +33,3 @@ def show_schedules():
         return show_schedules_operator()
     else:
         return show_schedules_administrator()
-
-
-@bp.route('/', methods=['PUT'])
-@login_required
-@admin_required
-def update_schedules():
-    session = get_db_session()
-    try:
-        ScheduleCommandAdapter(session).update_schedule(jsonize.loads(request.data))
-        session.commit()
-        response = Response()
-    except Exception as e:
-        session.rollback()
-        print(e)
-        response = Response()
-        response.status_code = 400
-    return response

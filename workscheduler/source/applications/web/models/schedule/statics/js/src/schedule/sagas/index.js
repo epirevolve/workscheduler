@@ -1,7 +1,7 @@
 import { take, put, call, fork, race, cancelled, takeEvery } from 'redux-saga/effects';
 import { eventChannel, END } from 'redux-saga';
 
-import { REQUEST_SCHEDULES } from '../actionTypes';
+import { REQUEST_SCHEDULES, UPDATE_SCHEDULES, PUBLIC_SCHEDULES } from '../actionTypes';
 import { successSchedules, failureSchedules } from '../actions';
 import * as api from '../services/api';
 

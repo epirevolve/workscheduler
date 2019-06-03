@@ -1,4 +1,4 @@
-import { REQUEST_SCHEDULES, SUCCESS_SCHEDULES, FAILURE_SCHEDULES } from '../actionTypes';
+import { REQUEST_SCHEDULES, SUCCESS_SCHEDULES } from '../actionTypes';
 
 const ui = (state = {}, action) => {
     switch (action.type) {

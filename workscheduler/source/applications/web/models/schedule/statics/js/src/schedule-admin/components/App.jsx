@@ -3,14 +3,14 @@ import React from 'react';
 import ChangeSelectMonth from '../containers/ChangeSelectMonth'
 import ChangeAffiliation from '../containers/ChangeAffiliation';
 import DisplaySchedules from '../containers/DisplaySchedules';
-import PublishState from './PublishState';
+import PublishSchedules from '../containers/PublishSchedules';
 
 const app = () => (
     <>
         <ChangeAffiliation />
         <ChangeSelectMonth />
         <DisplaySchedules />
-        <PublishState />
+        <PublishSchedules />
     </>
 )
 
