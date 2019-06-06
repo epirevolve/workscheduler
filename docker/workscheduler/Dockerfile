@@ -3,13 +3,15 @@ FROM python:3.7
 RUN mkdir /var/www
 WORKDIR /var/www
 
-COPY ./requirements.txt ./
+COPY ./requirements.txt .
 
 # install required packages from apt-get, pip and npm
 RUN set -ex \
     \
     && apt-get update \
-    && apt-get install nodejs npm \
+    && apt-get install curl \
+    && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && apt-get install nodejs -y \
     \
     && python --version \
     && pip --version \
