@@ -10,10 +10,12 @@ RUN set -ex \
     \
     && apt-get update \
     && apt-get install nodejs npm \
+    \
     && python --version \
     && pip --version \
     && pip install --no-cache-dir -r requirements.txt \
 	&& pip install uwsgi \
+	\
     && node --version \
     && npm --version \
     && npm install \

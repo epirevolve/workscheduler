@@ -1,19 +1,39 @@
 version: "3"
 services:
 
+  mysql:
+    build: docker/mysql
+    volumes:
+      - ./log/mysql:/var/log/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    networks:
+      - local-net
+    environment:
+      MYSQL_DATABASE: workscheduler
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: root
+      TZ: "Asia/Tokyo"
+
   uwsgi:
     build:
       context: ./
-      dockerfile: workscheduler/Dockerfile
+      dockerfile: docker/workscheduler/Dockerfile
     volumes:
       - ./workscheduler:/var/www/
+    links:
+      - mysql
     ports:
       - "3928:3928"
+    networks:
+      - local-net
     environment:
       TZ: "Asia/Tokyo"
 
   nginx:
-    build: ./nginx
+    build: docker/nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     links:
@@ -22,3 +42,7 @@ services:
       - "4231:80"
     environment:
       TZ: "Asia/Tokyo"
+
+networks:
+  local-net:
+    driver: bridge

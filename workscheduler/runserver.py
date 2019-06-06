@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.applications.web import create_app
+from src.applications.web import create_app
 
 app = create_app()
 

@@ -5,9 +5,12 @@ import sys
 from datetime import date
 
 import click
+from flask import abort
 from flask import Flask
 from flask import g
 from flask import current_app
+from flask import request
+from flask import session
 from flask.cli import with_appcontext
 from flask_login import LoginManager
 from flask_login import current_user
@@ -16,8 +19,8 @@ from jinja2 import FileSystemLoader
 from utils.date import to_year_month_string
 from utils.date import get_next_month
 from utils.jsonize import dumps
+from utils.uuid import UuidFactory
 
-from applications.services import AffiliationQuery
 from applications.services import OperatorQuery
 from infrastructures import Database
 from infrastructures import InputInitData
@@ -131,24 +134,27 @@ def create_app(test_config=None):
     @login_manager.user_loader
     def load_user(user_id):
         return UserQuery(get_db_session()).get_user(user_id)
-    
-    from flask_wtf import CSRFProtect
-    
-    csrf = CSRFProtect()
-    csrf.init_app(app)
 
     app.jinja_env.globals.update(to_json=dumps)
+
+    @app.before_request
+    def csrf_protect():
+        if request.method == "POST":
+            token = session.pop('csrf_token', None)
+            if not token or token != request.form.get('csrf_token'):
+                abort(403)
+
+    def generate_csrf_token():
+        if 'csrf_token' not in session:
+            session['csrf_token'] = UuidFactory().new_uuid()
+        return session['csrf_token']
 
     @app.before_request
     def extend_jinja_env():
         app.jinja_env.globals['today'] = date.today()
         app.jinja_env.globals['next_month'] = to_year_month_string(get_next_month())
         app.jinja_env.globals['current_month'] = to_year_month_string(date.today())
-    
-        def get_affiliation():
-            return AffiliationQuery(get_db_session()).get_default_affiliation()
-    
-        app.jinja_env.globals['default_affiliation_id'] = get_affiliation().id
+        app.jinja_env.globals['csrf_token'] = generate_csrf_token
     
         def get_operator_id():
             operator_query = OperatorQuery(get_db_session())
