@@ -6,15 +6,13 @@ services:
     volumes:
       - ./log/mysql:/var/log/mysql
     restart: always
+    env_file: docker/mysql/.env
     ports:
       - "3306:3306"
     networks:
       - local-net
     environment:
       MYSQL_DATABASE: workscheduler
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
-      MYSQL_ROOT_PASSWORD: root
       TZ: "Asia/Tokyo"
 
   uwsgi:
@@ -23,6 +21,9 @@ services:
       dockerfile: docker/workscheduler/Dockerfile
     volumes:
       - ./workscheduler:/var/www/
+    env_file: 
+      - docker/workscheduler/.env
+      - docker/mysql/.env
     links:
       - mysql
     ports:

@@ -11,7 +11,7 @@ from domains.models.user import Affiliation
 
 class Database:
     def __init__(self, sql_connection, echo=False):
-        self._engine = create_engine('sqlite:///{}'.format(sql_connection), echo=echo)
+        self._engine = create_engine(sql_connection, echo=echo)
 
     def init(self):
         self.drop()

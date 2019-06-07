@@ -17,7 +17,7 @@ from flask_login import current_user
 from jinja2 import FileSystemLoader
 
 from utils.date import to_year_month_string
-from utils.date import get_next_month
+from utils.date import get_next_month as get_next_month_
 from utils.jsonize import dumps
 from utils.uuid import UuidFactory
 
@@ -46,19 +46,14 @@ def create_app(test_config=None):
     app.config.from_object(__name__)
 
     app.config.from_mapping(
-        SECRET_KEY='jlk32dasf4562erHUI378sdf',
-        DATABASE=os.path.join(app.instance_path, 'workscheduler.db')
+        SECRET_KEY=os.environ.get('SECRET_KEY'),
+        DATABASE=os.environ.get('DATABASE')
     )
 
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:
         app.config.update(test_config)
-    
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
     app.config.from_envvar('WORK_SCHEDULER_SETTING', silent=True)
 
@@ -149,17 +144,20 @@ def create_app(test_config=None):
             session['csrf_token'] = UuidFactory().new_uuid()
         return session['csrf_token']
 
-    @app.before_request
-    def extend_jinja_env():
-        app.jinja_env.globals['today'] = date.today()
-        app.jinja_env.globals['next_month'] = to_year_month_string(get_next_month())
-        app.jinja_env.globals['current_month'] = to_year_month_string(date.today())
-        app.jinja_env.globals['csrf_token'] = generate_csrf_token
+    def get_next_month():
+        return to_year_month_string(get_next_month_())
     
-        def get_operator_id():
+    def get_current_month():
+        return to_year_month_string(date.today())
+    
+    def get_operator_id():
             operator_query = OperatorQuery(get_db_session())
             return operator_query.get_operator_of_user_id(current_user.id).id if current_user.is_authenticated else ""
     
-        app.jinja_env.globals['operator_id'] = get_operator_id()
+    app.jinja_env.globals['csrf_token'] = generate_csrf_token
+    app.jinja_env.globals['today'] = date.today
+    app.jinja_env.globals['next_month'] = get_next_month
+    app.jinja_env.globals['current_month'] = get_current_month
+    app.jinja_env.globals['operator_id'] = get_operator_id
     
     return app
