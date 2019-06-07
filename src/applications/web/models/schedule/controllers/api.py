@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-from datetime import date
-
 from flask import Blueprint
 from flask import request
 from flask import Response

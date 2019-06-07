@@ -20,7 +20,7 @@ services:
       context: ./
       dockerfile: docker/workscheduler/Dockerfile
     volumes:
-      - ./workscheduler:/var/www/
+      - ./src:/var/www/src
     env_file: 
       - docker/workscheduler/.env
       - docker/mysql/.env

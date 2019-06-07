@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import os
+import os.path as path
 import sys
 from datetime import date
 
 import click
+from dotenv import load_dotenv
 from flask import abort
 from flask import Flask
 from flask import g
@@ -51,7 +53,7 @@ def create_app(test_config=None):
     )
 
     if test_config is None:
-        app.config.from_pyfile('config.py', silent=True)
+        load_dotenv(path.join(path.dirname(__file__), '../docker/workscheduler/.env'))
     else:
         app.config.update(test_config)
 
