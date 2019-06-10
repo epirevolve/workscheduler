@@ -22,26 +22,26 @@ associated_component_table\
 class Schedule(OrmBase):
     __tablename__ = "schedules"
     id = Column(String, primary_key=True)
-    affiliation_id = Column(String)
+    team_id = Column(String)
     month = Column(Integer)
     year = Column(Integer)
     components = relationship('ScheduleComponent', secondary=associated_component_table,
                               lazy='subquery', cascade='all', order_by="asc(ScheduleComponent._operator_id)")
     is_published = Column(Boolean)
     
-    def __init__(self, id: str, affiliation_id: str, month: int,
+    def __init__(self, id: str, team_id: str, month: int,
                  year: int, schedule_components: [], is_published: bool = False):
         self.id = id
-        self.affiliation_id = affiliation_id
+        self.team_id = team_id
         self.month = month
         self.year = year
         self.components = schedule_components
         self.is_published = is_published
     
     @staticmethod
-    def new(affiliation_id: str, month: int, year: int,
+    def new(team_id: str, month: int, year: int,
             schedule_components: []):
-        return Schedule(UuidFactory.new_uuid(), affiliation_id, month,
+        return Schedule(UuidFactory.new_uuid(), team_id, month,
                         year, schedule_components)
     
     def __eq__(self, other):

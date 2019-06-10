@@ -15,12 +15,12 @@ import { css, jsx } from '@emotion/core';
 const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
 const url = dataset.url;
 const scheduleOf = dataset.scheduleOf;
-const affiliation = JSON.parse(dataset.affiliation);
+const team = JSON.parse(dataset.team);
 
 class MonthSelect extends React.Component {
     onScheduleChange (date) {
         const s = date.toDate().toYearMonthFormatString();
-        location.href = url.replace('param_affiliation_id', affiliation.id).replace('param_calendar', s);
+        location.href = url.replace('param_team_id', team.id).replace('param_calendar', s);
     }
 
     render () {

@@ -12,7 +12,7 @@ import moment from 'moment';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-const MonthSelect = ({ scheduleOf, affiliation, onMonthChange }) => {
+const MonthSelect = ({ scheduleOf, team, onMonthChange }) => {
     const calendar = <MonthCalendar />;
     const date = moment(scheduleOf, 'YYYY-MM');
     return (
@@ -22,7 +22,7 @@ const MonthSelect = ({ scheduleOf, affiliation, onMonthChange }) => {
                     margin: 0.5rem 1rem;
                 `}>{date.format("YYYY-MM")}</Typography>
             <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                value={date} onChange={(e) => onMonthChange(affiliation, e)}>
+                value={date} onChange={(e) => onMonthChange(team, e)}>
                 { () => (
                         <Fab color="primary" css={css`
                                 float: right;

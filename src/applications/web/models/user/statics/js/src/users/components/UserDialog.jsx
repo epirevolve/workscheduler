@@ -14,18 +14,18 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-const affiliations = $('script[src*="users"]').data('affiliations');
+const teams = $('script[src*="users"]').data('teams');
 
-const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationChange,
+const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onTeamChange,
     onIsAdminChange, onIsOperatorChange, handleClose, handleInactivate, handleResetPassword, handleSave }) => {
 
-    const affiliationList = affiliations.map((x) =>
+    const teamList = teams.map((x) =>
         <MenuItem key={x.id} value={x}>
             {x.name}
         </MenuItem>);
 
-    let affiliation = userDialog.affiliation || "";
-    if (affiliation && affiliations.map((x) => x.id).includes(affiliation.id)) affiliation = affiliations.find((x) => x.id == affiliation.id);
+    let team = userDialog.team || "";
+    if (team && teams.map((x) => x.id).includes(team.id)) team = teams.find((x) => x.id == team.id);
 
     return (
         <Dialog open={userDialog.isOpen} aria-labelledby="user-store" maxWidth="lg">
@@ -39,9 +39,9 @@ const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onAffiliationCh
                 <TextField margin="dense" label="name" fullWidth required
                     onChange={onNameChange} value={userDialog.name} />
                 <FormControl margin="dense">
-                    <InputLabel htmlFor="affiliation">affiliation</InputLabel>
-                    <Select value={affiliation} id="affiliation" onChange={onAffiliationChange}>
-                        {affiliationList}
+                    <InputLabel htmlFor="team">team</InputLabel>
+                    <Select value={team} id="team" onChange={onTeamChange}>
+                        {teamList}
                     </Select>
                 </FormControl>
                 <br />

@@ -13,9 +13,8 @@ const urlAsUser = dataset.urlAsUser;
 const urlSchedulerMenu = dataset.urlSchedulerMenu;
 const urlOperators = dataset.urlOperators;
 const urlUsers = dataset.urlUsers;
-const urlMainTeams = dataset.urlAffiliations;
+const urlTeams = dataset.urlTeams;
 const urlSkills = dataset.urlSkills;
-const urlSubTeams = dataset.urlTeams;
 const auth = JSON.parse(dataset.auth);
 
 const menu = () => {
@@ -47,9 +46,8 @@ const menu = () => {
                         {createCardInGrid("Scheduler", "scheduler-menu.svg", urlSchedulerMenu, "scheduler option and start to build")}
                         {createCardInGrid("Operators", "operators.svg", urlOperators, "what they can do")}
                         {createCardInGrid("Users", "users.svg", urlUsers, "start new user story from here")}
-                        {createCardInGrid("Main Teams", "main-teams.svg", urlMainTeams, "manage main teams - big unit team")}
+                        {createCardInGrid("Teams", "teams.svg", urlTeams, "manage teams")}
                         {createCardInGrid("Skills", "skills.svg", urlSkills, "what you demand to operator")}
-                        {createCardInGrid("Sub Teams", "sub-teams.svg", urlSubTeams, "small unit team")}
                     </Grid>
                 </>
             )}

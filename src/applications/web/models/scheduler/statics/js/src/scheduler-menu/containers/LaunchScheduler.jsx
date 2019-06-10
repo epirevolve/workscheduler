@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import MenuItems from '../components/MenuItems';
 
 const mapStateToProps = (state) => ({
-    affiliation: state.menu.affiliation
+    team: state.menu.team
 });
 
 export default connect(mapStateToProps)(MenuItems);

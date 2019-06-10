@@ -1,13 +1,13 @@
 import React from 'react';
 
 import ChangeSelectMonth from '../containers/ChangeSelectMonth';
-import ChangeAffiliation from '../containers/ChangeAffiliation';
+import ChangeTeam from '../containers/ChangeTeam';
 import DisplaySchedules from '../containers/DisplaySchedules';
 import CommitSchedules from '../containers/CommitSchedules';
 
 const app = () => (
     <>
-        <ChangeAffiliation />
+        <ChangeTeam />
         <ChangeSelectMonth />
         <DisplaySchedules />
         <CommitSchedules />

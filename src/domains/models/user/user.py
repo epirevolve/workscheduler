@@ -12,7 +12,7 @@ from sqlalchemy.types import Boolean
 
 from utils.uuid import UuidFactory
 
-from . import Affiliation
+from . import Team
 from .. import OrmBase
 
 
@@ -22,21 +22,21 @@ class User(OrmBase, UserMixin):
     login_id = Column(String(16), nullable=False)
     password = Column(String(16), nullable=False)
     name = Column(String(50), nullable=False)
-    _affiliation_id = Column(String, ForeignKey('affiliations.id'))
-    affiliation = relationship("Affiliation", uselist=False, lazy='subquery')
+    _team_id = Column(String, ForeignKey('teams.id'))
+    team = relationship("Team", uselist=False, lazy='subquery')
     is_admin = Column(Boolean, default=False)
     is_operator = Column(Boolean, default=True)
     is_inactivated = Column(Boolean, default=False)
     create_at = Column(DateTime, server_default=current_timestamp())
 
     def __init__(self, id: str, login_id: str, name: str,
-                 affiliation: Affiliation, is_admin: bool, is_operator: bool,
+                 team: Team, is_admin: bool, is_operator: bool,
                  is_inactivate: bool = False, **kwargs):
         self.id = id
         self.login_id = login_id
         self.password = 'p' + login_id
         self.name = name
-        self.affiliation = affiliation
+        self.team = team
         self.is_admin = is_admin
         self.is_operator = is_operator
         self.is_inactivated = is_inactivate
@@ -52,10 +52,10 @@ class User(OrmBase, UserMixin):
         return self.id
 
     @staticmethod
-    def new(login_id: str, name: str, affiliation: Affiliation,
+    def new(login_id: str, name: str, team: Team,
             is_admin: bool, is_operator: bool):
         user = User(UuidFactory.new_uuid(), login_id, name,
-                    affiliation, is_admin, is_operator)
+                    team, is_admin, is_operator)
         return user
     
     def __eq__(self, other):

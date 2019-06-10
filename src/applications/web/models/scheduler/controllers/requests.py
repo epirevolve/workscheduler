@@ -38,7 +38,7 @@ def show_my_request():
     schedule_of = to_date(request.args.get('schedule_of'), '%Y-%m')
     
     session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(current_user.affiliation.id)
+    scheduler = SchedulerQuery(session).get_scheduler_of_team_id(current_user.team.id)
     if not scheduler:
         return _non_public_request_body(schedule_of)
     

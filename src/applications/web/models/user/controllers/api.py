@@ -6,13 +6,13 @@ from flask_login import login_required
 
 from utils import jsonize
 
-from applications.services import AffiliationQuery
+from applications.services import TeamQuery
 from applications.web import get_db_session
 
 bp = Blueprint('users_api', __name__)
 
 
-@bp.route('/affiliations')
+@bp.route('/teams')
 @login_required
-def get_affiliations():
-    return Response(jsonize.dumps(AffiliationQuery(get_db_session()).get_affiliations_without_default()))
+def get_teams():
+    return Response(jsonize.dumps(TeamQuery(get_db_session()).get_teams_without_default()))

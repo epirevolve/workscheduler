@@ -6,24 +6,24 @@ from flask import request
 from flask_login import login_required
 from flask_login import current_user
 
-from applications.services import AffiliationQuery
+from applications.services import TeamQuery
 from applications.web import get_db_session
 
 bp = Blueprint('schedules', __name__, template_folder='../views', static_folder='../statics')
 
 
 def show_schedules_operator():
-    return render_template('schedule-operator.html', affiliation=current_user.affiliation)
+    return render_template('schedule-operator.html', team=current_user.team)
 
 
 def show_schedules_administrator():
-    affiliations = AffiliationQuery(get_db_session()).get_affiliations_without_default()
-    affiliation_id = request.args.get('affiliation_id')
-    if affiliation_id:
-        affiliation = list(filter(lambda x: x.id == affiliation_id, affiliations))[0]
+    teams = TeamQuery(get_db_session()).get_teams_without_default()
+    team_id = request.args.get('team_id')
+    if team_id:
+        team = list(filter(lambda x: x.id == team_id, teams))[0]
     else:
-        affiliation = affiliations[0]
-    return render_template('schedule-admin.html', affiliations=affiliations, affiliation=affiliation)
+        team = teams[0]
+    return render_template('schedule-admin.html', teams=teams, team=team)
 
 
 @bp.route('/')

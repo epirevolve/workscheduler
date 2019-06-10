@@ -7,7 +7,7 @@ import { AlertManager } from 'alert-helper';
 
 import { addUser, editUser, inactivateUser,
     closeDialog, changeLoginId, changeName,
-    changeAffiliation, changeIsAdmin, changeIsOperator } from '../actions';
+    changeTeam, changeIsAdmin, changeIsOperator } from '../actions';
 
 import UserDialog from '../components/UserDialog';
 
@@ -21,7 +21,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     onLoginIdChange: (e) => dispatch(changeLoginId(e.target.value)),
     onNameChange: (e) => dispatch(changeName(e.target.value)),
-    onAffiliationChange: (e) => dispatch(changeAffiliation(e.target.value)),
+    onTeamChange: (e) => dispatch(changeTeam(e.target.value)),
     onIsAdminChange: (e) => dispatch(changeIsAdmin(e.target.checked)),
     onIsOperatorChange: (e) => dispatch(changeIsOperator(e.target.checked)),
     handleClose: () => dispatch(closeDialog()),

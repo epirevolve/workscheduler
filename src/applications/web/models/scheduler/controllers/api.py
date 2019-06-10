@@ -95,7 +95,7 @@ def launch_scheduler():
         response = Response()
     except AlreadyLaunchError as e:
         print(e)
-        response = Response('already launched this affiliation scheduler. please wait util its completion.')
+        response = Response('already launched this team scheduler. please wait util its completion.')
         response.status_code = 400
     except Exception as e:
         print(e)

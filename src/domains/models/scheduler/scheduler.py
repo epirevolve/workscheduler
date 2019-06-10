@@ -13,7 +13,7 @@ from sqlalchemy.types import DateTime
 from utils.uuid import UuidFactory
 
 from .. import OrmBase
-from ..user import Affiliation
+from ..user import Team
 from . import MonthlySetting
 from . import YearlySetting
 
@@ -42,8 +42,8 @@ associated_work_category_table\
 class Scheduler(OrmBase):
     __tablename__ = "schedulers"
     id = Column(String, primary_key=True)
-    _affiliation_id = Column(String, ForeignKey('affiliations.id'))
-    affiliation = relationship("Affiliation", uselist=False, lazy='subquery')
+    _team_id = Column(String, ForeignKey('teams.id'))
+    team = relationship("Team", uselist=False, lazy='subquery')
     monthly_settings = relationship("MonthlySetting", secondary=associated_monthly_setting_table, lazy='subquery')
     yearly_settings = relationship("YearlySetting", secondary=associated_yearly_setting_table, lazy='subquery')
     certified_skill = Column(Boolean)
@@ -52,12 +52,12 @@ class Scheduler(OrmBase):
     is_launching = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
     
-    def __init__(self, id: str, affiliation: Affiliation,
+    def __init__(self, id: str, team: Team,
                  monthly_settings: [] = None, yearly_settings: [] = None,
                  certified_skill: bool = True, not_certified_skill: bool = True,
                  work_categories: [] = None, is_launching: bool = False, **kwargs):
         self.id = id
-        self.affiliation = affiliation
+        self.team = team
         self.monthly_settings = monthly_settings or []
         self.yearly_settings = yearly_settings or []
         self.certified_skill = certified_skill
@@ -65,13 +65,13 @@ class Scheduler(OrmBase):
         self.work_categories = work_categories or []
         self.is_launching = is_launching
 
-    @validates("id, affiliation")
+    @validates("id, team")
     def validate(self, key, value):
         return super(Scheduler, self).validate(Scheduler, key, value)
 
     @staticmethod
-    def new(affiliation: Affiliation):
-        return Scheduler(UuidFactory.new_uuid(), affiliation)
+    def new(team: Team):
+        return Scheduler(UuidFactory.new_uuid(), team)
     
     def monthly_setting(self, month: int, year: int):
         monthly_setting = list(filter(lambda x: x.year == year and x.month == month, self.monthly_settings))

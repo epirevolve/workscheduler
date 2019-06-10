@@ -22,15 +22,15 @@ class ScheduleFacade:
     def __init__(self, session):
         self._session = session
     
-    def get_schedule(self, affiliation_id: str, month: int, year: int):
-        scheduler = SchedulerQuery(self._session).get_scheduler_of_affiliation_id(affiliation_id)
+    def get_schedule(self, team_id: str, month: int, year: int):
+        scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
         if not scheduler:
             raise Exception('no scheduler is made')
         work_categories = {x.id: x for x in scheduler.work_categories}
         monthly_setting = scheduler.monthly_setting(month, year)
         fixed_schedules = {y.id: y for x in monthly_setting.days for y in x.fixed_schedules}
-        schedules = ScheduleQuery(self._session).get_schedules_of_affiliation_year_month(
-            affiliation_id, month, year)
+        schedules = ScheduleQuery(self._session).get_schedules_of_team_year_month(
+            team_id, month, year)
         
         if not schedules:
             return [], [], [], False

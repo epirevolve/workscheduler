@@ -1,8 +1,8 @@
 const menu = (state = {}, action) => {
     switch (action.type) {
-        case 'CHANGE_AFFILIATION':
+        case 'CHANGE_TEAM':
             return {...state,
-                affiliation: action.affiliation
+                team: action.team
             };
         default:
             return state;

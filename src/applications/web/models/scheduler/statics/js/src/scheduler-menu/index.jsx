@@ -11,7 +11,7 @@ import Theme from 'ColorTheme';
 import App from './components/App';
 
 const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
-const menu = { affiliation: JSON.parse(dataset.affiliations)[0] };
+const menu = { team: JSON.parse(dataset.teams)[0] };
 
 const store = createStore(rootReducer, {menu});
 

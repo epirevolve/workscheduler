@@ -29,7 +29,7 @@ class MenuItems extends React.Component {
     }
 
     handleLunch (month) {
-        const { affiliation } = this.props;
+        const { team } = this.props;
         this.setState({ openCalendar: false });
 
         const alertManager = new AlertManager('#alertContainer');
@@ -37,7 +37,7 @@ class MenuItems extends React.Component {
 
         requestAgent
             .post('/api/launch-scheduler')
-            .send({'affiliationId': affiliation.id, month, 'year': this.state.year})
+            .send({'teamId': team.id, month, 'year': this.state.year})
             .set('X-CSRFToken', csrfToken)
             .then(() => {
                 const alertManager = new AlertManager('#alertContainer');
@@ -52,7 +52,7 @@ class MenuItems extends React.Component {
     }
 
     render () {
-        const { affiliation } = this.props;
+        const { team } = this.props;
         const createGridButton = (handle, val) => (
             <Grid item sm={12} md={3}>
                 <Button color="primary" size="large" onClick={handle}>
@@ -100,16 +100,16 @@ class MenuItems extends React.Component {
                 </Dialog>
                 <Grid container spacing={16} className="my-4" style={{ marginLeft: "0.2rem" }}>
                     {createCardInGrid("Monthly Setting", "scheduler-monthly-setting.svg",
-                        urlMonthly.replace('affiliation_id', affiliation.id),
+                        urlMonthly.replace('team_id', team.id),
                         "set require number of member each day and prefixed schedule")}
                     {createCardInGrid("Basic Setting", "scheduler-basic-setting.svg",
-                        urlBasic.replace('affiliation_id', affiliation.id),
+                        urlBasic.replace('team_id', team.id),
                         "set work category and witch parameter will be used when making a schedule")}
                     {createCardInGrid("Yearly Setting", "scheduler-yearly-setting.svg",
-                        urlMonthly.replace('affiliation_id', affiliation.id),
+                        urlMonthly.replace('team_id', team.id),
                         "set require number of member each day and prefixed schedule")}
                     {createCardInGrid("Launch", "scheduler-launch.svg",
-                        "#", "create schedule of current affiliation and selected month",
+                        "#", "create schedule of current team and selected month",
                         () => this.setState({ openCalendar: true }))}
                 </Grid>
             </>

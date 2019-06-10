@@ -9,7 +9,7 @@ from domains.models.scheduler import DayDetail
 from domains.models.scheduler import Request
 from domains.models.scheduler import FixedSchedule
 from domains.models.scheduler import Vacation
-from domains.models.user import Affiliation
+from domains.models.user import Team
 from domains.models.user import User
 from domains.models.operator import Skill
 from domains.models.operator import Relation
@@ -27,17 +27,17 @@ def default_pop(data, key, default=None):
     return data.pop(key) if data and key in data else default
 
 
-def to_affiliation(data):
+def to_team(data):
     if not data:
         return None
-    return Affiliation(**data)
+    return Team(**data)
 
 
 def to_user(data):
     if not data:
         return None
-    affiliation = to_affiliation(default_pop(data, 'affiliation'))
-    return User(**data, affiliation=affiliation)
+    team = to_team(default_pop(data, 'team'))
+    return User(**data, team=team)
 
 
 def to_skill(data):
@@ -143,11 +143,11 @@ def to_yearly_setting(data):
 def to_scheduler(data):
     if not data:
         return None
-    affiliation = to_affiliation(default_pop(data, 'affiliation'))
+    team = to_team(default_pop(data, 'team'))
     monthly_settings = [to_monthly_setting(x) for x in default_pop(data, 'monthly_settings', [])]
     yearly_settings = [to_yearly_setting(x) for x in default_pop(data, 'yearly_settings', [])]
     work_categories = [to_work_category(x) for x in default_pop(data, 'work_categories', [])]
-    return Scheduler(**data, affiliation=affiliation, monthly_settings=monthly_settings,
+    return Scheduler(**data, team=team, monthly_settings=monthly_settings,
                      yearly_settings=yearly_settings, work_categories=work_categories)
 
 

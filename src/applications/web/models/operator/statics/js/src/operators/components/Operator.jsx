@@ -14,7 +14,7 @@ const operator = ({ operator, handleEdit }) => {
         <ListItem button onClick={handleEdit} css={css`
             div { flex: 1; }
         `}>
-            <ListItemText primary={operator.user.name} secondary={`main team: ${operator.user.affiliation.name}`} />
+            <ListItemText primary={operator.user.name} secondary={`main team: ${operator.user.team.name}`} />
             <ListItemText primary="Skills" secondary={`${operator.skills.map((x) => `${x.name} `)}`} />
             {ojt && (<ListItemText primary="Ojt" secondary={`${ojt}`} />)}
         </ListItem>

@@ -7,7 +7,7 @@ from domains.models.scheduler import MonthlySetting
 from domains.models.scheduler import YearlySetting
 from domains.models.scheduler import Request
 from domains.models.scheduler import Vacation
-from domains.models.user import Affiliation
+from domains.models.user import Team
 
 
 class SchedulerQuery:
@@ -17,9 +17,9 @@ class SchedulerQuery:
     def get_scheduler(self, id_: str) -> Scheduler:
         return self._session.query(Scheduler).get(id_)
     
-    def get_scheduler_of_affiliation_id(self, affiliation_id: str) -> Scheduler:
+    def get_scheduler_of_team_id(self, team_id: str) -> Scheduler:
         return self._session.query(Scheduler)\
-            .filter(Scheduler.affiliation.has(Affiliation.id == affiliation_id)).one_or_none()
+            .filter(Scheduler.team.has(Team.id == team_id)).one_or_none()
     
     def get_scheduler_of_monthly_setting_id(self, monthly_setting_id: str) -> Scheduler:
         return self._session.query(Scheduler)\

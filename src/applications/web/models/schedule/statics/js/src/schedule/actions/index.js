@@ -1,8 +1,8 @@
 import { REQUEST_SCHEDULES, SUCCESS_SCHEDULES, FAILURE_SCHEDULES, CHANGE_SCHEDULE_OF } from '../actionTypes';
 
-export const requestSchedules = (affiliation, scheduleOf) => ({
+export const requestSchedules = (team, scheduleOf) => ({
     type: REQUEST_SCHEDULES,
-    payload: { affiliation, scheduleOf }
+    payload: { team, scheduleOf }
 });
 
 export const successSchedules = (payload) => ({

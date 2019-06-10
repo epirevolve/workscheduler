@@ -3,26 +3,26 @@
 import pytest
 from datetime import datetime
 
-from workscheduler.applications.services import AffiliationQuery
-from workscheduler.applications.services import SchedulerQuery
-from workscheduler.applications.services import OperatorQuery
-from workscheduler.domains.models.scheduler.scheduler_detail_helper import SchedulerDetailHelper
-from workscheduler.domains.models.scheduler.scheduler_outline_helper import work_day_sign
-from workscheduler.domains.models.scheduler.scheduler_outline_helper import holiday_sign
+from applications.services import TeamQuery
+from applications.services import SchedulerQuery
+from applications.services import OperatorQuery
+from domains.models.scheduler.scheduler_detail_helper import SchedulerDetailHelper
+from domains.models.scheduler.scheduler_outline_helper import work_day_sign
+from domains.models.scheduler.scheduler_outline_helper import holiday_sign
 
 
 class TestScheduler:
     def test_scheduling(self, session):
-        affiliations = AffiliationQuery(session).get_affiliations()
-        scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliations[1].id)
-        operators = OperatorQuery(session).get_active_operators_of_affiliation_id(affiliations[1].id)
+        teams = TeamQuery(session).get_teams()
+        scheduler = SchedulerQuery(session).get_scheduler_of_team_id(teams[1].id)
+        operators = OperatorQuery(session).get_active_operators_of_team_id(teams[1].id)
         
         scheduler.run(datetime.now().month + 1, datetime.now().year, operators)
         
     def test_scheduler_monthly_set_work_categories_day_off(self, session):
-        affiliations = AffiliationQuery(session).get_affiliations()
-        scheduler = SchedulerQuery(session).get_scheduler_of_affiliation_id(affiliations[1].id)
-        operators = OperatorQuery(session).get_active_operators_of_affiliation_id(affiliations[1].id)
+        teams = TeamQuery(session).get_teams()
+        scheduler = SchedulerQuery(session).get_scheduler_of_team_id(teams[1].id)
+        operators = OperatorQuery(session).get_active_operators_of_team_id(teams[1].id)
         
         monthly_setting = scheduler.monthly_setting(datetime.now().month + 1, datetime.now().year)
         detail_helper = SchedulerDetailHelper(monthly_setting, operators, [])

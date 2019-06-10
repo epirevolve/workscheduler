@@ -1,4 +1,4 @@
-export const changeAffiliation = (affiliation) => ({
-    type: 'CHANGE_AFFILIATION',
-    affiliation
+export const changeTeam = (team) => ({
+    type: 'CHANGE_TEAM',
+    team
 });

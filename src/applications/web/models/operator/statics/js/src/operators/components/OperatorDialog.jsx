@@ -37,7 +37,7 @@ const operatorDialog = ({ operatorDialog, onSkillChange, onOjtChange,
             <DialogTitle>register operator</DialogTitle>
             <DialogContent>
                 <TextField disabled value={operatorDialog.name} label="name" fullWidth margin="dense" />
-                <TextField disabled value={operatorDialog.affiliation} label="affiliation" fullWidth margin="dense" />
+                <TextField disabled value={operatorDialog.team} label="team" fullWidth margin="dense" />
                 <SkillList operatorSkills={operatorDialog.skills} onChange={onSkillChange} />
                 <FormControl fullWidth>
                     <InputLabel htmlFor="ojt">supervisor(ojt)</InputLabel>

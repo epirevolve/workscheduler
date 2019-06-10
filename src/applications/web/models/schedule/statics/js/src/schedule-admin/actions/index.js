@@ -1,8 +1,8 @@
 import { CHANGE_MAIN_TEAM } from '../actionTypes';
 
-export const changeAffiliation = (affiliation) => ({
+export const changeTeam = (team) => ({
     type: CHANGE_MAIN_TEAM,
-    payload: { affiliation }
+    payload: { team }
 })
 
 export const changeWorkCategory = (operator, day, daySetting, category, workCategories) => ({

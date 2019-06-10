@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 
-from .affiliation import Affiliation
+from .team import Team
 from .user import User

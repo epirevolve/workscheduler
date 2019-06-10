@@ -6,17 +6,17 @@ import { requestSchedules, changeScheduleOf } from '../actions';
 import MonthSelect from '../components/MonthSelect';
 
 const dataset = document.querySelector('script[id="base-schedule"]').dataset;
-const affiliation = JSON.parse(dataset.affiliation);
+const team = JSON.parse(dataset.team);
 
 const mapStateToProps = (state) => ({
-    affiliation,
+    team,
     scheduleOf: state.schedules.scheduleOf
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onMonthChange: (affiliation, e) => {
+    onMonthChange: (team, e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(requestSchedules(affiliation, scheduleOf));
+        dispatch(requestSchedules(team, scheduleOf));
         dispatch(changeScheduleOf(scheduleOf));
     }
 });

@@ -19,7 +19,7 @@
 
         <script type="text/javascript">
             const csrfToken = "{{ csrf_token() }}";
-            const operatorId = "{{ operator_id }}";
+            const operatorId = "{{ operator_id() }}";
         </script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/src/commons/functions/date-extension.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/src/commons/functions/jquery-extension.js') }}"></script>
@@ -99,8 +99,7 @@
         data-url-scheduler-menu="{{ url_for('schedulers.show_menu') }}"
         data-url-operators="{{ url_for('operators.show_operators') }}"
         data-url-users="{{ url_for('users.show_users') }}"
-        data-url-affiliations="{{ url_for('affiliations.show_affiliations') }}"
+        data-url-teams="{{ url_for('teams.show_teams') }}"
         data-url-skills="{{ url_for('skills.show_skills') }}"
-        data-url-teams="{{ url_for('teams.show_team_categories') }}"
         data-url-logout="{{ url_for('auths.logout') }}"></script>
 </html>

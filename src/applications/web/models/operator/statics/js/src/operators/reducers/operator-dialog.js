@@ -5,7 +5,7 @@ const dialog = (state = {isOpen: false}, action) => {
                 isOpen: true,
                 id: action.operator.id,
                 name: action.operator.user.name,
-                affiliation: action.operator.user.affiliation.name,
+                team: action.operator.user.team.name,
                 skills: action.operator.skills,
                 ojt: action.operator.ojt
             };

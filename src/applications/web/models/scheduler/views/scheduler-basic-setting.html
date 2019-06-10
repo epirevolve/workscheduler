@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block script %}
-<script id="breadscram" data-current="{{ to_json({'name': 'Basic Setting of {}'.format(scheduler.affiliation.name)}) }}"
+<script id="breadscram" data-current="{{ to_json({'name': 'Basic Setting of {}'.format(scheduler.team.name)}) }}"
         data-breads="{{ to_json([{ 'name': 'Scheduler Menu', 'url': url_for('schedulers.show_menu') }]) }}"></script>
 <script src="{{ url_for('schedulers.static', filename='js/scheduler-basic-setting.bundle.min.js') }}"
         data-scheduler="{{ to_json(scheduler) }}" data-skills="{{ to_json(skills) }}"

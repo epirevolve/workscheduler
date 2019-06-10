@@ -31,7 +31,8 @@ class schedules extends React.Component {
             workCategories: []
         };
         requestAgent
-            .get(`/api/scheduler?affiliation-id=${props.affiliation.id}`)
+            .get('/api/scheduler')
+            .query({'team-id': props.team.id})
             .set('X-CSRFToken', csrfToken)
             .then((res) => {
                 const scheduler = JSON.parse(res.text);
@@ -40,8 +41,8 @@ class schedules extends React.Component {
     }
 
     componentDidMount() {
-        const { affiliation, scheduleOf } = this.props;
-        this.props.onLoad(affiliation, scheduleOf);
+        const { team, scheduleOf } = this.props;
+        this.props.onLoad(team, scheduleOf);
     }
 
     render () {

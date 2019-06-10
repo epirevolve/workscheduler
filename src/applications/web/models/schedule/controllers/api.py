@@ -20,17 +20,17 @@ bp = Blueprint('schedules_api', __name__)
 @bp.route('/scheduler')
 @login_required
 def get_scheduler():
-    affiliation_id = request.args.get('affiliation-id')
-    scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_affiliation_id(affiliation_id)
+    team_id = request.args.get('team-id')
+    scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_team_id(team_id)
     return Response(jsonize.dumps(scheduler))
 
 
 @bp.route('/monthly-setting')
 @login_required
 def get_monthly_setting():
-    affiliation_id = request.args.get('affiliation-id')
+    team_id = request.args.get('team-id')
     schedule_of = to_date(request.args.get('schedule-of'), '%Y-%m')
-    scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_affiliation_id(affiliation_id)
+    scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_team_id(team_id)
     monthly_setting = scheduler.monthly_setting(schedule_of.month, schedule_of.year)
     return Response(jsonize.dumps(monthly_setting))
 
@@ -38,10 +38,10 @@ def get_monthly_setting():
 @bp.route('/schedules')
 @login_required
 def get_schedules():
-    affiliation_id = request.args.get('affiliation-id')
+    team_id = request.args.get('team-id')
     schedule_of = to_date(request.args.get('schedule-of'), '%Y-%m')
     day_settings, schedules, totals, is_published = ScheduleFacade(get_db_session()).get_schedule(
-        affiliation_id, schedule_of.month, schedule_of.year)
+        team_id, schedule_of.month, schedule_of.year)
     return Response(jsonize.dumps({'day_settings': day_settings, 'schedules': schedules,
                                    'totals': totals, 'is_published': is_published}))
 

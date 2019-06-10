@@ -36,8 +36,8 @@ export const changeName = (text) => ({
     text
 });
 
-export const changeAffiliation = (obj) => ({
-    type: 'CHANGE_AFFILIATION',
+export const changeTeam = (obj) => ({
+    type: 'CHANGE_TEAM',
     obj
 });
 

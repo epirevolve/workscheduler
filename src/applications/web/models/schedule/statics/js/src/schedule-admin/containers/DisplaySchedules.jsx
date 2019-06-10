@@ -10,14 +10,14 @@ const mapStateToProps = (state) => ({
     daySettings: state.schedules.daySettings,
     schedules: state.schedules.schedules,
     totals: state.schedules.totals,
-    affiliation: state.affiliations.affiliation,
+    team: state.teams.team,
     scheduleOf: state.schedules.scheduleOf,
     isLoading: state.ui.isLoading
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onLoad: (affiliation, scheduleOf) => {
-        dispatch(requestSchedules(affiliation, scheduleOf));
+    onLoad: (team, scheduleOf) => {
+        dispatch(requestSchedules(team, scheduleOf));
     },
     onCategoryChange: (workCategories, operator) => (day, daySetting) => (e) => {
         const category = e.target.value;

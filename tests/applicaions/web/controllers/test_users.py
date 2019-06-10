@@ -17,7 +17,7 @@ class TestUsers:
             user_repository = UserQuery(db_session)
             affiliation_repository = AffiliationQuery(db_session)
             users_count = len(user_repository.get_users())
-            affiliation = affiliation_repository.get_affiliations()[-1]
+            affiliation = affiliation_repository.get_teams()[-1]
             rv = users.append_user('new_one', '新人', affiliation.id, '', 'on')
             assert b'His/her password is p + his/her login id.' in rv.data
             users = user_repository.get_users()
@@ -33,7 +33,7 @@ class TestUsers:
             user_repository = UserQuery(db_session)
             affiliation_repository = AffiliationQuery(db_session)
             users_count = len(user_repository.get_users())
-            affiliation = affiliation_repository.get_affiliations()[-1]
+            affiliation = affiliation_repository.get_teams()[-1]
             rv = users.update_user(random_user.id, 'random_changed',
                                    'some changed', affiliation.id,
                                    'on' if not random_user.is_admin else '',

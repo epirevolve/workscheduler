@@ -6,14 +6,14 @@ import { requestSchedules, changeScheduleOf } from '../../schedule/actions';
 import MonthSelect from '../../schedule/components/MonthSelect';
 
 const mapStateToProps = (state) => ({
-    affiliation: state.affiliations.affiliation,
+    team: state.teams.team,
     scheduleOf: state.schedules.scheduleOf
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onMonthChange: (affiliation, e) => {
+    onMonthChange: (team, e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(requestSchedules(affiliation, scheduleOf));
+        dispatch(requestSchedules(team, scheduleOf));
         dispatch(changeScheduleOf(scheduleOf));
     }
 });

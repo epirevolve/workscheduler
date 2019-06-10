@@ -5,5 +5,5 @@
 
 {% block appendScript %}
 <script src="{{ url_for('schedules.static', filename='js/schedule-admin.bundle.min.js') }}"
-        data-affiliations="{{ to_json(affiliations) }}"></script>
+        data-teams="{{ to_json(teams) }}"></script>
 {% endblock %}

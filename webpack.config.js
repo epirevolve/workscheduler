@@ -41,7 +41,7 @@ module.exports = {
         'src/applications/web/util/statics/js/layout': path.join(_utilPath, '/src/layout/index.jsx'),
         'src/applications/web/util/statics/js/main-menu': path.join(_utilPath, '/src/menu/index.jsx'),
         'src/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
-        'src/applications/web/models/user/statics/js/main-teams': path.join(_userPath, '/src/main-teams/index.jsx'),
+        'src/applications/web/models/user/statics/js/teams': path.join(_userPath, '/src/teams/index.jsx'),
         'src/applications/web/models/user/statics/js/user': path.join(_userPath, '/src/user/index.jsx'),
         'src/applications/web/models/user/statics/js/users': path.join(_userPath, '/src/users/index.jsx'),
         'src/applications/web/models/operator/statics/js/operator': path.join(_operatorPath, '/src/operator/index.jsx'),

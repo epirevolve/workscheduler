@@ -9,7 +9,7 @@ from flask_login import login_required
 from utils import jsonize
 
 from applications.services import UserQuery
-from applications.services import AffiliationQuery
+from applications.services import TeamQuery
 from applications.web import get_db_session
 from applications.web.util.functions.controller import admin_required
 from ..adapters import UserCommandAdapter
@@ -46,8 +46,8 @@ def update_myself(user_id):
 def show_users():
     session = get_db_session()
     users = UserQuery(session).get_users()
-    affiliations = AffiliationQuery(session).get_affiliations()
-    return render_template('users.html', users=users, affiliations=affiliations)
+    teams = TeamQuery(session).get_teams()
+    return render_template('users.html', users=users, teams=teams)
 
 
 @bp.route('/', methods=['POST'])

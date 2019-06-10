@@ -18,4 +18,4 @@ const mapDispatchToProps = (dispatch) => ({
     onTerminateSchedule: () => {}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PublishState);
+export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

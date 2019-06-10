@@ -12,7 +12,7 @@ const user = ({
             autoFocus margin="dense" onChange={onPasswordChange} required />
         <TextField value={user.name} label="name" fullWidth margin="dense"
             onChange={onNameChange} required />
-        <TextField disabled value={user.affiliation.name} label="affiliation" fullWidth margin="dense" />
+        <TextField disabled value={user.team.name} label="team" fullWidth margin="dense" />
         <Button variant="contained" onClick={() => handleSave(user)} className="mt-3" color="primary">
             Store User
         </Button>

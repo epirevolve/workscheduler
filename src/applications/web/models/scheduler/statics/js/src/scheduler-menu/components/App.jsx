@@ -1,11 +1,11 @@
 import React from 'react';
 
-import ChangeSelectAffiliation from '../containers/ChangeSelectAffiliation';
+import ChangeSelectTeam from '../containers/ChangeSelectTeam';
 import LaunchScheduler from '../containers/LaunchScheduler';
 
 const app = () => (
     <>
-        <ChangeSelectAffiliation />
+        <ChangeSelectTeam />
         <LaunchScheduler />
     </>
 );

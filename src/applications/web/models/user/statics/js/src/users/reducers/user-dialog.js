@@ -1,5 +1,5 @@
 const dataset = document.querySelector('script[src*="users"]').dataset;
-const affiliations = JSON.parse(dataset.affiliations);
+const teams = JSON.parse(dataset.teams);
 
 const dialog = (state = {isOpen: false}, action) => {
     switch (action.type) {
@@ -9,7 +9,7 @@ const dialog = (state = {isOpen: false}, action) => {
                 id: '',
                 loginId: '',
                 name: '',
-                affiliation: affiliations[0],
+                team: teams[0],
                 isAdmin: false,
                 isOperator: false
             };
@@ -19,7 +19,7 @@ const dialog = (state = {isOpen: false}, action) => {
                 id: action.user.id,
                 loginId: action.user.loginId,
                 name: action.user.name,
-                affiliation: action.user.affiliation,
+                team: action.user.team,
                 isAdmin: action.user.isAdmin,
                 isOperator: action.user.isOperator
             };
@@ -35,9 +35,9 @@ const dialog = (state = {isOpen: false}, action) => {
             return {...state,
                 name: action.text
             };
-        case 'CHANGE_AFFILIATION':
+        case 'CHANGE_TEAM':
             return {...state,
-                affiliation: action.obj
+                team: action.obj
             };
         case 'CHANGE_IS_ADMIN':
             return {...state,

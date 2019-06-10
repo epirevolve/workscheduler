@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import os.path as path
 import sys
 from datetime import date
 
@@ -21,6 +20,7 @@ from jinja2 import FileSystemLoader
 from utils.date import to_year_month_string
 from utils.date import get_next_month as get_next_month_
 from utils.jsonize import dumps
+from utils.jsonize import loads
 from utils.uuid import UuidFactory
 
 from applications.services import OperatorQuery
@@ -53,7 +53,7 @@ def create_app(test_config=None):
     )
 
     if test_config is None:
-        load_dotenv(path.join(path.dirname(__file__), '../docker/workscheduler/.env'))
+        load_dotenv('../../../.env')
     else:
         app.config.update(test_config)
 
@@ -89,11 +89,10 @@ def create_app(test_config=None):
 
     from .util.controllers import menus_bp
     from .models.user.controllers import auth_bp
-    from .models.user.controllers import affiliations_bp
+    from .models.user.controllers import teams_bp
     from .models.user.controllers import users_bp
     from .models.operator.controllers import operators_bp
     from .models.operator.controllers import skills_bp
-    from .models.operator.controllers import teams_bp
     from .models.scheduler.controllers import requests_bp
     from .models.scheduler.controllers import schedulers_bp
     from .models.schedule.controllers import schedules_bp
@@ -104,11 +103,10 @@ def create_app(test_config=None):
 
     app.register_blueprint(menus_bp, url_prefix="/menus")
     app.register_blueprint(auth_bp)
-    app.register_blueprint(affiliations_bp, url_prefix="/affiliations")
+    app.register_blueprint(teams_bp, url_prefix="/teams")
     app.register_blueprint(users_bp, url_prefix="/users")
     app.register_blueprint(operators_bp, url_prefix="/operators")
     app.register_blueprint(skills_bp, url_prefix="/skills")
-    app.register_blueprint(teams_bp, url_prefix="/teams")
     app.register_blueprint(requests_bp, url_prefix="/requests")
     app.register_blueprint(schedulers_bp, url_prefix="/schedulers")
     app.register_blueprint(schedules_bp, url_prefix="/schedules")
@@ -136,9 +134,9 @@ def create_app(test_config=None):
 
     @app.before_request
     def csrf_protect():
-        if request.method == "POST":
-            token = session.pop('csrf_token', None)
-            if not token or token != request.form.get('csrf_token'):
+        if request.method in ["POST", "PUT", "DELETE"]:
+            token = session.get('csrf_token', None)
+            if not token or token != request.headers.environ.get('HTTP_X_CSRFTOKEN'):
                 abort(403)
 
     def generate_csrf_token():
@@ -153,8 +151,8 @@ def create_app(test_config=None):
         return to_year_month_string(date.today())
     
     def get_operator_id():
-            operator_query = OperatorQuery(get_db_session())
-            return operator_query.get_operator_of_user_id(current_user.id).id if current_user.is_authenticated else ""
+        operator_query = OperatorQuery(get_db_session())
+        return operator_query.get_operator_of_user_id(current_user.id).id if current_user.is_authenticated else ""
     
     app.jinja_env.globals['csrf_token'] = generate_csrf_token
     app.jinja_env.globals['today'] = date.today
