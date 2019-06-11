@@ -24,7 +24,7 @@ bp = Blueprint('teams', __name__, template_folder='../views', static_folder="../
 def show_teams():
     team_repository = TeamQuery(get_db_session())
     teams = team_repository.get_teams()
-    return render_template('main-teams.html', main_teams=teams)
+    return render_template('teams.html', teams=teams)
 
 
 @bp.route('/', methods=['POST'])
@@ -45,7 +45,7 @@ def append_team():
     return response
 
 
-@bp.route('/<team>', methods=['POST'])
+@bp.route('/<team_id>', methods=['POST'])
 @login_required
 @admin_required
 def update_team(team_id: str):

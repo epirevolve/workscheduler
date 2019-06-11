@@ -11,6 +11,11 @@ import CardActions from '@material-ui/core/CardActions';
 
 import PopupCheckList from './PopupCheckList';
 
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+
+import { mb3, ml2 } from 'margin';
+
 const dataset = document.querySelector('script[src*="scheduler-basic-setting"]').dataset;
 const operators = JSON.parse(dataset.operators);
 const skills = JSON.parse(dataset.skills);
@@ -24,7 +29,7 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
     <Card>
         <CardContent>
             <TextField autoFocus label="title" required value={workCategory.title}
-                onChange={onTitleChange(workCategory.id)} className="mb-3" />
+                onChange={onTitleChange(workCategory.id)} margin='normal' />
             <Grid container className="mb-3">
                 <Grid item sm={6} xs={12} className="pr-2">
                     <TextField type="time" label="from" required onChange={onAtFromChange(workCategory.id)}
@@ -58,10 +63,10 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
             <Grid container className="mb-3">
                 <Grid item sm={6} xs={12} className="pr-2">
                     <TextField type="number" label="day offs" required value={workCategory.dayOffs}
-                        onChange={onRestDaysChange(workCategory.id)} className="mb-3" />
+                        onChange={onRestDaysChange(workCategory.id)} />
                 </Grid>
                 <Grid item sm={6} xs={12}>
-                    <TextField type="number" label="max times" required value={workCategory.maxTimes} className="mb-3"
+                    <TextField type="number" label="max times" required value={workCategory.maxTimes}
                         onChange={onMaxTimesChange(workCategory.id)} placeholder="0 means unlimited" />
                 </Grid>
             </Grid>
@@ -81,7 +86,7 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                 current={workCategory.impossibleOperators.map((x) => ({id: x.id, name: x.user.name}))}
                 onSelectChange={(x) => onImpossibleOperatorChange(workCategory.id, x)} />
         </CardContent>
-        <CardActions className="ml-2">
+        <CardActions css={ml2}>
             <Button onClick={handleRemove(workCategory.id)} variant="outlined" color="secondary">
                 Remove
             </Button>

@@ -14,7 +14,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-const teams = $('script[src*="users"]').data('teams');
+const dataset = document.querySelector('script[src*="users"]').dataset;
+const teams = JSON.parse(dataset.teams);
 
 const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onTeamChange,
     onIsAdminChange, onIsOperatorChange, handleClose, handleInactivate, handleResetPassword, handleSave }) => {

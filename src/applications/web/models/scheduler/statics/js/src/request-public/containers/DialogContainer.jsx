@@ -43,40 +43,26 @@ const mapDispatchToProps = (dispatch) => ({
             atFrom: requestDialog.atFrom.toDate().toDateTimeFormatString(),
             atTo: requestDialog.atTo.toDate().toDateTimeFormatString()};
 
-        const post = () => {
-            requestAgent
-                .post(data.id ? urlUpdate.replace('request_id', data.id) : urlAdd)
-                .send(data)
-                .set('X-CSRFToken', csrfToken)
-                .then((res) => {
-                    if (data.id) {
-                        dispatch(removeRequest(data.id));
-                        dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
-                    }
-                    else
-                        dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
-                    const alertManager = new AlertManager('#alertContainer');
-                    alertManager.append('we are succeeded to store your request', 'alert-info');
-                })
-                .catch((err) => {
-                    const res = JSON.parse(err.response.text);
-                    const alertManager = new AlertManager('#alertContainer');
-                    const message = res.errorMessage || 'we have some trouble with appending request...';
-                    alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
-                });
-        };
-
-        if (holidays <= $('.request').length) {
-            const message = paidHolidays <= 0 ? '<br><br>and also maybe your paid holidays are empty.' : '';
-            showConfirmDialog('No Problem?', `adding more request will decrease your paid holidays.${message}`,
-                (value) => {
-                    if (!value) return;
-                    post();
-                });
-        }
-        else {
-            post();
-        }
+        requestAgent
+			.post(data.id ? urlUpdate.replace('request_id', data.id) : urlAdd)
+			.send(data)
+			.set('X-CSRFToken', csrfToken)
+			.then((res) => {
+				if (data.id) {
+					dispatch(removeRequest(data.id));
+					dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
+				}
+				else
+					dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
+				const alertManager = new AlertManager('#alertContainer');
+				alertManager.append('we are succeeded to store your request', 'alert-info');
+			})
+			.catch((err) => {
+				const res = JSON.parse(err.response.text);
+				const alertManager = new AlertManager('#alertContainer');
+				const message = res.errorMessage || 'we have some trouble with appending request...';
+				alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+			});
 
         dispatch(closeDialog());
     }

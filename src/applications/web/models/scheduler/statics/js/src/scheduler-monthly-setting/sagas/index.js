@@ -1,8 +1,7 @@
 import { put, all, call, fork, takeEvery } from 'redux-saga/effects';
 
 import { START_UPDATE_MONTHLY_SETTING, START_PUBLIC_MONTHLY_SETTING } from '../actionTypes';
-import { successMonthlySettingUpdate, failureMonthlySettingUpdate,
-	successMonthlySettingPublic, failureMonthlySettingPublic } from '../actions';
+import * as actions from '../actions';
 import { showSnackbar } from 'snackbarActions';
 import * as api from '../services/api';
 
@@ -10,12 +9,12 @@ function *runUpdateMonthlySetting(action) {
     const { error } = yield call(api.updateMonthlySetting, action.payload);
     if (!error) {
         yield all([
-			put(successMonthlySettingUpdate()),
+			put(actions.successMonthlySettingUpdate()),
 			put(showSnackbar('Succeed to update monthly setting'))
 		]);
     } else {
         yield all([
-			put(failureMonthlySettingUpdate()),
+			put(actions.failureMonthlySettingUpdate()),
 			put(showSnackbar('Fail to update monthly setting'))
 		]);
     }
@@ -29,12 +28,12 @@ function *runPublicMonthlySetting(action) {
     const { error } = yield call(api.publicMonthlySetting, action.payload);
     if (!error) {
 		yield all([
-			put(successMonthlySettingPublic()),
+			put(actions.successMonthlySettingPublic()),
 			put(showSnackbar('Succeed to public monthly setting'))
 		]);
     } else {
 		yield all([
-			put(failureMonthlySettingPublic()),
+			put(actions.failureMonthlySettingPublic()),
 			put(showSnackbar('Fail to public monthly setting'))
 		]);
     }

@@ -10,7 +10,7 @@ import Theme from 'ColorTheme';
 
 import App from './components/App';
 
-const dataset = document.querySelector('script[src*="main-teams"]').dataset;
+const dataset = document.querySelector('script[src*="teams"]').dataset;
 const teams = JSON.parse(dataset.teams);
 
 const store = createStore(rootReducer, {teams, teamDialog: {isOpen: false}});

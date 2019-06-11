@@ -12,8 +12,6 @@ import Button from '@material-ui/core/Button';
 
 import MenuCard from 'MenuCard';
 
-import { AlertManager } from 'alert-helper';
-
 const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
 const urlMonthly = dataset.urlMonthly;
 const urlBasic = dataset.urlBasic;
@@ -32,27 +30,22 @@ class MenuItems extends React.Component {
         const { team } = this.props;
         this.setState({ openCalendar: false });
 
-        const alertManager = new AlertManager('#alertContainer');
-        alertManager.append('Started to make schedule. Please wait until it will be done.', 'alert-info');
-
         requestAgent
             .post('/api/launch-scheduler')
-            .send({'teamId': team.id, month, 'year': this.state.year})
+            .send({'teamId': team.id})
+            .send({'month': month})
+            .send({'year': this.state.year})
             .set('X-CSRFToken', csrfToken)
             .then(() => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('Finish to make schedule.', 'alert-info');
+            	showSnackbar('Finish to make schedule.');
             })
             .catch((err) => {
-                const res = err.response.text;
-                const alertManager = new AlertManager('#alertContainer');
-                const message = res || 'we have some trouble with launching scheduler...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+				showSnackbar('Sorry... we have some trouble with launching scheduler.');
             });
     }
 
     render () {
-        const { team } = this.props;
+        const { team, onLaunchScheduler } = this.props;
         const createGridButton = (handle, val) => (
             <Grid item sm={12} md={3}>
                 <Button color="primary" size="large" onClick={handle}>

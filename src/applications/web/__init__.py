@@ -20,7 +20,6 @@ from jinja2 import FileSystemLoader
 from utils.date import to_year_month_string
 from utils.date import get_next_month as get_next_month_
 from utils.jsonize import dumps
-from utils.jsonize import loads
 from utils.uuid import UuidFactory
 
 from applications.services import OperatorQuery
@@ -136,7 +135,9 @@ def create_app(test_config=None):
     def csrf_protect():
         if request.method in ["POST", "PUT", "DELETE"]:
             token = session.get('csrf_token', None)
-            if not token or token != request.headers.environ.get('HTTP_X_CSRFTOKEN'):
+            requests = [request.headers.environ.get('HTTP_X_CSRFTOKEN'),
+                        request.form.get('csrf_token')]
+            if not token or token not in requests:
                 abort(403)
 
     def generate_csrf_token():

@@ -35,7 +35,7 @@ targets.forEach(value => {
 });
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
 
     entry: {
         'src/applications/web/util/statics/js/layout': path.join(_utilPath, '/src/layout/index.jsx'),
@@ -104,6 +104,7 @@ module.exports = {
             path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/containers'),
             path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/actions'),
             path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/reducers'),
+            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/styles'),
             path.join(__dirname, 'src/applications/web/util/statics/css')
         ],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
