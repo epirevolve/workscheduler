@@ -6,52 +6,49 @@ import Typography from '@material-ui/core/Typography';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-const typographyCss = css({
-	float: 'left'
-});
-
-const mr1Css = css({
-	marginRight: '1rem'
-});
-
-const buttonGroupCss = css({
-	float: 'right'
-});
+import { mt1, mt3, mr3 } from 'margin';
+import { floatl, floatr } from 'float';
 
 const wrapperCss = css({
 	color: 'lightslategray !important',
-	marginTop: '1rem'
-});
+},
+mt3);
 
-const publishState = ({ schedules, isPublished, onSaveSchedules, onPublicSchedule, onTerminateSchedule }) => (
-	<div css={wrapperCss}>
-		<Typography variant="h5" css={typographyCss}>
-			This schedule is {isPublished ? 'published' : 'not published'}.
-		</Typography>
-		<div css={buttonGroupCss}>
-			<Button onClick={() => onSaveSchedules(schedules)} variant="outlined" color="primary"
-				size="large" css={mr1Css}>
-				Save
-			</Button>
-			{() => {
-				if (isPublished) {
-					return (
-						<Button onClick={onTerminateSchedule} color="default" size="large" css={mr1Css}>
-							Terminate
-						</Button>
-					);
-				}
-				else {
-					return (
-						<Button onClick={onPublicSchedule} variant="outlined" color="secondary"
-							size="large" css={mr1Css}>
-							Publish
-						</Button>
-					);
-				}
-			}}
-		</div>
-	</div>
-);
+const renderActionByPublicity = (isPublished, onTerminateSchedule, onPublicSchedule) => {
+    if (isPublished) {
+        return (
+            <Button onClick={onTerminateSchedule} color="default" size="large" css={mr3}>
+                Terminate
+            </Button>
+        );
+    }
+    else {
+        return (
+            <Button onClick={onPublicSchedule} variant="outlined" color="secondary"
+                size="large" css={mr3}>
+                Publish
+            </Button>
+        );
+    }
+}
 
-export default publishState;
+const commitActionArea = ({ schedules, isPublished, onSaveSchedules, onPublicSchedule, onTerminateSchedule }) => {
+    const button = renderActionByPublicity(isPublished, onTerminateSchedule, onPublicSchedule);
+
+    return (
+        <div css={wrapperCss}>
+            <Typography variant="h5" css={floatl}>
+                This schedule is {isPublished ? 'published' : 'not published'}.
+            </Typography>
+            <div css={floatr}>
+                <Button onClick={() => onSaveSchedules(schedules)} variant="outlined" color="primary"
+                    size="large" css={mr3}>
+                    Save
+                </Button>
+                {button}
+            </div>
+        </div>
+    );
+};
+
+export default commitActionArea;

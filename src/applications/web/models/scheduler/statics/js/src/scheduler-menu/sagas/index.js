@@ -8,9 +8,9 @@ import * as api from '../services/api';
 function *runLaunchScheduler(action) {
     const { error } = yield call(api.launchScheduler, action.payload);
     if (!error) {
-        yield put(showSnackbar('Succeed to update monthly setting'));
+        yield put(showSnackbar('Finish to make schedule.'));
     } else {
-        yield put(showSnackbar('Fail to update monthly setting'));
+        yield put(showSnackbar('Sorry... we have some trouble with launching scheduler.'));
     }
 }
 

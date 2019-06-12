@@ -5,7 +5,6 @@ import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
 
 import rootReducer from './reducers';
-
 import rootSaga from './sagas';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';

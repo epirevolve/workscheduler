@@ -36,4 +36,4 @@ class SchedulerCommandAdapter:
     
     def launch(self, data: dict):
         return SchedulerCommand(self._session).launch(
-            data.get('team_id'), int(data.get('month')), int(data.get('year')))
+            data.get('team_id'), data.get('month'), data.get('year'))

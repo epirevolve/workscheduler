@@ -14,7 +14,7 @@ import FixedSchedule from './FixedSchedule';
 const fixedSchedules = ({ fixedSchedules, handleAppend, ...other }) => {
     const [state, setState] = React.useState({expanded: true});
     const onExpandedChange = (event, isExpanded) => {
-        setState({expanded: isExpanded ? true : false});
+        setState(prev => ({...prev, expanded: isExpanded ? true : false}));
     };
 
     return (

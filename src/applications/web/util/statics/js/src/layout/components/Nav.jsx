@@ -61,11 +61,11 @@ const nav = ({ opened, handleOpenDrawer }) => {
 					<Typography variant="h5" style={{ color: 'white' }} tabIndex="-1" noWrap>{current.name}</Typography>
 				</Breadcrumbs>
 				<IconButton className="mr-1" aria-owns={open ? 'menu-appbar' : undefined} color="inherit" tabIndex="-1"
-					aria-haspopup="true" onClick={(e) => setState({anchorEl: e.currentTarget})}>
+					aria-haspopup="true" onClick={(e) => setState(prev => ({...prev, anchorEl: e.currentTarget}))}>
 					<AccountCircle />
 				</IconButton>
 				<Menu anchorEl={state.anchorEl} open={open}
-					onClose={() => setState({anchorEl: null})}>
+					onClose={() => setState(prev => ({...prev, anchorEl: null}))}>
 					<MenuItem component="span">{auth.loginId} : {auth.name}</MenuItem>
 					<MenuItem component="a" href={urlLogout}>Log out</MenuItem>
 				</Menu>

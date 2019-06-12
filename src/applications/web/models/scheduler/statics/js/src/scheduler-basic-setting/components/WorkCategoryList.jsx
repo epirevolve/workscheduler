@@ -14,7 +14,7 @@ import WorkCategory from './WorkCategory';
 const workCategoryList = ({ workCategories, handleAppend, ...other }) => {
     const [state, setState] = React.useState({expanded: true});
     const onExpandedChange = (event, isExpanded) => {
-        setState({expanded: isExpanded ? true : false});
+        setState(prev => ({...prev, expanded: isExpanded ? true : false}));
     };
 
     const createWorkCategoryPanel = (x) => (
