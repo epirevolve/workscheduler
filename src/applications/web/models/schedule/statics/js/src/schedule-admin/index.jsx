@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import rootReducer, { initValue as teams} from './reducers';
 import { initValue as schedules } from '../schedule/reducers';
 
-import rootSaga from '../schedule/sagas';
+import rootSaga from './sagas';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import Theme from 'ColorTheme';

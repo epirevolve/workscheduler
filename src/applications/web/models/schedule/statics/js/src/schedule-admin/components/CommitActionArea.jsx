@@ -3,48 +3,50 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import ProgressButton from 'ProgressButton';
+
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-import { mt1, mt3, mr3 } from 'margin';
+import { mt5, mr3, mr5, mb3 } from 'margin';
 import { floatl, floatr } from 'float';
 
-const wrapperCss = css({
+const actionCss = css({
+	display: 'inline-flex',
+	'& > div': css({},mr5)
+}
+,floatr);
+
+const actionAreaCss = css({
 	color: 'lightslategray !important',
 },
-mt3);
+mt5, mb3);
 
-const renderActionByPublicity = (isPublished, onTerminateSchedule, onPublicSchedule) => {
+const renderActionByPublicity = (isPublished, isProgressing, onTerminateSchedules, onPublicSchedules) => {
     if (isPublished) {
-        return (
-            <Button onClick={onTerminateSchedule} color="default" size="large" css={mr3}>
-                Terminate
-            </Button>
-        );
+        return <ProgressButton label={'Terminate'} handleClick={onTerminateSchedules} color="default"
+            isProgressing={isProgressing} css={mr3} />;
     }
     else {
-        return (
-            <Button onClick={onPublicSchedule} variant="outlined" color="secondary"
-                size="large" css={mr3}>
-                Publish
-            </Button>
-        );
+        return <ProgressButton label={'Publish'} handleClick={onPublicSchedules}
+            isProgressing={isProgressing} css={mr3} />;
     }
 }
 
-const commitActionArea = ({ schedules, isPublished, onSaveSchedules, onPublicSchedule, onTerminateSchedule }) => {
-    const button = renderActionByPublicity(isPublished, onTerminateSchedule, onPublicSchedule);
+const commitActionArea = ({
+        schedules, isPublished, isProgressing,
+        onSaveSchedules, onPublicSchedules, onTerminateSchedules
+    }) => {
+    const button = renderActionByPublicity(isPublished, isProgressing, onTerminateSchedules, onPublicSchedules);
 
     return (
-        <div css={wrapperCss}>
+        <div css={actionAreaCss}>
             <Typography variant="h5" css={floatl}>
                 This schedule is {isPublished ? 'published' : 'not published'}.
             </Typography>
-            <div css={floatr}>
-                <Button onClick={() => onSaveSchedules(schedules)} variant="outlined" color="primary"
-                    size="large" css={mr3}>
-                    Save
-                </Button>
+            <div css={actionCss}>
+                <ProgressButton label={'Save'} handleClick={() => onSaveSchedules(schedules)}
+                    isProgressing={isProgressing} color="primary" css={mr3} />
                 {button}
             </div>
         </div>

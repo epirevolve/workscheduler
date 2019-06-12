@@ -1,21 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { saveSchedules } from '../actions';
+import { startSaveSchedules } from '../actions';
 
 import CommitActionArea from '../components/CommitActionArea';
 
 const mapStateToProps = (state) => ({
-    schedules: state.schedules,
-    isPublished: state.isPublished
+    schedules: state.schedules.schedules,
+    isPublished: state.isPublished,
+    isProgressing: false
 });
 
 const mapDispatchToProps = (dispatch) => ({
     onSaveSchedules: (schedules) => {
-        dispatch(saveSchedules(schedules));
+        dispatch(startSaveSchedules(schedules));
     },
-    onPublicSchedule: () => {},
-    onTerminateSchedule: () => {}
+    onPublicSchedules: () => {},
+    onTerminateSchedules: () => {}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

@@ -169,4 +169,4 @@ def to_schedule(data):
     if not data:
         return None
     components = [to_schedule_component(x) for x in default_pop(data, 'schedule_component', [])]
-    return Schedule(**data, schedule_components=components)
+    return Schedule(schedule_components=components, **data)

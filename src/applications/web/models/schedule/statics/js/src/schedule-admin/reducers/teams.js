@@ -1,9 +1,9 @@
-import { CHANGE_MAIN_TEAM } from '../actionTypes';
+import { CHANGE_TEAM } from '../actionTypes';
 
 const teams = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
-        case CHANGE_MAIN_TEAM:
+        case CHANGE_TEAM:
             return {...state,
                 team: payload.team
             };

@@ -13,7 +13,7 @@ function *runRequestSchedules(action) {
     }
 }
 
-function *handleRequestSchedules() {
+export function *handleRequestSchedules() {
     yield takeEvery(REQUEST_SCHEDULES, runRequestSchedules);
 }
 

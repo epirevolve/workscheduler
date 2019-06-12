@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import schedules from '../../schedule/reducers/schedules';
+import schedules from './schedules';
 import teams from './teams';
 import ui from '../../schedule/reducers/ui';
 

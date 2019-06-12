@@ -5,19 +5,18 @@ import ProgressButton from 'ProgressButton';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-const wrapperCss = css({
+import { mt5, mr5, mb3 } from 'margin';
+
+const actionAreaCss = css({
 	display: 'inline-flex',
-	marginTop: '3rem',
-	marginBottom: '1rem',
-	'& > div': {
-		marginRight: '3rem'
-	}
-});
+	'& > div': css({},mr5)
+}
+,mt5,mb3);
 
 const commitMonthlySetting = ({
 		monthlySetting, isProgressing, onMonthlySettingSave, onMonthlySettingPublic
 	}) => (
-	<div css={wrapperCss}>
+	<div css={actionAreaCss}>
 		<ProgressButton label={'Save'} isProgressing={isProgressing} handleClick={() => onMonthlySettingSave(monthlySetting)} />
 		<ProgressButton label={'Publish Calendar'} color="primary" isProgressing={isProgressing}
 			handleClick={() => onMonthlySettingPublic(monthlySetting)} />
