@@ -11,6 +11,10 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 import Button from '@material-ui/core/Button';
 
 import MenuCard from 'MenuCard';
+import { mb3, my4 } from 'margin';
+
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 
 const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
 const urlMonthly = dataset.urlMonthly;
@@ -33,6 +37,44 @@ const createCardInGrid = (title, img, href, description, onClick = () => {}) => 
     );
 };
 
+const yearCss = css({
+    fontSize: '3rem',
+    padding: '0rem 2rem',
+    color: 'lightslategray'
+});
+
+const launchCalendarDialog = (state, setState, onLaunchSchedulerWrapper) => (
+    <Dialog open={state.openCalendar} onClose={() => setState(prev => ({...prev, openCalendar: false }))}>
+        <DialogTitle style={{ textAlign: 'center' }}>
+            <IconButton aria-label="back year" css={mb3}
+                onClick={() => setState(prev => ({...prev, year: state.year - 1}))}>
+                <ArrowBackIosRoundedIcon />
+            </IconButton>
+            <span css={yearCss}>{state.year}</span>
+            <IconButton aria-label="forward year" css={mb3}
+                onClick={() => setState(prev => ({...prev, year: state.year + 1}))}>
+                <ArrowForwardIosRoundedIcon />
+            </IconButton>
+        </DialogTitle>
+        <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+            <Grid container>
+                {createGridButton(() => onLaunchSchedulerWrapper(1), 'Jan')}
+                {createGridButton(() => onLaunchSchedulerWrapper(2), 'Feb')}
+                {createGridButton(() => onLaunchSchedulerWrapper(3), 'Mar')}
+                {createGridButton(() => onLaunchSchedulerWrapper(4), 'Apr')}
+                {createGridButton(() => onLaunchSchedulerWrapper(5), 'May')}
+                {createGridButton(() => onLaunchSchedulerWrapper(6), 'Jun')}
+                {createGridButton(() => onLaunchSchedulerWrapper(7), 'Jul')}
+                {createGridButton(() => onLaunchSchedulerWrapper(8), 'Aug')}
+                {createGridButton(() => onLaunchSchedulerWrapper(9), 'Sep')}
+                {createGridButton(() => onLaunchSchedulerWrapper(10), 'Oct')}
+                {createGridButton(() => onLaunchSchedulerWrapper(11), 'Nov')}
+                {createGridButton(() => onLaunchSchedulerWrapper(12), 'Dec')}
+            </Grid>
+        </div>
+    </Dialog>
+);
+
 const menuItems = ({ team, onLaunchScheduler }) => {
     const year = new Date().getFullYear();
     const [state, setState] = React.useState({ openCalendar: false, year });
@@ -44,34 +86,8 @@ const menuItems = ({ team, onLaunchScheduler }) => {
 
     return (
         <>
-            <Dialog open={state.openCalendar} onClose={() => setState(prev => ({...prev, openCalendar: false }))}>
-                <DialogTitle style={{ textAlign: 'center' }}>
-                    <IconButton aria-label="back year" onClick={() => setState(prev => ({...prev, year: state.year - 1}))}>
-                        <ArrowBackIosRoundedIcon />
-                    </IconButton>
-                    <span style={{ fontSize: '2rem', padding: '0 2rem' }}>{state.year}</span>
-                    <IconButton aria-label="forward year" onClick={() => setState(prev => ({...prev, year: state.year + 1}))}>
-                        <ArrowForwardIosRoundedIcon />
-                    </IconButton>
-                </DialogTitle>
-                <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    <Grid container>
-                        {createGridButton(() => onLaunchSchedulerWrapper(1), 'Jan')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(2), 'Feb')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(3), 'Mar')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(4), 'Apr')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(5), 'May')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(6), 'Jun')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(7), 'Jul')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(8), 'Aug')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(9), 'Sep')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(10), 'Oct')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(11), 'Nov')}
-                        {createGridButton(() => onLaunchSchedulerWrapper(12), 'Dec')}
-                    </Grid>
-                </div>
-            </Dialog>
-            <Grid container spacing={16} className="my-4" style={{ marginLeft: "0.2rem" }}>
+            {launchCalendarDialog(state, setState, onLaunchSchedulerWrapper)}
+            <Grid container spacing={16} css={my4} style={{ marginLeft: "0.2rem" }}>
                 {createCardInGrid("Monthly Setting", "scheduler-monthly-setting.svg",
                     urlMonthly.replace('team_id', team.id),
                     "set require number of member each day and prefixed schedule")}
@@ -81,9 +97,13 @@ const menuItems = ({ team, onLaunchScheduler }) => {
                 {createCardInGrid("Yearly Setting", "scheduler-yearly-setting.svg",
                     urlMonthly.replace('team_id', team.id),
                     "set require number of member each day and prefixed schedule")}
+            </Grid>
+            <Grid container spacing={16} css={my4} style={{ marginLeft: "0.2rem" }}>
                 {createCardInGrid("Launch", "scheduler-launch.svg",
                     "#", "create schedule of current team and selected month",
                     () => setState(prev => ({...prev, openCalendar: true })))}
+                {createCardInGrid("Launch History", "scheduler-launch-history.svg",
+                    "#", "confirm launched history and current working scheduler")}
             </Grid>
         </>
     );

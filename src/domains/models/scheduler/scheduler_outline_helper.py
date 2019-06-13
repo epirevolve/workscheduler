@@ -113,7 +113,7 @@ class SchedulerOutlineHelper:
     def _genetic_wrapper(self, operator):
         genetic = Genetic(evaluation=self._evaluate(operator),
                           base_kind=range(len(self._monthly_setting.days)), homo_progeny_restriction=True,
-                          saturated_limit=20, generation_size=1000, population_size=500)
+                          saturated_limit=100, generation_size=1000, population_size=500)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
         genetic.mutation = build_mutation_unique()
@@ -133,7 +133,7 @@ class SchedulerOutlineHelper:
     def _batch_genetic_wrapper(self, operator):
         self._set_codon(operator)
         with Pool(multi.cpu_count()) as p:
-            batch = p.map(self._genetic_wrapper, [operator for _ in range(500)])
+            batch = p.map(self._genetic_wrapper, [operator for _ in range(2000)])
         return [self._gene_to_codon(x.gene) for x in batch]
     
     def run(self):

@@ -30,12 +30,12 @@ class Schedule(OrmBase):
     is_published = Column(Boolean)
     
     def __init__(self, id: str, team_id: str, month: int,
-                 year: int, schedule_components: [], is_published: bool = False):
+                 year: int, components: [], is_published: bool = False):
         self.id = id
         self.team_id = team_id
         self.month = month
         self.year = year
-        self.components = schedule_components
+        self.components = components
         self.is_published = is_published
     
     @staticmethod

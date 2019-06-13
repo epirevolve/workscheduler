@@ -15,7 +15,7 @@ function *runUpdateMonthlySetting(action) {
     } else {
         yield all([
 			put(actions.failureMonthlySettingUpdate()),
-			put(showSnackbar('Fail to update monthly setting'))
+			put(showSnackbar('Sorry... we had failed to update monthly setting'))
 		]);
     }
 }
@@ -34,7 +34,7 @@ function *runPublicMonthlySetting(action) {
     } else {
 		yield all([
 			put(actions.failureMonthlySettingPublic()),
-			put(showSnackbar('Fail to public monthly setting'))
+			put(showSnackbar('Sorry... we had failed to public monthly setting'))
 		]);
     }
 }

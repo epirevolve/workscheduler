@@ -9,7 +9,6 @@ from statistics import mean
 import numpy as np
 
 from eart.indivisual import Individual
-
 from eart import Genetic
 
 from utils.time import get_time_diff
@@ -94,7 +93,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         self._era = 0
         self._base = range(len(self._schedules[0]))
         self._max_perturbation_rate = 33
-        self._saturate_limit = 30000
+        self._saturate_limit = 50000
         
     def _gene_to_schedule(self, gene):
         return [self._schedules[i][x] for i, x in enumerate(gene)]
@@ -140,13 +139,14 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
             adapter = individuals[0]
             adapters.append(adapter)
             self._era += 1
-            if self._era % 50 == 0:
+            if self._era % 100 == 0:
                 print("era: {}, adaptability: {}".format(self._era, adapter.adaptability))
         return adapters[-1]
     
     def _genetic_wrapper(self):
         genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(self._schedules[0])),
-                          gene_size=len(self._schedules), generation_size=1000, population_size=500)
+                          gene_size=len(self._schedules), generation_size=1000, population_size=500,
+                          saturated_limit=100)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
         genetic.mutation = build_mutation_duplicate()
@@ -157,7 +157,9 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
     def run(self):
         print("""====================
 ## start monthly schedule adjusting""")
+        print("""### adjusting by ga""")
         ret = self._genetic_wrapper()
+        print("""### adjusting by random mutation""")
         ret = self._scheduling(ret)
         print("last adaptability: {}".format(ret.adaptability))
         print("""## finished

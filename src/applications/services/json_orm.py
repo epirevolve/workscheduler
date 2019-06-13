@@ -161,12 +161,12 @@ def to_schedule_component(data):
     if not data:
         return None
     operator = to_operator(default_pop(data, 'operator'))
-    day_work_category = to_day_work_category(default_pop(data, 'day_work_category'))
-    return ScheduleComponent(**data, operator=operator, day_work_category=day_work_category)
+    day_work_categories = [to_day_work_category(x) for x in default_pop(data, 'day_work_categories', [])]
+    return ScheduleComponent(operator=operator, day_work_categories=day_work_categories, **data)
 
 
 def to_schedule(data):
     if not data:
         return None
-    components = [to_schedule_component(x) for x in default_pop(data, 'schedule_component', [])]
-    return Schedule(schedule_components=components, **data)
+    components = [to_schedule_component(x) for x in default_pop(data, 'components', [])]
+    return Schedule(components=components, **data)

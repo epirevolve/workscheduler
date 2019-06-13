@@ -5,7 +5,6 @@ import schedules from './schedules';
 export const initValue = {
     daySettings: [],
     schedules: [],
-    totals: [],
     scheduleOf: new Date().toYearMonthFormatString()
 };
 
