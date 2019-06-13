@@ -10,8 +10,12 @@ import { zip } from 'array-util';
 const selectableRow = ({ headers, cells, onCategoryChange }) => (
     <TableRow>
         {headers.map((x, i) => <RowHeader key={i} val={x} left={i} />)}
-        {cells.map(([a, b, c], i) => <SelectableCell key={i} val={a.name} categories={b}
-            onCategoryChange={onCategoryChange(a.day, c)} />)}
+        {cells.map(([a, b, c], i) => {
+            const categories = c.fixedSchedules.concat(c.details.map((x) => x.workCategory));
+            const category = categories.find((x) => x.id == a.workCategoryId);
+            return <SelectableCell key={i} val={category ? category.title : a.workCategoryId} categories={b}
+                onCategoryChange={onCategoryChange(a.day, c)} />
+        })}
     </TableRow>
 );
 

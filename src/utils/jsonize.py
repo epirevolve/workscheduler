@@ -6,6 +6,8 @@ from datetime import datetime
 from datetime import date
 from datetime import time
 
+from flask import Response
+
 
 def to_capitalize(s):
     if '_' not in s:
@@ -58,3 +60,9 @@ def recursive_to_snake(obj):
 def loads(obj):
     data = json.loads(obj)
     return recursive_to_snake(data)
+
+
+def json_response(content='', *, status_code=200):
+    res = Response(content, mimetype='application/json')
+    res.status_code = status_code
+    return res

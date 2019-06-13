@@ -1,56 +1,28 @@
 import base from '../../schedule/reducers/schedules';
 
-import * as actionAppendedTypes from '../../schedule-admin/actionTypes';
+import * as actionTypes from '../actionTypes';
 
 const schedules = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
-        case actionAppendedTypes.CHANGE_WORK_CATEGORY:{
-            const { operator, day, daySetting, category, workCategories } = action.payload;
-            const oldCategoryName = state.schedules.find((x) => x.operator.id == action.operator.id)
-                .schedule.find((x) => x.day == action.day).name;
-            if (oldCategoryName == action.category) return state;
-
+        case actionTypes.CHANGE_WORK_CATEGORY:{
+            const { operator, day, daySetting, category, workCategories } = payload;
+            const categoryId = workCategories.map((x) => x.title).includes(category) ?
+                workCategories.find((x) => x.title == category).id : category;
             return {...state,
-                schedules: state.schedules.map((x) => {
-                    if (x.operator.id != action.operator.id) return x;
-                    return {...x,
-                        totals: x.totals.map((y) => {
-                            if (y.workCategory.title == action.category)
-                                return {...y, total: y.total+1};
-                            else if (y.workCategory.title == oldCategoryName)
-                                return {...y, total: y.total-1};
-                            else
-                                return y;
-                        }),
-                        schedule: x.schedule.map((y) => {
-                            if (y.day != action.day) return y;
-                            return {...y, name: action.category};
-                        })
-                    };
-                }),
-                totals: state.totals.map((x) => {
-                    if (x.workCategory.title == action.category) {
+                schedules: {...state.schedules,
+                    components: state.schedules.components.map((x) => {
+                        if (x.operator.id != operator.id) return x;
                         return {...x,
-                            totals: x.totals.map((y) => {
-                                if (y.day != action.day) return y;
-                                const newCount = y.count+1;
-                                return {...y, count: newCount};
+                            dayWorkCategories: x.dayWorkCategories.map((y) => {
+                                if (y.day != day) return y;
+                                return {...y,
+                                    workCategoryId: categoryId
+                                };
                             })
                         };
-                    }
-                    else if (x.workCategory.title == oldCategoryName) {
-                        return {...x,
-                            totals: x.totals.map((y) => {
-                                if (y.day != action.day) return y;
-                                const newCount = y.count-1;
-                                return {...y, count: newCount};
-                            })
-                        };
-                    }
-                    else
-                        return x;
-                })
+                    })
+                }
             };
         }
         default:

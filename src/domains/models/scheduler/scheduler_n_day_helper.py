@@ -8,8 +8,8 @@ from eart import Genetic
 
 from .ga_helper import build_parent_selection
 from .ga_helper import build_survivor_selection
-from .ga_helper import build_mutation_duplicaten
-from .ga_helper import build_crossover_duplicatever
+from .ga_helper import build_mutation_duplicate
+from .ga_helper import build_crossover_duplicate
 from .scheduler_monthly_helper import SchedulerMonthlyHelperBase
 
 

@@ -14,7 +14,7 @@ import DayHeaderRow from '../../schedule/components/DayHeaderRow';
 import SelectableRow from './SelectableRow';
 import TotalRows from '../../schedule/components/TotalRows';
 
-import { zip } from 'array-util';
+import { zip, transpose } from 'array-util';
 
 const tableCss = css({
     overflow: 'auto',
@@ -28,25 +28,41 @@ class schedules extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            workCategories: []
+            workCategories: [],
+            availableSigns: []
         };
         requestAgent
-            .get('/api/scheduler')
+            .get('/api/work-categories')
             .query({'team-id': props.team.id})
             .set('X-CSRFToken', csrfToken)
             .then((res) => {
-                const scheduler = JSON.parse(res.text);
-                this.setState({workCategories: scheduler.workCategories});
+                const workCategories = JSON.parse(res.text);
+                this.setState({workCategories: workCategories});
+            });
+        requestAgent
+            .get('/api/available-signs')
+            .set('X-CSRFToken', csrfToken)
+            .then((res) => {
+                const availableSigns = JSON.parse(res.text);
+                this.setState({availableSigns: availableSigns});
             });
     }
 
-    componentDidMount() {
+    componentDidMount () {
         const { team, scheduleOf } = this.props;
         this.props.onLoad(team, scheduleOf);
     }
 
+    getAllWorkCategoriesName () {
+        return this.state.workCategories.map((x) => x.title).concat(this.state.availableSigns);
+    }
+
+    getAllWorkCategoriesId () {
+        return this.state.workCategories.map((x) => x.id).concat(this.state.availableSigns);
+    }
+
     render () {
-        const { daySettings, schedules, totals, isLoading, onCategoryChange } = this.props;
+        const { daySettings, schedules, isLoading, onCategoryChange } = this.props;
         if (isLoading) {
             return (
                 <LinearProgress variant="query" css={css`margin: 10rem`} />
@@ -59,20 +75,23 @@ class schedules extends React.Component {
             );
         }
 
-        const categories = daySettings.map((x) => [""].concat(x.details.map((y) => y.workCategory.title)).concat(["-"])
-            .concat(x.fixedSchedules.map((y) => y.title)));
+        const categories = daySettings.map((x) => this.getAllWorkCategoriesName().concat(x.fixedSchedules.map((y) => y.title)));
         const headerRow = {
-            headers: [''].concat(this.state.workCategories.map((x) => x.title).concat(['-', ''])),
+            headers: [''].concat(this.getAllWorkCategoriesName()),
             cells: daySettings.map((x) => ({name: x.dayName, day: x.day, isHoliday: x.isHoliday}))
         };
-        const operatorRows = schedules.map((x) => ({
-                headers: [x.operator.user.name].concat(x.totals.map((y) => y.total)),
-                cells: zip(x.schedule, categories, daySettings),
+        const operatorRows = schedules.components.map((x) => {
+            const totals = this.getAllWorkCategoriesId().map((y) => x.dayWorkCategories.filter((z) => z.workCategoryId == y).length);
+            return {
+                headers: [x.operator.user.name].concat(totals),
+                cells: zip(x.dayWorkCategories, categories, daySettings),
                 onCategoryChange: onCategoryChange(this.state.workCategories, x.operator)
-            }));
+            }});
+        const tSchedules = transpose(schedules.components.map((x) => x.dayWorkCategories));
+        const totals = this.state.workCategories.map((x) => ({ workCategory: x, totals: tSchedules.map((y) => y.filter((z) => z.workCategoryId == x.id).length)}));
         const totalRows = totals.map((x) => ({
-                headers: [x.workCategory.title].concat(this.state.workCategories.map(() => '').concat(['', ''])),
-                cells: zip(x.totals, daySettings).map(([a, b]) => ({category: x.workCategory, daySetting: b, ...a}))
+                headers: [x.workCategory.title].concat(this.getAllWorkCategoriesName().map(() => '')),
+                cells: zip(x.totals, daySettings).map(([a, b]) => ({category: x.workCategory, daySetting: b, count: a}))
             }));
         return (
             <Table css={tableCss}>
