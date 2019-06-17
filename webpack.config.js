@@ -14,8 +14,22 @@ const _schedulePath = _path('schedule');
 const jsBasePath = path.resolve(__dirname, 'src/applications/web');
 console.log(jsBasePath);
 
+String.prototype.parentdirname = function () {
+    const value = String.raw`${this}`;
+    const match = value.match(String.raw`^.*[\\/](.+)[\\/](.+)$`);
+	return match ? match[1] : '';
+}
+
 String.prototype.filename = function () {
-	return this.match(".+/(.+?)([\?#;].*)?$")[1];
+    const value = String.raw`${this}`;
+    const match = value.match(String.raw`^(.+)[\\/](.+)$`);
+	return match ? match[2] : '';
+}
+
+var findSrcDir = function (value) {
+    value = String.raw`${value}`;
+    const match = value.match(String.raw`^(.+)[\\/]src.+$`);
+	return match ? match[1] : '';
 }
 
 var targets = _.filter(glob.sync(`${jsBasePath}/**/index.jsx`), (item) => {
@@ -25,37 +39,16 @@ var targets = _.filter(glob.sync(`${jsBasePath}/**/index.jsx`), (item) => {
 var entries = {};
 
 targets.forEach(value => {
-	var re = new RegExp(`${jsBasePath}/`);
-	var key = value.replace(re, '');
-
-	console.log('--------------------------')
-	console.log(key)
-	console.log(value.filename())
+    value = path.resolve(value);
+	var replaced = value.replace(__dirname, '').substr(1);
+	const key = path.resolve(findSrcDir(replaced), value.parentdirname());
 	entries[key] = value;
 });
 
 module.exports = {
     mode: 'development',
 
-    entry: {
-        'src/applications/web/util/statics/js/layout': path.join(_utilPath, '/src/layout/index.jsx'),
-        'src/applications/web/util/statics/js/main-menu': path.join(_utilPath, '/src/menu/index.jsx'),
-        'src/applications/web/models/user/statics/js/auth': path.join(_userPath, '/src/auth/index.jsx'),
-        'src/applications/web/models/user/statics/js/teams': path.join(_userPath, '/src/teams/index.jsx'),
-        'src/applications/web/models/user/statics/js/user': path.join(_userPath, '/src/user/index.jsx'),
-        'src/applications/web/models/user/statics/js/users': path.join(_userPath, '/src/users/index.jsx'),
-        'src/applications/web/models/operator/statics/js/operator': path.join(_operatorPath, '/src/operator/index.jsx'),
-        'src/applications/web/models/operator/statics/js/operators': path.join(_operatorPath, '/src/operators/index.jsx'),
-        'src/applications/web/models/operator/statics/js/skills': path.join(_operatorPath, '/src/skills/index.jsx'),
-        'src/applications/web/models/scheduler/statics/js/request-non-public': path.join(_schedulerPath, '/src/request-non-public/index.jsx'),
-        'src/applications/web/models/scheduler/statics/js/request-public': path.join(_schedulerPath, '/src/request-public/index.jsx'),
-        'src/applications/web/models/scheduler/statics/js/scheduler-menu': path.join(_schedulerPath, '/src/scheduler-menu/index.jsx'),
-        'src/applications/web/models/scheduler/statics/js/scheduler-monthly-setting': path.join(_schedulerPath, '/src/scheduler-monthly-setting/index.jsx'),
-        'src/applications/web/models/scheduler/statics/js/scheduler-basic-setting': path.join(_schedulerPath, '/src/scheduler-basic-setting/index.jsx'),
-        'src/applications/web/models/scheduler/statics/js/scheduler-yearly-setting': path.join(_schedulerPath, '/src/scheduler-yearly-setting/index.jsx'),
-        'src/applications/web/models/schedule/statics/js/schedule-operator': path.join(_schedulePath, '/src/schedule-operator/index.jsx'),
-        'src/applications/web/models/schedule/statics/js/schedule-admin': path.join(_schedulePath, '/src/schedule-admin/index.jsx'),
-    },
+    entry: entries,
 
     output: {
         filename: '[name].bundle.min.js'
@@ -97,16 +90,14 @@ module.exports = {
     resolve: {
         modules: [
             'node_modules',
-            path.resolve('.'),
-            path.join(__dirname, 'src/applications/web/util/statics/js'),
-            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons'),
-            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/functions'),
-            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/components'),
-            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/containers'),
-            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/actions'),
-            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/reducers'),
-            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/styles'),
-            path.join(__dirname, 'src/applications/web/util/statics/css')
+            'src/applications/web/util/statics/js/src/commons',
+            'src/applications/web/util/statics/js/src/commons/functions',
+            'src/applications/web/util/statics/js/src/commons/components',
+            'src/applications/web/util/statics/js/src/commons/containers',
+            'src/applications/web/util/statics/js/src/commons/actions',
+            'src/applications/web/util/statics/js/src/commons/reducers',
+            'src/applications/web/util/statics/js/src/commons/styles',
+            'src/applications/web/util/statics/css'
         ],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
     },
