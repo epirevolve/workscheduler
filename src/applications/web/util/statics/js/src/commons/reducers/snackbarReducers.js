@@ -5,7 +5,8 @@ const snackbar = (state = {isOpen: false}, action) => {
 		case SHOW_SNACKBAR:
 			return {...state,
 				isOpen: true,
-				message: action.payload.message
+				message: action.payload.message,
+				status: action.payload.status
 			};
 		case CLOSE_SNACKBAR:
 			return {...state,

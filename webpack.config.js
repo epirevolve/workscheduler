@@ -99,6 +99,7 @@ module.exports = {
             'node_modules',
             path.resolve('.'),
             path.join(__dirname, 'src/applications/web/util/statics/js'),
+            path.join(__dirname, 'src/applications/web/util/statics/js/src/commons'),
             path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/functions'),
             path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/components'),
             path.join(__dirname, 'src/applications/web/util/statics/js/src/commons/containers'),

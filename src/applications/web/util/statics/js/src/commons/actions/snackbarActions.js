@@ -1,8 +1,10 @@
 import { SHOW_SNACKBAR, CLOSE_SNACKBAR } from '../actionTypes';
 
-export const showSnackbar = (message) => ({
+import { INFO } from 'snackbarTypes';
+
+export const showSnackbar = (message, status = INFO) => ({
 	type: SHOW_SNACKBAR,
-	payload: { message }
+	payload: { message, status }
 });
 
 export const closeSnackbar = () => ({

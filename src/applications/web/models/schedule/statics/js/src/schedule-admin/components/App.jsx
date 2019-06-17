@@ -4,6 +4,7 @@ import ChangeSelectMonth from '../containers/ChangeSelectMonth';
 import ChangeTeam from '../containers/ChangeTeam';
 import DisplaySchedules from '../containers/DisplaySchedules';
 import CommitSchedules from '../containers/CommitSchedules';
+import ShowSnackbar from 'ShowSnackbar';
 
 const app = () => (
     <>
@@ -11,6 +12,7 @@ const app = () => (
         <ChangeSelectMonth />
         <DisplaySchedules />
         <CommitSchedules />
+        <ShowSnackbar />
     </>
 );
 

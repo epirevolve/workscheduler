@@ -9,6 +9,12 @@ import { css, jsx } from '@emotion/core';
 
 const wrapperCss = css({
 	position: 'relative',
+	display: 'flex'
+});
+
+const waitingCss = css({
+    position: 'absolute',
+    margin: '10% 40%'
 });
 
 const progressButton = ({
@@ -19,7 +25,7 @@ const progressButton = ({
 		<Button variant={variant} color={color} size={size} disabled={isProgressing} onClick={handleClick}>
 			{label}
 		</Button>
-		{isProgressing && <CircularProgress size={24} />}
+		{isProgressing && <CircularProgress size={24} css={waitingCss} />}
 	</div>
 );
 

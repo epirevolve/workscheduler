@@ -6,7 +6,8 @@ import { closeSnackbar } from 'snackbarActions';
 
 const mapStateToProps = (state) => ({
     isOpen: state.snackbar.isOpen,
-    message: state.snackbar.message
+    message: state.snackbar.message,
+    status: state.snackbar.status
 });
 
 const mapDispatchToProps = (dispatch) => ({

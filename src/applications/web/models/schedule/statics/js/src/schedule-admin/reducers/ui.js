@@ -1,3 +1,5 @@
+import base from '../../schedule/reducers/ui';
+
 import * as actionTypes from '../actionTypes';
 
 const ui = (state = {isProgressing: false}, action) => {
@@ -15,7 +17,7 @@ const ui = (state = {isProgressing: false}, action) => {
 				isProgressing: false
 			};
 		default:
-			return state;
+			return base(state, action);
 	}
 };
 

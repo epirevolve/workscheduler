@@ -20,7 +20,7 @@ const actionCss = css({
 const actionAreaCss = css({
 	color: 'lightslategray !important',
 },
-mt5, mb3);
+mt5,mb3);
 
 const renderActionByPublicity = (isPublished, isProgressing, onTerminateSchedules, onPublicSchedules) => {
     if (isPublished) {

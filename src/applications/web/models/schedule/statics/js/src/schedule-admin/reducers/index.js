@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 
 import schedules from './schedules';
 import teams from './teams';
-import ui from '../../schedule/reducers/ui';
+import ui from './ui';
+import snackbar from 'snackbarReducers';
 
 const dataset = document.querySelector('script[id="base-schedule"]').dataset;
 
@@ -11,5 +12,5 @@ export const initValue = {
 };
 
 export default combineReducers({
-    schedules, teams, ui
+    schedules, teams, ui, snackbar
 });

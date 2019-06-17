@@ -1,13 +1,12 @@
 import React from 'react';
 
-import MonthSelect from '../../schedule/components/MonthSelect';
-
-import Schedules from './Schedules';
+import ChangeSelectMonth from '../../schedule/containers/ChangeSelectMonth';
+import DisplaySchedules from '../containers/DisplaySchedules';
 
 const app = () => (
     <>
-        <MonthSelect />
-        <Schedules />
+        <ChangeSelectMonth />
+        <DisplaySchedules />
     </>
 );
 

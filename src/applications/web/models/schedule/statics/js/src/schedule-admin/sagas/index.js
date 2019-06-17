@@ -12,7 +12,7 @@ function *runSaveSchedules(action) {
     if (!error) {
         yield all([
             put(actions.successSaveSchedules()),
-            put(showSnackbar('Succeed to update schedules'))
+            put(showSnackbar('Succeed to update schedules', 'success'))
         ]);
 
     } else {

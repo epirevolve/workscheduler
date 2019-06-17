@@ -4,6 +4,13 @@ import Grid from '@material-ui/core/Grid';
 
 import CalendarCell from './CalendarCell';
 
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+
+const headerCss = css({
+    border: '.1rem solid #dee2e6',
+});
+
 const requestCalendar = ({ requestCalendar, ...other }) => {
     const weeks = [];
 
@@ -19,13 +26,13 @@ const requestCalendar = ({ requestCalendar, ...other }) => {
         <div style={{ margin: "0 1rem" }}>
             <div className="cl">
                 <Grid container className="cl-header">
-                    <Grid item xs className="cl-header-cell text-danger">Sun</Grid>
-                    <Grid item xs className="cl-header-cell">Mon</Grid>
-                    <Grid item xs className="cl-header-cell">Tue</Grid>
-                    <Grid item xs className="cl-header-cell">Wed</Grid>
-                    <Grid item xs className="cl-header-cell">Thu</Grid>
-                    <Grid item xs className="cl-header-cell">Fri</Grid>
-                    <Grid item xs className="cl-header-cell text-info">Sat</Grid>
+                    <Grid item xs css={headerCss} className="cl-header-cell text-danger">Sun</Grid>
+                    <Grid item xs css={headerCss}>Mon</Grid>
+                    <Grid item xs css={headerCss}>Tue</Grid>
+                    <Grid item xs css={headerCss} className="cl-header-cell">Wed</Grid>
+                    <Grid item xs css={headerCss} className="cl-header-cell">Thu</Grid>
+                    <Grid item xs css={headerCss} className="cl-header-cell">Fri</Grid>
+                    <Grid item xs css={headerCss} className="cl-header-cell text-info">Sat</Grid>
                 </Grid>
                 <div className="cl-body">
                     {weeks}

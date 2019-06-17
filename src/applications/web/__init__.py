@@ -86,33 +86,8 @@ def create_app(test_config=None):
 
     app.cli.add_command(set_test_db_command)
 
-    from .util.controllers import menus_bp
-    from .models.user.controllers import auth_bp
-    from .models.user.controllers import teams_bp
-    from .models.user.controllers import users_bp
-    from .models.operator.controllers import operators_bp
-    from .models.operator.controllers import skills_bp
-    from .models.scheduler.controllers import requests_bp
-    from .models.scheduler.controllers import schedulers_bp
-    from .models.schedule.controllers import schedules_bp
-    
-    from .models.user.controllers import users_api_bp
-    from .models.scheduler.controllers import schedulers_api_bp
-    from .models.schedule.controllers import schedules_api_bp
-
-    app.register_blueprint(menus_bp, url_prefix="/menus")
-    app.register_blueprint(auth_bp)
-    app.register_blueprint(teams_bp, url_prefix="/teams")
-    app.register_blueprint(users_bp, url_prefix="/users")
-    app.register_blueprint(operators_bp, url_prefix="/operators")
-    app.register_blueprint(skills_bp, url_prefix="/skills")
-    app.register_blueprint(requests_bp, url_prefix="/requests")
-    app.register_blueprint(schedulers_bp, url_prefix="/schedulers")
-    app.register_blueprint(schedules_bp, url_prefix="/schedules")
-    
-    app.register_blueprint(users_api_bp, url_prefix="/api")
-    app.register_blueprint(schedulers_api_bp, url_prefix="/api")
-    app.register_blueprint(schedules_api_bp, url_prefix="/api")
+    from .bp_register import bp_register
+    bp_register(app)
 
     @app.errorhandler(404)
     def not_found(error):
