@@ -2,18 +2,19 @@ import React from 'react';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { CSVLink } from "react-csv";
 
 import ProgressButton from 'ProgressButton';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-import { mt5, mr3, mr5, mb3 } from 'margin';
+import { mt5, mr3, mb3 } from 'margin';
 import { floatl, floatr } from 'float';
 
 const actionCss = css({
 	display: 'inline-flex',
-	'& > div': css({},mr5)
+	'& > div': css({},mr3)
 }
 ,floatr);
 
@@ -22,22 +23,22 @@ const actionAreaCss = css({
 },
 mt5,mb3);
 
-const renderActionByPublicity = (isPublished, isProgressing, onTerminateSchedules, onPublicSchedules) => {
+const renderActionByPublicity = (isPublished, isProgressing, onWithdrawSchedules, onPublishSchedules) => {
+    const wrapButtonCreation = (label, handleClick) =>
+        <ProgressButton label={label} handleClick={handleClick} isProgressing={isProgressing} />;
     if (isPublished) {
-        return <ProgressButton label={'Terminate'} handleClick={onTerminateSchedules} color="default"
-            isProgressing={isProgressing} css={mr3} />;
+        return wrapButtonCreation('Withdraw', onWithdrawSchedules);
     }
     else {
-        return <ProgressButton label={'Publish'} handleClick={onPublicSchedules}
-            isProgressing={isProgressing} css={mr3} />;
+        return wrapButtonCreation('Publish', onPublishSchedules);
     }
 }
 
 const commitActionArea = ({
         schedules, isPublished, isProgressing,
-        onSaveSchedules, onPublicSchedules, onTerminateSchedules
+        onSaveSchedules, onWithdrawSchedules, onPublishSchedules
     }) => {
-    const button = renderActionByPublicity(isPublished, isProgressing, onTerminateSchedules, onPublicSchedules);
+    const button = renderActionByPublicity(isPublished, isProgressing, onWithdrawSchedules, onPublishSchedules);
 
     return (
         <div css={actionAreaCss}>
@@ -46,8 +47,11 @@ const commitActionArea = ({
             </Typography>
             <div css={actionCss}>
                 <ProgressButton label={'Save'} handleClick={() => onSaveSchedules(schedules)}
-                    isProgressing={isProgressing} color="primary" css={mr3} />
+                    isProgressing={isProgressing} color="primary" />
                 {button}
+                <CSVLink data={''} filename={`workschedule-${schedules.year}-${schedules.month}.csv`}>
+                    <ProgressButton label={'Export'} isProgressing={isProgressing} color="default" />
+                </CSVLink>
             </div>
         </div>
     );

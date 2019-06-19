@@ -12,28 +12,32 @@ import moment from 'moment';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-const MonthSelect = ({ scheduleOf, team, onMonthChange }) => {
+const titleCss = css({
+    float: 'left',
+    margin: '1rem 2rem'
+});
+
+const iconCss = css({
+    zIndex: 9999,
+    margin: '.5rem'
+});
+
+const monthSelect = ({ scheduleOf, team, onMonthChange }) => {
     const calendar = <MonthCalendar />;
     const date = moment(scheduleOf, 'YYYY-MM');
     return (
         <>
-            <Typography variant="h4" css={css`
-                    float: right;
-                    margin: 0.5rem 1rem;
-                `}>{date.format("YYYY-MM")}</Typography>
+            <Typography variant="h4" css={titleCss}>{date.format("YYYY-MM")}</Typography>
             <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
                 value={date} onChange={(e) => onMonthChange(team, e)}>
-                { () => (
-                        <Fab color="primary" css={css`
-                                float: right;
-                                z-index: 9999;
-                            `}>
-                            <CalendarTodayRoundedIcon />
-                        </Fab>
-                    )}
+                {() => (
+                    <Fab color="primary" css={iconCss}>
+                        <CalendarTodayRoundedIcon />
+                    </Fab>
+                )}
             </DatePicker>
         </>
     );
 };
 
-export default MonthSelect;
+export default monthSelect;

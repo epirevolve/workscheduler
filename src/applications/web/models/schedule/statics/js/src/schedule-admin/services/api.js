@@ -9,3 +9,23 @@ export const saveSchedules = (payload) => {
         .then(() => ({}))
         .catch((error) => ({ error }));
 };
+
+export const publishSchedules = (payload) => {
+    const { schedules } = payload;
+    return requestAgent
+        .put('/api/schedules/publish')
+        .send(schedules)
+        .set('X-CSRFToken', csrfToken)
+        .then(() => ({}))
+        .catch((error) => ({ error }));
+};
+
+export const withdrawSchedules = (payload) => {
+    const { schedules } = payload;
+    return requestAgent
+        .put('/api/schedules/withdraw')
+        .send(schedules)
+        .set('X-CSRFToken', csrfToken)
+        .then(() => ({}))
+        .catch((error) => ({ error }));
+};

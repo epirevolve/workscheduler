@@ -104,7 +104,7 @@ class schedules extends React.Component {
                     {operatorRows.map((x, i) => <Row key={i} {...x} />)}
                 </TableBody>
                 <TableFooter>
-                    {totalRows.map((x, i) => <TotalRow key={i} {...x} bottom={rows.length-i-1} />)}
+                    {totalRows.map((x, i) => <TotalRow key={i} {...x} bottom={totalRows.length-i-1} />)}
                 </TableFooter>
             </Table>
         );

@@ -8,6 +8,7 @@ from flask import flash
 from flask import request
 from flask_login import login_user
 from flask_login import logout_user
+from flask_login import current_user
 
 from utils import jsonize
 
@@ -25,6 +26,8 @@ def load_user(user_id):
 
 @bp.route('/')
 def index():
+    if current_user and current_user.is_authenticated:
+        return redirect(url_for('menus.show_menu'))
     return render_template('auth.html')
 
 

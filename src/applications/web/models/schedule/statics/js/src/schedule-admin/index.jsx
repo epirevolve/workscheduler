@@ -9,7 +9,7 @@ import { initValue as schedules } from '../schedule/reducers';
 
 import rootSaga from './sagas';
 
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { StylesProvider, ThemeProvider } from '@material-ui/styles';
 import Theme from 'ColorTheme';
 
 import App from './components/App';
@@ -24,10 +24,12 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 render(
-    <MuiThemeProvider theme={Theme}>
-        <Provider store={store}>
-            <App />
-        </Provider>
-    </MuiThemeProvider>,
+    <StylesProvider injectFirst={true}>
+        <ThemeProvider theme={Theme}>
+            <Provider store={store}>
+                <App />
+            </Provider>
+        </ThemeProvider>
+    </StylesProvider>,
     document.getElementById('root')
 );

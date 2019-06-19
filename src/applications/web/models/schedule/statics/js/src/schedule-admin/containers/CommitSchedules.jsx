@@ -13,8 +13,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     onSaveSchedules: (schedules) => dispatch(actions.startSaveSchedules(schedules)),
-    onPublicSchedules: () => {},
-    onTerminateSchedules: () => {}
+    onWithdrawSchedules: (schedules) => dispatch(actions.startWithdrawSchedules(schedules)),
+    onPublishSchedules: (schedules) => dispatch(actions.startPublishSchedules(schedules)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

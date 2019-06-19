@@ -31,17 +31,32 @@ export const failureSaveSchedules = () => ({
 	payload: { message: '' }
 });
 
-export const startPublicSchedules = (schedules) => ({
-    type: actionTypes.START_PUBLIC_SCHEDULES,
+export const startPublishSchedules = (schedules) => ({
+    type: actionTypes.START_PUBLISH_SCHEDULES,
     payload: { schedules }
 });
 
-export const successPublicSchedules = () => ({
-	type: actionTypes.SUCCESS_PUBLIC_SCHEDULES,
+export const successPublishSchedules = () => ({
+	type: actionTypes.SUCCESS_PUBLISH_SCHEDULES,
 	payload: { message: '' }
 });
 
-export const failurePublicSchedules = () => ({
-	type: actionTypes.FAILURE_PUBLIC_SCHEDULES,
+export const failurePublishSchedules = () => ({
+	type: actionTypes.FAILURE_PUBLISH_SCHEDULES,
+	payload: { message: '' }
+});
+
+export const startWithdrawSchedules = (schedules) => ({
+    type: actionTypes.START_WITHDRAW_SCHEDULES,
+    payload: { schedules }
+});
+
+export const successWithdrawSchedules = () => ({
+	type: actionTypes.SUCCESS_WITHDRAW_SCHEDULES,
+	payload: { message: '' }
+});
+
+export const failureWithdrawSchedules = () => ({
+	type: actionTypes.FAILURE_WITHDRAW_SCHEDULES,
 	payload: { message: '' }
 });

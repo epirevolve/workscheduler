@@ -24,7 +24,7 @@ const teams = ({ team, scheduleOf, onTeamChange }) => {
     if (teams.map((x) => x.id).includes(team.id)) team = teams.find((x) => x.id == team.id);
 
     return (
-        <Select value={team} fullWidth className="m-2" input={<OutlinedInput labelWidth={0}
+        <Select value={team} fullWidth input={<OutlinedInput labelWidth={0}
             onChange={(e) => onTeamChange(scheduleOf, e)} />}>
             {teamList}
         </Select>
