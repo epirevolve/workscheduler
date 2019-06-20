@@ -5,29 +5,19 @@ import TableCell from '@material-ui/core/TableCell';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-class Cell extends React.Component {
-    constructor (props) {
-        super(props);
-        this.css = css({...props.css_,
-            minWidth: '5rem',
-            maxWidth: '5rem',
-            padding: '1rem',
-            textAlign: 'center'
-        });
-    }
+import { p2 } from 'padding';
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props["val"] !== nextProps["val"];
-    }
+const cellCss = css({
+    maxWidth: '5rem',
+    textAlign: 'center'
+}, p2);
 
-    render () {
-         const { val } = this.props;
-         return (
-            <TableCell css={this.css}>
-                {val}
-            </TableCell>
-        );
-    }
-}
+const cell = ({ val }) => (
+    <TableCell css={cellCss}>
+        {val}
+    </TableCell>
+);
 
-export default Cell;
+const areEqual = (prevProps, nextProps) => prevProps["val"] == nextProps["val"];
+
+export default React.memo(cell, areEqual);

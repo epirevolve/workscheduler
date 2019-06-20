@@ -1,9 +1,9 @@
 import { put, call, fork, takeEvery, all } from 'redux-saga/effects';
 
-import { START_SAVE_SCHEDULES, START_PUBLISH_SCHEDULES } from '../actionTypes';
+import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
-import { showSnackbar } from 'snackbarActions';
 import * as api from '../services/api';
+import { showSnackbar } from 'snackbarActions';
 
 import { handleRequestSchedules } from '../../schedule/sagas';
 
@@ -24,27 +24,47 @@ function *runSaveSchedules(action) {
 }
 
 export function *handleSaveSchedules() {
-    yield takeEvery(START_SAVE_SCHEDULES, runSaveSchedules);
+    yield takeEvery(actionTypes.START_SAVE_SCHEDULES, runSaveSchedules);
 }
 
 function *runPublishSchedules(action) {
-    const { error } = yield call(api.saveSchedules, action.payload);
+    const { error } = yield call(api.publishSchedules, action.payload);
     if (!error) {
         yield all([
             put(actions.successPublishSchedules()),
-            put(showSnackbar('Succeed to public schedules'))
+            put(showSnackbar('Succeed to publish schedules'))
         ]);
 
     } else {
         yield all([
             put(actions.failurePublishSchedules()),
-            put(showSnackbar('Sorry... we had failed to public schedules'))
+            put(showSnackbar('Sorry... we had failed to publish schedules'))
         ]);
     }
 }
 
 export function *handlePublishSchedules() {
-    yield takeEvery(START_PUBLISH_SCHEDULES, runPublishSchedules);
+    yield takeEvery(actionTypes.START_PUBLISH_SCHEDULES, runPublishSchedules);
+}
+
+function *runWithdrawSchedules(action) {
+    const { error } = yield call(api.withdrawSchedules, action.payload);
+    if (!error) {
+        yield all([
+            put(actions.successWithdrawSchedules()),
+            put(showSnackbar('Succeed to withdraw schedules'))
+        ]);
+
+    } else {
+        yield all([
+            put(actions.failureWithdrawSchedules()),
+            put(showSnackbar('Sorry... we had failed to withdraw schedules'))
+        ]);
+    }
+}
+
+export function *handleWithdrawSchedules() {
+    yield takeEvery(actionTypes.START_WITHDRAW_SCHEDULES, runWithdrawSchedules);
 }
 
 export default function *rootSaga() {
@@ -52,5 +72,6 @@ export default function *rootSaga() {
 		fork(handleRequestSchedules),
 		fork(handleSaveSchedules),
 		fork(handlePublishSchedules),
+		fork(handleWithdrawSchedules),
 	]);
 }

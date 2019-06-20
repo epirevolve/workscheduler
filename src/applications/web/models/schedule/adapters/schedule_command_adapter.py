@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from applications.services import ScheduleCommand
-
 from applications.services.json_orm import to_schedule
 
 
@@ -13,6 +12,12 @@ class ScheduleCommandAdapter:
         schedule = to_schedule(data)
         return ScheduleCommand(self._session).update_schedule(schedule)
 
-    def public_schedule(self, data: dict):
-        self.update_schedule(data)
-        return True
+    def publish_schedule(self, data: dict):
+        schedule = self.update_schedule(data)
+        schedule = ScheduleCommand(self._session).publish_schedule(schedule)
+        return schedule
+
+    def withdraw_schedule(self, data: dict):
+        schedule = self.update_schedule(data)
+        schedule = ScheduleCommand(self._session).withdraw_schedule(schedule)
+        return schedule

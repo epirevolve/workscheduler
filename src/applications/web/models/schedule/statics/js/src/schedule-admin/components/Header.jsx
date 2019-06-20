@@ -4,8 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
-import ChangeSelectMonth from '../containers/ChangeSelectMonth';
 import ChangeTeam from '../containers/ChangeTeam';
+import ChangeSelectMonth from '../containers/ChangeSelectMonth';
+import ExportAsCsv from '../../schedule/containers/ExportAsCsv';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -19,7 +20,8 @@ const header = () => (
                 <Grid item xs={12} md={4}>
                     <ChangeTeam />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={8}>
+                    <ExportAsCsv />
                     <ChangeSelectMonth />
                 </Grid>
             </Grid>

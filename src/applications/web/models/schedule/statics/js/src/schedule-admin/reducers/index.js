@@ -12,4 +12,4 @@ export const initValue = {
     ui: {isLoading: true, isProgressing: false}
 };
 
-export default combineWithCommonReducer({schedules, teams, ui, snackbar});
+export default combineWithCommonReducer({schedules, teams, ui});

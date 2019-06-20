@@ -29,3 +29,13 @@ class ScheduleCommand:
     def update_schedule(self, schedule: Schedule):
         self._session.merge(schedule)
         return schedule
+
+    def publish_schedule(self, schedule: Schedule):
+        schedule.is_published = True
+        self._session.merge(schedule)
+        return schedule
+
+    def withdraw_schedule(self, schedule: Schedule):
+        schedule.is_published = False
+        self._session.merge(schedule)
+        return schedule

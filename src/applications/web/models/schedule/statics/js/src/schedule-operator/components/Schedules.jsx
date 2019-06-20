@@ -20,7 +20,7 @@ import { zip, transpose } from 'array-util';
 const tableCss = css({
     overflow: 'auto',
     height: '74vh',
-    width: '95vw',
+    width: '96vw',
     display: 'block',
     borderCollapse: 'initial'
 });

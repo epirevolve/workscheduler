@@ -7,5 +7,5 @@ from datetime import datetime
 def to_date(value, format='%Y/%m/%d'):
     try:
         return datetime.strptime(value, format).date()
-    finally:
+    except ValueError:
         return date.today()

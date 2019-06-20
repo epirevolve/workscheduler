@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CSVLink } from "react-csv";
 
@@ -38,7 +37,8 @@ const commitActionArea = ({
         schedules, isPublished, isProgressing,
         onSaveSchedules, onWithdrawSchedules, onPublishSchedules
     }) => {
-    const button = renderActionByPublicity(isPublished, isProgressing, onWithdrawSchedules, onPublishSchedules);
+    const button = renderActionByPublicity(isPublished, isProgressing,
+        () => onWithdrawSchedules(schedules), () => onPublishSchedules(schedules));
 
     return (
         <div css={actionAreaCss}>
@@ -49,9 +49,6 @@ const commitActionArea = ({
                 <ProgressButton label={'Save'} handleClick={() => onSaveSchedules(schedules)}
                     isProgressing={isProgressing} color="primary" />
                 {button}
-                <CSVLink data={''} filename={`workschedule-${schedules.year}-${schedules.month}.csv`}>
-                    <ProgressButton label={'Export'} isProgressing={isProgressing} color="default" />
-                </CSVLink>
             </div>
         </div>
     );

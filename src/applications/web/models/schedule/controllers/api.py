@@ -39,3 +39,35 @@ def update_schedules():
         print(e)
         response = jsonize.json_response(status_code=400)
     return response
+
+
+@bp.route('/schedules/publish', methods=['PUT'])
+@login_required
+@admin_required
+def publish_schedules():
+    session = get_db_session()
+    try:
+        ScheduleCommandAdapter(session).publish_schedule(jsonize.loads(request.data))
+        session.commit()
+        response = jsonize.json_response()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = jsonize.json_response(status_code=400)
+    return response
+
+
+@bp.route('/schedules/withdraw', methods=['PUT'])
+@login_required
+@admin_required
+def withdraw_schedules():
+    session = get_db_session()
+    try:
+        ScheduleCommandAdapter(session).withdraw_schedule(jsonize.loads(request.data))
+        session.commit()
+        response = jsonize.json_response()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = jsonize.json_response(status_code=400)
+    return response

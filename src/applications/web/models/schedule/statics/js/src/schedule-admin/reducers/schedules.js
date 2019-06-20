@@ -5,7 +5,7 @@ import * as actionTypes from '../actionTypes';
 const schedules = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
-        case actionTypes.CHANGE_WORK_CATEGORY:{
+        case actionTypes.CHANGE_WORK_CATEGORY: {
             const { operator, day, daySetting, category, workCategories } = payload;
             const categoryId = workCategories.map((x) => x.title).includes(category) ?
                 workCategories.find((x) => x.title == category).id : category;
@@ -25,6 +25,14 @@ const schedules = (state = {}, action) => {
                 }
             };
         }
+        case actionTypes.SUCCESS_PUBLISH_SCHEDULES:
+            return {...state,
+                isPublished: true
+            }
+        case actionTypes.SUCCESS_WITHDRAW_SCHEDULES:
+            return {...state,
+                isPublished: false
+            }
         default:
             return base(state, action);
     }

@@ -6,7 +6,7 @@ const schedules = (state = {}, action) => {
         case actionTypes.SUCCESS_SCHEDULES:
             return {...state,
                 daySettings: payload.daySettings,
-                schedules: payload.schedules,
+                schedules: payload.schedules || [],
                 isPublished: payload.schedules ? payload.schedules.isPublished : false,
             };
         case actionTypes.CHANGE_SCHEDULE_OF:
