@@ -1,13 +1,12 @@
 import React from 'react';
 
 import MonthlySetting from './MonthlySetting';
-import ShowSnackbar from 'ShowSnackbar';
+import Layout from 'Layout';
 
 const app = () => (
-    <>
+    <Layout>
         <MonthlySetting />
-        <ShowSnackbar />
-    </>
+    </Layout>
 );
 
 export default app;

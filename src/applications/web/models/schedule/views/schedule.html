@@ -1,9 +1,4 @@
 {% extends "layout.html" %}
-{% block body %}
-<div>
-    {% block schedule_body %}{% endblock %}
-</div>
-{% endblock %}
 
 {% block script %}
 <script id="base-schedule" data-team="{{ to_json(team) }}" data-schedule-of="{{ schedule_of }}"></script>

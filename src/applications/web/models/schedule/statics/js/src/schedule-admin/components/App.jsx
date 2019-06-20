@@ -1,17 +1,16 @@
 import React from 'react';
 
+import Layout from 'Layout';
 import Header from './Header';
 import DisplaySchedules from '../containers/DisplaySchedules';
 import CommitSchedules from '../containers/CommitSchedules';
-import ShowSnackbar from 'ShowSnackbar';
 
 const app = () => (
-    <>
+    <Layout>
         <Header />
         <DisplaySchedules />
         <CommitSchedules />
-        <ShowSnackbar />
-    </>
+    </Layout>
 );
 
 export default app;

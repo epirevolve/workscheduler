@@ -1,10 +1,7 @@
 {% extends "layout.html" %}
-{% block body %}
-<div id="root"></div>
-{% endblock %}
 
 {% block script %}
+<script id="breadscram" data-current="{{ to_json({'name': 'Skills'}) }}"></script>
 <script src="{{ url_for('operators.static', filename='js/skills.bundle.min.js') }}"
         data-url="{{ url_for('skills.append_skill') }}" data-skills="{{ to_json(skills) }}"></script>
-<script id="breadscram" data-current="{{ to_json({'name': 'Skills'}) }}"></script>
 {% endblock %}

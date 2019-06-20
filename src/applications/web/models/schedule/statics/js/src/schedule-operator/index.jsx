@@ -4,30 +4,21 @@ import { createStore, compose , applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
 
-import rootReducer from './reducers';
-import { initValue as schedules } from '../schedule/reducers';
-
+import rootReducer, { initValue } from './reducers';
 import rootSaga from '../schedule/sagas';
-
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import Theme from 'ColorTheme';
 
 import App from './components/App';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(
-    rootReducer,
-    {schedules, ui: {isLoading: true}},
+const store = createStore(rootReducer, initValue,
     composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(rootSaga);
 
 render(
-    <MuiThemeProvider theme={Theme}>
-        <Provider store={store}>
-            <App />
-        </Provider>
-    </MuiThemeProvider>,
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById('root')
 );

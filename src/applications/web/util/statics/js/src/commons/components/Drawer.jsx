@@ -17,7 +17,7 @@ import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
 
-const dataset = document.querySelector('script[src*="layout"]').dataset;
+const dataset = document.querySelector('#linkTags').dataset;
 const urlSchedules = dataset.urlSchedules;
 const urlRequests = dataset.urlRequests;
 const urlAsOperator = dataset.urlAsOperator;
@@ -29,10 +29,10 @@ const urlTeams = dataset.urlTeams;
 const urlSkills = dataset.urlSkills;
 const auth = JSON.parse(dataset.auth);
 
-const drawer = ({ opened, handleCloseDrawer }) => (
-	<Drawer open={opened} onClose={() => handleCloseDrawer()}>
+const drawer = ({ open, setOpen }) => (
+	<Drawer open={open} onClose={() => setOpen(prev => ({...prev, open: false}))}>
 		<div tabIndex={0}>
-			<IconButton onClick={() => handleCloseDrawer()}>
+			<IconButton onClick={() => setOpen(prev => ({...prev, open: false}))}>
 				<ChevronLeftRoundedIcon />
 			</IconButton>
 			<Divider />

@@ -10,6 +10,10 @@ import { css, jsx } from '@emotion/core';
 
 const dataset = document.querySelector('script[src*="schedule-admin"]').dataset;
 
+const teamCss = css({
+    '& fieldset': {border: 0}
+});
+
 const teams = ({ team, scheduleOf, onTeamChange }) => {
     const teams = JSON.parse(dataset.teams);
     const teamList = teams.map((x) =>
@@ -24,8 +28,9 @@ const teams = ({ team, scheduleOf, onTeamChange }) => {
     if (teams.map((x) => x.id).includes(team.id)) team = teams.find((x) => x.id == team.id);
 
     return (
-        <Select value={team} fullWidth input={<OutlinedInput labelWidth={0}
-            onChange={(e) => onTeamChange(scheduleOf, e)} />}>
+        <Select value={team} fullWidth
+            input={<OutlinedInput labelWidth={0} css={teamCss}
+                onChange={(e) => onTeamChange(scheduleOf, e)} />}>
             {teamList}
         </Select>
     );

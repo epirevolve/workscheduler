@@ -1,9 +1,6 @@
 {% extends "layout.html" %}
-{% block body %}
-<div id="root"></div>
-{% endblock %}
 
 {% block script %}
-<script src="{{ url_for('sub-teams.static', filename='js/sub-teams.bundle.min.js') }}"></script>
 <script id="breadscram" data-current="{{ to_json({'name': 'Sub Teams'}) }}"></script>
+<script src="{{ url_for('sub-teams.static', filename='js/sub-teams.bundle.min.js') }}"></script>
 {% endblock %}

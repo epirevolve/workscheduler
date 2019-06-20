@@ -4,26 +4,18 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
 
-import rootReducer from './reducers';
+import rootReducer, { initValue } from './reducers';
 import rootSaga from './sagas';
 
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import Theme from 'ColorTheme';
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer, initValue,  applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
 
 import App from './components/App';
 
-const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
-const menu = { team: JSON.parse(dataset.teams)[0] };
-
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer, {menu},  applyMiddleware(sagaMiddleware));
-sagaMiddleware.run(rootSaga);
-
 render(
-    <MuiThemeProvider theme={Theme}>
-        <Provider store={store}>
-            <App />
-        </Provider>
-    </MuiThemeProvider>,
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById('root')
 );

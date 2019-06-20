@@ -2,14 +2,13 @@ import React from 'react';
 
 import ChangeSelectTeam from '../containers/ChangeSelectTeam';
 import LaunchScheduler from '../containers/LaunchScheduler';
-import ShowSnackbar from 'ShowSnackbar';
+import Layout from 'Layout';
 
 const app = () => (
-    <>
+    <Layout>
         <ChangeSelectTeam />
         <LaunchScheduler />
-        <ShowSnackbar />
-    </>
+    </Layout>
 );
 
 export default app;

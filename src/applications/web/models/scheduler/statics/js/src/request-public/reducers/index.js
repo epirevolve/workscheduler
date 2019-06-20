@@ -1,9 +1,12 @@
-import { combineReducers } from 'redux';
+import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
 import requestDialog from './request-dialog';
 import requestCalendar from './request-calendar';
 
-export default combineReducers({
-    requestDialog,
-    requestCalendar
+const dataset = document.querySelector('script[src*="request-public"]').dataset;
+export const initValue = ({
+    requestCalendar: JSON.parse(dataset.calendar),
+    requestDialog: {isOpen: false}
 });
+
+export default combineWithCommonReducer({requestDialog, requestCalendar});

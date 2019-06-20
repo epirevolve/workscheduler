@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux';
+import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
 import monthlySetting from './monthly-setting';
 import ui from './ui';
-import snackbar from 'snackbarReducers';
 
-export default combineReducers({
-    monthlySetting,
-    ui,
-    snackbar
+const dataset = document.querySelector('script[src*="scheduler-monthly-setting"]').dataset;
+export const initValue = ({
+    monthlySetting: JSON.parse(dataset.monthlySetting)
 });
+
+export default combineWithCommonReducer({monthlySetting, ui});

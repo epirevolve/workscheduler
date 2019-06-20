@@ -6,13 +6,14 @@ import DialogContainer from '../containers/DialogContainer';
 import RequestsContainer from '../containers/RequestsContainer';
 
 import MonthYearSelector from '../../request/components/MonthYearSelector';
+import Layout from 'Layout';
 
 const dataset = document.querySelector('script[src*="request-public"]').dataset;
 const holidays = JSON.parse(dataset.holidays);
 const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
 
 const app = () => (
-    <>
+    <Layout>
         <DialogContainer />
         <MonthYearSelector />
         <Grid container>
@@ -31,7 +32,7 @@ const app = () => (
                 </div>
             </Grid>
         </Grid>
-    </>
+    </Layout>
 );
 
 export default app;

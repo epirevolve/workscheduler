@@ -19,24 +19,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/src/commons/functions/date-extension.js') }}"></script>
     </head>
     <body>
-        <nav id="nav"></nav>
-        <div id="drawer"></div>
-        <div class="container-fluid py-3 px-0" style="width: 95%" role="main">
-            <div id="alertContainer">
-            {% for category, message in get_flashed_messages(with_categories=true) %}
-                {% if category == 'message' %}
-                <div class="alert alert-info alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>{{ message }}
-                </div>
-                {% elif category == 'error' %}
-                <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error:</strong>{{ message }}
-                </div>
-                {% endif %}
-            {% endfor %}
-            </div>
-            {% block body %}{% endblock %}
-        </div>
+        <div id="root"></div>
         <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog"
              aria-labelledby="confirmModalLabel" style="z-index: 1600">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -81,8 +64,7 @@
     </script>
     <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
     {% block css %}{% endblock %}
-    {% block script %}{% endblock %}
-    <script src="{{ url_for('static', filename='js/layout.bundle.min.js') }}"
+    <script id="linkTags"
         data-is-authenticated="{{ current_user.is_authenticated }}"
         data-auth="{{ to_json(current_user) }}"
         data-url-menu="{{ url_for('menus.show_menu') }}"
@@ -96,4 +78,5 @@
         data-url-teams="{{ url_for('teams.show_teams') }}"
         data-url-skills="{{ url_for('skills.show_skills') }}"
         data-url-logout="{{ url_for('auths.logout') }}"></script>
+    {% block script %}{% endblock %}
 </html>

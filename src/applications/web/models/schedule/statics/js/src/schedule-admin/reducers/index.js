@@ -1,16 +1,15 @@
-import { combineReducers } from 'redux';
+import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
 import schedules from './schedules';
 import teams from './teams';
 import ui from './ui';
-import snackbar from 'snackbarReducers';
 
 const dataset = document.querySelector('script[id="base-schedule"]').dataset;
-
+import { initValue as schedulesInitValue } from '../../schedule/reducers';
 export const initValue = {
-    team: JSON.parse(dataset.team)
+    schedules: schedulesInitValue,
+    teams: {team: JSON.parse(dataset.team)},
+    ui: {isLoading: true, isProgressing: false}
 };
 
-export default combineReducers({
-    schedules, teams, ui, snackbar
-});
+export default combineWithCommonReducer({schedules, teams, ui, snackbar});

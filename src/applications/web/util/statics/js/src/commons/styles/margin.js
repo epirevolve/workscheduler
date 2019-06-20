@@ -100,3 +100,13 @@ export const mx3 = css({},ml3,mr3);
 export const mx4 = css({},ml4,mr4);
 
 export const mx5 = css({},ml5,mr5);
+
+export const m1 = css({},mx1,my1);
+
+export const m2 = css({},mx2,my2);
+
+export const m3 = css({},mx3,my3);
+
+export const m4 = css({},mx4,my4);
+
+export const m5 = css({},mx5,my5);

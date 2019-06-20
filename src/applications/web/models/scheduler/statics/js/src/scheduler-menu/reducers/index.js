@@ -1,8 +1,11 @@
-import { combineReducers } from 'redux';
-import menu from './menu';
-import snackbar from 'snackbarReducers';
+import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
-export default combineReducers({
-    menu,
-    snackbar
+import menu from './menu';
+
+const dataset = document.querySelector('script[src*="scheduler-menu"]').dataset;
+
+export const initValue = ({
+    menu: {team: JSON.parse(dataset.teams)[0]}
 });
+
+export default combineWithCommonReducer({menu});

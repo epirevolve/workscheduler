@@ -12,7 +12,7 @@ import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
 
-const dataset = document.querySelector('script[src*="layout"]').dataset;
+const dataset = document.querySelector('#linkTags').dataset;
 const isAuthenticated = JSON.parse(dataset.isAuthenticated.toLowerCase());
 const urlMenu = dataset.urlMenu;
 const urlLogout = dataset.urlLogout;
@@ -37,7 +37,7 @@ else
     breads.unshift({ url: urlMenu, name: 'Work Scheduler'});
 }
 
-const nav = ({ opened, handleOpenDrawer }) => {
+const nav = ({ setDrawerOpen }) => {
     const [state, setState] = React.useState({anchorEl: null});
     const open = Boolean(state.anchorEl);
 
@@ -46,8 +46,8 @@ const nav = ({ opened, handleOpenDrawer }) => {
     return (
 		<AppBar className="pl-2" position="static">
 			<Toolbar disableGutters>
-				<IconButton color="inherit" aria-label="Open drawer" tabIndex="-1"
-					onClick={() => handleOpenDrawer()}>
+                <IconButton color="inherit" aria-label="Open drawer" tabIndex="-1"
+					onClick={() => setDrawerOpen(prev => ({...prev, open: true}))}>
 					<MenuIcon />
 				</IconButton>
 				<Breadcrumbs separator={<NavigateNextRoundedIcon fontSize="small" />} arial-label="Breadcrumb"

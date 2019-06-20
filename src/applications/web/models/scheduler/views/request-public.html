@@ -1,7 +1,4 @@
 {% extends "request.html" %}
-{% block request_body %}
-<div id="root"></div>
-{% endblock %}
 
 {% block scriptAppend %}
 <script type="text/javascript" src="{{ url_for('requests.static', filename='js/request-public.bundle.min.js') }}"
