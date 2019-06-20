@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import CsvExportButton from '../components/CsvExportButton';
-const dataset = document.querySelector('script[id="base-schedule"]').dataset;
-const team = JSON.parse(dataset.team);
+import CsvExportButton from '../../schedule/components/CsvExportButton';
 
 const mapStateToProps = (state) => ({
-    team,
+    team: state.teams.team,
     daySettings: state.schedules.daySettings,
     schedules: state.schedules.schedules
 });

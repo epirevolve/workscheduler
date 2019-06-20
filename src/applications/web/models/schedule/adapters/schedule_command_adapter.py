@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from applications.services import ScheduleCommand
-from applications.services.json_orm import to_schedule
+from applications.services.domain_orm import to_schedule
 
 
 class ScheduleCommandAdapter:

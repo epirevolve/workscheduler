@@ -15,7 +15,8 @@ import { css, jsx } from '@emotion/core';
 import { m2, mx4, my3 } from 'margin';
 
 const titleCss = css({
-    float: 'right'
+    float: 'right',
+    color: 'lightslategray'
 },mx4,my3);
 
 const iconCss = css({

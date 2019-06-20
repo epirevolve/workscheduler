@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Typography from '@material-ui/core/Typography';
 import { CSVLink } from "react-csv";
 
 import ProgressButton from 'ProgressButton';
@@ -15,12 +14,7 @@ const actionCss = css({
 	display: 'inline-flex',
 	'& > div': css({},mr3)
 }
-,floatr);
-
-const actionAreaCss = css({
-	color: 'lightslategray !important',
-},
-mt5,mb3);
+,floatr,mt5,mb3);
 
 const renderActionByPublicity = (isPublished, isProgressing, onWithdrawSchedules, onPublishSchedules) => {
     const wrapButtonCreation = (label, handleClick) =>
@@ -41,15 +35,10 @@ const commitActionArea = ({
         () => onWithdrawSchedules(schedules), () => onPublishSchedules(schedules));
 
     return (
-        <div css={actionAreaCss}>
-            <Typography variant="h5" css={floatl}>
-                This schedule is {isPublished ? 'published' : 'not published'}.
-            </Typography>
-            <div css={actionCss}>
-                <ProgressButton label={'Save'} handleClick={() => onSaveSchedules(schedules)}
-                    isProgressing={isProgressing} color="primary" />
-                {button}
-            </div>
+        <div css={actionCss}>
+            <ProgressButton label={'Save'} handleClick={() => onSaveSchedules(schedules)}
+                isProgressing={isProgressing} color="primary" />
+            {button}
         </div>
     );
 };

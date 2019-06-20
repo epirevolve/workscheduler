@@ -5,8 +5,8 @@ from collections import namedtuple
 from applications.services import SchedulerCommand
 from applications.web.util.functions.converter import to_date
 
-from applications.services.json_orm import to_monthly_setting
-from applications.services.json_orm import to_scheduler
+from applications.services.domain_orm import to_monthly_setting
+from applications.services.domain_orm import to_scheduler
 
 
 class SchedulerCommandAdapter:
