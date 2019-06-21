@@ -12,11 +12,13 @@ import { p2 } from 'padding';
 
 const cellCss = css({
     maxWidth: '6rem',
+    minWidth: '6rem',
     textAlign: 'center'
 }, p2);
 
 const selectCss = css({
     maxWidth: '5rem'
+    minWidth: '5rem'
 });
 
 const selectableCell = ({ categories, val, onCategoryChange }) => {

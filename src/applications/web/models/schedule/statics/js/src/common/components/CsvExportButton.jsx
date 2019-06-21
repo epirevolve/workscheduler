@@ -4,6 +4,7 @@ import requestAgent from 'superagent';
 
 import Fab from '@material-ui/core/Fab';
 import CloudDownloadRoundedIcon from '@material-ui/icons/CloudDownloadRounded';
+import formatSchedule from '../../common/services/formatSchedule';
 
 import { CSVLink } from "react-csv";
 
@@ -17,11 +18,22 @@ const iconCss = css({
     zIndex: 999
 },m2);
 
-const csvExportButton = ({daySettings, schedules, team, isPublished}) => {
+const csvExportButton = ({daySettings, schedules, team, workCategories, availableSigns}) => {
     if (!schedules || schedules.length == 0) return (<></>);
+    const [headerRow, operatorRows, totalRows] = formatSchedule(daySettings, schedules, workCategories, availableSigns);
+    const header1 = headerRow.headers.map((x) => '').concat(headerRow.cells.map((x) => x.name));
+    const header2 = headerRow.headers.map((x) => x).concat(headerRow.cells.map((x) => x.day));
+    const cells = operatorRows.map((x) => x.headers.concat(
+        x.cells.map(([a, b, c], i) => {
+            const categories = c.fixedSchedules.concat(c.details.map((x) => x.workCategory));
+            const category = categories.find((x) => x.id == a.workCategoryId);
+            return category ? category.title : a.workCategoryId;
+        }
+    )));
+    const totals = totalRows.map((x) => x.headers.concat(x.cells.map((y) => y.count)));
     return (
-        <CSVLink data={''}
-            filename={`workschedule-${schedules.year}-${schedules.month}.csv`}>
+        <CSVLink data={[header1, header2, ...cells, ...totals]}
+            filename={`${team.name}-${schedules.year}-${schedules.month}.csv`}>
             <Fab color="default" css={iconCss}>
                 <CloudDownloadRoundedIcon />
             </Fab>
