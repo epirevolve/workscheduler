@@ -4,11 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
-import ChangeTeam from '../containers/ChangeTeam';
-import ConfirmPublishState from '../containers/ConfirmPublishState';
+import DisplayTeamName from '../containers/DisplayTeamName';
 import ExportAsCsv from '../containers/ExportAsCsv';
 import ChangeSelectMonth from '../containers/ChangeSelectMonth';
-import CommitSchedules from '../containers/CommitSchedules';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -20,13 +18,11 @@ const header = () => (
         <Toolbar>
             <Grid container>
                 <Grid item xs={12} lg={4}>
-                    <ChangeTeam />
+                    <DisplayTeamName />
                 </Grid>
                 <Grid item xs={12} lg={8}>
-                    <ConfirmPublishState />
                     <ExportAsCsv />
                     <ChangeSelectMonth />
-                    <CommitSchedules />
                 </Grid>
             </Grid>
         </Toolbar>

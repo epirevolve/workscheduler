@@ -14,13 +14,13 @@ const teamCss = css({
     '& fieldset': {border: 0}
 });
 
+import { lightslategray } from 'color';
+
 const teams = ({ team, scheduleOf, onTeamChange }) => {
     const teams = JSON.parse(dataset.teams);
     const teamList = teams.map((x) =>
         <MenuItem key={x.id} value={x}>
-            <Typography variant="h5" css={css`
-                    color: lightslategray !important;
-                `}>
+            <Typography variant="h5" css={lightslategray}>
                 {x.name}
             </Typography>
         </MenuItem>);

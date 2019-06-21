@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { requestSchedules, changeScheduleOf } from '../actions';
+import { requestSchedules, changeScheduleOf } from '../../common/actions';
 
-import MonthSelect from '../components/MonthSelect';
+import MonthSelect from '../../common/components/MonthSelect';
 
 const dataset = document.querySelector('script[id="baseSchedule"]').dataset;
 const team = JSON.parse(dataset.team);

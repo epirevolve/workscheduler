@@ -5,8 +5,10 @@ const schedules = (state = {}, action) => {
     switch (action.type) {
         case actionTypes.SUCCESS_SCHEDULES:
             return {...state,
-                daySettings: payload.daySettings,
-                schedules: payload.schedules || [],
+                daySettings: payload.schedules.daySettings,
+                schedules: payload.schedules.schedules || [],
+                workCategories: payload.workCategories,
+                availableSigns: payload.availableSigns,
                 isPublished: payload.schedules ? payload.schedules.isPublished : false,
             };
         case actionTypes.CHANGE_SCHEDULE_OF:

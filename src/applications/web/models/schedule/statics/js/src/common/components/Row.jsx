@@ -10,8 +10,8 @@ import { zip } from 'arrayUtil';
 const row = ({ headers, cells }) => (
     <TableRow>
         {headers.map((x, i) => <RowHeader key={i} val={x} left={i} />)}
-        {cells.map(([a, b], i) => {
-            const categories = b.fixedSchedules.concat(b.details.map((x) => x.workCategory));
+        {cells.map(([a, b, c], i) => {
+            const categories = c.fixedSchedules.concat(c.details.map((x) => x.workCategory));
             const category = categories.find((x) => x.id == a.workCategoryId);
             return <Cell key={i} val={category ? category.title : a.workCategoryId} />
         })}

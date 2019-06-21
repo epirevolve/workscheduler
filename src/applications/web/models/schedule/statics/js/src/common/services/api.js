@@ -7,6 +7,17 @@ export const fetchSchedules = (payload) => {
         .query({'team-id': team.id, 'schedule-of': scheduleOf})
         .set('X-CSRFToken', csrfToken)
         .then((res) => JSON.parse(res.text))
-        .then((res) => ({ res }))
+        .then((schedules) =>
+            requestAgent
+                .get('/api/work-categories')
+                .query({'team-id': team.id})
+                .set('X-CSRFToken', csrfToken)
+                .then((res) => JSON.parse(res.text))
+                .then((workCategories) =>
+                    requestAgent
+                        .get('/api/available-signs')
+                        .set('X-CSRFToken', csrfToken)
+                        .then((res) => JSON.parse(res.text))
+                        .then((availableSigns) => ({res: {schedules, workCategories, availableSigns}}))))
         .catch((error) => ({ error }));
 };

@@ -9,6 +9,8 @@ import { changeWorkCategory } from '../actions';
 const mapStateToProps = (state) => ({
     daySettings: state.schedules.daySettings,
     schedules: state.schedules.schedules,
+    workCategories: state.schedules.workCategories,
+    availableSigns: state.schedules.availableSigns,
     team: state.teams.team,
     scheduleOf: state.schedules.scheduleOf,
     isLoading: state.ui.isLoading
