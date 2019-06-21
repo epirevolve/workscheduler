@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { newPseudoUuid } from 'id-util';
+import { newPseudoUuid } from 'idUtil';
 
 const dataset = document.querySelector('script[src*="schedulerMonthly"]').dataset;
 const scheduleOf = dataset.scheduleOf;

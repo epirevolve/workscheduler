@@ -1,4 +1,4 @@
-import { newPseudoUuid } from 'id-util';
+import { newPseudoUuid } from 'idUtil';
 
 const scheduler = (state = {}, action) => {
     switch (action.type) {

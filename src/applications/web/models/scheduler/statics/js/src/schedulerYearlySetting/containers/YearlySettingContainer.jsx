@@ -5,7 +5,7 @@ import requestAgent from 'superagent';
 
 import Button from '@material-ui/core/Button';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 const dataset = document.querySelector('script[src*="schedulerYearly"]').dataset;
 const url = dataset.url;
@@ -17,14 +17,12 @@ class YearlySettingContainer extends React.Component {
             .send(yearlySetting)
             .set('X-CSRFToken', csrfToken)
             .then(res => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('successfully storing scheduler yearly setting.', 'alert-info')
+                //dispatch(showSnackbar('successfully storing scheduler yearly setting.'));
             })
             .catch(err => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with storing yearly setting...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger')
+                //dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
     }
 

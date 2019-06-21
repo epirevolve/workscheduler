@@ -1,4 +1,4 @@
-import { newPseudoUuid } from 'id-util';
+import { newPseudoUuid } from 'idUtil';
 import moment from 'moment';
 
 const yearlySetting = (state = {}, action) => {

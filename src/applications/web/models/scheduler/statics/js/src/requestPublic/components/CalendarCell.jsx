@@ -6,7 +6,7 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 
 import Request from './Request';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 const dataset = document.querySelector('script[src*="requestPublic"]').dataset;
 const scheduleOf = new Date(dataset.scheduleOf);
@@ -15,8 +15,7 @@ class CalendarCell extends React.Component {
     handleAppend (day, action) {
         if (day.requests.length >= 2) {
             const alertManager = new AlertManager('#alertContainer');
-            alertManager.append('cant append more request on this day',
-            'alert-danger');
+            //dispatch(showSnackbar('cant append more request on this day'));
             return;
         }
 

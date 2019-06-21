@@ -5,7 +5,7 @@ import requestAgent from 'superagent';
 
 import Operator from '../components/Operator';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 import { changeSkill, changeRemainPaidHolidays } from '../actions';
 
@@ -23,14 +23,12 @@ const mapDispatchToProps = (dispatch) => ({
             .send(operator)
             .set('X-CSRFToken', csrfToken)
             .then(() => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we succeeded to store your operator info.', 'alert-info');
+                dispatch(showSnackbar('we succeeded to store your operator info.'));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with storing your operator info...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
     },
     onSkillChange: (e) => dispatch(changeSkill(e)),

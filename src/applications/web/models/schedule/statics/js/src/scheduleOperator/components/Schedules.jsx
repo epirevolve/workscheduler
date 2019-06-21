@@ -15,7 +15,7 @@ import DayHeaderRow from '../../common/components/DayHeaderRow';
 import Row from '../../common/components/Row';
 import TotalRow from '../../common/components/TotalRow';
 
-import { zip, transpose } from 'array-util';
+import { zip, transpose } from 'arrayUtil';
 
 const tableCss = css({
     overflow: 'auto',

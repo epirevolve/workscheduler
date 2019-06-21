@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 import { editOperator, closeDialog, changeSkill, changeOjt } from '../actions';
 
@@ -26,16 +26,14 @@ const mapDispatchToProps = (dispatch) => ({
             .send(operatorDialog)
             .set('X-CSRFToken', csrfToken)
             .then((res) => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('operator was successfully stored.', 'alert-info');
+                dispatch(showSnackbar('operator was successfully stored.'));
                 dispatch(closeDialog());
                 dispatch(editOperator(JSON.parse(res.text)));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with appending skill...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
     }
 });

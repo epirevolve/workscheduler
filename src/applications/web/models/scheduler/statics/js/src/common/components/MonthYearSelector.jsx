@@ -5,7 +5,7 @@ import KeyboardArrowLeftRoundedIcon from '@material-ui/icons/KeyboardArrowLeftRo
 import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRightRounded';
 import Grid from '@material-ui/core/Grid';
 
-import { AlertManager } from 'alert-helper.js';
+import { showSnackbar } from 'snackbarActions';
 
 const dataset = document.querySelector('script[src*="request"]').dataset;
 const url = dataset.url;
@@ -17,8 +17,7 @@ class MonthYearSetting extends React.Component {
         const stamp = Date.parse(scheduleOf);
 
         if (isNaN(stamp) == true) {
-            const alertManager = new AlertManager('#alertContainer');
-            alertManager.append('Sorry, we cant do more process due to invalid date.');
+            //dispatch(showSnackbar('Sorry, we cant do more process due to invalid date.'));
             return false;
         }
 

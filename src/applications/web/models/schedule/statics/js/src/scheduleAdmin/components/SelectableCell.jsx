@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-import { zip } from 'array-util';
+import { zip } from 'arrayUtil';
 import { p2 } from 'padding';
 
 const cellCss = css({

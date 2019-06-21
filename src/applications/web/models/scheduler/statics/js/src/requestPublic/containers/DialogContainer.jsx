@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 import { addRequest, removeRequest, closeDialog, 
     changeTitle, changeNote, changeDate } from '../actions';
@@ -33,8 +33,7 @@ const mapDispatchToProps = (dispatch) => ({
             .set('X-CSRFToken', csrfToken)
             .then(() => {
                 dispatch(removeRequest(id));
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('we are succeeded to delete your request', 'alert-info');
+                dispatch(showSnackbar('we are succeeded to delete your request'));
             });
         dispatch(closeDialog());
     },
@@ -54,14 +53,12 @@ const mapDispatchToProps = (dispatch) => ({
 				}
 				else
 					dispatch(addRequest(scheduleOf, JSON.parse(res.text)));
-				const alertManager = new AlertManager('#alertContainer');
-				alertManager.append('we are succeeded to store your request', 'alert-info');
+				dispatch(showSnackbar('we are succeeded to store your request'));
 			})
 			.catch((err) => {
 				const res = JSON.parse(err.response.text);
-				const alertManager = new AlertManager('#alertContainer');
 				const message = res.errorMessage || 'we have some trouble with appending request...';
-				alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+				dispatch(showSnackbar(`Oops, Sorry... ${message}`));
 			});
 
         dispatch(closeDialog());

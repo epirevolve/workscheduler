@@ -5,7 +5,7 @@ import TableRow from '@material-ui/core/TableRow';
 import RowHeader from './RowHeader';
 import Cell from './Cell';
 
-import { zip } from 'array-util';
+import { zip } from 'arrayUtil';
 
 const row = ({ headers, cells }) => (
     <TableRow>

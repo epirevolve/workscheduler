@@ -5,7 +5,7 @@ import requestAgent from 'superagent';
 
 import Button from '@material-ui/core/Button';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 const dataset = document.querySelector('script[src*="schedulerBasic"]').dataset;
 const url = dataset.url;
@@ -17,14 +17,12 @@ class BasicSettingContainer extends React.Component {
             .send(scheduler)
             .set('X-CSRFToken', csrfToken)
             .then(() => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('successfully storing scheduler basic setting.', 'alert-info');
+                //dispach(showSnackbar('successfully storing scheduler basic setting.'));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with storing basic setting...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                //dispach(showSnackbar(`Oops, Sorry... ${message}`));
             });
     }
 

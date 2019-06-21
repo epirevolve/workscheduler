@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 import { addUser, editUser, inactivateUser,
     closeDialog, changeLoginId, changeName,
@@ -31,15 +31,13 @@ const mapDispatchToProps = (dispatch) => ({
             .send()
             .set('X-CSRFToken', csrfToken)
             .then(() => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('user was successfully inactivated.', 'alert-info');
+                dispatch(showSnackbar('user was successfully inactivated.'));
                 dispatch(inactivateUser(id));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with inactivate user...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
         dispatch(closeDialog());
     },
@@ -49,14 +47,12 @@ const mapDispatchToProps = (dispatch) => ({
             .send()
             .set('X-CSRFToken', csrfToken)
             .then(() => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('user password was successfully reset.', 'alert-info');
+                dispatch(showSnackbar('user password was successfully reset.'));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with resetting password...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
         dispatch(closeDialog());
     },
@@ -66,21 +62,19 @@ const mapDispatchToProps = (dispatch) => ({
             .send(userDialog)
             .set('X-CSRFToken', csrfToken)
             .then((res) => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('user was successfully stored.', 'alert-info');
+                dispatch(showSnackbar('user was successfully stored.'));
                 if (userDialog.id)
                     dispatch(editUser(JSON.parse(res.text)));
                 else
                 {
-                    alertManager.append('his/her password is p + his/her login id. Please change it.', 'alert-info');
+                    dispatch(showSnackbar('his/her password is p + his/her login id. Please change it.'));
                     dispatch(addUser(JSON.parse(res.text)));
                 }
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with appending user...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
         dispatch(closeDialog());
     }

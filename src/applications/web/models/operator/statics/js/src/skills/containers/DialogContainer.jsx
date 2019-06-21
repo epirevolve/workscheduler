@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 import { addSkill, editSkill, removeSkill, closeDialog,
     changeName, changeScore, changeIsCertified } from '../actions';
@@ -28,15 +28,13 @@ const mapDispatchToProps = (dispatch) => ({
             .send()
             .set('X-CSRFToken', csrfToken)
             .then(() => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('skill was successfully deleted.', 'alert-info');
+                dispatch(showSnackbar('skill was successfully deleted.'));
                 dispatch(removeSkill(id));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with deleting skill...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
         dispatch(closeDialog());
     },
@@ -46,8 +44,7 @@ const mapDispatchToProps = (dispatch) => ({
             .send(skillDialog)
             .set('X-CSRFToken', csrfToken)
             .then((res) => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('skill was successfully stored.', 'alert-info');
+                dispatch(showSnackbar('skill was successfully stored.'));
                 if (skillDialog.id)
                     dispatch(editSkill(JSON.parse(res.text)));
                 else
@@ -55,9 +52,8 @@ const mapDispatchToProps = (dispatch) => ({
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with appending skill...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
         dispatch(closeDialog());
     }

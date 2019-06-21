@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 import { changePassword, changeName } from '../actions';
 
@@ -25,14 +25,12 @@ const mapDispatchToProps = (dispatch) => ({
             .send(user)
             .set('X-CSRFToken', csrfToken)
             .then(() => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('Your info is successfully changed.', 'alert-info');
+                dispatch(showSnackbar('Your info is successfully changed.'));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with storing your info...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
     }
 });

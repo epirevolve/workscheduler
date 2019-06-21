@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
-import { AlertManager } from 'alert-helper';
+import { showSnackbar } from 'snackbarActions';
 
 import { addTeam, editTeam, removeTeam,
     closeDialog, changeName, changeNote } from '../actions';
@@ -27,15 +27,13 @@ const mapDispatchToProps = (dispatch) => ({
             .send()
             .set('X-CSRFToken', csrfToken)
             .then(() => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('team was successfully remove.', 'alert-info');
+                dispatch(showSnackbar('team was successfully remove.'));
                 dispatch(removeTeam(id));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with removing team...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
         dispatch(closeDialog());
     },
@@ -45,8 +43,7 @@ const mapDispatchToProps = (dispatch) => ({
             .send(dialog)
             .set('X-CSRFToken', csrfToken)
             .then((res) => {
-                const alertManager = new AlertManager('#alertContainer');
-                alertManager.append('team was successfully stored.', 'alert-info');
+                dispatch(showSnackbar('team was successfully stored.'));
                 if (dialog.id)
                     dispatch(editTeam(JSON.parse(res.text)));
                 else
@@ -54,9 +51,8 @@ const mapDispatchToProps = (dispatch) => ({
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
-                const alertManager = new AlertManager('#alertContainer');
                 const message = res.errorMessage || 'we have some trouble with appending team...';
-                alertManager.append(`Oops, Sorry... ${message}`, 'alert-danger');
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
         dispatch(closeDialog());
     }

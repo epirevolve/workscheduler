@@ -8,7 +8,7 @@ import { css, jsx } from '@emotion/core';
 import RowHeader from './RowHeader';
 import TotalCell from './TotalCell';
 
-import { zip } from 'array-util';
+import { zip } from 'arrayUtil';
 
 const css_ = {
     position: 'sticky',

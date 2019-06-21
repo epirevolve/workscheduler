@@ -5,7 +5,7 @@ import TableRow from '@material-ui/core/TableRow';
 import RowHeader from '../../common/components/RowHeader';
 import SelectableCell from './SelectableCell';
 
-import { zip } from 'array-util';
+import { zip } from 'arrayUtil';
 
 const selectableRow = ({ headers, cells, onCategoryChange }) => (
     <TableRow>
