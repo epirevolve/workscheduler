@@ -17,7 +17,7 @@ const cellCss = css({
 }, p2);
 
 const selectCss = css({
-    maxWidth: '5rem'
+    maxWidth: '5rem',
     minWidth: '5rem'
 });
 
