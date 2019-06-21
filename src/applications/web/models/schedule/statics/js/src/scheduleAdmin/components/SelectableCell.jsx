@@ -11,10 +11,8 @@ import { zip } from 'arrayUtil';
 import { p2 } from 'padding';
 
 const cellCss = css({
-    maxWidth: '6rem',
-    minWidth: '6rem',
     textAlign: 'center'
-}, p2);
+},p2);
 
 const selectCss = css({
     maxWidth: '5rem',

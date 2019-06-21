@@ -61,8 +61,8 @@ class SchedulerCommand:
     def launch(self, team_id: str, month: int, year: int):
         operators = OperatorQuery(self._session).get_active_operators_of_team_id(team_id)
         scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
-        if scheduler.is_launching:
-            raise AlreadyLaunchError()
+        # if scheduler.is_launching:
+        #     raise AlreadyLaunchError()
         try:
             scheduler.is_launching = True
             self._session.commit()
