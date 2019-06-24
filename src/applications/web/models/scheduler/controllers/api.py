@@ -132,3 +132,17 @@ def launch_scheduler():
         print(e)
         response = jsonize.json_response(status_code=400)
     return response
+
+
+@bp.route('/terminate-scheduler', methods=['PUT'])
+@login_required
+@admin_required
+def terminate_scheduler():
+    session = get_db_session()
+    try:
+        SchedulerCommandAdapter(session).terminate(jsonize.loads(request.data))
+        response = jsonize.json_response()
+    except Exception as e:
+        print(e)
+        response = jsonize.json_response(status_code=400)
+    return response

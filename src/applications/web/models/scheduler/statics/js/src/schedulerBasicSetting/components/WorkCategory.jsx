@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import moment from 'moment';
 
@@ -12,9 +13,10 @@ import CardActions from '@material-ui/core/CardActions';
 import PopupCheckList from './PopupCheckList';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
-import { mb3, ml2 } from 'margin';
+import { ml2, mb3 } from 'margin';
+import { pr2 } from 'padding';
 
 const dataset = document.querySelector('script[src*="schedulerBasic"]').dataset;
 const operators = JSON.parse(dataset.operators);
@@ -30,8 +32,8 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
         <CardContent>
             <TextField autoFocus label="title" required value={workCategory.title}
                 onChange={onTitleChange(workCategory.id)} margin='normal' />
-            <Grid container className="mb-3">
-                <Grid item sm={6} xs={12} className="pr-2">
+            <Grid container css={mb3}>
+                <Grid item sm={6} xs={12} css={pr2}>
                     <TextField type="time" label="from" required onChange={onAtFromChange(workCategory.id)}
                         value={workCategory.atFrom ? moment(workCategory.atFrom, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                 </Grid>
@@ -40,8 +42,8 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                         value={workCategory.atTo ? moment(workCategory.atTo, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                 </Grid>
             </Grid>
-            <Grid container className="mb-3">
-                <Grid item sm={6} xs={12} className="pr-2">
+            <Grid container css={mb3}>
+                <Grid item sm={6} xs={12} css={pr2}>
                     <TextField type="number" label="week day require" required value={workCategory.weekDayRequire}
                         onChange={onWeekDayRequireChange(workCategory.id)} />
                 </Grid>
@@ -50,8 +52,8 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                         onChange={onWeekDayMaxChange(workCategory.id)} />
                 </Grid>
             </Grid>
-            <Grid container className="mb-3">
-                <Grid item sm={6} xs={12} className="pr-2">
+            <Grid container css={mb3}>
+                <Grid item sm={6} xs={12} css={pr2}>
                     <TextField type="number" label="holiday require" required value={workCategory.holidayRequire}
                         onChange={onHolidayRequireChange(workCategory.id)} />
                 </Grid>
@@ -60,8 +62,8 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
                         onChange={onHolidayMaxChange(workCategory.id)} />
                 </Grid>
             </Grid>
-            <Grid container className="mb-3">
-                <Grid item sm={6} xs={12} className="pr-2">
+            <Grid container css={mb3}>
+                <Grid item sm={6} xs={12} css={pr2}>
                     <TextField type="number" label="day offs" required value={workCategory.dayOffs}
                         onChange={onRestDaysChange(workCategory.id)} />
                 </Grid>
@@ -93,5 +95,26 @@ const workCategory = ({ workCategory, handleRemove, onTitleChange,
         </CardActions>
     </Card>
 );
+
+workCategory.propTypes = {
+    workCategories: PropTypes.array.isRequired,
+    handleAppend: PropTypes.func.isRequired,
+    workCategory: PropTypes.object.isRequired,
+    handleRemove: PropTypes.func.isRequired,
+    onTitleChange: PropTypes.func.isRequired,
+    onAtFromChange: PropTypes.func.isRequired,
+    onAtToChange: PropTypes.func.isRequired,
+    onWeekDayRequireChange: PropTypes.func.isRequired,
+    onWeekDayMaxChange: PropTypes.func.isRequired,
+    onHolidayRequireChange: PropTypes.func.isRequired,
+    onHolidayMaxChange: PropTypes.func.isRequired,
+    onRestDaysChange: PropTypes.func.isRequired,
+    onMaxTimesChange: PropTypes.func.isRequired,
+    onWeekDayOperatorChange: PropTypes.func.isRequired,
+    onHolidayOperatorChange: PropTypes.func.isRequired,
+    onEssentialSkillChange: PropTypes.func.isRequired,
+    onExclusiveOperatorChange: PropTypes.func.isRequired,
+    onImpossibleOperatorChange: PropTypes.func.isRequired,
+};
 
 export default workCategory;

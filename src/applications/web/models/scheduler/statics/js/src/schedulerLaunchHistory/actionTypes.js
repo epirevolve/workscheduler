@@ -1,0 +1,9 @@
+export const START_FETCH_RUNNERS = Symbol();
+export const SUCCESS_FETCH_RUNNERS = Symbol();
+export const FAILURE_FETCH_RUNNERS = Symbol();
+export const START_FETCH_LAUNCH_HISTORIES = Symbol();
+export const SUCCESS_FETCH_LAUNCH_HISTORIES = Symbol();
+export const FAILURE_FETCH_LAUNCH_HISTORIES = Symbol();
+export const START_TEMINATE_SCHEDULER = Symbol();
+export const SUCCESS_TEMINATE_SCHEDULER = Symbol();
+export const FAILURE_TEMINATE_SCHEDULER = Symbol();

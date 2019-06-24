@@ -7,16 +7,16 @@ import Typography from '@material-ui/core/Typography';
 import OperatorList from './OperatorList';
 
 const skills = ({ ...other }) => (
-    <div>
+    <>
         <AppBar position="static" color="default">
             <Toolbar>
-                <Typography variant="title" color="inherit" style={{ flexGrow: 1 }}>
+                <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
                     operators
                 </Typography>
             </Toolbar>
         </AppBar>
         <OperatorList {...other} />
-    </div>
+    </>
 );
 
 export default skills;

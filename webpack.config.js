@@ -1,13 +1,6 @@
 const path = require('path'),
-	  glob = require('glob'),
-	  _    = require('lodash');
-
-const _utilPath = './src/applications/web/util/statics/js';
-const _path = (folder) => `./src/applications/web/models/${folder}/statics/js`;
-const _userPath = _path('user');
-const _operatorPath = _path('operator');
-const _schedulerPath = _path('scheduler');
-const _schedulePath = _path('schedule');
+    glob = require('glob'),
+    _    = require('lodash');
 
 // to-do: make import keeping its directory configuration without clearly assign a path
 // e.g. src/applications/web/util/statics/js/layout
@@ -17,30 +10,27 @@ console.log(jsBasePath);
 String.prototype.parentdirname = function () {
     const value = String.raw`${this}`;
     const match = value.match(String.raw`^.*[\\/](.+)[\\/](.+)$`);
-	return match ? match[1] : '';
-}
+    return match ? match[1] : '';
+};
 
 String.prototype.filename = function () {
     const value = String.raw`${this}`;
     const match = value.match(String.raw`^(.+)[\\/](.+)$`);
-	return match ? match[2] : '';
-}
+    return match ? match[2] : '';
+};
 
-var findSrcDir = function (value) {
+const findSrcDir = function (value) {
     value = String.raw`${value}`;
     const match = value.match(String.raw`^(.+)[\\/]src.+$`);
-	return match ? match[1] : '';
-}
+    return match ? match[1] : '';
+};
 
-var targets = _.filter(glob.sync(`${jsBasePath}/**/index.jsx`), (item) => {
-	return !item.filename().match(/^_/);
-});
+const targets = _.filter(glob.sync(`${jsBasePath}/**/index.jsx`), (item) => !item.filename().match(/^_/));
 
-var entries = {};
-
-targets.forEach(value => {
+const entries = {};
+targets.forEach((value) => {
     value = path.resolve(value);
-	var replaced = value.replace(__dirname, '').substr(1);
+	const replaced = value.replace(__dirname, '').substr(1);
 	const key = path.resolve(findSrcDir(replaced), value.parentdirname());
 	entries[key] = value;
 });
@@ -120,4 +110,4 @@ module.exports = {
             }
         }
     },
-}
+};

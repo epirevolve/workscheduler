@@ -129,6 +129,7 @@ class SchedulerDetailHelper:
     def _put_details(self, outlines, operator):
         combines = []
         work_categories = self._find_operator_work_categories(operator)
+        outlines = [x[:] for x in outlines for _ in range(3)]
         for outline in outlines:
             outline = self._set_work_categories(outline, work_categories)
             outline = self._set_fixed_schedules(outline, operator)

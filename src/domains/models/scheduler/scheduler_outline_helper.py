@@ -114,7 +114,7 @@ class SchedulerOutlineHelper:
     def _genetic_wrapper(self, operator):
         genetic = Genetic(evaluation=self._evaluate(operator),
                           base_kind=range(len(self._monthly_setting.days)), homo_progeny_restriction=True,
-                          saturated_limit=60, generation_size=1000, population_size=500, debug=True)
+                          saturated_limit=60, generation_size=1000, population_size=500)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
         genetic.mutation = build_mutation_unique()

@@ -1,19 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import List from '@material-ui/core/List';
 
 import Operator from './Operator';
 
-const operatorList = ({ operators, handleEdit }) => {
-    const operatorList = operators.map((x) =>
-        <Operator key={x.id} operator={x} handleEdit={() => handleEdit(x)} />
-    );
+const operatorList = ({ operators, handleEdit }) => (
+    <List style={{ maxHeight: '76vh', overflowY: 'auto' }}>
+        {operators.map((x, i) => <Operator key={i} operator={x} handleEdit={() => handleEdit(x)} />)}
+    </List>
+);
 
-    return (
-        <List style={{ maxHeight: '76vh', overflowY: 'auto' }}>
-            {operatorList}
-        </List>
-    );
+operatorList.propTypes = {
+    operators: PropTypes.array.isRequired,
+    handleEdit: PropTypes.func.isRequired,
 };
 
 export default operatorList;

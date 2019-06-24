@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -15,7 +16,6 @@ import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
 import GroupRoundedIcon from '@material-ui/icons/GroupRounded';
 import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
-import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
 
 const dataset = document.querySelector('#linkTags').dataset;
 const urlSchedules = dataset.urlSchedules;
@@ -30,79 +30,84 @@ const urlSkills = dataset.urlSkills;
 const auth = JSON.parse(dataset.auth);
 
 const drawer = ({ open, setOpen }) => (
-	<Drawer open={open} onClose={() => setOpen(prev => ({...prev, open: false}))}>
-		<div tabIndex={0}>
-			<IconButton onClick={() => setOpen(prev => ({...prev, open: false}))}>
-				<ChevronLeftRoundedIcon />
-			</IconButton>
-			<Divider />
-			<List component="nav">
-				<ListItem button component="a" key="schedule" href={urlSchedules}>
-					<ListItemIcon>
-						<CalendarTodayRoundedIcon />
-					</ListItemIcon>
-					<ListItemText primary="schedule" className="menuText" />
-				</ListItem>
-				{auth.isOperator && (
-					<>
-						<ListItem button component="a" key="requests" href={urlRequests}>
-							<ListItemIcon>
-								<HearingRoundedIcon />
-							</ListItemIcon>
-							<ListItemText primary="requests" className="menuText" />
-						</ListItem>
-						<ListItem button component="a" key="asoperator" href={urlAsOperator}>
-							<ListItemIcon>
-								<PersonRoundedIcon />
-							</ListItemIcon>
-							<ListItemText primary="as operator" className="menuText" />
-						</ListItem>
-					</>
-				)}
-				<ListItem button component="a" key="asuser" href={urlAsUser}>
-					<ListItemIcon>
-						<PersonRoundedIcon />
-					</ListItemIcon>
-					<ListItemText primary="as user" className="menuText" />
-				</ListItem>
-				<Divider />
-				{auth.isAdmin && (
-					<>
-						<ListItem button component="a" key="scheduler" href={urlSchedulerMenu}>
-							<ListItemIcon>
-								<BuildRoundedIcon />
-							</ListItemIcon>
-							<ListItemText primary="scheduler" className="menuText" />
-						</ListItem>
-						<ListItem button component="a" key="operators" href={urlOperators}>
-							<ListItemIcon>
-								<GroupRoundedIcon />
-							</ListItemIcon>
-							<ListItemText primary="operators" className="menuText" />
-						</ListItem>
-						<ListItem button component="a" key="users" href={urlUsers}>
-							<ListItemIcon>
-								<GroupRoundedIcon />
-							</ListItemIcon>
-							<ListItemText primary="users" className="menuText" />
-						</ListItem>
-						<ListItem button component="a" key="teams" href={urlTeams}>
-							<ListItemIcon>
-								<LocationCityRoundedIcon />
-							</ListItemIcon>
-							<ListItemText primary="teams" className="menuText" />
-						</ListItem>
-						<ListItem button component="a" key="skills" href={urlSkills}>
-							<ListItemIcon>
-								<StarRoundedIcon />
-							</ListItemIcon>
-							<ListItemText primary="skills" className="menuText" />
-						</ListItem>
-					</>
-				)}
-			</List>
-		</div>
-	</Drawer>
+    <Drawer open={open} onClose={() => setOpen((prev) => ({...prev, open: false}))}>
+        <div tabIndex={0}>
+            <IconButton onClick={() => setOpen((prev) => ({...prev, open: false}))}>
+                <ChevronLeftRoundedIcon />
+            </IconButton>
+            <Divider />
+            <List component="nav">
+                <ListItem button component="a" key="schedule" href={urlSchedules}>
+                    <ListItemIcon>
+                        <CalendarTodayRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="schedule" className="menuText" />
+                </ListItem>
+                {auth.isOperator && (
+                    <>
+                        <ListItem button component="a" key="requests" href={urlRequests}>
+                            <ListItemIcon>
+                                <HearingRoundedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="requests" className="menuText" />
+                        </ListItem>
+                        <ListItem button component="a" key="asoperator" href={urlAsOperator}>
+                            <ListItemIcon>
+                                <PersonRoundedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="as operator" className="menuText" />
+                        </ListItem>
+                    </>
+                )}
+                <ListItem button component="a" key="asuser" href={urlAsUser}>
+                    <ListItemIcon>
+                        <PersonRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="as user" className="menuText" />
+                </ListItem>
+                <Divider />
+                {auth.isAdmin && (
+                    <>
+                        <ListItem button component="a" key="scheduler" href={urlSchedulerMenu}>
+                            <ListItemIcon>
+                                <BuildRoundedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="scheduler" className="menuText" />
+                        </ListItem>
+                        <ListItem button component="a" key="operators" href={urlOperators}>
+                            <ListItemIcon>
+                                <GroupRoundedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="operators" className="menuText" />
+                        </ListItem>
+                        <ListItem button component="a" key="users" href={urlUsers}>
+                            <ListItemIcon>
+                                <GroupRoundedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="users" className="menuText" />
+                        </ListItem>
+                        <ListItem button component="a" key="teams" href={urlTeams}>
+                            <ListItemIcon>
+                                <LocationCityRoundedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="teams" className="menuText" />
+                        </ListItem>
+                        <ListItem button component="a" key="skills" href={urlSkills}>
+                            <ListItemIcon>
+                                <StarRoundedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="skills" className="menuText" />
+                        </ListItem>
+                    </>
+                )}
+            </List>
+        </div>
+    </Drawer>
 );
+
+drawer.propTypes = {
+    open: propTypes.bool.isRequired,
+    setOpen: propTypes.func.isRequired,
+};
 
 export default drawer;

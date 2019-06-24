@@ -3,7 +3,7 @@ import requestAgent from 'superagent';
 export const updateMonthlySetting = (payload) => {
     const { monthlySetting } = payload;
     return requestAgent
-        .put('/api/monthly-settings')
+        .put('/scheduler/api/monthly-settings')
         .send(monthlySetting)
         .set('X-CSRFToken', csrfToken)
         .then(() => ({}))
@@ -13,7 +13,7 @@ export const updateMonthlySetting = (payload) => {
 export const publicMonthlySetting = (payload) => {
     const { monthlySetting } = payload;
     return requestAgent
-        .put('/api/monthly-settings/public')
+        .put('/scheduler/api/monthly-settings/public')
         .send(monthlySetting)
         .set('X-CSRFToken', csrfToken)
         .then(() => ({}))

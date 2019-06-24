@@ -8,15 +8,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 const operator = ({ operator, handleEdit }) => {
-    let ojt = operator.ojt || "";
-    if (ojt) ojt = `${ojt.user.name}`;
+    const ojt = operator.ojt ? operator.ojt.user.name : "";
     return (
-        <ListItem button onClick={handleEdit} css={css`
-            div { flex: 1; }
-        `}>
-            <ListItemText primary={operator.user.name} secondary={`main team: ${operator.user.team.name}`} />
-            <ListItemText primary="Skills" secondary={`${operator.skills.map((x) => `${x.name} `)}`} />
-            {ojt && (<ListItemText primary="Ojt" secondary={`${ojt}`} />)}
+        <ListItem button onClick={handleEdit} css={css('div { flex: 1; }')}>
+            <ListItemText primary={operator.user.name} />
+            <ListItemText primary={operator.user.team.name} secondary='team' />
+            <ListItemText primary={`${operator.skills.map((x) => `${x.name} `)}`} secondary='skills' />
+            {ojt && (<ListItemText primary={ojt} secondary='ojt' />)}
         </ListItem>
     );
 };

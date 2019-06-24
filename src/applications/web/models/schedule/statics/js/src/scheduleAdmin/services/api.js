@@ -3,7 +3,7 @@ import requestAgent from 'superagent';
 export const saveSchedules = (payload) => {
     const { schedules } = payload;
     return requestAgent
-        .put('/api/schedules')
+        .put('/schedule/api/schedules')
         .send(schedules)
         .set('X-CSRFToken', csrfToken)
         .then(() => ({}))
@@ -13,7 +13,7 @@ export const saveSchedules = (payload) => {
 export const publishSchedules = (payload) => {
     const { schedules } = payload;
     return requestAgent
-        .put('/api/schedules/publish')
+        .put('/schedule/api/schedules/publish')
         .send(schedules)
         .set('X-CSRFToken', csrfToken)
         .then(() => ({}))
@@ -23,7 +23,7 @@ export const publishSchedules = (payload) => {
 export const withdrawSchedules = (payload) => {
     const { schedules } = payload;
     return requestAgent
-        .put('/api/schedules/withdraw')
+        .put('/schedule/api/schedules/withdraw')
         .send(schedules)
         .set('X-CSRFToken', csrfToken)
         .then(() => ({}))

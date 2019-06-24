@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -14,7 +15,7 @@ import WorkCategory from './WorkCategory';
 const workCategoryList = ({ workCategories, handleAppend, ...other }) => {
     const [state, setState] = React.useState({expanded: true});
     const onExpandedChange = (event, isExpanded) => {
-        setState(prev => ({...prev, expanded: isExpanded ? true : false}));
+        setState((prev) => ({...prev, expanded: isExpanded ? true : false}));
     };
 
     const createWorkCategoryPanel = (x) => (
@@ -42,6 +43,11 @@ const workCategoryList = ({ workCategories, handleAppend, ...other }) => {
             </ExpansionPanel>
         </div>
     );
+};
+
+workCategoryList.propTypes = {
+    workCategories: PropTypes.array.isRequired,
+    handleAppend: PropTypes.func.isRequired,
 };
 
 export default workCategoryList;

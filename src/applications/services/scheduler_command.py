@@ -67,8 +67,11 @@ class SchedulerCommand:
             scheduler.is_launching = True
             self._session.commit()
             schedule = scheduler.run(month, year, operators)
-            ScheduleCommand(self._session).append_new_schedule(team_id, month, year,
-                                                               schedule)
+            ScheduleCommand(self._session).append_new_schedule(
+                team_id, month, year, schedule)
         finally:
             scheduler.is_launching = False
             self._session.commit()
+
+    def terminate(self, team_id: str, mont: int, year: int):
+        pass
