@@ -97,7 +97,7 @@ class Database:
 
         next_month = get_next_month()
         monthly_setting = MonthlySetting.new(scheduler.work_categories,
-                                             next_month.year, next_month.month)
+                                             next_month.month, next_month.year)
         monthly_setting.is_published = True
         scheduler.monthly_settings.append(monthly_setting)
         

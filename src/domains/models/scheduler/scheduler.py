@@ -76,7 +76,7 @@ class Scheduler(OrmBase):
     def monthly_setting(self, month: int, year: int):
         monthly_setting = list(filter(lambda x: x.year == year and x.month == month, self.monthly_settings))
         if not monthly_setting:
-            monthly_setting = MonthlySetting.new(self.work_categories, year, month)
+            monthly_setting = MonthlySetting.new(self.work_categories, month, year)
             self.monthly_settings.append(monthly_setting)
         else:
             monthly_setting = monthly_setting[0]
@@ -96,8 +96,8 @@ class Scheduler(OrmBase):
             monthly_setting = self.monthly_setting(month, year)
             outlines = SchedulerOutlineHelper(self.work_categories, monthly_setting, operators).run()
             combinations = SchedulerDetailHelper(monthly_setting, operators, outlines).run()
-            schedule = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
-            return [(x, y) for x, y in zip(operators, schedule)]
+            schedule, adaptability = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
+            return [(x, y) for x, y in zip(operators, schedule)], adaptability
         except Exception as e:
             print("### error on scheduler process.")
             print(e)

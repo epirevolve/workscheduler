@@ -12,6 +12,8 @@ from .yearly_setting import YearlySetting
 
 from .scheduler import Scheduler
 
+from .history import History
+
 from .scheduler_detail_helper import day_off_sign
 from .scheduler_outline_helper import holiday_sign
 from .scheduler_n_day_helper import n_day_sign

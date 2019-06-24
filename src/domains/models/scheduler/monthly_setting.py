@@ -31,8 +31,8 @@ associated_calendar_day_table\
 class MonthlySetting(OrmBase):
     __tablename__ = "monthly_settings"
     id = Column(String, primary_key=True)
-    year = Column(Integer)
     month = Column(Integer)
+    year = Column(Integer)
     days = relationship("DaySetting", secondary=associated_calendar_day_table, lazy='subquery',
                         order_by="asc(DaySetting.day)")
     holidays = Column(Integer)
@@ -40,12 +40,12 @@ class MonthlySetting(OrmBase):
     is_fixed = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
 
-    def __init__(self, id: str, year: int, month: int,
+    def __init__(self, id: str, month: int, year: int,
                  days: [DaySetting], holidays: int,
                  is_published: bool = False, is_fixed: bool = False, **kwargs):
         self.id = id
-        self.year = year
         self.month = month
+        self.year = year
         self.days = days
         self.holidays = holidays
         self.is_published = is_published
@@ -81,13 +81,13 @@ class MonthlySetting(OrmBase):
                 day.add_category(work_category)
 
     @staticmethod
-    def new(work_categories: [], year: int, month: int):
+    def new(work_categories: [], month: int, year: int):
         calendar = SysCalendar()
         calendar.setfirstweekday(SUNDAY)
         monthdatescalendar = [y for x in calendar.monthdatescalendar(year, month)
                               for y in x if y.year == year and y.month == month]
         days = [DaySetting.new(x, day_abbr[x.weekday()], work_categories) for x in monthdatescalendar]
-        return MonthlySetting(UuidFactory.new_uuid(), year, month, days,
+        return MonthlySetting(UuidFactory.new_uuid(), month, year, days,
                               len([x for x in monthdatescalendar if x.weekday() in [5, 6]]))
     
     def __eq__(self, other):

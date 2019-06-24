@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from time import strftime
+from time import localtime
+
 from flask import Blueprint
 from flask import request
 from flask_login import login_required
@@ -122,7 +125,9 @@ def update_yearly_setting():
 def launch_scheduler():
     session = get_db_session()
     try:
+        print("#### start time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
         SchedulerCommandAdapter(session).launch(jsonize.loads(request.data))
+        print("#### fin time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
         response = jsonize.json_response()
     except AlreadyLaunchError as e:
         print(e)

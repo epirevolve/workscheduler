@@ -164,4 +164,4 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         print("last adaptability: {}".format(ret.adaptability))
         print("""## finished
 ====================""")
-        return self._gene_to_schedule(ret.gene)
+        return self._gene_to_schedule(ret.gene), ret.adaptability

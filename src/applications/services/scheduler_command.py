@@ -3,6 +3,7 @@
 from datetime import datetime
 
 from applications.errors import AlreadyLaunchError
+from domains.models.scheduler import History
 from domains.models.scheduler import Scheduler
 from domains.models.scheduler import MonthlySetting
 from domains.models.scheduler import Vacation
@@ -66,9 +67,10 @@ class SchedulerCommand:
         try:
             scheduler.is_launching = True
             self._session.commit()
-            schedule = scheduler.run(month, year, operators)
+            schedule, adaptability = scheduler.run(month, year, operators)
             ScheduleCommand(self._session).append_new_schedule(
                 team_id, month, year, schedule)
+            self._session.add(History.new(month, year, adaptability))
         finally:
             scheduler.is_launching = False
             self._session.commit()
