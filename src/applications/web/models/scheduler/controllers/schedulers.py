@@ -68,3 +68,10 @@ def show_yearly_setting():
     yearly_setting = scheduler.yearly_setting(year)
     return render_template('scheduler-yearly-setting.html',
                            scheduler=scheduler, yearly_setting=yearly_setting)
+
+
+@bp.route('/launch-histories')
+@login_required
+@admin_required
+def show_launch_histories():
+    return render_template('scheduler-launch-history.html')

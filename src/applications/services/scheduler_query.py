@@ -7,6 +7,7 @@ from domains.models.scheduler import MonthlySetting
 from domains.models.scheduler import YearlySetting
 from domains.models.scheduler import Request
 from domains.models.scheduler import Vacation
+from domains.models.scheduler import History
 from domains.models.user import Team
 
 
@@ -46,3 +47,6 @@ class SchedulerQuery:
     
     def get_requests_of_id(self, request_id: str) -> [Request]:
         return self._session.query(Request).filter(Request.id == request_id).all()
+
+    def get_launch_histories(self) -> [History]:
+        return self._session.query(History).all()

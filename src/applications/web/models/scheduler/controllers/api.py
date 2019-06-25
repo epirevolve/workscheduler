@@ -139,6 +139,14 @@ def launch_scheduler():
     return response
 
 
+@bp.route('/launch-histories')
+@login_required
+@admin_required
+def launch_histories():
+    histories = SchedulerQuery(get_db_session()).get_launch_histories()
+    return jsonize.json_response(jsonize.dumps(histories))
+
+
 @bp.route('/terminate-scheduler', methods=['PUT'])
 @login_required
 @admin_required

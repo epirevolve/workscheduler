@@ -6,11 +6,11 @@ import CurrentRunnerList from '../components/CurrentRunnerList';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => ({
-    currentRunners: state.currentRunners,
+    currentRunners: state.controlTower.currentRunners,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleTeminateRunner: (team, month, year) => dispatch(actions.startPublicMonthlySetting(team, month, year))
+    handleTeminateRunner: (team) => dispatch(actions.startTerminateScheduler(team))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrentRunnerList);

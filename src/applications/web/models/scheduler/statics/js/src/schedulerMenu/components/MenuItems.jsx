@@ -1,6 +1,5 @@
 import React from 'react';
-
-import requestAgent from 'superagent';
+import propTypes from 'prop-types';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -19,6 +18,8 @@ import { jsx, css } from '@emotion/core';
 const dataset = document.querySelector('script[src*="schedulerMenu"]').dataset;
 const urlMonthly = dataset.urlMonthly;
 const urlBasic = dataset.urlBasic;
+const urlYearly = dataset.urlYearly;
+const urlLaunchHistories = dataset.urlLaunchHistories;
 
 const createGridButton = (handle, val) => (
     <Grid item sm={12} md={3}>
@@ -44,15 +45,15 @@ const yearCss = css({
 });
 
 const launchCalendarDialog = (state, setState, onLaunchSchedulerWrapper) => (
-    <Dialog open={state.openCalendar} onClose={() => setState(prev => ({...prev, openCalendar: false }))}>
+    <Dialog open={state.openCalendar} onClose={() => setState((prev) => ({...prev, openCalendar: false }))}>
         <DialogTitle style={{ textAlign: 'center' }}>
             <IconButton aria-label="back year" css={mb3}
-                onClick={() => setState(prev => ({...prev, year: state.year - 1}))}>
+                onClick={() => setState((prev) => ({...prev, year: state.year - 1}))}>
                 <ArrowBackIosRoundedIcon />
             </IconButton>
             <span css={yearCss}>{state.year}</span>
             <IconButton aria-label="forward year" css={mb3}
-                onClick={() => setState(prev => ({...prev, year: state.year + 1}))}>
+                onClick={() => setState((prev) => ({...prev, year: state.year + 1}))}>
                 <ArrowForwardIosRoundedIcon />
             </IconButton>
         </DialogTitle>
@@ -80,9 +81,9 @@ const menuItems = ({ team, onLaunchScheduler }) => {
     const [state, setState] = React.useState({ openCalendar: false, year });
 
     const onLaunchSchedulerWrapper = (month) => {
-        setState(prev => ({...prev, openCalendar: false }));
+        setState((prev) => ({...prev, openCalendar: false }));
         onLaunchScheduler(team, month, state.year);
-    }
+    };
 
     return (
         <>
@@ -95,18 +96,23 @@ const menuItems = ({ team, onLaunchScheduler }) => {
                     urlBasic.replace('team_id', team.id),
                     "set work category and witch parameter will be used when making a schedule")}
                 {createCardInGrid("Yearly Setting", "scheduler-yearly-setting.svg",
-                    urlMonthly.replace('team_id', team.id),
+                    urlYearly.replace('team_id', team.id),
                     "set require number of member each day and prefixed schedule")}
             </Grid>
             <Grid container spacing={16} css={my4} style={{ marginLeft: "0.2rem" }}>
                 {createCardInGrid("Launch", "scheduler-launch.svg",
                     "#", "create schedule of current team and selected month",
-                    () => setState(prev => ({...prev, openCalendar: true })))}
+                    () => setState((prev) => ({...prev, openCalendar: true })))}
                 {createCardInGrid("Launch History", "scheduler-launch-history.svg",
-                    "#", "confirm launched history and current working scheduler")}
+                    urlLaunchHistories, "confirm launched history and current working scheduler")}
             </Grid>
         </>
     );
-}
+};
+
+menuItems.propTypes = {
+    team: propTypes.object.isRequired,
+    onLaunchScheduler: propTypes.func.isRequired
+};
 
 export default menuItems;

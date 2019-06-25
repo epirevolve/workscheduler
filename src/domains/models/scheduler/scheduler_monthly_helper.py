@@ -33,8 +33,8 @@ class SchedulerMonthlyHelperBase:
         self._fixed_schedules_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from))
                                       for x in {y for x in self._monthly_setting.days for y in x.fixed_schedules}}
     
-    def _evaluate_by_require(self, transpose, weight):
-        ratio = (weight / (len(transpose) * len(self._monthly_setting.days[0].details))) / 4
+    def _evaluate_by_require(self, transpose):
+        ratio = 0.001
         adaptability = 0
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
@@ -48,10 +48,10 @@ class SchedulerMonthlyHelperBase:
                     adaptability += ratio * (2.2 ** (count - max_require + 1))
                 elif count > detail.require:
                     adaptability += ratio * (1.4 ** (count - detail.require + 1))
-        return weight - min(weight, adaptability)
+        return max(0, 1 - adaptability)
     
-    def _evaluate_by_essential_skill(self, transpose, weight):
-        ratio = weight / (len(transpose) * len(self._monthly_setting.days[0].details))
+    def _evaluate_by_essential_skill(self, transpose):
+        ratio = 0.05
         adaptability = 0
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
@@ -60,7 +60,7 @@ class SchedulerMonthlyHelperBase:
                                                               for i, x in enumerate(schedule)
                                                               if x == work_category.id]))
                 adaptability += sum([ratio for x in work_category.essential_skills if x not in participant_skills])
-        return weight - min(weight, adaptability)
+        return max(0, 1 - adaptability)
     
     def _evaluate_by_work_hours_std(self, schedules, weight):
         hours = [sum([self._work_categories_hour[y] if y in self._work_categories_hour else
@@ -101,18 +101,30 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
     def _evaluate(self, gene):
         schedules = self._gene_to_schedule(gene)
         transpose = np.array(schedules).T
-        adaptability = 0
-        adaptability += self._evaluate_by_require(transpose, 8)
-        adaptability += self._evaluate_by_essential_skill(transpose, 5)
+        adaptability = 7
         adaptability += self._evaluate_by_work_hours_std(schedules, 1)
         adaptability += self._evaluate_by_skill_std(transpose, 2)
+        adaptability *= self._evaluate_by_require(transpose)
+        adaptability *= self._evaluate_by_essential_skill(transpose)
         return adaptability
     
-    def _evaluate_and_build_individual(self, gene):
-        individual = Individual.new(gene, self._era)
-        individual.adaptability = self._evaluate(gene)
-        return individual
-    
+    def _genetic_wrapper(self):
+        genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(self._schedules[0])),
+                          gene_size=len(self._schedules), generation_size=1000, population_size=500,
+                          saturated_limit=300)
+        genetic.parent_selection = build_parent_selection()
+        genetic.survivor_selection = build_survivor_selection(genetic.population_size)
+        genetic.mutation = build_mutation_duplicate()
+        genetic.crossover = build_crossover_duplicate()
+        genetic.compile()
+        return genetic.run()
+
+    def _is_terminate(self, adapters):
+        if not adapters:
+            return False
+        return self._era > self._saturate_limit \
+            and len(set(map(lambda x: x.adaptability, adapters[-self._saturate_limit:]))) == 1
+
     def _perturb_genes(self, individual):
         percentage = abs(self._max_perturbation_rate - (individual.adaptability / 16 * 100 / 3))
         count = math.ceil(percentage / 100 * len(individual.gene))
@@ -122,12 +134,11 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
             gene[index] = np.random.choice(self._base)
         return gene
 
-    def _is_terminate(self, adapters):
-        if not adapters:
-            return False
-        return self._era > self._saturate_limit \
-            and len(set(map(lambda x: x.adaptability, adapters[-self._saturate_limit:]))) == 1
-    
+    def _evaluate_and_build_individual(self, gene):
+        individual = Individual.new(gene, self._era)
+        individual.adaptability = self._evaluate(gene)
+        return individual
+
     def _scheduling(self, protobiont):
         individuals = [protobiont]
         adapters = []
@@ -142,18 +153,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
             if self._era % 100 == 0:
                 print("era: {}, adaptability: {}".format(self._era, adapter.adaptability))
         return adapters[-1]
-    
-    def _genetic_wrapper(self):
-        genetic = Genetic(evaluation=self._evaluate, base_kind=range(len(self._schedules[0])),
-                          gene_size=len(self._schedules), generation_size=1000, population_size=500,
-                          saturated_limit=100)
-        genetic.parent_selection = build_parent_selection()
-        genetic.survivor_selection = build_survivor_selection(genetic.population_size)
-        genetic.mutation = build_mutation_duplicate()
-        genetic.crossover = build_crossover_duplicate()
-        genetic.compile()
-        return genetic.run()
-    
+
     def run(self):
         print("""====================
 ## start monthly schedule adjusting""")
@@ -161,7 +161,8 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         ret = self._genetic_wrapper()
         print("""### adjusting by random mutation""")
         ret = self._scheduling(ret)
-        print("last adaptability: {}".format(ret.adaptability))
+        adaptability = ret.adaptability / 10
+        print("### adaptability: {}".format(adaptability))
         print("""## finished
 ====================""")
-        return self._gene_to_schedule(ret.gene), ret.adaptability
+        return self._gene_to_schedule(ret.gene), adaptability

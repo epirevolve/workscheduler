@@ -8,7 +8,7 @@ import CurrentRunner from './CurrentRunner';
 
 const currentRunnerList = ({ currentRunners, handleTeminateRunner }) => (
     <>
-        <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
+        <Typography variant="h5" color="inherit" style={{ flexGrow: 1 }}>
             current runners
         </Typography>
         <List>

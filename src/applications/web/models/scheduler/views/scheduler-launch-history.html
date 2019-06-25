@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+
+{% block script %}
+<script id="breadscram" data-current="{{ to_json({'name': 'Launch History'}) }}"
+        data-breads="{{ to_json([{ 'name': 'Scheduler Menu', 'url': url_for('schedulers.show_menu') }]) }}"></script>
+<script src="{{ url_for('schedulers.static', filename='js/schedulerLaunchHistory.bundle.min.js') }}"></script>
+{% endblock %}

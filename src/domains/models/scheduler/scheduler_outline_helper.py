@@ -78,17 +78,19 @@ class SchedulerOutlineHelper:
         return weight - min(weight, adaptability)
 
     def _evaluate_by_request(self, gene, operator):
-        adaptability = sum([0.2 for x, y in zip(gene, self._daily_requests)
+        ratio = 0.2
+        adaptability = sum([ratio for x, y in zip(gene, self._daily_requests)
                             if operator in y and x not in [holiday_sign, n_day_sign]])
         return max(0, 1 - adaptability)
 
     def _evaluate_by_fixed_schedule(self, gene, operator):
+        ratio = 0.2
         adaptability = 0
         for schedule, fixed_schedule_participants in zip(gene, self._daily_fixed_schedules):
             if operator in fixed_schedule_participants and schedule != fixed_schedule_day_sign:
-                adaptability += 0.2
+                adaptability += ratio
             if operator not in fixed_schedule_participants and schedule == fixed_schedule_day_sign:
-                adaptability += 0.2
+                adaptability += ratio
         return max(0, 1 - adaptability)
 
     def _gene_to_codon(self, gene):
@@ -96,7 +98,7 @@ class SchedulerOutlineHelper:
 
     def _evaluate(self, operator):
         def _fnc(gene):
-            adaptability = 0
+            adaptability = 3
             codon = self._gene_to_codon(gene)
             adaptability += self._evaluate_by_continuous_attendance(codon, 4)
             adaptability += self._evaluate_by_holiday_continuity(codon, 3)

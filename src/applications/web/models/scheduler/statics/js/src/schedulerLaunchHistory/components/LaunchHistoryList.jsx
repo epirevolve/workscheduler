@@ -6,19 +6,26 @@ import List from '@material-ui/core/List';
 
 import LaunchHistory from './LaunchHistory';
 
-const launchHistoryList = ({ launchHistories }) => (
-    <>
-        <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
-            launch histories
-        </Typography>
-        <List>
-            {launchHistories.map((x, i) => <LaunchHistory key={i} {...x} />)}
-        </List>
-    </>
-);
+const launchHistoryList = ({ launchHistories, fetchLauchHistories }) => {
+    React.useEffect(() => {
+        fetchLauchHistories();
+    }, []);
+
+    return (
+        <>
+            <Typography variant="h5" color="inherit" style={{ flexGrow: 1 }}>
+                launch histories
+            </Typography>
+            <List>
+                {launchHistories.map((x, i) => <LaunchHistory key={i} {...x} />)}
+            </List>
+        </>
+    );
+};
 
 launchHistoryList.propTypes = {
     launchHistories: PropTypes.array,
+    fetchLauchHistories: PropTypes.func.isRequired
 };
 
 export default launchHistoryList;

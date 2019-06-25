@@ -68,9 +68,10 @@ class SchedulerCommand:
             scheduler.is_launching = True
             self._session.commit()
             schedule, adaptability = scheduler.run(month, year, operators)
+            team = TeamQuery(self._session).get_team(team_id)
             ScheduleCommand(self._session).append_new_schedule(
                 team_id, month, year, schedule)
-            self._session.add(History.new(month, year, adaptability))
+            self._session.add(History.new(team, month, year, adaptability))
         finally:
             scheduler.is_launching = False
             self._session.commit()
