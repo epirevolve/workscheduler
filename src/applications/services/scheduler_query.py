@@ -48,5 +48,8 @@ class SchedulerQuery:
     def get_requests_of_id(self, request_id: str) -> [Request]:
         return self._session.query(Request).filter(Request.id == request_id).all()
 
+    def get_current_runners(self) -> [Scheduler]:
+        return self._session.query(Scheduler).filter(Scheduler.is_launching).all()
+
     def get_launch_histories(self) -> [History]:
         return self._session.query(History).all()

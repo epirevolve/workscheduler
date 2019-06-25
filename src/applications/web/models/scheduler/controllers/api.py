@@ -139,10 +139,18 @@ def launch_scheduler():
     return response
 
 
+@bp.route('/current-runners')
+@login_required
+@admin_required
+def get_current_runnners():
+    current_runners = SchedulerQuery(get_db_session()).get_current_runners()
+    return jsonize.json_response(jsonize.dumps(current_runners))
+
+
 @bp.route('/launch-histories')
 @login_required
 @admin_required
-def launch_histories():
+def get_launch_histories():
     histories = SchedulerQuery(get_db_session()).get_launch_histories()
     return jsonize.json_response(jsonize.dumps(histories))
 

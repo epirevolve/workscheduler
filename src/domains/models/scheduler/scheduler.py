@@ -16,6 +16,9 @@ from .. import OrmBase
 from ..user import Team
 from . import MonthlySetting
 from . import YearlySetting
+from .history import ProcessStatus
+
+from .terminate_scheduler_error import TerminateSchedulerError
 
 from .scheduler_outline_helper import SchedulerOutlineHelper
 from .scheduler_detail_helper import SchedulerDetailHelper
@@ -90,14 +93,33 @@ class Scheduler(OrmBase):
         else:
             yearly_setting = yearly_setting[0]
         return yearly_setting
-    
-    def run(self, month: int, year: int, operators):
+
+    @staticmethod
+    def post_to_pipe(pipe):
+        def post(status):
+            continue_ = yield from pipe.send(status)
+            if not continue_:
+                raise TerminateSchedulerError('scheduler is canceled')
+        return post
+
+    def run(self, month: int, year: int, operators: [], pipe):
         try:
             monthly_setting = self.monthly_setting(month, year)
+            post = self.post_to_pipe(pipe)
+            post(ProcessStatus.OUTLINE)
             outlines = SchedulerOutlineHelper(self.work_categories, monthly_setting, operators).run()
+            post(ProcessStatus.DETAIL)
             combinations = SchedulerDetailHelper(monthly_setting, operators, outlines).run()
+            post(ProcessStatus.MONTHLY)
             schedule, adaptability = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
+            post(ProcessStatus.COMPLETE)
             return [(x, y) for x, y in zip(operators, schedule)], adaptability
+        except TerminateSchedulerError as e:
+            print(e)
+            pipe.send(ProcessStatus.ABORT)
+            raise e
         except Exception as e:
             print("### error on scheduler process.")
             print(e)
+            pipe.send(ProcessStatus.ABORT)
+            raise e

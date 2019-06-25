@@ -2,7 +2,6 @@
 
 from domains.models.schedule import ScheduleComponent
 from domains.models.schedule import Schedule
-from domains.models.user import Team
 
 from . import ScheduleQuery
 
@@ -11,7 +10,7 @@ class ScheduleCommand:
     def __init__(self, session):
         self._session = session
     
-    def append_new_schedule(self, team_id: Team, month: int, year: int,
+    def append_new_schedule(self, team_id: str, month: int, year: int,
                             schedule_components: []):
         self.remove_schedule(team_id, month, year)
         components = []

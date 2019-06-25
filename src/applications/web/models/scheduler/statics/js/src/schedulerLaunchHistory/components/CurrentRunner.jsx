@@ -10,12 +10,12 @@ import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 
-const currentRunner = ({ team, month, year, handleTerminate }) => (
+const currentRunner = ({ team, month, year, teminateRunner }) => (
     <ListItem>
         <ListItemText primary={team.name} />
         <ListItemText primary={`${month} of ${year}`} />
         <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="terminate" onClick={handleTerminate}>
+            <IconButton edge="end" aria-label="terminate" onClick={teminateRunner}>
                 <CancelRoundedIcon />
             </IconButton>
         </ListItemSecondaryAction>
@@ -26,7 +26,7 @@ currentRunner.propTypes = {
     team: propTypes.object.isRequired,
     month: propTypes.number.isRequired,
     year: propTypes.number.isRequired,
-    handleTerminate: propTypes.func.isRequired,
+    teminateRunner: propTypes.func.isRequired,
 };
 
 export default currentRunner;

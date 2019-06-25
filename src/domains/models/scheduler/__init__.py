@@ -18,4 +18,6 @@ from .scheduler_detail_helper import day_off_sign
 from .scheduler_outline_helper import holiday_sign
 from .scheduler_n_day_helper import n_day_sign
 
+from .terminate_scheduler_error import TerminateSchedulerError
+
 all_available_sign = [day_off_sign, holiday_sign, n_day_sign]

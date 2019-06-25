@@ -10,7 +10,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleTeminateRunner: (team) => dispatch(actions.startTerminateScheduler(team))
+    fetchCurrenRunners: () => dispatch(actions.startFetchCurrentRunners()),
+    teminateRunner: (team) => dispatch(actions.startTerminateScheduler(team))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrentRunnerList);

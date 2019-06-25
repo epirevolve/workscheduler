@@ -3,5 +3,6 @@
 from utils.error import Error
 
 
-class RequestError(Error):
+class TerminateSchedulerError(Error):
     pass
+# -*- coding: utf-8 -*-

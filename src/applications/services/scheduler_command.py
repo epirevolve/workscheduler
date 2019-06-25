@@ -58,23 +58,41 @@ class SchedulerCommand:
         yearly_setting.vacations = [
             self.append_vacation(x.title, x.on_from, x.on_to, x.days) if x.id not in vacation_ids
             else self.update_vacation(x.id, x.title, x.on_from, x.on_to, x.days) for x in vacations]
-    
+
+    def turn_on_scheduler_launching(self, scheduler):
+        scheduler.is_launching = True
+        self._session.commit()
+
+    def turn_off_scheduler_launching(self, scheduler):
+        scheduler.is_launching = False
+        self._session.commit()
+
+    def append_new_history(self, team, month, year):
+        history = History.new(team, month, year)
+        self._session.add(history)
+        self._session.commit()
+        return history
+
+    def update_launching_status(self, history):
+        while 1:
+            history.process_status = yield
+            self._session.commit()
+
     def launch(self, team_id: str, month: int, year: int):
         operators = OperatorQuery(self._session).get_active_operators_of_team_id(team_id)
         scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
+        team = TeamQuery(self._session).get_team(team_id)
         # if scheduler.is_launching:
         #     raise AlreadyLaunchError()
         try:
-            scheduler.is_launching = True
-            self._session.commit()
-            schedule, adaptability = scheduler.run(month, year, operators)
-            team = TeamQuery(self._session).get_team(team_id)
-            ScheduleCommand(self._session).append_new_schedule(
-                team_id, month, year, schedule)
-            self._session.add(History.new(team, month, year, adaptability))
+            self.turn_on_scheduler_launching(scheduler)
+            history = self.append_new_history(team, month, year)
+            pipe = self.update_launching_status(history)
+            schedule, adaptability = scheduler.run(month, year, operators, pipe)
+            ScheduleCommand(self._session).append_new_schedule(team_id, month, year, schedule)
+            history.adaptability = adaptability
         finally:
-            scheduler.is_launching = False
-            self._session.commit()
+            self.turn_off_scheduler_launching(scheduler)
 
     def terminate(self, team_id: str, mont: int, year: int):
         pass

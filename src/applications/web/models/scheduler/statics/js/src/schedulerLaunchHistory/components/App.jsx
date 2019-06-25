@@ -7,16 +7,14 @@ import DisplayLaunchHistories from '../containers/DisplayLaunchHistories';
 import Layout from 'Layout';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
-import { my3 } from 'margin';
-
-const dividerCss = css({}, my3);
+import { my4 } from 'margin';
 
 const app = () => (
     <Layout>
         <ManageCurrentRunner />
-        <Divider css={dividerCss} />
+        <Divider css={my4} />
         <DisplayLaunchHistories />
     </Layout>
 );
