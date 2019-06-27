@@ -1,42 +1,44 @@
+import * as actionTypes from '../actionTypes';
+
 export const addSkill = (skill) => ({
-    type: 'APPEND_SKILL',
-    skill
+    type: actionTypes.APPEND_SKILL,
+    payload: {skill}
 });
 
 export const editSkill = (skill) => ({
-    type: 'EDIT_SKILL',
-    skill
+    type: actionTypes.EDIT_SKILL,
+    payload: {skill}
 });
 
 export const removeSkill = (id) => ({
-    type: 'REMOVE_SKILL',
-    id
+    type: actionTypes.REMOVE_SKILL,
+    payload: {id}
 });
 
 export const openDialogToAppend = () => ({
-    type: 'OPEN_DIALOG_APPEND'
+    type: actionTypes.OPEN_DIALOG_APPEND
 });
 
 export const openDialogToEdit = (skill) => ({
-    type: 'OPEN_DIALOG_EDIT',
-    skill
+    type: actionTypes.OPEN_DIALOG_EDIT,
+    payload: {skill}
 });
 
 export const closeDialog = () => ({
-    type: 'CLOSE_DIALOG'
+    type: actionTypes.CLOSE_DIALOG
 });
 
 export const changeName = (text) => ({
-    type: 'CHANGE_NAME',
-    text
+    type: actionTypes.CHANGE_NAME,
+    payload: {text}
 });
 
 export const changeScore = (score) => ({
-    type: 'CHANGE_SCORE',
-    score
+    type: actionTypes.CHANGE_SCORE,
+    payload: {score}
 });
 
 export const changeIsCertified = (isChecked) => ({
-    type: 'CHANGE_IS_CERTIFIED',
-    isChecked
+    type: actionTypes.CHANGE_IS_CERTIFIED,
+    payload: {isChecked}
 });

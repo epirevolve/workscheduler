@@ -9,17 +9,18 @@ import multiprocessing as multi
 
 from eart import Genetic
 
+from utils.array import find
+
 from .ga_helper import build_parent_selection
 from .ga_helper import build_survivor_selection
 from .ga_helper import build_mutation_unique
 from .ga_helper import build_crossover_unique
 
-from .scheduler_n_day_helper import n_day_sign
-
-
-work_day_sign = "A"
-fixed_schedule_day_sign = "B"
-holiday_sign = " "
+from .signs import work_day_sign
+from .signs import fixed_schedule_day_sign
+from .signs import holiday_sign
+from .signs import day_off_sign
+from .signs import n_day_sign
 
 
 class SchedulerOutlineHelper:
@@ -32,7 +33,7 @@ class SchedulerOutlineHelper:
     
     """
     
-    def __init__(self, work_categories, monthly_setting, operators):
+    def __init__(self, last_month_schedules, work_categories, monthly_setting, operators):
         """Prepare to run a scheduling.
         
         Obtain daily requests and daily fixed schedules from monthly setting and make a bit of change.
@@ -44,6 +45,7 @@ class SchedulerOutlineHelper:
             operators (list of Operator): active operators of making work schedule.
         
         """
+        self._last_month_schedules = last_month_schedules
         self._work_categories = work_categories
         self._monthly_setting = monthly_setting
         self._operators = operators
@@ -93,18 +95,19 @@ class SchedulerOutlineHelper:
                 adaptability += ratio
         return max(0, 1 - adaptability)
 
-    def _gene_to_codon(self, gene):
-        return [self.codon_[i] for i in gene]
+    @staticmethod
+    def _translate_as_gene(indices, base):
+        return [base[i] for i in indices]
 
-    def _evaluate(self, operator):
-        def _fnc(gene):
+    def _evaluate(self, operator, base):
+        def _fnc(loci):
             adaptability = 3
-            codon = self._gene_to_codon(gene)
-            adaptability += self._evaluate_by_continuous_attendance(codon, 4)
-            adaptability += self._evaluate_by_holiday_continuity(codon, 3)
-            adaptability += self._evaluate_by_week_day_operator(codon, operator, 10)
-            adaptability *= self._evaluate_by_request(codon, operator)
-            adaptability *= self._evaluate_by_fixed_schedule(codon, operator)
+            protein = self._translate_as_gene(loci, base)
+            adaptability += self._evaluate_by_continuous_attendance(protein, 4)
+            adaptability += self._evaluate_by_holiday_continuity(protein, 3)
+            adaptability += self._evaluate_by_week_day_operator(protein, operator, 10)
+            adaptability *= self._evaluate_by_request(protein, operator)
+            adaptability *= self._evaluate_by_fixed_schedule(protein, operator)
             return adaptability
         return _fnc
 
@@ -113,8 +116,9 @@ class SchedulerOutlineHelper:
                or operator in set([y for x in self._daily_fixed_schedules for y in x])\
                or operator in set([y for x in self._work_categories for y in x.week_day_operators])
 
-    def _genetic_wrapper(self, operator):
-        genetic = Genetic(evaluation=self._evaluate(operator),
+    def _genetic_wrapper(self, args):
+        operator, base_pool = args
+        genetic = Genetic(evaluation=self._evaluate(operator, base_pool),
                           base_kind=range(len(self._monthly_setting.days)), homo_progeny_restriction=True,
                           saturated_limit=60, generation_size=1000, population_size=500)
         genetic.parent_selection = build_parent_selection()
@@ -123,34 +127,58 @@ class SchedulerOutlineHelper:
         genetic.crossover = build_crossover_unique()
         genetic.compile()
         return genetic.run()
-    
-    def _set_codon(self, operator):
+
+    def _calc_residue_last_month(self, operator):
+        last_schedules = list(filter(lambda x: x.operator == operator, self._last_month_schedules.components))
+        if not last_schedules:
+            return 0, False
+        last_schedules = last_schedules[0]
+        day_off_work_categories = list(filter(lambda x: x.day_offs > 0, self._work_categories))
+        target_sign = last_schedules.day_work_categories[-1]
+        if target_sign != day_off_sign and target_sign not in map(lambda x: x.id, day_off_work_categories):
+            return 0, False
+
+        for i in range(1, len(self._monthly_setting.days)+1):
+            target_sign = last_schedules.day_work_categories[-i]
+            if target_sign in map(lambda x: x.id, day_off_work_categories):
+                remained_day_offs = find(lambda x: x.id == target_sign, day_off_work_categories).day_offs - i + 1
+                return remained_day_offs, True
+        return 0, False
+
+    def _generate_base_pool(self, operator):
+        remained_holiday_count = self._monthly_setting.holidays
+
+        remained_day_offs, is_day_off = self._calc_residue_last_month(operator)
+        base_pool = [holiday_sign]*(remained_holiday_count - 1 if is_day_off else 0)
+
         request_days = [i for i, x in enumerate(self._daily_requests) if operator in x]
         requests_len = len(request_days)
-        self.codon_ = [holiday_sign]*self._monthly_setting.holidays
-        if self._monthly_setting.holidays < requests_len:
-            self.codon_ += [n_day_sign]*(requests_len-self._monthly_setting.holidays)
+        if remained_holiday_count < requests_len:
+            base_pool += [n_day_sign]*(requests_len-remained_holiday_count)
 
         requests_bunch_len = len([i for i, x in enumerate(request_days) if i == 0
                                   or i + 1 < len(request_days) and x + 1 != request_days[i + 1]])
 
-        work_day_len = len(self._monthly_setting.days)-len(self.codon_)
-        holiday_bunch_len = len(self.codon_)-requests_len+requests_bunch_len
+        work_day_len = len(self._monthly_setting.days)-len(base_pool)
+        holiday_bunch_len = len(base_pool)-requests_len+requests_bunch_len
         require_holiday_bunch_len = math.ceil(work_day_len / 5)
-        self.codon_ += [n_day_sign]*max(require_holiday_bunch_len-holiday_bunch_len, 0)
+        base_pool += [n_day_sign]*max(require_holiday_bunch_len-holiday_bunch_len, 0)
 
         fixed_schedules_len = len(list(filter(lambda x: operator in x, self._daily_fixed_schedules)))
-        self.codon_ += [fixed_schedule_day_sign]*fixed_schedules_len
+        base_pool += [fixed_schedule_day_sign]*fixed_schedules_len
 
-        if len(self.codon_) > len(self._monthly_setting.days):
+        if len(base_pool) > len(self._monthly_setting.days):
             raise Exception('{} is excess request'.format(operator.user.name))
-        self.codon_ += [work_day_sign]*(len(self._monthly_setting.days)-len(self.codon_))
+        base_pool += [work_day_sign]*(len(self._monthly_setting.days)-len(base_pool)-remained_day_offs)
+        return base_pool
     
     def _batch_genetic_wrapper(self, operator):
-        self._set_codon(operator)
+        base_pool = self._generate_base_pool(operator)
         with Pool(multi.cpu_count()) as p:
-            batch = p.map(self._genetic_wrapper, [operator for _ in range(1000)])
-        return [self._gene_to_codon(x.gene) for x in batch]
+            batch = p.map(self._genetic_wrapper, [(operator, base_pool) for _ in range(1000)])
+        remained_day_off, is_day_off = self._calc_residue_last_month(operator)
+        return [[day_off_sign]*remained_day_off + [holiday_sign]*(1 if is_day_off else 0)
+                + self._translate_as_gene(x.gene, base_pool) for x in batch]
     
     def run(self):
         common_gene = None

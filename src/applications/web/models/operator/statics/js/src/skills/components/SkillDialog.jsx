@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -11,10 +12,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 const skillDialog = ({
-    skillDialog, onNameChange, onScoreChange,
-    onIsCertifiedChanged, handleClose, handleRemove, handleSave
+    skillDialog, isOpen, changeName, changeScore,
+    changeIsCertified, close, remove, save
     }) => (
-    <Dialog open={skillDialog.isOpen} aria-labelledby="skill-store">
+    <Dialog open={isOpen} aria-labelledby="skill-store">
         <DialogTitle>register skill</DialogTitle>
         <DialogContent>
             <DialogContentText>
@@ -24,28 +25,39 @@ const skillDialog = ({
                 and not certified skills are shown to administrators
             </DialogContentText>
             <TextField autoFocus margin="dense" label="name" fullWidth
-                onChange={onNameChange} value={skillDialog.name} />
+                onChange={changeName} value={skillDialog.name} />
             <TextField autoFocus margin="dense" label="score" fullWidth type="number"
-                onChange={onScoreChange} value={skillDialog.score} />
+                onChange={changeScore} value={skillDialog.score} />
             <FormControlLabel
                 control={<Switch checked={skillDialog.isCertified}
-                    onChange={onIsCertifiedChanged} color="primary" />}
+                    onChange={changeIsCertified} color="primary" />}
                 label="is certified" />
         </DialogContent>
         <DialogActions>
-            <Button onClick={handleClose} color="default">
+            <Button onClick={close} color="default">
                 Close
             </Button>
             {skillDialog.id && (
-                <Button onClick={() => handleRemove(skillDialog.id)} variant="outlined" color="secondary">
+                <Button onClick={() => remove(skillDialog.id)} variant="outlined" color="secondary">
                     Remove
                 </Button>
             )}
-            <Button onClick={() => handleSave(skillDialog)} variant="outlined" color="primary">
+            <Button onClick={() => save(skillDialog)} variant="outlined" color="primary">
                 Save
             </Button>
         </DialogActions>
     </Dialog>
 );
+
+skillDialog.propTypes = {
+    skillDialog: propTypes.object.isRequired,
+    isOpen: propTypes.bool.isRequired,
+    changeName: propTypes.func.isRequired,
+    changeScore: propTypes.func.isRequired,
+    changeIsCertified: propTypes.func.isRequired,
+    close: propTypes.func.isRequired,
+    remove: propTypes.func.isRequired,
+    save: propTypes.func.isRequired,
+};
 
 export default skillDialog;

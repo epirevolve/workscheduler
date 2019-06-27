@@ -203,5 +203,5 @@ typings/
 
 # this project specific
 **/img/*.svg
-input_init.py
+input_data.py
 **/statics/**/*.bundle.min.js

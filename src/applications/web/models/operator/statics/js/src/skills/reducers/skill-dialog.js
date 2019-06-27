@@ -1,36 +1,33 @@
+import * as actionTypes from '../actionTypes';
+
 const dialog = (state = {isOpen: false}, action) => {
+    const payload = action.payload;
     switch (action.type) {
-        case 'OPEN_DIALOG_APPEND':
+        case actionTypes.OPEN_DIALOG_APPEND:
             return {...state,
-                isOpen: true,
                 id: '',
                 name: '',
                 score: '1',
                 isCertified: true
             };
-        case 'OPEN_DIALOG_EDIT':
+        case actionTypes.OPEN_DIALOG_EDIT:
             return {...state,
-                isOpen: true,
-                id: action.skill.id,
-                name: action.skill.name,
-                score: action.skill.score,
-                isCertified: action.skill.isCertified
+                id: payload.skill.id,
+                name: payload.skill.name,
+                score: payload.skill.score,
+                isCertified: payload.skill.isCertified
             };
-        case 'CLOSE_DIALOG':
+        case actionTypes.CHANGE_NAME:
             return {...state,
-                isOpen: false
+                name: payload.text
             };
-        case 'CHANGE_NAME':
+        case actionTypes.CHANGE_SCORE:
             return {...state,
-                name: action.text
+                score: payload.score
             };
-        case 'CHANGE_SCORE':
+        case actionTypes.CHANGE_IS_CERTIFIED:
             return {...state,
-                score: action.score
-            };
-        case 'CHANGE_IS_CERTIFIED':
-            return {...state,
-                isCertified: action.isChecked
+                isCertified: payload.isChecked
             };
         default:
             return state;

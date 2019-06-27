@@ -20,9 +20,9 @@ from .history import ProcessStatus
 
 from .terminate_scheduler_error import TerminateSchedulerError
 
-from .scheduler_outline_helper import SchedulerOutlineHelper
-from .scheduler_detail_helper import SchedulerDetailHelper
-from .scheduler_monthly_helper import SchedulerMonthlyHelper
+from .ga_helper import SchedulerOutlineHelper
+from .ga_helper import SchedulerDetailHelper
+from .ga_helper import SchedulerMonthlyHelper
 
 associated_monthly_setting_table\
     = Table("associated_monthly_setting", OrmBase.metadata,
@@ -102,12 +102,13 @@ class Scheduler(OrmBase):
                 raise TerminateSchedulerError('scheduler is canceled')
         return post
 
-    def run(self, month: int, year: int, operators: [], pipe):
+    def run(self, last_month_schedules, month: int, year: int, operators: [], pipe):
         try:
             monthly_setting = self.monthly_setting(month, year)
             post = self.post_to_pipe(pipe)
             post(ProcessStatus.OUTLINE)
-            outlines = SchedulerOutlineHelper(self.work_categories, monthly_setting, operators).run()
+            outlines = SchedulerOutlineHelper(
+                self.work_categories, monthly_setting, operators, last_month_schedules).run()
             post(ProcessStatus.DETAIL)
             combinations = SchedulerDetailHelper(monthly_setting, operators, outlines).run()
             post(ProcessStatus.MONTHLY)

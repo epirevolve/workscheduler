@@ -11,6 +11,7 @@ from . import TeamQuery
 from . import OperatorQuery
 from . import SchedulerQuery
 from . import ScheduleCommand
+from . import ScheduleQuery
 
 
 class SchedulerCommand:
@@ -78,9 +79,15 @@ class SchedulerCommand:
             history.process_status = yield
             self._session.commit()
 
+    @staticmethod
+    def _get_last_month(month, year):
+        return month - 1 if month > 1 else 12, year if month > 1 else year - 1
+
     def launch(self, team_id: str, month: int, year: int):
         operators = OperatorQuery(self._session).get_active_operators_of_team_id(team_id)
         scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
+        last_month_schedules = ScheduleQuery(self._session).get_schedules_of_team_year_month(
+            team_id, *self._get_last_month(month, year))
         team = TeamQuery(self._session).get_team(team_id)
         # if scheduler.is_launching:
         #     raise AlreadyLaunchError()
@@ -88,7 +95,7 @@ class SchedulerCommand:
             self.turn_on_scheduler_launching(scheduler)
             history = self.append_new_history(team, month, year)
             pipe = self.update_launching_status(history)
-            schedule, adaptability = scheduler.run(month, year, operators, pipe)
+            schedule, adaptability = scheduler.run(last_month_schedules, month, year, operators, pipe)
             ScheduleCommand(self._session).append_new_schedule(team_id, month, year, schedule)
             history.adaptability = adaptability
         finally:

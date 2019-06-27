@@ -14,15 +14,16 @@ const dataset = document.querySelector('script[src*="skills"]').dataset;
 const url = dataset.url;
 
 const mapStateToProps = (state) => ({
-    skillDialog: state.skillDialog
+    skillDialog: state.skillDialog,
+    isOpen: state.ui.dialogOpen
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onNameChange: (e) => dispatch(changeName(e.target.value)),
-    onScoreChange: (e) => dispatch(changeScore(e.target.value)),
-    onIsCertifiedChanged: (e) => dispatch(changeIsCertified(e.target.checked)),
-    handleClose: () => dispatch(closeDialog()),
-    handleRemove: (id) => {
+    changeName: (e) => dispatch(changeName(e.target.value)),
+    changeScore: (e) => dispatch(changeScore(e.target.value)),
+    changeIsCertified: (e) => dispatch(changeIsCertified(e.target.checked)),
+    close: () => dispatch(closeDialog()),
+    remove: (id) => {
         requestAgent
             .delete(`${url}${id}`)
             .send()
@@ -38,7 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
             });
         dispatch(closeDialog());
     },
-    handleSave: (skillDialog) => {
+    save: (skillDialog) => {
         requestAgent
             .post(skillDialog.id ? `${url}${skillDialog.id}` : url)
             .send(skillDialog)

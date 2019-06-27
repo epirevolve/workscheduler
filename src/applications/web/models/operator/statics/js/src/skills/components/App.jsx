@@ -2,12 +2,12 @@ import React from 'react';
 
 import Layout from 'Layout';
 import DialogContainer from '../containers/DialogContainer';
-import SkillsContainer from '../containers/SkillsContainer';
+import DisplaySkills from '../containers/DisplaySkills';
 
 const app = () => (
     <Layout>
         <DialogContainer />
-        <SkillsContainer />
+        <DisplaySkills />
     </Layout>
 );
 

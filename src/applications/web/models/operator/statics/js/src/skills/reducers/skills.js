@@ -1,14 +1,17 @@
+import * as actionTypes from '../actionTypes';
+
 const skills = (state = [], action) => {
+    const payload = action.payload;
     switch (action.type) {
-        case 'APPEND_SKILL':
-            return state.concat([action.skill]);
-        case 'EDIT_SKILL':
+        case actionTypes.APPEND_SKILL:
+            return state.concat([payload.skill]);
+        case actionTypes.EDIT_SKILL:
             return state.map((x) => {
-                if (x.id != action.skill.id) return x;
-                return action.skill;
+                if (x.id != payload.skill.id) return x;
+                return payload.skill;
             });
-        case 'REMOVE_SKILL':
-            return state.filter((x) => x.id != action.id);
+        case actionTypes.REMOVE_SKILL:
+            return state.filter((x) => x.id != payload.id);
         default:
             return state;
     }

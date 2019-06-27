@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,15 +9,15 @@ import AddIcon from '@material-ui/icons/Add';
 
 import UserList from './UserList';
 
-const users = ({ handleAppend, ...other }) => (
+const users = ({ append, ...other }) => (
     <div>
         <AppBar position="static" color="default">
             <Toolbar>
-                <Typography variant="title" color="inherit" style={{ flexGrow: 1 }}>
+                <Typography variant="h5" color="inherit" style={{ flexGrow: 1 }}>
                     users
                 </Typography>
                 <div style={{ textAlign: 'right' }}>
-                    <IconButton onClick={handleAppend}>
+                    <IconButton onClick={append}>
                         <AddIcon />
                     </IconButton>
                 </div>
@@ -25,5 +26,9 @@ const users = ({ handleAppend, ...other }) => (
         <UserList {...other} />
     </div>
 );
+
+users.propTypes = {
+    append: propTypes.func.isRequired
+};
 
 export default users;

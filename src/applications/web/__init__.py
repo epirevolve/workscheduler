@@ -24,7 +24,7 @@ from utils.uuid import UuidFactory
 
 from applications.services import OperatorQuery
 from infrastructures import Database
-from infrastructures import InputInitData
+from infrastructures import InputData
 
 
 def get_db_session(echo=False):
@@ -72,7 +72,8 @@ def create_app(test_config=None):
     @click.command('set-test-db')
     @with_appcontext
     def set_test_db_command():
-        Database(current_app.config['DATABASE']).set_test()
+        Database(current_app.config['DATABASE']).init()
+        InputData(current_app.config['DATABASE']).set_test()
         click.echo('Set the database to test.')
     app.cli.add_command(set_test_db_command)
 
@@ -80,7 +81,7 @@ def create_app(test_config=None):
     @with_appcontext
     def input_data_command():
         Database(current_app.config['DATABASE']).init()
-        InputInitData(current_app.config['DATABASE']).input_init_data()
+        InputData(current_app.config['DATABASE']).set_init()
         click.echo('Db initialized and input data.')
     app.cli.add_command(input_data_command)
 

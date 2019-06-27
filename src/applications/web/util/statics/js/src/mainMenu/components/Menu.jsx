@@ -29,7 +29,7 @@ const menu = () => {
 
     return (
         <>
-            <Grid container spacing={16} className="my-4">
+            <Grid container spacing={2} className="my-4">
                 {createCardInGrid("Schedule", "schedule.svg", urlSchedules, "your work schedule and ask change some days")}
                 {auth.isOperator && (
                     <>
@@ -42,7 +42,7 @@ const menu = () => {
             {auth.isAdmin && (
                 <>
                     <Divider />
-                    <Grid container spacing={16} className="my-4">
+                    <Grid container spacing={2} className="my-4">
                         {createCardInGrid("Scheduler", "scheduler-menu.svg", urlSchedulerMenu, "scheduler option and start to build")}
                         {createCardInGrid("Operators", "operators.svg", urlOperators, "what they can do")}
                         {createCardInGrid("Users", "users.svg", urlUsers, "start new user story from here")}

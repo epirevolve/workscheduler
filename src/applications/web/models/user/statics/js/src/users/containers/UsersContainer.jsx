@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleAppend: () => dispatch(openDialogToAppend()),
+    append: () => dispatch(openDialogToAppend()),
     handleEdit: (user) => dispatch(openDialogToEdit(user))
 });
 

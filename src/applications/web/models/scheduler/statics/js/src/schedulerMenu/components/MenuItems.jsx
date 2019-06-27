@@ -88,7 +88,7 @@ const menuItems = ({ team, onLaunchScheduler }) => {
     return (
         <>
             {launchCalendarDialog(state, setState, onLaunchSchedulerWrapper)}
-            <Grid container spacing={16} css={my4} style={{ marginLeft: "0.2rem" }}>
+            <Grid container spacing={2} css={my4} style={{ marginLeft: "0.2rem" }}>
                 {createCardInGrid("Monthly Setting", "scheduler-monthly-setting.svg",
                     urlMonthly.replace('team_id', team.id),
                     "set require number of member each day and prefixed schedule")}
@@ -99,7 +99,7 @@ const menuItems = ({ team, onLaunchScheduler }) => {
                     urlYearly.replace('team_id', team.id),
                     "set require number of member each day and prefixed schedule")}
             </Grid>
-            <Grid container spacing={16} css={my4} style={{ marginLeft: "0.2rem" }}>
+            <Grid container spacing={2} css={my4} style={{ marginLeft: "0.2rem" }}>
                 {createCardInGrid("Launch", "scheduler-launch.svg",
                     "#", "create schedule of current team and selected month",
                     () => setState((prev) => ({...prev, openCalendar: true })))}

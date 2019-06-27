@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import pytest
 from datetime import datetime
 
 from applications.services import TeamQuery
 from applications.services import SchedulerQuery
 from applications.services import OperatorQuery
-from domains.models.scheduler.scheduler_detail_helper import SchedulerDetailHelper
-from domains.models.scheduler.scheduler_outline_helper import work_day_sign
-from domains.models.scheduler.scheduler_outline_helper import holiday_sign
+from domains.models.scheduler.ga_helper.detail import SchedulerDetailHelper
+from domains.models.scheduler.ga_helper.outline import work_day_sign
+from domains.models.scheduler.ga_helper.outline import holiday_sign
 
 
 class TestScheduler:

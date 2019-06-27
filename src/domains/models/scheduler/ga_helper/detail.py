@@ -6,11 +6,12 @@ import math
 
 import numpy as np
 
-from .scheduler_outline_helper import work_day_sign
-from .scheduler_outline_helper import holiday_sign
-from .scheduler_outline_helper import fixed_schedule_day_sign
+from utils.array import find
 
-day_off_sign = "-"
+from .signs import work_day_sign
+from .signs import holiday_sign
+from .signs import fixed_schedule_day_sign
+from .signs import day_off_sign
 
 
 class SchedulerDetailHelper:
@@ -122,7 +123,7 @@ class SchedulerDetailHelper:
             index = day.day - 1
             if outline[index] != fixed_schedule_day_sign:
                 continue
-            fixed_schedule = list(filter(lambda x: operator in x.participants, day.fixed_schedules))[0]
+            fixed_schedule = find(lambda x: operator in x.participants, day.fixed_schedules)
             outline[index] = fixed_schedule.id
         return outline
     

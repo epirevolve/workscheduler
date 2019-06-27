@@ -11,8 +11,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleAppend: () => dispatch(openDialogToAppend()),
-    handleEdit: (skill) => dispatch(openDialogToEdit(skill))
+    append: () => dispatch(openDialogToAppend()),
+    edit: (skill) => dispatch(openDialogToEdit(skill))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Skills);

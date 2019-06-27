@@ -1,8 +1,8 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import moment from 'moment';
 
-import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -29,12 +29,12 @@ const vacation = ({ vacation, onTitleChange, onDateChange,
                     value={[moment(vacation.onFrom), moment(vacation.onTo)]}
                         onChange={onDateChange(vacation.id)}>
                     { ({ value }) => {
-                        const formatDate = (x) => x.format('YYYY-MM-DD')
+                        const formatDate = (x) => x.format('YYYY-MM-DD');
                         const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
                         return (
                             <TextField margin="dense" label="date"
                                 InputProps={{ readOnly: true, tabIndex: -1 }} value={disp} />
-                            )}}
+                            );}}
                 </DatePicker>
                 <TextField type="number" label="number of days" required value={vacation.days}
                     onChange={onDaysChange(vacation.id)} />
@@ -45,7 +45,7 @@ const vacation = ({ vacation, onTitleChange, onDateChange,
                 </Button>
             </CardActions>
         </Card>
-    )
+    );
 };
 
 export default vacation;

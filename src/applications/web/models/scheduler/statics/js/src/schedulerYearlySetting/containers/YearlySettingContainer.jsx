@@ -16,10 +16,10 @@ class YearlySettingContainer extends React.Component {
             .post(url)
             .send(yearlySetting)
             .set('X-CSRFToken', csrfToken)
-            .then(res => {
+            .then((_res) => {
                 //dispatch(showSnackbar('successfully storing scheduler yearly setting.'));
             })
-            .catch(err => {
+            .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const message = res.errorMessage || 'we have some trouble with storing yearly setting...';
                 //dispatch(showSnackbar(`Oops, Sorry... ${message}`));
@@ -38,7 +38,7 @@ class YearlySettingContainer extends React.Component {
                     </Button>
                 </div>
             </>
-        )
+        );
     }
 }
 

@@ -8,6 +8,10 @@ def get_next_month(value: date = date.today()) -> date:
     return (value.replace(day=1) + timedelta(days=32)).replace(day=1)
 
 
+def get_last_month(value: date = date.today()) -> date:
+    return (value.replace(day=28) + timedelta(days=-29)).replace(day=1)
+
+
 def get_next_day(value: date = date.today()) -> date:
     return value + timedelta(days=1)
 
