@@ -10,7 +10,7 @@ import { addRequest, removeRequest, closeDialog,
 
 import RequestDialog from '../components/RequestDialog';
 
-const dataset = document.querySelector('script[src*="requestPublic"]').dataset;
+const dataset = document.querySelector('script[src*="request"]').dataset;
 const holidays = JSON.parse(dataset.holidays || 0);
 const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
 const urlAdd = dataset.urlAddRequest;

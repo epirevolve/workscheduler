@@ -36,7 +36,7 @@ const containerCss = css({
     margin: '.3rem'
 });
 
-const dataset = document.querySelector('script[src*="requestPublic"]').dataset;
+const dataset = document.querySelector('script[src*="request"]').dataset;
 const scheduleOf = new Date(dataset.scheduleOf);
 
 function handleAppend (day, action) {
