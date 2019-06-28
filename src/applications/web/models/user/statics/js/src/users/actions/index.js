@@ -1,52 +1,54 @@
+import * as actionTypes from '../actionTypes';
+
 export const addUser = (user) => ({
-    type: 'APPEND_USER',
+    type: actionTypes.APPEND_USER,
     user
 });
 
 export const editUser = (user) => ({
-    type: 'EDIT_USER',
+    type: actionTypes.EDIT_USER,
     user
 });
 
 export const inactivateUser = (id) => ({
-    type: 'INACTIVATE_USER',
+    type: actionTypes.INACTIVATE_USER,
     id
 });
 
 export const openDialogToAppend = () => ({
-    type: 'OPEN_DIALOG_APPEND'
+    type: actionTypes.OPEN_DIALOG_APPEND
 });
 
 export const openDialogToEdit = (user) => ({
-    type: 'OPEN_DIALOG_EDIT',
+    type: actionTypes.OPEN_DIALOG_EDIT,
     user
 });
 
 export const closeDialog = () => ({
-    type: 'CLOSE_DIALOG'
+    type: actionTypes.CLOSE_DIALOG
 });
 
 export const changeLoginId = (text) => ({
-    type: 'CHANGE_LOGIN_ID',
+    type: actionTypes.CHANGE_LOGIN_ID,
     text
 });
 
 export const changeName = (text) => ({
-    type: 'CHANGE_NAME',
+    type: actionTypes.CHANGE_NAME,
     text
 });
 
 export const changeTeam = (obj) => ({
-    type: 'CHANGE_TEAM',
+    type: actionTypes.CHANGE_TEAM,
     obj
 });
 
 export const changeIsAdmin = (isChecked) => ({
-    type: 'CHANGE_IS_ADMIN',
+    type: actionTypes.CHANGE_IS_ADMIN,
     isChecked
 });
 
 export const changeIsOperator = (isChecked) => ({
-    type: 'CHANGE_IS_OPERATOR',
+    type: actionTypes.CHANGE_IS_OPERATOR,
     isChecked
 });

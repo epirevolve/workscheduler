@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import List from '@material-ui/core/List';
 
@@ -15,10 +16,15 @@ const wrapperCss = css({
 },
 mt1);
 
-const userList = ({ users, handleEdit }) => (
+const userList = ({ users, edit }) => (
     <List css={wrapperCss}>
-        {users.map((x) => <User key={x.id} user={x} handleEdit={() => handleEdit(x)} />)}
+        {users.map((x, i) => <User key={i} user={x} edit={() => edit(x)} />)}
     </List>
 );
+
+userList.propTypes = {
+    users: propTypes.array,
+    edit: propTypes.func.isRequired
+};
 
 export default userList;

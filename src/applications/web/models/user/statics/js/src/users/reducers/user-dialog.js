@@ -1,11 +1,12 @@
+import * as actionTypes from '../actionTypes';
+
 const dataset = document.querySelector('script[src*="users"]').dataset;
 const teams = JSON.parse(dataset.teams);
 
-const dialog = (state = {isOpen: false}, action) => {
+const dialog = (state = {}, action) => {
     switch (action.type) {
-        case 'OPEN_DIALOG_APPEND':
+        case actionTypes.OPEN_DIALOG_APPEND:
             return {...state,
-                isOpen: true,
                 id: '',
                 loginId: '',
                 name: '',
@@ -13,9 +14,8 @@ const dialog = (state = {isOpen: false}, action) => {
                 isAdmin: false,
                 isOperator: false
             };
-        case 'OPEN_DIALOG_EDIT':
+        case actionTypes.OPEN_DIALOG_EDIT:
             return {...state,
-                isOpen: true,
                 id: action.user.id,
                 loginId: action.user.loginId,
                 name: action.user.name,
@@ -23,27 +23,23 @@ const dialog = (state = {isOpen: false}, action) => {
                 isAdmin: action.user.isAdmin,
                 isOperator: action.user.isOperator
             };
-        case 'CLOSE_DIALOG':
-            return {...state,
-                isOpen: false
-            };
-        case 'CHANGE_LOGIN_ID':
+        case actionTypes.CHANGE_LOGIN_ID:
             return {...state,
                 loginId: action.text
             };
-        case 'CHANGE_NAME':
+        case actionTypes.CHANGE_NAME:
             return {...state,
                 name: action.text
             };
-        case 'CHANGE_TEAM':
+        case actionTypes.CHANGE_TEAM:
             return {...state,
                 team: action.obj
             };
-        case 'CHANGE_IS_ADMIN':
+        case actionTypes.CHANGE_IS_ADMIN:
             return {...state,
                 isAdmin: action.isChecked
             };
-        case 'CHANGE_IS_OPERATOR':
+        case actionTypes.CHANGE_IS_OPERATOR:
             return {...state,
                 isOperator: action.isChecked
             };

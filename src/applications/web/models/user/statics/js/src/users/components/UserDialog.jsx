@@ -17,7 +17,7 @@ import FormControl from '@material-ui/core/FormControl';
 const dataset = document.querySelector('script[src*="users"]').dataset;
 const teams = JSON.parse(dataset.teams);
 
-const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onTeamChange,
+const userDialog = ({ userDialog, isOpen, onLoginIdChange, onNameChange, onTeamChange,
     onIsAdminChange, onIsOperatorChange, handleClose, handleInactivate, handleResetPassword, handleSave }) => {
 
     const teamList = teams.map((x) =>
@@ -29,7 +29,7 @@ const userDialog = ({ userDialog, onLoginIdChange, onNameChange, onTeamChange,
     if (team && teams.map((x) => x.id).includes(team.id)) team = teams.find((x) => x.id == team.id);
 
     return (
-        <Dialog open={userDialog.isOpen} aria-labelledby="user-store" maxWidth="lg">
+        <Dialog open={isOpen} aria-labelledby="user-store" maxWidth="lg">
             <DialogTitle>register user</DialogTitle>
             <DialogContent>
                 <DialogContentText>

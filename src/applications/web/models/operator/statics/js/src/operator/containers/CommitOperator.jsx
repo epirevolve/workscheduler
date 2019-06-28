@@ -3,23 +3,18 @@ import { connect } from 'react-redux';
 
 import requestAgent from 'superagent';
 
-import Operator from '../components/Operator';
-
 import { showSnackbar } from 'snackbarActions';
 
-import { changeSkill, changeRemainPaidHolidays } from '../actions';
-
-const dataset = document.querySelector('script[src*="operator"]').dataset;
-const url = dataset.url;
+import CommitActionArea from '../components/CommitActionArea';
 
 const mapStateToProps = (state) => ({
     operator: state.operator
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleSave: (operator) => {
+    save: (operator) => {
         requestAgent
-            .post(url)
+            .put(`/operator/api/myself/${operator.id}`)
             .send(operator)
             .set('X-CSRFToken', csrfToken)
             .then(() => {
@@ -31,8 +26,6 @@ const mapDispatchToProps = (dispatch) => ({
                 dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
     },
-    onSkillChange: (e) => dispatch(changeSkill(e)),
-    onRemainPaidHolidaysChange: (e) => dispatch(changeRemainPaidHolidays(e.target.value))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Operator);
+export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

@@ -15,7 +15,8 @@ const dataset = document.querySelector('script[src*="users"]').dataset;
 const url = dataset.url;
 
 const mapStateToProps = (state) => ({
-    userDialog: state.userDialog
+    userDialog: state.userDialog,
+    isOpen: state.ui.dialogOpen
 });
 
 const mapDispatchToProps = (dispatch) => ({

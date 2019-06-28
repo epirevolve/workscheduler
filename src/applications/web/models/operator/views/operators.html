@@ -3,6 +3,5 @@
 {% block script %}
 <script id="breadscram" data-current="{{ to_json({'name': 'Operators'}) }}"></script>
 <script src="{{ url_for('operators.static', filename='js/operators.bundle.min.js') }}"
-        data-url="{{ url_for('operators.update_operator', operator_id='operator_id') }}"
         data-operators="{{ to_json(operators) }}" data-skills="{{ to_json(skills) }}"></script>
 {% endblock %}

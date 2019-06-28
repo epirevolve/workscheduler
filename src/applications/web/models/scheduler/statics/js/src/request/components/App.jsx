@@ -8,7 +8,7 @@ import RequestsContainer from '../containers/RequestsContainer';
 import MonthYearSelector from '../../common/components/MonthYearSelector';
 import Layout from 'Layout';
 
-const dataset = document.querySelector('script[src*="requestPublic"]').dataset;
+const dataset = document.querySelector('script[src*="request"]').dataset;
 const holidays = JSON.parse(dataset.holidays);
 const paidHolidays = JSON.parse(dataset.paidHolidays || 0);
 

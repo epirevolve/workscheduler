@@ -1,0 +1,11 @@
+export const APPEND_USER = Symbol();
+export const EDIT_USER = Symbol();
+export const INACTIVATE_USER = Symbol();
+export const OPEN_DIALOG_APPEND = Symbol();
+export const OPEN_DIALOG_EDIT = Symbol();
+export const CLOSE_DIALOG = Symbol();
+export const CHANGE_LOGIN_ID = Symbol();
+export const CHANGE_NAME = Symbol();
+export const CHANGE_TEAM = Symbol();
+export const CHANGE_IS_ADMIN = Symbol();
+export const CHANGE_IS_OPERATOR = Symbol();

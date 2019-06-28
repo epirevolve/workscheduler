@@ -10,11 +10,11 @@ const team = JSON.parse(dataset.team);
 
 const mapStateToProps = (state) => ({
     team,
-    scheduleOf: state.schedules.scheduleOf
+    monthYear: state.schedules.scheduleOf
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onMonthChange: (team, e) => {
+    changeMonthYear: (team) => (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
         dispatch(requestSchedules(team, scheduleOf));
         dispatch(changeScheduleOf(scheduleOf));

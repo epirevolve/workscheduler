@@ -9,9 +9,6 @@ import { editOperator, closeDialog, changeSkill, changeOjt } from '../actions';
 
 import OperatorDialog from '../components/OperatorDialog';
 
-const dataset = document.querySelector('script[src*="operators"]').dataset;
-const url = dataset.url;
-
 const mapStateToProps = (state) => ({
     operatorDialog: state.operatorDialog
 });
@@ -22,7 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
     handleClose: () => dispatch(closeDialog()),
     handleSave: (operatorDialog) => {
         requestAgent
-            .post(url.replace('operator_id', operatorDialog.id))
+            .put(`/operator/api/${operatorDialog.id}`)
             .send(operatorDialog)
             .set('X-CSRFToken', csrfToken)
             .then((res) => {

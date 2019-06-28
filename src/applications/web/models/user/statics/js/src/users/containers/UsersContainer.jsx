@@ -11,7 +11,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     append: () => dispatch(openDialogToAppend()),
-    handleEdit: (user) => dispatch(openDialogToEdit(user))
+    edit: (user) => dispatch(openDialogToEdit(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

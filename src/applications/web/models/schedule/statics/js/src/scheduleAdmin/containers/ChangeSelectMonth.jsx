@@ -7,11 +7,11 @@ import MonthSelect from '../../common/components/MonthSelect';
 
 const mapStateToProps = (state) => ({
     team: state.teams.team,
-    scheduleOf: state.schedules.scheduleOf
+    monthYear: state.schedules.scheduleOf
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onMonthChange: (team, e) => {
+    changeMonthYear: (team) => (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
         dispatch(requestSchedules(team, scheduleOf));
         dispatch(changeScheduleOf(scheduleOf));

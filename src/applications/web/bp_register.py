@@ -13,6 +13,7 @@ from .models.schedule import schedules_bp
 from .models.user import users_api_bp
 from .models.scheduler import schedulers_api_bp
 from .models.schedule import schedules_api_bp
+from .models.operator import operator_api_bp
 
 
 def bp_register(app):
@@ -29,3 +30,4 @@ def bp_register(app):
     app.register_blueprint(users_api_bp, url_prefix="/api")
     app.register_blueprint(schedulers_api_bp, url_prefix="/scheduler/api")
     app.register_blueprint(schedules_api_bp, url_prefix="/schedule/api")
+    app.register_blueprint(operator_api_bp, url_prefix="/operator/api")

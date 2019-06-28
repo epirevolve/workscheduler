@@ -6,7 +6,7 @@ const schedules = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
         case actionTypes.CHANGE_WORK_CATEGORY: {
-            const { operator, day, daySetting, category, workCategories } = payload;
+            const { operator, day, category, workCategories } = payload;
             const categoryId = workCategories.map((x) => x.title).includes(category) ?
                 workCategories.find((x) => x.title == category).id : category;
             return {...state,

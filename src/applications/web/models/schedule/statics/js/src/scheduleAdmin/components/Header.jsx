@@ -11,7 +11,7 @@ import ChangeSelectMonth from '../containers/ChangeSelectMonth';
 import CommitSchedules from '../containers/CommitSchedules';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
 import { mb3 } from 'margin';
 

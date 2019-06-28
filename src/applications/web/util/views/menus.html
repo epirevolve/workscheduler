@@ -4,7 +4,7 @@
         data-auth="{{ to_json(current_user) }}" data-url-menu="{{ url_for('menus.show_menu') }}"
         data-url-schedules="{{ url_for('schedules.show_schedules') }}"
         data-url-requests="{{ url_for('requests.show_my_request', schedule_of=next_month) }}"
-        data-url-as-operator="{{ url_for('operators.show_myself', operator_id=operator_id) }}"
+        data-url-as-operator="{{ url_for('operators.show_myself', operator_id=operator_id()) }}"
         data-url-as-user="{{ url_for('users.show_myself', user_id=current_user.id) }}"
         data-url-scheduler-menu="{{ url_for('schedulers.show_menu') }}"
         data-url-operators="{{ url_for('operators.show_operators') }}"
