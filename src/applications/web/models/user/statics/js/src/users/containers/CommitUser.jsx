@@ -5,47 +5,52 @@ import requestAgent from 'superagent';
 
 import { showSnackbar } from 'snackbarActions';
 
-import { addUser, editUser, inactivateUser,
-    closeDialog, changeLoginId, changeName,
-    changeTeam, changeIsAdmin, changeIsOperator } from '../actions';
+import * as actions from '../actions';
 
-import UserDialog from '../components/UserDialog';
+import CommitActionArea from '../components/CommitActionArea';
 
 const dataset = document.querySelector('script[src*="users"]').dataset;
 const url = dataset.url;
 
 const mapStateToProps = (state) => ({
-    userDialog: state.userDialog,
-    isOpen: state.ui.dialogOpen
+    user: state.userDialog,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onLoginIdChange: (e) => dispatch(changeLoginId(e.target.value)),
-    onNameChange: (e) => dispatch(changeName(e.target.value)),
-    onTeamChange: (e) => dispatch(changeTeam(e.target.value)),
-    onIsAdminChange: (e) => dispatch(changeIsAdmin(e.target.checked)),
-    onIsOperatorChange: (e) => dispatch(changeIsOperator(e.target.checked)),
-    handleClose: () => dispatch(closeDialog()),
-    handleInactivate: (id) => {
+    close: () => dispatch(actions.closeDialog()),
+    activate: (id) => {
         requestAgent
-            .post(`${url}${id}/inactivate`)
-            .send()
+            .put(`/user/api/users/${id}/activate`)
+            .set('X-CSRFToken', csrfToken)
+            .then(() => {
+                dispatch(showSnackbar('user was successfully activated.'));
+                dispatch(actions.activateUser(id));
+            })
+            .catch((err) => {
+                const res = JSON.parse(err.response.text);
+                const message = res.errorMessage || 'we have some trouble with activate user...';
+                dispatch(showSnackbar(`Oops, Sorry... ${message}`));
+            });
+        dispatch(actions.closeDialog());
+    },
+    inactivate: (id) => {
+        requestAgent
+            .put(`/user/api/users/${id}/inactivate`)
             .set('X-CSRFToken', csrfToken)
             .then(() => {
                 dispatch(showSnackbar('user was successfully inactivated.'));
-                dispatch(inactivateUser(id));
+                dispatch(actions.inactivateUser(id));
             })
             .catch((err) => {
                 const res = JSON.parse(err.response.text);
                 const message = res.errorMessage || 'we have some trouble with inactivate user...';
                 dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
-        dispatch(closeDialog());
+        dispatch(actions.closeDialog());
     },
-    handleResetPassword: (id) => {
+    resetPassword: (id) => {
         requestAgent
-            .post(`${url}${id}/reset-password`)
-            .send()
+            .put(`/user/api/users/${id}/reset-password`)
             .set('X-CSRFToken', csrfToken)
             .then(() => {
                 dispatch(showSnackbar('user password was successfully reset.'));
@@ -55,21 +60,21 @@ const mapDispatchToProps = (dispatch) => ({
                 const message = res.errorMessage || 'we have some trouble with resetting password...';
                 dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
-        dispatch(closeDialog());
+        dispatch(actions.closeDialog());
     },
-    handleSave: (userDialog) => {
+    save: (user) => {
         requestAgent
-            .post(userDialog.id ? `${url}${userDialog.id}` : url)
-            .send(userDialog)
+            .post(user.id ? `${url}${user.id}` : url)
+            .send(user)
             .set('X-CSRFToken', csrfToken)
             .then((res) => {
                 dispatch(showSnackbar('user was successfully stored.'));
-                if (userDialog.id)
-                    dispatch(editUser(JSON.parse(res.text)));
+                if (user.id)
+                    dispatch(actions.editUser(JSON.parse(res.text)));
                 else
                 {
                     dispatch(showSnackbar('his/her password is p + his/her login id. Please change it.'));
-                    dispatch(addUser(JSON.parse(res.text)));
+                    dispatch(actions.addUser(JSON.parse(res.text)));
                 }
             })
             .catch((err) => {
@@ -77,8 +82,8 @@ const mapDispatchToProps = (dispatch) => ({
                 const message = res.errorMessage || 'we have some trouble with appending user...';
                 dispatch(showSnackbar(`Oops, Sorry... ${message}`));
             });
-        dispatch(closeDialog());
+        dispatch(actions.closeDialog());
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

@@ -1,5 +1,6 @@
 export const APPEND_USER = Symbol();
 export const EDIT_USER = Symbol();
+export const ACTIVATE_USER = Symbol();
 export const INACTIVATE_USER = Symbol();
 export const OPEN_DIALOG_APPEND = Symbol();
 export const OPEN_DIALOG_EDIT = Symbol();

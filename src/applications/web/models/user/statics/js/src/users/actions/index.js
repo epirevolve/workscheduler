@@ -10,6 +10,11 @@ export const editUser = (user) => ({
     user
 });
 
+export const activateUser = (id) => ({
+    type: actionTypes.ACTIVATE_USER,
+    id
+});
+
 export const inactivateUser = (id) => ({
     type: actionTypes.INACTIVATE_USER,
     id

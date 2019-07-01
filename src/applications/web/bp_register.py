@@ -27,7 +27,7 @@ def bp_register(app):
     app.register_blueprint(schedulers_bp, url_prefix="/schedulers")
     app.register_blueprint(schedules_bp, url_prefix="/schedules")
 
-    app.register_blueprint(users_api_bp, url_prefix="/api")
+    app.register_blueprint(users_api_bp, url_prefix="/user/api")
     app.register_blueprint(schedulers_api_bp, url_prefix="/scheduler/api")
     app.register_blueprint(schedules_api_bp, url_prefix="/schedule/api")
     app.register_blueprint(operator_api_bp, url_prefix="/operator/api")

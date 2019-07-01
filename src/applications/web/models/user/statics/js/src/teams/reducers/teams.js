@@ -8,7 +8,7 @@ const teams = (state = [], action) => {
                 return action.team;
             });
         case 'REMOVE_TEAM':
-            return state.filter((x) => x.id != id);
+            return state.filter((x) => x.id != action.id);
         default:
             return state;
     }

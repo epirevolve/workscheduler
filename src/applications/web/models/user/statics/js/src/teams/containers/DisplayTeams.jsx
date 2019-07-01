@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Teams from '../components/Teams';
+import TeamList from '../components/TeamList';
 
 import { openDialogToAppend, openDialogToEdit } from '../actions';
 
@@ -10,8 +10,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleAppend: () => dispatch(openDialogToAppend()),
-    handleEdit: (user) => dispatch(openDialogToEdit(user))
+    append: () => dispatch(openDialogToAppend()),
+    edit: (user) => dispatch(openDialogToEdit(user))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Teams);
+export default connect(mapStateToProps, mapDispatchToProps)(TeamList);

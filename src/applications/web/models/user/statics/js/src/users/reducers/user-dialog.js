@@ -12,7 +12,8 @@ const dialog = (state = {}, action) => {
                 name: '',
                 team: teams[0],
                 isAdmin: false,
-                isOperator: false
+                isOperator: false,
+                isInactivated: false,
             };
         case actionTypes.OPEN_DIALOG_EDIT:
             return {...state,
@@ -21,7 +22,8 @@ const dialog = (state = {}, action) => {
                 name: action.user.name,
                 team: action.user.team,
                 isAdmin: action.user.isAdmin,
-                isOperator: action.user.isOperator
+                isOperator: action.user.isOperator,
+                isInactivated: action.user.isInactivated,
             };
         case actionTypes.CHANGE_LOGIN_ID:
             return {...state,

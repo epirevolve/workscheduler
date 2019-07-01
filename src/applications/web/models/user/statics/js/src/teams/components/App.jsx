@@ -1,13 +1,13 @@
 import React from 'react';
 
 import DialogContainer from '../containers/DialogContainer';
-import TeamsContainer from '../containers/TeamsContainer';
+import DisplayTeams from '../containers/DisplayTeams';
 import Layout from 'Layout';
 
 const app = () => (
     <Layout>
         <DialogContainer />
-        <TeamsContainer />
+        <DisplayTeams />
     </Layout>
 );
 

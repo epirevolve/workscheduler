@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Users from '../components/Users';
+import UserList from '../components/UserList';
 
 import { openDialogToAppend, openDialogToEdit } from '../actions';
 
@@ -14,4 +14,4 @@ const mapDispatchToProps = (dispatch) => ({
     edit: (user) => dispatch(openDialogToEdit(user))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

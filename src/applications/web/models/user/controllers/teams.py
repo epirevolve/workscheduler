@@ -63,7 +63,7 @@ def update_team(team_id: str):
     return response
 
 
-@bp.route('/<team_id>', methods=['POST'])
+@bp.route('/<team_id>', methods=['DELETE'])
 @login_required
 @admin_required
 def remove_team(team_id: str):

@@ -84,37 +84,3 @@ def update_user(user_id):
         response = Response()
         response.status_code = 400
     return response
-
-
-@bp.route('/<user_id>/reset-password', methods=['POST'])
-@login_required
-@admin_required
-def reset_password(user_id):
-    session = get_db_session()
-    try:
-        UserCommandAdapter(session).reset_password(user_id)
-        session.commit()
-        response = Response()
-    except Exception as e:
-        print(e)
-        response = Response()
-        response.status_code = 400
-        session.rollback()
-    return response
-
-
-@bp.route('/<user_id>/inactivate', methods=['POST'])
-@login_required
-@admin_required
-def inactivate(user_id):
-    session = get_db_session()
-    try:
-        UserCommandAdapter(session).inactivate(user_id)
-        session.commit()
-        response = Response()
-    except Exception as e:
-        print(e)
-        response = Response()
-        response.status_code = 400
-        session.rollback()
-    return response

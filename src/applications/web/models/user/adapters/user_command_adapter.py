@@ -24,8 +24,11 @@ class UserCommandAdapter:
             data.get('team').get('id'), data.get('is_admin'), data.get('is_operator')
         )
     
-    def reset_password(self, id_):
-        return UserCommand(self._session).reset_password(id_)
+    def activate(self, id_):
+        return UserCommand(self._session).activate(id_)
 
     def inactivate(self, id_):
         return UserCommand(self._session).inactivate(id_)
+
+    def reset_password(self, id_):
+        return UserCommand(self._session).reset_password(id_)

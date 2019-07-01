@@ -1,13 +1,13 @@
 import React from 'react';
 
-import DialogContainer from '../containers/DialogContainer';
-import UsersContainer from '../containers/UsersContainer';
+import OpenDialog from '../containers/OpenDialog';
+import DisplayUsers from '../containers/DisplayUsers';
 import Layout from 'Layout';
 
 const app = () => (
     <Layout>
-        <DialogContainer />
-        <UsersContainer />
+        <OpenDialog />
+        <DisplayUsers />
     </Layout>
 );
 
