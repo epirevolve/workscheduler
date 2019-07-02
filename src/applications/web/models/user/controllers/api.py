@@ -15,10 +15,46 @@ from ..adapters import UserCommandAdapter
 bp = Blueprint('users_api', __name__)
 
 
+@bp.route('/users/', methods=['POST'])
+@login_required
+@admin_required
+def append_user():
+    session = get_db_session()
+    try:
+        req = UserCommandAdapter(session).append_user(jsonize.loads(request.data))
+        session.commit()
+        session.refresh(req)
+        response = Response(jsonize.dumps(req))
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response
+
+
+@bp.route('/users/<user_id>', methods=['POST'])
+@login_required
+@admin_required
+def update_user(user_id):
+    session = get_db_session()
+    try:
+        req = UserCommandAdapter(session).update_user(jsonize.loads(request.data))
+        session.commit()
+        session.refresh(req)
+        response = Response(jsonize.dumps(req))
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response
+
+
 @bp.route('/users/<user_id>/activate', methods=['PUT'])
 @login_required
 @admin_required
-def activate(user_id):
+def activate_user(user_id):
     session = get_db_session()
     try:
         UserCommandAdapter(session).activate(user_id)
@@ -35,7 +71,7 @@ def activate(user_id):
 @bp.route('/users/<user_id>/inactivate', methods=['PUT'])
 @login_required
 @admin_required
-def inactivate(user_id):
+def inactivate_user(user_id):
     session = get_db_session()
     try:
         UserCommandAdapter(session).inactivate(user_id)
@@ -52,7 +88,7 @@ def inactivate(user_id):
 @bp.route('/users/<user_id>/reset-password', methods=['PUT'])
 @login_required
 @admin_required
-def reset_password(user_id):
+def reset_password_user(user_id):
     session = get_db_session()
     try:
         UserCommandAdapter(session).reset_password(user_id)

@@ -10,11 +10,13 @@ from utils import jsonize
 from applications.web.util.functions.controller import admin_required
 from applications.web import get_db_session
 from ..adapters import OperatorCommandAdapter
+from ..adapters import SkillCommandAdapter
+
 
 bp = Blueprint('operator_api', __name__)
 
 
-@bp.route('/myself/<operator_id>', methods=['PUT'])
+@bp.route('/operators/myself/<operator_id>', methods=['PUT'])
 @login_required
 def update_myself(operator_id):
     session = get_db_session()
@@ -30,7 +32,7 @@ def update_myself(operator_id):
     return response
 
 
-@bp.route('/<operator_id>', methods=['PUT'])
+@bp.route('/operators/<operator_id>', methods=['PUT'])
 @login_required
 @admin_required
 def update_operator(operator_id):
@@ -41,6 +43,59 @@ def update_operator(operator_id):
         session.refresh(req)
         # to-do: to include ojt field which sometime be NoneType, fetch that field without meaning
         response = Response(jsonize.dumps(req if req.ojt else req))
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response
+
+
+@bp.route('/skills', methods=['POST'])
+@login_required
+@admin_required
+def append_skill():
+    session = get_db_session()
+    try:
+        req = SkillCommandAdapter(session).append_skill(jsonize.loads(request.data))
+        session.commit()
+        session.refresh(req)
+        response = Response(jsonize.dumps(req))
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response
+
+
+@bp.route('/skills/<skill_id>', methods=['PUT'])
+@login_required
+@admin_required
+def update_skill(skill_id: str):
+    session = get_db_session()
+    try:
+        req = SkillCommandAdapter(session).update_skill(jsonize.loads(request.data))
+        session.commit()
+        session.refresh(req)
+        response = Response(jsonize.dumps(req))
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = Response()
+        response.status_code = 400
+    return response
+
+
+@bp.route('/skills/<skill_id>', methods=['DELETE'])
+@login_required
+@admin_required
+def remove_skill(skill_id: str):
+    session = get_db_session()
+    try:
+        req = SkillCommandAdapter(session).delete_skill(skill_id)
+        session.commit()
+        response = Response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()
         print(e)

@@ -48,39 +48,3 @@ def show_users():
     users = UserQuery(session).get_users()
     teams = TeamQuery(session).get_teams()
     return render_template('users.html', users=users, teams=teams)
-
-
-@bp.route('/', methods=['POST'])
-@login_required
-@admin_required
-def append_user():
-    session = get_db_session()
-    try:
-        req = UserCommandAdapter(session).append_user(jsonize.loads(request.data))
-        session.commit()
-        session.refresh(req)
-        response = Response(jsonize.dumps(req))
-    except Exception as e:
-        session.rollback()
-        print(e)
-        response = Response()
-        response.status_code = 400
-    return response
-
-
-@bp.route('/<user_id>', methods=['POST'])
-@login_required
-@admin_required
-def update_user(user_id):
-    session = get_db_session()
-    try:
-        req = UserCommandAdapter(session).update_user(jsonize.loads(request.data))
-        session.commit()
-        session.refresh(req)
-        response = Response(jsonize.dumps(req))
-    except Exception as e:
-        session.rollback()
-        print(e)
-        response = Response()
-        response.status_code = 400
-    return response

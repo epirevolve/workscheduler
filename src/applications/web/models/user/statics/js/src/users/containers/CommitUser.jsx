@@ -9,9 +9,6 @@ import * as actions from '../actions';
 
 import CommitActionArea from '../components/CommitActionArea';
 
-const dataset = document.querySelector('script[src*="users"]').dataset;
-const url = dataset.url;
-
 const mapStateToProps = (state) => ({
     user: state.userDialog,
 });
@@ -64,7 +61,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     save: (user) => {
         requestAgent
-            .post(user.id ? `${url}${user.id}` : url)
+            .post(`/user/api/users/${user.id ? user.id : ''}`)
             .send(user)
             .set('X-CSRFToken', csrfToken)
             .then((res) => {

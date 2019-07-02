@@ -17,7 +17,7 @@ const userEdit = ({user, changeLoginId, changeName, changeTeam,
         const teamList = teams.map((x, i) => <MenuItem key={i} value={x}>{x.name}</MenuItem>);
 
         let team = user.team || "";
-        if (team && teams.map((x) => x.id).includes(team.id)) team = teams.find((x) => x.id == team.id);
+        if (team && teams.includes(team)) team = teams.find((x) => x.id == team.id);
 
         return (
             <>

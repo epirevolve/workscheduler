@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions';
 
-import UserEdit from '../components/UserEdit';
+import UserForm from '../components/UserForm';
 
 const mapStateToProps = (state) => ({
     user: state.userDialog,
@@ -17,4 +17,4 @@ const mapDispatchToProps = (dispatch) => ({
     changeIsOperator: (e) => dispatch(actions.changeIsOperator(e.target.checked)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(UserForm);
