@@ -1,7 +1,4 @@
 {% extends "layout.html" %}
-{% block css %}
-<link rel='stylesheet' type="text/css" href="{{ url_for('users.static', filename='css/users.css') }}" />
-{% endblock %}
 
 {% block script %}
 <script id="breadscram" data-current="{{ to_json({'name': 'Users'}) }}"></script>

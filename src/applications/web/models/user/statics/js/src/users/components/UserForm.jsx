@@ -12,12 +12,12 @@ import FormControl from '@material-ui/core/FormControl';
 const dataset = document.querySelector('script[src*="users"]').dataset;
 const teams = JSON.parse(dataset.teams);
 
-const userEdit = ({user, changeLoginId, changeName, changeTeam,
-    changeIsAdmin, changeIsOperator}) => {
+const userEdit = ({ user, changeLoginId, changeName, changeTeam,
+    changeIsAdmin, changeIsOperator }) => {
         const teamList = teams.map((x, i) => <MenuItem key={i} value={x}>{x.name}</MenuItem>);
 
         let team = user.team || "";
-        if (team && teams.includes(team)) team = teams.find((x) => x.id == team.id);
+        if (team && teams.map((x) => x.id).includes(team.id)) team = teams.find((x) => x.id == team.id);
 
         return (
             <>

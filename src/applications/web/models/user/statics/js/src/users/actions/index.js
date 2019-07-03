@@ -1,30 +1,10 @@
 import * as actionTypes from '../actionTypes';
 
-export const addUser = (user) => ({
-    type: actionTypes.APPEND_USER,
-    user
-});
-
-export const editUser = (user) => ({
-    type: actionTypes.EDIT_USER,
-    user
-});
-
-export const activateUser = (id) => ({
-    type: actionTypes.ACTIVATE_USER,
-    id
-});
-
-export const inactivateUser = (id) => ({
-    type: actionTypes.INACTIVATE_USER,
-    id
-});
-
 export const openDialogToAppend = () => ({
     type: actionTypes.OPEN_DIALOG_APPEND
 });
 
-export const openDialogToEdit = (user) => ({
+export const openDialogToUpdate = (user) => ({
     type: actionTypes.OPEN_DIALOG_EDIT,
     user
 });
@@ -56,4 +36,74 @@ export const changeIsAdmin = (isChecked) => ({
 export const changeIsOperator = (isChecked) => ({
     type: actionTypes.CHANGE_IS_OPERATOR,
     isChecked
+});
+
+export const startAppendUser = (user) => ({
+    type: actionTypes.START_APPEND_USER,
+    payload: { user }
+});
+
+export const successAppendUser = (user) => ({
+    type: actionTypes.SUCCESS_APPEND_USER,
+    payload: { user }
+});
+
+export const failureAppendUser = () => ({
+    type: actionTypes.FAILURE_APPEND_USER,
+});
+
+export const startUpdateUser = (user) => ({
+    type: actionTypes.START_UPDATE_USER,
+    payload: { user }
+});
+
+export const successUpdateUser = (user) => ({
+    type: actionTypes.SUCCESS_UPDATE_USER,
+    payload: { user }
+});
+
+export const failureUpdateUser = () => ({
+    type: actionTypes.FAILURE_UPDATE_USER,
+});
+
+export const startActivateUser = (id) => ({
+    type: actionTypes.START_ACTIVATE_USER,
+    payload: { id }
+});
+
+export const successActivateUser = (id) => ({
+    type: actionTypes.SUCCESS_ACTIVATE_USER,
+    payload: { id }
+});
+
+export const failureActivateUser = () => ({
+    type: actionTypes.FAILURE_ACTIVATE_USER,
+});
+
+export const startInactivateUser = (id) => ({
+    type: actionTypes.START_INACTIVATE_USER,
+    payload: { id }
+});
+
+export const successInactivateUser = (id) => ({
+    type: actionTypes.SUCCESS_INACTIVATE_USER,
+    payload: { id }
+});
+
+export const failureInactivateUser = () => ({
+    type: actionTypes.FAILURE_INACTIVATE_USER,
+});
+
+export const startResetPassword = (id) => ({
+    type: actionTypes.START_RESET_PASSWORD,
+    payload: { id }
+});
+
+export const successResetPassword = (id) => ({
+    type: actionTypes.SUCCESS_RESET_PASSWORD,
+    payload: { id }
+});
+
+export const failureResetPassword = () => ({
+    type: actionTypes.FAILURE_RESET_PASSWORD,
 });

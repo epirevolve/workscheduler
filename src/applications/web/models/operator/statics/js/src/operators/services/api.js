@@ -3,11 +3,11 @@ import requestAgent from 'superagent';
 export const saveOperator = async (payload) => {
     const { operator } = payload;
     try {
-        await requestAgent
+        const res = await requestAgent
             .put(`/operator/api/operators/${operator.id}`)
             .send(operator)
             .set('X-CSRFToken', csrfToken);
-        return ({});
+        return ({ res });
     }
     catch (error) {
         return ({ error });

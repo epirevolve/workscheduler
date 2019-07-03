@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 
-const dialog = (state = { isOpen: false }, action) => {
+const dialog = (state = { dialogOpen: false }, action) => {
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_EDIT:
             return { ...state,

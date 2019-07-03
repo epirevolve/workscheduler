@@ -1,25 +1,39 @@
 import requestAgent from 'superagent';
 
-export const fetchCurrentRunners = () => requestAgent
-    .get('/scheduler/api/current-runners')
-    .set('X-CSRFToken', csrfToken)
-    .then((res) => JSON.parse(res.text))
-    .then((res) => ({res}))
-    .catch((error) => ({error}));
+export const fetchCurrentRunners = async () => {
+    try {
+        const res = await requestAgent
+            .get('/scheduler/api/current-runners')
+            .set('X-CSRFToken', csrfToken);
+        return ({ res });
+    }
+    catch (error) {
+        return ({ error });
+    }
+};
 
-export const fetchLaunchHistories = () => requestAgent
-    .get('/scheduler/api/launch-histories')
-    .set('X-CSRFToken', csrfToken)
-    .then((res) => JSON.parse(res.text))
-    .then((res) => ({res}))
-    .catch((error) => ({error}));
+export const fetchLaunchHistories = async () => {
+    try {
+        const res = await requestAgent
+            .get('/scheduler/api/launch-histories')
+            .set('X-CSRFToken', csrfToken);
+        return ({ res });
+    }
+    catch (error) {
+        return ({ error });
+    }
+};
 
-export const terminateScheduler = (payload) => {
+export const terminateScheduler = async (payload) => {
     const { team } = payload;
-    return requestAgent
-        .put('/scheduler/api/terminate-scheduler')
-        .set('X-CSRFToken', csrfToken)
-        .send({'teamId': team.id})
-        .then(() => ({}))
-        .catch((error) => ({error}));
+    try {
+        await requestAgent
+            .put('/scheduler/api/terminate-scheduler')
+            .set('X-CSRFToken', csrfToken)
+            .send({ 'teamId': team.id });
+        return ({});
+    }
+    catch (error) {
+        return ({ error });
+    }
 };

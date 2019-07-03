@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(actions.closeDialog());
     },
     save: (skill, isAppend) => {
-        const strategy = isAppend ? appendStrategy() : updateStrategy(skill);        
+        const strategy = isAppend ? appendStrategy() : updateStrategy(skill); 
         strategy.requestAgent
             .send(skill)
             .set('X-CSRFToken', csrfToken)

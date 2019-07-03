@@ -1,7 +1,19 @@
-export const APPEND_USER = Symbol();
-export const EDIT_USER = Symbol();
-export const ACTIVATE_USER = Symbol();
-export const INACTIVATE_USER = Symbol();
+export const START_APPEND_USER = Symbol();
+export const SUCCESS_APPEND_USER = Symbol();
+export const FAILURE_APPEND_USER = Symbol();
+export const START_UPDATE_USER = Symbol();
+export const SUCCESS_UPDATE_USER = Symbol();
+export const FAILURE_UPDATE_USER = Symbol();
+export const START_ACTIVATE_USER = Symbol();
+export const SUCCESS_ACTIVATE_USER = Symbol();
+export const FAILURE_ACTIVATE_USER = Symbol();
+export const START_INACTIVATE_USER = Symbol();
+export const SUCCESS_INACTIVATE_USER = Symbol();
+export const FAILURE_INACTIVATE_USER = Symbol();
+export const START_RESET_PASSWORD = Symbol();
+export const SUCCESS_RESET_PASSWORD = Symbol();
+export const FAILURE_RESET_PASSWORD = Symbol();
+
 export const OPEN_DIALOG_APPEND = Symbol();
 export const OPEN_DIALOG_EDIT = Symbol();
 export const CLOSE_DIALOG = Symbol();

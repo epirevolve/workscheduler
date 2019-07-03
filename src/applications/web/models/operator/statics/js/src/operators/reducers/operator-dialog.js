@@ -1,15 +1,11 @@
 import * as actionTypes from '../actionTypes';
 
-const dialog = (state = { isOpen: false }, action) => {
+const dialog = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_EDIT: {
             return { ...state,
-                id: payload.operator.id,
-                name: payload.operator.user.name,
-                team: payload.operator.user.team.name,
-                skills: payload.operator.skills,
-                ojt: payload.operator.ojt
+                ...payload.operator,
             };
         }
         case actionTypes.CHANGE_SKILL: {

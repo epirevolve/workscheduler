@@ -7,7 +7,7 @@ import { showSnackbar } from 'snackbarActions';
 
 function *runSaveOpeartor(action) {
     const { res, error } = yield call(api.saveOperator, action.payload);
-    if (!error) {
+    if (res && !error) {
         yield all([
             put(actions.successSaveOperator(JSON.parse(res.text))),
             put(actions.closeDialog()),

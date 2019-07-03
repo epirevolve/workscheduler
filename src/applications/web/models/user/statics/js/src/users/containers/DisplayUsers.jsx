@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import UserList from '../components/UserList';
 
-import { openDialogToAppend, openDialogToEdit } from '../actions';
+import { openDialogToAppend, openDialogToUpdate } from '../actions';
 
 const mapStateToProps = (state) => ({
     users: state.users
@@ -11,7 +11,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     append: () => dispatch(openDialogToAppend()),
-    edit: (user) => dispatch(openDialogToEdit(user))
+    edit: (user) => dispatch(openDialogToUpdate(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

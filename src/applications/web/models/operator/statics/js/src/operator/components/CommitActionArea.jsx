@@ -6,9 +6,9 @@ import Button from '@material-ui/core/Button';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 
-import {mt3} from 'margin';
+import { mt3 } from 'margin';
 
-const commitActionArea = ({operator, save}) => (
+const commitActionArea = ({ operator, save }) => (
     <Button css={mt3} variant="contained" color="primary" size="large"
         onClick={() => save(operator)}>
         Store Operator

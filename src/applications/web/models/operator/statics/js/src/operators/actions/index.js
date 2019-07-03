@@ -20,7 +20,7 @@ export const changeOjt = (operator) => ({
 });
 
 export const startSaveOperator = (operator) => ({
-    type: actionTypes.SUCCESS_SAVE_OPERATOR,
+    type: actionTypes.START_SAVE_OPERATOR,
     payload: { operator }
 });
 

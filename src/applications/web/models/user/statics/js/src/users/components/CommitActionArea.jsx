@@ -6,9 +6,9 @@ import Button from '@material-ui/core/Button';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 
-import {mr1} from 'margin';
+import { mr1 } from 'margin';
 
-const commitActionArea = ({user, close, activate, inactivate, resetPassword, save}) => (
+const commitActionArea = ({ user, isAppend, close, activate, inactivate, resetPassword, save }) => (
     <>
         <Button onClick={close} color="default" css={mr1}>
             Close
@@ -17,7 +17,7 @@ const commitActionArea = ({user, close, activate, inactivate, resetPassword, sav
             if (!user.isInactivated)
                 return (
                     <>
-                        {user.id && (
+                        {!isAppend && (
                             <>
                                 <Button onClick={() => inactivate(user.id)} variant="outlined" color="secondary" css={mr1}>
                                     Inactivate
@@ -27,7 +27,7 @@ const commitActionArea = ({user, close, activate, inactivate, resetPassword, sav
                                 </Button>
                             </>
                         )}
-                        <Button onClick={() => save(user)} variant="outlined" color="primary">
+                        <Button onClick={() => save(user, isAppend)} variant="outlined" color="primary">
                             Save
                         </Button>
                     </>);
@@ -44,6 +44,7 @@ const commitActionArea = ({user, close, activate, inactivate, resetPassword, sav
 
 commitActionArea.propTypes = {
     user: propTypes.object,
+    isAppend: propTypes.bool.isRequired,
     close: propTypes.func.isRequired,
     activate: propTypes.func.isRequired,
     inactivate: propTypes.func.isRequired,
