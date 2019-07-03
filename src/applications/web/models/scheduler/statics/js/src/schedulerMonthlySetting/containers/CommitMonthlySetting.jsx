@@ -11,8 +11,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onMonthlySettingSave: (monthlySetting) => dispatch(actions.startSaveMonthlySetting(monthlySetting)),
-    onMonthlySettingPublic: (monthlySetting) => dispatch(actions.startPublicMonthlySetting(monthlySetting))
+    save: (monthlySetting) => dispatch(actions.startSaveMonthlySetting(monthlySetting)),
+    publish: (monthlySetting) => dispatch(actions.startPublicMonthlySetting(monthlySetting))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

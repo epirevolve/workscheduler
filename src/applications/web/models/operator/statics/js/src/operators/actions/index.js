@@ -1,23 +1,34 @@
-export const editOperator = (operator) => ({
-    type: 'EDIT_OPERATOR',
-    operator
-});
+import * as actionTypes from '../actionTypes';
 
 export const openDialogToEdit = (operator) => ({
-    type: 'OPEN_DIALOG_EDIT',
-    operator
+    type: actionTypes.OPEN_DIALOG_EDIT,
+    payload: { operator }
 });
 
 export const closeDialog = () => ({
-    type: 'CLOSE_DIALOG'
+    type: actionTypes.CLOSE_DIALOG
 });
 
 export const changeSkill = (skill) => ({
-    type: 'CHANGE_SKILL',
-    skill
+    type: actionTypes.CHANGE_SKILL,
+    payload: { skill }
 });
 
 export const changeOjt = (operator) => ({
-    type: 'CHANGE_OJT',
-    operator
+    type: actionTypes.CHANGE_OJT,
+    payload: { operator }
+});
+
+export const startSaveOperator = (operator) => ({
+    type: actionTypes.SUCCESS_SAVE_OPERATOR,
+    payload: { operator }
+});
+
+export const successSaveOperator = (operator) => ({
+    type: actionTypes.SUCCESS_SAVE_OPERATOR,
+    payload: { operator }
+});
+
+export const failureSaveOperator = () => ({
+    type: actionTypes.FAILURE_SAVE_OPERATOR
 });

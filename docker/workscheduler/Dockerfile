@@ -17,7 +17,7 @@ RUN set -ex \
     && python --version \
     && pip --version \
     && pip install --no-cache-dir -r requirements.txt \
-	&& pip install uwsgi \
+    && pip install uwsgi \
     \
     && ls -l
 

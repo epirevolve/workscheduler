@@ -29,48 +29,48 @@ if (breadScram)
 
 if (!breadScram || !current)
 {
-    current = { name: 'Work Scheduler'};
+    current = { name: 'Work Scheduler' };
 }
 else
 {
     if (!breads) breads = [];
-    breads.unshift({ url: urlMenu, name: 'Work Scheduler'});
+    breads.unshift({ url: urlMenu, name: 'Work Scheduler' });
 }
 
 const nav = ({ setDrawerOpen }) => {
-    const [state, setState] = React.useState({anchorEl: null});
+    const [ state, setState ] = React.useState({ anchorEl: null });
     const open = Boolean(state.anchorEl);
 
     if (!isAuthenticated) return (<></>);
 
     return (
-		<AppBar className="pl-2" position="static">
-			<Toolbar disableGutters>
+        <AppBar className="pl-2" position="static">
+            <Toolbar disableGutters>
                 <IconButton color="inherit" aria-label="Open drawer" tabIndex="-1"
-					onClick={() => setDrawerOpen(prev => ({...prev, open: true}))}>
-					<MenuIcon />
-				</IconButton>
-				<Breadcrumbs separator={<NavigateNextRoundedIcon fontSize="small" />} arial-label="Breadcrumb"
-					style={{ color: 'white', flexGrow: 1 }}>
-					{breads && (
-						breads.map((x) => <Link color="inherit" variant="h5" href={x.url} key={x.name}
-							style={{ color: 'white' }} tabIndex="-1" noWrap>
-							{x.name}
-						</Link>)
-					)}
-					<Typography variant="h5" style={{ color: 'white' }} tabIndex="-1" noWrap>{current.name}</Typography>
-				</Breadcrumbs>
-				<IconButton className="mr-1" aria-owns={open ? 'menu-appbar' : undefined} color="inherit" tabIndex="-1"
-					aria-haspopup="true" onClick={(e) => setState(prev => ({...prev, anchorEl: e.currentTarget}))}>
-					<AccountCircle />
-				</IconButton>
-				<Menu anchorEl={state.anchorEl} open={open}
-					onClose={() => setState(prev => ({...prev, anchorEl: null}))}>
-					<MenuItem component="span">{auth.loginId} : {auth.name}</MenuItem>
-					<MenuItem component="a" href={urlLogout}>Log out</MenuItem>
-				</Menu>
-			</Toolbar>
-		</AppBar>
+                    onClick={() => setDrawerOpen((prev) => ({ ...prev, open: true }))}>
+                    <MenuIcon />
+                </IconButton>
+                <Breadcrumbs separator={<NavigateNextRoundedIcon fontSize="small" />} arial-label="Breadcrumb"
+                    style={{ color: 'white', flexGrow: 1 }}>
+                    {breads && (
+                        breads.map((x) => <Link color="inherit" variant="h5" href={x.url} key={x.name}
+                            style={{ color: 'white' }} tabIndex="-1" noWrap>
+                            {x.name}
+                        </Link>)
+                    )}
+                    <Typography variant="h5" style={{ color: 'white' }} tabIndex="-1" noWrap>{current.name}</Typography>
+                </Breadcrumbs>
+                <IconButton className="mr-1" aria-owns={open ? 'menu-appbar' : undefined} color="inherit" tabIndex="-1"
+                    aria-haspopup="true" onClick={(e) => setState((prev) => ({ ...prev, anchorEl: e.currentTarget }))}>
+                    <AccountCircle />
+                </IconButton>
+                <Menu anchorEl={state.anchorEl} open={open}
+                    onClose={() => setState((prev) => ({ ...prev, anchorEl: null }))}>
+                    <MenuItem component="span">{auth.loginId} : {auth.name}</MenuItem>
+                    <MenuItem component="a" href={urlLogout}>Log out</MenuItem>
+                </Menu>
+            </Toolbar>
+        </AppBar>
     );
 };
 

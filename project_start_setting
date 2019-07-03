@@ -156,5 +156,5 @@ Mainly using frameworks:
     Redux
 
 Util commands:
-	remove all image: for /f %T IN ('docker images --format "{{.ID}}"') DO docker rmi -f %T
-	remove all container: for /f %T IN ('docker ps -a') DO docker rm -f %T
+    remove all image: for /f %T IN ('docker images --format "{{.ID}}"') DO docker rmi -f %T
+    remove all container: for /f %T IN ('docker ps -a') DO docker rm -f %T

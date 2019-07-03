@@ -14,7 +14,6 @@ function *runSaveSchedules(action) {
             put(actions.successSaveSchedules()),
             put(showSnackbar('Succeed to update schedules', 'success'))
         ]);
-
     } else {
         yield all([
             put(actions.failureSaveSchedules()),
@@ -34,7 +33,6 @@ function *runPublishSchedules(action) {
             put(actions.successPublishSchedules()),
             put(showSnackbar('Succeed to publish schedules'))
         ]);
-
     } else {
         yield all([
             put(actions.failurePublishSchedules()),
@@ -54,7 +52,6 @@ function *runWithdrawSchedules(action) {
             put(actions.successWithdrawSchedules()),
             put(showSnackbar('Succeed to withdraw schedules'))
         ]);
-
     } else {
         yield all([
             put(actions.failureWithdrawSchedules()),
@@ -69,9 +66,9 @@ export function *handleWithdrawSchedules() {
 
 export default function *rootSaga() {
     yield all([
-		fork(handleRequestSchedules),
-		fork(handleSaveSchedules),
-		fork(handlePublishSchedules),
-		fork(handleWithdrawSchedules),
-	]);
+        fork(handleRequestSchedules),
+        fork(handleSaveSchedules),
+        fork(handlePublishSchedules),
+        fork(handleWithdrawSchedules),
+    ]);
 }

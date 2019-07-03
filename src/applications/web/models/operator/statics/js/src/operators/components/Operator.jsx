@@ -7,10 +7,10 @@ import { css, jsx } from '@emotion/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const operator = ({ operator, handleEdit }) => {
+const operator = ({ operator, edit }) => {
     const ojt = operator.ojt ? operator.ojt.user.name : "";
     return (
-        <ListItem button onClick={handleEdit} css={css('div { flex: 1; }')}>
+        <ListItem button onClick={edit} css={css('div { flex: 1; }')}>
             <ListItemText primary={operator.user.name} />
             <ListItemText primary={operator.user.team.name} secondary='team' />
             <ListItemText primary={`${operator.skills.map((x) => `${x.name} `)}`} secondary='skills' />
@@ -21,7 +21,7 @@ const operator = ({ operator, handleEdit }) => {
 
 operator.propTypes = {
     operator: propTypes.object.isRequired,
-    handleEdit: propTypes.func.isRequired
+    edit: propTypes.func.isRequired
 };
 
 export default operator;

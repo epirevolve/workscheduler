@@ -10,8 +10,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onRequireChange: (day, categoryId) => (e) => dispatch(changeRequire(day, categoryId, e.target.value)),
-    onIsHolidayChange: (day) => (e) => dispatch(changeIsHoliday(day, e.target.checked))
+    changeRequire: (day, categoryId) => (e) => dispatch(changeRequire(day, categoryId, e.target.value)),
+    changeIsHoliday: (day) => (e) => dispatch(changeIsHoliday(day, e.target.checked))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DayTable);

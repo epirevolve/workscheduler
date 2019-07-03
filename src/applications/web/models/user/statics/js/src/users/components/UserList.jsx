@@ -15,8 +15,8 @@ import { css, jsx } from '@emotion/core';
 import { mt1 } from 'margin';
 
 const wrapperCss = css({
-	maxHeight: '78vh',
-	overflowY: 'auto'
+    maxHeight: '78vh',
+    overflowY: 'auto'
 },
 mt1);
 

@@ -1,9 +1,13 @@
+import * as actionTypes from '../actionTypes';
+
 const operators = (state = [], action) => {
+    const payload = action.payload;
+
     switch (action.type) {
-        case 'EDIT_OPERATOR':
+        case actionTypes.SUCCESS_SAVE_OPERATOR:
             return state.map((x) => {
-                if (x.id != action.operator.id) return x;
-                return action.operator;
+                if (x.id != payload.operator.id) return x;
+                return payload.operator;
             });
         default:
             return state;

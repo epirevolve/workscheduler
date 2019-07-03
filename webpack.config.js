@@ -1,6 +1,6 @@
 const path = require('path'),
-    glob = require('glob'),
-    _    = require('lodash');
+      glob = require('glob'),
+      _    = require('lodash');
 
 // to-do: make import keeping its directory configuration without clearly assign a path
 // e.g. src/applications/web/util/statics/js/layout
@@ -30,9 +30,9 @@ const targets = _.filter(glob.sync(`${jsBasePath}/**/index.jsx`), (item) => !ite
 const entries = {};
 targets.forEach((value) => {
     value = path.resolve(value);
-	const replaced = value.replace(__dirname, '').substr(1);
-	const key = path.resolve(findSrcDir(replaced), value.parentdirname());
-	entries[key] = value;
+    const replaced = value.replace(__dirname, '').substr(1);
+    const key = path.resolve(findSrcDir(replaced), value.parentdirname());
+    entries[key] = value;
 });
 
 module.exports = {
@@ -47,17 +47,17 @@ module.exports = {
     module: {
         rules: [
             {
-                test: [/\.jsx$/, /\.js$/],
+                test: [ /\.jsx$/, /\.js$/ ],
                 exclude: /node_modules/,
                 use: 'babel-loader' },
-			{
-				test: [/\.tsx$/, /\.ts$/],
-				loader: 'babel-loader!ts-loader',
-				include: __dirname,
-				exclude: /node_modules/,
-			},
+            {
+                test: [ /\.tsx$/, /\.ts$/ ],
+                loader: 'babel-loader!ts-loader',
+                include: __dirname,
+                exclude: /node_modules/,
+            },
             { test: [/\.css$/],
-                use: ['style-loader', 'css-loader'] },
+                use: [ 'style-loader', 'css-loader' ] },
             {
                 test: /\.scss$/,
                 loader: 'style-loader!css-loader!sass-loader'
@@ -89,7 +89,7 @@ module.exports = {
             'src/applications/web/util/statics/js/src/commons/styles',
             'src/applications/web/util/statics/css'
         ],
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.css']
+        extensions: [ '.js', '.jsx', '.ts', '.tsx', '.css' ]
     },
 
     optimization: {

@@ -1,7 +1,6 @@
-import { put, all, call, fork, takeEvery } from 'redux-saga/effects';
+import { put, call, fork, takeEvery } from 'redux-saga/effects';
 
 import { START_LAUNCH_SCHEDULER } from '../actionTypes';
-import * as actions from '../actions';
 import { showSnackbar } from 'snackbarActions';
 import * as api from '../services/api';
 
@@ -19,5 +18,5 @@ function *handleLaunchScheduler() {
 }
 
 export default function *rootSaga() {
-	yield fork(handleLaunchScheduler);
+    yield fork(handleLaunchScheduler);
 }

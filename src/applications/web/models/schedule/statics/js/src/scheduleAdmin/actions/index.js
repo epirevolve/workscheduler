@@ -22,13 +22,13 @@ export const startSaveSchedules = (schedules) => ({
 });
 
 export const successSaveSchedules = () => ({
-	type: actionTypes.SUCCESS_SAVE_SCHEDULES,
-	payload: { message: '' }
+    type: actionTypes.SUCCESS_SAVE_SCHEDULES,
+    payload: { message: '' }
 });
 
 export const failureSaveSchedules = () => ({
-	type: actionTypes.FAILURE_SAVE_SCHEDULES,
-	payload: { message: '' }
+    type: actionTypes.FAILURE_SAVE_SCHEDULES,
+    payload: { message: '' }
 });
 
 export const startPublishSchedules = (schedules) => ({
@@ -37,13 +37,13 @@ export const startPublishSchedules = (schedules) => ({
 });
 
 export const successPublishSchedules = () => ({
-	type: actionTypes.SUCCESS_PUBLISH_SCHEDULES,
-	payload: { message: '' }
+    type: actionTypes.SUCCESS_PUBLISH_SCHEDULES,
+    payload: { message: '' }
 });
 
 export const failurePublishSchedules = () => ({
-	type: actionTypes.FAILURE_PUBLISH_SCHEDULES,
-	payload: { message: '' }
+    type: actionTypes.FAILURE_PUBLISH_SCHEDULES,
+    payload: { message: '' }
 });
 
 export const startWithdrawSchedules = (schedules) => ({
@@ -52,11 +52,11 @@ export const startWithdrawSchedules = (schedules) => ({
 });
 
 export const successWithdrawSchedules = () => ({
-	type: actionTypes.SUCCESS_WITHDRAW_SCHEDULES,
-	payload: { message: '' }
+    type: actionTypes.SUCCESS_WITHDRAW_SCHEDULES,
+    payload: { message: '' }
 });
 
 export const failureWithdrawSchedules = () => ({
-	type: actionTypes.FAILURE_WITHDRAW_SCHEDULES,
-	payload: { message: '' }
+    type: actionTypes.FAILURE_WITHDRAW_SCHEDULES,
+    payload: { message: '' }
 });

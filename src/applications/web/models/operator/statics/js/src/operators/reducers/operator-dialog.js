@@ -1,30 +1,29 @@
-const dialog = (state = {isOpen: false}, action) => {
+import * as actionTypes from '../actionTypes';
+
+const dialog = (state = { isOpen: false }, action) => {
+    const payload = action.payload;
     switch (action.type) {
-        case 'OPEN_DIALOG_EDIT':
-            return {...state,
-                isOpen: true,
-                id: action.operator.id,
-                name: action.operator.user.name,
-                team: action.operator.user.team.name,
-                skills: action.operator.skills,
-                ojt: action.operator.ojt
-            };
-        case 'CLOSE_DIALOG':
-            return {...state,
-                isOpen: false
-            };
-        case 'CHANGE_SKILL':{
-            const skillIds = state.skills.map((x) => x.id);
-            return {...state,
-                skills:
-                    (skillIds.includes(action.skill.id))
-                        ? state.skills.filter((x) => x.id != action.skill.id)
-                        : state.skills.concat(action.skill)
+        case actionTypes.OPEN_DIALOG_EDIT: {
+            return { ...state,
+                id: payload.operator.id,
+                name: payload.operator.user.name,
+                team: payload.operator.user.team.name,
+                skills: payload.operator.skills,
+                ojt: payload.operator.ojt
             };
         }
-        case 'CHANGE_OJT':
-            return {...state,
-                ojt: action.operator
+        case actionTypes.CHANGE_SKILL: {
+            const skillIds = state.skills.map((x) => x.id);
+            return { ...state,
+                skills:
+                    (skillIds.includes(payload.skill.id))
+                        ? state.skills.filter((x) => x.id != payload.skill.id)
+                        : state.skills.concat(payload.skill)
+            };
+        }
+        case actionTypes.CHANGE_OJT:
+            return { ...state,
+                ojt: payload.operator
             };
         default:
             return state;

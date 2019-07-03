@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,17 +9,22 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { css, jsx } from '@emotion/core';
 
 const cellCss = css({
-	fontWeight: 'initial !important',
+    fontWeight: 'initial !important',
     verticalAlign: 'middle',
     textAlign: 'center !important'
 });
 
-const dayIsHolidayCell = ({ isHoliday, onIsHolidayChange }) => (
+const dayIsHolidayCell = ({ isHoliday, changeIsHoliday }) => (
     <TableCell css={cellCss}>
         <FormControlLabel className="m-0"
-            control={<Checkbox checked={isHoliday} onChange={onIsHolidayChange} />} />
+            control={<Checkbox checked={isHoliday} onChange={changeIsHoliday} />} />
     </TableCell>
 );
+
+dayIsHolidayCell.propTypes = {
+    isHoliday: propTypes.bool.isRequired,
+    changeIsHoliday: propTypes.func.isRequired
+};
 
 const areEqual = (prevProps, nextProps) => prevProps["isHoliday"] == nextProps["isHoliday"];
 

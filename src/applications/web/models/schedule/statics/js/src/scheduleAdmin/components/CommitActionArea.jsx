@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { CSVLink } from "react-csv";
+import propTypes from 'prop-types';
 
 import ProgressButton from 'ProgressButton';
 
@@ -11,37 +10,46 @@ import { my3, mr3 } from 'margin';
 import { floatr } from 'float';
 
 const actionCss = css({
-	display: 'inline-flex',
-	'& > div': css({},mr3)
+    display: 'inline-flex',
+    '& > div': css({},mr3)
 }
 ,floatr,my3);
 
-const renderActionByPublicity = (isPublished, isProgressing, onWithdrawSchedules, onPublishSchedules) => {
+const renderActionByPublicity = (isPublished, isProgressing, withdraw, publish) => {
     const wrapButtonCreation = (label, handleClick) =>
         <ProgressButton label={label} handleClick={handleClick} isProgressing={isProgressing} />;
     if (isPublished) {
-        return wrapButtonCreation('Withdraw', onWithdrawSchedules);
+        return wrapButtonCreation('Withdraw', withdraw);
     }
     else {
-        return wrapButtonCreation('Publish', onPublishSchedules);
+        return wrapButtonCreation('Publish', publish);
     }
-}
+};
 
 const commitActionArea = ({
         schedules, isPublished, isProgressing,
-        onSaveSchedules, onWithdrawSchedules, onPublishSchedules
+        save, withdraw, publish
     }) => {
     if (!schedules || schedules.length == 0) return (<></>);
 
     const button = renderActionByPublicity(isPublished, isProgressing,
-        () => onWithdrawSchedules(schedules), () => onPublishSchedules(schedules));
+        () => withdraw(schedules), () => publish(schedules));
     return (
         <div css={actionCss}>
-            <ProgressButton label={'Save'} handleClick={() => onSaveSchedules(schedules)}
+            <ProgressButton label={'Save'} handleClick={() => save(schedules)}
                 isProgressing={isProgressing} color="primary" />
             {button}
         </div>
     );
+};
+
+commitActionArea.propTypes = {
+    schedules: propTypes.array,
+    isPublished: propTypes.bool,
+    isProgressing: propTypes.bool,
+    save: propTypes.func.isRequired,
+    withdraw: propTypes.func.isRequired,
+    publish: propTypes.func.isRequired,
 };
 
 export default commitActionArea;

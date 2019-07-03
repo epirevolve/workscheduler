@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import { css, jsx } from '@emotion/core';
 
 const cellCss = css({
-	fontWeight: 'initial !important',
+    fontWeight: 'initial !important',
     verticalAlign: 'middle',
     textAlign: 'center !important'
 });

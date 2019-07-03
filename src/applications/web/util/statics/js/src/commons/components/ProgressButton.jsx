@@ -8,8 +8,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { css, jsx } from '@emotion/core';
 
 const wrapperCss = css({
-	position: 'relative',
-	display: 'flex'
+    position: 'relative',
+    display: 'flex'
 });
 
 const waitingCss = css({
@@ -18,24 +18,24 @@ const waitingCss = css({
 });
 
 const progressButton = ({
-		label, isProgressing, variant="contained", color="secondary",
-		size="large", handleClick=() => {}
-	}) => (
-	<div css={wrapperCss}>
-		<Button variant={variant} color={color} size={size} disabled={isProgressing} onClick={handleClick}>
-			{label}
-		</Button>
-		{isProgressing && <CircularProgress size={24} css={waitingCss} />}
-	</div>
+        label, isProgressing, variant="contained", color="secondary",
+        size="large", handleClick=() => {}
+    }) => (
+    <div css={wrapperCss}>
+        <Button variant={variant} color={color} size={size} disabled={isProgressing} onClick={handleClick}>
+            {label}
+        </Button>
+        {isProgressing && <CircularProgress size={24} css={waitingCss} />}
+    </div>
 );
 
 progressButton.propTypes = {
-	label: PropTypes.string.isRequired,
-	isProgressing: PropTypes.bool.isRequired,
-	variant: PropTypes.string,
-	color: PropTypes.string,
-	size: PropTypes.string,
-	onClick: PropTypes.func,
+    label: PropTypes.string.isRequired,
+    isProgressing: PropTypes.bool.isRequired,
+    variant: PropTypes.string,
+    color: PropTypes.string,
+    size: PropTypes.string,
+    handleClick: PropTypes.func,
 };
 
 export default progressButton;

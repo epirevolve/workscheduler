@@ -16,7 +16,7 @@ import Participants from './Participants';
 const isValidRange = (v) => v && v[0] && v[1];
 
 const fixedSchedule = ({ fixedSchedule, handleRemove, onTitleChange, onDateChange,
-		onAtFromChange, onAtToChange, onParticipantChange }) => {
+        onAtFromChange, onAtToChange, onParticipantChange }) => {
     const calendar = <RangeCalendar showDateInput={false} showToday={false} format='YYYY-MM-DD' />;
     return (
         <Card>

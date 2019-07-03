@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import Table from '@material-ui/core/Table';
 
@@ -9,16 +10,20 @@ import DayHeaderRow from './DayHeaderRow';
 import { css, jsx } from '@emotion/core';
 
 const wrapperCss = css({
-	overflowX: 'scroll',
-	display: 'inline-block !important',
-	whiteSpace: 'nowrap'
+    overflowX: 'scroll',
+    display: 'inline-block !important',
+    whiteSpace: 'nowrap'
 });
 
 const dayTable = ({ days, ...other }) => (
-	<Table css={wrapperCss}>
-		<DayHeaderRow days={days} />
-		<DayBody days={days} {...other} />
-	</Table>
+    <Table css={wrapperCss}>
+        <DayHeaderRow days={days} />
+        <DayBody days={days} {...other} />
+    </Table>
 );
+
+dayTable.propTypes = {
+    days: propTypes.array,
+};
 
 export default dayTable;

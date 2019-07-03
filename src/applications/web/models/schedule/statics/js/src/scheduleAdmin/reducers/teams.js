@@ -4,7 +4,7 @@ const teams = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
         case CHANGE_TEAM:
-            return {...state,
+            return { ...state,
                 team: payload.team
             };
         default:

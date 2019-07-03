@@ -58,31 +58,31 @@ export const removeFixedSchedule = (id) => ({
 });
 
 export const startSaveMonthlySetting = (monthlySetting) => ({
-	type: actionTypes.START_UPDATE_MONTHLY_SETTING,
-	payload: { monthlySetting }
+    type: actionTypes.START_UPDATE_MONTHLY_SETTING,
+    payload: { monthlySetting }
 });
 
 export const startPublicMonthlySetting = (monthlySetting) => ({
-	type: actionTypes.START_PUBLIC_MONTHLY_SETTING,
-	payload: { monthlySetting }
+    type: actionTypes.START_PUBLIC_MONTHLY_SETTING,
+    payload: { monthlySetting }
 });
 
 export const successMonthlySettingUpdate = () => ({
-	type: actionTypes.SUCCESS_UPDATE_MONTHLY_SETTING,
-	payload: { message: '' }
+    type: actionTypes.SUCCESS_UPDATE_MONTHLY_SETTING,
+    payload: { message: '' }
 });
 
 export const failureMonthlySettingUpdate = () => ({
-	type: actionTypes.FAILURE_UPDATE_MONTHLY_SETTING,
-	payload: { message: '' }
+    type: actionTypes.FAILURE_UPDATE_MONTHLY_SETTING,
+    payload: { message: '' }
 });
 
 export const successMonthlySettingPublic = () => ({
-	type: actionTypes.SUCCESS_PUBLIC_MONTHLY_SETTING,
-	payload: { message: '' }
+    type: actionTypes.SUCCESS_PUBLIC_MONTHLY_SETTING,
+    payload: { message: '' }
 });
 
 export const failureMonthlySettingPublic = () => ({
-	type: actionTypes.FAILURE_PUBLIC_MONTHLY_SETTING,
-	payload: { message: '' }
+    type: actionTypes.FAILURE_PUBLIC_MONTHLY_SETTING,
+    payload: { message: '' }
 });

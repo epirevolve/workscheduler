@@ -5,15 +5,15 @@ import List from '@material-ui/core/List';
 
 import Operator from './Operator';
 
-const operatorList = ({ operators, handleEdit }) => (
+const operatorList = ({ operators, edit }) => (
     <List style={{ maxHeight: '76vh', overflowY: 'auto' }}>
-        {operators.map((x, i) => <Operator key={i} operator={x} handleEdit={() => handleEdit(x)} />)}
+        {operators.map((x, i) => <Operator key={i} operator={x} edit={() => edit(x)} />)}
     </List>
 );
 
 operatorList.propTypes = {
     operators: PropTypes.array.isRequired,
-    handleEdit: PropTypes.func.isRequired,
+    edit: PropTypes.func.isRequired,
 };
 
 export default operatorList;

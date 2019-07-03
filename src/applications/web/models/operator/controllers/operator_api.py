@@ -7,6 +7,7 @@ from flask_login import login_required
 
 from utils import jsonize
 
+from applications.services import OperatorQuery
 from applications.web.util.functions.controller import admin_required
 from applications.web import get_db_session
 from ..adapters import OperatorCommandAdapter
@@ -14,6 +15,13 @@ from ..adapters import SkillCommandAdapter
 
 
 bp = Blueprint('operator_api', __name__)
+
+
+@bp.route('/operators')
+@login_required
+def get_operators():
+    operators = OperatorQuery(get_db_session()).get_operators()
+    return jsonize.json_response(jsonize.dumps(operators))
 
 
 @bp.route('/operators/myself/<operator_id>', methods=['PUT'])

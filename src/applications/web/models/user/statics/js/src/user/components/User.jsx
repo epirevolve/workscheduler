@@ -4,8 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 const user = ({
-		user, onPasswordChange, onNameChange, handleSave
-	}) => (
+        user, onPasswordChange, onNameChange, handleSave
+    }) => (
     <>
         <TextField disabled value={user.loginId} label="login id" fullWidth margin="dense" />
         <TextField type="password" value={user.password} label="password" fullWidth

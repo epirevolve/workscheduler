@@ -8,7 +8,7 @@ const dataset = document.querySelector('script[src*="skills"]').dataset;
 export const initValue = ({
     skills: JSON.parse(dataset.skills),
     skillDialog: {},
-    ui: {dialogOpen: false}
+    ui: { dialogOpen: false }
 });
 
-export default combineWithCommonReducer({skillDialog, skills, ui});
+export default combineWithCommonReducer({ skillDialog, skills, ui });

@@ -11,9 +11,9 @@ const skill = ({ skill, checked, onChange }) => (
 );
 
 skill.propTypes = {
-	skill: PropTypes.object.isRequired,
-	checked: PropTypes.bool.isRequired,
-	onChange: PropTypes.func,
+    skill: PropTypes.object.isRequired,
+    checked: PropTypes.bool.isRequired,
+    onChange: PropTypes.func,
 };
 
 export default skill;

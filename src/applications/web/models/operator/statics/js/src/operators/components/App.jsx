@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Layout from 'Layout';
-import DialogContainer from '../containers/DialogContainer';
-import OperatorsContainer from '../containers/OperatorsContainer';
+import OpenDialog from '../containers/OpenDialog';
+import DisplayOperators from '../containers/DisplayOperators';
 
 const app = () => (
     <Layout>
-        <DialogContainer />
-        <OperatorsContainer />
+        <OpenDialog />
+        <DisplayOperators />
     </Layout>
 );
 

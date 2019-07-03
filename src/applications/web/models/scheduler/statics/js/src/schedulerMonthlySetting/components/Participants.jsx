@@ -29,16 +29,16 @@ const essentialOperators = ({ fixedSchedule, onParticipantChange }) => {
             <ListItemText primary={x.user.name} />
         </ListItem>);
 
-    const [ state, setState ] = React.useState({anchorEl: null, expanded: false});
+    const [ state, setState ] = React.useState({ anchorEl: null, expanded: false });
     const isOpen = Boolean(state.anchorEl);
     const onExpandedChange = (event, isExpanded) => {
-        setState(prev => ({...prev, expanded: isExpanded ? true : false}));
+        setState((prev) => ({ ...prev, expanded: isExpanded ? true : false }));
     };
 
     return (
         <>
-            <Popover open={isOpen} anchorEl={state.anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
-                onClose={() => setState(prev => ({...prev, anchorEl: null}))}>
+            <Popover open={isOpen} anchorEl={state.anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
+                onClose={() => setState((prev) => ({ ...prev, anchorEl: null }))}>
                 <List subheader={<ListSubheader component="div">operators</ListSubheader>}>
                     {operatorList}
                 </List>
@@ -47,7 +47,7 @@ const essentialOperators = ({ fixedSchedule, onParticipantChange }) => {
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6" style={{ color: 'gray' }} className="mt-2">participants</Typography>
                     <div className="ml-3">
-                        <IconButton size="small" onClick={(e) => { setState(prev => ({...prev, anchorEl: e.currentTarget})); e.stopPropagation(); }}>
+                        <IconButton size="small" onClick={(e) => { setState((prev) => ({ ...prev, anchorEl: e.currentTarget })); e.stopPropagation(); }}>
                             <CheckBoxRoundedIcon />
                         </IconButton>
                     </div>

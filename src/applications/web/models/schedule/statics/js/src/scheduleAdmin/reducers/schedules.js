@@ -9,14 +9,14 @@ const schedules = (state = {}, action) => {
             const { operator, day, category, workCategories } = payload;
             const categoryId = workCategories.map((x) => x.title).includes(category) ?
                 workCategories.find((x) => x.title == category).id : category;
-            return {...state,
-                schedules: {...state.schedules,
+            return { ...state,
+                schedules: { ...state.schedules,
                     components: state.schedules.components.map((x) => {
                         if (x.operator.id != operator.id) return x;
-                        return {...x,
+                        return { ...x,
                             dayWorkCategories: x.dayWorkCategories.map((y) => {
                                 if (y.day != day) return y;
-                                return {...y,
+                                return { ...y,
                                     workCategoryId: categoryId
                                 };
                             })
@@ -26,13 +26,13 @@ const schedules = (state = {}, action) => {
             };
         }
         case actionTypes.SUCCESS_PUBLISH_SCHEDULES:
-            return {...state,
+            return { ...state,
                 isPublished: true
-            }
+            };
         case actionTypes.SUCCESS_WITHDRAW_SCHEDULES:
-            return {...state,
+            return { ...state,
                 isPublished: false
-            }
+            };
         default:
             return base(state, action);
     }

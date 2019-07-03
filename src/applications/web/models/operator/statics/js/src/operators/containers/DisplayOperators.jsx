@@ -10,7 +10,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleEdit: (operator) => dispatch(openDialogToEdit(operator))
+    fetchOperators: () => {},
+    edit: (operator) => dispatch(openDialogToEdit(operator))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Operators);

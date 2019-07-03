@@ -2,9 +2,9 @@
 import { css } from '@emotion/core';
 
 export const floatl = css({
-	float: 'left'
+    float: 'left'
 });
 
 export const floatr = css({
-	float: 'right'
+    float: 'right'
 });
