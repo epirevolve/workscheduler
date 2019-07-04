@@ -9,7 +9,6 @@ from flask_login import login_required
 from flask_login import current_user
 
 from utils.string import to_date
-from utils import jsonize
 
 from services import SchedulerQuery
 from services import UserQuery

@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from services import UserCommand
-from services import TeamQuery
+from services import UserQuery
 from domains.models import OrmBase
 from domains.models.user import Team
 
@@ -25,7 +25,7 @@ class Database:
         session.add(Team.default())
         session.flush()
 
-        default_id = TeamQuery(session).get_default_team().id
+        default_id = UserQuery(session).get_default_team().id
         user_command = UserCommand(session)
         user_command.append_user('admin', '管理者', default_id, is_admin=True, is_operator=False)
 

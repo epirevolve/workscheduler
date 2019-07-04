@@ -7,9 +7,10 @@ from flask_login import login_required
 from utils import jsonize
 from utils.string import to_date
 
-from applications.web.util.functions.controller import admin_required
-from applications.services import ScheduleFacade
-from applications.web import get_db_session
+from functions.controller import admin_required
+from services import ScheduleFacade
+from applications.backend import get_db_session
+
 from ..adapters import ScheduleCommandAdapter
 
 bp = Blueprint('schedule_api', __name__)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from controllers.menus import bp as menu_bp
+from controllers.menu import bp as menu_bp
 from controllers.user import bp as user_bp
 from controllers.operator import bp as operator_bp
 from controllers.scheduler import bp as scheduler_bp

@@ -29,7 +29,7 @@ def load_user(user_id):
 @bp.route('/')
 def index():
     if current_user and current_user.is_authenticated:
-        return redirect(url_for('menus.show_menu'))
+        return redirect(url_for('menu.show_menu'))
     return render_template('auth.html')
 
 
@@ -41,7 +41,7 @@ def login():
         return index()
     login_user(user)
     flash('You were logged in')
-    return redirect(url_for('menus.show_menu'))
+    return redirect(url_for('menu.show_menu'))
 
 
 @bp.route('/auth/logout')

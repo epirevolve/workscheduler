@@ -4,7 +4,7 @@ from flask import Blueprint
 from flask import render_template
 from flask_login import login_required
 
-bp = Blueprint('menus', __name__)
+bp = Blueprint('menu', __name__)
 
 
 @bp.route('/')

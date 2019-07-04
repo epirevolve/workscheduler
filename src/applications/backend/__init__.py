@@ -45,8 +45,8 @@ def close_db_session(e=None):
 
 def create_app(test_config=None):
     # create the application instance
-    app = Flask(__name__, static_folder='util/statics')
-    app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'util/views'))
+    app = Flask(__name__, static_folder='../frontend/statics')
+    app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), '../frontend/views'))
     app.config.from_object(__name__)
 
     app.config.from_mapping(
@@ -72,7 +72,7 @@ def create_app(test_config=None):
         click.echo('Initialized the database.')
     app.cli.add_command(init_db_command)
     
-    @click.command('set-test-db')
+    @click.command('test-data')
     @with_appcontext
     def set_test_db_command():
         Database(current_app.config['DATABASE']).init()
@@ -88,8 +88,6 @@ def create_app(test_config=None):
         click.echo('Db initialized and input data.')
     app.cli.add_command(input_data_command)
 
-    app.cli.add_command(set_test_db_command)
-
     from .bp_register import bp_register
     bp_register(app)
 
@@ -100,7 +98,10 @@ def create_app(test_config=None):
     
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = 'auths.index'
+    login_manager.login_view = 'user.index'
+
+    from .controllers import user
+    app.add_url_rule('/', 'index', user.index)
 
     from services import UserQuery
 

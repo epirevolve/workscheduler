@@ -6,12 +6,12 @@ from flask import request
 from flask_login import login_required
 from flask_login import current_user
 
-from applications.services import TeamQuery
-from applications.web import get_db_session
+from services import UserQuery
+from applications.backend import get_db_session
 
 from utils.array import find
 
-bp = Blueprint('schedule', __name__, template_folder='../views', static_folder='../statics')
+bp = Blueprint('schedule', __name__, template_folder='../../frontend/views', static_folder="../../frontend/statics")
 
 
 def show_schedules_operator():
@@ -19,7 +19,7 @@ def show_schedules_operator():
 
 
 def show_schedules_administrator():
-    teams = TeamQuery(get_db_session()).get_teams_without_default()
+    teams = UserQuery(get_db_session()).get_teams_without_default()
     team_id = request.args.get('team_id')
     if team_id:
         team = find(lambda x: x.id == team_id, teams)

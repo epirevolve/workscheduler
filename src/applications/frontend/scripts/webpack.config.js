@@ -25,7 +25,7 @@ const entries = {};
 targets.forEach((value) => {
     value = path.resolve(value);
     const key = value.parentdirname();
-    entries[key] = value;
+    entries[`../statics/js/${key}`] = value;
 });
 
 module.exports = {
@@ -34,8 +34,7 @@ module.exports = {
     entry: entries,
 
     output: {
-        path: '/dst/',
-        filename: '[name].bundle.min.js'
+        filename: '[name].bundle.min.js',
     },
 
     module: {
@@ -90,13 +89,13 @@ module.exports = {
             cacheGroups: {
                 common: {
                     test: /node_modules/,
-                    name: 'common',
+                    name: '../statics/js/vendor/common',
                     chunks: 'initial',
                     enforce: true
                 },
                 utilCommon: {
                     test: 'src/commons/functions',
-                    name: 'util-common',
+                    name: '../statics/js/vendor/util-common',
                     chunks: 'initial',
                     enforce: true
                 }

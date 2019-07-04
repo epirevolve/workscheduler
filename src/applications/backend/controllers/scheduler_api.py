@@ -21,7 +21,7 @@ from domains.models.scheduler import all_available_sign
 from ..adapters import SchedulerCommandAdapter
 
 
-bp = Blueprint('schedulers_api', __name__)
+bp = Blueprint('scheduler_api', __name__)
 
 
 @bp.route('/scheduler')

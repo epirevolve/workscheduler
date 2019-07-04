@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from applications.web import create_app
+from applications.backend import create_app
 
 
 app = create_app()

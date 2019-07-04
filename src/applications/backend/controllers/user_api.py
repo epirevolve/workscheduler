@@ -13,7 +13,7 @@ from adapters import UserFacadeAdapter
 
 from ..adapters import UserCommandAdapter
 
-bp = Blueprint('users_api', __name__)
+bp = Blueprint('user_api', __name__)
 
 
 @bp.route('/users', methods=['POST'])
