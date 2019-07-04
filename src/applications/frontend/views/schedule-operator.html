@@ -1,0 +1,7 @@
+{% extends "schedule.html" %}
+
+{% block appendScript %}
+<script src="{{ url_for('schedule.static', filename='js/scheduleOperator.bundle.min.js') }}">
+    const myId = "{{ current_user.id }}";
+</script>
+{% endblock %}

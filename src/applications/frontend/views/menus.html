@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/mainMenu.bundle.min.js') }}"
+        data-auth="{{ to_json(current_user) }}" data-url-menu="{{ url_for('menus.show_menu') }}"
+        data-url-schedules="{{ url_for('schedule.show_schedules') }}"
+        data-url-requests="{{ url_for('scheduler.show_my_request', schedule_of=next_month) }}"
+        data-url-as-operator="{{ url_for('operator.show_myself', operator_id=operator_id()) }}"
+        data-url-as-user="{{ url_for('user.show_myself', user_id=current_user.id) }}"
+        data-url-scheduler-menu="{{ url_for('scheduler.show_menu') }}"
+        data-url-operators="{{ url_for('operator.show_operators') }}"
+        data-url-users="{{ url_for('user.show_users') }}"
+        data-url-teams="{{ url_for('user.show_teams') }}"
+        data-url-skills="{{ url_for('operator.show_skills') }}"
+        data-url-logout="{{ url_for('user.logout') }}"></script>
+{% endblock %}
+
+{% block css %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/menu.css') }}" />
+{% endblock %}

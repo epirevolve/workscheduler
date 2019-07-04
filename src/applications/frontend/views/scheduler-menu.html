@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block script %}
+<script id="breadscram" data-current="{{ to_json({'name': 'Scheduler Menu'}) }}"></script>
+<script src="{{ url_for('scheduler.static', filename='js/schedulerMenu.bundle.min.js') }}"
+        data-url-monthly="{{ url_for('scheduler.show_monthly_setting', team='team_id', calendar=next_month) }}"
+        data-url-basic="{{ url_for('scheduler.show_basic_setting', team='team_id') }}"
+        data-url-yearly="{{ url_for('scheduler.show_yearly_setting', team='team_id') }}"
+        data-url-launch-histories="{{ url_for('scheduler.show_launch_histories') }}"
+        data-teams="{{ to_json(teams) }}"></script>
+{% endblock %}

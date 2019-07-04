@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+
+{% block script %}
+<script id="breadscram" data-current="{{ to_json({'name': 'As User'}) }}"></script>
+<script src="{{ url_for('user.static', filename='js/user.bundle.min.js') }}"
+        data-url="{{ url_for('user.update_myself', user_id=current_user.id) }}"
+        data-user="{{ to_json(current_user) }}"></script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+
+{% block script %}
+<script id="breadscram" data-current="{{ to_json({'name': 'As Operator'}) }}"></script>
+<script src="{{ url_for('operator.static', filename='js/operator.bundle.min.js') }}"
+        data-operator="{{ to_json(operator) }}" data-skills="{{ to_json(skills) }}"></script>
+{% endblock %}

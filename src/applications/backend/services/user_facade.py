@@ -1,0 +1,29 @@
+# -*- coding: utf-8 -*-
+
+from domains.models.user import User
+
+from . import UserQuery
+from . import UserCommand
+from . import SchedulerCommand
+
+
+class UserFacade:
+    def __init__(self, session):
+        self._session = session
+
+    @staticmethod
+    def _login_check(login_id: str, password: str):
+        def _inner(x: User):
+            return login_id == x.login_id and password == x.password and not x.is_inactivated
+
+        return _inner
+
+    def login(self, login_id: str, password: str) -> User:
+        _login_check = self._login_check(login_id, password)
+        return next((x for x in UserQuery(self._session).get_users() if _login_check(x)), None)
+
+    def append_team(self, name: str, note: str):
+        team = UserCommand(self._session).append_team(name, note)
+        self._session.flush()
+        SchedulerCommand(self._session).append_scheduler(team.id)
+        return team

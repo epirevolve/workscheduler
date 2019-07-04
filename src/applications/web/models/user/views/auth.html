@@ -1,6 +1,0 @@
-{% extends "layout.html" %}
-
-{% block script %}
-<script src="{{ url_for('users.static', filename='js/auth.bundle.min.js') }}"
-        data-url='{{ url_for("auths.login") }}'></script>
-{% endblock %}

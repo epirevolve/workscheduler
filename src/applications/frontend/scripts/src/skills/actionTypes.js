@@ -1,0 +1,15 @@
+export const START_APPEND_SKILL = Symbol();
+export const SUCCESS_APPEND_SKILL = Symbol();
+export const FAILURE_APPEND_SKILL = Symbol();
+export const START_UPDATE_SKILL = Symbol();
+export const SUCCESS_UPDATE_SKILL = Symbol();
+export const FAILURE_UPDATE_SKILL = Symbol();
+export const START_REMOVE_SKILL = Symbol();
+export const SUCCESS_REMOVE_SKILL = Symbol();
+export const FAILURE_REMOVE_SKILL = Symbol();
+export const OPEN_DIALOG_APPEND = Symbol();
+export const OPEN_DIALOG_UPDATE = Symbol();
+export const CLOSE_DIALOG = Symbol();
+export const CHANGE_NAME = Symbol();
+export const CHANGE_SCORE = Symbol();
+export const CHANGE_IS_CERTIFIED = Symbol();

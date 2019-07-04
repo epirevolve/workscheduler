@@ -1,6 +1,0 @@
-{% extends "schedule.html" %}
-
-{% block appendScript %}
-<script src="{{ url_for('schedules.static', filename='js/scheduleAdmin.bundle.min.js') }}"
-        data-teams="{{ to_json(teams) }}"></script>
-{% endblock %}
