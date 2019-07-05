@@ -13,21 +13,24 @@ import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
 import 'rc-calendar/assets/index';
 
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+import { mb3, ml2 } from "margin";
+
 const isValidRange = (v) => v && v[0] && v[1];
 
-const vacation = ({ vacation, onTitleChange, onDateChange,
-    onDaysChange, handleRemove }) => {
-
+const vacation = ({ vacation, changeTitle, changeDate,
+    changeDays, remove }) => {
     const calendar = <RangeCalendar showDateInput={false} showToday={false} format='YYYY-MM-DD' />;
 
     return (
         <Card>
             <CardContent>
                 <TextField autoFocus label="title" required value={vacation.title}
-                    onChange={onTitleChange(vacation.id)} className="mb-3" />
+                    onChange={changeTitle(vacation.id)} css={mb3} />
                 <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                    value={[moment(vacation.onFrom), moment(vacation.onTo)]}
-                        onChange={onDateChange(vacation.id)}>
+                    value={[ moment(vacation.onFrom), moment(vacation.onTo) ]}
+                        onChange={changeDate(vacation.id)}>
                     { ({ value }) => {
                         const formatDate = (x) => x.format('YYYY-MM-DD');
                         const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
@@ -37,15 +40,23 @@ const vacation = ({ vacation, onTitleChange, onDateChange,
                             );}}
                 </DatePicker>
                 <TextField type="number" label="number of days" required value={vacation.days}
-                    onChange={onDaysChange(vacation.id)} />
+                    onChange={changeDays(vacation.id)} />
             </CardContent>
-            <CardActions className="ml-2">
-                <Button onClick={() => handleRemove(vacation.id)} variant="outlined" color="secondary">
+            <CardActions css={ml2}>
+                <Button onClick={() => remove(vacation.id)} variant="outlined" color="secondary">
                     Remove
                 </Button>
             </CardActions>
         </Card>
     );
+};
+
+vacation.propTypes = {
+    vacation: propTypes.object,
+    changeTitle: propTypes.func.isRequired,
+    changeDate: propTypes.func.isRequired,
+    changeDays: propTypes.func.isRequired,
+    remove: propTypes.func.isRequired,
 };
 
 export default vacation;

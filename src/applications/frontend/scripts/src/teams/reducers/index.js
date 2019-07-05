@@ -1,12 +1,14 @@
 import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
-import teamDialog from './team-dialog';
 import teams from './teams';
+import teamDialog from './team-dialog';
+import ui from './ui';
 
 const dataset = document.querySelector('script[src*="teams"]').dataset;
 export const initValue = ({
     teams: JSON.parse(dataset.teams),
-    teamDialog: {isOpen: false}
+    teamDialog: {},
+    ui: { dialogOpen: false }
 });
 
-export default combineWithCommonReducer({teamDialog, teams});
+export default combineWithCommonReducer({ teams, teamDialog, ui });

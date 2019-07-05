@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import { StylesProvider } from '@material-ui/styles';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -27,6 +28,10 @@ const layout = ({ children }) => {
             </StylesProvider>
         </MuiThemeProvider>
     );
+};
+
+layout.propTypes = {
+    children: propTypes.any
 };
 
 export default layout;

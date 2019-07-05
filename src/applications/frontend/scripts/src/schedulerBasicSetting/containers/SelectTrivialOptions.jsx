@@ -10,8 +10,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onCertifiedSkillChange: (e) => dispatch(changeCertifiedSkill(e.target.value)),
-    onNotCertifiedSkillChange: (e) => dispatch(changeNotCertifiedSkill(e.target.value))
+    changeCertifiedSkill: (e) => dispatch(changeCertifiedSkill(e.target.value)),
+    changeNotCertifiedSkill: (e) => dispatch(changeNotCertifiedSkill(e.target.value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrivialOptions);

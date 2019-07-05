@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import TableRow from '@material-ui/core/TableRow';
 
@@ -21,5 +22,10 @@ const dayHeaderRow = ({ headers, cells }) => (
         {cells.map((x, i) => <DayHeaderCell key={i} {...x} />)}
     </TableRow>
 );
+
+dayHeaderRow.propTypes = {
+    headers: propTypes.array,
+    cells: propTypes.array
+};
 
 export default dayHeaderRow;

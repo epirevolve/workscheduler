@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onTeamChange: (e) => { dispatch(changeTeam(e.target.value)); }
+    changeTeam: (e) => { dispatch(changeTeam(e.target.value)); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Teams);

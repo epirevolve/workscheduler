@@ -7,6 +7,10 @@ import Button from '@material-ui/core/Button';
 
 import { showSnackbar } from 'snackbarActions';
 
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+import { my4, mr3 } from "prop-types";
+
 const dataset = document.querySelector('script[src*="schedulerYearly"]').dataset;
 const url = dataset.url;
 
@@ -31,8 +35,8 @@ class YearlySettingContainer extends React.Component {
 
         return (
             <>
-                <div className="my-4">
-                    <Button className="mr-3" variant="contained" color="primary" size="large"
+                <div css={my4}>
+                    <Button css={mr3} variant="contained" color="primary" size="large"
                         onClick={() => this.handleSave(yearlySetting)}>
                         Save
                     </Button>

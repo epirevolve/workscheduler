@@ -1,15 +1,16 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import DayRequireCell from './DayRequireCell';
 
-const dayRequireRow = ({ category, requires, onRequireChange }) => {
+const dayRequireRow = ({ category, requires, changeRequire }) => {
     const cells = [];
-    for (const [day, require] of requires) {
+    for (const [ day, require ] of requires) {
         cells.push(<DayRequireCell key={day} require={require}
-            onRequireChange={onRequireChange(day, category.id)} />);
+            changeRequire={changeRequire(day, category.id)} />);
     }
 
     return (
@@ -18,6 +19,12 @@ const dayRequireRow = ({ category, requires, onRequireChange }) => {
             {cells}
         </TableRow>
     );
+};
+
+dayRequireRow.propTypes = {
+    category: propTypes.object,
+    requires: propTypes.array,
+    changeRequire: propTypes.func.isRequired
 };
 
 export default dayRequireRow;

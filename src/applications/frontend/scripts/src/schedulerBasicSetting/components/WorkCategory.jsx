@@ -14,7 +14,6 @@ import PopupCheckList from './PopupCheckList';
 
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-
 import { ml2, mb3 } from 'margin';
 import { pr2 } from 'padding';
 
@@ -72,21 +71,21 @@ const workCategory = ({ workCategory, remove, changeTitle,
                         onChange={changeMaxTimes(workCategory.id)} placeholder="0 means unlimited" />
                 </Grid>
             </Grid>
-            <PopupCheckList name={'WeekDay Operators'} targets={operators.map((x) => ({id: x.id, name: x.user.name, obj: x}))}
-                current={workCategory.weekDayOperators.map((x) => ({id: x.id, name: x.user.name}))}
-                onSelectChange={(x) => changeWeekdayOperators(workCategory.id, x)} />
-            <PopupCheckList name={'Holiday Operators'} targets={operators.map((x) => ({id: x.id, name: x.user.name, obj: x}))}
-                current={workCategory.holidayOperators.map((x) => ({id: x.id, name: x.user.name}))}
-                onSelectChange={(x) => changeHolidayOperators(workCategory.id, x)} />
-            <PopupCheckList name={'Essential Skills'} targets={skills.map((x) => ({id: x.id, name: x.name, obj: x}))}
-                current={workCategory.essentialSkills.map((x) => ({id: x.id, name: x.name}))}
-                onSelectChange={(x) => changeEssentialSkills(workCategory.id, x)} />
-            <PopupCheckList name={'Exclusive Operators'} targets={operators.map((x) => ({id: x.id, name: x.user.name, obj: x}))}
-                current={workCategory.exclusiveOperators.map((x) => ({id: x.id, name: x.user.name}))}
-                onSelectChange={(x) => changeExclusiveOperators(workCategory.id, x)} />
-            <PopupCheckList name={'Impossible Operators'} targets={operators.map((x) => ({id: x.id, name: x.user.name, obj: x}))}
-                current={workCategory.impossibleOperators.map((x) => ({id: x.id, name: x.user.name}))}
-                onSelectChange={(x) => changeImpossibleOperators(workCategory.id, x)} />
+            <PopupCheckList name={'WeekDay Operators'} targets={operators.map((x) => ({ id: x.id, name: x.user.name, obj: x }))}
+                current={workCategory.weekDayOperators.map((x) => ({ id: x.id, name: x.user.name }))}
+                changeSelect={(x) => changeWeekdayOperators(workCategory.id, x)} />
+            <PopupCheckList name={'Holiday Operators'} targets={operators.map((x) => ({ id: x.id, name: x.user.name, obj: x }))}
+                current={workCategory.holidayOperators.map((x) => ({ id: x.id, name: x.user.name }))}
+                changeSelect={(x) => changeHolidayOperators(workCategory.id, x)} />
+            <PopupCheckList name={'Essential Skills'} targets={skills.map((x) => ({ id: x.id, name: x.name, obj: x }))}
+                current={workCategory.essentialSkills.map((x) => ({ id: x.id, name: x.name }))}
+                changeSelect={(x) => changeEssentialSkills(workCategory.id, x)} />
+            <PopupCheckList name={'Exclusive Operators'} targets={operators.map((x) => ({ id: x.id, name: x.user.name, obj: x }))}
+                current={workCategory.exclusiveOperators.map((x) => ({ id: x.id, name: x.user.name }))}
+                changeSelect={(x) => changeExclusiveOperators(workCategory.id, x)} />
+            <PopupCheckList name={'Impossible Operators'} targets={operators.map((x) => ({ id: x.id, name: x.user.name, obj: x }))}
+                current={workCategory.impossibleOperators.map((x) => ({ id: x.id, name: x.user.name }))}
+                changeSelect={(x) => changeImpossibleOperators(workCategory.id, x)} />
         </CardContent>
         <CardActions css={ml2}>
             <Button onClick={remove(workCategory.id)} variant="outlined" color="secondary">

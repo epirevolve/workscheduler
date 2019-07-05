@@ -26,7 +26,7 @@ class MonthYearSetting extends React.Component {
             next = true;
         }
 
-        return [prev, next];
+        return [ prev, next ];
     }
 
     requestOfOtherMonthYear (addMonth) {
@@ -45,7 +45,7 @@ class MonthYearSetting extends React.Component {
     }
 
     render () {
-        const [prev, next] = this.setMonthChangeButtonAvailability();
+        const [ prev, next ] = this.setMonthChangeButtonAvailability();
         return (
             <Grid container className="cl-tool-header">
                 <Grid item xs={3} className="cl-tool-left">

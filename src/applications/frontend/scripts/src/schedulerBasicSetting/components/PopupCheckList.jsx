@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
@@ -13,10 +14,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import IconButton from '@material-ui/core/IconButton';
 
-const holidayOperators = ({ name, targets, current, onSelectChange }) => {
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+import { mt2, ml3 } from "margin";
+
+const popupCheckList = ({ name, targets, current, changeSelect }) => {
     const currentIds = current.map((x) => x.id);
     const popupList = targets.map((x, i) =>
-        <ListItem key={i} button onClick={() => onSelectChange(x.obj)}>
+        <ListItem key={i} button onClick={() => changeSelect(x.obj)}>
             <Checkbox checked={currentIds.includes(x.id)} tabIndex={-1} disableRipple />
             <ListItemText primary={x.name} />
         </ListItem>);
@@ -41,8 +46,8 @@ const holidayOperators = ({ name, targets, current, onSelectChange }) => {
             </Popover>
             <ExpansionPanel expanded={state.expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6" style={{ color: 'gray' }} className="mt-2">{name}</Typography>
-                    <div className="ml-3">
+                    <Typography variant="h6" style={{ color: 'gray' }} css={mt2}>{name}</Typography>
+                    <div css={ml3}>
                         <IconButton size="small" onClick={(e) => { setState((prev) => ({ ...prev, anchorEl: e.currentTarget })); e.stopPropagation(); }}>
                             <CheckBoxRoundedIcon />
                         </IconButton>
@@ -58,4 +63,11 @@ const holidayOperators = ({ name, targets, current, onSelectChange }) => {
     );
 };
 
-export default holidayOperators;
+popupCheckList.propTypes = {
+    name: propTypes.string.isRequired,
+    targets: propTypes.array,
+    current: propTypes.array,
+    changeSelect: propTypes.func.isRequired
+};
+
+export default popupCheckList;

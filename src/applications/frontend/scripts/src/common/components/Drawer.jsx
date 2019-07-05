@@ -30,9 +30,9 @@ const urlSkills = dataset.urlSkills;
 const auth = JSON.parse(dataset.auth);
 
 const drawer = ({ open, setOpen }) => (
-    <Drawer open={open} onClose={() => setOpen((prev) => ({...prev, open: false}))}>
+    <Drawer open={open} onClose={() => setOpen((prev) => ({ ...prev, open: false }))}>
         <div tabIndex={0}>
-            <IconButton onClick={() => setOpen((prev) => ({...prev, open: false}))}>
+            <IconButton onClick={() => setOpen((prev) => ({ ...prev, open: false }))}>
                 <ChevronLeftRoundedIcon />
             </IconButton>
             <Divider />

@@ -1,14 +1,17 @@
+import * as actionTypes from "../actionTypes";
+
 const teams = (state = [], action) => {
+    const payload = action.payload;
     switch (action.type) {
-        case 'APPEND_TEAM':
-            return state.concat([action.team]);
-        case 'EDIT_TEAM':
+        case actionTypes.SUCCESS_APPEND_TEAM:
+            return state.concat([payload.team]);
+        case actionTypes.SUCCESS_UPDATE_TEAM:
             return state.map((x) => {
-                if (x.id != action.team.id) return x;
-                return action.team;
+                if (x.id != payload.team.id) return x;
+                return payload.team;
             });
-        case 'REMOVE_TEAM':
-            return state.filter((x) => x.id != action.id);
+        case actionTypes.SUCCESS_REMOVE_TEAM:
+            return state.filter((x) => x.id != payload.id);
         default:
             return state;
     }

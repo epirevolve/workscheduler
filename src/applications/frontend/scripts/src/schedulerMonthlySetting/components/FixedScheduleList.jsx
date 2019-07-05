@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -11,19 +12,23 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import FixedSchedule from './FixedSchedule';
 
-const fixedSchedules = ({ fixedSchedules, handleAppend, ...other }) => {
-    const [state, setState] = React.useState({expanded: true});
-    const onExpandedChange = (event, isExpanded) => {
-        setState(prev => ({...prev, expanded: isExpanded ? true : false}));
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+import { mt4, mb3, mb2, ml3, mr4 } from "margin";
+
+const fixedScheduleList = ({ fixedSchedules, append, ...other }) => {
+    const [ state, setState ] = React.useState({ expanded: true });
+    const changeExpanded = (event, isExpanded) => {
+        setState((prev) => ({ ...prev, expanded: isExpanded ? true : false }));
     };
 
     return (
-        <div className="mt-4 mb-3">
-            <ExpansionPanel expanded={state.expanded} onChange={onExpandedChange}>
+        <div css={css(mt4, mb3)}>
+            <ExpansionPanel expanded={state.expanded} onChange={changeExpanded}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography style={{ fontSize: '2rem', color: 'gray' }}>fixed schedules</Typography>
-                    <div className="ml-3">
-                        <IconButton onClick={(e) => { handleAppend(); e.stopPropagation(); }}>
+                    <div css={ml3}>
+                        <IconButton onClick={(e) => { append(); e.stopPropagation(); }}>
                             <AddIcon />
                         </IconButton>
                     </div>
@@ -31,7 +36,7 @@ const fixedSchedules = ({ fixedSchedules, handleAppend, ...other }) => {
                 <ExpansionPanelDetails>
                     <Grid container>
                         {fixedSchedules.map((x) =>
-                            <Grid item xs={12} sm={3} key={x.id} className="mr-4 mb-2">
+                            <Grid item xs={12} sm={3} key={x.id} css={css(mb2, mr4)}>
                                 <FixedSchedule fixedSchedule={x} {...other} />
                             </Grid>
                         )}
@@ -42,4 +47,9 @@ const fixedSchedules = ({ fixedSchedules, handleAppend, ...other }) => {
     );
 };
 
-export default fixedSchedules;
+fixedScheduleList.propTypes = {
+    fixedSchedules: propTypes.array,
+    append: propTypes.func.isRequired
+};
+
+export default fixedScheduleList;

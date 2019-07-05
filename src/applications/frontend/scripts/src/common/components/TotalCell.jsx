@@ -22,12 +22,12 @@ const getColorByState = (count, category, daySetting) => {
 };
 
 const totalCell = ({ count, category, daySetting }) => {
-    const [state, setState] = React.useState({css: {}});
+    const [ state, setState ] = React.useState({ css: {}});
 
     React.useMemo(() => {
         const colorName = getColorByState(count, category, daySetting);
-        setState(prev => ({...prev, css: colorName ? {...css_, color: colorName} : css_}));
-    }, [count, category]);
+        setState((prev) => ({ ...prev, css: colorName ? { ...css_, color: colorName } : css_ }));
+    }, [ count, category ]);
 
     return (
         <TableCell css={css(state.css)}>

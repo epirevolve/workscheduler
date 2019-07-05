@@ -1,30 +1,27 @@
-const dialog = (state = {isOpen: false}, action) => {
+import * as actionTypes from "../actionTypes";
+
+const dialog = (state, action) => {
+    const payload = action.payload;
     switch (action.type) {
-        case 'OPEN_DIALOG_APPEND':
-            return {...state,
-                isOpen: true,
+        case actionTypes.OPEN_DIALOG_APPEND:
+            return { ...state,
                 id: '',
                 name: '',
                 note: ''
             };
-        case 'OPEN_DIALOG_UPDATE':
-            return {...state,
-                isOpen: true,
-                id: action.team.id,
-                name: action.team.name,
-                note: action.team.note
+        case actionTypes.OPEN_DIALOG_UPDATE:
+            return { ...state,
+                id: payload.team.id,
+                name: payload.team.name,
+                note: payload.team.note
             };
-        case 'CLOSE_DIALOG':
-            return {...state,
-                isOpen: false
+        case actionTypes.CHANGE_NAME:
+            return { ...state,
+                name: payload.text
             };
-        case 'CHANGE_NAME':
-            return {...state,
-                name: action.text
-            };
-        case 'CHANGE_NOTE':
-            return {...state,
-                note: action.text
+        case actionTypes.CHANGE_NOTE:
+            return { ...state,
+                note: payload.text
             };
         default:
             return state;

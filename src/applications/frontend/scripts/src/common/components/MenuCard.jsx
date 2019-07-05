@@ -36,7 +36,7 @@ const contentCss = css({
     color: 'gray !important'
 });
 
-const menuCard = ({title, img, description, href, onClick}) => (
+const menuCard = ({ title, img, description, href, onClick }) => (
     <Card css={cardCss}>
         <CardActionArea href={href} onClick={onClick} css={actionAreaCss}>
             <CardContent>
@@ -44,7 +44,7 @@ const menuCard = ({title, img, description, href, onClick}) => (
                     {title}
                 </Typography>
             </CardContent>
-            <CardMedia component="img" alt={title} title={title} css={imageCss} image={img} />
+            <CardMedia alt={title} title={title} css={imageCss} image={img} />
             <CardContent>
                 <Typography gutterBottom component="p" css={contentCss}>
                     {description}

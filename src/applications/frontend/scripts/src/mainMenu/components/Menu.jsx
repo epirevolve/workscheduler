@@ -5,6 +5,10 @@ import Grid from '@material-ui/core/Grid';
 
 import MenuCard from 'MenuCard';
 
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+import { my4 } from "margin";
+
 const dataset = document.querySelector('script[src*="mainMenu"]').dataset;
 const urlSchedules = dataset.urlSchedules;
 const urlRequests = dataset.urlRequests;
@@ -17,42 +21,40 @@ const urlTeams = dataset.urlTeams;
 const urlSkills = dataset.urlSkills;
 const auth = JSON.parse(dataset.auth);
 
-const menu = () => {
-    const createCardInGrid = (title, img, href, description) => {
-        img = `/statics/img/${img}`;
-        return (
-            <Grid item xs={12} md={6} lg={3}>
-                <MenuCard {...{title, img, href, description}} />
-            </Grid>
-        );
-    };
-
+const createCardInGrid = (title, img, href, description) => {
+    img = `/statics/img/${img}`;
     return (
-        <>
-            <Grid container spacing={2} className="my-4">
-                {createCardInGrid("Schedule", "schedule.svg", urlSchedules, "your work schedule and ask change some days")}
-                {auth.isOperator && (
-                    <>
-                        {createCardInGrid("Requests", "request.svg", urlRequests, "request days you wanna get rest")}
-                        {createCardInGrid("As Operator", "operator.svg", urlAsOperator, "appeal what you can do by registering skill")}
-                    </>
-                )}
-                {createCardInGrid("As User", "user.svg", urlAsUser, "reset your password")}
-            </Grid>
-            {auth.isAdmin && (
-                <>
-                    <Divider />
-                    <Grid container spacing={2} className="my-4">
-                        {createCardInGrid("Scheduler", "scheduler-menu.svg", urlSchedulerMenu, "scheduler option and start to build")}
-                        {createCardInGrid("Operators", "operators.svg", urlOperators, "what they can do")}
-                        {createCardInGrid("Users", "users.svg", urlUsers, "start new user story from here")}
-                        {createCardInGrid("Teams", "teams.svg", urlTeams, "manage teams")}
-                        {createCardInGrid("Skills", "skills.svg", urlSkills, "what you demand to operator")}
-                    </Grid>
-                </>
-            )}
-        </>
+        <Grid item xs={12} md={6} lg={3}>
+            <MenuCard {...{ title, img, href, description }} />
+        </Grid>
     );
 };
+
+const menu = () => (
+    <div css={my4}>
+        <Grid container spacing={2}>
+            {createCardInGrid("Schedule", "schedule.svg", urlSchedules, "your work schedule and ask change some days")}
+            {auth.isOperator && (
+                <>
+                    {createCardInGrid("Requests", "request.svg", urlRequests, "request days you wanna get rest")}
+                    {createCardInGrid("As Operator", "operator.svg", urlAsOperator, "appeal what you can do by registering skill")}
+                </>
+            )}
+            {createCardInGrid("As User", "user.svg", urlAsUser, "reset your password")}
+        </Grid>
+        {auth.isAdmin && (
+            <>
+                <Divider css={css(my4)} />
+                <Grid container spacing={2}>
+                    {createCardInGrid("Scheduler", "scheduler-menu.svg", urlSchedulerMenu, "scheduler option and start to build")}
+                    {createCardInGrid("Operators", "operators.svg", urlOperators, "what they can do")}
+                    {createCardInGrid("Users", "users.svg", urlUsers, "start new user story from here")}
+                    {createCardInGrid("Teams", "teams.svg", urlTeams, "manage teams")}
+                    {createCardInGrid("Skills", "skills.svg", urlSkills, "what you demand to operator")}
+                </Grid>
+            </>
+        )}
+    </div>
+);
 
 export default menu;

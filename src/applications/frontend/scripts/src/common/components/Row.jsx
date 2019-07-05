@@ -10,15 +10,15 @@ import { zip } from 'arrayUtil';
 const row = ({ headers, cells }) => (
     <TableRow>
         {headers.map((x, i) => <RowHeader key={i} val={x} left={i} />)}
-        {cells.map(([a, b, c], i) => {
+        {cells.map(([ a, b, c ], i) => {
             const categories = c.fixedSchedules.concat(c.details.map((x) => x.workCategory));
             const category = categories.find((x) => x.id == a.workCategoryId);
-            return <Cell key={i} val={category ? category.title : a.workCategoryId} />
+            return (<Cell key={i} val={category ? category.title : a.workCategoryId} />);
         })}
     </TableRow>
 );
 
-const areEqual = (prevProps, nextProps) => zip(prevProps["cells"], nextProps["cells"]).some(([x, y]) => x == y)
-        && zip(prevProps["header"], nextProps["header"]).some(([x, y]) => x == y);
+const areEqual = (prevProps, nextProps) => zip(prevProps["cells"], nextProps["cells"]).some(([ x, y ]) => x == y)
+        && zip(prevProps["header"], nextProps["header"]).some(([ x, y ]) => x == y);
 
 export default React.memo(row, areEqual);

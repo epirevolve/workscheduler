@@ -10,7 +10,7 @@ import TotalCell from './TotalCell';
 
 import { zip } from 'arrayUtil';
 
-const css_ = {
+const rowCss = {
     position: 'sticky',
     background: 'white',
     zIndex: 99,
@@ -19,7 +19,7 @@ const css_ = {
 };
 
 const totalRow = ({ headers, cells, bottom }) => (
-    <TableRow css={css({...css_,
+    <TableRow css={css({ ...rowCss,
         bottom: `${3.5*bottom}rem`
     })}>
         {headers.map((x, i) => <RowHeader key={i} val={x} left={i} />)}
@@ -27,7 +27,7 @@ const totalRow = ({ headers, cells, bottom }) => (
     </TableRow>
 );
 
-const areEqual = (prevProps, nextProps) => zip(prevProps["cells"], nextProps["cells"]).some(([x, y]) => x == y)
-        && zip(prevProps["headers"], nextProps["headers"]).some(([x, y]) => x == y);
+const areEqual = (prevProps, nextProps) => zip(prevProps["cells"], nextProps["cells"]).some(([ x, y ]) => x == y)
+        && zip(prevProps["headers"], nextProps["headers"]).some(([ x, y ]) => x == y);
 
 export default React.memo(totalRow, areEqual);

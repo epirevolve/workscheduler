@@ -12,13 +12,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    handleAppend: () => { dispatch(addFixedSchedule()); },
-    handleRemove: (id) => () => { dispatch(removeFixedSchedule(id)); },
-    onTitleChange: (id) => (e) => { dispatch(changeFixedScheduleTitle(id, e.target.value)); },
-    onDateChange: (id) => (date) => { dispatch(changeFixedScheduleDate(id, date)); },
-    onAtFromChange: (id) => (e) => { dispatch(changeFixedScheduleAtFrom(id, e.target.value)); },
-    onAtToChange: (id) => (e) => { dispatch(changeFixedScheduleAtTo(id, e.target.value)); },
-    onParticipantChange: (id, data) => { dispatch(changeFixedScheduleParticipant(id, data)); }
+    append: () => { dispatch(addFixedSchedule()); },
+    remove: (id) => () => { dispatch(removeFixedSchedule(id)); },
+    changeTitle: (id) => (e) => { dispatch(changeFixedScheduleTitle(id, e.target.value)); },
+    changeDate: (id) => (date) => { dispatch(changeFixedScheduleDate(id, date)); },
+    changeAtFrom: (id) => (e) => { dispatch(changeFixedScheduleAtFrom(id, e.target.value)); },
+    changeAtTo: (id) => (e) => { dispatch(changeFixedScheduleAtTo(id, e.target.value)); },
+    changeParticipant: (id, data) => { dispatch(changeFixedScheduleParticipant(id, data)); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FixedScheduleList);

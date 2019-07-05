@@ -38,9 +38,8 @@ export const successRemoveSkill = (id) => ({
     payload: { id }
 });
 
-export const failureRemoveSkill = (id) => ({
-    type: actionTypes.FAILURE_REMOVE_SKILL,
-    payload: { id }
+export const failureRemoveSkill = () => ({
+    type: actionTypes.FAILURE_REMOVE_SKILL
 });
 
 export const openDialogToAppend = () => ({

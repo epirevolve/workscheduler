@@ -12,18 +12,22 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import Vacation from './Vacation';
 
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+import { mt4, mb3, mb2, ml3, mr4 } from "margin";
+
 const vacationList = ({ vacations, append, ...other }) => {
-    const [state, setState] = React.useState({expanded: true});
+    const [ state, setState ] = React.useState({ expanded: true });
     const onExpandedChange = (_event, isExpanded) => {
-        setState((prev) => ({...prev, expanded: isExpanded ? true : false}));
+        setState((prev) => ({ ...prev, expanded: isExpanded ? true : false }));
     };
 
     return (
-        <div className="mt-4 mb-3">
+        <div css={css(mt4, mb3)}>
             <ExpansionPanel expanded={state.expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography style={{ fontSize: '2rem' }}>vacations</Typography>
-                    <div className="ml-3">
+                    <div css={ml3}>
                         <IconButton onClick={(e) => { append(); e.stopPropagation(); }}>
                             <AddIcon />
                         </IconButton>
@@ -32,7 +36,7 @@ const vacationList = ({ vacations, append, ...other }) => {
                 <ExpansionPanelDetails>
                     <Grid container>
                         {vacations.map((x) =>
-                            <Grid item xs={12} sm={3} key={x.id} className="mr-4 mb-2">
+                            <Grid item xs={12} sm={3} key={x.id} css={css(mb2, mr4)}>
                                 <Vacation vacation={x} {...other} />
                             </Grid>
                         )}

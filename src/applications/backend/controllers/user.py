@@ -57,7 +57,7 @@ def show_myself(user_id):
     return render_template('user.html')
 
 
-@bp.route('/')
+@bp.route('/users')
 @login_required
 @admin_required
 def show_users():
@@ -67,7 +67,7 @@ def show_users():
     return render_template('users.html', users=users, teams=teams)
 
 
-@bp.route('/')
+@bp.route('/teams')
 @login_required
 @admin_required
 def show_teams():

@@ -7,8 +7,6 @@
 
         <title>Work Scheduler</title>
 
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vendor/bootstrap.min.css') }}" />
-
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}" />
 
@@ -16,7 +14,7 @@
             const csrfToken = "{{ csrf_token() }}";
             const operatorId = "{{ operator_id() }}";
         </script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/commons/dateExtension.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/common/dateExtension.js') }}"></script>
     </head>
     <body>
         <div id="root"></div>

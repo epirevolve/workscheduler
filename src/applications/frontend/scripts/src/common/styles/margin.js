@@ -101,6 +101,10 @@ export const mx4 = css({},ml4,mr4);
 
 export const mx5 = css({},ml5,mr5);
 
+export const m0 = css({
+    margin: '0rem'
+});
+
 export const m1 = css({},mx1,my1);
 
 export const m2 = css({},mx2,my2);

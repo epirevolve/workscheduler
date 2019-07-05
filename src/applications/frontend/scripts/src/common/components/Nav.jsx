@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,6 +12,11 @@ import Menu from '@material-ui/core/Menu';
 import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
+
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+import { mr1 } from "margin";
+import { pl2 } from "padding";
 
 const dataset = document.querySelector('#linkTags').dataset;
 const isAuthenticated = JSON.parse(dataset.isAuthenticated.toLowerCase());
@@ -44,7 +50,7 @@ const nav = ({ setDrawerOpen }) => {
     if (!isAuthenticated) return (<></>);
 
     return (
-        <AppBar className="pl-2" position="static">
+        <AppBar css={pl2} position="static">
             <Toolbar disableGutters>
                 <IconButton color="inherit" aria-label="Open drawer" tabIndex="-1"
                     onClick={() => setDrawerOpen((prev) => ({ ...prev, open: true }))}>
@@ -60,7 +66,7 @@ const nav = ({ setDrawerOpen }) => {
                     )}
                     <Typography variant="h5" style={{ color: 'white' }} tabIndex="-1" noWrap>{current.name}</Typography>
                 </Breadcrumbs>
-                <IconButton className="mr-1" aria-owns={open ? 'menu-appbar' : undefined} color="inherit" tabIndex="-1"
+                <IconButton css={mr1} aria-owns={open ? 'menu-appbar' : undefined} color="inherit" tabIndex="-1"
                     aria-haspopup="true" onClick={(e) => setState((prev) => ({ ...prev, anchorEl: e.currentTarget }))}>
                     <AccountCircle />
                 </IconButton>
@@ -72,6 +78,10 @@ const nav = ({ setDrawerOpen }) => {
             </Toolbar>
         </AppBar>
     );
+};
+
+nav.propTypes = {
+    setDrawerOpen: propTypes.func.isRequired
 };
 
 export default nav;

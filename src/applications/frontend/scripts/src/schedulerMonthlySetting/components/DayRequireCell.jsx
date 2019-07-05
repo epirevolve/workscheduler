@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -13,18 +14,23 @@ const cellCss = css({
     textAlign: 'center !important'
 });
 
-const dayRequireCell = ({ require, onRequireChange }) => {
+const dayRequireCell = ({ require, changeRequire }) => {
     const count = [];
     for (let i = 0; i < 21; i ++) {
         count.push(<MenuItem key={i} value={i}>{i}</MenuItem>);
     }
     return (
         <TableCell css={cellCss}>
-            <Select value={require} onChange={onRequireChange}>
+            <Select value={require} onChange={changeRequire}>
                 {count}
             </Select>
         </TableCell>
     );
+};
+
+dayRequireCell.propTypes = {
+    require: propTypes.number.isRequired,
+    changeRequire: propTypes.func.isRequired
 };
 
 const areEqual = (prevProps, nextProps) => prevProps["require"] == nextProps["require"];

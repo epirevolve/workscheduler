@@ -7,6 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { m0 } from "margin";
 
 const cellCss = css({
     fontWeight: 'initial !important',
@@ -16,8 +17,7 @@ const cellCss = css({
 
 const dayIsHolidayCell = ({ isHoliday, changeIsHoliday }) => (
     <TableCell css={cellCss}>
-        <FormControlLabel className="m-0"
-            control={<Checkbox checked={isHoliday} onChange={changeIsHoliday} />} />
+        <FormControlLabel css={m0} control={<Checkbox checked={isHoliday} onChange={changeIsHoliday} />} />
     </TableCell>
 );
 

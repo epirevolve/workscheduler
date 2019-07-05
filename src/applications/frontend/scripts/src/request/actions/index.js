@@ -14,13 +14,13 @@ export const removeRequest = (id) => ({
 export const openDialogToAppend = (atFrom, atTo) => ({
     type: 'OPEN_DIALOG_APPEND',
     request: Object.assign({},
-        {atFrom: moment(atFrom), atTo: moment(atTo)})
+        { atFrom: moment(atFrom), atTo: moment(atTo) })
 });
 
 export const openDialogToUpdate = (request) => ({
     type: 'OPEN_DIALOG_UPDATE',
     request: Object.assign({}, request,
-        {atFrom: moment(request.atFrom), atTo: moment(request.atTo)})
+        { atFrom: moment(request.atFrom), atTo: moment(request.atTo) })
 });
 
 export const closeDialog = () => ({
@@ -37,7 +37,7 @@ export const changeNote = (text) => ({
     text
 });
 
-export const changeDate = ([atFrom, atTo]) => ({
+export const changeDate = ([ atFrom, atTo ]) => ({
     type: 'CHANGE_DATE',
     atFrom,
     atTo

@@ -1,9 +1,29 @@
+import * as actionTypes from '../actionTypes';
+
+export const startUpdateMyself = (myself) => ({
+    type: actionTypes.START_UPDATE_MYSELF,
+    payload: { myself }
+});
+
+export const successUpdateMyself = (myself) => ({
+    type: actionTypes.SUCCESS_UPDATE_MYSELF,
+    payload: { myself }
+});
+
+export const failureUpdateMyself = () => ({
+    type: actionTypes.FAILURE_UPDATE_MYSELF,
+});
+
+export const closeDialog = () => ({
+    type: actionTypes.CLOSE_DIALOG
+});
+
 export const changePassword = (password) => ({
-    type: 'CHANGE_PASSWORD',
-    password
+    type: actionTypes.CHANGE_PASSWORD,
+    payload: { password }
 });
 
 export const changeName = (name) => ({
-    type: 'CHANGE_NAME',
-    name
+    type: actionTypes.CHANGE_NAME,
+    payload: { name }
 });

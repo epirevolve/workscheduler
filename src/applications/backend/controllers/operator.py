@@ -20,7 +20,7 @@ def show_myself(operator_id):
     return render_template('operator.html', operator=operator, skills=skills)
 
 
-@bp.route('/')
+@bp.route('/operators')
 @login_required
 @admin_required
 def show_operators():
@@ -30,7 +30,7 @@ def show_operators():
     return render_template('operators.html', operators=[x if x.ojt else x for x in operators], skills=skills)
 
 
-@bp.route('/')
+@bp.route('/skills')
 @login_required
 @admin_required
 def show_skills():
