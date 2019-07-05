@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-import sys
 from datetime import date
 
-import click
 from dotenv import load_dotenv
 from flask import abort
 from flask import Flask
@@ -12,7 +10,6 @@ from flask import g
 from flask import current_app
 from flask import request
 from flask import session
-from flask.cli import with_appcontext
 from flask_login import LoginManager
 from flask_login import current_user
 from jinja2 import FileSystemLoader
@@ -22,12 +19,8 @@ from utils.date import get_next_month as get_next_month_
 from utils.jsonize import dumps
 from utils.uuid import UuidFactory
 
-from services import OperatorQuery
+from backend.services import OperatorQuery
 from infrastructures import Database
-from infrastructures import InputData
-
-
-sys.path.append(os.path.dirname(__file__))
 
 
 def get_db_session(echo=False):
@@ -60,33 +53,10 @@ def create_app(test_config=None):
         app.config.update(test_config)
 
     app.config.from_envvar('WORK_SCHEDULER_SETTING', silent=True)
-
-    sys.path.append(os.path.dirname(__file__))
     app.teardown_appcontext(close_db_session)
 
-    # cli action
-    @click.command('init-db')
-    @with_appcontext
-    def init_db_command():
-        Database(current_app.config['DATABASE']).init()
-        click.echo('Initialized the database.')
-    app.cli.add_command(init_db_command)
-    
-    @click.command('test-data')
-    @with_appcontext
-    def set_test_db_command():
-        Database(current_app.config['DATABASE']).init()
-        InputData(current_app.config['DATABASE']).set_test()
-        click.echo('Set the database to test.')
-    app.cli.add_command(set_test_db_command)
-
-    @click.command('input-data')
-    @with_appcontext
-    def input_data_command():
-        Database(current_app.config['DATABASE']).init()
-        InputData(current_app.config['DATABASE']).set_init()
-        click.echo('Db initialized and input data.')
-    app.cli.add_command(input_data_command)
+    from .click_register import click_register
+    click_register(app)
 
     from .bp_register import bp_register
     bp_register(app)
@@ -100,11 +70,10 @@ def create_app(test_config=None):
     login_manager.init_app(app)
     login_manager.login_view = 'user.index'
 
-    from .controllers import user
+    from backend.controllers import user
     app.add_url_rule('/', 'index', user.index)
 
-    from services import UserQuery
-
+    from backend.services import UserQuery
     @login_manager.user_loader
     def load_user(user_id):
         return UserQuery(get_db_session()).get_user(user_id)
@@ -115,8 +84,7 @@ def create_app(test_config=None):
     def csrf_protect():
         if request.method in ["POST", "PUT", "DELETE"]:
             token = session.get('csrf_token', None)
-            requests = [request.headers.environ.get('HTTP_X_CSRFTOKEN'),
-                        request.form.get('csrf_token')]
+            requests = [request.headers.environ.get('HTTP_X_CSRFTOKEN'), request.form.get('csrf_token')]
             if not token or token not in requests:
                 abort(403)
 

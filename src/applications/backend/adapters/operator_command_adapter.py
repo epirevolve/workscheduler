@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from services import OperatorCommand
+from backend.services import OperatorCommand
 
 
 class OperatorCommandAdapter:

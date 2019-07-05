@@ -9,12 +9,12 @@ import Nav from './Nav';
 import ShowSnackbar from 'ShowSnackbar';
 
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
 import { m4 } from 'margin';
 
-const layout = ({children}) => {
-    const [state, setState] = React.useState({open: false});
+const layout = ({ children }) => {
+    const [ state, setState ] = React.useState({ open: false });
     return (
         <MuiThemeProvider theme={Theme}>
             <StylesProvider injectFirst>

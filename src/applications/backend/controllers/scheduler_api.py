@@ -10,11 +10,11 @@ from flask_login import login_required
 from utils import jsonize
 from utils.string import to_date
 
-from errors import CalendarError
-from errors import RequestError
-from errors import AlreadyLaunchError
-from services import SchedulerQuery
-from functions.controller import admin_required
+from backend.errors import CalendarError
+from backend.errors import RequestError
+from backend.errors import AlreadyLaunchError
+from backend.services import SchedulerQuery
+from backend.functions.controller import admin_required
 from applications.backend import get_db_session
 from domains.models.scheduler import all_available_sign
 

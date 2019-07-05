@@ -7,8 +7,8 @@ from flask_login import login_required
 from utils import jsonize
 from utils.string import to_date
 
-from functions.controller import admin_required
-from services import ScheduleFacade
+from backend.functions.controller import admin_required
+from backend.services import ScheduleFacade
 from applications.backend import get_db_session
 
 from ..adapters import ScheduleCommandAdapter

@@ -4,8 +4,8 @@ from flask import Blueprint
 from flask import render_template
 from flask_login import login_required
 
-from services import OperatorQuery
-from functions.controller import admin_required
+from backend.services import OperatorQuery
+from backend.functions.controller import admin_required
 from applications.backend import get_db_session
 
 bp = Blueprint('operator', __name__, template_folder='../../frontend/views', static_folder="../../frontend/statics")

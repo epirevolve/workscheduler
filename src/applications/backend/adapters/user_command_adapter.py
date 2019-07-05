@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from services import UserCommand
+from backend.services import UserCommand
 
 
 class UserCommandAdapter:

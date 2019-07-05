@@ -20,5 +20,11 @@
     maxDate.setSeconds(59);
     maxDate.setMilliseconds(99);
 </script>
-{% block scriptAppend %}{% endblock %}
+<script type="text/javascript" src="{{ url_for('requests.static', filename='js/request.bundle.min.js') }}"
+    data-url="{{ url_for('scheduler.show_my_request') }}"
+    data-schedule-of="{{ schedule_of }}" data-schedule-of-name="{{ schedule_of.strftime('%b %Y') }}"
+    data-url-add-request="{{ url_for('scheduler.append_my_request', scheduler=scheduler.id) }}"
+    data-url-update-request="{{ url_for('scheduler.update_my_request', request_id='request_id', scheduler=scheduler.id) }}"
+    data-calendar="{{ to_json(monthly_setting.as_calendar) }}" data-holidays="{{ monthly_setting.holidays }}"
+    data-paid-holidays="{{ operator.paid_holidays }}"></script>
 {% endblock %}

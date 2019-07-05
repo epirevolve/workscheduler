@@ -6,10 +6,10 @@ from flask_login import login_required
 
 from utils import jsonize
 
-from services import UserQuery
+from backend.services import UserQuery
+from backend.functions.controller import admin_required
+from backend.adapters import UserFacadeAdapter
 from applications.backend import get_db_session
-from functions.controller import admin_required
-from adapters import UserFacadeAdapter
 
 from ..adapters import UserCommandAdapter
 

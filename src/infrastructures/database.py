@@ -3,8 +3,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from services import UserCommand
-from services import UserQuery
+from backend.services import UserCommand
+from backend.services import UserQuery
 from domains.models import OrmBase
 from domains.models.user import Team
 
