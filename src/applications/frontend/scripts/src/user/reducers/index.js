@@ -7,4 +7,4 @@ export const initValue = ({
     user: JSON.parse(dataset.user)
 });
 
-export default combineWithCommonReducer({user});
+export default combineWithCommonReducer({ user });

@@ -108,9 +108,10 @@ def reset_password_user(user_id):
 def update_myself(user_id):
     session = get_db_session()
     try:
-        UserCommandAdapter(session).update_myself(jsonize.loads(request.data))
+        req = UserCommandAdapter(session).update_myself(jsonize.loads(request.data))
         session.commit()
-        response = jsonize.json_response()
+        session.refresh(req)
+        response = jsonize.json_response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()
         print(e)
