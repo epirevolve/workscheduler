@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block css %}
-<link rel='stylesheet' type="text/css" href="{{ url_for('schedulers.static', filename='css/scheduler-basic-setting.css') }}" />
+<link rel='stylesheet' type="text/css" href="{{ url_for('scheduler.static', filename='css/scheduler-basic-setting.css') }}" />
 {% endblock %}
 
 {% block script %}
@@ -9,5 +9,5 @@
         data-breads="{{ to_json([{ 'name': 'Scheduler Menu', 'url': url_for('scheduler.show_menu') }]) }}"></script>
 <script src="{{ url_for('scheduler.static', filename='js/schedulerBasicSetting.bundle.min.js') }}"
         data-scheduler="{{ to_json(scheduler) }}" data-skills="{{ to_json(skills) }}"
-        data-operators="{{ to_json(operators) }}" data-url="{{ url_for('schedulers_api.update_basic_setting') }}"></script>
+        data-operators="{{ to_json(operators) }}" data-url="{{ url_for('scheduler_api.update_basic_setting') }}"></script>
 {% endblock %}

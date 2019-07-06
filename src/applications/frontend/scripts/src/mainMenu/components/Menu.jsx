@@ -2,6 +2,7 @@ import React from 'react';
 
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import Box from "@material-ui/core/Box";
 
 import MenuCard from 'MenuCard';
 
@@ -44,7 +45,9 @@ const menu = () => (
         </Grid>
         {auth.isAdmin && (
             <>
-                <Divider css={css(my4)} />
+                <Box css={css(my4)}>
+                    <Divider />
+                </Box>
                 <Grid container spacing={2}>
                     {createCardInGrid("Scheduler", "scheduler-menu.svg", urlSchedulerMenu, "scheduler option and start to build")}
                     {createCardInGrid("Operators", "operators.svg", urlOperators, "what they can do")}

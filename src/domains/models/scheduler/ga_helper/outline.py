@@ -33,7 +33,7 @@ class SchedulerOutlineHelper:
     
     """
     
-    def __init__(self, last_month_schedules, work_categories, monthly_setting, operators):
+    def __init__(self, work_categories, monthly_setting, operators, last_month_schedules):
         """Prepare to run a scheduling.
         
         Obtain daily requests and daily fixed schedules from monthly setting and make a bit of change.
@@ -129,6 +129,8 @@ class SchedulerOutlineHelper:
         return genetic.run()
 
     def _calc_residue_last_month(self, operator):
+        if not self._last_month_schedules:
+            return 0, False
         last_schedules = list(filter(lambda x: x.operator == operator, self._last_month_schedules.components))
         if not last_schedules:
             return 0, False
