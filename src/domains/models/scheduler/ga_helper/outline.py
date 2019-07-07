@@ -151,7 +151,8 @@ class SchedulerOutlineHelper:
         remained_holiday_count = self._monthly_setting.holidays
 
         remained_day_offs, is_day_off = self._calc_residue_last_month(operator)
-        base_pool = [holiday_sign]*(remained_holiday_count - 1 if is_day_off else 0)
+        remained_holiday_count -= 1 if is_day_off else 0
+        base_pool = [holiday_sign]*remained_holiday_count
 
         request_days = [i for i, x in enumerate(self._daily_requests) if operator in x]
         requests_len = len(request_days)

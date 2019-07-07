@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import TableCell from '@material-ui/core/TableCell';
 import Select from '@material-ui/core/Select';
@@ -11,7 +12,7 @@ import { zip } from 'arrayUtil';
 import { p2 } from 'padding';
 
 const cellCss = css({
-    textAlign: 'center'
+    textAlign: 'center !important'
 },p2);
 
 const selectCss = css({
@@ -19,17 +20,21 @@ const selectCss = css({
     minWidth: '5rem'
 });
 
-const selectableCell = ({ categories, val, onCategoryChange }) => {
+const selectableCell = ({ categories, val, changeCategory }) => {
     const options = categories.map((x, i) => <MenuItem key={i} value={x}>{x}</MenuItem>);
-
     return (
         <TableCell css={cellCss}>
-            <Select value={val} onChange={onCategoryChange}
-                css={selectCss}>
+            <Select value={val} onChange={changeCategory} css={selectCss}>
                 {options}
             </Select>
         </TableCell>
     );
+};
+
+selectableCell.propTypes = {
+    categories: propTypes.array,
+    val: propTypes.any,
+    changeCategory: propTypes.func.isRequired
 };
 
 const areEqual = (prevProps, nextProps) => zip(prevProps["categories"], nextProps["categories"]).some(([x, y]) => x == y)

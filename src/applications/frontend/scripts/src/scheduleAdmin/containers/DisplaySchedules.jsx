@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
     onLoad: (team, scheduleOf) => {
         dispatch(requestSchedules(team, scheduleOf));
     },
-    onCategoryChange: (workCategories, operator) => (day, daySetting) => (e) => {
+    changeCategory: (workCategories, operator) => (day, daySetting) => (e) => {
         const category = e.target.value;
         dispatch(changeWorkCategory(operator, day, daySetting, category, workCategories));
     }

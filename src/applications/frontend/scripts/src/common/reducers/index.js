@@ -1,5 +1,5 @@
 export const initValue = {
     daySettings: [],
-    schedules: [],
+    schedules: {},
     scheduleOf: new Date().toYearMonthFormatString()
 };

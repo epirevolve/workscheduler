@@ -44,7 +44,7 @@ const commitActionArea = ({
 };
 
 commitActionArea.propTypes = {
-    schedules: propTypes.array,
+    schedules: propTypes.object,
     isPublished: propTypes.bool,
     isProgressing: propTypes.bool,
     save: propTypes.func.isRequired,
