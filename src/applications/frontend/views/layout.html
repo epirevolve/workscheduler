@@ -7,7 +7,6 @@
 
         <title>Work Scheduler</title>
 
-        <noscript id="jss-insertion-point"></noscript>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}" />
         <script type="text/javascript">
@@ -37,8 +36,11 @@
         data-url-logout="{{ url_for('user.logout') }}"></script>
     {% block script %}{% endblock %}
     <script>
-        const nodes = document.querySelectorAll('[data-jss]');
+        <!--    work around solution to override material design by emotion    -->
+        const nodes = document.querySelectorAll('[data-emotion="css"]');
         const head = document.querySelector('head');
-        nodes.forEach(x => head.insertBefore(x, document.getElementById('jss-insertion-point')));
+        const insertionPoint = document.createElement('nonscript');
+        head.appendChild(insertionPoint);
+        nodes.forEach(x => head.insertBefore(x, insertionPoint));
     </script>
 </html>

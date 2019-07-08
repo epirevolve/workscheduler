@@ -4,11 +4,11 @@ const controlTower = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
         case actionTypes.SUCCESS_FETCH_RUNNERS:
-            return {...state,
+            return { ...state,
                 currentRunners: payload.currentRunners
             };
         case actionTypes.SUCCESS_FETCH_LAUNCH_HISTORIES:
-            return {...state,
+            return { ...state,
                 launchHistories: payload.launchHistories
             };
         default:

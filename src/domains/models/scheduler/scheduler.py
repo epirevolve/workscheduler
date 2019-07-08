@@ -15,7 +15,6 @@ from utils.uuid import UuidFactory
 from .. import OrmBase
 from ..user import Team
 from . import MonthlySetting
-from . import YearlySetting
 from .history import ProcessStatus
 
 from .terminate_scheduler_error import TerminateSchedulerError
@@ -30,10 +29,10 @@ associated_monthly_setting_table\
             Column("right_id", String, ForeignKey('monthly_settings.id')))
 
 
-associated_yearly_setting_table\
-    = Table("associated_yearly_setting", OrmBase.metadata,
+associated_vacation_table\
+    = Table("associated_vacation", OrmBase.metadata,
             Column("left_id", String, ForeignKey('schedulers.id')),
-            Column("right_id", String, ForeignKey('yearly_settings.id')))
+            Column("right_id", String, ForeignKey('vacations.id')))
 
 
 associated_work_category_table\
@@ -48,7 +47,7 @@ class Scheduler(OrmBase):
     _team_id = Column(String, ForeignKey('teams.id'))
     team = relationship("Team", uselist=False, lazy='subquery')
     monthly_settings = relationship("MonthlySetting", secondary=associated_monthly_setting_table, lazy='subquery')
-    yearly_settings = relationship("YearlySetting", secondary=associated_yearly_setting_table, lazy='subquery')
+    vacations = relationship("Vacation", secondary=associated_vacation_table, lazy='subquery')
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
     work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='subquery')
@@ -56,13 +55,13 @@ class Scheduler(OrmBase):
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id: str, team: Team,
-                 monthly_settings: [] = None, yearly_settings: [] = None,
+                 monthly_settings: [] = None, vacations: [] = None,
                  certified_skill: bool = True, not_certified_skill: bool = True,
                  work_categories: [] = None, is_launching: bool = False, **kwargs):
         self.id = id
         self.team = team
         self.monthly_settings = monthly_settings or []
-        self.yearly_settings = yearly_settings or []
+        self.vacations = vacations or []
         self.certified_skill = certified_skill
         self.not_certified_skill = not_certified_skill
         self.work_categories = work_categories or []
@@ -84,15 +83,6 @@ class Scheduler(OrmBase):
         else:
             monthly_setting = monthly_setting[0]
         return monthly_setting
-    
-    def yearly_setting(self, year: int):
-        yearly_setting = list(filter(lambda x: x.year == year, self.yearly_settings))
-        if not yearly_setting:
-            yearly_setting = YearlySetting.new(year)
-            self.yearly_settings.append(yearly_setting)
-        else:
-            yearly_setting = yearly_setting[0]
-        return yearly_setting
 
     @staticmethod
     def post_to_pipe(pipe):

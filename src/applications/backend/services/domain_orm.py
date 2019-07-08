@@ -2,7 +2,6 @@
 
 from domains.models.scheduler import Scheduler
 from domains.models.scheduler import MonthlySetting
-from domains.models.scheduler import YearlySetting
 from domains.models.scheduler import WorkCategory
 from domains.models.scheduler import DaySetting
 from domains.models.scheduler import DayDetail
@@ -133,22 +132,15 @@ def to_vacation(data):
     return Vacation(**data, on_from=on_from, on_to=on_to)
 
 
-def to_yearly_setting(data):
-    if not data:
-        return None
-    vacations = [to_vacation(x) for x in default_pop(data, 'vacations', [])]
-    return YearlySetting(**data, vacations=vacations)
-
-
 def to_scheduler(data):
     if not data:
         return None
     team = to_team(default_pop(data, 'team'))
     monthly_settings = [to_monthly_setting(x) for x in default_pop(data, 'monthly_settings', [])]
-    yearly_settings = [to_yearly_setting(x) for x in default_pop(data, 'yearly_settings', [])]
+    vacations = [to_vacation(x) for x in default_pop(data, 'vacations', [])]
     work_categories = [to_work_category(x) for x in default_pop(data, 'work_categories', [])]
     return Scheduler(**data, team=team, monthly_settings=monthly_settings,
-                     yearly_settings=yearly_settings, work_categories=work_categories)
+                     vacations=vacations, work_categories=work_categories)
 
 
 def to_day_work_category(data):

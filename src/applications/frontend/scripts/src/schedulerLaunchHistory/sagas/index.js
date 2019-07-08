@@ -10,7 +10,7 @@ function *runFetchRunners(action) {
     const { res, error } = yield call(api.fetchCurrentRunners, action.payload);
     if (res && !error) {
         yield all([
-            put(actions.successFetchCurrentRunners(res)),
+            put(actions.successFetchCurrentRunners(JSON.parse(res.text))),
         ]);
     } else {
         yield all([
@@ -27,7 +27,7 @@ function *runFetchLaunchHistories(action) {
     const { res, error } = yield call(api.fetchLaunchHistories, action.payload);
     if (res && !error) {
         yield all([
-            put(actions.successFetchLaunchHistories(res)),
+            put(actions.successFetchLaunchHistories(JSON.parse(res.text))),
         ]);
     } else {
         yield all([

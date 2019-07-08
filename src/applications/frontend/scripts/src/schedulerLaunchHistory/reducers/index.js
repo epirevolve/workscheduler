@@ -10,4 +10,4 @@ export const initValue = ({
     }
 });
 
-export default combineWithCommonReducer({controlTower, ui});
+export default combineWithCommonReducer({ controlTower, ui });

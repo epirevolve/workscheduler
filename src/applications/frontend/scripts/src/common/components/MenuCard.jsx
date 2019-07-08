@@ -27,9 +27,9 @@ const titleCss = css({
 });
 
 const imageCss = css({
-    width: '190px',
-    height: '190px',
-    marginLeft: '5rem'
+    width: '180px',
+    height: '180px',
+    marginLeft: '30%'
 });
 
 const contentCss = css({

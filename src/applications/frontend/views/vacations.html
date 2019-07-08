@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block script %}
-<script id="breadscram" data-current="{{ to_json({'name': 'Yearly Setting of {}'.format(scheduler.team.name)}) }}"
+<script id="breadscram" data-current="{{ to_json({'name': 'Vacations of {}'.format(scheduler.team.name)}) }}"
         data-breads="{{ to_json([{ 'name': 'Scheduler Menu', 'url': url_for('scheduler.show_menu') }]) }}"></script>
-<script src="{{ url_for('scheduler.static', filename='js/schedulerYearlySetting.bundle.min.js') }}"
+<script src="{{ url_for('scheduler.static', filename='js/vacations.bundle.min.js') }}"
         data-scheduler="{{ to_json(scheduler) }}"></script>
 {% endblock %}

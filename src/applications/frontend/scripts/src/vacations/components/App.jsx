@@ -1,11 +1,11 @@
 import React from 'react';
 
-import YearlySettings from './YearlySettings';
+import DisplayAvailableVacations from '../containers/DisplayAvailableVacations';
 import Layout from 'Layout';
 
 const app = () => (
     <Layout>
-        <YearlySettings />
+        <DisplayAvailableVacations />
     </Layout>
 );
 

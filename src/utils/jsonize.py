@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import enum
 import re
 import json
 from datetime import datetime
@@ -30,6 +31,8 @@ def to_dict(obj):
 def json_serial(obj):
     if isinstance(obj, (datetime, date, time)):
         return obj.isoformat()
+    if issubclass(obj, enum.Enum):
+        return str(obj)
     raise TypeError("Type %s not serializable" % type(obj))
 
 

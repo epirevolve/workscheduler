@@ -7,7 +7,7 @@ export const startFetchCurrentRunners = () => ({
 
 export const successFetchCurrentRunners = (currentRunners) => ({
     type: actionTypes.SUCCESS_FETCH_RUNNERS,
-    payload: {currentRunners}
+    payload: { currentRunners }
 });
 
 export const failureFetchCurrentRunners = () => ({
@@ -22,7 +22,7 @@ export const startFetchLaunchHistories = () => ({
 
 export const successFetchLaunchHistories = (launchHistories) => ({
     type: actionTypes.SUCCESS_FETCH_LAUNCH_HISTORIES,
-    payload: {launchHistories}
+    payload: { launchHistories }
 });
 
 export const failureFetchLaunchHistories = () => ({
@@ -32,7 +32,7 @@ export const failureFetchLaunchHistories = () => ({
 
 export const startTerminateScheduler = (team) => ({
     type: actionTypes.START_TERMINATE_SCHEDULER,
-    payload: {team}
+    payload: { team }
 });
 
 export const successTerminateScheduler = () => ({

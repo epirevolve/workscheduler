@@ -150,7 +150,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
             adapter = individuals[0]
             adapters.append(adapter)
             self._era += 1
-            if self._era % 100 == 0:
+            if self._era % 1000 == 0:
                 print("era: {}, adaptability: {}".format(self._era, adapter.adaptability))
         return adapters[-1]
 

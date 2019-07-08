@@ -33,7 +33,7 @@ const createCardInGrid = (title, img, href, description, onClick = () => {}) => 
     img = `/statics/img/${img}`;
     return (
         <Grid item xs={12} md={6} lg={3}>
-            <MenuCard {...{title, img, href, description, onClick}} />
+            <MenuCard {...{ title, img, href, description, onClick }} />
         </Grid>
     );
 };
@@ -45,15 +45,15 @@ const yearCss = css({
 });
 
 const launchCalendarDialog = (state, setState, onLaunchSchedulerWrapper) => (
-    <Dialog open={state.openCalendar} onClose={() => setState((prev) => ({...prev, openCalendar: false }))}>
+    <Dialog open={state.openCalendar} onClose={() => setState((prev) => ({ ...prev, openCalendar: false }))}>
         <DialogTitle style={{ textAlign: 'center' }}>
             <IconButton aria-label="back year" css={mb3}
-                onClick={() => setState((prev) => ({...prev, year: state.year - 1}))}>
+                onClick={() => setState((prev) => ({ ...prev, year: state.year - 1 }))}>
                 <ArrowBackIosRoundedIcon />
             </IconButton>
             <span css={yearCss}>{state.year}</span>
             <IconButton aria-label="forward year" css={mb3}
-                onClick={() => setState((prev) => ({...prev, year: state.year + 1}))}>
+                onClick={() => setState((prev) => ({ ...prev, year: state.year + 1 }))}>
                 <ArrowForwardIosRoundedIcon />
             </IconButton>
         </DialogTitle>
@@ -78,10 +78,10 @@ const launchCalendarDialog = (state, setState, onLaunchSchedulerWrapper) => (
 
 const menuItems = ({ team, onLaunchScheduler }) => {
     const year = new Date().getFullYear();
-    const [state, setState] = React.useState({ openCalendar: false, year });
+    const [ state, setState ] = React.useState({ openCalendar: false, year });
 
     const onLaunchSchedulerWrapper = (month) => {
-        setState((prev) => ({...prev, openCalendar: false }));
+        setState((prev) => ({ ...prev, openCalendar: false }));
         onLaunchScheduler(team, month, state.year);
     };
 
@@ -95,14 +95,14 @@ const menuItems = ({ team, onLaunchScheduler }) => {
                 {createCardInGrid("Basic Setting", "scheduler-basic-setting.svg",
                     urlBasic.replace('team_id', team.id),
                     "set work category and witch parameter will be used when making a schedule")}
-                {createCardInGrid("Yearly Setting", "scheduler-yearly-setting.svg",
+                {createCardInGrid("Vacations", "scheduler-yearly-setting.svg",
                     urlYearly.replace('team_id', team.id),
-                    "set require number of member each day and prefixed schedule")}
+                    "register vacation periods and extra info")}
             </Grid>
             <Grid container spacing={2} css={my4} style={{ marginLeft: "0.2rem" }}>
                 {createCardInGrid("Launch", "scheduler-launch.svg",
                     "#", "create schedule of current team and selected month",
-                    () => setState((prev) => ({...prev, openCalendar: true })))}
+                    () => setState((prev) => ({ ...prev, openCalendar: true })))}
                 {createCardInGrid("Launch History", "scheduler-launch-history.svg",
                     urlLaunchHistories, "confirm launched history and current working scheduler")}
             </Grid>

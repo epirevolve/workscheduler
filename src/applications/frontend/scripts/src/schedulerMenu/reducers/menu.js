@@ -1,7 +1,7 @@
 const menu = (state = {}, action) => {
     switch (action.type) {
         case 'CHANGE_TEAM':
-            return {...state,
+            return { ...state,
                 team: action.team
             };
         default:
