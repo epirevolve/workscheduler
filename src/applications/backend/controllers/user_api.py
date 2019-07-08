@@ -127,7 +127,7 @@ def get_teams():
     return jsonize.json_response(jsonize.dumps(teams))
 
 
-bp.route('/teams', methods=['POST'])
+@bp.route('/teams', methods=['POST'])
 @login_required
 @admin_required
 def append_team():

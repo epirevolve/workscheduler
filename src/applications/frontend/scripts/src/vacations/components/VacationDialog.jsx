@@ -6,23 +6,23 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 
-import InputTeam from "../containers/InputTeam";
-import CommitTeam from "../containers/CommitTeam";
+import InputVacation from "../containers/InputVacation";
+import CommitVacation from "../containers/CommitVacation";
 
-const teamDialog = ({ isOpen }) => (
-    <Dialog open={isOpen} aria-labelledby="team-store" maxWidth="lg">
-        <DialogTitle>register team</DialogTitle>
+const vacationDialog = ({ isOpen }) => (
+    <Dialog open={isOpen} aria-labelledby="vacation-store" maxWidth="lg">
+        <DialogTitle>register vacation</DialogTitle>
         <DialogContent>
-            <InputTeam />
+            <InputVacation />
         </DialogContent>
         <DialogActions>
-            <CommitTeam />
+            <CommitVacation />
         </DialogActions>
     </Dialog>
 );
 
-teamDialog.propTypes = {
+vacationDialog.propTypes = {
     isOpen: propTypes.bool.isRequired
 };
 
-export default teamDialog;
+export default vacationDialog;

@@ -12,7 +12,6 @@ export const OPEN_DIALOG_UPDATE = Symbol();
 export const CLOSE_DIALOG = Symbol();
 
 export const CHANGE_TITLE = Symbol();
+export const CHANGE_DAYS_COUNT = Symbol();
 export const CHANGE_START_FROM = Symbol();
 export const CHANGE_END_ON = Symbol();
-export const CHANGE_DAYS_COUNT = Symbol();
-export const CHANGE_PARTICIPANTS_COUNT = Symbol();

@@ -7,9 +7,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { p2 } from 'padding';
 
 import { zip } from 'arrayUtil';
-import { p2 } from 'padding';
 
 const cellCss = css({
     textAlign: 'center !important'
@@ -17,7 +17,8 @@ const cellCss = css({
 
 const selectCss = css({
     maxWidth: '5rem',
-    minWidth: '5rem'
+    minWidth: '5rem',
+    paddingRight: '27px',
 });
 
 const selectableCell = ({ categories, val, changeCategory }) => {

@@ -1,6 +1,6 @@
 import * as actionTypes from "../actionTypes";
 
-const dialog = (state, action) => {
+const dialog = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_APPEND:

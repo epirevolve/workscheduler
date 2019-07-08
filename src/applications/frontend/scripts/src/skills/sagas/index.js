@@ -50,7 +50,7 @@ function *runRemoveSkill(action) {
     const { error } = yield call(api.removeSkill, action.payload);
     if (!error) {
         yield all([
-            put(actions.successRemoveSkill()),
+            put(actions.successRemoveSkill(action.payload.id)),
             put(showSnackbar('Succeed to remove a skill')),
             put(actions.closeDialog())
         ]);
