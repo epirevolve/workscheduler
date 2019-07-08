@@ -57,17 +57,14 @@ def show_basic_setting():
                            scheduler=scheduler, skills=skills, operators=operators)
 
 
-@bp.route('/yearly-settings')
+@bp.route('/vacations')
 @login_required
 @admin_required
-def show_yearly_setting():
+def show_vacations():
     team_id = request.args.get('team')
-    year = request.args.get('year') or datetime.now().year
     session = get_db_session()
     scheduler = SchedulerQuery(session).get_scheduler_of_team_id(team_id)
-    yearly_setting = scheduler.yearly_setting(year)
-    return render_template('scheduler-yearly-setting.html',
-                           scheduler=scheduler, yearly_setting=yearly_setting)
+    return render_template('vacations.html', scheduler=scheduler)
 
 
 @bp.route('/launch-histories')

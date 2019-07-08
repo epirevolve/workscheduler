@@ -10,10 +10,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    changeTitle: (id) => (e) => dispatch(actions.changeTitle(id, e.target.value)),
-    changeDaysCount: (id) => (e) => dispatch(actions.changeDaysCount(id, e.target.value)),
-    changeStartFrom: (id) => (date) => dispatch(actions.changeStartFrom(id, date)),
-    changeEndOn: (id) => (date) => dispatch(actions.changeEndOn(id, date)),
+    changeTitle: (e) => dispatch(actions.changeTitle(e.target.value)),
+    changeDaysCount: (e) => dispatch(actions.changeDaysCount(e.target.value)),
+    changeStartFrom: (e) => dispatch(actions.changeStartFrom(e.target.value)),
+    changeEndOn: (e) => dispatch(actions.changeEndOn(e.target.value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VacationForm);

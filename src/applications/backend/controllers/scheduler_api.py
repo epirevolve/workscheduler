@@ -105,14 +105,30 @@ def update_basic_setting():
     return response
 
 
-@bp.route('/yearly-setting', methods=['PUT'])
+@bp.route('/vacations', methods=['POST'])
 @login_required
 @admin_required
-def update_yearly_setting():
-    scheduler_id = request.args.get('scheduler_id')
+def append_vacation():
     session = get_db_session()
     try:
-        SchedulerCommandAdapter(session).update_yearly_setting(scheduler_id, jsonize.loads(request.data))
+        res = SchedulerCommandAdapter(session).append_vacation(jsonize.loads(request.data))
+        session.commit()
+        session.refresh(res)
+        response = jsonize.json_response(res)
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = jsonize.json_response(status_code=400)
+    return response
+
+
+@bp.route('/vacations', methods=['PUT'])
+@login_required
+@admin_required
+def update_vacation():
+    session = get_db_session()
+    try:
+        SchedulerCommandAdapter(session).update_vacation(jsonize.loads(request.data))
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -145,7 +161,7 @@ def launch_scheduler():
 @bp.route('/current-runners')
 @login_required
 @admin_required
-def get_current_runnners():
+def get_current_runners():
     current_runners = SchedulerQuery(get_db_session()).get_current_runners()
     return jsonize.json_response(jsonize.dumps(current_runners))
 

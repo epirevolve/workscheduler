@@ -10,11 +10,11 @@ const VacationForm = ({
     <>
        <TextField autoFocus margin="dense" label="title" fullWidth required
             onChange={changeTitle} value={vacation.title} />
-        <TextField margin="dense" label="note" fullWidth
+        <TextField margin="dense" label="days count" fullWidth type="number"
             onChange={changeDaysCount} value={vacation.daysCount} />
-        <TextField margin="dense" label="note" fullWidth
+        <TextField margin="dense" label="from" fullWidth type="date" required
             onChange={changeStartFrom} value={vacation.startFrom} />
-        <TextField margin="dense" label="note" fullWidth
+        <TextField margin="dense" label="to" fullWidth type="date" required
             onChange={changeEndOn} value={vacation.endOn} />
     </>
 );

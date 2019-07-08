@@ -55,22 +55,22 @@ export const closeDialog = () => ({
     type: actionTypes.CLOSE_DIALOG
 });
 
-export const changeTitle = (id, text) => ({
+export const changeTitle = (text) => ({
     type: actionTypes.CHANGE_TITLE,
-    payload: { id, text }
+    payload: { text }
 });
 
-export const changeStartFrom = (id, date) => ({
-    type: actionTypes.CHANGE_START_FROM,
-    payload: { id, date }
-});
-
-export const changeEndOn = (id, date) => ({
-    type: actionTypes.CHANGE_END_ON,
-    payload: { id, date }
-});
-
-export const changeDaysCount = (id, count) => ({
+export const changeDaysCount = (count) => ({
     type: actionTypes.CHANGE_DAYS_COUNT,
-    payload: { id, count }
+    payload: { count }
+});
+
+export const changeStartFrom = (date) => ({
+    type: actionTypes.CHANGE_START_FROM,
+    payload: { date }
+});
+
+export const changeEndOn = (date) => ({
+    type: actionTypes.CHANGE_END_ON,
+    payload: { date }
 });

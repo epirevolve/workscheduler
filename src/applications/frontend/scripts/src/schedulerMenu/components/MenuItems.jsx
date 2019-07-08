@@ -18,7 +18,7 @@ import { jsx, css } from '@emotion/core';
 const dataset = document.querySelector('script[src*="schedulerMenu"]').dataset;
 const urlMonthly = dataset.urlMonthly;
 const urlBasic = dataset.urlBasic;
-const urlYearly = dataset.urlYearly;
+const urlVacations = dataset.urlVacations;
 const urlLaunchHistories = dataset.urlLaunchHistories;
 
 const createGridButton = (handle, val) => (
@@ -95,8 +95,8 @@ const menuItems = ({ team, onLaunchScheduler }) => {
                 {createCardInGrid("Basic Setting", "scheduler-basic-setting.svg",
                     urlBasic.replace('team_id', team.id),
                     "set work category and witch parameter will be used when making a schedule")}
-                {createCardInGrid("Vacations", "scheduler-yearly-setting.svg",
-                    urlYearly.replace('team_id', team.id),
+                {createCardInGrid("Vacations", "vacations.svg",
+                    urlVacations.replace('team_id', team.id),
                     "register vacation periods and extra info")}
             </Grid>
             <Grid container spacing={2} css={my4} style={{ marginLeft: "0.2rem" }}>

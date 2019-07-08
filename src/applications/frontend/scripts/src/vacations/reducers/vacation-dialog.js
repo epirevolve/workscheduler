@@ -1,8 +1,6 @@
 import * as actionTypes from "../actionTypes";
 
-import moment from 'moment';
-
-const dialog = (state, action) => {
+const dialog = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_APPEND:
@@ -10,8 +8,8 @@ const dialog = (state, action) => {
                 id: '',
                 title: '',
                 daysCount: 0,
-                startFrom: moment.now().toDateFormatString(),
-                endOn: moment.now().toDateFormatString(),
+                startFrom: new Date().toDateFormatString(),
+                endOn: new Date().toDateFormatString(),
             };
         case actionTypes.OPEN_DIALOG_UPDATE:
             return { ...state,
@@ -31,11 +29,11 @@ const dialog = (state, action) => {
             };
         case actionTypes.CHANGE_START_FROM:
             return { ...state,
-                startFrom: payload.date.toDate().toDateFormatString(),
+                startFrom: payload.date,
             };
         case actionTypes.CHANGE_END_ON:
             return { ...state,
-                endOn: payload.date.toDate().toDateFormatString(),
+                endOn: payload.date,
             };
         default:
             return state;

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from collections import namedtuple
 
 from flask_login import current_user
 
-from backend.functions.converter import to_date
 from backend.services import SchedulerCommand
 from backend.services.domain_orm import to_monthly_setting
 from backend.services.domain_orm import to_scheduler
+from backend.services.domain_orm import to_vacation
+from backend.services.domain_orm import to_request
 
 
 class SchedulerCommandAdapter:
@@ -27,14 +27,14 @@ class SchedulerCommandAdapter:
     def update_basic_setting(self, data: dict):
         scheduler = to_scheduler(data)
         return SchedulerCommand(self._session).update_basic_setting(scheduler)
-    
-    def update_yearly_setting(self, scheduler_id: str, data: dict):
-        Vacation = namedtuple('Vacation', ('id', 'title', 'on_from', 'on_to', 'days'))
-        vacations = [Vacation(
-            x.get('id'), x.get('title'), to_date(x.get('on_from')),
-            to_date(x.get('on_to')), x.get('days')) for x in data.get('vacations')]
-        return SchedulerCommand(self._session).update_yearly_setting(
-            scheduler_id, data.get('year'), vacations)
+
+    def append_vacation(self, data: dict):
+        vacation = to_vacation(data.get('vacation'))
+        return SchedulerCommand(self._session).append_vacation(data.get('scheduler_id'), vacation)
+
+    def update_vacation(self, data: dict):
+        vacation = to_vacation(data.get('vacation'))
+        return SchedulerCommand(self._session).update_vacation(vacation)
     
     def launch(self, data: dict):
         return SchedulerCommand(self._session).launch(
@@ -59,6 +59,7 @@ class SchedulerCommandAdapter:
         )
 
     def update_my_request(self, scheduler_id: str, data: dict):
+        request = to_request(data.get('request'))
         id_ = data.get('id')
         title = data.get('title')
         note = data.get('note') or ''
@@ -73,5 +74,5 @@ class SchedulerCommandAdapter:
             note, at_from, at_to
         )
 
-    def remove_my_request(self, id_: str):
-        return SchedulerCommand(self._session).remove_my_request(id_)
+    def remove_my_request(self, id: str):
+        return SchedulerCommand(self._session).remove_my_request(id)
