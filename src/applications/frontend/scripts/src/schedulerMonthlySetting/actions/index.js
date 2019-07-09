@@ -1,65 +1,106 @@
 import * as actionTypes from '../actionTypes';
 
+export const changeScheduleOf = (scheduleOf) => ({
+    type: actionTypes.CHANGE_SCHEDULE_OF,
+    payload: { scheduleOf }
+});
+
 export const changeRequire = (day, categoryId, require) => ({
-    type: 'CHANGE_REQUIRE',
-    day,
-    categoryId,
-    require
+    type: actionTypes.CHANGE_REQUIRE,
+    payload: { day, categoryId, require }
 });
 
 export const changeIsHoliday = (day, isHoliday) => ({
-    type: 'CHANGE_IS_HOLIDAY',
-    day,
-    isHoliday
+    type: actionTypes.CHANGE_IS_HOLIDAY,
+    payload: { day, isHoliday }
 });
 
 export const changeMonthlyHoliday = (count) => ({
-    type: 'CHANGE_MONTHLY_HOLIDAY',
-    count
+    type: actionTypes.CHANGE_MONTHLY_HOLIDAY,
+    payload: { count }
 });
 
-export const changeFixedScheduleTitle = (id, title) => ({
-    type: 'CHANGE_FIXED_SCHEDULE_TITLE',
-    id,
-    title
+export const changeTitle = (title) => ({
+    type: actionTypes.CHANGE_TITLE,
+    payload: { title }
 });
 
-export const changeFixedScheduleDate = (id, date) => ({
-    type: 'CHANGE_FIXED_SCHEDULE_DATE',
-    id,
-    date
+export const changeDate = (date) => ({
+    type: actionTypes.CHANGE_DATE,
+    payload: { date }
 });
 
-export const changeFixedScheduleAtFrom = (id, atFrom) => ({
-    type: 'CHANGE_FIXED_SCHEDULE_AT_FROM',
-    id,
-    atFrom
+export const changeAtFrom = (atFrom) => ({
+    type: actionTypes.CHANGE_AT_FROM,
+    payload: { atFrom }
 });
 
-export const changeFixedScheduleAtTo = (id, atTo) => ({
-    type: 'CHANGE_FIXED_SCHEDULE_AT_TO',
-    id,
-    atTo
+export const changeAtTo = (atTo) => ({
+    type: actionTypes.CHANGE_AT_TO,
+    payload: { atTo }
 });
 
-export const changeFixedScheduleParticipant = (id, participant) => ({
-    type: 'CHANGE_FIXED_SCHEDULE_PARTICIPANT',
-    id,
-    participant
+export const changeParticipant = (participant) => ({
+    type: actionTypes.CHANGE_PARTICIPANT,
+    payload: { participant }
 });
 
-export const addFixedSchedule = () => ({
-    type: 'ADD_FIXED_SCHEDULE'
+export const openDialogToAppend = () => ({
+    type: actionTypes.OPEN_DIALOG_APPEND
+});
+
+export const openDialogToUpdate = (fixedSchedule) => ({
+    type: actionTypes.OPEN_DIALOG_UPDATE,
+    payload: { fixedSchedule }
+});
+
+export const closeDialog = () => ({
+    type: actionTypes.CLOSE_DIALOG
+});
+
+export const appendFixedSchedule = (fixedSchedule) => ({
+    type: actionTypes.APPEND_FIXED_SCHEDULE,
+    payload: { fixedSchedule }
+});
+
+export const updateFixedSchedule = (fixedSchedule) => ({
+    type: actionTypes.UPDATE_FIXED_SCHEDULE,
+    payload: { fixedSchedule }
 });
 
 export const removeFixedSchedule = (id) => ({
-    type: 'REMOVE_FIXED_SCHEDULE',
-    id
+    type: actionTypes.REMOVE_FIXED_SCHEDULE,
+    payload: { id }
 });
 
-export const startSaveMonthlySetting = (monthlySetting) => ({
+export const startFetchMonthlySetting = (team, scheduleOf) => ({
+    type: actionTypes.START_FETCH_MONTHLY_SETTING,
+    payload: { team, scheduleOf }
+});
+
+export const successFetchMonthlySetting = (monthlySetting) => ({
+    type: actionTypes.SUCCESS_FETCH_MONTHLY_SETTING,
+    payload: { monthlySetting }
+});
+
+export const failureFetchMonthlySetting = () => ({
+    type: actionTypes.FAILURE_FETCH_MONTHLY_SETTING,
+    payload: { message: '' }
+});
+
+export const startUpdateMonthlySetting = (monthlySetting) => ({
     type: actionTypes.START_UPDATE_MONTHLY_SETTING,
     payload: { monthlySetting }
+});
+
+export const successUpdateMonthlySetting = () => ({
+    type: actionTypes.SUCCESS_UPDATE_MONTHLY_SETTING,
+    payload: { message: '' }
+});
+
+export const failureUpdateMonthlySetting = () => ({
+    type: actionTypes.FAILURE_UPDATE_MONTHLY_SETTING,
+    payload: { message: '' }
 });
 
 export const startPublicMonthlySetting = (monthlySetting) => ({
@@ -67,22 +108,12 @@ export const startPublicMonthlySetting = (monthlySetting) => ({
     payload: { monthlySetting }
 });
 
-export const successMonthlySettingUpdate = () => ({
-    type: actionTypes.SUCCESS_UPDATE_MONTHLY_SETTING,
-    payload: { message: '' }
-});
-
-export const failureMonthlySettingUpdate = () => ({
-    type: actionTypes.FAILURE_UPDATE_MONTHLY_SETTING,
-    payload: { message: '' }
-});
-
-export const successMonthlySettingPublic = () => ({
+export const successPublicMonthlySetting = () => ({
     type: actionTypes.SUCCESS_PUBLIC_MONTHLY_SETTING,
     payload: { message: '' }
 });
 
-export const failureMonthlySettingPublic = () => ({
+export const failurePublicMonthlySetting = () => ({
     type: actionTypes.FAILURE_PUBLIC_MONTHLY_SETTING,
     payload: { message: '' }
 });

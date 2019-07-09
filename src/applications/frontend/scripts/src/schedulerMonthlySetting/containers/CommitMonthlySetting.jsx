@@ -11,7 +11,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    save: (monthlySetting) => dispatch(actions.startSaveMonthlySetting(monthlySetting)),
+    save: (monthlySetting) => dispatch(actions.startUpdateMonthlySetting(monthlySetting)),
     publish: (monthlySetting) => dispatch(actions.startPublicMonthlySetting(monthlySetting))
 });
 

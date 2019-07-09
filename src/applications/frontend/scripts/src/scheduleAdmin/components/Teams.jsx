@@ -11,7 +11,7 @@ import { css, jsx } from '@emotion/core';
 const dataset = document.querySelector('script[src*="scheduleAdmin"]').dataset;
 
 const teamCss = css({
-    '& fieldset': {border: 0}
+    '& fieldset': { border: 0 }
 });
 
 import { lightslategray } from 'color';

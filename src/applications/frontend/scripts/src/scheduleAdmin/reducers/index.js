@@ -5,7 +5,7 @@ import teams from './teams';
 import ui from './ui';
 
 const dataset = document.querySelector('script[id="baseSchedule"]').dataset;
-import { initValue as schedulesInitValue } from '../../common/reducers';
+import { initValue as schedulesInitValue } from '../../common/reducers/schedules';
 export const initValue = {
     schedules: schedulesInitValue,
     teams: { team: JSON.parse(dataset.team) },

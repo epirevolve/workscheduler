@@ -85,8 +85,8 @@ class SchedulerCommand:
             team_id, *self._get_last_month(month, year))
         team = UserQuery(self._session).get_team(team_id)
         self._session.expunge_all()
-        if scheduler.is_launching:
-            raise AlreadyLaunchError()
+        # if scheduler.is_launching:
+        #     raise AlreadyLaunchError()
         try:
             self.turn_on_scheduler_launching(scheduler)
             history = self.append_new_history(team, month, year)

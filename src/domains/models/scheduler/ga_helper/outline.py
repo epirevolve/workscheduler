@@ -95,31 +95,36 @@ class SchedulerOutlineHelper:
                 adaptability += ratio
         return max(0, 1 - adaptability)
 
-    @staticmethod
-    def _translate_as_gene(indices, base):
-        return [base[i] for i in indices]
+    def _translate_as_gene(self, indices, base, operator):
+        remained_day_off, is_day_off = self._calc_residue_last_month(operator)
+        return [day_off_sign] * remained_day_off + [holiday_sign] * (1 if is_day_off else 0) \
+            + [base[i] for i in indices]
 
     def _evaluate(self, operator, base):
         def _fnc(loci):
             adaptability = 3
-            protein = self._translate_as_gene(loci, base)
-            adaptability += self._evaluate_by_continuous_attendance(protein, 4)
-            adaptability += self._evaluate_by_holiday_continuity(protein, 3)
-            adaptability += self._evaluate_by_week_day_operator(protein, operator, 10)
-            adaptability *= self._evaluate_by_request(protein, operator)
-            adaptability *= self._evaluate_by_fixed_schedule(protein, operator)
+            gene = self._translate_as_gene(loci, base, operator)
+            adaptability += self._evaluate_by_continuous_attendance(gene, 4)
+            adaptability += self._evaluate_by_holiday_continuity(gene, 3)
+            adaptability += self._evaluate_by_week_day_operator(gene, operator, 10)
+            adaptability *= self._evaluate_by_request(gene, operator)
+            adaptability *= self._evaluate_by_fixed_schedule(gene, operator)
             return adaptability
         return _fnc
 
-    def _need_unique_schedule(self, operator):
-        return operator in set([y for x in self._daily_requests for y in x])\
-               or operator in set([y for x in self._daily_fixed_schedules for y in x])\
-               or operator in set([y for x in self._work_categories for y in x.week_day_operators])
+    def _is_need_unique_schedule(self, operator):
+        return operator in set([y for x in self._daily_requests for y in x]) \
+            or operator in set([y for x in self._daily_fixed_schedules for y in x]) \
+            or operator in set([y for x in self._work_categories for y in x.week_day_operators])
+
+    def _is_end_with_day_off_need_categories(self, operator):
+        _, is_day_off = self._calc_residue_last_month(operator)
+        return is_day_off
 
     def _genetic_wrapper(self, args):
         operator, base_pool = args
         genetic = Genetic(evaluation=self._evaluate(operator, base_pool),
-                          base_kind=range(len(self._monthly_setting.days)), homo_progeny_restriction=True,
+                          base_kind=range(len(base_pool)), homo_progeny_restriction=True,
                           saturated_limit=60, generation_size=1000, population_size=500)
         genetic.parent_selection = build_parent_selection()
         genetic.survivor_selection = build_survivor_selection(genetic.population_size)
@@ -136,12 +141,12 @@ class SchedulerOutlineHelper:
             return 0, False
         last_schedules = last_schedules[0]
         day_off_work_categories = list(filter(lambda x: x.day_offs > 0, self._work_categories))
-        target_sign = last_schedules.day_work_categories[-1]
+        target_sign = last_schedules.day_work_categories[-1].work_category_id
         if target_sign != day_off_sign and target_sign not in map(lambda x: x.id, day_off_work_categories):
             return 0, False
 
-        for i in range(1, len(self._monthly_setting.days)+1):
-            target_sign = last_schedules.day_work_categories[-i]
+        for i in range(1, len(self._monthly_setting.days)-1):
+            target_sign = last_schedules.day_work_categories[-i].work_category_id
             if target_sign in map(lambda x: x.id, day_off_work_categories):
                 remained_day_offs = find(lambda x: x.id == target_sign, day_off_work_categories).day_offs - i + 1
                 return remained_day_offs, True
@@ -172,25 +177,30 @@ class SchedulerOutlineHelper:
 
         if len(base_pool) > len(self._monthly_setting.days):
             raise Exception('{} is excess request'.format(operator.user.name))
-        base_pool += [work_day_sign]*(len(self._monthly_setting.days)-len(base_pool)-remained_day_offs)
+        base_pool += [work_day_sign]*(
+                len(self._monthly_setting.days)-len(base_pool)-remained_day_offs-(1 if is_day_off else 0))
         return base_pool
     
     def _batch_genetic_wrapper(self, operator):
         base_pool = self._generate_base_pool(operator)
         with Pool(multi.cpu_count()) as p:
-            batch = p.map(self._genetic_wrapper, [(operator, base_pool) for _ in range(1000)])
-        remained_day_off, is_day_off = self._calc_residue_last_month(operator)
-        return [[day_off_sign]*remained_day_off + [holiday_sign]*(1 if is_day_off else 0)
-                + self._translate_as_gene(x.gene, base_pool) for x in batch]
+            batch = p.map(self._genetic_wrapper, [(operator, base_pool) for _ in range(10)])
+        return [self._translate_as_gene(x.gene, base_pool, operator) for x in batch]
     
     def run(self):
         common_gene = None
+        common_day_off_gene = {}
         compatibles = []
         print("""====================
 ## start outlines building""")
         for operator in self._operators:
-            if self._need_unique_schedule(operator):
+            if self._is_need_unique_schedule(operator):
                 compatibles.append(self._batch_genetic_wrapper(operator))
+            elif self._is_end_with_day_off_need_categories(operator):
+                count, _ = self._calc_residue_last_month(operator)
+                if not common_day_off_gene.get(count):
+                    common_day_off_gene[count] = self._batch_genetic_wrapper(operator)
+                compatibles.append([x[:] for x in common_day_off_gene.get(count)])
             else:
                 if not common_gene:
                     common_gene = self._batch_genetic_wrapper(operator)

@@ -1,12 +1,12 @@
 import React from 'react';
 
 import Layout from 'Layout';
-import Header from './Header';
+import DisplayHeader from '../containers/DisplayHeader';
 import DisplaySchedules from '../containers/DisplaySchedules';
 
 const app = () => (
     <Layout>
-        <Header />
+        <DisplayHeader />
         <DisplaySchedules />
     </Layout>
 );

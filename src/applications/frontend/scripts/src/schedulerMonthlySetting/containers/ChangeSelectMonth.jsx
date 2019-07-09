@@ -1,19 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../common/actions';
+import * as actions from '../actions';
 
 import MonthSelect from '../../common/components/MonthSelect';
 
+import { team } from '../embededData';
+
 const mapStateToProps = (state) => ({
-    team: state.teams.team,
-    monthYear: state.schedules.scheduleOf
+    monthYear: state.monthlySetting.scheduleOf
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
     changeMonthYear: (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(actions.requestSchedules(ownProps.team, scheduleOf));
+        dispatch(actions.startFetchMonthlySetting(team, scheduleOf));
         dispatch(actions.changeScheduleOf(scheduleOf));
     }
 });

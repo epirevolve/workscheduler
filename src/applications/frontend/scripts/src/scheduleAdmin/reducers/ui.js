@@ -1,4 +1,4 @@
-import base from '../../common/reducers/ui';
+import base from 'uiReducer';
 
 import * as actionTypes from '../actionTypes';
 

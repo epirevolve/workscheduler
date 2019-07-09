@@ -1,17 +1,19 @@
 import React from 'react';
 
-import MonthSelect from './MonthSelect';
-import DisplayDaySettings from '../containers/DisplayDaySettings';
+import OpenDialog from "../containers/OpenDialog";
+import ChangeSelectMonth from '../containers/ChangeSelectMonth';
+import ManageDaySettings from '../containers/ManageDaySettings';
 import AdjustMonthlyHolidayCount from '../containers/AdjustMonthlyHolidayCount';
-import SetFixedSchedules from '../containers/SetFixedSchedules';
+import DisplayFixedSchedules from '../containers/DisplayFixedSchedules';
 import CommitMonthlySetting from '../containers/CommitMonthlySetting';
 
 const monthlySetting = () => (
     <>
-        <MonthSelect />
-        <DisplayDaySettings />
+        <OpenDialog />
+        <ChangeSelectMonth />
+        <ManageDaySettings />
         <AdjustMonthlyHolidayCount />
-        <SetFixedSchedules />
+        <DisplayFixedSchedules />
         <CommitMonthlySetting />
     </>
 );

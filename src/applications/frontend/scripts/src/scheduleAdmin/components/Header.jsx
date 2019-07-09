@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,10 +13,9 @@ import CommitSchedules from '../containers/CommitSchedules';
 
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-
 import { mb3 } from 'margin';
 
-const header = () => (
+const header = ({ team }) => (
     <AppBar position="static" color="default" css={mb3}>
         <Toolbar>
             <Grid container>
@@ -25,12 +25,16 @@ const header = () => (
                 <Grid item xs={12} lg={8}>
                     <ConfirmPublishState />
                     <ExportAsCsv />
-                    <ChangeSelectMonth />
+                    <ChangeSelectMonth team={team} />
                     <CommitSchedules />
                 </Grid>
             </Grid>
         </Toolbar>
     </AppBar>
 );
+
+header.propTypes = {
+    team: propTypes.object
+};
 
 export default header;

@@ -20,4 +20,10 @@ const schedules = (state = {}, action) => {
     }
 };
 
+export const initValue = {
+    daySettings: [],
+    schedules: {},
+    scheduleOf: new Date().toYearMonthFormatString()
+};
+
 export default schedules;

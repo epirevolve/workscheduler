@@ -8,7 +8,7 @@ import DayHeaderCell from './DayHeaderCell';
 
 const dayHeaderRow = ({ days }) => {
     const headers = [];
-    for (const [index, day] of days.entries()) {
+    for (const [ index, day ] of days.entries()) {
         headers.push(<DayHeaderCell key={index} day={day} />);
     }
 

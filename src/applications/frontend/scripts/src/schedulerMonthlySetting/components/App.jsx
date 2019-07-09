@@ -1,12 +1,20 @@
 import React from 'react';
 
 import MonthlySetting from './MonthlySetting';
-import Layout from 'Layout';
+import WaitLoading from 'WaitLoading';
+
+import { fetchMonthlySetting } from "../services/api";
+
+import { team } from '../embededData';
 
 const app = () => (
-    <Layout>
+    <WaitLoading>
         <MonthlySetting />
-    </Layout>
+    </WaitLoading>
 );
+
+const scheduleOf = new Date().addMonths(1).toYearMonthFormatString();
+
+fetchMonthlySetting({ scheduleOf, team });
 
 export default app;

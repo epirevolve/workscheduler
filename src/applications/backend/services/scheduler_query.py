@@ -43,4 +43,5 @@ class SchedulerQuery:
         return self._session.query(Scheduler).filter(Scheduler.is_launching).all()
 
     def get_launch_histories(self) -> [History]:
-        return self._session.query(History).all()
+        return self._session.query(History)\
+            .order_by(History.create_at.desc()).all()

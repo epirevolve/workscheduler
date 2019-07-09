@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block script %}
-<script id="baseSchedule" data-team="{{ to_json(team) }}" data-schedule-of="{{ schedule_of }}"></script>
+<script id="baseSchedule" data-team="{{ to_json(team) }}"></script>
 <script id="breadscram" data-current="{{ to_json({'name': 'Schedules'}) }}"></script>
 {% block appendScript %}{% endblock %}
 {% endblock %}

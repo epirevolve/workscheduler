@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
 
-import snackbar from 'snackbarReducers';
+import snackbar from 'snackbarReducer';
 
-export const combineWithCommonReducer = (other) => {
-    return combineReducers({snackbar, ...other});
-};
+export const combineWithCommonReducer = (other) => combineReducers({ snackbar, ...other });

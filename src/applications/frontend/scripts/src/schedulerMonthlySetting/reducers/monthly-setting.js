@@ -1,138 +1,75 @@
-import moment from 'moment';
-
-import { newPseudoUuid } from 'idUtil';
-
-const dataset = document.querySelector('script[src*="schedulerMonthly"]').dataset;
-const scheduleOf = dataset.scheduleOf;
+import * as actionTypes from "../actionTypes";
 
 const monthlySetting = (state = {}, action) => {
+    const payload = action.payload;
     switch (action.type) {
-        case 'CHANGE_REQUIRE':
-            return {...state,
+        case actionTypes.SUCCESS_FETCH_MONTHLY_SETTING:
+            return { ...state,
+                ...payload.monthlySetting
+            };
+        case actionTypes.CHANGE_REQUIRE:
+            return { ...state,
                 days: state.days.map((x) => {
-                    if (x.day != action.day) return x;
-                    return {...x,
+                    if (x.day != payload.day) return x;
+                    return { ...x,
                         details: x.details.map((detail) => {
-                            if (detail.workCategory.id != action.categoryId) return detail;
-                            return {...detail,
-                                require: action.require
+                            if (detail.workCategory.id != payload.categoryId) return detail;
+                            return { ...detail,
+                                require: payload.require
                             };
                         })
                     };
                 })
             };
-        case 'CHANGE_IS_HOLIDAY':
-            return {...state,
+        case actionTypes.CHANGE_IS_HOLIDAY:
+            return { ...state,
                 days: state.days.map((x) => {
-                    if (x.day != action.day) return x;
-                    return {...x,
-                        isHoliday: action.isHoliday
+                    if (x.day != payload.day) return x;
+                    return { ...x,
+                        isHoliday: payload.isHoliday
                     };
                 })
             };
-        case 'CHANGE_MONTHLY_HOLIDAY':
-            return {...state,
-                holidays: action.count
+        case actionTypes.CHANGE_MONTHLY_HOLIDAY:
+            return { ...state,
+                holidays: payload.count
             };
-        case 'CHANGE_FIXED_SCHEDULE_TITLE':
-            return {...state,
+        case actionTypes.APPEND_FIXED_SCHEDULE: {
+            const onFrom = payload.fixedSchedule.onFrom.toDate().getDate();
+            const onTo = payload.fixedSchedule.onTo.toDate().getDate();
+            return { ...state,
                 days: state.days.map((x) => {
-                    if (!x.fixedSchedules.map((y) => y.id).includes(action.id)) return x;
-                    return {...x,
-                        fixedSchedules: x.fixedSchedules.map((y) => {
-                            if (y.id != action.id) return y;
-                            return {...y,
-                                title: action.title
-                            };
-                        })
-                    };
-                })
-            };
-        case 'CHANGE_FIXED_SCHEDULE_DATE':
-            return {...state,
-                days: state.days.map((x) => {
-                    if (!x.fixedSchedules.map((y) => y.id).includes(action.id)) return x;
-                    return {...x,
-                        fixedSchedules: x.fixedSchedules.map((y) => {
-                            if (y.id != action.id) return y;
-                            return {...y,
-                                onFrom: action.date[0].toDate().toDateFormatString(),
-                                onTo: action.date[1].toDate().toDateFormatString()
-                            };
-                        })
-                    };
-                })
-            };
-        case 'CHANGE_FIXED_SCHEDULE_AT_FROM':
-            return {...state,
-                days: state.days.map((x) => {
-                    if (!x.fixedSchedules.map((y) => y.id).includes(action.id)) return x;
-                    return {...x,
-                        fixedSchedules: x.fixedSchedules.map((y) => {
-                            if (y.id != action.id) return y;
-                            return {...y,
-                                atFrom: `${action.atFrom}:00`
-                            };
-                        })
-                    };
-                })
-            };
-        case 'CHANGE_FIXED_SCHEDULE_AT_TO':
-            return {...state,
-                days: state.days.map((x) => {
-                    if (!x.fixedSchedules.map((y) => y.id).includes(action.id)) return x;
-                    return {...x,
-                        fixedSchedules: x.fixedSchedules.map((y) => {
-                            if (y.id != action.id) return y;
-                            return {...y,
-                                atTo: `${action.atFrom}:00`
-                            };
-                        })
-                    };
-                })
-            };
-        case 'CHANGE_FIXED_SCHEDULE_PARTICIPANT':
-            return {...state,
-                days: state.days.map((x) => {
-                    if (!x.fixedSchedules.map((y) => y.id).includes(action.id)) return x;
-                    return {...x,
-                        fixedSchedules: x.fixedSchedules.map((y) => {
-                            if (y.id != action.id) return y;
-                            const participantIds = y.participants.map((y) => y.id);
-                            return {...y,
-                                participants: (participantIds.includes(action.participant.id))
-                                    ? y.participants.filter((z) => z.id != action.participant.id)
-                                    : y.participants.concat(action.participant).sort((a, b) => (a.id < b.id) ? -1 : 1)
-                            };
-                        })
-                    };
-                })
-            };
-        case 'ADD_FIXED_SCHEDULE':{
-            const day = moment(`${scheduleOf}`, 'YYYY-MM-DD');
-            return {...state,
-                days: state.days.map((x) => {
-                    if (x.day != day.date()) return x;
-                    return {...x,
-                        fixedSchedules: x.fixedSchedules.concat({
-                            id: newPseudoUuid(),
-                            title: '',
-                            onFrom: moment(`${scheduleOf}`, 'YYYY-MM-DD'),
-                            onTo: moment(`${scheduleOf}`, 'YYYY-MM-DD'),
-                            atFrom: "00:00:00",
-                            atTo: "00:00:00",
-                            participants: []
-                        })
+                    if (x.day < onFrom || onTo < x.day) return x;
+                    return { ...x,
+                        fixedSchedules: x.fixedSchedules.concat([payload.fixedSchedule])
                     };
                 })
             };
         }
-        case 'REMOVE_FIXED_SCHEDULE':
-            return {...state,
+        case actionTypes.UPDATE_FIXED_SCHEDULE: {
+            const onFrom = payload.fixedSchedule.onFrom.toDate().getDate();
+            const onTo = payload.fixedSchedule.onTo.toDate().getDate();
+            return { ...state,
                 days: state.days.map((x) => {
-                    if (!x.fixedSchedules.map((y) => y.id).includes(action.id)) return x;
-                    return {...x,
-                        fixedSchedules: x.fixedSchedules.filter((x) => x.id != action.id)
+                    const fixedScheduleIds = x.fixedSchedules.map((y) => y.id);
+                    if (x.day < onFrom || onTo < x.day) {
+                        if (!fixedScheduleIds.includes(payload.fixedSchedule.id)) return x;
+                        return { ...x,
+                            fixedSchedules: x.fixedSchedules.filter((y) => y.id != payload.fixedSchedule.id)
+                        };
+                    }
+                    return { ...x,
+                        fixedSchedules: x.fixedSchedules.filter((y) => y.id != payload.fixedSchedule.id).concat([payload.fixedSchedule])
+                    };
+                })
+            };
+        }
+        case actionTypes.REMOVE_FIXED_SCHEDULE:
+            return { ...state,
+                days: state.days.map((x) => {
+                    if (!x.fixedSchedules.map((y) => y.id).includes(payload.id)) return x;
+                    return { ...x,
+                        fixedSchedules: x.fixedSchedules.filter((x) => x.id != payload.id)
                     };
                 })
             };

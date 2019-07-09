@@ -8,7 +8,7 @@ import Skill from './Skill';
 
 const skillList = ({ title, skills, edit }) => (
     <List subheader={<ListSubheader component="div">{title}</ListSubheader>}>
-        {skills.map((x) => <Skill key={x.id} skill={x} edit={() => edit(x)} />)}
+        {skills.map((x, i) => <Skill key={i} skill={x} edit={() => edit(x)} />)}
     </List>
 );
 

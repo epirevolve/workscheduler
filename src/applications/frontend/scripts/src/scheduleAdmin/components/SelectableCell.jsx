@@ -38,7 +38,7 @@ selectableCell.propTypes = {
     changeCategory: propTypes.func.isRequired
 };
 
-const areEqual = (prevProps, nextProps) => zip(prevProps["categories"], nextProps["categories"]).some(([x, y]) => x == y)
+const areEqual = (prevProps, nextProps) => zip(prevProps["categories"], nextProps["categories"]).some(([ x, y ]) => x == y)
         && prevProps["val"] == nextProps["val"];
 
 export default React.memo(selectableCell, areEqual);

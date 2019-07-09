@@ -17,10 +17,9 @@ import IconButton from '@material-ui/core/IconButton';
 
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { mt2, ml3 } from "margin";
+import { ml3 } from "margin";
 
-const dataset = document.querySelector('script[src*="schedulerMonthly"]').dataset;
-const operators = JSON.parse(dataset.operators);
+import { operators } from "../embededData";
 
 const participants = ({ fixedSchedule, changeParticipant }) => {
     const participantIds = fixedSchedule.participants.map((x) => x.id);
@@ -50,7 +49,7 @@ const participants = ({ fixedSchedule, changeParticipant }) => {
             </Popover>
             <ExpansionPanel expanded={state.expanded} onChange={changeExpnaded}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6" style={{ color: 'gray' }} css={mt2}>participants</Typography>
+                    <Typography variant="h6" style={{ color: 'gray' }}>participants</Typography>
                     <div css={ml3}>
                         <IconButton size="small" onClick={(e) => { setState((prev) => ({ ...prev, anchorEl: e.currentTarget })); e.stopPropagation(); }}>
                             <CheckBoxRoundedIcon />

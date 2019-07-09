@@ -1,6 +1,8 @@
 import React from 'react';
 import propTypes from "prop-types";
 
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 import Theme from 'ColorTheme';
 
 import Drawer from './Drawer';
@@ -11,11 +13,15 @@ import { StylesProvider } from '@material-ui/styles';
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
-
+import { jsx, css } from '@emotion/core';
 import { m4 } from 'margin';
 
-const layout = ({ children }) => {
+const margin10Css = css({
+    margin: '10rem',
+    marginTop: '25%'
+});
+
+const layout = ({ children, isLoading = false }) => {
     const [ state, setState ] = React.useState({ open: false });
     return (
         <StylesProvider injectFirst>
@@ -23,7 +29,8 @@ const layout = ({ children }) => {
                 <Nav setDrawerOpen={setState} />
                 <Drawer open={state.open} setOpen={setState} />
                 <div css={m4}>
-                    {children}
+                    {isLoading && (<LinearProgress variant="query" css={margin10Css} />)}
+                    {!isLoading && (children)}
                 </div>
                 <ShowSnackbar />
             </MuiThemeProvider>
@@ -32,7 +39,8 @@ const layout = ({ children }) => {
 };
 
 layout.propTypes = {
-    children: propTypes.any
+    children: propTypes.any,
+    isLoading: propTypes.bool
 };
 
 export default layout;
