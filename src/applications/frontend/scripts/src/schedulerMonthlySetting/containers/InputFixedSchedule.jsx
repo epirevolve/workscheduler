@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => ({
     changeDate: (date) => { dispatch(actions.changeDate(date)); },
     changeAtFrom: (e) => { dispatch(actions.changeAtFrom(e.target.value)); },
     changeAtTo: (e) => { dispatch(actions.changeAtTo(e.target.value)); },
-    changeParticipant: (data) => { dispatch(actions.changeParticipant(data)); }
+    changeParticipant: (operator) => { dispatch(actions.changeParticipant(operator)); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FixedScheduleForm);

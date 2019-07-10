@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch) => ({
     save: (fixedSchedule, isAppend) => {
         const action = isAppend ? actions.appendFixedSchedule : actions.updateFixedSchedule;
         dispatch(action(fixedSchedule));
+        dispatch(actions.closeDialog());
     }
 });
 

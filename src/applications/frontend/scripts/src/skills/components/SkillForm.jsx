@@ -9,10 +9,8 @@ const skillForm = ({
     skill, changeName, changeScore, changeIsCertified
     }) => (
     <>
-        <TextField autoFocus margin="dense" label="name" fullWidth
-            onChange={changeName} value={skill.name} />
-        <TextField autoFocus margin="dense" label="score" fullWidth type="number"
-            onChange={changeScore} value={skill.score} />
+        <TextField autoFocus margin="dense" label="name" fullWidth onChange={changeName} value={skill.name} />
+        <TextField autoFocus margin="dense" label="score" fullWidth type="number" onChange={changeScore} value={skill.score} />
         <FormControlLabel label="is certified"
             control={<Switch checked={skill.isCertified}
                 onChange={changeIsCertified} color="primary" />} />

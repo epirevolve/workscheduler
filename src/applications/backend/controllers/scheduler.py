@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-
 from flask import Blueprint
 from flask import render_template
 from flask import request
@@ -29,19 +27,15 @@ def show_menu():
     return render_template('scheduler-menu.html', teams=teams)
 
 
-@bp.route('/monthly-settings')
+@bp.route('/monthly-setting')
 @login_required
 @admin_required
 def show_monthly_setting():
     team_id = request.args.get('team')
-    calendar = to_date(request.args.get('calendar'), '%Y-%m')
-
     session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler_of_team_id(team_id)
-    monthly_setting = scheduler.monthly_setting(calendar.month, calendar.year)
-    operators = OperatorQuery(session).get_operators()
-    return render_template('scheduler-monthly-setting.html',
-                           scheduler=scheduler, monthly_setting=monthly_setting, operators=operators)
+    team = UserQuery(session).get_team(team_id)
+    operators = OperatorQuery(session).get_active_operators_of_team_id(team_id)
+    return render_template('scheduler-monthly-setting.html', team=team, operators=operators)
 
 
 @bp.route('/basic-setting')

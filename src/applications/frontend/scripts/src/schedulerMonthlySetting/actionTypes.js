@@ -2,7 +2,6 @@ export const APPEND_FIXED_SCHEDULE = Symbol();
 export const UPDATE_FIXED_SCHEDULE = Symbol();
 export const REMOVE_FIXED_SCHEDULE = Symbol();
 
-export const CHANGE_SCHEDULE_OF = Symbol();
 export const CHANGE_REQUIRE = Symbol();
 export const CHANGE_IS_HOLIDAY = Symbol();
 export const CHANGE_MONTHLY_HOLIDAY = Symbol();

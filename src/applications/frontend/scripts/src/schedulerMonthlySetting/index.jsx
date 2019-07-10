@@ -22,3 +22,9 @@ render(
     </Provider>,
     document.getElementById('root')
 );
+
+import { startFetchMonthlySetting } from "./actions";
+import { team } from './embededData';
+const scheduleOf = new Date().addMonths(1).toYearMonthFormatString();
+
+store.dispatch(startFetchMonthlySetting(team, scheduleOf));

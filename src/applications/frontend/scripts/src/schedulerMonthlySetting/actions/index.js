@@ -1,10 +1,5 @@
 import * as actionTypes from '../actionTypes';
 
-export const changeScheduleOf = (scheduleOf) => ({
-    type: actionTypes.CHANGE_SCHEDULE_OF,
-    payload: { scheduleOf }
-});
-
 export const changeRequire = (day, categoryId, require) => ({
     type: actionTypes.CHANGE_REQUIRE,
     payload: { day, categoryId, require }
@@ -27,7 +22,7 @@ export const changeTitle = (title) => ({
 
 export const changeDate = (date) => ({
     type: actionTypes.CHANGE_DATE,
-    payload: { date }
+    payload: { onFrom: date[0], onTo: date[1] }
 });
 
 export const changeAtFrom = (atFrom) => ({
@@ -45,8 +40,9 @@ export const changeParticipant = (participant) => ({
     payload: { participant }
 });
 
-export const openDialogToAppend = () => ({
-    type: actionTypes.OPEN_DIALOG_APPEND
+export const openDialogToAppend = (scheduleOf) => ({
+    type: actionTypes.OPEN_DIALOG_APPEND,
+    payload: { scheduleOf }
 });
 
 export const openDialogToUpdate = (fixedSchedule) => ({

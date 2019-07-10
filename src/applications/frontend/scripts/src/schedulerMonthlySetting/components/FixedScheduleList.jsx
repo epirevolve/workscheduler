@@ -16,7 +16,7 @@ import FixedSchedule from './FixedSchedule';
 import { jsx, css } from '@emotion/core';
 import { mt4, mb3, ml3 } from "margin";
 
-const fixedScheduleList = ({ fixedSchedules, append, edit }) => {
+const fixedScheduleList = ({ fixedSchedules, scheduleOf, append, edit }) => {
     const [ state, setState ] = React.useState({ expanded: true });
     const changeExpanded = (event, isExpanded) => {
         setState((prev) => ({ ...prev, expanded: isExpanded ? true : false }));
@@ -28,7 +28,7 @@ const fixedScheduleList = ({ fixedSchedules, append, edit }) => {
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography style={{ fontSize: '2rem', color: 'gray' }}>fixed schedules</Typography>
                     <div css={ml3}>
-                        <IconButton onClick={(e) => { append(); e.stopPropagation(); }}>
+                        <IconButton onClick={(e) => { append(scheduleOf); e.stopPropagation(); }}>
                             <AddIcon />
                         </IconButton>
                     </div>
@@ -45,6 +45,7 @@ const fixedScheduleList = ({ fixedSchedules, append, edit }) => {
 
 fixedScheduleList.propTypes = {
     fixedSchedules: propTypes.array,
+    scheduleOf: propTypes.string.isRequired,
     append: propTypes.func.isRequired,
     edit: propTypes.func.isRequired,
 };

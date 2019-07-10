@@ -14,15 +14,15 @@ class OperatorQuery:
         return self._session.query(Operator).get(id_)
     
     def get_operator_of_user_id(self, user_id: str) -> Operator:
-        return self._session.query(Operator)\
+        return self._session.query(Operator) \
             .filter(Operator.user.has(User.id == user_id)).one()
     
     def get_operators(self) -> [Operator]:
-        return self._session.query(Operator)\
+        return self._session.query(Operator) \
             .filter(Operator.user.has(User.is_operator)).all()
     
     def get_active_operators_of_team_id(self, team_id: str) -> [Operator]:
-        return self._session.query(Operator)\
+        return self._session.query(Operator) \
             .filter(Operator.user.has(User.is_operator),
                     Operator.user.has(User.team.has(Team.id == team_id)),
                     Operator.user.has(User.is_inactivated.is_(False))).all()

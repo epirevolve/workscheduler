@@ -8,14 +8,13 @@ import MonthSelect from '../../common/components/MonthSelect';
 import { team } from '../embededData';
 
 const mapStateToProps = (state) => ({
-    monthYear: state.monthlySetting.scheduleOf
+    monthYear: `${state.monthlySetting.year}-${state.monthlySetting.month}`
 });
 
 const mapDispatchToProps = (dispatch) => ({
     changeMonthYear: (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
         dispatch(actions.startFetchMonthlySetting(team, scheduleOf));
-        dispatch(actions.changeScheduleOf(scheduleOf));
     }
 });
 

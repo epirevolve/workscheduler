@@ -23,8 +23,8 @@ import { operators } from "../embededData";
 
 const participants = ({ fixedSchedule, changeParticipant }) => {
     const participantIds = fixedSchedule.participants.map((x) => x.id);
-    const operatorList = operators.map((x) =>
-        <ListItem key={x.id} button onClick={() => changeParticipant(fixedSchedule.id, x)}>
+    const operatorList = operators.map((x, i) =>
+        <ListItem key={i} button onClick={() => changeParticipant(x)}>
             <Checkbox checked={participantIds.includes(x.id)} tabIndex={-1} disableRipple />
             <ListItemText primary={x.user.name} />
         </ListItem>);

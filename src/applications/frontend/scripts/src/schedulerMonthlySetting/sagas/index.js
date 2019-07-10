@@ -4,20 +4,20 @@ import { showSnackbar } from 'snackbarActions';
 
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
-import * as waitActions from 'waitActions';
+import * as uiActions from 'uiActions';
 import * as api from '../services/api';
 
-function *runFetchMonthlySetting(action) {
-    const { error } = yield call(api.updateMonthlySetting, action.payload);
-    if (!error) {
+export function *runFetchMonthlySetting(action) {
+    const { res, error } = yield call(api.fetchMonthlySetting, action.payload);
+    if (res && !error) {
         yield all([
-            put(actions.successUpdateMonthlySetting()),
-            put(waitActions.onGoing())
+            put(actions.successFetchMonthlySetting(JSON.parse(res.text))),
+            put(uiActions.onGoing())
         ]);
     } else {
         yield all([
-            put(actions.failureUpdateMonthlySetting()),
-            put(waitActions.onGoing())
+            put(actions.failureFetchMonthlySetting()),
+            put(uiActions.onGoing())
         ]);
     }
 }

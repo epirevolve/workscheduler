@@ -1,7 +1,5 @@
 import * as actionTypes from '../actionTypes';
 
-import moment from "moment";
-
 const dialog = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
@@ -9,8 +7,8 @@ const dialog = (state = {}, action) => {
             return { ...state,
                 id: '',
                 title: '',
-                onFrom: moment(`${payload.scheduleOf}`, 'YYYY-MM-DD'),
-                onTo: moment(`${payload.scheduleOf}`, 'YYYY-MM-DD'),
+                onFrom: `${payload.scheduleOf}-01`,
+                onTo: `${payload.scheduleOf}-01`,
                 atFrom: "00:00:00",
                 atTo: "00:00:00",
                 participants: []
@@ -19,20 +17,20 @@ const dialog = (state = {}, action) => {
             return { ...state,
                 id: payload.fixedSchedule.id,
                 title: payload.fixedSchedule.title,
-                onFrom: moment(`${payload.fixedSchedule.onFrom}`, 'YYYY-MM-DD'),
-                onTo: moment(`${payload.fixedSchedule.onTo}`, 'YYYY-MM-DD'),
+                onFrom: payload.fixedSchedule.onFrom,
+                onTo: payload.fixedSchedule.onTo,
                 atFrom: payload.fixedSchedule.atFrom,
                 atTo: payload.fixedSchedule.atTo,
                 participants: payload.fixedSchedule.participants
             };
         case actionTypes.CHANGE_TITLE:
             return { ...state,
-                title: payload.text
+                title: payload.title
             };
         case actionTypes.CHANGE_DATE:
             return { ...state,
-                onFrom: moment(`${payload.onFrom}`, 'YYYY-MM-DD'),
-                onTo: moment(`${payload.onTo}`, 'YYYY-MM-DD'),
+                onFrom: payload.onFrom.toDate().toDateFormatString(),
+                onTo: payload.onTo.toDate().toDateFormatString(),
             };
         case actionTypes.CHANGE_AT_FROM:
             return { ...state,

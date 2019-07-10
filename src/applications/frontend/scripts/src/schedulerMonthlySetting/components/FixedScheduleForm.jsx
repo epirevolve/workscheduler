@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
 import 'rc-calendar/assets/index';
-import moment from 'moment';
 
 import Participants from './Participants';
 
@@ -27,24 +26,22 @@ const fixedScheduleForm = ({
         const calendar = <RangeCalendar showDateInput={false} showToday={false} format='YYYY-MM-DD' />;
         return (
             <>
-                <TextField autoFocus label="title" required value={fixedSchedule.title}
-                    onChange={changeTitle(fixedSchedule.id)} />
+                <TextField autoFocus label="title" required value={fixedSchedule.title} fullWidth onChange={changeTitle} />
                 <DatePicker animation="slide-up" calendar={calendar} style={{ zIndex: 1500 }}
-                    value={[ moment(fixedSchedule.onFrom), moment(fixedSchedule.onTo) ]}
-                        onChange={changeDate(fixedSchedule.id)}>
+                    value={[ fixedSchedule.onFrom.toMoment(), fixedSchedule.onTo.toMoment() ]} onChange={changeDate}>
                     { ({ value }) => {
                         const formatDate = (x) => x.format('YYYY-MM-DD');
                         const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
                         return (
-                            <TextField margin="dense" label="date"
+                            <TextField margin="dense" label="date" fullWidth
                                 InputProps={{ readOnly: true, tabIndex: -1 }} value={disp} />
                             );}}
                 </DatePicker>
                 <div css={my3}>
-                    <TextField label="start time" type="time" css={css(mr4, timeCss)} onChange={changeAtFrom(fixedSchedule.id)}
-                        value={fixedSchedule.atFrom ? moment(fixedSchedule.atFrom, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
-                    <TextField label="end time" type="time" css={timeCss} onChange={changeAtTo(fixedSchedule.id)}
-                        value={fixedSchedule.atTo ? moment(fixedSchedule.atTo, "HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
+                    <TextField label="start time" type="time" css={css(mr4, timeCss)} onChange={changeAtFrom}
+                        value={fixedSchedule.atFrom ? fixedSchedule.atFrom.toMoment("HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
+                    <TextField label="end time" type="time" css={timeCss} onChange={changeAtTo}
+                        value={fixedSchedule.atTo ? fixedSchedule.atTo.toMoment("HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                 </div>
                 <Participants fixedSchedule={fixedSchedule} changeParticipant={changeParticipant} />
             </>
@@ -53,7 +50,6 @@ const fixedScheduleForm = ({
 
 fixedScheduleForm.propTypes = {
     fixedSchedule: propTypes.object,
-    remove: propTypes.func.isRequired,
     changeTitle: propTypes.func.isRequired,
     changeDate: propTypes.func.isRequired,
     changeAtFrom: propTypes.func.isRequired,

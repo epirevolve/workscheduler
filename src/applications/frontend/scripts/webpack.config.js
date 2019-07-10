@@ -28,6 +28,11 @@ targets.forEach((value) => {
     entries[`../statics/js/${key}`] = value;
 });
 
+entries['../statics/js/common/extension'] = [
+    path.resolve('./src/common/functions/dateExtension.js'),
+    path.resolve('./src/common/functions/stringExtension.js')
+];
+
 module.exports = {
     mode: 'development',
 
@@ -41,16 +46,17 @@ module.exports = {
         rules: [
             {
                 test: [ /\.jsx$/, /\.js$/ ],
-                exclude: /node_modules/,
-                use: 'babel-loader' },
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
             {
                 test: [ /\.tsx$/, /\.ts$/ ],
                 loader: 'babel-loader!ts-loader',
-                include: __dirname,
                 exclude: /node_modules/,
             },
-            { test: [/\.css$/],
-                use: [ 'style-loader', 'css-loader' ] },
+            {
+                test: [/\.css$/],
+                loaders : [ 'style-loader', 'css-loader' ] },
             {
                 test: /\.scss$/,
                 loader: 'style-loader!css-loader!sass-loader'
@@ -95,7 +101,7 @@ module.exports = {
                 },
                 utilCommon: {
                     test: 'src/commons/functions',
-                    name: '../statics/js/vendor/util-common',
+                    name: '../statics/js/common/util',
                     chunks: 'initial',
                     enforce: true
                 }
