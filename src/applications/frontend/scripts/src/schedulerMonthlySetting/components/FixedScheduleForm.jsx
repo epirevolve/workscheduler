@@ -17,13 +17,19 @@ const timeCss = css({
     width: '6rem'
 });
 
+const disabledDate = (thisMonth) => (date) => {
+    const thisMonth_ = thisMonth.toDate();
+    const currentDate = date.toDate();
+    return thisMonth_.getFullYear() != currentDate.getFullYear() || thisMonth_.getMonth() != currentDate.getMonth();
+};
 const isValidRange = (v) => v && v[0] && v[1];
 
 const fixedScheduleForm = ({
         fixedSchedule, changeTitle, changeDate,
         changeAtFrom, changeAtTo, changeParticipant
     }) => {
-        const calendar = <RangeCalendar showDateInput={false} showToday={false} format='YYYY-MM-DD' />;
+        const calendar = <RangeCalendar showDateInput={false} showToday={false} format='YYYY-MM-DD'
+            disabledDate={disabledDate(fixedSchedule.onFrom)} />;
         return (
             <>
                 <TextField autoFocus label="title" required value={fixedSchedule.title} fullWidth onChange={changeTitle} />
@@ -32,10 +38,7 @@ const fixedScheduleForm = ({
                     { ({ value }) => {
                         const formatDate = (x) => x.format('YYYY-MM-DD');
                         const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
-                        return (
-                            <TextField margin="dense" label="date" fullWidth
-                                InputProps={{ readOnly: true, tabIndex: -1 }} value={disp} />
-                            );}}
+                        return (<TextField margin="dense" label="date" fullWidth InputProps={{ readOnly: true, tabIndex: -1 }} value={disp} />);}}
                 </DatePicker>
                 <div css={my3}>
                     <TextField label="start time" type="time" css={css(mr4, timeCss)} onChange={changeAtFrom}
