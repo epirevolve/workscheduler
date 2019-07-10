@@ -3,7 +3,7 @@ import * as actionTypes from '../actionTypes';
 export const changeTeam = (team) => ({
     type: actionTypes.CHANGE_TEAM,
     payload: { team }
-})
+});
 
 export const changeWorkCategory = (operator, day, daySetting, category, workCategories) => ({
     type: actionTypes.CHANGE_WORK_CATEGORY,

@@ -8,6 +8,7 @@ import * as uiActions from 'uiActions';
 import * as api from '../services/api';
 
 export function *runFetchMonthlySetting(action) {
+    yield put(uiActions.waiting());
     const { res, error } = yield call(api.fetchMonthlySetting, action.payload);
     if (res && !error) {
         yield all([

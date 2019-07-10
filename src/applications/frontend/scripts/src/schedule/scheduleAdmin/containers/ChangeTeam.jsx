@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { requestSchedules } from '../../common/actions';
+import { startFetchSchedules } from '../../common/actions';
 import { changeTeam } from '../actions';
 
 import Teams from '../components/Teams';
@@ -12,9 +12,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onTeamChange: (scheduleOf, e) => {
+    changeTeam: (scheduleOf, e) => {
         const team = e.target.value;
-        dispatch(requestSchedules(team, scheduleOf));
+        dispatch(startFetchSchedules(team, scheduleOf));
         dispatch(changeTeam(team));
     }
 });

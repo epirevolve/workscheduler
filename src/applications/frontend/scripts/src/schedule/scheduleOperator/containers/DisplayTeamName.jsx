@@ -6,7 +6,7 @@ import TeamName from '../components/TeamName';
 const dataset = document.querySelector('script[id="baseSchedule"]').dataset;
 const team = JSON.parse(dataset.team);
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = () => ({
     team,
 });
 

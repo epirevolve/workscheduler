@@ -6,15 +6,16 @@ import * as uiActions from 'uiActions';
 import * as api from '../services/api';
 
 function *runRequestSchedules(action) {
+    yield put(uiActions.waiting());
     const { res, error } = yield call(api.fetchSchedules, action.payload);
     if (res && !error) {
         yield all([
-            put(actions.successSchedules(res)),
+            put(actions.successFetchSchedules(res)),
             put(uiActions.onGoing())
         ]);
     } else {
         yield all([
-            put(actions.failureSchedules(error)),
+            put(actions.failureFetchSchedules(error)),
             put(uiActions.onGoing())
         ]);
     }

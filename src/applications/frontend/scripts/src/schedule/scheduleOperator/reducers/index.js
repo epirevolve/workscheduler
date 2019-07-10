@@ -1,6 +1,6 @@
 import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
-import schedules, { initValue as schedulesinitValue } from 'schedules';
+import schedules, { initValue as schedulesinitValue } from '../../common/reducers/schedules';
 import ui from 'uiReducer';
 
 export const initValue = ({

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../common/actions';
 
-import MonthSelect from '../../common/components/MonthSelect';
+import MonthSelect from 'MonthSelect';
 
 const mapStateToProps = (state) => ({
     team: state.teams.team,
@@ -13,7 +13,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
     changeMonthYear: (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(actions.requestSchedules(ownProps.team, scheduleOf));
+        dispatch(actions.startFetchSchedules(ownProps.team, scheduleOf));
         dispatch(actions.changeScheduleOf(scheduleOf));
     }
 });

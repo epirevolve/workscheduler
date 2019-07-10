@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import Typography from '@material-ui/core/Typography';
 
@@ -16,5 +17,9 @@ const publishState = ({ isPublished }) => (
         {isPublished ? 'Published' : ''}
     </Typography>
 );
+
+publishState.propTypes = {
+    isPublished: propTypes.bool
+};
 
 export default publishState;

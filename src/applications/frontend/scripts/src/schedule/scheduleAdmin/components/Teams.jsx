@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -16,7 +17,7 @@ const teamCss = css({
 
 import { lightslategray } from 'color';
 
-const teams = ({ team, scheduleOf, onTeamChange }) => {
+const teams = ({ team, scheduleOf, changeTeam }) => {
     const teams = JSON.parse(dataset.teams);
     const teamList = teams.map((x) =>
         <MenuItem key={x.id} value={x}>
@@ -30,10 +31,16 @@ const teams = ({ team, scheduleOf, onTeamChange }) => {
     return (
         <Select value={team} fullWidth
             input={<OutlinedInput labelWidth={0} css={teamCss}
-                onChange={(e) => onTeamChange(scheduleOf, e)} />}>
+                onChange={(e) => changeTeam(scheduleOf, e)} />}>
             {teamList}
         </Select>
     );
+};
+
+teams.propTypes = {
+    team: propTypes.object,
+    scheduleOf: propTypes.string,
+    changeTeam: propTypes.func.isRequired
 };
 
 export default teams;

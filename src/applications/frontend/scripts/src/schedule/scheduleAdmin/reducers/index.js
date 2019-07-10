@@ -4,11 +4,11 @@ import schedules from './schedules';
 import teams from './teams';
 import ui from './ui';
 
-const dataset = document.querySelector('script[id="baseSchedule"]').dataset;
+import { team } from "../../common/embedData";
 import { initValue as schedulesInitValue } from '../../common/reducers/schedules';
 export const initValue = {
     schedules: schedulesInitValue,
-    teams: { team: JSON.parse(dataset.team) },
+    teams: { team },
     ui: { isLoading: true, isProgressing: false }
 };
 

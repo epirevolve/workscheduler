@@ -1,13 +1,8 @@
 import { zip, transpose } from 'arrayUtil';
 
 const formatSchedule = (daySettings, schedules, workCategories, availableSigns) => {
-    const getAllWorkCategoriesName = () => {
-        return workCategories.map((x) => x.title).concat(availableSigns);
-    };
-
-    const getAllWorkCategoriesId = () => {
-        return workCategories.map((x) => x.id).concat(availableSigns);
-    };
+    const getAllWorkCategoriesName = () => workCategories.map((x) => x.title).concat(availableSigns);
+    const getAllWorkCategoriesId = () => workCategories.map((x) => x.id).concat(availableSigns);
 
     const categories = daySettings.map((x) => getAllWorkCategoriesName().concat(x.fixedSchedules.map((y) => y.title)));
     const headerRow = {

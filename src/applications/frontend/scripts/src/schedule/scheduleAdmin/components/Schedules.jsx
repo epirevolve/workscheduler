@@ -29,14 +29,8 @@ const margin10Css = css({
 });
 
 class schedules extends React.Component {
-    componentDidMount () {
-        const { team, scheduleOf } = this.props;
-        this.props.onLoad(team, scheduleOf);
-    }
-
     render () {
-        const { daySettings, schedules, isLoading, workCategories, availableSigns, changeCategory } = this.props;
-        if (isLoading) return (<LinearProgress variant="query" css={margin10Css} />);
+        const { daySettings, schedules, workCategories, availableSigns, changeCategory } = this.props;
         if (!schedules || !schedules.components || schedules.components.length == 0) return (<Typography variant="h5" css={margin10Css}>Sorry, this month is not create yet...</Typography>);
 
         const [ headerRow, operatorRows, totalRows ] = formatSchedule(daySettings, schedules, workCategories, availableSigns);

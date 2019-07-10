@@ -29,8 +29,8 @@ targets.forEach((value) => {
 });
 
 entries['../statics/js/common/extension'] = [
-    path.resolve('./src/common/functions/dateExtension.js'),
-    path.resolve('./src/common/functions/stringExtension.js')
+    path.resolve('./src/common/extensions/dateExtension.js'),
+    path.resolve('./src/common/extensions/stringExtension.js')
 ];
 
 module.exports = {

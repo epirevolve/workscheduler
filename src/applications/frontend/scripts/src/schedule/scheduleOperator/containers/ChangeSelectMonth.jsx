@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { requestSchedules, changeScheduleOf } from '../../common/actions';
+import { startFetchSchedules, changeScheduleOf } from '../../common/actions';
 
-import MonthSelect from '../../common/components/MonthSelect';
+import MonthSelect from 'MonthSelect';
 
-const dataset = document.querySelector('script[id="baseSchedule"]').dataset;
-const team = JSON.parse(dataset.team);
+import { team } from "../../common/embedData";
 
 const mapStateToProps = (state) => ({
     monthYear: state.schedules.scheduleOf
@@ -15,7 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     changeMonthYear: (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(requestSchedules(team, scheduleOf));
+        dispatch(startFetchSchedules(team, scheduleOf));
         dispatch(changeScheduleOf(scheduleOf));
     }
 });

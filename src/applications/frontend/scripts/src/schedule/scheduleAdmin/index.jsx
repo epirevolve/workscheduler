@@ -22,3 +22,8 @@ render(
     </Provider>,
     document.getElementById('root')
 );
+
+import { startFetchSchedules } from "../common/actions";
+import { team } from "../common/embedData";
+const scheduleOf = new Date().toYearMonthFormatString();
+store.dispatch(startFetchSchedules(team, scheduleOf));
