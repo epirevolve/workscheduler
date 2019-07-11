@@ -8,8 +8,8 @@ const vacation = ({ vacation, edit }) => (
     <ListItem button onClick={edit}>
         <ListItemText primary={vacation.title} />
         <ListItemText primary={`${vacation.daysCount} days`} />
-        <ListItemText primary={vacation.startFrom} />
-        <ListItemText primary={vacation.endOn} />
+        <ListItemText primary={vacation.onFrom} />
+        <ListItemText primary={vacation.onTo} />
     </ListItem>
 );
 

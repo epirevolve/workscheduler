@@ -11,7 +11,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     close: () => dispatch(actions.closeDialog()),
-    save: (operator) => dispatch(actions.startSaveOperator(operator))
+    save: (operator) => dispatch(actions.startUpdateOperator(operator))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

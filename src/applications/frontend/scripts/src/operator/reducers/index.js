@@ -1,10 +1,10 @@
 import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
 import operator from './operator';
+import { operator as operator_ } from "../embeddedData";
 
-const dataset = document.querySelector('script[src*="operator"]').dataset;
 export const initValue = ({
-    operator: JSON.parse(dataset.operator)
+    operator: operator_
 });
 
-export default combineWithCommonReducer({operator});
+export default combineWithCommonReducer({ operator });

@@ -105,16 +105,25 @@ def update_basic_setting():
     return response
 
 
+@bp.route('/vacations')
+@login_required
+@admin_required
+def get_vacations():
+    team_id = request.args.get('team-id')
+    scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_team_id(team_id)
+    return jsonize.json_response(jsonize.dumps(scheduler.vacations))
+
+
 @bp.route('/vacations', methods=['POST'])
 @login_required
 @admin_required
 def append_vacation():
     session = get_db_session()
     try:
-        res = SchedulerCommandAdapter(session).append_vacation(jsonize.loads(request.data))
+        req = SchedulerCommandAdapter(session).append_vacation(jsonize.loads(request.data))
         session.commit()
-        session.refresh(res)
-        response = jsonize.json_response(res)
+        session.refresh(req)
+        response = jsonize.json_response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()
         print(e)
@@ -147,6 +156,7 @@ def launch_scheduler():
         print("#### start time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
         SchedulerCommandAdapter(session).launch(jsonize.loads(request.data))
         print("#### fin time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
+        session.commit()
         response = jsonize.json_response()
     except AlreadyLaunchError as e:
         print(e)

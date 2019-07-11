@@ -1,9 +1,25 @@
+import * as actionTypes from "../actionTypes";
+
 export const changeSkill = (skill) => ({
-    type: 'CHANGE_SKILL',
-    skill
+    type: actionTypes.CHANGE_SKILL,
+    payload: { skill }
 });
 
 export const changeRemainPaidHolidays = (count) => ({
-    type: 'CHANGE_REMAIN_PAID_HOLIDAY',
-    count
+    type: actionTypes.CHANGE_REMAIN_PAID_HOLIDAY,
+    payload: { count }
+});
+
+export const startUpdateOperator = (operator) => ({
+    type: actionTypes.START_UPDATE_OPERATOR,
+    payload: { operator }
+});
+
+export const successUpdateOperator = (operator) => ({
+    type: actionTypes.SUCCESS_UPDATE_OPERATOR,
+    payload: { operator }
+});
+
+export const failureUpdateOperator = () => ({
+    type: actionTypes.FAILURE_UPDATE_OPERATOR
 });

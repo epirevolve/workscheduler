@@ -5,7 +5,7 @@ import { startFetchSchedules, changeScheduleOf } from '../../common/actions';
 
 import MonthSelect from 'MonthSelect';
 
-import { team } from "../../common/embedData";
+import { team } from "../../common/embeddedData";
 
 const mapStateToProps = (state) => ({
     monthYear: state.schedules.scheduleOf

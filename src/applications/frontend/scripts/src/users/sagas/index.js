@@ -23,7 +23,7 @@ function *runAppendUser(action) {
 }
 
 export function *handleAppendUser() {
-    yield takeEvery(actionTypes.START_APPEND_OPERATOR, runAppendUser);
+    yield takeEvery(actionTypes.START_APPEND_USER, runAppendUser);
 }
 
 function *runUpdateUser(action) {

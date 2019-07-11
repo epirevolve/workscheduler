@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Operator from '../components/Operator';
+import OperatorForm from '../components/OperatorForm';
 
 import { changeSkill, changeRemainPaidHolidays } from '../actions';
 
@@ -14,4 +14,4 @@ const mapDispatchToProps = (dispatch) => ({
     changeRemainPaidHoliday: (e) => dispatch(changeRemainPaidHolidays(e.target.value))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Operator);
+export default connect(mapStateToProps, mapDispatchToProps)(OperatorForm);

@@ -1,7 +1,7 @@
 {
   "name": "workscheduler",
-  "version": "1.0.0",
-  "description": "*work scheduler* can provide fantastic experiment.",
+  "version": "0.0.0",
+  "description": "work scheduler can provide fantastic experiment.",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/epirevolve/workscheduler.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "yukihiro ide",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/epirevolve/workscheduler/issues"

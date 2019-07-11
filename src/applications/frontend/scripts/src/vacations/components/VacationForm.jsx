@@ -13,9 +13,9 @@ const VacationForm = ({
         <TextField margin="dense" label="days count" fullWidth type="number"
             onChange={changeDaysCount} value={vacation.daysCount} />
         <TextField margin="dense" label="from" fullWidth type="date" required
-            onChange={changeStartFrom} value={vacation.startFrom} />
+            onChange={changeStartFrom} value={vacation.onFrom} />
         <TextField margin="dense" label="to" fullWidth type="date" required
-            onChange={changeEndOn} value={vacation.endOn} />
+            onChange={changeEndOn} value={vacation.onTo} />
     </>
 );
 

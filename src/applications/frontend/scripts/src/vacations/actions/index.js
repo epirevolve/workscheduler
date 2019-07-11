@@ -1,5 +1,18 @@
 import * as actionTypes from '../actionTypes';
 
+export const startFetchVacations = () => ({
+    type: actionTypes.START_FETCH_VACATIONS,
+});
+
+export const successFetchVacations = (vacations) => ({
+    type: actionTypes.SUCCESS_FETCH_VACATIONS,
+    payload: { vacations }
+});
+
+export const failureFetchVacations = () => ({
+    type: actionTypes.FAILURE_FETCH_VACATIONS,
+});
+
 export const startAppendVacation = (vacation) => ({
     type: actionTypes.START_APPEND_VACATION,
     payload: { vacation }

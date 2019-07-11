@@ -50,7 +50,7 @@ class SchedulerDetailHelper:
         available_indices = []
         day_offs = work_category.day_offs
         for i, gene in filter(lambda x: x[1] == work_day_sign, list(enumerate(outline))[:-day_offs-1]):
-            if not all([x == work_day_sign for x in outline[i: i + day_offs + 1]])\
+            if not all([x == work_day_sign for x in outline[i: i + day_offs + 1]]) \
                     or outline[i + day_offs + 1] != holiday_sign:
                 continue
             available_indices.append(i)

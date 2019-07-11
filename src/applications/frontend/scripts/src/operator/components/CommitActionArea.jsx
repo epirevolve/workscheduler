@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-
 import { mt3 } from 'margin';
 
 const commitActionArea = ({ operator, save }) => (

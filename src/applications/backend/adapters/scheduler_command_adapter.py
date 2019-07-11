@@ -8,6 +8,7 @@ from backend.services import SchedulerCommand
 from backend.services.domain_orm import to_monthly_setting
 from backend.services.domain_orm import to_scheduler
 from backend.services.domain_orm import to_vacation
+from backend.services.domain_orm import to_new_vacation
 from backend.services.domain_orm import to_request
 
 
@@ -29,8 +30,8 @@ class SchedulerCommandAdapter:
         return SchedulerCommand(self._session).update_basic_setting(scheduler)
 
     def append_vacation(self, data: dict):
-        vacation = to_vacation(data.get('vacation'))
-        return SchedulerCommand(self._session).append_vacation(data.get('scheduler_id'), vacation)
+        vacation = to_new_vacation(data.get('vacation'))
+        return SchedulerCommand(self._session).append_vacation(data.get('team-id'), vacation)
 
     def update_vacation(self, data: dict):
         vacation = to_vacation(data.get('vacation'))

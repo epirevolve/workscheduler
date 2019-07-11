@@ -1,11 +1,31 @@
 import requestAgent from 'superagent';
 
+import { team } from "../embeddedData";
+
+export const fetchVacations = async () => {
+    try {
+        const res = await requestAgent
+            .get('/scheduler/api/vacations')
+            .query({
+                'team-id': team.id
+            })
+            .set('X-CSRFToken', csrfToken);
+        return ({ res });
+    }
+    catch (error) {
+        return ({ error });
+    }
+};
+
 export const appendVacation = async (payload) => {
     const { vacation } = payload;
     try {
         const res = await requestAgent
             .post('/scheduler/api/vacations')
-            .send(vacation)
+            .send({
+                'team-id': team.id,
+                vacation
+            })
             .set('X-CSRFToken', csrfToken);
         return ({ res });
     }
@@ -19,7 +39,9 @@ export const updateVacation = async (payload) => {
     try {
         const res = await requestAgent
             .put(`/scheduler/api/vacations/${vacation.id}`)
-            .send(vacation)
+            .send({
+                vacation
+            })
             .set('X-CSRFToken', csrfToken);
         return ({ res });
     }

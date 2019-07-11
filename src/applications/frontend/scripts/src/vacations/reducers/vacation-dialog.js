@@ -8,16 +8,12 @@ const dialog = (state = {}, action) => {
                 id: '',
                 title: '',
                 daysCount: 0,
-                startFrom: new Date().toDateFormatString(),
-                endOn: new Date().toDateFormatString(),
+                onFrom: new Date().toDateFormatString(),
+                onTo: new Date().toDateFormatString(),
             };
         case actionTypes.OPEN_DIALOG_UPDATE:
             return { ...state,
-                id: payload.id,
-                title: payload.title,
-                daysCount: payload.daysCount,
-                startFrom: payload.startFrom,
-                endOn: payload.endOn,
+                ...payload.vacation
             };
         case actionTypes.CHANGE_TITLE:
             return { ...state,
@@ -29,11 +25,11 @@ const dialog = (state = {}, action) => {
             };
         case actionTypes.CHANGE_START_FROM:
             return { ...state,
-                startFrom: payload.date,
+                onFrom: payload.date,
             };
         case actionTypes.CHANGE_END_ON:
             return { ...state,
-                endOn: payload.date,
+                onTo: payload.date,
             };
         default:
             return state;

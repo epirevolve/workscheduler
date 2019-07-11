@@ -57,8 +57,8 @@ def show_basic_setting():
 def show_vacations():
     team_id = request.args.get('team')
     session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler_of_team_id(team_id)
-    return render_template('vacations.html', scheduler=scheduler)
+    team = UserQuery(session).get_team(team_id)
+    return render_template('vacations.html', team=team)
 
 
 @bp.route('/launch-histories')

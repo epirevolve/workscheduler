@@ -24,7 +24,7 @@ render(
 );
 
 import { startFetchMonthlySetting } from "./actions";
-import { team } from './embededData';
+import { team } from './embeddedData';
 const scheduleOf = new Date().addMonths(1).toYearMonthFormatString();
 
 store.dispatch(startFetchMonthlySetting(team, scheduleOf));

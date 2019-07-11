@@ -19,16 +19,16 @@ export const changeOjt = (operator) => ({
     payload: { operator }
 });
 
-export const startSaveOperator = (operator) => ({
-    type: actionTypes.START_SAVE_OPERATOR,
+export const startUpdateOperator = (operator) => ({
+    type: actionTypes.START_UPDATE_OPERATOR,
     payload: { operator }
 });
 
-export const successSaveOperator = (operator) => ({
-    type: actionTypes.SUCCESS_SAVE_OPERATOR,
+export const successUpdateOperator = (operator) => ({
+    type: actionTypes.SUCCESS_UPDATE_OPERATOR,
     payload: { operator }
 });
 
-export const failureSaveOperator = () => ({
-    type: actionTypes.FAILURE_SAVE_OPERATOR
+export const failureUpdateOperator = () => ({
+    type: actionTypes.FAILURE_UPDATE_OPERATOR
 });

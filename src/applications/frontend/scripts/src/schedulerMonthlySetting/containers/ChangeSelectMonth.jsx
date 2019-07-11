@@ -5,7 +5,7 @@ import * as actions from '../actions';
 
 import MonthSelect from '../../common/components/MonthSelect';
 
-import { team } from '../embededData';
+import { team } from '../embeddedData';
 
 const mapStateToProps = (state) => ({
     monthYear: `${state.monthlySetting.year}-${state.monthlySetting.month}`

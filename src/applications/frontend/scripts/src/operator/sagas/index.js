@@ -10,8 +10,7 @@ function *runUpdateOpeartor(action) {
     if (res && !error) {
         yield all([
             put(actions.successUpdateOperator(JSON.parse(res.text))),
-            put(actions.closeDialog()),
-            put(showSnackbar('Succeed to update operator', 'success'))
+            put(showSnackbar('Succeed to update operator'))
         ]);
     } else {
         yield all([

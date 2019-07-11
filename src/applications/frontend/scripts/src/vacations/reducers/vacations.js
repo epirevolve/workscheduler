@@ -3,6 +3,8 @@ import * as actionTypes from '../actionTypes';
 const vacations = (state = [], action) => {
     const payload = action.payload;
     switch (action.type) {
+        case actionTypes.SUCCESS_FETCH_VACATIONS:
+            return payload.vacations;
         case actionTypes.SUCCESS_APPEND_VACATION:
             return state.concat([payload.vacation]);
         case actionTypes.SUCCESS_UPDATE_VACATION:

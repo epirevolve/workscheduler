@@ -4,7 +4,27 @@ import { showSnackbar } from 'snackbarActions';
 
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
+import * as uiActions from 'uiActions';
 import * as api from '../services/api';
+
+function *runFetchVacations(action) {
+    const { res, error } = yield call(api.fetchVacations, action.payload);
+    if (res && !error) {
+        yield all([
+            put(actions.successFetchVacations(JSON.parse(res.text))),
+            put(uiActions.onGoing())
+        ]);
+    } else {
+        yield all([
+            put(actions.failureAppendVacation()),
+            put(uiActions.onGoing())
+        ]);
+    }
+}
+
+function *handleFetchVacations() {
+    yield takeEvery(actionTypes.START_FETCH_VACATIONS, runFetchVacations);
+}
 
 function *runAppendVacation(action) {
     const { res, error } = yield call(api.appendVacation, action.payload);
@@ -68,6 +88,7 @@ function *handleRemoveVacation() {
 
 export default function *rootSaga() {
     yield all([
+        fork(handleFetchVacations),
         fork(handleAppendVacation),
         fork(handleUpdateVacation),
         fork(handleRemoveVacation)

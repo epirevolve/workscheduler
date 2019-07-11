@@ -19,7 +19,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { jsx } from '@emotion/core';
 import { ml3 } from "margin";
 
-import { operators } from "../embededData";
+import { operators } from "../embeddedData";
 
 const participants = ({ fixedSchedule, changeParticipant }) => {
     const participantIds = fixedSchedule.participants.map((x) => x.id);

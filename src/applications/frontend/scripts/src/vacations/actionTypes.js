@@ -1,3 +1,6 @@
+export const START_FETCH_VACATIONS = Symbol();
+export const SUCCESS_FETCH_VACATIONS = Symbol();
+export const FAILURE_FETCH_VACATIONS = Symbol();
 export const START_APPEND_VACATION = Symbol();
 export const SUCCESS_APPEND_VACATION = Symbol();
 export const FAILURE_APPEND_VACATION = Symbol();

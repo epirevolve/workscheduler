@@ -45,8 +45,8 @@ class SchedulerCommand:
         self._session.merge(scheduler)
         return scheduler
 
-    def append_vacation(self, scheduler_id: str, vacation: Vacation):
-        scheduler = SchedulerQuery(self._session).get_scheduler(scheduler_id)
+    def append_vacation(self, team_id: str, vacation: Vacation):
+        scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
         scheduler.vacations.append(vacation)
         self._session.merge(scheduler)
         return vacation
@@ -84,7 +84,6 @@ class SchedulerCommand:
         last_month_schedules = ScheduleQuery(self._session).get_schedules_of_team_year_month(
             team_id, *self._get_last_month(month, year))
         team = UserQuery(self._session).get_team(team_id)
-        self._session.expunge_all()
         # if scheduler.is_launching:
         #     raise AlreadyLaunchError()
         try:
