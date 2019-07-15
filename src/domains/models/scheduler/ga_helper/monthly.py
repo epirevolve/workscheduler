@@ -55,13 +55,12 @@ class SchedulerMonthlyHelperBase:
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
                 count = len([x for x in schedule if x == detail.work_category.id])
-                if count >= detail.require:
-                    excess_diff[detail.work_category].append(count - detail.require)
+                excess_diff[detail.work_category].append(count - detail.require)
         excess_diff_cv = [stdev(x) / (mean(x) or 1) if len(x) > 2 else 1 for x in excess_diff.values()]
-        return max(0, (1 - sum(excess_diff_cv) / len(excess_diff_cv)) * weight)
+        return min(1, max(0, (1 - sum(excess_diff_cv) / len(excess_diff_cv)) * weight))
 
     def _evaluate_by_require(self, transpose):
-        ratio = 0.03
+        ratio = 0.02
         adaptability = 0
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
@@ -72,7 +71,7 @@ class SchedulerMonthlyHelperBase:
         return max(0, 1 - adaptability)
 
     def _evaluate_by_essential_skill(self, transpose):
-        ratio = 0.05
+        ratio = 0.02
         adaptability = 0
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
@@ -106,10 +105,10 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
     def _evaluate(self, gene):
         schedules = self._gene_to_schedule(gene)
         transpose = np.array(schedules).T
-        adaptability = 0
-        adaptability += self._evaluate_by_work_hours_std(schedules, 3)
+        adaptability = 3
+        adaptability += self._evaluate_by_work_hours_std(schedules, 2)
         adaptability += self._evaluate_by_skill_std(transpose, 2)
-        adaptability += self._evaluate_by_require_excess_std(transpose, 5)
+        adaptability += self._evaluate_by_require_excess_std(transpose, 3)
         adaptability *= self._evaluate_by_require(transpose)
         adaptability *= self._evaluate_by_essential_skill(transpose)
         return adaptability

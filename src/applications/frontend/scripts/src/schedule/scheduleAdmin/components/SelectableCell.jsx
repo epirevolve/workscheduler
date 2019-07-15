@@ -18,7 +18,6 @@ const cellCss = css({
 const selectCss = css({
     maxWidth: '5rem',
     minWidth: '5rem',
-    paddingRight: '27px',
 });
 
 const selectableCell = ({ categories, val, changeCategory }) => {
