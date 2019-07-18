@@ -28,14 +28,9 @@ export const changeTeam = (obj) => ({
     obj
 });
 
-export const changeIsAdmin = (isChecked) => ({
-    type: actionTypes.CHANGE_IS_ADMIN,
-    isChecked
-});
-
-export const changeIsOperator = (isChecked) => ({
-    type: actionTypes.CHANGE_IS_OPERATOR,
-    isChecked
+export const changeRole = (role) => ({
+    type: actionTypes.CHANGE_ROLE,
+    role
 });
 
 export const startAppendUser = (user) => ({

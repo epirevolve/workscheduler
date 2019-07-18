@@ -43,7 +43,7 @@ export const appendUser = async (payload) => {
     const { user } = payload;
     try {
         const res = await requestAgent
-            .post('/user/api/users/')
+            .post('/user/api/users')
             .send(user)
             .set('X-CSRFToken', csrfToken);
         return ({ res });
@@ -56,11 +56,11 @@ export const appendUser = async (payload) => {
 export const udpateUser = async (payload) => {
     const { user } = payload;
     try {
-        const res = await requestAgent
+        await requestAgent
             .put(`/user/api/users/${user.id}`)
             .send(user)
             .set('X-CSRFToken', csrfToken);
-        return ({ res });
+        return ({});
     }
     catch (error) {
         return ({ error });

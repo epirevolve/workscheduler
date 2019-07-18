@@ -93,7 +93,9 @@ class SchedulerCommand:
             schedule, adaptability = scheduler.run(last_month_schedules, month, year, operators, pipe)
             ScheduleCommand(self._session).append_new_schedule(team_id, month, year, schedule)
             history.adaptability = adaptability
+            self._session.commit()
         finally:
+            scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
             self.turn_off_scheduler_launching(scheduler)
 
     def terminate(self, team_id: str, mont: int, year: int):

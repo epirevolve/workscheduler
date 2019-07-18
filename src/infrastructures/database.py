@@ -7,6 +7,8 @@ from backend.services import UserCommand
 from backend.services import UserQuery
 from domains.models import OrmBase
 from domains.models.user import Team
+from domains.models.user import User
+from domains.models.user import UserRole
 
 
 class Database:
@@ -25,9 +27,9 @@ class Database:
         session.add(Team.default())
         session.flush()
 
-        default_id = UserQuery(session).get_default_team().id
+        default_team = UserQuery(session).get_default_team()
         user_command = UserCommand(session)
-        user_command.append_user('admin', '管理者', default_id, is_admin=True, is_operator=False)
+        user_command.append_user(User.new('admin', '管理者', default_team, role=UserRole.ADMINISTRATOR))
 
         session.commit()
         session.close()

@@ -8,6 +8,7 @@ from flask_login import current_user
 
 from backend.services import UserQuery
 from applications.backend import get_db_session
+from domains.models.user import UserRole
 
 from utils.array import find
 
@@ -31,7 +32,7 @@ def show_schedules_administrator():
 @bp.route('/')
 @login_required
 def show_schedules():
-    if current_user.is_operator:
+    if current_user.role == UserRole.Operator:
         return show_schedules_operator()
     else:
         return show_schedules_administrator()

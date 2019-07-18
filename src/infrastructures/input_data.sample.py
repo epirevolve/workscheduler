@@ -1,17 +1,8 @@
-from datetime import time
-from time import sleep
+# -*- coding: utf-8 -*-
 
-from utils.date import get_next_month
-
-from applications.services import OperatorQuery
-from applications.services import SchedulerQuery
-from domains.models.scheduler import WorkCategory
-from applications.services import UserCommand
-from applications.services import TeamQuery
-from applications.services import TeamFacade
-from domains.models.operator import Skill
-from domains.models.scheduler import MonthlySetting
-
+from applications.backend.services import UserCommand
+from domains.models.user import UserRole
+from domains.models.user import User
 from .database import Database
 
 
@@ -23,9 +14,9 @@ class InputData(Database):
 
         # add teams
 
-        from applications.services import TeamFacade
+        from applications.backend.services import UserFacade
 
-        team_facade = TeamFacade(session)
+        team_facade = UserFacade(session)
         front = team_facade.append_team('フロント', '')
         team_facade.append_team('Sec', '')
         team_facade.append_team('Secフロント', '')
@@ -35,11 +26,10 @@ class InputData(Database):
         # add users
 
         append_user = UserCommand(session).append_user
-        append_user('user', 'ユーザ', front.id, is_admin=False, is_operator=True)
-        append_user('adope', '管理ユーザ', front.id, is_admin=True, is_operator=True)
-        user1 = append_user('user2', 'ユーザ2', front.id, is_admin=False, is_operator=True)
-        user2 = append_user('user3', 'ユーザ3', front.id, is_admin=False, is_operator=True)
-        user3 = append_user('user4', 'ユーザ4', front.id, is_admin=False, is_operator=True)
+        append_user(User.new('user', 'ユーザ', front.id, role=UserRole.OPERATOR))
+        user1 = append_user(User.new('user2', 'ユーザ2', front.id, role=UserRole.OPERATOR))
+        user2 = append_user(User.new('user3', 'ユーザ3', front.id, role=UserRole.OPERATOR))
+        user3 = append_user(User.new('user4', 'ユーザ4', front.id, role=UserRole.OPERATOR))
 
         # add skills
 
@@ -58,8 +48,8 @@ class InputData(Database):
 
         from datetime import time
 
-        from applications.services import OperatorQuery
-        from applications.services import SchedulerQuery
+        from applications.backend.services import OperatorQuery
+        from applications.backend.services import SchedulerQuery
         from domains.models.scheduler import WorkCategory
 
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id

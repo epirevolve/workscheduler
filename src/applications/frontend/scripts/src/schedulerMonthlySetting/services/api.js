@@ -6,8 +6,8 @@ export const fetchMonthlySetting = async (payload) => {
         const res = await requestAgent
             .get('/scheduler/api/monthly-setting')
             .query({
-                'teamId': team.id,
-                scheduleOf
+                'team-id': team.id,
+                'schedule-of': scheduleOf
             })
             .set('X-CSRFToken', csrfToken);
         return ({ res });

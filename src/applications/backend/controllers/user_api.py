@@ -24,7 +24,6 @@ def append_user():
     try:
         req = UserCommandAdapter(session).append_user(jsonize.loads(request.data))
         session.commit()
-        session.refresh(req)
         response = jsonize.json_response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()
@@ -40,10 +39,9 @@ def append_user():
 def update_user(user_id):
     session = get_db_session()
     try:
-        req = UserCommandAdapter(session).update_user(jsonize.loads(request.data))
+        UserCommandAdapter(session).update_user(jsonize.loads(request.data))
         session.commit()
-        session.refresh(req)
-        response = jsonize.json_response(jsonize.dumps(req))
+        response = jsonize.json_response()
     except Exception as e:
         session.rollback()
         print(e)

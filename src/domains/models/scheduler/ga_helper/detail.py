@@ -65,7 +65,7 @@ class SchedulerDetailHelper:
     
     def _set_work_category_day_off(self, outline, work_category):
         available_indices = self._get_holiday_available_indices(outline, work_category)
-        amplitude = np.random.choice([-1, 0, 1, 2], p=[0.05, 0.4, 0.4, 0.15])
+        amplitude = np.random.choice([-1, 0, 1, 2], p=[0.05, 0.3, 0.35, 0.3])
         outline_len = len(outline)
         i = 0
         while i < self._least_attendance[work_category] + amplitude:
@@ -130,7 +130,7 @@ class SchedulerDetailHelper:
     def _put_details(self, outlines, operator):
         combines = []
         work_categories = self._find_operator_work_categories(operator)
-        outlines = [x[:] for x in outlines for _ in range(3)]
+        outlines = [x[:] for x in outlines for _ in range(5)]
         for outline in outlines:
             outline = self._set_work_categories(outline, work_categories)
             outline = self._set_fixed_schedules(outline, operator)

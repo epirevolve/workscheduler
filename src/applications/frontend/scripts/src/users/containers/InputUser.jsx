@@ -13,8 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
     changeLoginId: (e) => dispatch(actions.changeLoginId(e.target.value)),
     changeName: (e) => dispatch(actions.changeName(e.target.value)),
     changeTeam: (e) => dispatch(actions.changeTeam(e.target.value)),
-    changeIsAdmin: (e) => dispatch(actions.changeIsAdmin(e.target.checked)),
-    changeIsOperator: (e) => dispatch(actions.changeIsOperator(e.target.checked)),
+    changeRole: (e) => dispatch(actions.changeRole(e.target.value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserForm);

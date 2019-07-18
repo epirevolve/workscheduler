@@ -31,11 +31,13 @@ const createCardInGrid = (title, img, href, description) => {
     );
 };
 
+const authRole = auth.role ? auth.role._value_ : -1;
+
 const menu = () => (
     <div css={my4}>
         <Grid container spacing={2}>
             {createCardInGrid("Schedule", "schedule.svg", urlSchedules, "your work schedule and ask change some days")}
-            {auth.isOperator && (
+            {authRole == 3 && (
                 <>
                     {createCardInGrid("Requests", "request.svg", urlRequests, "request days you wanna get rest")}
                     {createCardInGrid("As Operator", "operator.svg", urlAsOperator, "appeal what you can do by registering skill")}
@@ -43,7 +45,7 @@ const menu = () => (
             )}
             {createCardInGrid("As User", "user.svg", urlAsUser, "reset your password")}
         </Grid>
-        {auth.isAdmin && (
+        {authRole == 2 && (
             <>
                 <Box css={css(my4)}>
                     <Divider />

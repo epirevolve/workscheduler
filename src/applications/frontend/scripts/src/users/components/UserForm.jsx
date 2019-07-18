@@ -11,13 +11,18 @@ import FormControl from '@material-ui/core/FormControl';
 
 const dataset = document.querySelector('script[src*="users"]').dataset;
 const teams = JSON.parse(dataset.teams);
+const roles = JSON.parse(dataset.roles);
 
 const userEdit = ({ user, changeLoginId, changeName, changeTeam,
-    changeIsAdmin, changeIsOperator }) => {
+    changeRole }) => {
         const teamList = teams.map((x, i) => <MenuItem key={i} value={x}>{x.name}</MenuItem>);
+        const roleList = roles.map((x, i) => <MenuItem key={i} value={x}>{x._name_}</MenuItem>);
 
         let team = user.team || "";
         if (team && teams.map((x) => x.id).includes(team.id)) team = teams.find((x) => x.id == team.id);
+
+        let role = user.role || "";
+        if (role && roles.map((x) => x._value_).includes(role._value_)) role = roles.find((x) => x._value_ == role._value_);
 
         return (
             <>
@@ -32,12 +37,12 @@ const userEdit = ({ user, changeLoginId, changeName, changeTeam,
                     </Select>
                 </FormControl>
                 <br />
-                <FormControlLabel margin="dense" label="is admin"
-                    control={<Checkbox checked={user.isAdmin}
-                        onChange={changeIsAdmin} color="primary" />} />
-                <FormControlLabel margin="dense" label="is operator"
-                    control={<Checkbox checked={user.isOperator}
-                        onChange={changeIsOperator} color="primary" />} />
+                <FormControl margin="dense">
+                    <InputLabel htmlFor="role">role</InputLabel>
+                    <Select value={role} id="role" onChange={changeRole}>
+                        {roleList}
+                    </Select>
+                </FormControl>
             </>
         );
 };
@@ -47,8 +52,7 @@ userEdit.propTypes = {
     changeLoginId: propTypes.func.isRequired,
     changeName: propTypes.func.isRequired,
     changeTeam: propTypes.func.isRequired,
-    changeIsAdmin: propTypes.func.isRequired,
-    changeIsOperator: propTypes.func.isRequired,
+    changeRole: propTypes.func.isRequired,
 };
 
 export default userEdit;

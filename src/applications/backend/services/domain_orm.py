@@ -10,6 +10,7 @@ from domains.models.scheduler import FixedSchedule
 from domains.models.scheduler import Vacation
 from domains.models.user import Team
 from domains.models.user import User
+from domains.models.user import UserRole
 from domains.models.operator import Skill
 from domains.models.operator import Relation
 from domains.models.operator import Operator
@@ -32,11 +33,30 @@ def to_team(data):
     return Team(**data)
 
 
+def to_role(data):
+    role = default_pop(data, '_value_', 3)
+    if role == 1:
+        return UserRole.DEVELOPER
+    if role == 2:
+        return UserRole.ADMINISTRATOR
+    if role == 3:
+        return UserRole.OPERATOR
+
+
+def to_new_user(data):
+    if not data:
+        return None
+    team = to_team(default_pop(data, 'team'))
+    role = to_role(default_pop(data, 'role'))
+    return User.new(**data, team=team, role=role)
+
+
 def to_user(data):
     if not data:
         return None
     team = to_team(default_pop(data, 'team'))
-    return User(**data, team=team)
+    role = to_role(default_pop(data, 'role'))
+    return User(**data, team=team, role=role)
 
 
 def to_skill(data):

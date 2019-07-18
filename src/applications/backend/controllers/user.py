@@ -17,7 +17,7 @@ from backend.adapters import UserFacadeAdapter
 from backend.functions.controller import admin_required
 from backend.services import UserQuery
 from applications.backend import get_db_session
-
+from domains.models.user import UserRole
 
 bp = Blueprint('user', __name__, template_folder='../../frontend/views', static_folder="../../frontend/statics")
 
@@ -64,7 +64,8 @@ def show_users():
     session = get_db_session()
     users = UserQuery(session).get_users()
     teams = UserQuery(session).get_teams()
-    return render_template('users.html', users=users, teams=teams)
+    roles = [UserRole.DEVELOPER, UserRole.ADMINISTRATOR, UserRole.OPERATOR]
+    return render_template('users.html', users=users, teams=teams, roles=roles)
 
 
 @bp.route('/teams')

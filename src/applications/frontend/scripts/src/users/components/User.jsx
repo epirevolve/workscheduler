@@ -16,8 +16,7 @@ const user = ({ user, edit }) => (
         <ListItemText primary={user.name} css={css({ width: '20%' })} />
         <ListItemText primary={user.loginId} secondary={'login id'} css={css({ width: '10%' })} />
         <ListItemText primary={user.team.name} secondary={'team'} css={css({ width: '10%' })} />
-        {user.isAdmin && <ListItemText primary={'admin'} />}
-        {user.isOperator && <ListItemText primary={'operator'} />}
+        <ListItemText primary={user.role._name_} secondary={'role'} css={css({ width: '10%' })} />
     </ListItem>
 );
 

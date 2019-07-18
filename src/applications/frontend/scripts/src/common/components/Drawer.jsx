@@ -29,6 +29,8 @@ const urlTeams = dataset.urlTeams;
 const urlSkills = dataset.urlSkills;
 const auth = JSON.parse(dataset.auth);
 
+const authRole = auth.role ? auth.role._value_ : -1;
+
 const drawer = ({ open, setOpen }) => (
     <Drawer open={open} onClose={() => setOpen((prev) => ({ ...prev, open: false }))}>
         <div tabIndex={0}>
@@ -43,7 +45,7 @@ const drawer = ({ open, setOpen }) => (
                     </ListItemIcon>
                     <ListItemText primary="schedule" className="menuText" />
                 </ListItem>
-                {auth.isOperator && (
+                {authRole && (
                     <>
                         <ListItem button component="a" key="requests" href={urlRequests}>
                             <ListItemIcon>
@@ -66,7 +68,7 @@ const drawer = ({ open, setOpen }) => (
                     <ListItemText primary="as user" className="menuText" />
                 </ListItem>
                 <Divider />
-                {auth.isAdmin && (
+                {authRole == 2 && (
                     <>
                         <ListItem button component="a" key="scheduler" href={urlSchedulerMenu}>
                             <ListItemIcon>

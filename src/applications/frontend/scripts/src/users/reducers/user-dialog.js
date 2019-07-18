@@ -11,8 +11,7 @@ const dialog = (state = {}, action) => {
                 loginId: '',
                 name: '',
                 team: teams[0],
-                isAdmin: false,
-                isOperator: false,
+                role: 3,
                 isInactivated: false,
             };
         case actionTypes.OPEN_DIALOG_UPDATE:
@@ -21,8 +20,7 @@ const dialog = (state = {}, action) => {
                 loginId: action.user.loginId,
                 name: action.user.name,
                 team: action.user.team,
-                isAdmin: action.user.isAdmin,
-                isOperator: action.user.isOperator,
+                role: action.user.role,
                 isInactivated: action.user.isInactivated,
             };
         case actionTypes.CHANGE_LOGIN_ID:
@@ -37,13 +35,9 @@ const dialog = (state = {}, action) => {
             return { ...state,
                 team: action.obj
             };
-        case actionTypes.CHANGE_IS_ADMIN:
+        case actionTypes.CHANGE_ROLE:
             return { ...state,
-                isAdmin: action.isChecked
-            };
-        case actionTypes.CHANGE_IS_OPERATOR:
-            return { ...state,
-                isOperator: action.isChecked
+                role: action.role
             };
         default:
             return state;

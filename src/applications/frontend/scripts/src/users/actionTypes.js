@@ -20,5 +20,4 @@ export const CLOSE_DIALOG = Symbol();
 export const CHANGE_LOGIN_ID = Symbol();
 export const CHANGE_NAME = Symbol();
 export const CHANGE_TEAM = Symbol();
-export const CHANGE_IS_ADMIN = Symbol();
-export const CHANGE_IS_OPERATOR = Symbol();
+export const CHANGE_ROLE = Symbol();

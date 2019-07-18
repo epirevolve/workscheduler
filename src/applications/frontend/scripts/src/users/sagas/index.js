@@ -27,10 +27,10 @@ export function *handleAppendUser() {
 }
 
 function *runUpdateUser(action) {
-    const { res, error } = yield call(api.udpateUser, action.payload);
-    if (res && !error) {
+    const { error } = yield call(api.udpateUser, action.payload);
+    if (!error) {
         yield all([
-            put(actions.successUpdateUser(JSON.parse(res.text))),
+            put(actions.successUpdateUser(action.payload.user)),
             put(actions.closeDialog()),
             put(showSnackbar('Succeed to update user', 'success')),
         ]);

@@ -4,6 +4,7 @@ from domains.models.operator import Skill
 from domains.models.operator import Operator
 from domains.models.user import Team
 from domains.models.user import User
+from domains.models.user import UserRole
 
 
 class OperatorQuery:
@@ -19,11 +20,11 @@ class OperatorQuery:
     
     def get_operators(self) -> [Operator]:
         return self._session.query(Operator) \
-            .filter(Operator.user.has(User.is_operator)).all()
+            .filter(Operator.user.has(User.role == UserRole.OPERATOR)).all()
     
     def get_active_operators_of_team_id(self, team_id: str) -> [Operator]:
         return self._session.query(Operator) \
-            .filter(Operator.user.has(User.is_operator),
+            .filter(Operator.user.has(User.role == UserRole.OPERATOR),
                     Operator.user.has(User.team.has(Team.id == team_id)),
                     Operator.user.has(User.is_inactivated.is_(False))).all()
 

@@ -24,4 +24,4 @@ def bp_register(app):
     app.register_blueprint(schedule_api_bp, url_prefix="/schedule/api")
     app.register_blueprint(operator_api_bp, url_prefix="/operator/api")
 
-    # print(app.url_map)
+    print(app.url_map)

@@ -3,5 +3,5 @@
 {% block script %}
 <script id="breadscram" data-current="{{ to_json({'name': 'Users'}) }}"></script>
 <script src="{{ url_for('user.static', filename='js/users.bundle.min.js') }}"
-        data-users="{{ to_json(users) }}" data-teams="{{ to_json(teams) }}"></script>
+        data-users="{{ to_json(users) }}" data-teams="{{ to_json(teams) }}" data-roles="{{ to_json(roles) }}"></script>
 {% endblock %}
