@@ -42,14 +42,14 @@ def create_app(test_config=None):
     app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), '../frontend/views'))
     app.config.from_object(__name__)
 
+    load_dotenv('.env')
+
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('SECRET_KEY'),
         DATABASE=os.environ.get('DATABASE')
     )
 
-    if test_config is None:
-        load_dotenv('.env')
-    else:
+    if test_config is not None:
         app.config.update(test_config)
 
     app.config.from_envvar('WORK_SCHEDULER_SETTING', silent=True)
