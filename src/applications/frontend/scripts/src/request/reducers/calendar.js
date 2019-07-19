@@ -9,13 +9,13 @@ const calendar = (state = [], action) => {
                     const date = new Date(`${action.scheduleOf}-${y.day}`);
                     if (!(atFromDate <= date && date <= atToDate))
                         return y;
-                    return {...y, requests: y.requests.concat(action.request)};
+                    return { ...y, requests: y.requests.concat(action.request) };
                 })
             );
         }
         case 'REMOVE_REQUEST':
             return state.map((x) => x.map((y) => (y)
-                ? {...y, requests: y.requests.filter((z) => z.id != action.id)}
+                ? { ...y, requests: y.requests.filter((z) => z.id != action.id) }
                 : y)
             );
         default:

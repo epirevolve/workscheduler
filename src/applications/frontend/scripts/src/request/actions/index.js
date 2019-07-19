@@ -1,44 +1,55 @@
 import moment from 'moment';
+import * as actionTypes from '../actionTypes';
 
-export const addRequest = (scheduleOf, request) => ({
-    type: 'APPEND_REQUEST',
-    scheduleOf,
-    request
+export const startAppendRequest = (request) => ({
+    type: actionTypes.START_APPEND_REQUEST,
+    payload: { request }
 });
 
-export const removeRequest = (id) => ({
-    type: 'REMOVE_REQUEST',
-    id
+export const successAppendRequest = (request) => ({
+    type: actionTypes.SUCCESS_APPEND_REQUEST,
+    payload: { request }
+});
+
+export const failureAppendRequest = () => ({
+    type: actionTypes.FAILURE_APPEND_REQUEST,
+});
+
+export const startUpdateRequest = (request) => ({
+    type: actionTypes.START_APPEND_REQUEST,
+    payload: { request }
+});
+
+export const startRemoveRequest = (id) => ({
+    type: actionTypes.START_REMOVE_REQUEST,
+    payload: { id }
 });
 
 export const openDialogToAppend = (atFrom, atTo) => ({
-    type: 'OPEN_DIALOG_APPEND',
-    request: Object.assign({},
-        { atFrom: moment(atFrom), atTo: moment(atTo) })
+    type: actionTypes.OPEN_DIALOG_APPEND,
+    payload: { atFrom: moment(atFrom), atTo: moment(atTo) }
 });
 
 export const openDialogToUpdate = (request) => ({
-    type: 'OPEN_DIALOG_UPDATE',
-    request: Object.assign({}, request,
-        { atFrom: moment(request.atFrom), atTo: moment(request.atTo) })
+    type: actionTypes.OPEN_DIALOG_UPDATE,
+    payload: { request }
 });
 
 export const closeDialog = () => ({
-    type: 'CLOSE_DIALOG'
+    type: actionTypes.CLOSE_DIALOG
 });
 
 export const changeTitle = (text) => ({
-    type: 'CHANGE_TITLE',
-    text
+    type: actionTypes.CHANGE_TITLE,
+    payload: { text }
 });
 
 export const changeNote = (text) => ({
-    type: 'CHANGE_NOTE',
-    text
+    type: actionTypes.CHANGE_NOTE,
+    payload: { text }
 });
 
 export const changeDate = ([ atFrom, atTo ]) => ({
-    type: 'CHANGE_DATE',
-    atFrom,
-    atTo
+    type: actionTypes.CHANGE_DATE,
+    payload: { atFrom, atTo }
 });

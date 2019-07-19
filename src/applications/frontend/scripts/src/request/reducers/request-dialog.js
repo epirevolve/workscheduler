@@ -1,41 +1,36 @@
 import moment from 'moment';
 
-const dialog = (state = {isOpen: false}, action) => {
+import * as actionTypes from '../actionTypes';
+
+const dialog = (state = { isOpen: false }, action) => {
+    const payload = action.payload;
     switch (action.type) {
-        case 'OPEN_DIALOG_APPEND':
-            return {...state,
-                isOpen: true,
+        case actionTypes.OPEN_DIALOG_APPEND:
+            return { ...state,
                 id: '',
                 title: '',
                 note: '',
-                atFrom: moment(action.request.atFrom),
-                atTo: moment(action.request.atTo)
+                atFrom: moment(payload.atFrom),
+                atTo: moment(payload.atTo)
             };
-        case 'OPEN_DIALOG_UPDATE':
-            return {...state,
-                isOpen: true,
-                id: action.request.id,
-                title: action.request.title,
-                note: action.request.note,
-                atFrom: moment(action.request.atFrom),
-                atTo: moment(action.request.atTo)
+        case actionTypes.OPEN_DIALOG_UPDATE:
+            return { ...state,
+                ...payload.request,
+                atFrom: moment(payload.request.atFrom),
+                atTo: moment(payload.request.atTo)
             };
-        case 'CLOSE_DIALOG':
-            return {...state,
-                isOpen: false
+        case actionTypes.CHANGE_TITLE:
+            return { ...state,
+                title: payload.text
             };
-        case 'CHANGE_TITLE':
-            return {...state,
-                title: action.text
+        case actionTypes.CHANGE_NOTE:
+            return { ...state,
+                note: payload.text
             };
-        case 'CHANGE_NOTE':
-            return {...state,
-                note: action.text
-            };
-        case 'CHANGE_DATE':
-            return {...state,
-                atFrom: action.atFrom,
-                atTo: action.atTo
+        case actionTypes.CHANGE_DATE:
+            return { ...state,
+                atFrom: payload.atFrom,
+                atTo: payload.atTo
             };
         default:
             return state;

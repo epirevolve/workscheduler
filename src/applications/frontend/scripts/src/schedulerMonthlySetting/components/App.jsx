@@ -1,11 +1,21 @@
 import React from 'react';
 
-import MonthlySetting from './MonthlySetting';
 import WaitLoading from 'WaitLoading';
+import OpenDialog from "../containers/OpenDialog";
+import ChangeSelectMonth from '../containers/ChangeSelectMonth';
+import ManageDaySettings from '../containers/ManageDaySettings';
+import AdjustMonthlyHolidayCount from '../containers/AdjustMonthlyHolidayCount';
+import DisplayFixedSchedules from '../containers/DisplayFixedSchedules';
+import CommitMonthlySetting from '../containers/CommitMonthlySetting';
 
 const app = () => (
     <WaitLoading>
-        <MonthlySetting />
+        <OpenDialog />
+        <ChangeSelectMonth />
+        <ManageDaySettings />
+        <AdjustMonthlyHolidayCount />
+        <DisplayFixedSchedules />
+        <CommitMonthlySetting />
     </WaitLoading>
 );
 

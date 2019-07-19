@@ -32,7 +32,7 @@ def show_schedules_administrator():
 @bp.route('/')
 @login_required
 def show_schedules():
-    if current_user.role == UserRole.Operator:
+    if current_user.role == UserRole.OPERATOR:
         return show_schedules_operator()
     else:
         return show_schedules_administrator()
