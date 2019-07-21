@@ -17,12 +17,11 @@ const requestCss = css({
 });
 
 const request = ({ request, edit, className }) => (
-    <button className={`btn btn-block ${className}`} css={requestCss}
-        type="button" onClick={edit}
+    <Button className={`btn btn-block ${className}`} css={requestCss} onClick={edit}
         data-at-from={request.atFrom}
         data-at-to={request.atTo}>
         { request.title }
-    </button>
+    </Button>
 );
 
 request.propTypes = {

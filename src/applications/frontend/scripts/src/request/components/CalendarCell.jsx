@@ -10,8 +10,8 @@ import Request from './Request';
 import { showSnackbar } from 'snackbarActions';
 
 /** @jsx jsx */
-import {css, jsx} from '@emotion/core';
-import {m2} from 'margin';
+import { css, jsx } from '@emotion/core';
+import { m2 } from 'margin';
 
 const cellCss = css({
     textAlign: 'right',
@@ -53,7 +53,7 @@ function handleAppend (day, action) {
     );
 }
 
-const calendarCell = ({day, append, edit}) => {
+const calendarCell = ({ day, append, edit }) => {
     if (!day)
         return <Grid item xs css={cellCss}></Grid>;
 

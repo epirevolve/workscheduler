@@ -1,6 +1,8 @@
+import * as actionTypes from "../actionTypes";
+
 const calendar = (state = [], action) => {
     switch (action.type) {
-        case 'APPEND_REQUEST':{
+        case actionTypes.APPEND_REQUEST: {
             const atFromDate = new Date(action.request.atFrom).setEarliestTime();
             const atToDate = new Date(action.request.atTo).setLatestTime();
             return state.map((x) => x.map((y) => {
@@ -13,7 +15,7 @@ const calendar = (state = [], action) => {
                 })
             );
         }
-        case 'REMOVE_REQUEST':
+        case actionTypes.REMOVE_REQUEST:
             return state.map((x) => x.map((y) => (y)
                 ? { ...y, requests: y.requests.filter((z) => z.id != action.id) }
                 : y)

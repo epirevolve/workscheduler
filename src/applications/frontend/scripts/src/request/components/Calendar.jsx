@@ -23,14 +23,14 @@ const blueHeaderCss = css({
     color: '#17a2b8 !important'
 },headerCss);
 
-import {mx3} from 'margin';
+import { mx3 } from 'margin';
 
 const calendar = ({ calendar, ...other }) => {
     const weeks = [];
 
-    for (const [index1, week] of calendar.entries()) {
+    for (const [ index1, week ] of calendar.entries()) {
         const week_ = [];
-        for (const [index2, day] of week.entries()) {
+        for (const [ index2, day ] of week.entries()) {
             week_.push(<CalendarCell key={`${index1}-${index2}`} day={day} {...other} />);
         }
         weeks.push(<Grid container key={`${index1}`}>{week_}</Grid>);

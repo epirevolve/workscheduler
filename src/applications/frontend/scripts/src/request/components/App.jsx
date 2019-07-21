@@ -2,10 +2,11 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 
 import OpenDialog from '../containers/OpenDialog';
-import RequestsContainer from '../containers/RequestsContainer';
 import ChangeSelectMonth from '../containers/ChangeSelectMonth';
+import DisplayCalendar from '../containers/DisplayCalendar';
 import Layout from 'Layout';
 
 import { holidays, paidHolidays } from "../embeddedData";
@@ -16,18 +17,18 @@ const app = () => (
         <ChangeSelectMonth />
         <Grid container>
             <Grid item sm={10}>
-                <RequestsContainer />
+                <DisplayCalendar />
             </Grid>
             <Grid item sm={2}>
                 <>
                     <Typography variant="h5">Monthly Holidays</Typography>
-                    <p>{holidays || 0} days</p>
+                    <Typography variant="body1">{holidays || 0} days</Typography>
                 </>
-                <hr />
-                <div>
-                    <h5>Remained Paid Holidays</h5>
-                    <p>{paidHolidays || 0} days</p>
-                </div>
+                <Divider />
+                <>
+                    <Typography variant="h5">Remained Paid Holidays</Typography>
+                    <Typography variant="body1">{paidHolidays || 0} days</Typography>
+                </>
             </Grid>
         </Grid>
     </Layout>

@@ -1,5 +1,22 @@
 import requestAgent from 'superagent';
 
+export const fetchCalendar = async (payload) => {
+    const { scheduleOf, team } = payload;
+    try {
+        const res = await requestAgent
+            .get('/scheduler/api/requests')
+            .query({
+                'team-id': team.id,
+                'schedule-of': scheduleOf
+            })
+            .set('X-CSRFToken', csrfToken);
+        return ({ res });
+    }
+    catch (error) {
+        return ({ error });
+    }
+};
+
 export const appendRequest = async (payload) => {
     const { request } = payload;
     try {
