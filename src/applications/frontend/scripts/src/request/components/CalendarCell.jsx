@@ -22,7 +22,7 @@ const cellCss = css({
 
 const dayCss = css({
     fontSize: '1.3rem'
-},m2);
+}, m2);
 
 const requestIconCss = css({
     float: 'left',
@@ -54,8 +54,7 @@ function handleAppend (day, action) {
 }
 
 const calendarCell = ({ day, append, edit }) => {
-    if (!day)
-        return <Grid item xs css={cellCss}></Grid>;
+    if (!day || day == void 0) return <Grid item xs css={cellCss}></Grid>;
 
     const requests = [];
 

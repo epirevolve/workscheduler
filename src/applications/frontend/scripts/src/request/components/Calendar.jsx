@@ -17,18 +17,21 @@ const headerCss = css({
 
 const redHeaderCss = css({
     color: '#dc3545 !important'
-},headerCss);
+}, headerCss);
 
 const blueHeaderCss = css({
     color: '#17a2b8 !important'
-},headerCss);
+}, headerCss);
 
 import { mx3 } from 'margin';
 
-const calendar = ({ calendar, ...other }) => {
+const calendar = ({ monthlySetting, ...other }) => {
     const weeks = [];
 
-    for (const [ index1, week ] of calendar.entries()) {
+    weeks.push([]);
+    const firstDay = new Date(monthlySetting.year, monthlySetting.month, 1);
+    if (firstDay.getDay() > 0) [...Array(5).keys()].map((i) => weeks[weeks.length - 1].push(<CalendarCell key={i} />));
+    for (const [ index1, week ] of monthlySetting.days.entries()) {
         const week_ = [];
         for (const [ index2, day ] of week.entries()) {
             week_.push(<CalendarCell key={`${index1}-${index2}`} day={day} {...other} />);
@@ -53,7 +56,7 @@ const calendar = ({ calendar, ...other }) => {
 };
 
 calendar.propTypes = {
-    calendar: propTypes.array
+    monthlySetting: propTypes.object
 };
 
 export default calendar;
