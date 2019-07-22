@@ -17,10 +17,11 @@ const isValidRange = (v) => v && v[0] && v[1];
 const requestForm = ({
     request, monthlySetting, changeTitle, changeNote, changeDate
     }) => {
-    const currentMonth = new Date(monthlySetting.year, monthlySetting.month, 1).setEarliestDateTime();
+    const currentMonth = new Date(monthlySetting.year, monthlySetting.month-1, 1);
     const disabledDate = (current) => {
         if (!current) return false;
-        return current.valueOf() < currentMonth.setEarliestDateTime() || currentMonth.setLatestDateTime() < current.valueOf();
+        return current.valueOf() < moment(`${currentMonth.toDateFormatString()}T00:00:00`).valueOf()
+            || moment(`${currentMonth.toYearMonthFormatString()}-${currentMonth.getDaysInMonth()}T23:59:59`).valueOf() < current.valueOf();
     };
     const timePickerElement = <TimePickerPanel defaultValue={moment('00:00', 'HH:mm')}
         showSecond={false} minuteStep={15} />;

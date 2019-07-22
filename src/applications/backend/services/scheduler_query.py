@@ -14,8 +14,8 @@ class SchedulerQuery:
     def __init__(self, session):
         self._session = session
         
-    def get_scheduler(self, id_: str) -> Scheduler:
-        return self._session.query(Scheduler).get(id_)
+    def get_scheduler(self, id: str) -> Scheduler:
+        return self._session.query(Scheduler).get(id)
     
     def get_scheduler_of_team_id(self, team_id: str) -> Scheduler:
         return self._session.query(Scheduler)\
@@ -36,8 +36,8 @@ class SchedulerQuery:
         return self._session.query(MonthlySetting)\
             .filter(MonthlySetting.id == monthly_setting_id).one_or_none()
     
-    def get_requests_of_id(self, request_id: str) -> [Request]:
-        return self._session.query(Request).filter(Request.id == request_id).all()
+    def get_requests_of_id(self, request_id: str) -> Request:
+        return self._session.query(Request).get(request_id)
 
     def get_current_runners(self) -> [Scheduler]:
         return self._session.query(Scheduler).filter(Scheduler.is_launching).all()

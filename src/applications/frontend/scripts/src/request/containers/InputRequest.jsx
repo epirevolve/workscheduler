@@ -6,7 +6,8 @@ import * as actions from '../actions';
 import RequestForm from '../components/RequestForm';
 
 const mapStateToProps = (state) => ({
-    request: state.requestDialog
+    request: state.requestDialog,
+    monthlySetting: state.monthlySetting
 });
 
 const mapDispatchToProps = (dispatch) => ({

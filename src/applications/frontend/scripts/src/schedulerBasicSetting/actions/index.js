@@ -1,3 +1,5 @@
+import { getUuid } from 'commonApi';
+
 export const changeCertifiedSkill = (checked) => ({
     type: 'CHANGE_CERTIFIED_SKILL',
     checked
@@ -92,9 +94,13 @@ export const changeWorkCategoryImpossibleOperator = (id, operator) => ({
     operator
 });
 
-export const addWorkCategory = () => ({
-    type: 'ADD_WORK_CATEGORY'
-});
+export const addWorkCategory = async () => {
+    const uuid = await getUuid();
+    return {
+        type: 'ADD_WORK_CATEGORY',
+        uuid
+    };
+};
 
 export const removeWorkCategory = (id) => ({
     type: 'REMOVE_WORK_CATEGORY',

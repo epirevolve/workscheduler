@@ -100,9 +100,9 @@ def update_skill(skill_id: str):
 def remove_skill(skill_id: str):
     session = get_db_session()
     try:
-        req = OperatorCommandAdapter(session).delete_skill(skill_id)
+        OperatorCommandAdapter(session).delete_skill(skill_id)
         session.commit()
-        response = Response(jsonize.dumps(req))
+        response = Response()
     except Exception as e:
         session.rollback()
         print(e)

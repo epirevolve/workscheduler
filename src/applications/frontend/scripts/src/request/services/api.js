@@ -17,28 +17,14 @@ export const fetchMonthlySetting = async (payload) => {
     }
 };
 
-export const appendRequest = async (payload) => {
-    const { request } = payload;
+export const updateMonthlySetting = async (payload) => {
+    const { monthlySetting } = payload;
     try {
-        const res = await requestAgent
-            .post('/scheduler/api/requests')
-            .send(request)
+        await requestAgent
+            .put('/scheduler/api/monthly-settings')
+            .send(monthlySetting)
             .set('X-CSRFToken', csrfToken);
-        return ({ res });
-    }
-    catch (error) {
-        return ({ error });
-    }
-};
-
-export const updateRequest = async (payload) => {
-    const { request } = payload;
-    try {
-        const res = await requestAgent
-            .put(`/scheduler/api/requests/${request.id}`)
-            .send(request)
-            .set('X-CSRFToken', csrfToken);
-        return ({ res });
+        return ({});
     }
     catch (error) {
         return ({ error });

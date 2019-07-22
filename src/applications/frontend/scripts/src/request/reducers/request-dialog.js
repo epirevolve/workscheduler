@@ -2,17 +2,21 @@ import moment from 'moment';
 
 import * as actionTypes from '../actionTypes';
 
+import { currentOperator } from "../embeddedData";
+
 const dialog = (state = { isOpen: false }, action) => {
     const payload = action.payload;
     switch (action.type) {
-        case actionTypes.OPEN_DIALOG_APPEND:
+        case actionTypes.OPEN_DIALOG_APPEND: {
             return { ...state,
-                id: '',
+                id: payload.uuid,
                 title: '',
                 note: '',
+                operator: currentOperator,
                 atFrom: moment(payload.atFrom),
                 atTo: moment(payload.atTo)
             };
+        }
         case actionTypes.OPEN_DIALOG_UPDATE:
             return { ...state,
                 ...payload.request,

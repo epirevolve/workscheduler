@@ -59,7 +59,6 @@ def get_monthly_setting():
 
 @bp.route('/monthly-settings', methods=['PUT'])
 @login_required
-@admin_required
 def update_monthly_setting():
     session = get_db_session()
     try:
@@ -193,52 +192,6 @@ def terminate_scheduler():
         SchedulerCommandAdapter(session).terminate(jsonize.loads(request.data))
         response = jsonize.json_response()
     except Exception as e:
-        print(e)
-        response = jsonize.json_response(status_code=400)
-    return response
-
-
-@bp.route('/requests', methods=['POST'])
-@login_required
-def append_request():
-    scheduler_id = request.args.get('scheduler')
-    session = get_db_session()
-    try:
-        req = SchedulerCommandAdapter(session).append_my_request(
-            scheduler_id, jsonize.loads(request.data))
-        session.commit()
-        session.refresh(req)
-        response = jsonize.json_response(jsonize.dumps(req))
-    except CalendarError as e:
-        session.rollback()
-        print(e)
-        response = jsonize.json_response({'errorMessage': 'not allowed month is included in you request.'},
-                                         status_code=400)
-    except RequestError as e:
-        session.rollback()
-        print(e)
-        response = jsonize.json_response({'errorMessage': 'some requests are overlapping.'},
-                                         status_code=400)
-    except Exception as e:
-        session.rollback()
-        print(e)
-        response = jsonize.json_response(status_code=400)
-    return response
-
-
-@bp.route('/requests/<request_id>', methods=['PUT'])
-@login_required
-def update_request(request_id):
-    scheduler_id = request.args.get('scheduler')
-    session = get_db_session()
-    try:
-        req = SchedulerCommandAdapter(session).update_my_request(
-            scheduler_id, jsonize.loads(request.data))
-        session.commit()
-        session.refresh(req)
-        response = jsonize.json_response(jsonize.dumps(req))
-    except Exception as e:
-        session.rollback()
         print(e)
         response = jsonize.json_response(status_code=400)
     return response

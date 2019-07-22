@@ -5,16 +5,16 @@ import * as actions from '../actions';
 
 import MonthSelect from '../../common/components/MonthSelect';
 
-import { currentUser } from '../embeddedData';
+import { currentOperator } from '../embeddedData';
 
 const mapStateToProps = (state) => ({
-    monthYear: `${state.calendar.year}-${state.calendar.month}`
+    monthYear: `${state.monthlySetting.year}-${state.monthlySetting.month}`
 });
 
 const mapDispatchToProps = (dispatch) => ({
     changeMonthYear: (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(actions.startFetchMonthlySetting(currentUser.team, scheduleOf));
+        dispatch(actions.startFetchMonthlySetting(currentOperator.user.team, scheduleOf));
     }
 });
 

@@ -1,5 +1,7 @@
 import * as actionTypes from '../actionTypes';
 
+import { getUuid } from 'commonApi';
+
 export const changeRequire = (day, categoryId, require) => ({
     type: actionTypes.CHANGE_REQUIRE,
     payload: { day, categoryId, require }
@@ -40,10 +42,13 @@ export const changeParticipant = (participant) => ({
     payload: { participant }
 });
 
-export const openDialogToAppend = (scheduleOf) => ({
-    type: actionTypes.OPEN_DIALOG_APPEND,
-    payload: { scheduleOf }
-});
+export const openDialogToAppend = async (scheduleOf) => {
+    const uuid = await getUuid();
+    return {
+        type: actionTypes.OPEN_DIALOG_APPEND,
+        payload: { uuid, scheduleOf }
+    };
+};
 
 export const openDialogToUpdate = (fixedSchedule) => ({
     type: actionTypes.OPEN_DIALOG_UPDATE,

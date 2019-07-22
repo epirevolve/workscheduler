@@ -7,7 +7,7 @@ import ui from './ui';
 export const initValue = ({
     monthlySetting: {},
     requestDialog: {},
-    ui: { dialogOpen: false }
+    ui: { dialogOpen: false, isLoading: true, }
 });
 
 export default combineWithCommonReducer({ requestDialog, monthlySetting , ui });

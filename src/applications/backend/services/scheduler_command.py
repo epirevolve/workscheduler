@@ -131,10 +131,9 @@ class SchedulerCommand:
 
     def update_my_request(self, scheduler_id: str, id_: str, title: str,
                           note: str, at_from: datetime, at_to: datetime) -> Request:
-        requests = SchedulerQuery(self._session).get_requests_of_id(id_)
-        operator_id = requests[0].operator.id
-        for request in requests:
-            self._session.delete(request)
+        request = SchedulerQuery(self._session).get_requests_of_id(id_)
+        operator_id = request.operator.id
+        self._session.delete(request)
         self._session.flush()
         request = Request(id_, title, note,
                           at_from, at_to, OperatorQuery(self._session).get_operator(operator_id))
@@ -142,6 +141,5 @@ class SchedulerCommand:
         return request
 
     def remove_my_request(self, id: str):
-        requests = SchedulerQuery(self._session).get_requests_of_id(id)
-        for request in requests:
-            self._session.delete(request)
+        request = SchedulerQuery(self._session).get_requests_of_id(id)
+        self._session.delete(request)

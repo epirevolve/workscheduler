@@ -80,11 +80,12 @@ module.exports = {
         modules: [
             'node_modules',
             'src/common',
-            'src/common/functions',
+            'src/common/actions',
             'src/common/components',
             'src/common/containers',
-            'src/common/actions',
+            'src/common/functions',
             'src/common/reducers',
+            'src/common/services',
             'src/common/styles',
         ],
         extensions: [ '.js', '.jsx', '.ts', '.tsx', '.css' ]

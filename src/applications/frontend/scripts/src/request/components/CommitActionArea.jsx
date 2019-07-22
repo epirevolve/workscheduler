@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 
-const commitActionArea = ({ request, isAppend, close, remove, save }) => (
+const commitActionArea = ({ request, monthlySetting, isAppend, close, remove, save }) => (
     <>
         <Button onClick={close} color="default">
             Close
@@ -13,7 +13,7 @@ const commitActionArea = ({ request, isAppend, close, remove, save }) => (
                 Remove
             </Button>
         )}
-        <Button onClick={() => save(request, isAppend)} color="primary" variant="outlined">
+        <Button onClick={() => save(request, monthlySetting)} color="primary" variant="outlined">
             Save
         </Button>
     </>
@@ -21,6 +21,7 @@ const commitActionArea = ({ request, isAppend, close, remove, save }) => (
 
 commitActionArea.propTypes = {
     request: propTypes.object.isRequired,
+    monthlySetting: propTypes.object.isRequired,
     isAppend: propTypes.bool.isRequired,
     close: propTypes.func.isRequired,
     remove: propTypes.func.isRequired,

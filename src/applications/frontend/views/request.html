@@ -6,5 +6,6 @@
 
 {% block script %}
 <script id="breadscram" data-current="{{ to_json({'name': 'Requests'}) }}"></script>
-<script type="text/javascript" src="{{ url_for('scheduler.static', filename='js/request.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('scheduler.static', filename='js/request.bundle.min.js') }}"
+    data-current-operator="{{ to_json(current_operator) }}"></script>
 {% endblock %}

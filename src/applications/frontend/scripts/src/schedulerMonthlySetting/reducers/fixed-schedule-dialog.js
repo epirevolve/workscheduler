@@ -5,7 +5,7 @@ const dialog = (state = {}, action) => {
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_APPEND:
             return { ...state,
-                id: '',
+                id: payload.id,
                 title: '',
                 onFrom: `${payload.scheduleOf}-01`,
                 onTo: `${payload.scheduleOf}-01`,

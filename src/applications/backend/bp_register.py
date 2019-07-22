@@ -7,9 +7,11 @@ from backend.controllers.scheduler import bp as scheduler_bp
 from backend.controllers.schedule import bp as schedule_bp
 
 from backend.controllers.user_api import bp as user_api_bp
+from backend.controllers.operator_api import bp as operator_api_bp
 from backend.controllers.scheduler_api import bp as scheduler_api_bp
 from backend.controllers.schedule_api import bp as schedule_api_bp
-from backend.controllers.operator_api import bp as operator_api_bp
+
+from backend.controllers.util_api import bp as util_api_bp
 
 
 def bp_register(app):
@@ -23,5 +25,7 @@ def bp_register(app):
     app.register_blueprint(operator_api_bp, url_prefix="/operator/api")
     app.register_blueprint(scheduler_api_bp, url_prefix="/scheduler/api")
     app.register_blueprint(schedule_api_bp, url_prefix="/schedule/api")
+
+    app.register_blueprint(util_api_bp, url_prefix="/util/api")
 
     # print(app.url_map)

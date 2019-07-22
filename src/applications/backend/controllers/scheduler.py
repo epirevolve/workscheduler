@@ -71,4 +71,5 @@ def show_launch_histories():
 @bp.route('/requests')
 @login_required
 def show_my_request():
-    return render_template('request.html')
+    operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
+    return render_template('request.html', current_operator=operator)

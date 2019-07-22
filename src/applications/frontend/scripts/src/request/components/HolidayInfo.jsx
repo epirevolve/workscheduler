@@ -1,18 +1,24 @@
 import React from 'react';
 import propTypes from "prop-types";
 
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 
-import { currentUser } from "../embeddedData";
+import { my3, mx1, m2 } from "margin";
+
+import { currentOperator } from "../embeddedData";
 
 const holidayInfo = ({ holidays }) => (
     <>
-        <Typography variant="h5">Monthly Holidays</Typography>
-        <Typography variant="body1">{holidays || 0} days</Typography>
-        <Divider />
-        <Typography variant="h5">Remained Paid Holidays</Typography>
-        <Typography variant="body1">{currentUser.operator.remainPaidHolidays || 0} days</Typography>
+        <Typography variant="h6">Monthly Holidays</Typography>
+        <Typography variant="body1" css={m2}>{holidays || 0} days</Typography>
+        <Divider css={my3} />
+        <Typography variant="h6">Remained Paid Holidays</Typography>
+        <Typography variant="caption" css={mx1}>This number is registered by yourself</Typography>
+        <Typography variant="body1" css={m2}>{currentOperator.remainPaidHolidays || 0} days</Typography>
     </>
 );
 

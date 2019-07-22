@@ -24,7 +24,7 @@ render(
 );
 
 import { startFetchMonthlySetting } from "./actions";
-import { currentUser } from './embeddedData';
+import { currentOperator } from './embeddedData';
 const scheduleOf = new Date().addMonths(1).toYearMonthFormatString();
 
-store.dispatch(startFetchMonthlySetting(currentUser.team, scheduleOf));
+store.dispatch(startFetchMonthlySetting(currentOperator.user.team, scheduleOf));

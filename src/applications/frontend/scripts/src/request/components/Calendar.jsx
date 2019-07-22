@@ -28,14 +28,15 @@ import { mx3 } from 'margin';
 const calendar = ({ monthlySetting, ...other }) => {
     const weeks = [];
     weeks.push([]);
-    const firstDay = new Date(monthlySetting.year, monthlySetting.month, 1);
-    if (firstDay.getDay() > 0) [...Array(firstDay).keys()].map((i) => weeks[weeks.length - 1].push(<></>));
+    const firstDay = new Date(monthlySetting.year, monthlySetting.month-1, 1).getDay();
+    if (firstDay > 0) [...Array(firstDay).keys()].map((i) => weeks[weeks.length - 1].push(<CalendarCell key={i} {...other} />));
     for (const [ index, daySetting ] of monthlySetting.days.entries()) {
-        const currentDate = new Date(monthlySetting.year, monthlySetting.month, daySetting.day);
+        const currentDate = new Date(monthlySetting.year, monthlySetting.month-1, daySetting.day);
         if (currentDate.getDay() == 0) weeks.push([]);
-        weeks[weeks.length - 1].push(<CalendarCell key={index} daySetting={daySetting} currentDate={currentDate} {...other} />);
+        weeks[weeks.length - 1].push(<CalendarCell key={index+firstDay} daySetting={daySetting} currentDate={currentDate} {...other} />);
     }
-
+    const lastRowCellCount = weeks[weeks.length - 1].length;
+    for (const i in [...Array(7 - lastRowCellCount)]) weeks[weeks.length - 1].push(<CalendarCell key={i+41} {...other} />);
     return (
         <div css={mx3}>
             <Grid container>

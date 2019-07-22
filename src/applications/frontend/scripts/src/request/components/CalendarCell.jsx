@@ -7,7 +7,7 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 
 import Request from './Request';
 
-import { currentUser } from "../embeddedData";
+import { currentOperator } from "../embeddedData";
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -37,12 +37,11 @@ const containerCss = css({
 });
 
 const calendarCell = ({ daySetting, currentDate, append, edit }) => {
-    if (!daySetting || daySetting == void 0) return <Grid item xs css={cellCss}></Grid>;
+    if (!daySetting || daySetting == void 0) return <Grid item xs css={cellCss} />;
 
     const requests = [];
-
     for (const request of daySetting.requests) {
-        if (request.operator.id != currentUser.operator.id || (new Date(request.atFrom).getDate() != daySetting.day && daySetting.day != 1 && daySetting.dayName != 'Sun'))
+        if (request.operator.id != currentOperator.id || (new Date(request.atFrom).getDate() != daySetting.day && daySetting.day != 1 && daySetting.dayName != 'Sun'))
             continue;
         const from = new Date(request.atFrom);
         from.setDate(daySetting.day);
@@ -73,7 +72,7 @@ const calendarCell = ({ daySetting, currentDate, append, edit }) => {
 
 calendarCell.propTypes = {
     daySetting: propTypes.object,
-    currentDate: propTypes.object.isRequired,
+    currentDate: propTypes.object,
     append: propTypes.func.isRequired,
     edit: propTypes.func.isRequired
 };

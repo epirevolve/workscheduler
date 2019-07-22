@@ -11,12 +11,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    append: (day, currentDate) => {
+    append: async (day, currentDate) => {
         if (day.requests.length >= 2) {
             dispatch(showSnackbar('cant append more request on this day'));
             return;
         }
-        dispatch(openDialogToAppend(new Date(`${currentDate}T09:30`), new Date(`${currentDate}T18:00`)));
+        dispatch(await openDialogToAppend(currentDate));
     },
     edit: (request) => dispatch(openDialogToUpdate(request))
 });

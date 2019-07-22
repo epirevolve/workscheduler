@@ -35,8 +35,8 @@ const monthlySetting = (state = {}, action) => {
                 holidays: payload.count
             };
         case actionTypes.APPEND_FIXED_SCHEDULE: {
-            const onFrom = payload.fixedSchedule.onFrom.toDate().getDate();
-            const onTo = payload.fixedSchedule.onTo.toDate().getDate();
+            const onFrom = payload.fixedSchedule.onFrom.date();
+            const onTo = payload.fixedSchedule.onTo.date();
             return { ...state,
                 days: state.days.map((x) => {
                     if (x.day < onFrom || onTo < x.day) return x;
@@ -47,8 +47,8 @@ const monthlySetting = (state = {}, action) => {
             };
         }
         case actionTypes.UPDATE_FIXED_SCHEDULE: {
-            const onFrom = payload.fixedSchedule.onFrom.toDate().getDate();
-            const onTo = payload.fixedSchedule.onTo.toDate().getDate();
+            const onFrom = payload.fixedSchedule.onFrom.date();
+            const onTo = payload.fixedSchedule.onTo.date();
             return { ...state,
                 days: state.days.map((x) => {
                     const fixedScheduleIds = x.fixedSchedules.map((y) => y.id);

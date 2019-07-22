@@ -18,9 +18,7 @@ const timeCss = css({
 });
 
 const disabledDate = (thisMonth) => (date) => {
-    const thisMonth_ = thisMonth.toDate();
-    const currentDate = date.toDate();
-    return thisMonth_.getFullYear() != currentDate.getFullYear() || thisMonth_.getMonth() != currentDate.getMonth();
+    return thisMonth.year() != date.year() || thisMonth.month() != date.month();
 };
 const isValidRange = (v) => v && v[0] && v[1];
 
