@@ -5,9 +5,8 @@ export const startUpdateMyself = (myself) => ({
     payload: { myself }
 });
 
-export const successUpdateMyself = (myself) => ({
-    type: actionTypes.SUCCESS_UPDATE_MYSELF,
-    payload: { myself }
+export const successUpdateMyself = () => ({
+    type: actionTypes.SUCCESS_UPDATE_MYSELF
 });
 
 export const failureUpdateMyself = () => ({

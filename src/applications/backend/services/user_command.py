@@ -2,7 +2,6 @@
 
 from domains.models.operator import Operator
 from domains.models.user import User
-from domains.models.user import UserRole
 from domains.models.user import Team
 
 from . import UserQuery
@@ -12,10 +11,8 @@ class UserCommand:
     def __init__(self, session):
         self._session = session
     
-    def update_myself(self, id_: str, password: str, name: str):
-        user = UserQuery(self._session).get_user(id_)
-        user.password = password
-        user.name = name
+    def update_myself(self, user: User):
+        self._session.merge(user)
         return user
     
     def append_user(self, user: User):

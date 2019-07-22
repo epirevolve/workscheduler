@@ -1,14 +1,15 @@
 import * as actionTypes from '../actionTypes';
 
 const user = (state = {}, action) => {
+    const payload = action.payload;
     switch (action.type) {
         case actionTypes.CHANGE_PASSWORD:
             return { ...state,
-                password: action.password
+                password: payload.password
             };
         case actionTypes.CHANGE_NAME:
             return { ...state,
-                name: action.name
+                name: payload.name
             };
         default:
             return state;

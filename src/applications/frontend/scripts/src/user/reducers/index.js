@@ -2,9 +2,10 @@ import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
 import user from './user';
 
-const dataset = document.querySelector('script[src*="user"]').dataset;
+import { user as myself } from "../embeddedData";
+
 export const initValue = ({
-    user: JSON.parse(dataset.user)
+    user: myself
 });
 
 export default combineWithCommonReducer({ user });

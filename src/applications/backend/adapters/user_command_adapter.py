@@ -10,9 +10,8 @@ class UserCommandAdapter:
         self._session = session
     
     def update_myself(self, data):
-        return UserCommand(self._session).update_myself(
-            data.get('id'), data.get('password'), data.get('name')
-        )
+        user = to_user(data)
+        return UserCommand(self._session).update_myself(user)
     
     def append_user(self, data: dict):
         user = to_new_user(data)

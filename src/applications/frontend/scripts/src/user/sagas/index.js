@@ -7,10 +7,10 @@ import * as actions from '../actions';
 import * as api from '../services/api';
 
 function *runUpdateMyself(action) {
-    const { res, error } = yield call(api.updateMyself, action.payload);
-    if (res && !error) {
+    const { error } = yield call(api.updateMyself, action.payload);
+    if (!error) {
         yield all([
-            put(actions.successUpdateMyself(JSON.parse(res.text))),
+            put(actions.successUpdateMyself()),
             put(showSnackbar('Succeed to update my info')),
             put(actions.closeDialog())
         ]);
