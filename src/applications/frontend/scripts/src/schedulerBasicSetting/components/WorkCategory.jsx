@@ -17,7 +17,7 @@ import { jsx } from '@emotion/core';
 import { ml2, mb3 } from 'margin';
 import { pr2 } from 'padding';
 
-const dataset = document.querySelector('script[src*="schedulerBasic"]').dataset;
+const dataset = document.querySelector('script[src*="schedulerbasic"]').dataset;
 const operators = JSON.parse(dataset.operators);
 const skills = JSON.parse(dataset.skills);
 

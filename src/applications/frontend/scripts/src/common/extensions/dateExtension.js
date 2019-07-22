@@ -25,11 +25,21 @@ Object.assign(Date.prototype, {
         this.setDate(this.getDate() + value);
         return this;
     },
+    setEarliestDateTime () {
+        this.setDate(1);
+        this.setEarliestTime();
+        return this;
+    },
     setEarliestTime () {
         this.setUTCHours(0);
         this.setUTCMinutes(0);
         this.setUTCSeconds(0);
         this.setUTCMilliseconds(0);
+        return this;
+    },
+    setLatestDateTime () {
+        this.setDate(this.getDaysInMonth());
+        this.setLatestTime();
         return this;
     },
     setLatestTime () {

@@ -7,7 +7,7 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 
 import Request from './Request';
 
-import { showSnackbar } from 'snackbarActions';
+import { currentUser } from "../embeddedData";
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -36,33 +36,16 @@ const containerCss = css({
     margin: '.3rem'
 });
 
-const dataset = document.querySelector('script[src*="request"]').dataset;
-const scheduleOf = new Date(dataset.scheduleOf);
-
-function handleAppend (day, action) {
-    if (day.requests.length >= 2) {
-        //dispatch(showSnackbar('cant append more request on this day'));
-        return;
-    }
-
-    const date = `${scheduleOf.getFullYear()}-${scheduleOf.getMonth() + 1}-${day.day}`;
-
-    action(
-        new Date(`${date}T09:30`),
-        new Date(`${date}T18:00`)
-    );
-}
-
-const calendarCell = ({ day, append, edit }) => {
-    if (!day || day == void 0) return <Grid item xs css={cellCss}></Grid>;
+const calendarCell = ({ daySetting, currentDate, append, edit }) => {
+    if (!daySetting || daySetting == void 0) return <Grid item xs css={cellCss}></Grid>;
 
     const requests = [];
 
-    for (const request of day.requests) {
-        if (request.operator.id != operatorId || (new Date(request.atFrom).getDate() != day.day && day.day != 1 && day.dayName != 'Sun'))
+    for (const request of daySetting.requests) {
+        if (request.operator.id != currentUser.operator.id || (new Date(request.atFrom).getDate() != daySetting.day && daySetting.day != 1 && daySetting.dayName != 'Sun'))
             continue;
         const from = new Date(request.atFrom);
-        from.setDate(day.day);
+        from.setDate(daySetting.day);
         const to = new Date(request.atTo);
         let days = to.getDate() - from.getDate();
         if (days <= 7 && from.getDay() <= to.getDay()) {}
@@ -76,10 +59,10 @@ const calendarCell = ({ day, append, edit }) => {
         <Grid item xs css={cellCss}>
             <div>
                 <IconButton aria-label="Add Request" color="secondary" css={requestIconCss}
-                    onClick={() => handleAppend(day, append)}>
+                    onClick={() => append(daySetting, currentDate)}>
                     <EditRoundedIcon />
                 </IconButton>
-                <span css={dayCss}>{day.day}</span>
+                <span css={dayCss}>{daySetting.day}</span>
             </div>
             <div css={containerCss}>
                 {requests}
@@ -89,7 +72,8 @@ const calendarCell = ({ day, append, edit }) => {
 };
 
 calendarCell.propTypes = {
-    day: propTypes.object,
+    daySetting: propTypes.object,
+    currentDate: propTypes.object.isRequired,
     append: propTypes.func.isRequired,
     edit: propTypes.func.isRequired
 };

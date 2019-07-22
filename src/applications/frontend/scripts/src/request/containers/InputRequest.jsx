@@ -6,7 +6,7 @@ import * as actions from '../actions';
 import RequestForm from '../components/RequestForm';
 
 const mapStateToProps = (state) => ({
-    requestDialog: state.requestDialog
+    request: state.requestDialog
 });
 
 const mapDispatchToProps = (dispatch) => ({

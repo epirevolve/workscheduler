@@ -1,17 +1,17 @@
 import moment from 'moment';
 import * as actionTypes from '../actionTypes';
 
-export const startFetchCalendar = (team, scheduleOf) => ({
+export const startFetchMonthlySetting = (team, scheduleOf) => ({
     type: actionTypes.START_FETCH_CALENDAR,
     payload: { team, scheduleOf }
 });
 
-export const successFetchCalendar = (calendar) => ({
+export const successFetchMonthlySetting = (calendar) => ({
     type: actionTypes.SUCCESS_FETCH_CALENDAR,
     payload: { calendar }
 });
 
-export const failureFetchCalendar = () => ({
+export const failureFetchMonthlySetting = () => ({
     type: actionTypes.FAILURE_FETCH_CALENDAR,
     payload: { message: '' }
 });

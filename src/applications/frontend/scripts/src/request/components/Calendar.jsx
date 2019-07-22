@@ -27,16 +27,13 @@ import { mx3 } from 'margin';
 
 const calendar = ({ monthlySetting, ...other }) => {
     const weeks = [];
-
     weeks.push([]);
     const firstDay = new Date(monthlySetting.year, monthlySetting.month, 1);
-    if (firstDay.getDay() > 0) [...Array(5).keys()].map((i) => weeks[weeks.length - 1].push(<CalendarCell key={i} />));
-    for (const [ index1, week ] of monthlySetting.days.entries()) {
-        const week_ = [];
-        for (const [ index2, day ] of week.entries()) {
-            week_.push(<CalendarCell key={`${index1}-${index2}`} day={day} {...other} />);
-        }
-        weeks.push(<Grid container key={`${index1}`}>{week_}</Grid>);
+    if (firstDay.getDay() > 0) [...Array(firstDay).keys()].map((i) => weeks[weeks.length - 1].push(<></>));
+    for (const [ index, daySetting ] of monthlySetting.days.entries()) {
+        const currentDate = new Date(monthlySetting.year, monthlySetting.month, daySetting.day);
+        if (currentDate.getDay() == 0) weeks.push([]);
+        weeks[weeks.length - 1].push(<CalendarCell key={index} daySetting={daySetting} currentDate={currentDate} {...other} />);
     }
 
     return (
@@ -50,7 +47,7 @@ const calendar = ({ monthlySetting, ...other }) => {
                 <Grid item xs css={headerCss}>Fri</Grid>
                 <Grid item xs css={blueHeaderCss}>Sat</Grid>
             </Grid>
-            {weeks}
+            {weeks.map((x, i) => <Grid container key={i}>{x}</Grid>)}
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import requestAgent from 'superagent';
 
-export const fetchCalendar = async (payload) => {
+export const fetchMonthlySetting = async (payload) => {
     const { scheduleOf, team } = payload;
     try {
         const res = await requestAgent

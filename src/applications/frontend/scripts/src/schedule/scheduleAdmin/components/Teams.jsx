@@ -9,7 +9,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-const dataset = document.querySelector('script[src*="scheduleAdmin"]').dataset;
+const dataset = document.querySelector('script[src*="scheduleadmin"]').dataset;
 
 const teamCss = css({
     '& fieldset': { border: 0 }

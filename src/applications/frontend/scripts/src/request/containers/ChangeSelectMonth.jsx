@@ -14,7 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     changeMonthYear: (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(actions.startFetchCalendar(currentUser.team, scheduleOf));
+        dispatch(actions.startFetchMonthlySetting(currentUser.team, scheduleOf));
     }
 });
 

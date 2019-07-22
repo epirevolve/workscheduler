@@ -15,9 +15,8 @@ export const startUpdateOperator = (operator) => ({
     payload: { operator }
 });
 
-export const successUpdateOperator = (operator) => ({
-    type: actionTypes.SUCCESS_UPDATE_OPERATOR,
-    payload: { operator }
+export const successUpdateOperator = () => ({
+    type: actionTypes.SUCCESS_UPDATE_OPERATOR
 });
 
 export const failureUpdateOperator = () => ({

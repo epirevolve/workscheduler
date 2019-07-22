@@ -6,10 +6,10 @@ import * as api from '../services/api';
 import { showSnackbar } from 'snackbarActions';
 
 function *runUpdateOpeartor(action) {
-    const { res, error } = yield call(api.updateOperator, action.payload);
-    if (res && !error) {
+    const { error } = yield call(api.updateOperator, action.payload);
+    if (!error) {
         yield all([
-            put(actions.successUpdateOperator(JSON.parse(res.text))),
+            put(actions.successUpdateOperator()),
             put(showSnackbar('Succeed to update operator'))
         ]);
     } else {

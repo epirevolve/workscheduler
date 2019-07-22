@@ -11,7 +11,7 @@ import { showSnackbar } from 'snackbarActions';
 import { jsx } from '@emotion/core';
 import { my4, mr3 } from "margin";
 
-const dataset = document.querySelector('script[src*="schedulerBasic"]').dataset;
+const dataset = document.querySelector('script[src*="schedulerbasic"]').dataset;
 const url = dataset.url;
 
 class BasicSettingContainer extends React.Component {

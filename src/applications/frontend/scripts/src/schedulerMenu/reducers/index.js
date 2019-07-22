@@ -2,7 +2,7 @@ import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
 import menu from './menu';
 
-const dataset = document.querySelector('script[src*="schedulerMenu"]').dataset;
+const dataset = document.querySelector('script[src*="schedulermenu"]').dataset;
 
 export const initValue = ({
     menu: { team: JSON.parse(dataset.teams)[0] }

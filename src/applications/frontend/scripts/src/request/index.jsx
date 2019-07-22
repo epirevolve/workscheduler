@@ -23,8 +23,8 @@ render(
     document.getElementById('root')
 );
 
-import { startFetchCalendar } from "./actions";
+import { startFetchMonthlySetting } from "./actions";
 import { currentUser } from './embeddedData';
 const scheduleOf = new Date().addMonths(1).toYearMonthFormatString();
 
-store.dispatch(startFetchCalendar(currentUser.team, scheduleOf));
+store.dispatch(startFetchMonthlySetting(currentUser.team, scheduleOf));

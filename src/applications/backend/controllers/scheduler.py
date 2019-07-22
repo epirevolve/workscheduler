@@ -71,16 +71,4 @@ def show_launch_histories():
 @bp.route('/requests')
 @login_required
 def show_my_request():
-    schedule_of = to_date(request.args.get('schedule_of'), '%Y-%m')
-
-    session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler_of_team_id(current_user.team.id)
-    if not scheduler:
-        return _non_public_request_body(schedule_of)
-
-    monthly_setting = scheduler.monthly_setting(schedule_of.month, schedule_of.year)
-
-    operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
-    return render_template('request.html',
-                           operator=operator, schedule_of=monthly_setting.schedule_of,
-                           scheduler=scheduler, monthly_setting=monthly_setting)
+    return render_template('request.html')

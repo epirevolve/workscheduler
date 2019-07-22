@@ -11,7 +11,7 @@ import { jsx } from '@emotion/core';
 import { m2 } from "margin";
 import { lightslategray } from "color";
 
-const dataset = document.querySelector('script[src*="schedulerMenu"]').dataset;
+const dataset = document.querySelector('script[src*="schedulermenu"]').dataset;
 
 const teams = ({ team, changeTeam }) => {
     const teams = JSON.parse(dataset.teams);

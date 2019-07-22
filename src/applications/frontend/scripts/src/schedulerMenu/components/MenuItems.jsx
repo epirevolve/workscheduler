@@ -15,7 +15,7 @@ import { mb3, my4 } from 'margin';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 
-const dataset = document.querySelector('script[src*="schedulerMenu"]').dataset;
+const dataset = document.querySelector('script[src*="schedulermenu"]').dataset;
 const urlMonthly = dataset.urlMonthly;
 const urlBasic = dataset.urlBasic;
 const urlVacations = dataset.urlVacations;

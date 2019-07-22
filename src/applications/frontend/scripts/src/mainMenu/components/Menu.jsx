@@ -10,7 +10,7 @@ import MenuCard from 'MenuCard';
 import { jsx, css } from '@emotion/core';
 import { my4 } from "margin";
 
-const dataset = document.querySelector('script[src*="mainMenu"]').dataset;
+const dataset = document.querySelector('script[src*="mainmenu"]').dataset;
 const urlSchedules = dataset.urlSchedules;
 const urlRequests = dataset.urlRequests;
 const urlAsOperator = dataset.urlAsOperator;

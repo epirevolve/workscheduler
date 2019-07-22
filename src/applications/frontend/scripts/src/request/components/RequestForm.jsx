@@ -11,18 +11,17 @@ import 'rc-time-picker/assets/index';
 import TimePickerPanel from 'rc-time-picker/lib/Panel';
 
 import moment from 'moment';
-import { minDate, maxDate } from '../embeddedData';
 
 const isValidRange = (v) => v && v[0] && v[1];
 
-const disabledDate = (current) => {
-    if (!current) return false;
-    return current.valueOf() < minDate.valueOf() || maxDate.valueOf() < current.valueOf();
-};
-
 const requestForm = ({
-    request, changeTitle, changeNote, changeDate
+    request, monthlySetting, changeTitle, changeNote, changeDate
     }) => {
+    const currentMonth = new Date(monthlySetting.year, monthlySetting.month, 1).setEarliestDateTime();
+    const disabledDate = (current) => {
+        if (!current) return false;
+        return current.valueOf() < currentMonth.setEarliestDateTime() || currentMonth.setLatestDateTime() < current.valueOf();
+    };
     const timePickerElement = <TimePickerPanel defaultValue={moment('00:00', 'HH:mm')}
         showSecond={false} minuteStep={15} />;
     const calendar = <RangeCalendar showDateInput={false} disabledDate={disabledDate}
@@ -49,6 +48,7 @@ const requestForm = ({
 
 requestForm.propTypes = {
     request: propTypes.object.isRequired,
+    monthlySetting: propTypes.object.isRequired,
     changeTitle: propTypes.func.isRequired,
     changeNote: propTypes.func.isRequired,
     changeDate: propTypes.func.isRequired,
