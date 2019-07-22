@@ -200,7 +200,7 @@ def terminate_scheduler():
 
 @bp.route('/requests', methods=['POST'])
 @login_required
-def append_my_request():
+def append_request():
     scheduler_id = request.args.get('scheduler')
     session = get_db_session()
     try:
@@ -228,7 +228,7 @@ def append_my_request():
 
 @bp.route('/requests/<request_id>', methods=['PUT'])
 @login_required
-def update_my_request(request_id):
+def update_request(request_id):
     scheduler_id = request.args.get('scheduler')
     session = get_db_session()
     try:
@@ -246,7 +246,7 @@ def update_my_request(request_id):
 
 @bp.route('/requests/<request_id>', methods=['DELETE'])
 @login_required
-def remove_my_request(request_id):
+def remove_request(request_id):
     session = get_db_session()
     try:
         SchedulerCommandAdapter(session).remove_my_request(request_id)

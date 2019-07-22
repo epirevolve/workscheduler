@@ -35,9 +35,27 @@ export const startUpdateRequest = (request) => ({
     payload: { request }
 });
 
+export const successUpdateRequest = (request) => ({
+    type: actionTypes.SUCCESS_UPDATE_REQUEST,
+    payload: { request }
+});
+
+export const failureUpdateRequest = () => ({
+    type: actionTypes.FAILURE_UPDATE_REQUEST,
+});
+
 export const startRemoveRequest = (id) => ({
     type: actionTypes.START_REMOVE_REQUEST,
     payload: { id }
+});
+
+export const successRemoveRequest = (id) => ({
+    type: actionTypes.SUCCESS_REMOVE_REQUEST,
+    payload: { id }
+});
+
+export const failureRemoveRequest = () => ({
+    type: actionTypes.FAILURE_REMOVE_REQUEST,
 });
 
 export const openDialogToAppend = (atFrom, atTo) => ({

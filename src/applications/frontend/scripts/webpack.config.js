@@ -24,7 +24,7 @@ const targets = _.filter(glob.sync(`${jsBasePath}/**/index.jsx`), (item) => !ite
 const entries = {};
 targets.forEach((value) => {
     value = path.resolve(value);
-    const key = value.parentdirname();
+    const key = value.parentdirname().toLowerCase();
     entries[`../statics/js/${key}`] = value;
 });
 

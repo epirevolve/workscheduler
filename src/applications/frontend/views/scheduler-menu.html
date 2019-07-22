@@ -2,7 +2,7 @@
 
 {% block script %}
 <script id="breadscram" data-current="{{ to_json({'name': 'Scheduler Menu'}) }}"></script>
-<script src="{{ url_for('scheduler.static', filename='js/schedulerMenu.bundle.min.js') }}"
+<script src="{{ url_for('scheduler.static', filename='js/schedulermenu.bundle.min.js') }}"
         data-url-monthly="{{ url_for('scheduler.show_monthly_setting', team='team_id') }}"
         data-url-basic="{{ url_for('scheduler.show_basic_setting', team='team_id') }}"
         data-url-vacations="{{ url_for('scheduler.show_vacations', team='team_id') }}"

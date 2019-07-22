@@ -24,7 +24,7 @@ render(
 );
 
 import { startFetchCalendar } from "./actions";
-import { team } from './embeddedData';
+import { currentUser } from './embeddedData';
 const scheduleOf = new Date().addMonths(1).toYearMonthFormatString();
 
-store.dispatch(startFetchCalendar(team, scheduleOf));
+store.dispatch(startFetchCalendar(currentUser.team, scheduleOf));

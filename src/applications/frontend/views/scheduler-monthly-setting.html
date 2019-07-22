@@ -7,6 +7,6 @@
 {% block script %}
 <script id="breadscram" data-current="{{ to_json({'name': 'Monthly Setting of {}'.format(team.name)}) }}"
         data-breads="{{ to_json([{ 'name': 'Scheduler Menu', 'url': url_for('scheduler.show_menu') }]) }}"></script>
-<script src="{{ url_for('scheduler.static', filename='js/schedulerMonthlySetting.bundle.min.js') }}"
+<script src="{{ url_for('scheduler.static', filename='js/schedulermonthlysetting.bundle.min.js') }}"
         data-team="{{ to_json(team) }}" data-operators="{{ to_json(operators) }}"></script>
 {% endblock %}

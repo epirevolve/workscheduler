@@ -6,7 +6,7 @@ import Calendar from '../components/Calendar';
 import { openDialogToAppend, openDialogToUpdate } from '../actions';
 
 const mapStateToProps = (state) => ({
-    calendar: state.calendar
+    monthlySetting: state.monthlySetting
 });
 
 const mapDispatchToProps = (dispatch) => ({

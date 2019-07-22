@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block script %}
-<script src="{{ url_for('static', filename='js/mainMenu.bundle.min.js') }}"
+<script src="{{ url_for('static', filename='js/mainmenu.bundle.min.js') }}"
         data-auth="{{ to_json(current_user) }}" data-url-menu="{{ url_for('menu.show_menu') }}"
         data-url-schedules="{{ url_for('schedule.show_schedules') }}"
         data-url-requests="{{ url_for('scheduler.show_my_request', schedule_of=next_month) }}"

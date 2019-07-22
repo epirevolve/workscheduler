@@ -4,7 +4,7 @@ export const fetchCalendar = async (payload) => {
     const { scheduleOf, team } = payload;
     try {
         const res = await requestAgent
-            .get('/scheduler/api/requests')
+            .get('/scheduler/api/monthly-setting')
             .query({
                 'team-id': team.id,
                 'schedule-of': scheduleOf

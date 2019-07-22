@@ -5,7 +5,7 @@ import * as actions from '../actions';
 
 import MonthSelect from '../../common/components/MonthSelect';
 
-import { team } from '../embeddedData';
+import { currentUser } from '../embeddedData';
 
 const mapStateToProps = (state) => ({
     monthYear: `${state.calendar.year}-${state.calendar.month}`
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     changeMonthYear: (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(actions.startFetchCalendar(team, scheduleOf));
+        dispatch(actions.startFetchCalendar(currentUser.team, scheduleOf));
     }
 });
 

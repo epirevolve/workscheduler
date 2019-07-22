@@ -4,7 +4,28 @@ import { showSnackbar } from 'snackbarActions';
 
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
+import * as uiActions from 'uiActions';
 import * as api from '../services/api';
+
+export function *runFetchMonthlySetting(action) {
+    yield put(uiActions.waiting());
+    const { res, error } = yield call(api.fetchMonthlySetting, action.payload);
+    if (res && !error) {
+        yield all([
+            put(actions.successFetchMonthlySetting(JSON.parse(res.text))),
+            put(uiActions.onGoing())
+        ]);
+    } else {
+        yield all([
+            put(actions.failureFetchMonthlySetting()),
+            put(uiActions.onGoing())
+        ]);
+    }
+}
+
+function *handleFetchMonthlySetting() {
+    yield takeEvery(actionTypes.START_FETCH_CALENDAR, runFetchMonthlySetting);
+}
 
 function *runAppendRequest(action) {
     const { res, error } = yield call(api.appendRequest, action.payload);
@@ -68,6 +89,7 @@ function *handleRemoveRequest() {
 
 export default function *rootSaga() {
     yield all([
+        fork(handleFetchMonthlySetting),
         fork(handleAppendRequest),
         fork(handleUpdateRequest),
         fork(handleRemoveRequest)
