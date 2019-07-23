@@ -35,48 +35,44 @@ class SchedulerMonthlyHelperBase:
         self._fixed_schedules_hour = {x.id: time_to_hour(get_time_diff(x.at_to, x.at_from))
                                       for x in {y for x in self._monthly_setting.days for y in x.fixed_schedules}}
 
-    def _evaluate_by_skill_std(self, transpose, weight):
+    def _evaluate_by_skill_std(self, transpose):
         adaptability = 0
         for work_category in self._work_categories:
             days = [[self._operators[i] for i, y in enumerate(x) if y == work_category.id]
                     for x in transpose]
             scores = [sum([z.score for y in x for z in y.skills]) for x in days]
-            adaptability += stdev(scores) / (mean(scores) or 1)
-        return weight - min(adaptability, weight)
+            cv = abs(stdev(scores) / (mean(scores) or 1))
+            adaptability += 5 if cv < 0.3 else 3 if cv < 0.5 else 1 if cv < 1 else 0
+        return adaptability
 
-    def _evaluate_by_require(self, transpose, *, less_weight, excess_weight):
-        less_ratio = 0.2
-        excess_ratio = 0.05
+    def _evaluate_by_require(self, transpose):
+        adaptability = 0
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
-                work_category = detail.work_category
-                count = len([x for x in schedule if x == work_category.id])
-                if count < detail.require:
-                    less_weight -= less_ratio * (detail.require - count)
-                diff = count - detail.require - 2
-                if diff > 0:
-                    excess_weight -= excess_ratio * diff ** 2
-        return sum([max(0, less_weight), max(0, excess_weight)])
+                count = len([x for x in schedule if x == detail.work_category.id])
+                if count >= detail.require:
+                    adaptability += 1
+        return adaptability
 
-    def _evaluate_by_require_diff_std(self, transpose, weight):
+    def _evaluate_by_require_diff_std(self, transpose):
         excess_diff = defaultdict(list)
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
                 count = len([x for x in schedule if x == detail.work_category.id])
                 excess_diff[detail.work_category].append(count - detail.require)
-        excess_diff_cv = [stdev(x) / (mean(x) or 1) if len(x) > 2 else 1 for x in excess_diff.values()]
-        return min(1, max(0, (1 - sum(excess_diff_cv) / len(excess_diff_cv)) * weight))
+        excess_diff_cv = [abs(stdev(x) / (mean(x) or 1)) if len(x) > 2 else 1 for x in excess_diff.values()]
+        return sum(8 if cv < 0.3 else 5 if cv < 0.5 else 3 if cv < 1 else 0 for cv in excess_diff_cv)
 
     def _evaluate_by_essential_skill(self, transpose):
-        ratio = 0.02
+        ratio = 0.5
         adaptability = 0
         for schedule, day_setting in zip(transpose, self._monthly_setting.days):
             for detail in day_setting.details:
                 work_category = detail.work_category
                 participant_skills = set(chain.from_iterable(
                     [self._operators[i].skills for i, x in enumerate(schedule) if x == work_category.id]))
-                adaptability += sum([ratio for x in work_category.essential_skills if x not in participant_skills])
-        return max(0, 1 - adaptability)
+                adaptability += sum([ratio for x in work_category.essential_skills if x in participant_skills])
+        return adaptability
 
 
 class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
@@ -103,10 +99,10 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         schedules = self._gene_to_schedule(gene)
         transpose = np.array(schedules).T
         adaptability = 0
-        adaptability += self._evaluate_by_skill_std(transpose, 1)
-        adaptability += self._evaluate_by_require(transpose, less_weight=5, excess_weight=2.5)
-        adaptability += self._evaluate_by_require_diff_std(transpose, 1.5)
-        adaptability *= self._evaluate_by_essential_skill(transpose)
+        adaptability += self._evaluate_by_skill_std(transpose)
+        adaptability += self._evaluate_by_require(transpose)
+        adaptability += self._evaluate_by_require_diff_std(transpose)
+        adaptability += self._evaluate_by_essential_skill(transpose)
         return adaptability
     
     def _genetic_wrapper(self):
@@ -162,8 +158,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         ret = self._genetic_wrapper()
         print("""### adjusting by random mutation""")
         ret = self._scheduling(ret)
-        adaptability = math.floor(ret.adaptability / 10 * 100)
-        print("### adaptability: {}".format(adaptability))
+        print("### adaptability: {}".format(ret.adaptability))
         print("""## finished
 ====================""")
-        return self._gene_to_schedule(ret.gene), adaptability
+        return self._gene_to_schedule(ret.gene), ret.adaptability
