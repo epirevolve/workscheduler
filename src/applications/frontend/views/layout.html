@@ -7,8 +7,9 @@
 
         <title>Work Scheduler</title>
 
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}" />
+        <style>
+            html { font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif !important; }
+        </style>
         <script type="text/javascript">
             const csrfToken = "{{ csrf_token() }}";
             const operatorId = "{{ operator_id() }}";

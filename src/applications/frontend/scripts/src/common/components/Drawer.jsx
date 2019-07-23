@@ -17,6 +17,15 @@ import GroupRoundedIcon from '@material-ui/icons/GroupRounded';
 import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+
+const menuTextCss = css({
+    '& > span': {
+        fontSize: '1.3rem',
+        color: 'gray'
+}});
+
 const dataset = document.querySelector('#linkTags').dataset;
 const urlSchedules = dataset.urlSchedules;
 const urlRequests = dataset.urlRequests;
@@ -43,7 +52,7 @@ const drawer = ({ open, setOpen }) => (
                     <ListItemIcon>
                         <CalendarTodayRoundedIcon />
                     </ListItemIcon>
-                    <ListItemText primary="schedule" className="menuText" />
+                    <ListItemText primary="schedule" css={menuTextCss} />
                 </ListItem>
                 {authRole && (
                     <>
@@ -51,13 +60,13 @@ const drawer = ({ open, setOpen }) => (
                             <ListItemIcon>
                                 <HearingRoundedIcon />
                             </ListItemIcon>
-                            <ListItemText primary="requests" className="menuText" />
+                            <ListItemText primary="requests" css={menuTextCss} />
                         </ListItem>
                         <ListItem button component="a" key="asoperator" href={urlAsOperator}>
                             <ListItemIcon>
                                 <PersonRoundedIcon />
                             </ListItemIcon>
-                            <ListItemText primary="as operator" className="menuText" />
+                            <ListItemText primary="as operator" css={menuTextCss} />
                         </ListItem>
                     </>
                 )}
@@ -65,7 +74,7 @@ const drawer = ({ open, setOpen }) => (
                     <ListItemIcon>
                         <PersonRoundedIcon />
                     </ListItemIcon>
-                    <ListItemText primary="as user" className="menuText" />
+                    <ListItemText primary="as user" css={menuTextCss} />
                 </ListItem>
                 <Divider />
                 {authRole == 2 && (
@@ -74,31 +83,31 @@ const drawer = ({ open, setOpen }) => (
                             <ListItemIcon>
                                 <BuildRoundedIcon />
                             </ListItemIcon>
-                            <ListItemText primary="scheduler" className="menuText" />
+                            <ListItemText primary="scheduler" css={menuTextCss} />
                         </ListItem>
                         <ListItem button component="a" key="operators" href={urlOperators}>
                             <ListItemIcon>
                                 <GroupRoundedIcon />
                             </ListItemIcon>
-                            <ListItemText primary="operators" className="menuText" />
+                            <ListItemText primary="operators" css={menuTextCss} />
                         </ListItem>
                         <ListItem button component="a" key="users" href={urlUsers}>
                             <ListItemIcon>
                                 <GroupRoundedIcon />
                             </ListItemIcon>
-                            <ListItemText primary="users" className="menuText" />
+                            <ListItemText primary="users" css={menuTextCss} />
                         </ListItem>
                         <ListItem button component="a" key="teams" href={urlTeams}>
                             <ListItemIcon>
                                 <LocationCityRoundedIcon />
                             </ListItemIcon>
-                            <ListItemText primary="teams" className="menuText" />
+                            <ListItemText primary="teams" css={menuTextCss} />
                         </ListItem>
                         <ListItem button component="a" key="skills" href={urlSkills}>
                             <ListItemIcon>
                                 <StarRoundedIcon />
                             </ListItemIcon>
-                            <ListItemText primary="skills" className="menuText" />
+                            <ListItemText primary="skills" css={menuTextCss} />
                         </ListItem>
                     </>
                 )}
