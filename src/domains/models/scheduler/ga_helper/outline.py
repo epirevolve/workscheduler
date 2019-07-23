@@ -158,9 +158,9 @@ class SchedulerOutlineHelper:
         template = [not_assigned_sign for _ in range(len(self._monthly_setting.days))]
         template = self._replace_with_day_offs(template, operator)
         template = [self._get_schedule(i, x, operator) for i, x in enumerate(template)]
-        template = self._replace_with_n_day(template)
         if operator in set([y for x in self._work_categories for y in x.week_day_operators]):
             template = [self._get_week_day_schedule(i, x) for i, x in enumerate(template)]
+        template = self._replace_with_n_day(template)
         return template
 
     def _generate_base_pool(self, operator, template):
