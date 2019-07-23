@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 
 import CsvExportButton from '../../common/components/CsvExportButton';
 
-const dataset = document.querySelector('script[id="baseSchedule"]').dataset;
-const team = JSON.parse(dataset.team);
+import { team } from "../../common/embeddedData";
 
 const mapStateToProps = (state) => ({
     team,
     daySettings: state.schedules.daySettings,
-    schedules: state.schedules.schedules
+    schedules: state.schedules.schedules,
+    workCategories: state.schedules.workCategories,
+    availableSigns: state.schedules.availableSigns,
 });
 
 export default connect(mapStateToProps)(CsvExportButton);

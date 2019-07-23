@@ -30,7 +30,7 @@ const margin10Css = css({
 const schedules = ({
         daySettings, schedules, workCategories, availableSigns
     }) => {
-    if (schedules.length == 0)
+    if (!schedules || !schedules.components || schedules.components.length == 0)
         return (<Typography variant="h5" css={margin10Css}>Sorry this month is not create yet</Typography>);
     
     const [ headerRow, operatorRows, totalRows ] = formatSchedule(daySettings, schedules, workCategories, availableSigns);

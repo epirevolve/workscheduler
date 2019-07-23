@@ -10,8 +10,7 @@ const mapStateToProps = (state) => ({
     schedules: state.schedules.schedules,
     workCategories: state.schedules.workCategories,
     availableSigns: state.schedules.availableSigns,
-    scheduleOf: state.schedules.scheduleOf,
-    isLoading: state.ui.isLoading
+    scheduleOf: state.schedules.scheduleOf
 });
 
 const mapDispatchToProps = (dispatch) => ({

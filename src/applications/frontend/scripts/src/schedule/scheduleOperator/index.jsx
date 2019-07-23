@@ -7,14 +7,14 @@ import { Provider } from 'react-redux';
 import rootReducer, { initValue } from './reducers';
 import rootSaga from '../common/sagas';
 
-import App from './components/App';
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, initValue,
     composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(rootSaga);
+
+import App from './components/App';
 
 render(
     <Provider store={store}>

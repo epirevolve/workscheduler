@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Layout from 'Layout';
+import WaitLoading from 'WaitLoading';
 import Header from './Header';
 import DisplaySchedules from '../containers/DisplaySchedules';
 
 const app = () => (
-    <Layout>
+    <WaitLoading>
         <Header />
         <DisplaySchedules />
-    </Layout>
+    </WaitLoading>
 );
 
 export default app;
