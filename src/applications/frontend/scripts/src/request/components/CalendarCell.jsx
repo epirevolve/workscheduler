@@ -49,8 +49,8 @@ const calendarCell = ({ daySetting, currentDate, append, edit }) => {
         if (request.operator.id != currentOperator.id || (from.date() != daySetting.day && daySetting.dayName != 'Sun'))
             continue;
         const to = moment(request.atTo);
-        let days = to.date() - from.date();
-        if (days > 7 || from.day() > to.day()) days = 6 - from.day();
+        let days = to.date() - from.date() + 1;
+        if (days > 7 || from.day() > to.day()) days = 7 - from.day();
         requests.push(<Request key={request.id} request={request} days={days} edit={edit} />);
     }
 

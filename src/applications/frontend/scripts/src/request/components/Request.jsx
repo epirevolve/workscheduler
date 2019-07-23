@@ -6,18 +6,18 @@ import Button from '@material-ui/core/Button';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-const requestCss = css({
+const requestCss = (days) => ({
     padding: '0rem',
     margin: '.1rem 0rem',
     backgroundColor: '#ffc107',
     borderColor: '#ffc107',
     position: 'absolute',
-    width: '10%',
+    width: `${11*days}%`,
     zIndex: 3
 });
 
 const request = ({ request, edit, days }) => (
-    <Button css={requestCss} onClick={() => edit(request)}>
+    <Button css={css(requestCss(days))} onClick={() => edit(request)}>
         { request.title }
     </Button>
 );

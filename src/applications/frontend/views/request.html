@@ -1,9 +1,5 @@
 {% extends "layout.html" %}
 
-{% block css %}
-<link rel='stylesheet' type="text/css" href="{{ url_for('scheduler.static', filename='css/request.css') }}" />
-{% endblock %}
-
 {% block script %}
 <script id="breadscram" data-current="{{ to_json({'name': 'Requests'}) }}"></script>
 <script type="text/javascript" src="{{ url_for('scheduler.static', filename='js/request.bundle.min.js') }}"
