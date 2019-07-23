@@ -3,6 +3,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
+import Box from "@material-ui/core/Box";
 
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -15,10 +16,10 @@ const url = dataset.url;
 const auth = () => (
     <form action={url} method="post" css={floatr}>
         <Input name="csrf_token" type="hidden" value={csrfToken} readOnly />
-        <div css={mb4}>
+        <Box css={mb4}>
             <TextField autoFocus name='loginId' css={m2} label="login id" required />
             <TextField name='password' css={m2} label="password" type="password" required />
-        </div>
+        </Box>
         <Button variant="contained" color="primary" type="submit" css={css(m2, floatr)} size="large">
             Login
         </Button>

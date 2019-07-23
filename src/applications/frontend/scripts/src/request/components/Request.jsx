@@ -16,10 +16,8 @@ const requestCss = css({
     zIndex: 3
 });
 
-const request = ({ request, edit, className }) => (
-    <Button className={`btn btn-block ${className}`} css={requestCss} onClick={edit}
-        data-at-from={request.atFrom}
-        data-at-to={request.atTo}>
+const request = ({ request, edit, days }) => (
+    <Button css={requestCss} onClick={() => edit(request)}>
         { request.title }
     </Button>
 );
@@ -27,7 +25,7 @@ const request = ({ request, edit, className }) => (
 request.propTypes = {
     request: propTypes.object.isRequired,
     edit: propTypes.func.isRequired,
-    className: propTypes.string
+    days: propTypes.number
 };
 
 export default request;

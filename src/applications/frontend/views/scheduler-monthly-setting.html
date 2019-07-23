@@ -1,9 +1,5 @@
 {% extends "layout.html" %}
 
-{% block css %}
-<link rel='stylesheet' type="text/css" href="{{ url_for('scheduler.static', filename='css/scheduler-monthly-setting.css') }}" />
-{% endblock %}
-
 {% block script %}
 <script id="breadscram" data-current="{{ to_json({'name': 'Monthly Setting of {}'.format(team.name)}) }}"
         data-breads="{{ to_json([{ 'name': 'Scheduler Menu', 'url': url_for('scheduler.show_menu') }]) }}"></script>
