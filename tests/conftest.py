@@ -3,14 +3,14 @@
 import pytest
 import tempfile
 
-from workscheduler.applications.services import UserQuery
-from workscheduler.infrastructures.database import Database
+from applications.backend.services import UserQuery
+from infrastructures.input_data import InputData
 
 
 @pytest.fixture
 def session():
     db_fd, db_path = tempfile.mkstemp()
-    database = Database(db_path)
+    database = InputData(db_path)
     database.set_test()
     session = database.create_session()
     yield session

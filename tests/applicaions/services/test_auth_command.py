@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from workscheduler.applications.services import AuthFacade
+from applications.services import AuthFacade
 
 
 class TestAuthenticationService:

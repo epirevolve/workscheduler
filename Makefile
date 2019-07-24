@@ -1,10 +1,16 @@
 NAME=workscheduler
 
+start:
+	docker-compose up -d
+
 run:
 	docker-compose build
 	docker-compose up -d
 
 stop:
+	docker stop ${NAME}_mysql_1 ${NAME}_uwsgi_1 ${NAME}_nginx_1
+
+terminate:
 	docker stop ${NAME}_mysql_1 ${NAME}_uwsgi_1 ${NAME}_nginx_1
 	docker rm ${NAME}_mysql_1 ${NAME}_uwsgi_1 ${NAME}_nginx_1
 

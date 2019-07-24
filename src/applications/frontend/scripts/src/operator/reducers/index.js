@@ -1,10 +1,10 @@
 import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
 import operator from './operator';
-import { operator as operator_ } from "../embeddedData";
+import { operator as operatorInitValue } from "../embeddedData";
 
 export const initValue = ({
-    operator: operator_
+    operator: operatorInitValue
 });
 
 export default combineWithCommonReducer({ operator });

@@ -23,38 +23,19 @@ def get_operators():
     return jsonize.json_response(jsonize.dumps(operators))
 
 
-@bp.route('/operators/myself/<operator_id>', methods=['PUT'])
-@login_required
-def update_myself(operator_id):
-    session = get_db_session()
-    try:
-        OperatorCommandAdapter(session).update_myself(jsonize.loads(request.data))
-        session.commit()
-        response = jsonize.json_response()
-    except Exception as e:
-        session.rollback()
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
-    return response
-
-
 @bp.route('/operators/<operator_id>', methods=['PUT'])
 @login_required
 @admin_required
 def update_operator(operator_id):
     session = get_db_session()
     try:
-        req = OperatorCommandAdapter(session).update_operator(jsonize.loads(request.data))
+        OperatorCommandAdapter(session).update_operator(jsonize.loads(request.data))
         session.commit()
-        session.refresh(req)
-        # to-do: to include ojt field which sometime be NoneType, fetch that field without meaning
-        response = Response(jsonize.dumps(req if req.ojt else req))
+        response = jsonize.json_response()
     except Exception as e:
         session.rollback()
         print(e)
-        response = Response()
-        response.status_code = 400
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -64,15 +45,13 @@ def update_operator(operator_id):
 def append_skill():
     session = get_db_session()
     try:
-        req = OperatorCommandAdapter(session).append_skill(jsonize.loads(request.data))
+        OperatorCommandAdapter(session).append_skill(jsonize.loads(request.data))
         session.commit()
-        session.refresh(req)
-        response = Response(jsonize.dumps(req))
+        response = jsonize.json_response()
     except Exception as e:
         session.rollback()
         print(e)
-        response = Response()
-        response.status_code = 400
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -82,15 +61,13 @@ def append_skill():
 def update_skill(skill_id: str):
     session = get_db_session()
     try:
-        req = OperatorCommandAdapter(session).update_skill(jsonize.loads(request.data))
+        OperatorCommandAdapter(session).update_skill(jsonize.loads(request.data))
         session.commit()
-        session.refresh(req)
-        response = Response(jsonize.dumps(req))
+        response = jsonize.json_response()
     except Exception as e:
         session.rollback()
         print(e)
-        response = Response()
-        response.status_code = 400
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -102,10 +79,9 @@ def remove_skill(skill_id: str):
     try:
         OperatorCommandAdapter(session).delete_skill(skill_id)
         session.commit()
-        response = Response()
+        response = jsonize.json_response()
     except Exception as e:
         session.rollback()
         print(e)
-        response = Response()
-        response.status_code = 400
+        response = jsonize.json_response(status_code=400)
     return response

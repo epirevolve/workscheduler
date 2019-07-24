@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from workscheduler.applications.web import create_app
-from workscheduler.infrastructures.database import Database
-from workscheduler.applications.services import UserQuery
 import tempfile
 import os
+
+from applications.backend import create_app
+from applications.backend.services import UserQuery
+from infrastructures.input_data import InputData
 
 
 @pytest.fixture
@@ -17,8 +18,7 @@ def app():
          'WTF_CSRF_ENABLED': False}
     )
     with app.app_context():
-        database = Database(app.config['DATABASE'])
-        database.init()
+        database = InputData(app.config['DATABASE'])
         database.set_test()
     yield app
 
