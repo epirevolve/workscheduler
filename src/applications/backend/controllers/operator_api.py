@@ -29,7 +29,7 @@ def get_operators():
 def update_operator(operator_id):
     session = get_db_session()
     try:
-        OperatorCommandAdapter(session).update_operator(jsonize.loads(request.data))
+        OperatorCommandAdapter(session).save_operator(jsonize.loads(request.data))
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -45,7 +45,7 @@ def update_operator(operator_id):
 def append_skill():
     session = get_db_session()
     try:
-        OperatorCommandAdapter(session).append_skill(jsonize.loads(request.data))
+        OperatorCommandAdapter(session).save_skill(jsonize.loads(request.data))
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -61,7 +61,7 @@ def append_skill():
 def update_skill(skill_id: str):
     session = get_db_session()
     try:
-        OperatorCommandAdapter(session).update_skill(jsonize.loads(request.data))
+        OperatorCommandAdapter(session).save_skill(jsonize.loads(request.data))
         session.commit()
         response = jsonize.json_response()
     except Exception as e:

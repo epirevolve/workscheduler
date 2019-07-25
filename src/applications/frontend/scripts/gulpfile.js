@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const filter = require('gulp-filter');
 const terser = require('gulp-terser');
 const rename = require('gulp-rename');
 const plumber = require('gulp-plumber');
@@ -8,11 +7,7 @@ const webpackStream = require("webpack-stream");
 
 const config = require('./webpack.config.js');
 
-const _babelify = () => {
-    const f = filter(['!*.map'], { restore: true });
-    return webpackStream(config, webpack)
-        .pipe(gulp.dest('.'));
-};
+const _babelify = () => webpackStream(config, webpack).pipe(gulp.dest('.'));
 
 // jsx babel
 gulp.task('babel', async () => {

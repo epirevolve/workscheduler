@@ -54,9 +54,8 @@ Initial Setting:
             maybe many packages are shown
     7. test setting
         on pycharm
-        a. open File -> Settings -> Project: xxx
+        a. open File -> Settings
             shortcut: Ctrl + Alt + s
-            xxx is your project name
         b. open Tools -> Python Integrated Tools
         c. set "Default test runner" to pytest
     8. connect to trello

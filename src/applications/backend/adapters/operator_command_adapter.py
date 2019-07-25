@@ -9,21 +9,15 @@ class OperatorCommandAdapter:
     def __init__(self, session):
         self._session = session
     
-    def update_operator(self, data):
+    def save_operator(self, data):
         operator = to_operator(data)
-        return OperatorCommand(self._session).update_operator(operator)
+        return OperatorCommand(self._session).save_operator(operator)
 
-    def append_skill(self, data):
+    def save_skill(self, data):
         skill = to_skill(data)
         if skill.score < 1 or skill.score > 10:
             raise ValueError
-        return OperatorCommand(self._session).append_skill(skill)
-
-    def update_skill(self, data):
-        skill = to_skill(data)
-        if skill.score < 1 or skill.score > 10:
-            raise ValueError
-        return OperatorCommand(self._session).update_skill(skill)
+        return OperatorCommand(self._session).save_skill(skill)
 
     def delete_skill(self, id_):
         if not id_:

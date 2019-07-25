@@ -10,15 +10,11 @@ class OperatorCommand:
     def __init__(self, session):
         self._session = session
     
-    def update_operator(self, operator: Operator):
+    def save_operator(self, operator: Operator):
         self._session.merge(operator)
         return operator
 
-    def append_skill(self, skill: Skill):
-        self._session.add(skill)
-        return skill
-
-    def update_skill(self, skill: Skill):
+    def save_skill(self, skill: Skill):
         self._session.merge(skill)
         return skill
 
