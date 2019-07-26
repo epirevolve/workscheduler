@@ -17,8 +17,7 @@ import { mt1 } from 'margin';
 const wrapperCss = css({
     maxHeight: '78vh',
     overflowY: 'auto'
-},
-mt1);
+}, mt1);
 
 const userList = ({ users, append, edit }) => (
     <div>

@@ -4,9 +4,10 @@ import userDialog from './user-dialog';
 import users from './users';
 import ui from './ui';
 
-const dataset = document.querySelector('script[src*="users"]').dataset;
+import { users as usersInitValue } from "../embeddedData";
+
 export const initValue = ({
-    users: JSON.parse(dataset.users)
+    users: usersInitValue
 });
 
-export default combineWithCommonReducer({userDialog, users, ui});
+export default combineWithCommonReducer({ userDialog, users, ui });

@@ -2,16 +2,12 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-const dataset = document.querySelector('script[src*="users"]').dataset;
-const teams = JSON.parse(dataset.teams);
-const roles = JSON.parse(dataset.roles);
+import { teams, roles } from "../embeddedData";
 
 const userEdit = ({ user, changeLoginId, changeName, changeTeam,
     changeRole }) => {

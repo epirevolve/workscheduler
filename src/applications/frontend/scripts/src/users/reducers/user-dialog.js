@@ -1,7 +1,6 @@
 import * as actionTypes from '../actionTypes';
 
-const dataset = document.querySelector('script[src*="users"]').dataset;
-const teams = JSON.parse(dataset.teams);
+import { teams } from "../embeddedData";
 
 const dialog = (state = {}, action) => {
     const payload = action.payload;
