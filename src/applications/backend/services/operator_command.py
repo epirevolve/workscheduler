@@ -18,6 +18,6 @@ class OperatorCommand:
         self._session.merge(skill)
         return skill
 
-    def delete_skill(self, id_: str):
-        skill = OperatorQuery(self._session).get_skill(id_)
+    def delete_skill(self, id: str):
+        skill = OperatorQuery(self._session).get_skill(id)
         self._session.delete(skill)

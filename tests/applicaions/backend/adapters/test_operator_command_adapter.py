@@ -10,7 +10,7 @@ from src.domains.models.operator import Skill
 
 
 class TestOperatorCommandAdapter:
-    def test_update_operator(self, session):
+    def test_save_operator(self, session):
         adapter = OperatorCommandAdapter(session)
         query = OperatorQuery(session)
 
@@ -25,6 +25,7 @@ class TestOperatorCommandAdapter:
         session.flush()
 
         result = query.get_operator(target.id)
+        assert result
         assert target.id == result.id
         assert target.skills == result.skills
         assert target.ojt == result.ojt
@@ -35,7 +36,7 @@ class TestOperatorCommandAdapter:
         ("test 2", 10, False),
         ("test 3", 1, True),
     ])
-    def test_append_skill(self, session, x, y, z):
+    def test_save_skill_1(self, session, x, y, z):
         adapter = OperatorCommandAdapter(session)
         query = OperatorQuery(session)
 
@@ -45,12 +46,13 @@ class TestOperatorCommandAdapter:
         session.flush()
 
         result = query.get_skill(target.id)
+        assert result
         assert target.id == result.id
         assert target.name == result.name == x
         assert target.score == result.score == y
         assert target.is_certified == result.is_certified == z
 
-    def test_update_skill(self, session):
+    def test_save_skill_2(self, session):
         adapter = OperatorCommandAdapter(session)
         query = OperatorQuery(session)
 
@@ -63,6 +65,7 @@ class TestOperatorCommandAdapter:
         session.flush()
 
         result = query.get_skill(target.id)
+        assert result
         assert 'test skill' == result.name
         assert 9 == result.score
         assert not result.is_certified
@@ -71,7 +74,7 @@ class TestOperatorCommandAdapter:
         ("test 1", -1, True),
         ("test 2", 11, False),
     ])
-    def test_exception_1_skill(self, session, x, y, z):
+    def test_save_skill_exception_1(self, session, x, y, z):
         adapter = OperatorCommandAdapter(session)
 
         target = Skill.new(x, y, z)
@@ -79,7 +82,7 @@ class TestOperatorCommandAdapter:
         with pytest.raises(ValueError):
             adapter.save_skill(jsonize.loads(data))
 
-    def test_exception_2_skill(self, session):
+    def test_save_skill_exception_2(self, session):
         adapter = OperatorCommandAdapter(session)
 
         with pytest.raises(AssertionError):

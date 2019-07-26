@@ -4,13 +4,13 @@ import pytest
 import tempfile
 
 from src.applications.backend.services import UserQuery
-from src.infrastructures.input_data import InputData
+from src.infrastructures.database import Database
 
 
 @pytest.fixture
 def session():
     db_fd, db_path = tempfile.mkstemp()
-    database = InputData('sqlite:///{}.db'.format(db_path))
+    database = Database('sqlite:///{}.db'.format(db_path))
     database.set_test()
     session = database.create_session()
     yield session

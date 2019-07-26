@@ -19,8 +19,8 @@ class OperatorCommandAdapter:
             raise ValueError
         return OperatorCommand(self._session).save_skill(skill)
 
-    def delete_skill(self, id_):
-        if not id_:
+    def delete_skill(self, id):
+        if not id:
             raise ValueError
-        OperatorCommand(self._session).delete_skill(id_)
+        OperatorCommand(self._session).delete_skill(id)
 

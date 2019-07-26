@@ -4,7 +4,6 @@ from flask import Blueprint
 from flask_login import login_required
 
 from utils import jsonize
-
 from utils.uuid import UuidFactory
 
 

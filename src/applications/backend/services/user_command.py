@@ -14,18 +14,18 @@ class UserCommand:
         self._session.merge(user)
         return user
 
-    def activate_user(self, id_: str):
-        user = UserQuery(self._session).get_user(id_)
+    def activate_user(self, id: str):
+        user = UserQuery(self._session).get_user(id)
         user.is_inactivated = False
         return user
 
-    def inactivate_user(self, id_: str):
-        user = UserQuery(self._session).get_user(id_)
+    def inactivate_user(self, id: str):
+        user = UserQuery(self._session).get_user(id)
         user.is_inactivated = True
         return user
 
-    def reset_user_password(self, id_: str):
-        user = UserQuery(self._session).get_user(id_)
+    def reset_user_password(self, id: str):
+        user = UserQuery(self._session).get_user(id)
         user.reset_password()
         return user
 
@@ -33,6 +33,6 @@ class UserCommand:
         self._session.merge(team)
         return team
 
-    def remove_team(self, id_: str):
-        team = UserQuery(self._session).get_team(id_)
+    def remove_team(self, id: str):
+        team = UserQuery(self._session).get_team(id)
         self._session.delete(team)

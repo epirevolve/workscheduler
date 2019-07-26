@@ -11,8 +11,8 @@ class OperatorQuery:
     def __init__(self, session):
         self._session = session
     
-    def get_operator(self, id_: str) -> Operator:
-        return self._session.query(Operator).get(id_)
+    def get_operator(self, id: str) -> Operator:
+        return self._session.query(Operator).get(id)
     
     def get_operator_of_user_id(self, user_id: str) -> Operator:
         return self._session.query(Operator) \
@@ -28,8 +28,8 @@ class OperatorQuery:
                     Operator.user.has(User.team.has(Team.id == team_id)),
                     Operator.user.has(User.is_inactivated.is_(False))).all()
 
-    def get_skill(self, id_) -> Skill:
-        return self._session.query(Skill).get(id_)
+    def get_skill(self, id) -> Skill:
+        return self._session.query(Skill).get(id)
 
     def get_skills(self) -> [Skill]:
         return self._session.query(Skill).order_by(Skill.id).all()

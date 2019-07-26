@@ -8,14 +8,14 @@ class UserQuery:
     def __init__(self, session):
         self._session = session
     
-    def get_user(self, id_: str) -> User:
-        return self._session.query(User).get(id_)
+    def get_user(self, id: str) -> User:
+        return self._session.query(User).get(id)
 
     def get_users(self) -> [User]:
         return self._session.query(User).order_by(User.id).all()
 
-    def get_team(self, id_: str):
-        return self._session.query(Team).get(id_)
+    def get_team(self, id: str):
+        return self._session.query(Team).get(id)
 
     def get_teams(self):
         return self._session.query(Team).order_by(Team.id).all()
