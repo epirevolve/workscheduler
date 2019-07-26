@@ -27,9 +27,9 @@ class TestOperatorCommandAdapter:
         result = query.get_operator(target.id)
         assert result
         assert target.id == result.id
-        assert target.skills == result.skills
-        assert target.ojt == result.ojt
-        assert target.remain_paid_holidays == result.remain_paid_holidays
+        assert target.skills == result.skills == [skills[-1]]
+        assert target.ojt == result.ojt == operators[-2]
+        assert target.remain_paid_holidays == result.remain_paid_holidays == 5
 
     @pytest.mark.parametrize("x, y, z", [
         ("test 1", 3, True),

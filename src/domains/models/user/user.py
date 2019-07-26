@@ -37,12 +37,12 @@ class User(OrmBase, UserMixin):
     is_inactivated = Column(Boolean, default=False)
     create_at = Column(DateTime, server_default=current_timestamp())
 
-    def __init__(self, id: str, login_id: str, name: str,
-                 team: Team, role: Role,
+    def __init__(self, id: str, login_id: str, password: str,
+                 name: str, team: Team, role: Role,
                  is_inactivate: bool = False, **kwargs):
         self.id = id
         self.login_id = login_id
-        self.password = 'p' + login_id
+        self.password = password
         self.name = name
         self.team = team
         self.role = role
@@ -61,8 +61,8 @@ class User(OrmBase, UserMixin):
     @staticmethod
     def new(login_id: str, name: str, team: Team,
             role: Role, **kwargs):
-        user = User(UuidFactory.new_uuid(), login_id, name,
-                    team, role)
+        user = User(UuidFactory.new_uuid(), login_id, 'p'+login_id,
+                    name, team, role)
         return user
     
     def __eq__(self, other):
