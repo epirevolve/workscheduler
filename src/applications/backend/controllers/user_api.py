@@ -56,7 +56,7 @@ def update_user(user_id):
 def activate_user(user_id):
     session = get_db_session()
     try:
-        UserCommandAdapter(session).activate(user_id)
+        UserCommandAdapter(session).activate_user(user_id)
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -73,7 +73,7 @@ def activate_user(user_id):
 def inactivate_user(user_id):
     session = get_db_session()
     try:
-        UserCommandAdapter(session).inactivate(user_id)
+        UserCommandAdapter(session).inactivate_user(user_id)
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -90,7 +90,7 @@ def inactivate_user(user_id):
 def reset_password_user(user_id):
     session = get_db_session()
     try:
-        UserCommandAdapter(session).reset_password(user_id)
+        UserCommandAdapter(session).reset_user_password(user_id)
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -132,7 +132,7 @@ def append_team():
 def update_team(team_id: str):
     session = get_db_session()
     try:
-        req = UserCommandAdapter(session).update_team(jsonize.loads(request.data))
+        req = UserCommandAdapter(session).save_team(jsonize.loads(request.data))
         session.commit()
         session.refresh(req)
         response = jsonize.json_response(jsonize.dumps(req))

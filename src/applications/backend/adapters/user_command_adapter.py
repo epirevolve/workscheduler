@@ -13,16 +13,16 @@ class UserCommandAdapter:
         user = to_user(data)
         return UserCommand(self._session).save_user(user)
 
-    def activate(self, id):
+    def activate_user(self, id):
         return UserCommand(self._session).activate_user(id)
 
-    def inactivate(self, id):
+    def inactivate_user(self, id):
         return UserCommand(self._session).inactivate_user(id)
 
-    def reset_password(self, id):
+    def reset_user_password(self, id):
         return UserCommand(self._session).reset_user_password(id)
 
-    def update_team(self, data: dict):
+    def save_team(self, data: dict):
         team = to_team(data)
         return UserCommand(self._session).save_team(team)
 

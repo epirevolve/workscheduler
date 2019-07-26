@@ -10,7 +10,7 @@ from src.domains.models.operator import Skill
 
 
 class TestOperatorCommandAdapter:
-    def test_save_operator(self, session):
+    def test_save_operator_update(self, session):
         adapter = OperatorCommandAdapter(session)
         query = OperatorQuery(session)
 
@@ -36,7 +36,7 @@ class TestOperatorCommandAdapter:
         ("test 2", 10, False),
         ("test 3", 1, True),
     ])
-    def test_save_skill_1(self, session, x, y, z):
+    def test_save_skill_append(self, session, x, y, z):
         adapter = OperatorCommandAdapter(session)
         query = OperatorQuery(session)
 
@@ -52,7 +52,7 @@ class TestOperatorCommandAdapter:
         assert target.score == result.score == y
         assert target.is_certified == result.is_certified == z
 
-    def test_save_skill_2(self, session):
+    def test_save_skill_update(self, session):
         adapter = OperatorCommandAdapter(session)
         query = OperatorQuery(session)
 
