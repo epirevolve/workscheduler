@@ -43,14 +43,6 @@ def to_role(data):
         return UserRole.OPERATOR
 
 
-def to_new_user(data):
-    if not data:
-        return None
-    team = to_team(default_pop(data, 'team'))
-    role = to_role(default_pop(data, 'role'))
-    return User.new(**data, team=team, role=role)
-
-
 def to_user(data):
     if not data:
         return None

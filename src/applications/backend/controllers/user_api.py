@@ -22,9 +22,9 @@ bp = Blueprint('user_api', __name__)
 def append_user():
     session = get_db_session()
     try:
-        req = UserCommandAdapter(session).append_user(jsonize.loads(request.data))
+        UserFacadeAdapter(session).append_user(jsonize.loads(request.data))
         session.commit()
-        response = jsonize.json_response(jsonize.dumps(req))
+        response = jsonize.json_response()
     except Exception as e:
         session.rollback()
         print(e)
@@ -39,7 +39,7 @@ def append_user():
 def update_user(user_id):
     session = get_db_session()
     try:
-        UserCommandAdapter(session).update_user(jsonize.loads(request.data))
+        UserCommandAdapter(session).save_user(jsonize.loads(request.data))
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -98,22 +98,6 @@ def reset_password_user(user_id):
         response = jsonize.json_response()
         response.status_code = 400
         session.rollback()
-    return response
-
-
-@bp.route('/users/myself/<user_id>', methods=['PUT'])
-@login_required
-def update_myself(user_id):
-    session = get_db_session()
-    try:
-        UserCommandAdapter(session).update_myself(jsonize.loads(request.data))
-        session.commit()
-        response = jsonize.json_response()
-    except Exception as e:
-        session.rollback()
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
     return response
 
 

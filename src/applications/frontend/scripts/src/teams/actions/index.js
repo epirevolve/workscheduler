@@ -1,5 +1,7 @@
 import * as actionTypes from '../actionTypes';
 
+import { getUuid } from 'commonApi';
+
 export const startAppendTeam = (team) => ({
     type: actionTypes.START_APPEND_TEAM,
     payload: { team }
@@ -42,9 +44,13 @@ export const failureRemoveTeam = () => ({
     type: actionTypes.FAILURE_REMOVE_TEAM
 });
 
-export const openDialogToAppend = () => ({
-    type: actionTypes.OPEN_DIALOG_APPEND
-});
+export const openDialogToAppend = async () => {
+    const uuid = await getUuid();
+    return {
+        type: actionTypes.OPEN_DIALOG_APPEND,
+        payload: { uuid }
+    };
+};
 
 export const openDialogToUpdate = (team) => ({
     type: actionTypes.OPEN_DIALOG_UPDATE,

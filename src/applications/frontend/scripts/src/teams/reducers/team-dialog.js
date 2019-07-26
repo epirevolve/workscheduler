@@ -5,7 +5,7 @@ const dialog = (state = {}, action) => {
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_APPEND:
             return { ...state,
-                id: '',
+                id: payload.uuid,
                 name: '',
                 note: ''
             };

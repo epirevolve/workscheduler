@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from domains.models.operator import Operator
 from domains.models.user import User
+from domains.models.user import Team
 
 from . import UserQuery
 from . import UserCommand
+from . import OperatorCommand
 from . import SchedulerCommand
 
 
@@ -22,8 +25,14 @@ class UserFacade:
         _login_check = self._login_check(login_id, password)
         return next((x for x in UserQuery(self._session).get_users() if _login_check(x)), None)
 
-    def append_team(self, name: str, note: str):
-        team = UserCommand(self._session).append_team(name, note)
+    def append_user(self, user: User):
+        UserCommand(self._session).save_user(user)
+        self._session.flush()
+        OperatorCommand(self._session).save_operator(Operator.new(user))
+        return user
+
+    def append_team(self, team: Team):
+        team = UserCommand(self._session).save_team(team)
         self._session.flush()
         SchedulerCommand(self._session).append_scheduler(team.id)
         return team

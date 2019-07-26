@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    append: () => dispatch(actions.openDialogToAppend()),
+    append: async () => dispatch(await actions.openDialogToAppend()),
     edit: (user) => dispatch(actions.openDialogToUpdate(user))
 });
 

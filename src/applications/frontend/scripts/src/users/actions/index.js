@@ -1,12 +1,18 @@
 import * as actionTypes from '../actionTypes';
 
-export const openDialogToAppend = () => ({
-    type: actionTypes.OPEN_DIALOG_APPEND
-});
+import { getUuid } from 'commonApi';
+
+export const openDialogToAppend = async () => {
+    const uuid = await getUuid();
+    return {
+        type: actionTypes.OPEN_DIALOG_APPEND,
+        payload: { uuid }
+    };
+};
 
 export const openDialogToUpdate = (user) => ({
     type: actionTypes.OPEN_DIALOG_UPDATE,
-    user
+    payload: { user }
 });
 
 export const closeDialog = () => ({
@@ -15,22 +21,22 @@ export const closeDialog = () => ({
 
 export const changeLoginId = (text) => ({
     type: actionTypes.CHANGE_LOGIN_ID,
-    text
+    payload: { text }
 });
 
 export const changeName = (text) => ({
     type: actionTypes.CHANGE_NAME,
-    text
+    payload: { text }
 });
 
-export const changeTeam = (obj) => ({
+export const changeTeam = (team) => ({
     type: actionTypes.CHANGE_TEAM,
-    obj
+    payload: { team }
 });
 
 export const changeRole = (role) => ({
     type: actionTypes.CHANGE_ROLE,
-    role
+    payload: { role }
 });
 
 export const startAppendUser = (user) => ({

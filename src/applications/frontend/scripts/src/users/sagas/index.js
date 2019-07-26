@@ -6,10 +6,10 @@ import * as api from '../services/api';
 import { showSnackbar } from 'snackbarActions';
 
 function *runAppendUser(action) {
-    const { res, error } = yield call(api.appendUser, action.payload);
-    if (res && !error) {
+    const { error } = yield call(api.appendUser, action.payload);
+    if (!error) {
         yield all([
-            put(actions.successAppendUser(JSON.parse(res.text))),
+            put(actions.successAppendUser(action.payload.user)),
             put(actions.closeDialog()),
             put(showSnackbar('Succeed to append user', 'success')),
             put(showSnackbar('New password is p + his/her login id. Please change it.'))

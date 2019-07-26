@@ -1,26 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from backend.services import UserCommand
-from backend.services.domain_orm import to_new_user
 from backend.services.domain_orm import to_user
+from backend.services.domain_orm import to_team
 
 
 class UserCommandAdapter:
     def __init__(self, session):
         self._session = session
-    
-    def update_myself(self, data):
+
+    def save_user(self, data: dict):
         user = to_user(data)
-        return UserCommand(self._session).update_myself(user)
-    
-    def append_user(self, data: dict):
-        user = to_new_user(data)
-        return UserCommand(self._session).append_user(user)
-    
-    def update_user(self, data: dict):
-        user = to_user(data)
-        return UserCommand(self._session).update_user(user)
-    
+        return UserCommand(self._session).save_user(user)
+
     def activate(self, id_):
         return UserCommand(self._session).activate_user(id_)
 
@@ -31,8 +23,8 @@ class UserCommandAdapter:
         return UserCommand(self._session).reset_user_password(id_)
 
     def update_team(self, data: dict):
-        return UserCommand(self._session).update_team(
-            data.get('id'), data.get('name'), data.get('note'))
+        team = to_team(data)
+        return UserCommand(self._session).save_team(team)
 
     def remove_team(self, id_):
         UserCommand(self._session).remove_team(id_)

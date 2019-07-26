@@ -3,7 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from backend.services import UserCommand
+from backend.services import UserFacade
 from backend.services import UserQuery
 from domains.models import OrmBase
 from domains.models.user import Team
@@ -28,7 +28,7 @@ class Database:
         session.flush()
 
         default_team = UserQuery(session).get_default_team()
-        user_command = UserCommand(session)
+        user_command = UserFacade(session)
         user_command.append_user(User.new('admin', '管理者', default_team, role=UserRole.ADMINISTRATOR))
 
         session.commit()

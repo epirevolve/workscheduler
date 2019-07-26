@@ -42,11 +42,11 @@ export const resetPassword = async (payload) => {
 export const appendUser = async (payload) => {
     const { user } = payload;
     try {
-        const res = await requestAgent
+        await requestAgent
             .post('/user/api/users')
             .send(user)
             .set('X-CSRFToken', csrfToken);
-        return ({ res });
+        return ({});
     }
     catch (error) {
         return ({ error });

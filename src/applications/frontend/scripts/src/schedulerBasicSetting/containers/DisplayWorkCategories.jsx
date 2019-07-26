@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    append: () => {dispatch(addWorkCategory());},
+    append: async () => {dispatch(await addWorkCategory());},
     remove: (id) => () => {dispatch(removeWorkCategory(id));},
     changeTitle: (id) => (e) => dispatch(changeWorkCategoryTitle(id, e.target.value)),
     changeAtFrom: (id) => (e) => dispatch(changeWorkCategoryAtFrom(id, e.target.value)),

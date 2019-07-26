@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from backend.services import UserFacade
+from backend.services.domain_orm import to_user
+from backend.services.domain_orm import to_team
 
 
 class UserFacadeAdapter:
@@ -11,9 +13,10 @@ class UserFacadeAdapter:
         return UserFacade(self._session).login(
             data.get('loginId'), data.get('password'))
 
+    def append_user(self, data: dict):
+        user = to_user(data)
+        return UserFacade(self._session).append_user(user)
+
     def append_team(self, data):
-        name = data.get('name')
-        note = data.get('note')
-        if not name:
-            raise ValueError()
-        return UserFacade(self._session).append_team(name, note)
+        team = to_team(data)
+        return UserFacade(self._session).append_team(team)
