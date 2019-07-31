@@ -62,7 +62,7 @@ def get_monthly_setting():
 def update_monthly_setting():
     session = get_db_session()
     try:
-        SchedulerCommandAdapter(session).update_monthly_setting(jsonize.loads(request.data))
+        SchedulerCommandAdapter(session).save_monthly_setting(jsonize.loads(request.data))
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -94,7 +94,7 @@ def public_monthly_setting():
 def update_basic_setting():
     session = get_db_session()
     try:
-        SchedulerCommandAdapter(session).update_basic_setting(jsonize.loads(request.data))
+        SchedulerCommandAdapter(session).save_basic_setting(jsonize.loads(request.data))
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
@@ -202,7 +202,7 @@ def terminate_scheduler():
 def remove_request(request_id):
     session = get_db_session()
     try:
-        SchedulerCommandAdapter(session).remove_my_request(request_id)
+        SchedulerCommandAdapter(session).remove_request(request_id)
         session.commit()
         response = jsonize.json_response()
     except Exception as e:

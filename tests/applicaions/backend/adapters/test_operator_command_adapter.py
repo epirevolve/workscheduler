@@ -23,6 +23,7 @@ class TestOperatorCommandAdapter:
         data = jsonize.dumps(target)
         adapter.save_operator(jsonize.loads(data))
         session.flush()
+        session.expunge_all()
 
         result = query.get_operator(target.id)
         assert result
@@ -44,6 +45,7 @@ class TestOperatorCommandAdapter:
         data = jsonize.dumps(target)
         adapter.save_skill(jsonize.loads(data))
         session.flush()
+        session.expunge_all()
 
         result = query.get_skill(target.id)
         assert result
@@ -63,6 +65,7 @@ class TestOperatorCommandAdapter:
         data = jsonize.dumps(target)
         adapter.save_skill(jsonize.loads(data))
         session.flush()
+        session.expunge_all()
 
         result = query.get_skill(target.id)
         assert result
@@ -97,6 +100,7 @@ class TestOperatorCommandAdapter:
         target = query.get_skills()[-1]
         adapter.delete_skill(target.id)
         session.flush()
+        session.expunge_all()
 
         result = query.get_skill(target.id)
         assert not result

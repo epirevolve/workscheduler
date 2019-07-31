@@ -25,23 +25,27 @@ from . import ScheduleQuery
 class SchedulerCommand:
     def __init__(self, session):
         self._session = session
-    
-    def update_monthly_setting(self, monthly_setting: MonthlySetting):
-        self._session.merge(monthly_setting)
-        return monthly_setting
-    
-    def public_monthly_setting(self, id: str):
-        monthly_setting = SchedulerQuery(self._session).get_monthly_setting(id)
-        monthly_setting.is_published = True
-        return monthly_setting
-        
+
     def append_scheduler(self, team_id: str):
         team = UserQuery(self._session).get_team(team_id)
         scheduler = Scheduler.new(team)
         self._session.add(scheduler)
         return scheduler
 
-    def update_basic_setting(self, scheduler: Scheduler):
+    def save_monthly_setting(self, monthly_setting: MonthlySetting):
+        self._session.merge(monthly_setting)
+        return monthly_setting
+    
+    def public_monthly_setting(self, monthly_setting: MonthlySetting):
+        monthly_setting.is_published = True
+        self.save_monthly_setting(monthly_setting)
+        return monthly_setting
+
+    def remove_request(self, id: str):
+        request = SchedulerQuery(self._session).get_requests_of_id(id)
+        self._session.delete(request)
+
+    def save_basic_setting(self, scheduler: Scheduler):
         self._session.merge(scheduler)
         return scheduler
 
@@ -63,13 +67,13 @@ class SchedulerCommand:
         scheduler.is_launching = False
         self._session.commit()
 
-    def append_new_history(self, team, month, year):
+    def _append_new_history(self, team, month, year):
         history = History.new(team, month, year)
         self._session.add(history)
         self._session.commit()
         return history
 
-    def update_launching_status(self, history):
+    def _update_launching_status(self, history):
         while 1:
             history.process_status = yield
             self._session.commit()
@@ -88,8 +92,8 @@ class SchedulerCommand:
         #     raise AlreadyLaunchError()
         try:
             self.turn_on_scheduler_launching(scheduler)
-            history = self.append_new_history(team, month, year)
-            pipe = self.update_launching_status(history)
+            history = self._append_new_history(team, month, year)
+            pipe = self._update_launching_status(history)
             schedule, adaptability = scheduler.run(last_month_schedules, month, year, operators, pipe)
             ScheduleCommand(self._session).append_new_schedule(team_id, month, year, schedule)
             history.adaptability = adaptability
@@ -100,7 +104,3 @@ class SchedulerCommand:
 
     def terminate(self, team_id: str, mont: int, year: int):
         pass
-
-    def remove_my_request(self, id: str):
-        request = SchedulerQuery(self._session).get_requests_of_id(id)
-        self._session.delete(request)

@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
 

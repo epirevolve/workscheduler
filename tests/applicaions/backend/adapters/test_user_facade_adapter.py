@@ -51,6 +51,7 @@ class TestUserFacadeAdapter:
         data = jsonize.dumps(target)
         adapter.append_user(jsonize.loads(data))
         session.flush()
+        session.expunge_all()
 
         result = query1.get_user(target.id)
         assert result
@@ -82,6 +83,7 @@ class TestUserFacadeAdapter:
         data = jsonize.dumps(target)
         adapter.append_team(jsonize.loads(data))
         session.flush()
+        session.expunge_all()
 
         result = query1.get_team(target.id)
         assert result

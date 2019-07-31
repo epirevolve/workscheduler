@@ -7,6 +7,7 @@ import src.utils.jsonize as jsonize
 from src.applications.backend.adapters import UserCommandAdapter
 from src.applications.backend.services import UserQuery
 from src.domains.models.user import UserRole
+from src.domains.models.user import Team
 
 
 class TestUserCommandAdapter:
@@ -33,6 +34,7 @@ class TestUserCommandAdapter:
         data = jsonize.dumps(target)
         adapter.save_user(jsonize.loads(data))
         session.flush()
+        session.expunge_all()
 
         result = query.get_user(target.id)
         assert result
@@ -52,6 +54,7 @@ class TestUserCommandAdapter:
         target = users[-1]
         adapter.activate_user(target.id)
         session.flush()
+        session.expunge_all()
 
         result = query.get_user(target.id)
         assert result
@@ -59,6 +62,7 @@ class TestUserCommandAdapter:
 
         adapter.inactivate_user(target.id)
         session.flush()
+        session.expunge_all()
 
         result = query.get_user(target.id)
         assert result
@@ -66,6 +70,7 @@ class TestUserCommandAdapter:
 
         adapter.activate_user(target.id)
         session.flush()
+        session.expunge_all()
 
         result = query.get_user(target.id)
         assert result
@@ -88,13 +93,52 @@ class TestUserCommandAdapter:
 
         adapter.reset_user_password(target.id)
         session.flush()
+        session.expunge_all()
 
         result = query.get_user(target.id)
         assert result
         assert result.password == 'p'+result.login_id
 
-    def test_save_team(self, session):
-        pass
+    def test_save_team_append(self, session):
+        adapter = UserCommandAdapter(session)
+        query = UserQuery(session)
+
+        target = Team.new('test title', 'test note')
+        data = jsonize.dumps(target)
+        adapter.save_team(jsonize.loads(data))
+        session.flush()
+        session.expunge_all()
+
+        result = query.get_team(target.id)
+        assert result
+        assert result.name == 'test title'
+        assert result.note == 'test note'
+
+    def test_save_team_update(self, session):
+        adapter = UserCommandAdapter(session)
+        query = UserQuery(session)
+
+        target = query.get_teams()[-1]
+        target.name = 'name is changed'
+        target.note = 'note is changed'
+        data = jsonize.dumps(target)
+        adapter.save_team(jsonize.loads(data))
+        session.flush()
+        session.expunge_all()
+
+        result = query.get_team(target.id)
+        assert result
+        assert result.name == 'name is changed'
+        assert result.note == 'note is changed'
 
     def test_remove_team(self, session):
-        pass
+        adapter = UserCommandAdapter(session)
+        query = UserQuery(session)
+
+        target = query.get_teams()[-1]
+        adapter.remove_team(target.id)
+        session.flush()
+        session.expunge_all()
+
+        result = query.get_team(target.id)
+        assert not result

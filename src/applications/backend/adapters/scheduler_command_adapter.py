@@ -16,21 +16,23 @@ class SchedulerCommandAdapter:
     def __init__(self, session):
         self._session = session
 
-    def update_monthly_setting(self, data: dict):
+    def save_monthly_setting(self, data: dict):
         monthly_setting = to_monthly_setting(data)
-        return SchedulerCommand(self._session).update_monthly_setting(monthly_setting)
+        return SchedulerCommand(self._session).save_monthly_setting(monthly_setting)
     
     def public_monthly_setting(self, data: dict):
-        monthly_setting = self.update_monthly_setting(data)
-        self._session.flush()
-        return SchedulerCommand(self._session).public_monthly_setting(monthly_setting.id)
-    
-    def update_basic_setting(self, data: dict):
+        monthly_setting = to_monthly_setting(data)
+        return SchedulerCommand(self._session).public_monthly_setting(monthly_setting)
+
+    def remove_request(self, id: str):
+        SchedulerCommand(self._session).remove_request(id)
+
+    def save_basic_setting(self, data: dict):
         scheduler = to_scheduler(data)
-        return SchedulerCommand(self._session).update_basic_setting(scheduler)
+        return SchedulerCommand(self._session).save_basic_setting(scheduler)
 
     def append_vacation(self, data: dict):
-        vacation = to_new_vacation(data.get('vacation'))
+        vacation = to_vacation(data.get('vacation'))
         return SchedulerCommand(self._session).append_vacation(data.get('team-id'), vacation)
 
     def update_vacation(self, data: dict):
@@ -44,6 +46,3 @@ class SchedulerCommandAdapter:
     def terminate(self, data: dict):
         return SchedulerCommand(self._session).terminate(
             data.get('team_id'), data.get('month'), data.get('year'))
-
-    def remove_my_request(self, id: str):
-        return SchedulerCommand(self._session).remove_my_request(id)
