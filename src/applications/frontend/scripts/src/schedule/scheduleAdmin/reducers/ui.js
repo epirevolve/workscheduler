@@ -1,5 +1,3 @@
-import base from 'uiReducer';
-
 import * as actionTypes from '../actionTypes';
 
 const ui = (state = { isProgressing: false }, action) => {
@@ -17,7 +15,7 @@ const ui = (state = { isProgressing: false }, action) => {
                 isProgressing: false
             };
         default:
-            return base(state, action);
+            return state;
     }
 };
 

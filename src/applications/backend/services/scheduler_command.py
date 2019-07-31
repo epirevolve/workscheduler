@@ -32,6 +32,10 @@ class SchedulerCommand:
         self._session.add(scheduler)
         return scheduler
 
+    def save_scheduler(self, scheduler: Scheduler):
+        self._session.merge(scheduler)
+        return scheduler
+
     def save_monthly_setting(self, monthly_setting: MonthlySetting):
         self._session.merge(monthly_setting)
         return monthly_setting

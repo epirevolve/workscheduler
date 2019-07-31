@@ -2,13 +2,13 @@ import React from 'react';
 
 import OpenDialog from "../containers/OpenDialog";
 import DisplayAvailableVacations from '../containers/DisplayAvailableVacations';
-import Layout from 'Layout';
+import WaitLoading from 'WaitLoading';
 
 const app = () => (
-    <Layout>
+    <WaitLoading>
         <OpenDialog />
         <DisplayAvailableVacations />
-    </Layout>
+    </WaitLoading>
 );
 
 export default app;

@@ -6,7 +6,7 @@ import VacationList from '../components/VacationList';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => ({
-    vacations: state.vacations
+    vacations: state.scheduler.vacations
 });
 
 const mapDispatchToProps = (dispatch) => ({

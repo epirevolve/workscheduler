@@ -4,66 +4,46 @@ import { showSnackbar } from 'snackbarActions';
 
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
-import * as uiActions from 'uiActions';
+import * as waitingActions from 'waitingActions';
 import * as api from '../services/api';
 
-function *runFetchVacations(action) {
-    const { res, error } = yield call(api.fetchVacations, action.payload);
+function *runFetchScheduler(action) {
+    const { res, error } = yield call(api.fetchScheduler, action.payload);
     if (res && !error) {
         yield all([
-            put(actions.successFetchVacations(JSON.parse(res.text))),
-            put(uiActions.onGoing())
+            put(actions.successFetchScheduler(JSON.parse(res.text))),
+            put(waitingActions.onGoing())
         ]);
     } else {
         yield all([
-            put(actions.failureAppendVacation()),
-            put(uiActions.onGoing())
+            put(actions.failureFetchScheduler()),
+            put(waitingActions.onGoing())
         ]);
     }
 }
 
-function *handleFetchVacations() {
-    yield takeEvery(actionTypes.START_FETCH_VACATIONS, runFetchVacations);
+function *handleFetchScheduler() {
+    yield takeEvery(actionTypes.START_FETCH_SCHEDULER, runFetchScheduler);
 }
 
-function *runAppendVacation(action) {
-    const { res, error } = yield call(api.appendVacation, action.payload);
-    if (res && !error) {
+function *runUpdateScheduler(action) {
+    const { error } = yield call(api.updateScheduler, action.payload);
+    if (!error) {
         yield all([
-            put(actions.successAppendVacation(JSON.parse(res.text))),
-            put(showSnackbar('Succeed to append a vacation')),
+            put(actions.successUpdateScheduler()),
+            put(showSnackbar('Succeed to update monthly setting')),
             put(actions.closeDialog())
         ]);
     } else {
         yield all([
-            put(actions.failureAppendVacation()),
-            put(showSnackbar('Sorry... we had failed to append a vacation'))
+            put(actions.failureUpdateScheduler()),
+            put(showSnackbar('Sorry... we had failed to update monthly setting'))
         ]);
     }
 }
 
-function *handleAppendVacation() {
-    yield takeEvery(actionTypes.START_APPEND_VACATION, runAppendVacation);
-}
-
-function *runUpdateVacation(action) {
-    const { res, error } = yield call(api.updateVacation, action.payload);
-    if (res && !error) {
-        yield all([
-            put(actions.successUpdateVacation(JSON.parse(res.text))),
-            put(showSnackbar('Succeed to update a vacation')),
-            put(actions.closeDialog())
-        ]);
-    } else {
-        yield all([
-            put(actions.failureUpdateVacation()),
-            put(showSnackbar('Sorry... we had failed to update a vacation'))
-        ]);
-    }
-}
-
-function *handleUpdateVacation() {
-    yield takeEvery(actionTypes.START_UPDATE_VACATION, runUpdateVacation);
+function *handleUpdateScheduler() {
+    yield takeEvery(actionTypes.START_UPDATE_SCHEDULER, runUpdateScheduler);
 }
 
 function *runRemoveVacation(action) {
@@ -88,9 +68,8 @@ function *handleRemoveVacation() {
 
 export default function *rootSaga() {
     yield all([
-        fork(handleFetchVacations),
-        fork(handleAppendVacation),
-        fork(handleUpdateVacation),
+        fork(handleFetchScheduler),
+        fork(handleUpdateScheduler),
         fork(handleRemoveVacation)
     ]);
 }

@@ -1,14 +1,13 @@
 import { combineWithCommonReducer } from 'wrappingByCommonReducer';
 
-import vacations from './vacations';
+import scheduler from './scheduler';
 import vacationDialog from "./vacation-dialog";
 import ui from "./ui";
 
-const dataset = document.querySelector('script[src*="vacations"]').dataset;
 export const initValue = ({
-    vacations: [],
+    scheduler: [],
     vacationDialog: {},
     ui: { dialogOpen: false }
 });
 
-export default combineWithCommonReducer({ vacations, vacationDialog, ui });
+export default combineWithCommonReducer({ scheduler, vacationDialog, ui });

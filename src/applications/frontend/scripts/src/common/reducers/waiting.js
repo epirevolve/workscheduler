@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 
-const ui = (state = { isLoading: true }, action) => {
+const waiting = (state = { isLoading: true }, action) => {
     switch (action.type) {
         case actionTypes.WAITING:
             return { ...state,
@@ -15,4 +15,4 @@ const ui = (state = { isLoading: true }, action) => {
     }
 };
 
-export default ui;
+export default waiting;

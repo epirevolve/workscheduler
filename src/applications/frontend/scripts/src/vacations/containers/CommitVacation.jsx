@@ -5,7 +5,10 @@ import * as actions from '../actions';
 
 import CommitActionArea from '../components/CommitActionArea';
 
+import { formatVacationOnScheduler } from "../services/formatScheduler";
+
 const mapStateToProps = (state) => ({
+    scheduler: state.scheduler,
     vacation: state.vacationDialog,
     isAppend: state.ui.isAppend,
 });
@@ -13,10 +16,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     close: () => dispatch(actions.closeDialog()),
     remove: (id) => dispatch(actions.startRemoveVacation(id)),
-    save: (vacation, isAppend) => {
-        const action = isAppend ? actions.startAppendVacation : actions.startUpdateVacation;
-        dispatch(action(vacation));
-    }
+    save: (scheduler, vacation, isAppend) => dispatch(actions.startUpdateScheduler(formatVacationOnScheduler(scheduler, vacation, isAppend)))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

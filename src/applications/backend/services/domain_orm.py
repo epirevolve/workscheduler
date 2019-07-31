@@ -136,15 +136,6 @@ def to_monthly_setting(data):
     return MonthlySetting(**data, days=days)
 
 
-def to_new_vacation(data):
-    if not data:
-        return None
-    data.pop('id')
-    on_from = to_date(default_pop(data, 'on_from'))
-    on_to = to_date(default_pop(data, 'on_to'))
-    return Vacation.new(**data, on_from=on_from, on_to=on_to)
-
-
 def to_vacation(data):
     if not data:
         return None

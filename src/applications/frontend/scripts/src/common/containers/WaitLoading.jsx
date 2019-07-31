@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Layout from "../components/Layout";
 
 const mapStateToProps = (state) => ({
-    isLoading: state.ui.isLoading
+    isLoading: state.waiting.isLoading
 });
 
 export default connect(mapStateToProps)(Layout);

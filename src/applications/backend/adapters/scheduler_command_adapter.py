@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-
-from flask_login import current_user
-
 from backend.services import SchedulerCommand
 from backend.services.domain_orm import to_monthly_setting
 from backend.services.domain_orm import to_scheduler
 from backend.services.domain_orm import to_vacation
-from backend.services.domain_orm import to_new_vacation
-from backend.services.domain_orm import to_request
 
 
 class SchedulerCommandAdapter:
     def __init__(self, session):
         self._session = session
+
+    def save_scheduler(self, data: dict):
+        scheduler = to_scheduler(data)
+        return SchedulerCommand(self._session).save_scheduler(scheduler)
 
     def save_monthly_setting(self, data: dict):
         monthly_setting = to_monthly_setting(data)

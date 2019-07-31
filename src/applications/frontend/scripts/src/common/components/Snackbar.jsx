@@ -1,5 +1,7 @@
 import React from 'react';
 
+import propTypes from "prop-types";
+
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,20 +19,20 @@ const statusColoring = ({
     INFO: css({ backgroundColor: '#1976d2' }),
 });
 
-const snackbar = ({ isOpen, message, status = INFO, handleClose }) => (
+const snackbar = ({ isOpen, message, status = INFO, close }) => (
     <Snackbar
         anchorOrigin={{
             vertical: 'top',
             horizontal: 'center', }}
         open={isOpen}
-        onClose={handleClose}
+        onClose={close}
         ContentProps={{
             'aria-describedby': 'message-id',
         }}>
         <SnackbarContent
             aria-describedby="client-snackbar"
             action={[
-                <IconButton key="close" aria-label="Close" color="inherit" onClick={handleClose}>
+                <IconButton key="close" aria-label="Close" color="inherit" onClick={close}>
                     <CloseIcon />
                 </IconButton>,
             ]}
@@ -38,5 +40,12 @@ const snackbar = ({ isOpen, message, status = INFO, handleClose }) => (
             css={statusColoring[status]} />
     </Snackbar>
 );
+
+snackbar.propTypes = {
+    isOpen: propTypes.bool.isRequired,
+    message: propTypes.string,
+    status: propTypes.any,
+    close: propTypes.func.isRequired
+};
 
 export default snackbar;

@@ -1,5 +1,3 @@
-import base from 'uiReducer';
-
 import * as actionTypes from '../actionTypes';
 
 const dialog = (state = { dialogOpen: false }, action) => {
@@ -19,7 +17,7 @@ const dialog = (state = { dialogOpen: false }, action) => {
                 dialogOpen: false
             };
         default:
-            return base(state, action);
+            return state;
     }
 };
 

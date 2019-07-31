@@ -32,6 +32,21 @@ def get_scheduler():
     return jsonize.json_response(jsonize.dumps(scheduler))
 
 
+@bp.route('/scheduler', methods=['PUT'])
+@login_required
+def update_scheduler():
+    session = get_db_session()
+    try:
+        SchedulerCommandAdapter(session).save_scheduler(jsonize.loads(request.data))
+        session.commit()
+        response = jsonize.json_response()
+    except Exception as e:
+        session.rollback()
+        print(e)
+        response = jsonize.json_response(status_code=400)
+    return response
+
+
 @bp.route('/work-categories')
 @login_required
 def get_work_categories():

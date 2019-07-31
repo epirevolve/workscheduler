@@ -23,5 +23,5 @@ render(
     document.getElementById('root')
 );
 
-import { startFetchVacations } from "./actions";
-store.dispatch(startFetchVacations());
+import { startFetchScheduler } from "./actions";
+store.dispatch(startFetchScheduler());

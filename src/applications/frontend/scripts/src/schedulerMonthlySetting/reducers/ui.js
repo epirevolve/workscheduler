@@ -1,7 +1,5 @@
 import * as actionTypes from '../actionTypes';
 
-import base from "uiReducer";
-
 const ui = (state = { isProgressing: false }, action) => {
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_APPEND:
@@ -31,7 +29,7 @@ const ui = (state = { isProgressing: false }, action) => {
                 isProgressing: false
             };
         default:
-            return base(state, action);
+            return state;
     }
 };
 

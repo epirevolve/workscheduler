@@ -1,44 +1,30 @@
 import * as actionTypes from '../actionTypes';
 
-export const startFetchVacations = () => ({
-    type: actionTypes.START_FETCH_VACATIONS,
+export const startFetchScheduler = () => ({
+    type: actionTypes.START_FETCH_SCHEDULER,
 });
 
-export const successFetchVacations = (vacations) => ({
-    type: actionTypes.SUCCESS_FETCH_VACATIONS,
-    payload: { vacations }
+export const successFetchScheduler = (scheduler) => ({
+    type: actionTypes.SUCCESS_FETCH_SCHEDULER,
+    payload: { scheduler }
 });
 
-export const failureFetchVacations = () => ({
-    type: actionTypes.FAILURE_FETCH_VACATIONS,
+export const failureFetchScheduler = () => ({
+    type: actionTypes.FAILURE_FETCH_SCHEDULER,
 });
 
-export const startAppendVacation = (vacation) => ({
-    type: actionTypes.START_APPEND_VACATION,
+export const startUpdateScheduler = (scheduler) => ({
+    type: actionTypes.START_UPDATE_SCHEDULER,
+    payload: { scheduler }
+});
+
+export const successUpdateScheduler = (vacation) => ({
+    type: actionTypes.SUCCESS_UPDATE_SCHEDULER,
     payload: { vacation }
 });
 
-export const successAppendVacation = (vacation) => ({
-    type: actionTypes.SUCCESS_APPEND_VACATION,
-    payload: { vacation }
-});
-
-export const failureAppendVacation = () => ({
-    type: actionTypes.FAILURE_APPEND_VACATION,
-});
-
-export const startUpdateVacation = (vacation) => ({
-    type: actionTypes.START_UPDATE_VACATION,
-    payload: { vacation }
-});
-
-export const successUpdateVacation = (vacation) => ({
-    type: actionTypes.SUCCESS_UPDATE_VACATION,
-    payload: { vacation }
-});
-
-export const failureUpdateVacation = () => ({
-    type: actionTypes.FAILURE_UPDATE_VACATION,
+export const failureUpdateScheduler = () => ({
+    type: actionTypes.FAILURE_UPDATE_SCHEDULER,
 });
 
 export const startRemoveVacation = (id) => ({
