@@ -121,11 +121,18 @@ def update_basic_setting():
 
 @bp.route('/vacations')
 @login_required
-@admin_required
 def get_vacations():
     team_id = request.args.get('team-id')
     scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_team_id(team_id)
-    return jsonize.json_response(jsonize.dumps(scheduler.vacations))
+    schedule_of = to_date(request.args.get('schedule-of'), '%Y-%m')
+
+    def is_in_period(on_from, on_to):
+        return (on_from.year == schedule_of.year and on_from.month <= schedule_of.month
+                or on_from.year < schedule_of.year)\
+                and (on_to.year == schedule_of.year and on_to.month >= schedule_of.month
+                     or schedule_of.year < on_to.year)
+    vacations = list(filter(lambda x: is_in_period(x.on_from, x.on_to), scheduler.vacations))
+    return jsonize.json_response(jsonize.dumps(vacations))
 
 
 @bp.route('/vacations', methods=['POST'])

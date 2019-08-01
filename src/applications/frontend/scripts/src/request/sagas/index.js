@@ -13,6 +13,7 @@ export function *runFetchMonthlySetting(action) {
     if (res && !error) {
         yield all([
             put(actions.successFetchMonthlySetting(JSON.parse(res.text))),
+            put(actions.startFetchVacations(action.payload.team, action.payload.scheduleOf)),
             put(waitingActions.onGoing())
         ]);
     } else {
@@ -25,6 +26,23 @@ export function *runFetchMonthlySetting(action) {
 
 function *handleFetchMonthlySetting() {
     yield takeEvery(actionTypes.START_FETCH_MONTHLY_SETTING, runFetchMonthlySetting);
+}
+
+export function *runFetchVacations(action) {
+    const { res, error } = yield call(api.fetchVacations, action.payload);
+    if (res && !error) {
+        yield all([
+            put(actions.successFetchVacations(JSON.parse(res.text)))
+        ]);
+    } else {
+        yield all([
+            put(actions.failureFetchVacations())
+        ]);
+    }
+}
+
+function *handleFetchVacations() {
+    yield takeEvery(actionTypes.START_FETCH_VACATIONS, runFetchVacations);
 }
 
 function *runUpdateMonthlySetting(action) {
@@ -70,6 +88,7 @@ function *handleRemoveRequest() {
 export default function *rootSaga() {
     yield all([
         fork(handleFetchMonthlySetting),
+        fork(handleFetchVacations),
         fork(handleUpdateMonthlySetting),
         fork(handleRemoveRequest)
     ]);

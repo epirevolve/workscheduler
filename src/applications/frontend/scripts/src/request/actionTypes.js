@@ -1,6 +1,9 @@
 export const START_FETCH_MONTHLY_SETTING = Symbol();
 export const SUCCESS_FETCH_MONTHLY_SETTING = Symbol();
 export const FAILURE_FETCH_MONTHLY_SETTING = Symbol();
+export const START_FETCH_VACATIONS = Symbol();
+export const SUCCESS_FETCH_VACATIONS = Symbol();
+export const FAILURE_FETCH_VACATIONS = Symbol();
 export const START_UPDATE_MONTHLY_SETTING = Symbol();
 export const SUCCESS_UPDATE_MONTHLY_SETTING = Symbol();
 export const FAILURE_UPDATE_MONTHLY_SETTING = Symbol();

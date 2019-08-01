@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import Typography from "@material-ui/core/Typography";
 
 import CalendarCell from './CalendarCell';
 
@@ -23,9 +24,15 @@ const blueHeaderCss = css({
     color: '#17a2b8 !important'
 }, headerCss);
 
+const margin10Css = css({
+    margin: '10rem'
+});
+
 import { mx3 } from 'margin';
 
 const calendar = ({ monthlySetting, ...other }) => {
+    if (!monthlySetting.isPublished)
+        return (<Typography variant="h5" css={margin10Css}>Sorry, this monthly setting is not published yet...</Typography>);
     const weeks = [];
     weeks.push([]);
     const firstDay = new Date(monthlySetting.year, monthlySetting.month-1, 1).getDay();

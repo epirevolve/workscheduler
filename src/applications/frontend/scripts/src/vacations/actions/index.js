@@ -1,5 +1,7 @@
 import * as actionTypes from '../actionTypes';
 
+import { getUuid } from 'commonApi';
+
 export const startFetchScheduler = () => ({
     type: actionTypes.START_FETCH_SCHEDULER,
 });
@@ -41,9 +43,13 @@ export const failureRemoveVacation = () => ({
     type: actionTypes.FAILURE_REMOVE_VACATION
 });
 
-export const openDialogToAppend = () => ({
-    type: actionTypes.OPEN_DIALOG_APPEND
-});
+export const openDialogToAppend = async () => {
+    const uuid = await getUuid();
+    return {
+        type: actionTypes.OPEN_DIALOG_APPEND,
+        payload: { uuid }
+    };
+};
 
 export const openDialogToUpdate = (vacation) => ({
     type: actionTypes.OPEN_DIALOG_UPDATE,

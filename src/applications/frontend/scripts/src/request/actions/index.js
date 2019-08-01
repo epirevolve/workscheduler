@@ -19,6 +19,21 @@ export const failureFetchMonthlySetting = () => ({
     payload: { message: '' }
 });
 
+export const startFetchVacations = (team, scheduleOf) => ({
+    type: actionTypes.START_FETCH_VACATIONS,
+    payload: { team, scheduleOf }
+});
+
+export const successFetchVacations = (vacations) => ({
+    type: actionTypes.SUCCESS_FETCH_VACATIONS,
+    payload: { vacations }
+});
+
+export const failureFetchVacations = () => ({
+    type: actionTypes.FAILURE_FETCH_VACATIONS,
+    payload: { message: '' }
+});
+
 export const startUpdateMonthlySetting = (monthlySetting) => ({
     type: actionTypes.START_UPDATE_MONTHLY_SETTING,
     payload: { monthlySetting }
