@@ -1,0 +1,16 @@
+export const CHANGE_CERTIFIED_SKILL = Symbol();
+export const CHANGE_NOT_CERTIFIED_SKILL = Symbol();
+export const CHANGE_WORK_CATEGORY_TITLE = Symbol();
+export const CHANGE_WORK_CATEGORY_AT_FROM = Symbol();
+export const CHANGE_WORK_CATEGORY_AT_TO = Symbol();
+export const CHANGE_WORK_CATEGORY_WEEK_DAY_REQUIRE = Symbol();
+export const CHANGE_WORK_CATEGORY_HOLIDAY_REQUIRE = Symbol();
+export const CHANGE_WORK_CATEGORY_REST_DAYS = Symbol();
+export const CHANGE_WORK_CATEGORY_MAX_TIMES = Symbol();
+export const CHANGE_WORK_CATEGORY_WEEK_DAY_OPERATOR = Symbol();
+export const CHANGE_WORK_CATEGORY_HOLIDAY_OPERATOR = Symbol();
+export const CHANGE_WORK_CATEGORY_ESSENTIAL_SKILL = Symbol();
+export const CHANGE_WORK_CATEGORY_EXCLUSIVE_OPERATOR = Symbol();
+export const CHANGE_WORK_CATEGORY_IMPOSSIBLE_OPERATOR = Symbol();
+export const ADD_WORK_CATEGORY = Symbol();
+export const REMOVE_WORK_CATEGORY = Symbol();

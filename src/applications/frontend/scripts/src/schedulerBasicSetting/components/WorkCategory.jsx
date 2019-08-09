@@ -22,8 +22,7 @@ const operators = JSON.parse(dataset.operators);
 const skills = JSON.parse(dataset.skills);
 
 const workCategory = ({ workCategory, remove, changeTitle,
-    changeAtFrom, changeAtTo, changeWeekdayRequire,
-    changeWeekdayMax, changeHolidayRequire, changeHolidayMax,
+    changeAtFrom, changeAtTo, changeWeekdayRequire, changeHolidayRequire,
     changeRestDay, changeMaxTimes, changeWeekdayOperators,
     changeHolidayOperators, changeEssentialSkills, changeExclusiveOperators,
     changeImpossibleOperators }) => (
@@ -46,19 +45,9 @@ const workCategory = ({ workCategory, remove, changeTitle,
                     <TextField type="number" label="week day require" required value={workCategory.weekDayRequire}
                         onChange={changeWeekdayRequire(workCategory.id)} />
                 </Grid>
-                <Grid item sm={6} xs={12}>
-                    <TextField type="number" label="week day max" required value={workCategory.weekDayMax}
-                        onChange={changeWeekdayMax(workCategory.id)} />
-                </Grid>
-            </Grid>
-            <Grid container css={mb3}>
                 <Grid item sm={6} xs={12} css={pr2}>
                     <TextField type="number" label="holiday require" required value={workCategory.holidayRequire}
                         onChange={changeHolidayRequire(workCategory.id)} />
-                </Grid>
-                <Grid item sm={6} xs={12}>
-                    <TextField type="number" label="holiday max" required value={workCategory.holidayMax}
-                        onChange={changeHolidayMax(workCategory.id)} />
                 </Grid>
             </Grid>
             <Grid container css={mb3}>
@@ -102,9 +91,7 @@ workCategory.propTypes = {
     changeAtFrom: PropTypes.func.isRequired,
     changeAtTo: PropTypes.func.isRequired,
     changeWeekdayRequire: PropTypes.func.isRequired,
-    changeWeekdayMax: PropTypes.func.isRequired,
     changeHolidayRequire: PropTypes.func.isRequired,
-    changeHolidayMax: PropTypes.func.isRequired,
     changeRestDay: PropTypes.func.isRequired,
     changeMaxTimes: PropTypes.func.isRequired,
     changeWeekdayOperators: PropTypes.func.isRequired,

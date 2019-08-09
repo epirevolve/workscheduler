@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import WorkCategoryList from '../components/WorkCategoryList';
 
 import { addWorkCategory, removeWorkCategory, changeWorkCategoryTitle,
-    changeWorkCategoryAtFrom, changeWorkCategoryAtTo, changeWorkCategoryWeekDayRequire,
-    changeWorkCategoryWeekDayMax, changeWorkCategoryHolidayRequire, changeWorkCategoryHolidayMax,
+    changeWorkCategoryAtFrom, changeWorkCategoryAtTo, changeWorkCategoryWeekDayRequire, changeWorkCategoryHolidayRequire,
     changeWorkCategoryRestDays, changeWorkCategoryMaxTimes, changeWorkCategoryWeekDayOperator,
     changeWorkCategoryHolidayOperator, changeWorkCategoryEssentialSkill, changeWorkCategoryExclusiveOperator,
     changeWorkCategoryImpossibleOperator } from '../actions';
@@ -21,9 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
     changeAtFrom: (id) => (e) => dispatch(changeWorkCategoryAtFrom(id, e.target.value)),
     changeAtTo: (id) => (e) => dispatch(changeWorkCategoryAtTo(id, e.target.value)),
     changeWeekdayRequire: (id) => (e) => dispatch(changeWorkCategoryWeekDayRequire(id, e.target.value)),
-    changeWeekdayMax: (id) => (e) => dispatch(changeWorkCategoryWeekDayMax(id, e.target.value)),
     changeHolidayRequire: (id) => (e) => dispatch(changeWorkCategoryHolidayRequire(id, e.target.value)),
-    changeHolidayMax: (id) => (e) => dispatch(changeWorkCategoryHolidayMax(id, e.target.value)),
     changeRestDay: (id) => (e) => dispatch(changeWorkCategoryRestDays(id, e.target.value)),
     changeMaxTimes: (id) => (e) => dispatch(changeWorkCategoryMaxTimes(id, e.target.value)),
     changeWeekdayOperators: (id, data) => dispatch(changeWorkCategoryWeekDayOperator(id, data)),

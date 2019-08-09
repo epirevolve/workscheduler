@@ -1,14 +1,16 @@
+import * as actionTypes from "../actionTypes";
+
 const scheduler = (state = {}, action) => {
     switch (action.type) {
-        case 'CHANGE_CERTIFIED_SKILL':
+        case actionTypes.CHANGE_CERTIFIED_SKILL:
             return { ...state,
                 certifiedSkill: action.checked
             };
-        case 'CHANGE_NOT_CERTIFIED_SKILL':
+        case actionTypes.CHANGE_NOT_CERTIFIED_SKILL:
             return { ...state,
                 notCertifiedSkill: action.checked
             };
-        case 'CHANGE_WORK_CATEGORY_TITLE':
+        case actionTypes.CHANGE_WORK_CATEGORY_TITLE:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -17,7 +19,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_AT_FROM':
+        case actionTypes.CHANGE_WORK_CATEGORY_AT_FROM:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -26,7 +28,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_AT_TO':
+        case actionTypes.CHANGE_WORK_CATEGORY_AT_TO:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -35,7 +37,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_WEEK_DAY_REQUIRE':
+        case actionTypes.CHANGE_WORK_CATEGORY_WEEK_DAY_REQUIRE:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -44,16 +46,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_WEEK_DAY_MAX':
-            return { ...state,
-                workCategories: state.workCategories.map((x) => {
-                    if (x.id != action.id) return x;
-                    return { ...x,
-                        weekDayMax: action.count
-                    };
-                })
-            };
-        case 'CHANGE_WORK_CATEGORY_HOLIDAY_REQUIRE':
+        case actionTypes.CHANGE_WORK_CATEGORY_HOLIDAY_REQUIRE:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -62,16 +55,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_HOLIDAY_MAX':
-            return { ...state,
-                workCategories: state.workCategories.map((x) => {
-                    if (x.id != action.id) return x;
-                    return { ...x,
-                        holidayMax: action.count
-                    };
-                })
-            };
-        case 'CHANGE_WORK_CATEGORY_REST_DAYS':
+        case actionTypes.CHANGE_WORK_CATEGORY_REST_DAYS:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -80,7 +64,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_MAX_TIMES':
+        case actionTypes.CHANGE_WORK_CATEGORY_MAX_TIMES:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -89,7 +73,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_WEEK_DAY_OPERATOR':
+        case actionTypes.CHANGE_WORK_CATEGORY_WEEK_DAY_OPERATOR:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -101,7 +85,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_HOLIDAY_OPERATOR':
+        case actionTypes.CHANGE_WORK_CATEGORY_HOLIDAY_OPERATOR:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -113,7 +97,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_ESSENTIAL_SKILL':
+        case actionTypes.CHANGE_WORK_CATEGORY_ESSENTIAL_SKILL:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -125,7 +109,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_EXCLUSIVE_OPERATOR':
+        case actionTypes.CHANGE_WORK_CATEGORY_EXCLUSIVE_OPERATOR:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -137,7 +121,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'CHANGE_WORK_CATEGORY_IMPOSSIBLE_OPERATOR':
+        case actionTypes.CHANGE_WORK_CATEGORY_IMPOSSIBLE_OPERATOR:
             return { ...state,
                 workCategories: state.workCategories.map((x) => {
                     if (x.id != action.id) return x;
@@ -149,7 +133,7 @@ const scheduler = (state = {}, action) => {
                     };
                 })
             };
-        case 'ADD_WORK_CATEGORY':
+        case actionTypes.ADD_WORK_CATEGORY:
             return { ...state,
                 workCategories: state.workCategories.concat({
                     id: action.uuid,
@@ -169,7 +153,7 @@ const scheduler = (state = {}, action) => {
                     impossibleOperators: []
                 })
             };
-        case 'REMOVE_WORK_CATEGORY':
+        case actionTypes.REMOVE_WORK_CATEGORY:
             return { ...state,
                 workCategories: state.workCategories.filter((x) => x.id != action.id)
             };
