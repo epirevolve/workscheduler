@@ -1,12 +1,12 @@
 import React from 'react';
 
 import BasicSetting from './BasicSetting';
-import Layout from 'Layout';
+import WaitLoading from 'WaitLoading';
 
 const app = () => (
-    <Layout>
+    <WaitLoading>
         <BasicSetting />
-    </Layout>
+    </WaitLoading>
 );
 
 export default app;

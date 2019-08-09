@@ -1,4 +1,4 @@
-const dataset = document.querySelector('script[src*="schedulerbasic"]').dataset;
+const dataset = document.querySelector('script[src*="scheduler"]').dataset;
 
 export const team = JSON.parse(dataset.team);
 export const operators = JSON.parse(dataset.operators);
