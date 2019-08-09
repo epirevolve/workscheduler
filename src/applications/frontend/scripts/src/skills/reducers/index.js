@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import skills from './skills';
 import skillDialog from './skill-dialog';
@@ -11,4 +11,4 @@ export const initValue = ({
     ui: { dialogOpen: false }
 });
 
-export default combineWithCommonReducer({ skills, skillDialog, ui });
+export default reducerWrapper({ skills, skillDialog, ui });

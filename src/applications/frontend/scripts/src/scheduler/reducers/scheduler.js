@@ -2,6 +2,10 @@ import * as actionTypes from "../actionTypes";
 
 const scheduler = (state = {}, action) => {
     switch (action.type) {
+        case actionTypes.SUCCESS_FETCH_SCHEDULER:
+            return { ...state,
+                ...action.payload.scheduler
+            };
         case actionTypes.CHANGE_CERTIFIED_SKILL:
             return { ...state,
                 certifiedSkill: action.checked

@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import requestDialog from './request-dialog';
 import monthlySetting from './monthly-setting';
@@ -12,4 +12,4 @@ export const initValue = ({
     ui: { dialogOpen: false, isLoading: true, }
 });
 
-export default combineWithCommonReducer({ requestDialog, monthlySetting, vacations, ui });
+export default reducerWrapper({ requestDialog, monthlySetting, vacations, ui });

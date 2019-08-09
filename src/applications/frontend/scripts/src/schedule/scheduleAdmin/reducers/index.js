@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import schedules from './schedules';
 import teams from './teams';
@@ -12,4 +12,4 @@ export const initValue = {
     ui: { isLoading: true, isProgressing: false }
 };
 
-export default combineWithCommonReducer({ schedules, teams, ui });
+export default reducerWrapper({ schedules, teams, ui });

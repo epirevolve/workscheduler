@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import userDialog from './user-dialog';
 import users from './users';
@@ -10,4 +10,4 @@ export const initValue = ({
     users: usersInitValue
 });
 
-export default combineWithCommonReducer({ userDialog, users, ui });
+export default reducerWrapper({ userDialog, users, ui });

@@ -42,13 +42,12 @@ def show_monthly_setting():
 @login_required
 @admin_required
 def show_basic_setting():
-    team_id = request.args.get('team')
+    team = request.args.get('team')
     session = get_db_session()
-    scheduler = SchedulerQuery(session).get_scheduler_of_team_id(team_id)
     skills = OperatorQuery(session).get_skills()
     operators = OperatorQuery(session).get_operators()
-    return render_template('scheduler-basic-setting.html',
-                           scheduler=scheduler, skills=skills, operators=operators)
+    return render_template('scheduler.html',
+                           team=team, skills=skills, operators=operators)
 
 
 @bp.route('/vacations')

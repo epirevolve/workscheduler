@@ -2,13 +2,13 @@ import React from 'react';
 
 import SelectTrivialOptions from '../containers/SelectTrivialOptions';
 import DisplayWorkCategories from '../containers/DisplayWorkCategories';
-import SaveBaseSetting from '../containers/SaveBaseSetting';
+import CommitScheduler from '../containers/CommitScheduler';
 
 const basicSetting = () => (
     <>
         <SelectTrivialOptions />
         <DisplayWorkCategories />
-        <SaveBaseSetting />
+        <CommitScheduler />
     </>
 );
 

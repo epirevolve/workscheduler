@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import schedules, { initValue as schedulesinitValue } from '../../common/reducers/schedules';
 
@@ -7,4 +7,4 @@ export const initValue = ({
     ui: { isLoading: true }
 });
 
-export default combineWithCommonReducer({ schedules });
+export default reducerWrapper({ schedules });

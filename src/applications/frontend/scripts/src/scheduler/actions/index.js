@@ -2,6 +2,33 @@ import * as actionTypes from "../actionTypes";
 
 import { getUuid } from 'commonApi';
 
+export const startFetchScheduler = (team) => ({
+    type: actionTypes.START_FETCH_SCHEDULER,
+    payload: { team }
+});
+
+export const successFetchScheduler = (scheduler) => ({
+    type: actionTypes.SUCCESS_FETCH_SCHEDULER,
+    payload: { scheduler }
+});
+
+export const failureFetchScheduler = () => ({
+    type: actionTypes.FAILURE_FETCH_SCHEDULER
+});
+
+export const startUpdateScheduler = (scheduler) => ({
+    type: actionTypes.START_UPDATE_SCHEDULER,
+    payload: { scheduler }
+});
+
+export const successUpdateScheduler = () => ({
+    type: actionTypes.SUCCESS_UPDATE_SCHEDULER
+});
+
+export const failureUpdateScheduler = () => ({
+    type: actionTypes.FAILURE_UPDATE_SCHEDULER
+});
+
 export const changeCertifiedSkill = (checked) => ({
     type: actionTypes.CHANGE_CERTIFIED_SKILL,
     checked

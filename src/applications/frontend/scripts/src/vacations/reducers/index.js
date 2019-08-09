@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import scheduler from './scheduler';
 import vacationDialog from "./vacation-dialog";
@@ -10,4 +10,4 @@ export const initValue = ({
     ui: { dialogOpen: false }
 });
 
-export default combineWithCommonReducer({ scheduler, vacationDialog, ui });
+export default reducerWrapper({ scheduler, vacationDialog, ui });

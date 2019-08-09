@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import controlTower from './controlTower';
 import ui from './ui';
@@ -10,4 +10,4 @@ export const initValue = ({
     }
 });
 
-export default combineWithCommonReducer({ controlTower, ui });
+export default reducerWrapper({ controlTower, ui });

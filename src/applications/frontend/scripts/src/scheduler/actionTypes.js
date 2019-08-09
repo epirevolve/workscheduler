@@ -1,3 +1,10 @@
+export const START_FETCH_SCHEDULER = Symbol();
+export const SUCCESS_FETCH_SCHEDULER = Symbol();
+export const FAILURE_FETCH_SCHEDULER = Symbol();
+export const START_UPDATE_SCHEDULER = Symbol();
+export const SUCCESS_UPDATE_SCHEDULER = Symbol();
+export const FAILURE_UPDATE_SCHEDULER = Symbol();
+
 export const CHANGE_CERTIFIED_SKILL = Symbol();
 export const CHANGE_NOT_CERTIFIED_SKILL = Symbol();
 export const CHANGE_WORK_CATEGORY_TITLE = Symbol();

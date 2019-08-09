@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import teams from './teams';
 import teamDialog from './team-dialog';
@@ -11,4 +11,4 @@ export const initValue = ({
     ui: { dialogOpen: false }
 });
 
-export default combineWithCommonReducer({ teams, teamDialog, ui });
+export default reducerWrapper({ teams, teamDialog, ui });

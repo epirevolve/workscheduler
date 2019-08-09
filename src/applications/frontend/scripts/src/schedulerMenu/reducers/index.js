@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import menu from './menu';
 
@@ -8,4 +8,4 @@ export const initValue = ({
     menu: { team: JSON.parse(dataset.teams)[0] }
 });
 
-export default combineWithCommonReducer({ menu });
+export default reducerWrapper({ menu });

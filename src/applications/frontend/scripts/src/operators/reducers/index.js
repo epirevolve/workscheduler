@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import operatorDialog from './operator-dialog';
 import operators from './operators';
@@ -11,4 +11,4 @@ export const initValue = ({
     ui: { dialogOpen: false }
 });
 
-export default combineWithCommonReducer({ operatorDialog, operators, ui });
+export default reducerWrapper({ operatorDialog, operators, ui });

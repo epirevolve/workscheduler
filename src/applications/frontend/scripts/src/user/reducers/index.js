@@ -1,4 +1,4 @@
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
+import { reducerWrapper } from 'commonReducer';
 
 import user from './user';
 
@@ -8,4 +8,4 @@ export const initValue = ({
     user: myself
 });
 
-export default combineWithCommonReducer({ user });
+export default reducerWrapper({ user });

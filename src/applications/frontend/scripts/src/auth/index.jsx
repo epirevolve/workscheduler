@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import { combineWithCommonReducer } from 'wrappingByCommonReducer';
-const store = createStore(combineWithCommonReducer());
+import { reducerWrapper } from 'commonReducer';
+const store = createStore(reducerWrapper());
 
 import App from './components/App';
 
