@@ -42,8 +42,9 @@ def show_monthly_setting():
 @login_required
 @admin_required
 def show_basic_setting():
-    team = request.args.get('team')
+    team_id = request.args.get('team')
     session = get_db_session()
+    team = UserQuery(session).get_team(team_id)
     skills = OperatorQuery(session).get_skills()
     operators = OperatorQuery(session).get_operators()
     return render_template('scheduler.html',
