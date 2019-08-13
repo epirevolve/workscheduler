@@ -10,7 +10,7 @@ import { my3, mx5 } from 'margin';
 
 const stateCss = css({
     color: 'tomato'
-},floatl,my3,mx5);
+}, floatl, my3, mx5);
 
 const publishState = ({ isPublished }) => (
     <Typography variant="h4" css={stateCss}>

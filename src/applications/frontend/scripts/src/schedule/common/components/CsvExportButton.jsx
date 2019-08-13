@@ -3,6 +3,7 @@ import propTypes from "prop-types";
 
 import Fab from '@material-ui/core/Fab';
 import CloudDownloadRoundedIcon from '@material-ui/icons/CloudDownloadRounded';
+
 import formatSchedule from '../../common/services/formatSchedule';
 
 import { CSVLink } from "react-csv";
@@ -10,12 +11,11 @@ import { CSVLink } from "react-csv";
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-import { m2 } from 'margin';
-
 const iconCss = css({
     float: 'right',
-    zIndex: 999
-},m2);
+    zIndex: 999,
+    margin: '.5rem !important'
+});
 
 const csvExportButton = ({ daySettings, schedules, team, workCategories, availableSigns }) => {
     if (!schedules || !schedules.components || schedules.components.length == 0) return (<></>);

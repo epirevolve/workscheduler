@@ -17,12 +17,13 @@ import TotalRow from '../../common/components/TotalRow';
 import formatSchedule from '../../common/services/formatSchedule';
 
 const tableCss = css({
-    overflow: 'auto',
-    height: '74vh',
-    width: '96vw',
-    display: 'block',
-    borderCollapse: 'initial'
-});
+    '& > table': {
+        overflow: 'auto',
+        height: '74vh',
+        width: '96vw',
+        display: 'block',
+        borderCollapse: 'initial'
+}});
 
 const margin10Css = css({
     margin: '10rem'
@@ -36,17 +37,19 @@ const schedules = ({
     
     const [ headerRow, operatorRows, totalRows ] = formatSchedule(daySettings, schedules, workCategories, availableSigns);
     return (
-        <Table css={tableCss}>
-            <TableHead>
-                <DayHeaderRow {...headerRow} />
-            </TableHead>
-            <TableBody>
-                {operatorRows.map((x, i) => <Row key={i} {...x} />)}
-            </TableBody>
-            <TableFooter>
-                {totalRows.map((x, i) => <TotalRow key={i} {...x} bottom={totalRows.length-i-1} />)}
-            </TableFooter>
-        </Table>
+        <Box css={tableCss}>
+            <Table>
+                <TableHead>
+                    <DayHeaderRow {...headerRow} />
+                </TableHead>
+                <TableBody>
+                    {operatorRows.map((x, i) => <Row key={i} {...x} />)}
+                </TableBody>
+                <TableFooter>
+                    {totalRows.map((x, i) => <TotalRow key={i} {...x} bottom={totalRows.length-i-1} />)}
+                </TableFooter>
+            </Table>
+        </Box>
     );
 };
 

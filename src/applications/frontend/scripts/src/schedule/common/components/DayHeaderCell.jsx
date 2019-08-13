@@ -1,6 +1,8 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import TableCell from '@material-ui/core/TableCell';
+import Box from "@material-ui/core/Box";
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -8,9 +10,9 @@ import { css, jsx } from '@emotion/core';
 const cellCss = css({
     minWidth: '5rem',
     maxWidth: '5rem',
-    padding: '1rem',
+    padding: '1rem !important',
     verticalAlign: 'middle',
-    textAlign: 'center'
+    textAlign: 'center !important'
 });
 
 const getCssByHoliday = (name, isHoliday) => {
@@ -33,11 +35,17 @@ const dayHeaderCell = ({ name, day, isHoliday }) => {
     const titleCss = css(getCssByHoliday(name, isHoliday));
     return (
         <TableCell css={cellCss}>
-            <span css={titleCss}>{name}</span>
+            <Box css={titleCss}>{name}</Box>
             <br />
-            <span>{day}</span>
+            <Box>{day}</Box>
         </TableCell>
     );
+};
+
+dayHeaderCell.propTypes = {
+    name: propTypes.string.isRequired,
+    day: propTypes.string,
+    isHoliday: propTypes.bool,
 };
 
 export default React.memo(dayHeaderCell);

@@ -4,16 +4,17 @@ import propTypes from "prop-types";
 import TableCell from '@material-ui/core/TableCell';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Box from "@material-ui/core/Box";
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { p2 } from 'padding';
 
 import { zip } from 'arrayUtil';
 
 const cellCss = css({
-    textAlign: 'center !important'
-},p2);
+    textAlign: 'center !important',
+    padding: '0.5rem !important'
+});
 
 const selectCss = css({
     maxWidth: '5rem',
@@ -24,9 +25,11 @@ const selectableCell = ({ categories, val, changeCategory }) => {
     const options = categories.map((x, i) => <MenuItem key={i} value={x}>{x}</MenuItem>);
     return (
         <TableCell css={cellCss}>
-            <Select value={val} onChange={changeCategory} css={selectCss}>
-                {options}
-            </Select>
+            <Box css={selectCss}>
+                <Select value={val} onChange={changeCategory}>
+                    {options}
+                </Select>
+            </Box>
         </TableCell>
     );
 };

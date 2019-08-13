@@ -8,8 +8,8 @@ import { css, jsx } from '@emotion/core';
 const css_ = {
     minWidth: '5rem',
     maxWidth: '5rem',
-    padding: '1rem',
-    textAlign: 'center'
+    padding: '1rem !important',
+    textAlign: 'center !important'
 };
 
 const getColorByState = (count, category, daySetting) => {

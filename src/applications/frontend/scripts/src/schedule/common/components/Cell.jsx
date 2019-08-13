@@ -10,7 +10,7 @@ import { p2 } from 'padding';
 const cellCss = css({
     maxWidth: '5rem',
     minWidth: '5rem',
-    textAlign: 'center'
+    textAlign: 'center !important'
 }, p2);
 
 const cell = ({ val }) => (

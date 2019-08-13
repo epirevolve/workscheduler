@@ -17,12 +17,13 @@ import TotalRow from '../../common/components/TotalRow';
 import formatSchedule from '../../common/services/formatSchedule';
 
 const tableCss = css({
-    overflow: 'auto',
-    height: '77vh',
-    width: '97vw',
-    display: 'block',
-    borderCollapse: 'initial'
-});
+    '& > table': {
+        overflow: 'auto',
+        height: '74vh',
+        width: '96vw',
+        display: 'block',
+        borderCollapse: 'initial'
+}});
 
 const margin10Css = css({
     margin: '10rem'
