@@ -4,9 +4,10 @@ import teams from './teams';
 import teamDialog from './team-dialog';
 import ui from './ui';
 
-const dataset = document.querySelector('script[src*="teams"]').dataset;
+import { teams as teamsInitValue } from "../embeddedData";
+
 export const initValue = ({
-    teams: JSON.parse(dataset.teams),
+    teams: teamsInitValue,
     teamDialog: {},
     ui: { dialogOpen: false }
 });

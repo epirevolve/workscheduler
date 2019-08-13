@@ -6,6 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableFooter from '@material-ui/core/TableFooter';
 import Typography from '@material-ui/core/Typography';
+import Box from "@material-ui/core/Box";
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -31,7 +32,7 @@ const schedules = ({
         daySettings, schedules, workCategories, availableSigns
     }) => {
     if (!schedules || !schedules.components || schedules.components.length == 0)
-        return (<Typography variant="h5" css={margin10Css}>Sorry this month is not create yet</Typography>);
+        return (<Box css={margin10Css}><Typography variant="h5">Sorry, this month is not create yet...</Typography></Box>);
     
     const [ headerRow, operatorRows, totalRows ] = formatSchedule(daySettings, schedules, workCategories, availableSigns);
     return (

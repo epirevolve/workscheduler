@@ -114,10 +114,9 @@ def get_teams():
 def append_team():
     session = get_db_session()
     try:
-        req = UserFacadeAdapter(session).append_team(jsonize.loads(request.data))
+        UserFacadeAdapter(session).append_team(jsonize.loads(request.data))
         session.commit()
-        session.refresh(req)
-        response = jsonize.json_response(jsonize.dumps(req))
+        response = jsonize.json_response()
     except Exception as e:
         session.rollback()
         print(e)
@@ -132,10 +131,9 @@ def append_team():
 def update_team(team_id: str):
     session = get_db_session()
     try:
-        req = UserCommandAdapter(session).save_team(jsonize.loads(request.data))
+        UserCommandAdapter(session).save_team(jsonize.loads(request.data))
         session.commit()
-        session.refresh(req)
-        response = jsonize.json_response(jsonize.dumps(req))
+        response = jsonize.json_response()
     except Exception as e:
         session.rollback()
         print(e)

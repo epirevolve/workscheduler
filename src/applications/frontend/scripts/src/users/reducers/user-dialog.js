@@ -9,6 +9,7 @@ const dialog = (state = {}, action) => {
             return { ...state,
                 id: payload.uuid,
                 loginId: '',
+                password: '',
                 name: '',
                 team: teams[0],
                 role: { _value_: 3 },
@@ -16,12 +17,7 @@ const dialog = (state = {}, action) => {
             };
         case actionTypes.OPEN_DIALOG_UPDATE:
             return { ...state,
-                id: payload.user.id,
-                loginId: payload.user.loginId,
-                name: payload.user.name,
-                team: payload.user.team,
-                role: payload.user.role,
-                isInactivated: payload.user.isInactivated,
+                ...payload.user
             };
         case actionTypes.CHANGE_LOGIN_ID:
             return { ...state,

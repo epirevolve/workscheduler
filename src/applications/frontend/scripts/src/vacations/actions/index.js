@@ -20,9 +20,9 @@ export const startUpdateScheduler = (scheduler) => ({
     payload: { scheduler }
 });
 
-export const successUpdateScheduler = (vacation) => ({
+export const successUpdateScheduler = (scheduler) => ({
     type: actionTypes.SUCCESS_UPDATE_SCHEDULER,
-    payload: { vacation }
+    payload: { scheduler }
 });
 
 export const failureUpdateScheduler = () => ({

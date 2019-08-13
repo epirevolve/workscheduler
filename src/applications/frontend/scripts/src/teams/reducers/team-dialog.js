@@ -1,25 +1,25 @@
-import * as actionTypes from "../actionTypes";
+import * as pageActions from "../actions/page";
 
 const dialog = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
-        case actionTypes.OPEN_DIALOG_APPEND:
+        case pageActions.OPEN_DIALOG_APPEND:
             return { ...state,
                 id: payload.uuid,
                 name: '',
                 note: ''
             };
-        case actionTypes.OPEN_DIALOG_UPDATE:
+        case pageActions.OPEN_DIALOG_UPDATE:
             return { ...state,
                 id: payload.team.id,
                 name: payload.team.name,
                 note: payload.team.note
             };
-        case actionTypes.CHANGE_NAME:
+        case pageActions.CHANGE_NAME:
             return { ...state,
                 name: payload.text
             };
-        case actionTypes.CHANGE_NOTE:
+        case pageActions.CHANGE_NOTE:
             return { ...state,
                 note: payload.text
             };

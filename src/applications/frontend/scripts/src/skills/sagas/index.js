@@ -7,10 +7,10 @@ import * as actions from '../actions';
 import * as api from '../services/api';
 
 function *runAppendSkill(action) {
-    const { res, error } = yield call(api.appendSkill, action.payload);
-    if (res && !error) {
+    const { error } = yield call(api.appendSkill, action.payload);
+    if (!error) {
         yield all([
-            put(actions.successAppendSkill(JSON.parse(res.text))),
+            put(actions.successAppendSkill(action.payload.skill)),
             put(showSnackbar('Succeed to append a skill')),
             put(actions.closeDialog())
         ]);
@@ -27,10 +27,10 @@ function *handleAppendSkill() {
 }
 
 function *runUpdateSkill(action) {
-    const { res, error } = yield call(api.updateSkill, action.payload);
-    if (res && !error) {
+    const { error } = yield call(api.updateSkill, action.payload);
+    if (!error) {
         yield all([
-            put(actions.successUpdateSkill(JSON.parse(res.text))),
+            put(actions.successUpdateSkill(action.payload.skill)),
             put(showSnackbar('Succeed to update a skill')),
             put(actions.closeDialog())
         ]);

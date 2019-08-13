@@ -10,7 +10,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchOperators: () => {},
     edit: (operator) => dispatch(openDialogToUpdate(operator))
 });
 

@@ -5,17 +5,14 @@ const dialog = (state = {}, action) => {
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_APPEND:
             return { ...state,
-                id: '',
+                id: payload.uuid,
                 name: '',
-                score: '1',
+                score: 1,
                 isCertified: true
             };
         case actionTypes.OPEN_DIALOG_UPDATE:
             return { ...state,
-                id: payload.skill.id,
-                name: payload.skill.name,
-                score: payload.skill.score,
-                isCertified: payload.skill.isCertified
+                ...payload.skill
             };
         case actionTypes.CHANGE_NAME:
             return { ...state,

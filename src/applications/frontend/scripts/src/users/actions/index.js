@@ -41,7 +41,12 @@ export const changeRole = (role) => ({
 
 export const startAppendUser = (user) => ({
     type: actionTypes.START_APPEND_USER,
-    payload: { user }
+    payload: {
+        user: {
+            ...user,
+            password: `p${user.loginId}`
+        }
+    }
 });
 
 export const successAppendUser = (user) => ({

@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions';
+import * as pageActions from '../actions/page';
+import * as apiActions from '../actions/api';
 
 import CommitActionArea from '../components/CommitActionArea';
 
@@ -11,10 +12,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    close: () => dispatch(actions.closeDialog()),
-    remove: (id) => dispatch(actions.startRemoveTeam(id)),
+    close: () => dispatch(pageActions.closeDialog()),
+    remove: (id) => dispatch(apiActions.startRemoveTeam(id)),
     save: (team, isAppend) => {
-        const action = isAppend ? actions.startAppendTeam : actions.startUpdateTeam;
+        const action = isAppend ? apiActions.startAppendTeam : apiActions.startUpdateTeam;
         dispatch(action(team));
     }
 });

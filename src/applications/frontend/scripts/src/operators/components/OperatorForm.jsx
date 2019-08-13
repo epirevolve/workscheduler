@@ -24,8 +24,8 @@ const operatorForm = ({ operator, changeSkill, changeOjt }) => {
 
     return (
         <>
-            <TextField disabled value={operator.name} label="name" fullWidth margin="dense" />
-            <TextField disabled value={operator.team} label="team" fullWidth margin="dense" />
+            <TextField disabled value={operator.user.name} label="name" fullWidth margin="dense" />
+            <TextField disabled value={operator.user.team.name} label="team" fullWidth margin="dense" />
             <SkillList operatorSkills={operator.skills} changeSkill={changeSkill} />
             <FormControl fullWidth>
                 <InputLabel htmlFor="ojt">supervisor(ojt)</InputLabel>

@@ -35,12 +35,4 @@
         data-url-skills="{{ url_for('operator.show_skills') }}"
         data-url-logout="{{ url_for('user.logout') }}"></script>
     {% block script %}{% endblock %}
-<!--    <script>-->
-<!--        // work around solution to override material design by emotion-->
-<!--        const nodes = document.querySelectorAll('[data-emotion="css"]');-->
-<!--        const head = document.querySelector('head');-->
-<!--        const insertionPoint = document.createElement('nonscript');-->
-<!--        head.appendChild(insertionPoint);-->
-<!--        nodes.forEach(x => head.insertBefore(x, insertionPoint));-->
-<!--    </script>-->
 </html>

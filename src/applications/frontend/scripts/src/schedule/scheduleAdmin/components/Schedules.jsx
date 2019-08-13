@@ -32,7 +32,7 @@ const schedules = ({
         daySettings, schedules, workCategories, availableSigns, changeCategory
     }) => {
     if (!schedules || !schedules.components || schedules.components.length == 0)
-        return (<Typography variant="h5" css={margin10Css}>Sorry, this month is not create yet...</Typography>);
+        return (<Box css={margin10Css}><Typography variant="h5">Sorry, this month is not create yet...</Typography></Box>);
 
     const [ headerRow, operatorRows, totalRows ] = formatSchedule(daySettings, schedules, workCategories, availableSigns);
     return (

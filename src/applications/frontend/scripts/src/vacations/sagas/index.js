@@ -30,14 +30,14 @@ function *runUpdateScheduler(action) {
     const { error } = yield call(api.updateScheduler, action.payload);
     if (!error) {
         yield all([
-            put(actions.successUpdateScheduler()),
-            put(showSnackbar('Succeed to update monthly setting')),
+            put(actions.successUpdateScheduler(action.payload.scheduler)),
+            put(showSnackbar('Succeed to update vacations')),
             put(actions.closeDialog())
         ]);
     } else {
         yield all([
             put(actions.failureUpdateScheduler()),
-            put(showSnackbar('Sorry... we had failed to update monthly setting'))
+            put(showSnackbar('Sorry... we had failed to update vacations'))
         ]);
     }
 }

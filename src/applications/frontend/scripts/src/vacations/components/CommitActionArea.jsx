@@ -3,13 +3,18 @@ import propTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+
+import { mr1 } from 'margin';
+
 const commitActionArea = ({ scheduler, vacation, isAppend, close, remove, save }) => (
     <>
-        <Button onClick={close} color="default">
+        <Button onClick={close} color="default" css={mr1}>
             Close
         </Button>
         {!isAppend && (
-            <Button onClick={() => remove(vacation.id)} variant="outlined" color="secondary">
+            <Button onClick={() => remove(vacation.id)} variant="outlined" color="secondary" css={mr1}>
                 Remove
             </Button>
         )}

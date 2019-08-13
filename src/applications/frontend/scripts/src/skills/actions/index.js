@@ -1,5 +1,7 @@
 import * as actionTypes from '../actionTypes';
 
+import { getUuid } from 'commonApi';
+
 export const startAppendSkill = (skill) => ({
     type: actionTypes.START_APPEND_SKILL,
     payload: { skill }
@@ -42,9 +44,13 @@ export const failureRemoveSkill = () => ({
     type: actionTypes.FAILURE_REMOVE_SKILL
 });
 
-export const openDialogToAppend = () => ({
-    type: actionTypes.OPEN_DIALOG_APPEND
-});
+export const openDialogToAppend = async () => {
+    const uuid = await getUuid();
+    return {
+        type: actionTypes.OPEN_DIALOG_APPEND,
+        payload: { uuid }
+    };
+};
 
 export const openDialogToUpdate = (skill) => ({
     type: actionTypes.OPEN_DIALOG_UPDATE,
@@ -62,7 +68,7 @@ export const changeName = (text) => ({
 
 export const changeScore = (score) => ({
     type: actionTypes.CHANGE_SCORE,
-    payload: { score }
+    payload: { score: parseInt(score, 10) }
 });
 
 export const changeIsCertified = (isChecked) => ({

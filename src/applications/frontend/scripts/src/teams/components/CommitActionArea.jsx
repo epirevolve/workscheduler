@@ -2,16 +2,26 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
+import Box from "@material-ui/core/Box";
+
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+
+import { mr1 } from 'margin';
 
 const commitActionArea = ({ team, isAppend, close, remove, save }) => (
     <>
-        <Button onClick={close} color="default">
-            Close
-        </Button>
-        {!isAppend && (
-            <Button onClick={() => remove(team.id)} variant="outlined" color="secondary">
-                Remove
+        <Box css={mr1}>
+            <Button onClick={close} color="default">
+                Close
             </Button>
+        </Box>
+        {!isAppend && (
+            <Box css={mr1}>
+                <Button onClick={() => remove(team.id)} variant="outlined" color="secondary">
+                    Remove
+                </Button>
+            </Box>
         )}
         <Button onClick={() => save(team, isAppend)} variant="outlined" color="primary">
             Save
