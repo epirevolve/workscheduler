@@ -16,7 +16,7 @@ const cellCss = {
 
 const rowHeader = ({ val, left }) => (
     <TableCell component="th" scope="row" css={css({ ...cellCss,
-        left: left ? `${7+3*(left-1)}rem` : '0',
+        left: left ? `${8+4*(left-1)}rem` : '0',
         minWidth: left ? '3rem' : '7rem',
         maxWidth: left ? '3rem' : '7rem',
         textAlign: left ? 'center !important' : 'left !important',

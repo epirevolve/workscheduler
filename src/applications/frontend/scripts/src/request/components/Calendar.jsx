@@ -32,7 +32,9 @@ import { mx3 } from 'margin';
 
 const calendar = ({ monthlySetting, ...other }) => {
     if (!monthlySetting.isPublished)
-        return (<Typography variant="h5" css={margin10Css}>Sorry, this monthly setting is not published yet...</Typography>);
+        return (<Typography variant="h5" css={margin10Css}>Sorry, this month setting is not published yet...</Typography>);
+    if (monthlySetting.isFixed)
+        return (<Typography variant="h5" css={margin10Css}>Sorry, this month schedule has already fixed. Please ask to your manager.</Typography>);
     const weeks = [];
     weeks.push([]);
     const firstDay = new Date(monthlySetting.year, monthlySetting.month-1, 1).getDay();
