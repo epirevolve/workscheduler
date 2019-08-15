@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import CommitActionArea from '../components/CommitActionArea';
 
-import * as actions from '../actions';
+import * as apiActions from '../actions/api';
 
 const mapStateToProps = (state) => ({
     monthlySetting: state.monthlySetting,
@@ -11,8 +11,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    save: (monthlySetting) => dispatch(actions.startUpdateMonthlySetting(monthlySetting)),
-    publish: (monthlySetting) => dispatch(actions.startPublicMonthlySetting(monthlySetting))
+    save: (monthlySetting) => dispatch(apiActions.startUpdateMonthlySetting(monthlySetting)),
+    publish: (monthlySetting) => dispatch(apiActions.startPublicMonthlySetting(monthlySetting))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommitActionArea);

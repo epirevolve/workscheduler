@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions';
+import * as apiActions from '../actions/api';
 
 import MonthSelect from '../../common/components/MonthSelect';
 
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     changeMonthYear: (e) => {
         const scheduleOf = e.toDate().toYearMonthFormatString();
-        dispatch(actions.startFetchMonthlySetting(team, scheduleOf));
+        dispatch(apiActions.startFetchMonthlySetting(team, scheduleOf));
     }
 });
 

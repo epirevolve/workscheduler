@@ -6,14 +6,13 @@ import Box from "@material-ui/core/Box";
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { w6 } from "width";
+import { p3 } from "padding";
 
 const cellCss = css({
-    minWidth: '5rem',
-    maxWidth: '5rem',
-    padding: '1rem !important',
     verticalAlign: 'middle',
     textAlign: 'center !important'
-});
+}, w6, p3);
 
 const getCssByHoliday = (name, isHoliday) => {
     if (name == 'Sun')

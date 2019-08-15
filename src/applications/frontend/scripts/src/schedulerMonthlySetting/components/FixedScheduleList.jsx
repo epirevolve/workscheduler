@@ -9,6 +9,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
+import Box from '@material-ui/core/Box';
 
 import FixedSchedule from './FixedSchedule';
 
@@ -23,15 +24,15 @@ const fixedScheduleList = ({ fixedSchedules, scheduleOf, append, edit }) => {
     };
 
     return (
-        <div css={css(mt4, mb3)}>
+        <Box css={css(mt4, mb3)}>
             <ExpansionPanel expanded={state.expanded} onChange={changeExpanded}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography style={{ fontSize: '2rem', color: 'gray' }}>fixed schedules</Typography>
-                    <div css={ml3}>
+                    <Box css={ml3}>
                         <IconButton onClick={(e) => { append(scheduleOf); e.stopPropagation(); }}>
                             <AddIcon />
                         </IconButton>
-                    </div>
+                    </Box>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <List>
@@ -39,7 +40,7 @@ const fixedScheduleList = ({ fixedSchedules, scheduleOf, append, edit }) => {
                     </List>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        </div>
+        </Box>
     );
 };
 

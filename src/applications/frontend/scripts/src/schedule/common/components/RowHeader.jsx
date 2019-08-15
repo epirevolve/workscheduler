@@ -5,9 +5,9 @@ import TableCell from '@material-ui/core/TableCell';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { p2 } from "padding";
 
 const cellCss = {
-    padding: '0.5rem !important',
     position: 'sticky',
     background: 'white',
     zIndex: 99,
@@ -20,7 +20,7 @@ const rowHeader = ({ val, left }) => (
         minWidth: left ? '3rem' : '7rem',
         maxWidth: left ? '3rem' : '7rem',
         textAlign: left ? 'center !important' : 'left !important',
-    })}>
+    }, p2)}>
         {val}
     </TableCell>
 );

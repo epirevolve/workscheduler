@@ -1,3 +1,5 @@
+import moment from "moment";
+
 Object.assign(Date, {
     isLeapYear (year) {
         return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
@@ -69,5 +71,8 @@ Object.assign(Date.prototype, {
         const hour = (this.getHours()).toString().padStart(2, '0');
         const minute = (this.getMinutes()).toString().padStart(2, '0');
         return `${this.getFullYear()}-${month}-${day} ${hour}:${minute}`;
+    },
+    toMoment () {
+        return moment(this);
     }
 });

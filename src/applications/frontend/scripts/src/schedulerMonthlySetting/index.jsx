@@ -23,7 +23,7 @@ render(
     document.getElementById('root')
 );
 
-import { startFetchMonthlySetting } from "./actions";
+import { startFetchMonthlySetting } from "./actions/api";
 import { team } from './embeddedData';
 const scheduleOf = new Date().addMonths(1).toYearMonthFormatString();
 

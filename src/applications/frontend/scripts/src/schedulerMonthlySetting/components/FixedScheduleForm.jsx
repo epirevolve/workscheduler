@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
+import Box from '@material-ui/core/Box';
 
 import DatePicker from 'rc-calendar/lib/Picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
@@ -17,9 +18,7 @@ const timeCss = css({
     width: '6rem'
 });
 
-const disabledDate = (thisMonth) => (date) => {
-    return thisMonth.year() != date.year() || thisMonth.month() != date.month();
-};
+const disabledDate = (thisMonth) => (date) => thisMonth.year() != date.year() || thisMonth.month() != date.month();
 const isValidRange = (v) => v && v[0] && v[1];
 
 const fixedScheduleForm = ({
@@ -27,7 +26,7 @@ const fixedScheduleForm = ({
         changeAtFrom, changeAtTo, changeParticipant
     }) => {
         const calendar = <RangeCalendar showDateInput={false} showToday={false} format='YYYY-MM-DD'
-            disabledDate={disabledDate(fixedSchedule.onFrom)} />;
+            disabledDate={disabledDate(fixedSchedule.onFrom.toMoment())} />;
         return (
             <>
                 <TextField autoFocus label="title" required value={fixedSchedule.title} fullWidth onChange={changeTitle} />
@@ -38,12 +37,12 @@ const fixedScheduleForm = ({
                         const disp = isValidRange(value) && `${formatDate(value[0])} - ${formatDate(value[1])}` || '';
                         return (<TextField margin="dense" label="date" fullWidth InputProps={{ readOnly: true, tabIndex: -1 }} value={disp} />);}}
                 </DatePicker>
-                <div css={my3}>
+                <Box css={my3}>
                     <TextField label="start time" type="time" css={css(mr4, timeCss)} onChange={changeAtFrom}
                         value={fixedSchedule.atFrom ? fixedSchedule.atFrom.toMoment("HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
                     <TextField label="end time" type="time" css={timeCss} onChange={changeAtTo}
                         value={fixedSchedule.atTo ? fixedSchedule.atTo.toMoment("HH:mm").toDate().toHourMinuteFormatString() : "00:00"} />
-                </div>
+                </Box>
                 <Participants fixedSchedule={fixedSchedule} changeParticipant={changeParticipant} />
             </>
         );

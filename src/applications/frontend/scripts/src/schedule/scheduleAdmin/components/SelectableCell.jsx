@@ -8,24 +8,20 @@ import Box from "@material-ui/core/Box";
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { p2 } from "padding";
+import { w6 } from "width";
 
 import { zip } from 'arrayUtil';
 
 const cellCss = css({
     textAlign: 'center !important',
-    padding: '0.5rem !important'
-});
-
-const selectCss = css({
-    maxWidth: '5rem',
-    minWidth: '5rem',
-});
+}, p2);
 
 const selectableCell = ({ categories, val, changeCategory }) => {
     const options = categories.map((x, i) => <MenuItem key={i} value={x}>{x}</MenuItem>);
     return (
         <TableCell css={cellCss}>
-            <Box css={selectCss}>
+            <Box css={w6}>
                 <Select value={val} onChange={changeCategory}>
                     {options}
                 </Select>

@@ -2,83 +2,83 @@
 import { css } from '@emotion/core';
 
 export const pl1 = css({
-    paddingLeft: '.25rem'
+    paddingLeft: '.25rem !important'
 });
 
 export const pl2 = css({
-    paddingLeft: '.5rem'
+    paddingLeft: '.5rem !important'
 });
 
 export const pl3 = css({
-    paddingLeft: '1rem'
+    paddingLeft: '1rem !important'
 });
 
 export const pl4 = css({
-    paddingLeft: '1.5rem'
+    paddingLeft: '1.5rem !important'
 });
 
 export const pl5 = css({
-    paddingLeft: '3rem'
+    paddingLeft: '3rem !important'
 });
 
 export const pt1 = css({
-    paddingTop: '.25rem'
+    paddingTop: '.25rem !important'
 });
 
 export const pt2 = css({
-    paddingTop: '.5rem'
+    paddingTop: '.5rem !important'
 });
 
 export const pt3 = css({
-    paddingTop: '1rem'
+    paddingTop: '1rem !important'
 });
 
 export const pt4 = css({
-    paddingTop: '1.5rem'
+    paddingTop: '1.5rem !important'
 });
 
 export const pt5 = css({
-    paddingTop: '3rem'
+    paddingTop: '3rem !important'
 });
 
 export const pr1 = css({
-    paddingRight: '.25rem'
+    paddingRight: '.25rem !important'
 });
 
 export const pr2 = css({
-    paddingRight: '.5rem'
+    paddingRight: '.5rem !important'
 });
 
 export const pr3 = css({
-    paddingRight: '1rem'
+    paddingRight: '1rem !important'
 });
 
 export const pr4 = css({
-    paddingRight: '1.5rem'
+    paddingRight: '1.5rem !important'
 });
 
 export const pr5 = css({
-    paddingRight: '3rem'
+    paddingRight: '3rem !important'
 });
 
 export const pb1 = css({
-    paddingBottom: '.25rem'
+    paddingBottom: '.25rem !important'
 });
 
 export const pb2 = css({
-    paddingBottom: '.5rem'
+    paddingBottom: '.5rem !important'
 });
 
 export const pb3 = css({
-    paddingBottom: '1rem'
+    paddingBottom: '1rem !important'
 });
 
 export const pb4 = css({
-    paddingBottom: '1.5rem'
+    paddingBottom: '1.5rem !important'
 });
 
 export const pb5 = css({
-    paddingBottom: '3rem'
+    paddingBottom: '3rem !important'
 });
 
 export const py1 = css({},pt1,pb1);

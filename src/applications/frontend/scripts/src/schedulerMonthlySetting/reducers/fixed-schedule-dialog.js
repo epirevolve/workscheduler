@@ -5,7 +5,7 @@ const dialog = (state = {}, action) => {
     switch (action.type) {
         case actionTypes.OPEN_DIALOG_APPEND:
             return { ...state,
-                id: payload.id,
+                id: payload.uuid,
                 title: '',
                 onFrom: `${payload.scheduleOf}-01`,
                 onTo: `${payload.scheduleOf}-01`,
@@ -15,13 +15,7 @@ const dialog = (state = {}, action) => {
             };
         case actionTypes.OPEN_DIALOG_UPDATE:
             return { ...state,
-                id: payload.fixedSchedule.id,
-                title: payload.fixedSchedule.title,
-                onFrom: payload.fixedSchedule.onFrom,
-                onTo: payload.fixedSchedule.onTo,
-                atFrom: payload.fixedSchedule.atFrom,
-                atTo: payload.fixedSchedule.atTo,
-                participants: payload.fixedSchedule.participants
+                ...payload.fixedSchedule,
             };
         case actionTypes.CHANGE_TITLE:
             return { ...state,

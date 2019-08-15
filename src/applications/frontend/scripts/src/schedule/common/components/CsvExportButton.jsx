@@ -10,12 +10,12 @@ import { CSVLink } from "react-csv";
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { m2 } from "margin";
 
 const iconCss = css({
     float: 'right',
     zIndex: 999,
-    margin: '.5rem !important'
-});
+}, m2);
 
 const csvExportButton = ({ daySettings, schedules, team, workCategories, availableSigns }) => {
     if (!schedules || !schedules.components || schedules.components.length == 0) return (<></>);

@@ -1,4 +1,5 @@
 import React from 'react';
+import propTYpes from "prop-types";
 
 import TableCell from '@material-ui/core/TableCell';
 
@@ -18,6 +19,10 @@ const cell = ({ val }) => (
         {val}
     </TableCell>
 );
+
+cell.propTypes = {
+    val: propTYpes.string
+};
 
 const areEqual = (prevProps, nextProps) => prevProps["val"] == nextProps["val"];
 

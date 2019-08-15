@@ -5,15 +5,11 @@ import TextField from '@material-ui/core/TextField';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-
-const wrapperCss = css({
-    marginTop: '1rem !important',
-    marginBottom: '0.5rem !important',
-});
+import { mt3, mb2 } from "margin";
 
 const monthlyHoliday = ({ holidays, changeHolidayCount }) => (
     <TextField type="number" onChange={changeHolidayCount} value={holidays}
-        label="holidays" InputProps={{ min:"0" }} css={wrapperCss} />
+        label="holidays" InputProps={{ min:"0" }} css={css(mt3, mb2)} />
 );
 
 monthlyHoliday.propTypes = {

@@ -1,14 +1,14 @@
 import React from 'react';
+import propTypes from "prop-types";
 
 import TableCell from '@material-ui/core/TableCell';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { p3 } from "padding";
+import { w6 } from "width";
 
-const css_ = {
-    minWidth: '5rem',
-    maxWidth: '5rem',
-    padding: '1rem !important',
+const cellCss = {
     textAlign: 'center !important'
 };
 
@@ -24,14 +24,20 @@ const totalCell = ({ count, category, daySetting }) => {
 
     React.useMemo(() => {
         const colorName = getColorByState(count, category, daySetting);
-        setState((prev) => ({ ...prev, css: colorName ? { ...css_, color: colorName } : css_ }));
+        setState((prev) => ({ ...prev, css: colorName ? { ...cellCss, color: `${colorName} !important` } : cellCss }));
     }, [ count, category ]);
 
     return (
-        <TableCell css={css(state.css)}>
+        <TableCell css={css(state.css, w6, p3)}>
             {count}
         </TableCell>
     );
+};
+
+totalCell.propTypes = {
+    count: propTypes.number.isRequired,
+    category: propTypes.object,
+    daySetting: propTypes.object
 };
 
 export default React.memo(totalCell);

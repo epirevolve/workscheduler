@@ -1,4 +1,5 @@
 import * as actionTypes from '../actionTypes';
+import * as apiActions from '../actions/api';
 
 const ui = (state = { isProgressing: false }, action) => {
     switch (action.type) {
@@ -16,15 +17,15 @@ const ui = (state = { isProgressing: false }, action) => {
             return { ...state,
                 dialogOpen: false
             };
-        case actionTypes.START_UPDATE_MONTHLY_SETTING:
-        case actionTypes.START_PUBLIC_MONTHLY_SETTING:
+        case apiActions.START_UPDATE_MONTHLY_SETTING:
+        case apiActions.START_PUBLIC_MONTHLY_SETTING:
             return { ...state,
                 isProgressing: true
             };
-        case actionTypes.SUCCESS_UPDATE_MONTHLY_SETTING:
-        case actionTypes.FAILURE_UPDATE_MONTHLY_SETTING:
-        case actionTypes.SUCCESS_PUBLIC_MONTHLY_SETTING:
-        case actionTypes.FAILURE_PUBLIC_MONTHLY_SETTING:
+        case apiActions.SUCCESS_UPDATE_MONTHLY_SETTING:
+        case apiActions.FAILURE_UPDATE_MONTHLY_SETTING:
+        case apiActions.SUCCESS_PUBLIC_MONTHLY_SETTING:
+        case apiActions.FAILURE_PUBLIC_MONTHLY_SETTING:
             return { ...state,
                 isProgressing: false
             };

@@ -1,9 +1,10 @@
 import * as actionTypes from "../actionTypes";
+import * as apiActions from '../actions/api';
 
 const monthlySetting = (state = {}, action) => {
     const payload = action.payload;
     switch (action.type) {
-        case actionTypes.SUCCESS_FETCH_MONTHLY_SETTING:
+        case apiActions.SUCCESS_FETCH_MONTHLY_SETTING:
             return { ...state,
                 ...payload.monthlySetting
             };
@@ -35,11 +36,11 @@ const monthlySetting = (state = {}, action) => {
                 holidays: payload.count
             };
         case actionTypes.APPEND_FIXED_SCHEDULE: {
-            const onFrom = payload.fixedSchedule.onFrom.date();
-            const onTo = payload.fixedSchedule.onTo.date();
+            const fromDate = payload.fixedSchedule.onFrom.toDate().getDate();
+            const toDate = payload.fixedSchedule.onTo.toDate().getDate();
             return { ...state,
                 days: state.days.map((x) => {
-                    if (x.day < onFrom || onTo < x.day) return x;
+                    if (x.day < fromDate || toDate < x.day) return x;
                     return { ...x,
                         fixedSchedules: x.fixedSchedules.concat([payload.fixedSchedule])
                     };
@@ -47,12 +48,12 @@ const monthlySetting = (state = {}, action) => {
             };
         }
         case actionTypes.UPDATE_FIXED_SCHEDULE: {
-            const onFrom = payload.fixedSchedule.onFrom.date();
-            const onTo = payload.fixedSchedule.onTo.date();
+            const fromDate = payload.fixedSchedule.onFrom.toDate().getDate();
+            const toDate = payload.fixedSchedule.onTo.toDate().getDate();
             return { ...state,
                 days: state.days.map((x) => {
                     const fixedScheduleIds = x.fixedSchedules.map((y) => y.id);
-                    if (x.day < onFrom || onTo < x.day) {
+                    if (x.day < fromDate || toDate < x.day) {
                         if (!fixedScheduleIds.includes(payload.fixedSchedule.id)) return x;
                         return { ...x,
                             fixedSchedules: x.fixedSchedules.filter((y) => y.id != payload.fixedSchedule.id)
