@@ -12,3 +12,4 @@ from .user_command import UserCommand
 
 from .user_facade import UserFacade
 from .schedule_facade import ScheduleFacade
+from .scheduler_facade import SchedulerFacade

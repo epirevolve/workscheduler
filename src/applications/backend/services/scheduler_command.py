@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-
-from utils.datetime import is_overlap
-from utils.date import get_next_day
-
 from applications.backend.errors import AlreadyLaunchError
 from applications.backend.errors import CalendarError
 from applications.backend.errors import RequestError
@@ -13,12 +8,10 @@ from domains.models.scheduler import History
 from domains.models.scheduler import Scheduler
 from domains.models.scheduler import MonthlySetting
 from domains.models.scheduler import Vacation
-from domains.models.scheduler import Request
 
 from . import UserQuery
 from . import OperatorQuery
 from . import SchedulerQuery
-from . import ScheduleCommand
 from . import ScheduleQuery
 
 
@@ -86,7 +79,7 @@ class SchedulerCommand:
     def _get_last_month(month, year):
         return month - 1 if month > 1 else 12, year if month > 1 else year - 1
 
-    def launch(self, team_id: str, month: int, year: int):
+    def create_schedules(self, team_id: str, month: int, year: int):
         operators = OperatorQuery(self._session).get_active_operators_of_team_id(team_id)
         scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
         last_month_schedules = ScheduleQuery(self._session).get_schedules_of_team_year_month(
@@ -94,17 +87,9 @@ class SchedulerCommand:
         team = UserQuery(self._session).get_team(team_id)
         # if scheduler.is_launching:
         #     raise AlreadyLaunchError()
-        try:
-            self.turn_on_scheduler_launching(scheduler)
-            history = self._append_new_history(team, month, year)
-            pipe = self._update_launching_status(history)
-            schedule, adaptability = scheduler.run(last_month_schedules, month, year, operators, pipe)
-            ScheduleCommand(self._session).append_new_schedule(team_id, month, year, schedule)
-            history.adaptability = adaptability
-            self._session.commit()
-        finally:
-            scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
-            self.turn_off_scheduler_launching(scheduler)
+        history = self._append_new_history(team, month, year)
+        pipe = self._update_launching_status(history)
+        return scheduler.run(last_month_schedules, month, year, operators, pipe)
 
     def terminate(self, team_id: str, mont: int, year: int):
         pass

@@ -29,7 +29,7 @@ const titleCss = css({
 const imageCss = css({
     width: '180px',
     height: '180px',
-    marginLeft: '30%'
+    marginLeft: '5vw'
 });
 
 const contentCss = css({

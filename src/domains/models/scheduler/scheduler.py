@@ -75,7 +75,7 @@ class Scheduler(OrmBase):
     def new(team: Team):
         return Scheduler(UuidFactory.new_uuid(), team)
     
-    def monthly_setting(self, month: int, year: int):
+    def monthly_setting(self, *, month: int, year: int):
         monthly_setting = list(filter(lambda x: x.year == year and x.month == month, self.monthly_settings))
         if not monthly_setting:
             monthly_setting = MonthlySetting.new(self.work_categories, month, year)
@@ -94,7 +94,7 @@ class Scheduler(OrmBase):
 
     def run(self, last_month_schedules, month: int, year: int, operators: [], pipe):
         try:
-            monthly_setting = self.monthly_setting(month, year)
+            monthly_setting = self.monthly_setting(month=month, year=year)
             post = self.post_to_pipe(pipe)
             post(ProcessStatus.OUTLINE)
             outlines = SchedulerOutlineHelper(

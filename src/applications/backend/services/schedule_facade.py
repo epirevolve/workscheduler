@@ -24,7 +24,7 @@ class ScheduleFacade:
         scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
         if not scheduler:
             raise Exception('no scheduler is made')
-        monthly_setting = scheduler.monthly_setting(month, year)
+        monthly_setting = scheduler.monthly_setting(month=month, year=year)
         schedules = ScheduleQuery(self._session).get_schedules_of_team_year_month(
             team_id, month, year)
         return monthly_setting.days, schedules

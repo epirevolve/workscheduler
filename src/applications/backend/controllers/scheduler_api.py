@@ -14,11 +14,11 @@ from applications.backend.errors import CalendarError
 from applications.backend.errors import RequestError
 from applications.backend.errors import AlreadyLaunchError
 from applications.backend.services import SchedulerQuery
+from applications.backend.adapters import SchedulerCommandAdapter
+from applications.backend.adapters import SchedulerFacadeAdapter
 from applications.backend.functions.controller import admin_required
 from applications.backend import get_db_session
 from domains.models.scheduler import all_available_sign
-
-from ..adapters import SchedulerCommandAdapter
 
 
 bp = Blueprint('scheduler_api', __name__)
@@ -68,7 +68,7 @@ def get_monthly_setting():
     team_id = request.args.get('team-id')
     schedule_of = to_date(request.args.get('schedule-of'), '%Y-%m')
     scheduler = SchedulerQuery(get_db_session()).get_scheduler_of_team_id(team_id)
-    monthly_setting = scheduler.monthly_setting(schedule_of.month, schedule_of.year)
+    monthly_setting = scheduler.monthly_setting(month=schedule_of.month, year=schedule_of.year)
     return jsonize.json_response(jsonize.dumps(monthly_setting))
 
 
@@ -175,7 +175,7 @@ def launch_scheduler():
     session = get_db_session()
     try:
         print("#### start time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
-        SchedulerCommandAdapter(session).launch(jsonize.loads(request.data))
+        SchedulerFacadeAdapter(session).launch(jsonize.loads(request.data))
         print("#### fin time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
         session.commit()
         response = jsonize.json_response()

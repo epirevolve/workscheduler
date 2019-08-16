@@ -23,7 +23,7 @@ class TestScheduler:
         scheduler = SchedulerQuery(session).get_scheduler_of_team_id(teams[1].id)
         operators = OperatorQuery(session).get_active_operators_of_team_id(teams[1].id)
         
-        monthly_setting = scheduler.monthly_setting(datetime.now().month + 1, datetime.now().year)
+        monthly_setting = scheduler.monthly_setting(month=datetime.now().month + 1, year=datetime.now().year)
         detail_helper = SchedulerDetailHelper(monthly_setting, operators, [])
         test_a = [work_day_sign] * 2 + [holiday_sign] + [work_day_sign] * 2\
             + [holiday_sign] + [work_day_sign] * 3 + [holiday_sign] + [work_day_sign] * 3\
