@@ -18,9 +18,9 @@ from domains.models.schedule import DayWorkCategory
 from domains.models.schedule import ScheduleComponent
 from domains.models.schedule import Schedule
 
-from backend.functions.converter import to_date
-from backend.functions.converter import to_time
-from backend.functions.converter import to_datetime
+from applications.backend.functions.converter import to_date
+from applications.backend.functions.converter import to_time
+from applications.backend.functions.converter import to_datetime
 
 
 def default_pop(data, key, default=None):

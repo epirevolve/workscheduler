@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from backend.services import UserCommand
-from backend.services.domain_orm import to_user
-from backend.services.domain_orm import to_team
+from applications.backend.services import UserCommand
+from applications.backend.services.domain_orm import to_user
+from applications.backend.services.domain_orm import to_team
 
 
 class UserCommandAdapter:

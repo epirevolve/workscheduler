@@ -11,9 +11,9 @@ from .. import OrmBase
 
 class DayWorkCategory(OrmBase):
     __tablename__ = "day_work_categories"
-    id = Column(String, primary_key=True)
+    id = Column(String(54), primary_key=True)
     day = Column(Integer)
-    work_category_id = Column(String)
+    work_category_id = Column(String(54))
     
     def __init__(self, id: str, day: int, work_category_id: str,
                  **kwargs):

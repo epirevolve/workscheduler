@@ -29,8 +29,8 @@ class ProcessStatus(enum.Enum):
 
 class History(OrmBase):
     __tablename__ = "scheduler_histories"
-    id = Column(String, primary_key=True)
-    _team_id = Column(String, ForeignKey('teams.id'))
+    id = Column(String(54), primary_key=True)
+    _team_id = Column(String(54), ForeignKey('teams.id'))
     team = relationship("Team", uselist=False, lazy='subquery')
     month = Column(Integer)
     year = Column(Integer)

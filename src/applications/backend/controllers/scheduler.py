@@ -8,10 +8,10 @@ from flask_login import current_user
 
 from utils.string import to_date
 
-from backend.services import SchedulerQuery
-from backend.services import UserQuery
-from backend.services import OperatorQuery
-from backend.functions.controller import admin_required
+from applications.backend.services import SchedulerQuery
+from applications.backend.services import UserQuery
+from applications.backend.services import OperatorQuery
+from applications.backend.functions.controller import admin_required
 from applications.backend import get_db_session
 
 

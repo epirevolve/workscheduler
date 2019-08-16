@@ -14,14 +14,14 @@ from . import WorkCategory
 
 associated_work_category_table\
     = Table("associated_day_detail_work_category", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('day_details.id')),
-            Column("right_id", String, ForeignKey('work_categories.id')))
+            Column("left_id", String(54), ForeignKey('day_details.id')),
+            Column("right_id", String(54), ForeignKey('work_categories.id')))
 
 
 class DayDetail(OrmBase):
     __tablename__ = "day_details"
-    id = Column(String, primary_key=True)
-    _work_category_id = Column(String, ForeignKey('work_categories.id'))
+    id = Column(String(54), primary_key=True)
+    _work_category_id = Column(String(54), ForeignKey('work_categories.id'))
     work_category = relationship("WorkCategory", uselist=False, lazy='subquery')
     require = Column(Integer)
 

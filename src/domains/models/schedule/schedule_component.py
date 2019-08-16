@@ -15,14 +15,14 @@ from . import DayWorkCategory
 
 associated_category_table\
     = Table("associated_day_work_category", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('schedule_components.id')),
-            Column("right_id", String, ForeignKey('day_work_categories.id')))
+            Column("left_id", String(54), ForeignKey('schedule_components.id')),
+            Column("right_id", String(54), ForeignKey('day_work_categories.id')))
 
 
 class ScheduleComponent(OrmBase):
     __tablename__ = "schedule_components"
-    id = Column(String, primary_key=True)
-    _operator_id = Column(String, ForeignKey('operators.id'))
+    id = Column(String(54), primary_key=True)
+    _operator_id = Column(String(54), ForeignKey('operators.id'))
     operator = relationship("Operator", uselist=False, lazy='subquery')
     day_work_categories = relationship('DayWorkCategory', secondary=associated_category_table, lazy='subquery',
                                        order_by="asc(DayWorkCategory.day)")

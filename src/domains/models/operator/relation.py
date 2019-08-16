@@ -13,10 +13,10 @@ from .. import OrmBase
 
 class Relation(OrmBase):
     __tablename__ = 'relations'
-    id = Column(String, primary_key=True)
-    _myself_id = Column(String, ForeignKey('operators.id'))
+    id = Column(String(54), primary_key=True)
+    _myself_id = Column(String(54), ForeignKey('operators.id'))
     myself = relationship("Operator", uselist=False, foreign_keys=[_myself_id], lazy='subquery')
-    _colleague_id = Column(String, ForeignKey('operators.id'))
+    _colleague_id = Column(String(54), ForeignKey('operators.id'))
     colleague = relationship("Operator", uselist=False, foreign_keys=[_colleague_id], lazy='subquery')
     affinity = Column(Float, default=0.0)
     

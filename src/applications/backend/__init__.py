@@ -19,7 +19,7 @@ from utils.date import get_next_month as get_next_month_
 from utils.jsonize import dumps
 from utils.uuid import UuidFactory
 
-from backend.services import OperatorQuery
+from applications.backend.services import OperatorQuery
 from infrastructures import Database
 
 
@@ -42,7 +42,10 @@ def create_app(test_config=None):
     app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), '../frontend/views'))
     app.config.from_object(__name__)
 
-    load_dotenv('.env')
+    if os.path.exists('.env'):
+        load_dotenv('.env')
+    elif os.path.exists('.env.test'):
+        load_dotenv('.env.test')
 
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('SECRET_KEY'),
@@ -70,10 +73,10 @@ def create_app(test_config=None):
     login_manager.init_app(app)
     login_manager.login_view = 'user.index'
 
-    from backend.controllers import user
+    from applications.backend.controllers import user
     app.add_url_rule('/', 'index', user.index)
 
-    from backend.services import UserQuery
+    from applications.backend.services import UserQuery
     @login_manager.user_loader
     def load_user(user_id):
         return UserQuery(get_db_session()).get_user(user_id)

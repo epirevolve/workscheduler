@@ -7,8 +7,8 @@ from flask_login import login_required
 
 from utils import jsonize
 
-from backend.services import OperatorQuery
-from backend.functions.controller import admin_required
+from applications.backend.services import OperatorQuery
+from applications.backend.functions.controller import admin_required
 from applications.backend import get_db_session
 from ..adapters import OperatorCommandAdapter
 

@@ -24,13 +24,13 @@ from . import DaySetting
 
 associated_calendar_day_table\
     = Table("associated_calendar_day", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('monthly_settings.id')),
-            Column("right_id", String, ForeignKey('day_settings.id')))
+            Column("left_id", String(54), ForeignKey('monthly_settings.id')),
+            Column("right_id", String(54), ForeignKey('day_settings.id')))
 
 
 class MonthlySetting(OrmBase):
     __tablename__ = "monthly_settings"
-    id = Column(String, primary_key=True)
+    id = Column(String(54), primary_key=True)
     month = Column(Integer)
     year = Column(Integer)
     days = relationship("DaySetting", secondary=associated_calendar_day_table, lazy='subquery',

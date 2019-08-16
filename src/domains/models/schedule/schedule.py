@@ -15,14 +15,14 @@ from .. import OrmBase
 
 associated_component_table\
     = Table("associated_schedule_component", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('schedules.id')),
-            Column("right_id", String, ForeignKey('schedule_components.id')))
+            Column("left_id", String(54), ForeignKey('schedules.id')),
+            Column("right_id", String(54), ForeignKey('schedule_components.id')))
 
 
 class Schedule(OrmBase):
     __tablename__ = "schedules"
-    id = Column(String, primary_key=True)
-    team_id = Column(String)
+    id = Column(String(54), primary_key=True)
+    team_id = Column(String(54))
     month = Column(Integer)
     year = Column(Integer)
     components = relationship('ScheduleComponent', secondary=associated_component_table,

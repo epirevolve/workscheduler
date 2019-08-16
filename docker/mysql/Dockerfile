@@ -1,6 +1,7 @@
 FROM mysql:latest
 
-RUN mkdir /var/log/mysql
-WORKDIR /var/log/mysql
+WORKDIR /var/log
+
+EXPOSE 3306
 
 RUN touch mysqld.log

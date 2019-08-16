@@ -17,20 +17,20 @@ from .. import OrmBase
 
 associated_work_category_table\
     = Table("associated_fixed_schedule_work_category", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('fixed_schedules.id')),
-            Column("right_id", String, ForeignKey('work_categories.id')))
+            Column("left_id", String(54), ForeignKey('fixed_schedules.id')),
+            Column("right_id", String(54), ForeignKey('work_categories.id')))
 
 
 associated_participant_table\
     = Table("associated_participant", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('fixed_schedules.id')),
-            Column("right_id", String, ForeignKey('operators.id')))
+            Column("left_id", String(54), ForeignKey('fixed_schedules.id')),
+            Column("right_id", String(54), ForeignKey('operators.id')))
 
 
 class FixedSchedule(OrmBase):
     __tablename__ = "fixed_schedules"
-    id = Column(String, primary_key=True)
-    title = Column(String)
+    id = Column(String(54), primary_key=True)
+    title = Column(String(30))
     on_from = Column(Date)
     on_to = Column(Date)
     at_from = Column(Time)

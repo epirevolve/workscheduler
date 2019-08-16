@@ -14,8 +14,8 @@ from .. import OrmBase
 
 class Vacation(OrmBase):
     __tablename__ = "vacations"
-    id = Column(String, primary_key=True)
-    title = Column(String, nullable=False)
+    id = Column(String(54), primary_key=True)
+    title = Column(String(30), nullable=False)
     on_from = Column(Date)
     on_to = Column(Date)
     days_count = Column(Integer)

@@ -18,27 +18,27 @@ from . import DayDetail
 
 associated_request_table\
     = Table("associated_request", OrmBase.metadata,
-            Column('left_id', String, ForeignKey('day_settings.id')),
-            Column('right_id', String, ForeignKey('requests.id')))
+            Column('left_id', String(54), ForeignKey('day_settings.id')),
+            Column('right_id', String(54), ForeignKey('requests.id')))
 
 
 associated_day_details_table\
     = Table("associated_day_details", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('day_settings.id')),
-            Column("right_id", String, ForeignKey('day_details.id')))
+            Column("left_id", String(54), ForeignKey('day_settings.id')),
+            Column("right_id", String(54), ForeignKey('day_details.id')))
 
 
 associated_fixed_schedule_table\
     = Table("associated_fixed_schedule", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('day_settings.id')),
-            Column("right_id", String, ForeignKey('fixed_schedules.id')))
+            Column("left_id", String(54), ForeignKey('day_settings.id')),
+            Column("right_id", String(54), ForeignKey('fixed_schedules.id')))
 
 
 class DaySetting(OrmBase):
     __tablename__ = "day_settings"
-    id = Column(String, primary_key=True)
+    id = Column(String(54), primary_key=True)
     day = Column(Integer)
-    day_name = Column(String)
+    day_name = Column(String(4))
     is_holiday = Column(Boolean)
     details = relationship("DayDetail", secondary=associated_day_details_table, lazy='subquery')
     requests = relationship("Request", secondary=associated_request_table, lazy='subquery')

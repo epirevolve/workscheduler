@@ -13,9 +13,9 @@ from flask_login import login_required
 
 from utils import jsonize
 
-from backend.adapters import UserFacadeAdapter
-from backend.functions.controller import admin_required
-from backend.services import UserQuery
+from applications.backend.adapters import UserFacadeAdapter
+from applications.backend.functions.controller import admin_required
+from applications.backend.services import UserQuery
 from applications.backend import get_db_session
 from domains.models.user import UserRole
 

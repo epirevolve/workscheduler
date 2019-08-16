@@ -25,26 +25,26 @@ from .ga_helper import SchedulerMonthlyHelper
 
 associated_monthly_setting_table\
     = Table("associated_monthly_setting", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('schedulers.id')),
-            Column("right_id", String, ForeignKey('monthly_settings.id')))
+            Column("left_id", String(54), ForeignKey('schedulers.id')),
+            Column("right_id", String(54), ForeignKey('monthly_settings.id')))
 
 
 associated_vacation_table\
     = Table("associated_vacation", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('schedulers.id')),
-            Column("right_id", String, ForeignKey('vacations.id')))
+            Column("left_id", String(54), ForeignKey('schedulers.id')),
+            Column("right_id", String(54), ForeignKey('vacations.id')))
 
 
 associated_work_category_table\
     = Table("associated_work_category", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('schedulers.id')),
-            Column("right_id", String, ForeignKey('work_categories.id')))
+            Column("left_id", String(54), ForeignKey('schedulers.id')),
+            Column("right_id", String(54), ForeignKey('work_categories.id')))
 
 
 class Scheduler(OrmBase):
     __tablename__ = "schedulers"
-    id = Column(String, primary_key=True)
-    _team_id = Column(String, ForeignKey('teams.id'))
+    id = Column(String(54), primary_key=True)
+    _team_id = Column(String(54), ForeignKey('teams.id'))
     team = relationship("Team", uselist=False, lazy='subquery')
     monthly_settings = relationship("MonthlySetting", secondary=associated_monthly_setting_table, lazy='subquery')
     vacations = relationship("Vacation", secondary=associated_vacation_table, lazy='subquery')

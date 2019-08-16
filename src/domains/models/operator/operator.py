@@ -16,24 +16,24 @@ from .relation import Relation
 
 associated_skill_table\
     = Table("associated_skill", OrmBase.metadata,
-            Column('left_id', String, ForeignKey('operators.id')),
-            Column('right_id', String, ForeignKey('skills.id')))
+            Column('left_id', String(54), ForeignKey('operators.id')),
+            Column('right_id', String(54), ForeignKey('skills.id')))
 
 
 associated_relation_table\
     = Table("associated_relation", OrmBase.metadata,
-            Column('left_id', String, ForeignKey('operators.id')),
-            Column('right_id', String, ForeignKey('relations.id')))
+            Column('left_id', String(54), ForeignKey('operators.id')),
+            Column('right_id', String(54), ForeignKey('relations.id')))
 
 
 class Operator(OrmBase):
     __tablename__ = 'operators'
-    id = Column(String, primary_key=True)
-    _user_id = Column(String, ForeignKey('users.id'))
+    id = Column(String(54), primary_key=True)
+    _user_id = Column(String(54), ForeignKey('users.id'))
     user = relationship("User", uselist=False, lazy='subquery')
     skills = relationship("Skill", secondary=associated_skill_table, lazy='subquery')
     relations = relationship("Relation", secondary=associated_relation_table, lazy='subquery')
-    _ojt_id = Column(String, ForeignKey('operators.id'))
+    _ojt_id = Column(String(54), ForeignKey('operators.id'))
     ojt = relationship("Operator", uselist=False, lazy='subquery')
     remain_paid_holidays = Column(Integer, default=0)
 

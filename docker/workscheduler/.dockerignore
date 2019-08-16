@@ -1,0 +1,18 @@
+# Node
+node_modules
+
+# original file
+scripts
+
+# test db file
+database.db
+
+# sample files
+*.sample
+
+# python cache
+__pycache__
+
+# docker relates
+.dockerignore
+Dockerfile

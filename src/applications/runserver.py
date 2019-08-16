@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from applications.backend import create_app
+# import modules
+import sys
+import os
 
+sys.path.append(os.path.abspath('..'))
+
+from applications.backend import create_app
 
 app = create_app()
 

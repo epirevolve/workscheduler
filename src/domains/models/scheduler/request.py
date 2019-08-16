@@ -18,12 +18,12 @@ from ..operator import Operator
 
 class Request(OrmBase):
     __tablename__ = 'requests'
-    id = Column(String, primary_key=True)
+    id = Column(String(54), primary_key=True)
     title = Column(String(30), nullable=False)
     note = Column(String(100))
     at_from = Column(DateTime, nullable=False)
     at_to = Column(DateTime, nullable=False)
-    _operator_id = Column(String, ForeignKey('operators.id'))
+    _operator_id = Column(String(54), ForeignKey('operators.id'))
     operator = relationship("Operator", uselist=False, lazy='subquery')
     create_at = Column(DateTime, server_default=current_timestamp())
     

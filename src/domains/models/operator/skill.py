@@ -14,7 +14,7 @@ from .. import OrmBase
 
 class Skill(OrmBase):
     __tablename__ = 'skills'
-    id = Column(String, primary_key=True)
+    id = Column(String(54), primary_key=True)
     name = Column(String(30), nullable=False)
     score = Column(Integer, nullable=False)
     is_certified = Column(Boolean)

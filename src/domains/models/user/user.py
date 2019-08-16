@@ -27,11 +27,11 @@ class Role(enum.Enum):
 
 class User(OrmBase, UserMixin):
     __tablename__ = 'users'
-    id = Column(String, primary_key=True)
+    id = Column(String(54), primary_key=True)
     login_id = Column(String(16), nullable=False)
     password = Column(String(16), nullable=False)
     name = Column(String(50), nullable=False)
-    _team_id = Column(String, ForeignKey('teams.id'))
+    _team_id = Column(String(54), ForeignKey('teams.id'))
     team = relationship("Team", uselist=False, lazy='subquery')
     role = Column(Enum(Role))
     is_inactivated = Column(Boolean, default=False)

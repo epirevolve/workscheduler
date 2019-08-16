@@ -14,7 +14,7 @@ from .. import OrmBase
 
 class Team(OrmBase):
     __tablename__ = 'teams'
-    id = Column(String, primary_key=True)
+    id = Column(String(54), primary_key=True)
     name = Column(String(20), nullable=False)
     is_main = Column(Boolean)
     is_require_leader = Column(Boolean)

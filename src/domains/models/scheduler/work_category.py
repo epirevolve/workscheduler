@@ -20,34 +20,34 @@ from ..operator import Operator
 
 associated_week_day_operator_table\
     = Table("associated_week_day_operator", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('work_categories.id')),
-            Column("right_id", String, ForeignKey('operators.id')))
+            Column("left_id", String(54), ForeignKey('work_categories.id')),
+            Column("right_id", String(54), ForeignKey('operators.id')))
 
 associated_holiday_operator_table\
     = Table("associated_holiday_operator", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('work_categories.id')),
-            Column("right_id", String, ForeignKey('operators.id')))
+            Column("left_id", String(54), ForeignKey('work_categories.id')),
+            Column("right_id", String(54), ForeignKey('operators.id')))
 
 associated_skill_table\
     = Table("associated_essential_skill", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('work_categories.id')),
-            Column("right_id", String, ForeignKey('skills.id')))
+            Column("left_id", String(54), ForeignKey('work_categories.id')),
+            Column("right_id", String(54), ForeignKey('skills.id')))
 
 associated_exclusive_operator_table\
     = Table("associated_exclusive_operator", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('work_categories.id')),
-            Column("right_id", String, ForeignKey('operators.id')))
+            Column("left_id", String(54), ForeignKey('work_categories.id')),
+            Column("right_id", String(54), ForeignKey('operators.id')))
 
 associated_impossible_operator_table\
     = Table("associated_impossible_operator", OrmBase.metadata,
-            Column("left_id", String, ForeignKey('work_categories.id')),
-            Column("right_id", String, ForeignKey('operators.id')))
+            Column("left_id", String(54), ForeignKey('work_categories.id')),
+            Column("right_id", String(54), ForeignKey('operators.id')))
 
 
 class WorkCategory(OrmBase):
     __tablename__ = 'work_categories'
-    id = Column(String, primary_key=True)
-    title = Column(String(200), nullable=False)
+    id = Column(String(54), primary_key=True)
+    title = Column(String(30), nullable=False)
     at_from = Column(Time)
     at_to = Column(Time)
     week_day_require = Column(Integer)
