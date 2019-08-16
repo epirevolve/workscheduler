@@ -10,6 +10,9 @@ database.db
 # sample files
 *.sample
 
+# test files
+*.test
+
 # python cache
 __pycache__
 

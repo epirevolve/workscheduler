@@ -4,9 +4,9 @@
 import sys
 import os
 
-sys.path.append(os.path.abspath('..'))
+sys.path.append(os.path.abspath('.'))
 
-from applications.backend import create_app
+from src.applications.backend import create_app
 
 app = create_app()
 
