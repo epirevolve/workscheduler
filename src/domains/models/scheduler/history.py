@@ -25,6 +25,7 @@ class ProcessStatus(enum.Enum):
     N_DAY = 5
     ABORT = 6
     COMPLETE = 7
+    FAIL = 8
 
 
 class History(OrmBase):

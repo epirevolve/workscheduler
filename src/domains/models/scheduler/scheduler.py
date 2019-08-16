@@ -51,13 +51,12 @@ class Scheduler(OrmBase):
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
     work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='subquery')
-    is_launching = Column(Boolean)
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id: str, team: Team,
                  monthly_settings: [] = None, vacations: [] = None,
                  certified_skill: bool = True, not_certified_skill: bool = True,
-                 work_categories: [] = None, is_launching: bool = False, **kwargs):
+                 work_categories: [] = None, **kwargs):
         self.id = id
         self.team = team
         self.monthly_settings = monthly_settings or []
@@ -65,7 +64,6 @@ class Scheduler(OrmBase):
         self.certified_skill = certified_skill
         self.not_certified_skill = not_certified_skill
         self.work_categories = work_categories or []
-        self.is_launching = is_launching
 
     @validates("id, team")
     def validate(self, key, value):
@@ -87,7 +85,7 @@ class Scheduler(OrmBase):
     @staticmethod
     def post_to_pipe(pipe):
         def post(status):
-            continue_ = yield from pipe.send(status)
+            continue_ = pipe(status)
             if not continue_:
                 raise TerminateSchedulerError('scheduler is canceled')
         return post
@@ -112,5 +110,5 @@ class Scheduler(OrmBase):
         except Exception as e:
             print("### error on scheduler process.")
             print(e)
-            pipe.send(ProcessStatus.ABORT)
+            pipe.send(ProcessStatus.FAIL)
             raise e
