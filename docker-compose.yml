@@ -20,8 +20,6 @@ services:
   uwsgi:
     build: workscheduler
     container_name: uwsgi
-    env_file: 
-      - mysql/.env
     ports:
       - 3928:3928
     links:

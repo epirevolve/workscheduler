@@ -58,7 +58,7 @@ local_settings.py
 db.sqlite3
 
 # Flask stuff:
-instance/
+**/instance/*
 .webassets-cache
 
 # Scrapy stuff:
@@ -204,4 +204,6 @@ typings/
 # this project specific
 **/img/*.svg
 input_data.py
-**/statics/**/*.bundle.min.js
+statics
+
+!*.sample
