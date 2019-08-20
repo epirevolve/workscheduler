@@ -19,4 +19,4 @@ from domains.models.scheduler.ga_helper.n_day import n_day_sign
 
 from .terminate_scheduler_error import TerminateSchedulerError
 
-all_available_sign = [day_off_sign, holiday_sign, n_day_sign]
+all_available_sign = ['-', ' ', 'n']

@@ -13,6 +13,10 @@ from .signs import holiday_sign
 from .signs import fixed_schedule_day_sign
 from .signs import day_off_sign
 
+from logging import getLogger
+
+_logger = getLogger(__name__)
+
 
 class SchedulerDetailHelper:
     """Helper class for matching outline and factor.
@@ -115,10 +119,12 @@ class SchedulerDetailHelper:
             set_work_category(index)
         return outline
 
-    def _set_random_work_category(self, work_categories, weight, outline):
+    def _set_restrict_work_category(self, work_categories, outline):
+        sorted_work_categories = sorted(work_categories, key=lambda x: x.day_offs, reverse=True)
+
         def _inner(index):
-            while True:
-                work_category = np.random.choice(work_categories, p=weight)
+            for i in range(len(sorted_work_categories)):
+                work_category = sorted_work_categories[i]
                 if self._is_able_to_set_work_category(outline, index, work_category):
                     self._set_work_category(outline, index, work_category)
                     break
@@ -136,10 +142,7 @@ class SchedulerDetailHelper:
             else:
                 outline = self._set_work_categories_not_day_off(outline, work_category)
         else:
-            p = [self._least_attendance[x] for x in work_categories]
-            p_sum = sum(p)
-            p = [x / p_sum for x in p]
-            set_random_work_category = self._set_random_work_category(work_categories, p, outline)
+            set_random_work_category = self._set_restrict_work_category(work_categories, outline)
             for i in range(len(outline)):
                 if outline[i] == work_day_sign:
                     set_random_work_category(i)
@@ -186,10 +189,10 @@ class SchedulerDetailHelper:
                 combines.append(outline)
         return combines
     
-    def run(self):
-        print("""====================
+    def run(self, *, logger=_logger):
+        logger.info("""====================
 ## start filling details""")
         compatibles = [self._put_details(x, y) for x, y in zip(self._all_outlines, self._operators)]
-        print("""## finished
+        logger.info("""## finished
 ====================""")
         return compatibles

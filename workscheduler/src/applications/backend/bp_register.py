@@ -28,4 +28,4 @@ def bp_register(app):
 
     app.register_blueprint(util_api_bp, url_prefix="/util/api")
 
-    # print(app.url_map)
+    # app.logger.debug(app.url_map)

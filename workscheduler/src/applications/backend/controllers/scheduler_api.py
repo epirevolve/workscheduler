@@ -5,6 +5,7 @@ from time import localtime
 
 from flask import Blueprint
 from flask import request
+from flask import current_app
 from flask_login import login_required
 
 from utils import jsonize
@@ -42,7 +43,7 @@ def update_scheduler():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -82,7 +83,7 @@ def update_monthly_setting():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -98,7 +99,7 @@ def public_monthly_setting():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -114,7 +115,7 @@ def update_basic_setting():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -147,7 +148,7 @@ def append_vacation():
         response = jsonize.json_response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -163,7 +164,7 @@ def update_vacation():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -174,17 +175,19 @@ def update_vacation():
 def launch_scheduler():
     session = get_db_session()
     try:
-        print("#### start time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
+        current_app.logger.info("#### start time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
         SchedulerFacadeAdapter(session).launch(jsonize.loads(request.data))
-        print("#### fin time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
+        current_app.logger.info("#### fin time: {}".format(strftime("%a, %d %b %Y %H:%M:%S", localtime())))
         session.commit()
         response = jsonize.json_response()
     except AlreadyLaunchError as e:
-        print(e)
-        response = jsonize.json_response('already launched this team scheduler. please wait util its completion.',
-                                         status_code=400)
+        session.rollback()
+        current_app.logger.error(e)
+        response = jsonize.json_response(
+            'already launched this team scheduler. please wait util its completion.', status_code=400)
     except Exception as e:
-        print(e)
+        session.rollback()
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -214,7 +217,8 @@ def terminate_scheduler():
         SchedulerCommandAdapter(session).terminate(jsonize.loads(request.data))
         response = jsonize.json_response()
     except Exception as e:
-        print(e)
+        session.rollback()
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -229,6 +233,6 @@ def remove_request(request_id):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response

@@ -4,12 +4,16 @@
 from statistics import stdev
 from statistics import mean
 
+from logging import getLogger
+
 from eart import Genetic
 
 from domains.models.scheduler.ga_helper.ga_helper import build_parent_selection
 from domains.models.scheduler.ga_helper.ga_helper import build_survivor_selection
 from .monthly import SchedulerMonthlyHelperBase
 from .signs import n_day_sign
+
+_logger = getLogger(__name__)
 
 
 class SchedulerNDayHelper(SchedulerMonthlyHelperBase):
@@ -37,8 +41,8 @@ class SchedulerNDayHelper(SchedulerMonthlyHelperBase):
         adaptability += self._evaluate_by_n_day_std(schedules, 2)
         return adaptability
     
-    def run(self):
-        print("""====================
+    def run(self, *, logger=_logger):
+        logger.info("""====================
 ## start n day adjusting""")
         genetic = Genetic(evaluation=self._evaluate, base_kind=['', n_day_sign],
                           gene_size=len(self._schedules)*len(self._schedules[0][1]),
@@ -49,6 +53,6 @@ class SchedulerNDayHelper(SchedulerMonthlyHelperBase):
         genetic.crossover = build_crossover()
         genetic.compile()
         ret = genetic.run()
-        print("""## finished
+        logger.info("""## finished
 ====================""")
         return [(self._operators[i], x) for i, x in enumerate(self._gene_to_schedule(ret.gene))]

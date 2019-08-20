@@ -53,6 +53,9 @@ def create_app(test_config=None):
     if test_config is not None:
         app.config.update(test_config)
 
+    from .logger_register import logger_register
+    logger_register(app)
+
     app.teardown_appcontext(close_db_session)
 
     from .click_register import click_register

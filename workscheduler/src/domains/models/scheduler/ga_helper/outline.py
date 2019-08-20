@@ -22,6 +22,10 @@ from .signs import holiday_sign
 from .signs import day_off_sign
 from .signs import n_day_sign
 
+from logging import getLogger
+
+_logger = getLogger(__name__)
+
 not_assigned_sign = 'ziuf7a9s8rhwrjkha86s87'
 
 
@@ -195,10 +199,10 @@ class SchedulerOutlineHelper:
             batch = p.map(self._genetic_wrapper, [(base_pool, template) for _ in range(self._amplified)])
         return [self._translate_as_gene(x.gene, base_pool, template) for x in batch]
     
-    def run(self):
+    def run(self, *, logger=_logger):
         stocks = {}
         compatibles = []
-        print("""====================
+        logger.info("""====================
 ## start outlines building""")
         for operator in self._operators:
             template = self._get_template(operator)
@@ -210,6 +214,6 @@ class SchedulerOutlineHelper:
                     ret = [template[:] for _ in range(self._amplified)]
                 stocks[template_key] = ret
             compatibles.append([x[:] for x in stocks.get(template_key)])
-        print("""## finished
+        logger.info("""## finished
 ====================""")
         return compatibles

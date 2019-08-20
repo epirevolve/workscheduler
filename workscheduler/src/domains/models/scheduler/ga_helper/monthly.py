@@ -20,6 +20,10 @@ from .ga_helper import build_survivor_selection
 from .ga_helper import build_mutation_duplicate
 from .ga_helper import build_crossover_duplicate
 
+from logging import getLogger
+
+_logger = getLogger(__name__)
+
 
 class SchedulerMonthlyHelperBase:
     """Base class for monthly evaluation.
@@ -140,7 +144,7 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
         individual.adaptability = self._evaluate(gene)
         return individual
 
-    def _scheduling(self, protobiont):
+    def _scheduling(self, protobiont, logger):
         individuals = [protobiont]
         adapters = []
         while not self._is_terminate(adapters):
@@ -152,18 +156,18 @@ class SchedulerMonthlyHelper(SchedulerMonthlyHelperBase):
             adapters.append(adapter)
             self._era += 1
             if self._era % 1000 == 0:
-                print("era: {}, adaptability: {}".format(self._era, adapter.adaptability))
+                logger.debug("era: {}, adaptability: {}".format(self._era, adapter.adaptability))
         return adapters[-1]
 
-    def run(self):
-        print("""====================
+    def run(self, *, logger=_logger):
+        logger.info("""====================
 ## start monthly schedule adjusting""")
-        print("""### adjusting by ga""")
+        logger.info("""### adjusting by ga""")
         ret = self._genetic_wrapper()
-        print("""### adjusting by random mutation""")
-        ret = self._scheduling(ret)
+        logger.info("""### adjusting by random mutation""")
+        ret = self._scheduling(ret, logger)
         adaptability = math.floor(ret.adaptability / 10 * 100)
-        print("### adaptability: {}".format(adaptability))
-        print("""## finished
+        logger.info("### adaptability: {}".format(adaptability))
+        logger.info("""## finished
 ====================""")
         return self._gene_to_schedule(ret.gene), adaptability

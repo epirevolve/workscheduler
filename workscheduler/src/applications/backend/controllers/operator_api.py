@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Blueprint
-from flask import Response
+from flask import current_app
 from flask import request
 from flask_login import login_required
 
@@ -34,7 +34,7 @@ def update_operator(operator_id):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -50,7 +50,7 @@ def append_skill():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -66,7 +66,7 @@ def update_skill(skill_id: str):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -82,6 +82,6 @@ def remove_skill(skill_id: str):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response

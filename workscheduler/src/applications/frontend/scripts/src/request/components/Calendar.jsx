@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 
 import CalendarCell from './CalendarCell';
 
+import { currentOperator } from "../embeddedData";
+
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
@@ -25,12 +27,14 @@ const blueHeaderCss = css({
 }, headerCss);
 
 const margin10Css = css({
-    margin: '10rem'
+    margin: '10rem !important'
 });
 
 import { mx3 } from 'margin';
 
 const calendar = ({ monthlySetting, ...other }) => {
+    if (currentOperator.ojt)
+        return (<Typography variant="h5" css={margin10Css}>Sorry, you are now a trainee so you can't set request. Please ask for your manager.</Typography>);
     if (!monthlySetting.isPublished)
         return (<Typography variant="h5" css={margin10Css}>Sorry, this month setting is not published yet...</Typography>);
     if (monthlySetting.isFixed)

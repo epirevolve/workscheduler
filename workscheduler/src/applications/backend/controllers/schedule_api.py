@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from flask import current_app
 from flask import Blueprint
 from flask import request
 from flask_login import login_required
@@ -37,7 +38,7 @@ def update_schedules():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -53,7 +54,7 @@ def publish_schedules():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -69,6 +70,6 @@ def withdraw_schedules():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
+        current_app.logger.error(e)
         response = jsonize.json_response(status_code=400)
     return response

@@ -2,16 +2,17 @@
 
 from flask import Blueprint
 from flask import request
+from flask import current_app
 from flask_login import login_required
 
 from utils import jsonize
 
 from applications.backend.functions.controller import admin_required
 from applications.backend.adapters import UserFacadeAdapter
+from applications.backend.adapters import UserCommandAdapter
 from applications.backend.services import UserQuery
 from applications.backend import get_db_session
 
-from ..adapters import UserCommandAdapter
 
 bp = Blueprint('user_api', __name__)
 
@@ -27,9 +28,8 @@ def append_user():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
+        current_app.logger.error(e)
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -44,9 +44,8 @@ def update_user(user_id):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
+        current_app.logger.error(e)
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -60,10 +59,9 @@ def activate_user(user_id):
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
         session.rollback()
+        current_app.logger.error(e)
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -77,10 +75,9 @@ def inactivate_user(user_id):
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
         session.rollback()
+        current_app.logger.error(e)
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -94,10 +91,9 @@ def reset_password_user(user_id):
         session.commit()
         response = jsonize.json_response()
     except Exception as e:
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
         session.rollback()
+        current_app.logger.error(e)
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -119,9 +115,8 @@ def append_team():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
+        current_app.logger.error(e)
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -136,9 +131,8 @@ def update_team(team_id: str):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
+        current_app.logger.error(e)
+        response = jsonize.json_response(status_code=400)
     return response
 
 
@@ -153,7 +147,6 @@ def remove_team(team_id: str):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        print(e)
-        response = jsonize.json_response()
-        response.status_code = 400
+        current_app.logger.error(e)
+        response = jsonize.json_response(status_code=400)
     return response
