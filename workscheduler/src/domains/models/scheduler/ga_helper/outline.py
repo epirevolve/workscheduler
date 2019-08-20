@@ -22,7 +22,7 @@ from .signs import holiday_sign
 from .signs import day_off_sign
 from .signs import n_day_sign
 
-not_assigned_sign = 'ZZZZZ'
+not_assigned_sign = 'ziuf7a9s8rhwrjkha86s87'
 
 
 class SchedulerOutlineHelper:
@@ -60,14 +60,16 @@ class SchedulerOutlineHelper:
     @staticmethod
     def _evaluate_by_continuous_attendance(gene, weight):
         ratio = weight / len(gene)
-        continuous_attendance = [(y, len([_ for _ in z])) for y, z in groupby(gene, key=lambda x: x in [holiday_sign, n_day_sign])]
+        continuous_attendance = [(y, len([_ for _ in z])) for y, z in
+                                 groupby(gene, key=lambda x: x in [holiday_sign, n_day_sign])]
         adaptability = sum([ratio * y for x, y in continuous_attendance if y > 5 and not x])
         adaptability += sum([ratio * y for x, y in continuous_attendance[1:-1] if y < 2 and not x])
         return weight - min(weight, adaptability)
     
     @staticmethod
     def _evaluate_by_holiday_continuity(gene, weight):
-        continuous_holiday = [sum(1 for _ in z) for y, z in groupby(gene, key=lambda x: x in [holiday_sign, n_day_sign]) if y]
+        continuous_holiday = [sum(1 for _ in z) for y, z in
+                              groupby(gene, key=lambda x: x in [holiday_sign, n_day_sign]) if y]
         ratio = weight / (sum(continuous_holiday) or 1)
         adaptability = ratio * len([x for x in continuous_holiday if x > 2])
         if 2 not in continuous_holiday:

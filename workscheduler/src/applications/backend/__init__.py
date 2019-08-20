@@ -42,10 +42,10 @@ def create_app(test_config=None):
     app.jinja_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), '../frontend/views'))
     app.config.from_object(__name__)
 
-    if os.path.exists('.env'):
-        load_dotenv('.env')
-    elif os.path.exists('.env.test'):
+    if os.environ.get('PYTHON_DEBUG') and os.path.exists('.env.test'):
         load_dotenv('.env.test')
+    elif os.path.exists('.env'):
+        load_dotenv('.env')
 
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('SECRET_KEY'),

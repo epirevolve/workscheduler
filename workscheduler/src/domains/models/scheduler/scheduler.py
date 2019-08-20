@@ -90,25 +90,34 @@ class Scheduler(OrmBase):
                 raise TerminateSchedulerError('scheduler is canceled')
         return post
 
-    def run(self, last_month_schedules, month: int, year: int, operators: [], pipe):
+    @staticmethod
+    def _get_trainings_schedules(schedules, trainings):
+        return [list(filter(lambda x: x[0] == training.ojt, schedules))[0] for training in trainings]
+
+    def run(self, last_schedules, month: int, year: int, operators: [], pipe):
+        post = self.post_to_pipe(pipe)
+        operators, trainings = [x for x in operators if not x.ojt], [x for x in operators if x.ojt]
         try:
             monthly_setting = self.monthly_setting(month=month, year=year)
-            post = self.post_to_pipe(pipe)
             post(ProcessStatus.OUTLINE)
             outlines = SchedulerOutlineHelper(
-                self.work_categories, monthly_setting, operators, last_month_schedules).run()
+                self.work_categories, monthly_setting, operators, last_schedules).run()
             post(ProcessStatus.DETAIL)
             combinations = SchedulerDetailHelper(monthly_setting, operators, outlines).run()
             post(ProcessStatus.MONTHLY)
-            schedule, adaptability = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
+            schedules, adaptability = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
             post(ProcessStatus.COMPLETE)
-            return [(x, y) for x, y in zip(operators, schedule)], adaptability
+
+            operators_schedules = [(x, y) for x, y in zip(operators, schedules)]
+            trainings_schedules = self._get_trainings_schedules(operators_schedules, trainings)
+            return [(x, y) for x, y in zip(operators + trainings, operators_schedules + trainings_schedules)], \
+                adaptability
         except TerminateSchedulerError as e:
             print(e)
-            pipe.send(ProcessStatus.ABORT)
+            post(ProcessStatus.ABORT)
             raise e
         except Exception as e:
             print("### error on scheduler process.")
             print(e)
-            pipe.send(ProcessStatus.FAIL)
+            post(ProcessStatus.FAIL)
             raise e

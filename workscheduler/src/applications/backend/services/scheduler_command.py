@@ -81,11 +81,11 @@ class SchedulerCommand:
         pipe = self._check_proceed_status(history)
         operators = OperatorQuery(self._session).get_active_operators_of_team_id(team_id)
         scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
-        last_month_schedules = ScheduleQuery(self._session).get_schedules_of_team_year_month(
+        last_schedules = ScheduleQuery(self._session).get_schedules_of_team_year_month(
             team_id, *self._get_last_month(month, year))
         # if scheduler.is_launching:
         #     raise AlreadyLaunchError()
-        schedules, adaptability = scheduler.run(last_month_schedules, month, year, operators, pipe)
+        schedules, adaptability = scheduler.run(last_schedules, month, year, operators, pipe)
         history.adaptability = adaptability
         return schedules
 

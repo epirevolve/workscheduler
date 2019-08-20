@@ -42,10 +42,10 @@ class SchedulerQuery:
 
     def get_current_runners(self) -> [History]:
         return self._session.query(History)\
-            .filter(History.process_status not in [ProcessStatus.COMPLETE, ProcessStatus.ABORT, ProcessStatus.FAIL])\
+            .filter(History.process_status.notin_((ProcessStatus.COMPLETE, ProcessStatus.ABORT, ProcessStatus.FAIL)))\
             .all()
 
     def get_launch_histories(self) -> [History]:
         return self._session.query(History)\
-            .filter(History.process_status in [ProcessStatus.COMPLETE, ProcessStatus.ABORT, ProcessStatus.FAIL])\
+            .filter(History.process_status.in_((ProcessStatus.COMPLETE, ProcessStatus.ABORT, ProcessStatus.FAIL)))\
             .order_by(History.create_at.desc()).all()

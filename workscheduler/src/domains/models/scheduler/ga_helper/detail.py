@@ -44,54 +44,86 @@ class SchedulerDetailHelper:
                                            and x not in other_exclusives]
             least_attendance[work_category] = math.floor(total_require / len(participants[work_category]))
         return least_attendance, participants
-    
+
     @staticmethod
-    def _get_holiday_available_indices(outline, work_category):
+    def _random_pop(array):
+        index = np.random.choice(array)
+        array.remove(index)
+        return index
+
+    @staticmethod
+    def _is_able_to_set_work_category(outline, index, work_category):
+        if work_category.day_offs == 0:
+            return True if outline[index] == work_day_sign else False
+        max_index = len(outline) - 1
+        day_offs = work_category.day_offs if max_index > index + work_category.day_offs \
+            else max_index - index
+        return all([x == work_day_sign for x in outline[index:index + day_offs + 1]]) \
+            and (day_offs < work_category.day_offs or max_index < index + work_category.day_offs + 1
+                 or outline[index + day_offs + 1] == holiday_sign)
+
+    def _get_holiday_available_indices(self, outline, work_category):
         available_indices = []
         day_offs = work_category.day_offs
-        for i, gene in filter(lambda x: x[1] == work_day_sign, list(enumerate(outline))[:-day_offs-1]):
-            if not all([x == work_day_sign for x in outline[i: i + day_offs + 1]]) \
-                    or outline[i + day_offs + 1] != holiday_sign:
-                continue
-            available_indices.append(i)
-        if np.random.randint(1, 3) == 1:
+        for i, gene in list(enumerate(outline))[:-day_offs-1]:
+            if self._is_able_to_set_work_category(outline, i, work_category):
+                available_indices.append(i)
+        if np.random.randint(1, 4) == 1:
             last_index = len(outline) - 1
-            for i in range(day_offs, 0, -1):
-                if outline[-i:] == [work_day_sign] * i:
-                    for l in range(0, i + 1):
-                        available_indices.append(last_index - l)
-                    break
+            for i in range(day_offs, -1, -1):
+                index = last_index - i
+                if self._is_able_to_set_work_category(outline, index, work_category):
+                    available_indices.append(index)
         return available_indices
-    
-    def _set_work_category_day_off(self, outline, work_category):
+
+    @staticmethod
+    def _set_work_category(outline, index, work_category):
+        max_index = len(outline) - 1
+        outline[index] = work_category.id
+        day_offs = work_category.day_offs if index + work_category.day_offs <= max_index \
+            else max_index - index
+        if day_offs == 0:
+            return
+        outline[index + 1: index + 1 + day_offs] = [day_off_sign] * day_offs
+
+    def _set_work_categories_day_off(self, outline, work_category):
         available_indices = self._get_holiday_available_indices(outline, work_category)
         amplitude = np.random.choice([-1, 0, 1, 2], p=[0.05, 0.3, 0.35, 0.3])
-        outline_len = len(outline)
         i = 0
+
+        def set_work_category_day_off(index):
+            self._set_work_category(outline, index, work_category)
         while i < self._least_attendance[work_category] + amplitude:
             if not available_indices:
                 return outline
-            index = np.random.choice(available_indices)
-            available_indices.remove(index)
+            index = self._random_pop(available_indices)
             for x in [x for x in available_indices if abs(index - x) <= work_category.day_offs]:
                 available_indices.remove(x)
-            outline[index] = work_category.id
-            day_offs = work_category.day_offs if index + work_category.day_offs < outline_len\
-                else outline_len - index - 1
-            outline[index + 1: index + 1 + day_offs] = [day_off_sign] * day_offs
+            set_work_category_day_off(index)
             i += 1
         return outline
 
-    def _set_work_category(self, outline, work_category):
+    def _set_work_categories_not_day_off(self, outline, work_category):
         work_day_indices = [i for i, x in enumerate(outline) if x == work_day_sign]
+
+        def set_work_category(index):
+            self._set_work_category(outline, index, work_category)
         for _ in range(self._least_attendance[work_category]):
             if not work_day_indices:
                 return outline
-            index = np.random.choice(work_day_indices)
-            work_day_indices.remove(index)
-            outline[index] = work_category.id
+            index = self._random_pop(work_day_indices)
+            set_work_category(index)
         return outline
-    
+
+    def _set_random_work_category(self, work_categories, weight, outline):
+        def _inner(index):
+            while True:
+                work_category = np.random.choice(work_categories, p=weight)
+                if self._is_able_to_set_work_category(outline, index, work_category):
+                    self._set_work_category(outline, index, work_category)
+                    break
+        return _inner
+
     def _set_work_categories(self, outline, work_categories):
         if not work_categories:
             outline = [' ' if x == work_day_sign else x for x in outline]
@@ -100,14 +132,17 @@ class SchedulerDetailHelper:
             if not outline:
                 break
             if work_category.day_offs != 0:
-                outline = self._set_work_category_day_off(outline, work_category)
+                outline = self._set_work_categories_day_off(outline, work_category)
             else:
-                outline = self._set_work_category(outline, work_category)
+                outline = self._set_work_categories_not_day_off(outline, work_category)
         else:
             p = [self._least_attendance[x] for x in work_categories]
             p_sum = sum(p)
             p = [x / p_sum for x in p]
-            outline = [np.random.choice(work_categories, p=p).id if x == work_day_sign else x for x in outline]
+            set_random_work_category = self._set_random_work_category(work_categories, p, outline)
+            for i in range(len(outline)):
+                if outline[i] == work_day_sign:
+                    set_random_work_category(i)
         return outline
     
     def _find_operator_work_categories(self, operator):
@@ -129,6 +164,14 @@ class SchedulerDetailHelper:
             fixed_schedule = find(lambda x: operator in x.participants, day.fixed_schedules)
             outline[index] = fixed_schedule.id
         return outline
+
+    @staticmethod
+    def _set_holidays(outline):
+        return [' ' if x == holiday_sign else x for x in outline]
+
+    @staticmethod
+    def _set_day_offs(outline):
+        return ['-' if x == day_off_sign else x for x in outline]
     
     def _put_details(self, outlines, operator):
         combines = []
@@ -137,6 +180,8 @@ class SchedulerDetailHelper:
         for outline in outlines:
             outline = self._set_work_categories(outline, work_categories)
             outline = self._set_fixed_schedules(outline, operator)
+            outline = self._set_holidays(outline)
+            outline = self._set_day_offs(outline)
             if outline:
                 combines.append(outline)
         return combines
