@@ -21,17 +21,17 @@ const listCss = css({
 });
 
 const userList = ({ users, append, edit }) => (
-    <div>
+    <Box>
         <AppBar position="static" color="default">
             <Toolbar>
                 <Typography variant="h5" color="inherit" style={{ flexGrow: 1 }}>
                     users
                 </Typography>
-                <div style={{ textAlign: 'right' }}>
+                <Box style={{ textAlign: 'right' }}>
                     <IconButton onClick={append}>
                         <AddIcon />
                     </IconButton>
-                </div>
+                </Box>
             </Toolbar>
         </AppBar>
         <Box css={mt2}>
@@ -39,7 +39,7 @@ const userList = ({ users, append, edit }) => (
                 {users.map((x, i) => <User key={i} user={x} edit={() => edit(x)} />)}
             </List>
         </Box>
-    </div>
+    </Box>
 );
 
 userList.propTypes = {

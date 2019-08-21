@@ -13,6 +13,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import IconButton from '@material-ui/core/IconButton';
+import Box from "@material-ui/core/Box";
 
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
@@ -47,11 +48,11 @@ const popupCheckList = ({ name, targets, current, changeSelect }) => {
             <ExpansionPanel expanded={state.expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="h6" style={{ color: 'gray' }} css={mt2}>{name}</Typography>
-                    <div css={ml3}>
+                    <Box css={ml3}>
                         <IconButton size="small" onClick={(e) => { setState((prev) => ({ ...prev, anchorEl: e.currentTarget })); e.stopPropagation(); }}>
                             <CheckBoxRoundedIcon />
                         </IconButton>
-                    </div>
+                    </Box>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <List>

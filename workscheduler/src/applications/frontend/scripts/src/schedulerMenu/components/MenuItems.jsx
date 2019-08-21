@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import Button from '@material-ui/core/Button';
+import Box from "@material-ui/core/Box";
 
 import MenuCard from 'MenuCard';
 import { mb3, my4 } from 'margin';
@@ -57,7 +58,7 @@ const launchCalendarDialog = (state, setState, onLaunchSchedulerWrapper) => (
                 <ArrowForwardIosRoundedIcon />
             </IconButton>
         </DialogTitle>
-        <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+        <Box style={{ textAlign: 'center', marginBottom: '10px' }}>
             <Grid container>
                 {createGridButton(() => onLaunchSchedulerWrapper(1), 'Jan')}
                 {createGridButton(() => onLaunchSchedulerWrapper(2), 'Feb')}
@@ -72,7 +73,7 @@ const launchCalendarDialog = (state, setState, onLaunchSchedulerWrapper) => (
                 {createGridButton(() => onLaunchSchedulerWrapper(11), 'Nov')}
                 {createGridButton(() => onLaunchSchedulerWrapper(12), 'Dec')}
             </Grid>
-        </div>
+        </Box>
     </Dialog>
 );
 

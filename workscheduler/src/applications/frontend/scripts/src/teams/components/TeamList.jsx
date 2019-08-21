@@ -27,11 +27,11 @@ const teamList = ({ teams, append, edit }) => (
                 <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
                     teams
                 </Typography>
-                <div style={{ textAlign: 'right' }}>
+                <Box style={{ textAlign: 'right' }}>
                     <IconButton onClick={append}>
                         <AddIcon />
                     </IconButton>
-                </div>
+                </Box>
             </Toolbar>
         </AppBar>
         <Box css={mt2}>

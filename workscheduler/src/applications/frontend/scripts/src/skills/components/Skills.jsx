@@ -22,11 +22,11 @@ const skills = ({ certifiedSkills, notCertifiedSkills, append, edit }) => (
                 <Typography variant="h5" color="inherit" style={{ flexGrow: 1 }}>
                     skills
                 </Typography>
-                <div style={{ textAlign: 'right' }}>
+                <Box style={{ textAlign: 'right' }}>
                     <IconButton onClick={append}>
                         <AddIcon />
                     </IconButton>
-                </div>
+                </Box>
             </Toolbar>
         </AppBar>
         <Box css={mt2}>

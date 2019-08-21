@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 import CalendarCell from './CalendarCell';
 
@@ -51,7 +52,7 @@ const calendar = ({ monthlySetting, ...other }) => {
     const lastRowCellCount = weeks[weeks.length - 1].length;
     for (const i in [...Array(7 - lastRowCellCount)]) weeks[weeks.length - 1].push(<CalendarCell key={i+41} {...other} />);
     return (
-        <div css={mx3}>
+        <Box css={mx3}>
             <Grid container>
                 <Grid item xs css={redHeaderCss}>Sun</Grid>
                 <Grid item xs css={headerCss}>Mon</Grid>
@@ -62,7 +63,7 @@ const calendar = ({ monthlySetting, ...other }) => {
                 <Grid item xs css={blueHeaderCss}>Sat</Grid>
             </Grid>
             {weeks.map((x, i) => <Grid container key={i}>{x}</Grid>)}
-        </div>
+        </Box>
     );
 };
 

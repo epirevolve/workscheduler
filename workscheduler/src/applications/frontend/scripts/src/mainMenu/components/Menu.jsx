@@ -34,7 +34,7 @@ const createCardInGrid = (title, img, href, description) => {
 const authRole = auth.role ? auth.role._value_ : -1;
 
 const menu = () => (
-    <div css={my4}>
+    <Box css={my4}>
         <Grid container spacing={2}>
             {createCardInGrid("Schedule", "schedule.svg", urlSchedules, "your work schedule and ask change some days")}
             {authRole == 3 && (
@@ -59,7 +59,7 @@ const menu = () => (
                 </Grid>
             </>
         )}
-    </div>
+    </Box>
 );
 
 export default menu;

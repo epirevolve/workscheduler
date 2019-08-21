@@ -1,6 +1,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
+import Box from "@material-ui/core/Box";
+
 import ProgressButton from 'ProgressButton';
 
 /** @jsx jsx */
@@ -17,9 +19,9 @@ const actionAreaCss = css({
 const commitActionArea = ({
     scheduler, isProgressing, save
     }) => (
-    <div css={actionAreaCss}>
+    <Box css={actionAreaCss}>
         <ProgressButton label={'Save'} isProgressing={isProgressing} handleClick={() => save(scheduler)} />
-    </div>
+    </Box>
 );
 
 commitActionArea.propTypes = {

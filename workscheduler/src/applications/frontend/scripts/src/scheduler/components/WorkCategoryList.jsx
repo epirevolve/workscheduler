@@ -9,6 +9,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Box from "@material-ui/core/Box";
 
 import WorkCategory from './WorkCategory';
 
@@ -29,15 +30,15 @@ const workCategoryList = ({ workCategories, append, ...other }) => {
     );
 
     return (
-        <div css={css(mt4, mb3)}>
+        <Box css={css(mt4, mb3)}>
             <ExpansionPanel expanded={state.expanded} onChange={onExpandedChange}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography style={{ fontSize: '2rem' }}>work categories</Typography>
-                    <div css={ml3}>
+                    <Box css={ml3}>
                         <IconButton onClick={(e) => { append(); e.stopPropagation(); }}>
                             <AddIcon />
                         </IconButton>
-                    </div>
+                    </Box>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container>
@@ -45,7 +46,7 @@ const workCategoryList = ({ workCategories, append, ...other }) => {
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        </div>
+        </Box>
     );
 };
 

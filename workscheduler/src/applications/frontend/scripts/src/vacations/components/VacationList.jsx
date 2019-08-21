@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import List from '@material-ui/core/List';
+import Box from "@material-ui/core/Box";
 
 import Vacation from './Vacation';
 
@@ -17,11 +18,11 @@ const vacationList = ({ vacations, append, edit }) => (
                 <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
                     vacations
                 </Typography>
-                <div style={{ textAlign: 'right' }}>
+                <Box style={{ textAlign: 'right' }}>
                     <IconButton onClick={append}>
                         <AddIcon />
                     </IconButton>
-                </div>
+                </Box>
             </Toolbar>
         </AppBar>
         <List style={{ maxHeight: '76vh', overflowY: 'auto' }}>

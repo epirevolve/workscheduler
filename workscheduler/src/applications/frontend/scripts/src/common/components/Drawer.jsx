@@ -16,6 +16,7 @@ import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
 import GroupRoundedIcon from '@material-ui/icons/GroupRounded';
 import LocationCityRoundedIcon from '@material-ui/icons/LocationCityRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import Box from "@material-ui/core/Box";
 
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
@@ -42,7 +43,7 @@ const authRole = auth.role ? auth.role._value_ : -1;
 
 const drawer = ({ open, setOpen }) => (
     <Drawer open={open} onClose={() => setOpen((prev) => ({ ...prev, open: false }))}>
-        <div tabIndex={0}>
+        <Box tabIndex={0}>
             <IconButton onClick={() => setOpen((prev) => ({ ...prev, open: false }))}>
                 <ChevronLeftRoundedIcon />
             </IconButton>
@@ -112,7 +113,7 @@ const drawer = ({ open, setOpen }) => (
                     </>
                 )}
             </List>
-        </div>
+        </Box>
     </Drawer>
 );
 
