@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Operators from '../components/Operators';
+import OperatorList from '../components/OperatorList';
 
 import { openDialogToUpdate } from '../actions';
 
@@ -13,4 +13,4 @@ const mapDispatchToProps = (dispatch) => ({
     edit: (operator) => dispatch(openDialogToUpdate(operator))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Operators);
+export default connect(mapStateToProps, mapDispatchToProps)(OperatorList);

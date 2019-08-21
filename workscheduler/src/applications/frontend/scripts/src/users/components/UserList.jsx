@@ -7,17 +7,18 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import List from '@material-ui/core/List';
+import Box from '@material-ui/core/Box';
 
 import User from './User';
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { mt1 } from 'margin';
+import { mt2 } from 'margin';
 
-const wrapperCss = css({
+const listCss = css({
     maxHeight: '78vh',
     overflowY: 'auto'
-}, mt1);
+});
 
 const userList = ({ users, append, edit }) => (
     <div>
@@ -33,9 +34,11 @@ const userList = ({ users, append, edit }) => (
                 </div>
             </Toolbar>
         </AppBar>
-        <List css={wrapperCss}>
-            {users.map((x, i) => <User key={i} user={x} edit={() => edit(x)} />)}
-        </List>
+        <Box css={mt2}>
+            <List css={listCss}>
+                {users.map((x, i) => <User key={i} user={x} edit={() => edit(x)} />)}
+            </List>
+        </Box>
     </div>
 );
 
