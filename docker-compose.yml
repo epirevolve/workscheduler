@@ -2,7 +2,7 @@ version: "3.7"
 services:
   mysql:
     image: mysql:latest
-    container_name: mysql
+    container_name: workscheduler.mysql
     volumes:
       - type: volume
         source: logs
@@ -19,7 +19,7 @@ services:
       TZ: "Asia/Tokyo"
   uwsgi:
     build: workscheduler
-    container_name: uwsgi
+    container_name: workscheduler.uwsgi
     volumes:
       - type: volume
         source: logs
@@ -32,12 +32,12 @@ services:
       TZ: "Asia/Tokyo"
   nginx:
     image: nginx:alpine
-    container_name: nginx
+    container_name: workscheduler.nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - type: volume
         source: logs
-        target: /var/log
+        target: /var/log/nginx
     command: /bin/ash -c "nginx -g 'daemon off;'"
     links:
       - uwsgi
@@ -47,7 +47,24 @@ services:
       nproc: 65535
     environment:
       TZ: "Asia/Tokyo"
+  logstash:
+    image: logstash:7.3.0
+    container_name: workscheduler.logstash
+    volumes:
+      - type: volume
+        source: logs
+        target: /var/log
+      - ./logstash/conf/:/usr/share/logstash/pipeline
+      - ./logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+    networks:
+      - elasticstack.elastic
 
 volumes:
   logs:
+    name: workscheduler.logs
   dbstorage:
+    name: workscheduler.dbstorage
+
+networks:
+  elasticstack.elastic:
+    external: true

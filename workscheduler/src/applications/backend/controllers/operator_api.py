@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import traceback
+
 from flask import Blueprint
 from flask import current_app
 from flask import request
@@ -34,7 +36,7 @@ def update_operator(operator_id):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -50,7 +52,7 @@ def append_skill():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -66,7 +68,7 @@ def update_skill(skill_id: str):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -82,6 +84,6 @@ def remove_skill(skill_id: str):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response

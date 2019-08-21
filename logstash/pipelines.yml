@@ -1,0 +1,3 @@
+- pipeline.id: accesslog
+  path.config: "/usr/share/logstash/pipeline/accesslog.conf"
+  pipeline.workers: 2

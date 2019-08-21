@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import traceback
+
 from time import strftime
 from time import localtime
 
@@ -43,7 +45,7 @@ def update_scheduler():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -83,7 +85,7 @@ def update_monthly_setting():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -99,7 +101,7 @@ def public_monthly_setting():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -115,7 +117,7 @@ def update_basic_setting():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -148,7 +150,7 @@ def append_vacation():
         response = jsonize.json_response(jsonize.dumps(req))
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -164,7 +166,7 @@ def update_vacation():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -182,12 +184,12 @@ def launch_scheduler():
         response = jsonize.json_response()
     except AlreadyLaunchError as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(
             'already launched this team scheduler. please wait util its completion.', status_code=400)
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -218,7 +220,7 @@ def terminate_scheduler():
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
 
@@ -233,6 +235,6 @@ def remove_request(request_id):
         response = jsonize.json_response()
     except Exception as e:
         session.rollback()
-        current_app.logger.error(e)
+        current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
     return response
