@@ -45,12 +45,12 @@ class Scheduler(OrmBase):
     __tablename__ = "schedulers"
     id = Column(String(54), primary_key=True)
     _team_id = Column(String(54), ForeignKey('teams.id'))
-    team = relationship("Team", uselist=False, lazy='subquery')
-    monthly_settings = relationship("MonthlySetting", secondary=associated_monthly_setting_table, lazy='subquery')
-    vacations = relationship("Vacation", secondary=associated_vacation_table, lazy='subquery')
+    team = relationship("Team", uselist=False, lazy='immediate')
+    monthly_settings = relationship("MonthlySetting", secondary=associated_monthly_setting_table, lazy='immediate')
+    vacations = relationship("Vacation", secondary=associated_vacation_table, lazy='immediate')
     certified_skill = Column(Boolean)
     not_certified_skill = Column(Boolean)
-    work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='subquery')
+    work_categories = relationship("WorkCategory", secondary=associated_work_category_table, lazy='immediate')
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id: str, team: Team,

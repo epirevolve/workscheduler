@@ -24,7 +24,7 @@ class Request(OrmBase):
     at_from = Column(DateTime, nullable=False)
     at_to = Column(DateTime, nullable=False)
     _operator_id = Column(String(54), ForeignKey('operators.id'))
-    operator = relationship("Operator", uselist=False, lazy='subquery')
+    operator = relationship("Operator", uselist=False, lazy='immediate')
     create_at = Column(DateTime, server_default=current_timestamp())
     
     def __init__(self, id: str, title: str, note: str,

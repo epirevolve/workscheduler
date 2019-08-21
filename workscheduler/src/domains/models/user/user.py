@@ -32,7 +32,7 @@ class User(OrmBase, UserMixin):
     password = Column(String(16), nullable=False)
     name = Column(String(50), nullable=False)
     _team_id = Column(String(54), ForeignKey('teams.id'))
-    team = relationship("Team", uselist=False, lazy='subquery')
+    team = relationship("Team", uselist=False, lazy='immediate')
     role = Column(Enum(Role))
     is_inactivated = Column(Boolean, default=False)
     create_at = Column(DateTime, server_default=current_timestamp())

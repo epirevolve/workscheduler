@@ -22,7 +22,7 @@ class DayDetail(OrmBase):
     __tablename__ = "day_details"
     id = Column(String(54), primary_key=True)
     _work_category_id = Column(String(54), ForeignKey('work_categories.id'))
-    work_category = relationship("WorkCategory", uselist=False, lazy='subquery')
+    work_category = relationship("WorkCategory", uselist=False, lazy='immediate')
     require = Column(Integer)
 
     def __init__(self, id: str, work_category: WorkCategory, require: int, **kwargs):

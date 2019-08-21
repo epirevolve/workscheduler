@@ -23,8 +23,8 @@ class ScheduleComponent(OrmBase):
     __tablename__ = "schedule_components"
     id = Column(String(54), primary_key=True)
     _operator_id = Column(String(54), ForeignKey('operators.id'))
-    operator = relationship("Operator", uselist=False, lazy='subquery')
-    day_work_categories = relationship('DayWorkCategory', secondary=associated_category_table, lazy='subquery',
+    operator = relationship("Operator", uselist=False, lazy='immediate')
+    day_work_categories = relationship('DayWorkCategory', secondary=associated_category_table, lazy='immediate',
                                        order_by="asc(DayWorkCategory.day)")
     
     def __init__(self, id: str, operator: Operator, day_work_categories: [],

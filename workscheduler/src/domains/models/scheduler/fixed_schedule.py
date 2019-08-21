@@ -35,7 +35,7 @@ class FixedSchedule(OrmBase):
     on_to = Column(Date)
     at_from = Column(Time)
     at_to = Column(Time)
-    participants = relationship("Operator", secondary=associated_participant_table, lazy='subquery')
+    participants = relationship("Operator", secondary=associated_participant_table, lazy='immediate')
     
     def __init__(self, id: str, title: str,
                  on_from: date, on_to: date,

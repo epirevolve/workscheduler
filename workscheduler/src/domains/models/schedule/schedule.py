@@ -26,7 +26,7 @@ class Schedule(OrmBase):
     month = Column(Integer)
     year = Column(Integer)
     components = relationship('ScheduleComponent', secondary=associated_component_table,
-                              lazy='subquery', cascade='all', order_by="asc(ScheduleComponent._operator_id)")
+                              lazy='immediate', cascade='all', order_by="asc(ScheduleComponent._operator_id)")
     is_published = Column(Boolean)
     
     def __init__(self, id: str, team_id: str, month: int,

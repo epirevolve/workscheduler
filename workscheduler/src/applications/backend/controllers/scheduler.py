@@ -6,9 +6,8 @@ from flask import request
 from flask_login import login_required
 from flask_login import current_user
 
-from utils.string import to_date
+from utils.jsonize import dumps
 
-from applications.backend.services import SchedulerQuery
 from applications.backend.services import UserQuery
 from applications.backend.services import OperatorQuery
 from applications.backend.functions.controller import admin_required

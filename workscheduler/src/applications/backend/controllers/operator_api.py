@@ -27,7 +27,6 @@ def get_operators():
 
 @bp.route('/operators/<operator_id>', methods=['PUT'])
 @login_required
-@admin_required
 def update_operator(operator_id):
     session = get_db_session()
     try:

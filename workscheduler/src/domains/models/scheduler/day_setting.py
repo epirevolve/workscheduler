@@ -40,9 +40,9 @@ class DaySetting(OrmBase):
     day = Column(Integer)
     day_name = Column(String(4))
     is_holiday = Column(Boolean)
-    details = relationship("DayDetail", secondary=associated_day_details_table, lazy='subquery')
-    requests = relationship("Request", secondary=associated_request_table, lazy='subquery')
-    fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='subquery')
+    details = relationship("DayDetail", secondary=associated_day_details_table, lazy='immediate')
+    requests = relationship("Request", secondary=associated_request_table, lazy='immediate')
+    fixed_schedules = relationship("FixedSchedule", secondary=associated_fixed_schedule_table, lazy='immediate')
 
     def __init__(self, id: str, day: int, day_name: str,
                  is_holiday: bool, details: [],

@@ -32,7 +32,7 @@ class History(OrmBase):
     __tablename__ = "scheduler_histories"
     id = Column(String(54), primary_key=True)
     _team_id = Column(String(54), ForeignKey('teams.id'))
-    team = relationship("Team", uselist=False, lazy='subquery')
+    team = relationship("Team", uselist=False, lazy='immediate')
     month = Column(Integer)
     year = Column(Integer)
     adaptability = Column(Integer)
