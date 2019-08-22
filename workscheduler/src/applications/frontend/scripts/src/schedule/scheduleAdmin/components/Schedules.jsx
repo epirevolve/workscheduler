@@ -20,7 +20,7 @@ const tableCss = css({
     '& > table': {
         overflow: 'auto',
         height: '74vh',
-        width: '96vw',
+        width: '96.5vw',
         display: 'block',
         borderCollapse: 'initial'
 }});

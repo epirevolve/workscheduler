@@ -15,7 +15,7 @@ const actionCss = css({
     display: 'inline-flex',
     '& > div': css({},mr3)
 }
-,floatr,my3);
+, floatr, my3);
 
 const renderActionByPublicity = (isPublished, isProgressing, withdraw, publish) => {
     const wrapButtonCreation = (label, handleClick) =>
