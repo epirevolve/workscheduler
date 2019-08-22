@@ -26,8 +26,6 @@ services:
         target: /var/log
     ports:
       - 3928:3928
-    links:
-      - mysql
     environment:
       TZ: "Asia/Tokyo"
   nginx:
@@ -39,8 +37,6 @@ services:
         source: logs
         target: /var/log/nginx
     command: /bin/ash -c "nginx -g 'daemon off;'"
-    links:
-      - uwsgi
     ports:
       - 4231:80
     ulimits:
@@ -66,5 +62,7 @@ volumes:
     name: workscheduler.dbstorage
 
 networks:
+  default:
+    name: workscheduler.default
   elasticstack.elastic:
     external: true
