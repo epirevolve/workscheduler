@@ -35,7 +35,7 @@ import { mx3 } from 'margin';
 
 const calendar = ({ monthlySetting, ...other }) => {
     if (currentOperator.ojt)
-        return (<Typography variant="h5" css={margin10Css}>Sorry, you are now a trainee so you can't set request. Please ask for your manager.</Typography>);
+        return (<Typography variant="h5" css={margin10Css}>Sorry, you are now a trainee so you can&apos;t set request. Please ask for your manager.</Typography>);
     if (!monthlySetting.isPublished)
         return (<Typography variant="h5" css={margin10Css}>Sorry, this month setting is not published yet...</Typography>);
     if (monthlySetting.isFixed)

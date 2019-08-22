@@ -8,13 +8,13 @@ import ProgressButton from 'ProgressButton';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 
-import { mt5, mr5, mb3 } from 'margin';
+import { mt4, mr3, mb3 } from 'margin';
 
 const actionAreaCss = css({
     display: 'inline-flex',
-    '& > div': css({},mr5)
+    '& > div': css({}, mr3)
 }
-,mt5,mb3);
+, mt4, mb3);
 
 const commitActionArea = ({
         monthlySetting, isProgressing, save, publish

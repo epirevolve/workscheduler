@@ -32,7 +32,7 @@ const commitActionArea = ({
         schedules, isPublished, isProgressing,
         save, withdraw, publish
     }) => {
-    if (!schedules || schedules.length == 0) return (<></>);
+    if (!schedules || !schedules.components || schedules.components.length == 0) return (<></>);
 
     const button = renderActionByPublicity(isPublished, isProgressing,
         () => withdraw(schedules), () => publish(schedules));
