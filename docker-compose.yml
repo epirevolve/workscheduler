@@ -5,7 +5,7 @@ services:
     container_name: workscheduler.mysql
     volumes:
       - type: volume
-        source: logs
+        source: mysqllogs
         target: /var/log
       - type: volume
         source: dbstorage
@@ -17,25 +17,30 @@ services:
     environment:
       MYSQL_DATABASE: workscheduler
       TZ: "Asia/Tokyo"
+    networks:
+      - database
   uwsgi:
     build: workscheduler
     container_name: workscheduler.uwsgi
     volumes:
       - type: volume
-        source: logs
+        source: uwsgilogs
         target: /var/log
     ports:
       - 3928:3928
     environment:
       TZ: "Asia/Tokyo"
+    networks:
+      - ingress
+      - database
   nginx:
     image: nginx:alpine
     container_name: workscheduler.nginx
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - type: volume
-        source: logs
-        target: /var/log/nginx
+        source: nginxlogs
+        target: /var/log
     command: /bin/ash -c "nginx -g 'daemon off;'"
     ports:
       - 4231:80
@@ -43,26 +48,54 @@ services:
       nproc: 65535
     environment:
       TZ: "Asia/Tokyo"
+    networks:
+      - ingress
+
   logstash:
     image: logstash:7.3.0
     container_name: workscheduler.logstash
     volumes:
       - type: volume
-        source: logs
+        source: logstashlogs
         target: /var/log
-      - ./logstash/conf/:/usr/share/logstash/pipeline
-      - ./logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./logstash/conf/:/usr/share/logstash/pipeline:ro
+      - ./logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml:ro
     networks:
       - elasticstack.elastic
+      - beats
+    ports:
+      - 5044:5044
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.3.0
+    container_name: workscheduler.filebeat
+    volumes:
+      - type: volume
+        source: nginxlogs
+        target: /var/log/nginx
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+    networks:
+      - beats
+
 
 volumes:
-  logs:
-    name: workscheduler.logs
+  mysqllogs:
+    name: workscheduler.mysqllogs
+  uwsgilogs:
+    name: workscheduler.uwsgilogs
+  logstashlogs:
+    name: workscheduler.logstashlogs
+  nginxlogs:
+    name: workscheduler.nginxlogs
   dbstorage:
     name: workscheduler.dbstorage
 
+
 networks:
-  default:
-    name: workscheduler.default
+  ingress:
+    name: workscheduler.ingress
   elasticstack.elastic:
     external: true
+  beats:
+    name: workscheduler.beats
+  database:
+    name: workscheduler.database
