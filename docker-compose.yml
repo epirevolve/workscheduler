@@ -38,12 +38,14 @@ services:
     container_name: workscheduler.nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/pki/:/etc/pki/tls/:ro
       - type: volume
         source: nginxlogs
         target: /var/log
     command: /bin/ash -c "nginx -g 'daemon off;'"
     ports:
-      - 4231:80
+      - 80:80
+      - 443:443
     ulimits:
       nproc: 65535
     environment:

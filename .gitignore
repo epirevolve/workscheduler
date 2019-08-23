@@ -207,3 +207,6 @@ input_data.py
 statics
 
 !*.sample
+
+nginx/pki/*
+!nginx/pki/keys.sample

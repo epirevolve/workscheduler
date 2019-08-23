@@ -1,0 +1,14 @@
+# this is a just instruction to make keys
+
+# run a container to make key
+docker run -it --rm -v ${your key path:absolute path}:/etc/pki alpine:latest /bin/ash
+apk add openssl
+
+openssl genrsa -aes128 1024 > server.key
+    > set password in above command
+openssl req -new -key server.key > server.csr
+    > set common name
+openssl x509 -in server.csr -days 36500 -req -signkey server.key > server.crt
+
+mv server.key server.key.bak
+openssl rsa -in server.key.bak > server.key
