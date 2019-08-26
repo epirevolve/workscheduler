@@ -33,17 +33,6 @@ def index():
     return render_template('auth.html')
 
 
-@bp.route('/auth/login', methods=['POST'])
-def login():
-    user = UserFacadeAdapter(get_db_session()).login(jsonize.to_dict(request.form))
-    if not user:
-        flash('Invalid username or password, or inactivated user', 'error')
-        return index()
-    login_user(user)
-    flash('You were logged in')
-    return redirect(url_for('menu.show_menu'))
-
-
 @bp.route('/auth/logout')
 def logout():
     logout_user()

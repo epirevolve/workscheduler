@@ -6,6 +6,7 @@ from flask import Blueprint
 from flask import request
 from flask import current_app
 from flask_login import login_required
+from flask_login import login_user
 
 from utils import jsonize
 
@@ -17,6 +18,15 @@ from applications.backend import get_db_session
 
 
 bp = Blueprint('user_api', __name__)
+
+
+@bp.route('/auth/login', methods=['POST'])
+def login():
+    user = UserFacadeAdapter(get_db_session()).login(jsonize.to_dict(request.form))
+    if not user:
+        return jsonize.json_response(status_code=400)
+    login_user(user)
+    return jsonize.json_response()
 
 
 @bp.route('/users', methods=['POST'])
