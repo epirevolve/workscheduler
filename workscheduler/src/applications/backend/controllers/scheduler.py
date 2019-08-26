@@ -6,8 +6,6 @@ from flask import request
 from flask_login import login_required
 from flask_login import current_user
 
-from utils.jsonize import dumps
-
 from applications.backend.services import UserQuery
 from applications.backend.services import OperatorQuery
 from applications.backend.functions.controller import admin_required
@@ -70,5 +68,4 @@ def show_launch_histories():
 @bp.route('/requests')
 @login_required
 def show_my_request():
-    operator = OperatorQuery(get_db_session()).get_operator_of_user_id(current_user.id)
-    return render_template('request.html', current_operator=operator)
+    return render_template('request.html')
