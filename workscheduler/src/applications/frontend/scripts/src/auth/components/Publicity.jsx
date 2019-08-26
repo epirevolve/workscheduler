@@ -11,7 +11,8 @@ import { m4, mt5, mb4, mb5, ml5 } from "margin";
 const jumbotronCss = css({
     backgroundColor: 'lightslategray',
     color: 'white',
-    borderRadius: '.3rem'
+    borderRadius: '.3rem',
+    height: '60vh'
 }, px5, py4, mt5, mb4);
 
 const publicity = () => (

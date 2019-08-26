@@ -22,7 +22,7 @@ bp = Blueprint('user_api', __name__)
 
 @bp.route('/auth/login', methods=['POST'])
 def login():
-    user = UserFacadeAdapter(get_db_session()).login(jsonize.to_dict(request.form))
+    user = UserFacadeAdapter(get_db_session()).login(jsonize.loads(request.data))
     if not user:
         return jsonize.json_response(status_code=400)
     login_user(user)

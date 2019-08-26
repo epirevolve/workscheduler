@@ -11,7 +11,7 @@ class UserFacadeAdapter:
     
     def login(self, data):
         return UserFacade(self._session).login(
-            data.get('loginId'), data.get('password'))
+            data.get('log_in_id'), data.get('password'))
 
     def append_user(self, data: dict):
         user = to_user(data)
