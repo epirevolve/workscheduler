@@ -5,7 +5,10 @@ import Teams from '../components/Teams';
 
 import { changeTeam } from '../actions';
 
+import { teams } from "../embeddedData";
+
 const mapStateToProps = (state) => ({
+    teams,
     team: state.menu.team
 });
 

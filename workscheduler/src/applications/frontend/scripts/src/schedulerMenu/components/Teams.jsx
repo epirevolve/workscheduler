@@ -11,10 +11,7 @@ import { jsx } from '@emotion/core';
 import { m2 } from "margin";
 import { lightslategray } from "color";
 
-const dataset = document.querySelector('script[src*="schedulermenu"]').dataset;
-
-const teams = ({ team, changeTeam }) => {
-    const teams = JSON.parse(dataset.teams);
+const teams = ({ teams, team, changeTeam }) => {
     const teamList = teams.map((x) =>
         <MenuItem key={x.id} value={x}>
             <Typography variant="h5" css={lightslategray}>
@@ -32,6 +29,7 @@ const teams = ({ team, changeTeam }) => {
 };
 
 teams.propTypes = {
+    teams: propTypes.array,
     team: propTypes.object,
     changeTeam: propTypes.func.isRequired
 };

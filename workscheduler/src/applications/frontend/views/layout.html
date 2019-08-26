@@ -33,18 +33,6 @@
     <script src="{{ url_for('static', filename='js/vendor/common.bundle.min.js') }}"></script>
     {% block css %}{% endblock %}
     <script id="linkTags"
-        data-is-authenticated="{{ current_user.is_authenticated }}"
-        data-auth="{{ to_json(current_user) }}"
-        data-url-menu="{{ url_for('menu.show_menu') }}"
-        data-url-schedules="{{ url_for('schedule.show_schedules') }}"
-        data-url-requests="{{ url_for('scheduler.show_my_request', calendar=next_month) }}"
-        data-url-as-operator="{{ url_for('operator.show_myself', operator_id=operator_id) }}"
-        data-url-as-user="{{ url_for('user.show_myself', user_id=current_user.id) }}"
-        data-url-scheduler-menu="{{ url_for('scheduler.show_menu') }}"
-        data-url-operators="{{ url_for('operator.show_operators') }}"
-        data-url-users="{{ url_for('user.show_users') }}"
-        data-url-teams="{{ url_for('user.show_teams') }}"
-        data-url-skills="{{ url_for('operator.show_skills') }}"
-        data-url-logout="{{ url_for('user.logout') }}"></script>
+        data-current-operator="{{ to_json(current_operator()) }}"></script>
     {% block script %}{% endblock %}
 </html>

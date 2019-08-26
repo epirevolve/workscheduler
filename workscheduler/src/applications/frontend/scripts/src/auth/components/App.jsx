@@ -1,14 +1,15 @@
 import React from 'react';
 
+import Box from '@material-ui/core/Box';
+
 import Publicity from './Publicity';
 import Auth from './Auth';
-import Layout from 'Layout';
 
 const app = () => (
-    <Layout>
+    <Box>
         <Publicity />
         <Auth />
-    </Layout>
+    </Box>
 );
 
 export default app;

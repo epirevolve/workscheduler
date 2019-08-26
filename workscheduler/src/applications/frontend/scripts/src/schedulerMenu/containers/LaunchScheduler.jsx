@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onLaunchScheduler: (team, month, year) => {
+    launchScheduler: (team, month, year) => {
         dispatch(showSnackbar('Started to make schedule. Please wait until it will be done.'));
         dispatch(startLaunchScheduler(team, month, year));
     }

@@ -18,11 +18,9 @@ import { jsx } from '@emotion/core';
 import { mr1 } from "margin";
 import { pl2 } from "padding";
 
-const dataset = document.querySelector('#linkTags').dataset;
-const isAuthenticated = JSON.parse(dataset.isAuthenticated.toLowerCase());
-const urlMenu = dataset.urlMenu;
-const urlLogout = dataset.urlLogout;
-const auth = JSON.parse(dataset.auth);
+import { currentOperator } from "../embeddedData";
+
+const currentUser = currentOperator.user;
 
 const breadScram = document.querySelector('script[id="breadscram"]');
 let breads = null;
@@ -40,14 +38,12 @@ if (!breadScram || !current)
 else
 {
     if (!breads) breads = [];
-    breads.unshift({ url: urlMenu, name: 'Work Scheduler' });
+    breads.unshift({ url: '/menu', name: 'Work Scheduler' });
 }
 
 const nav = ({ setDrawerOpen }) => {
     const [ state, setState ] = React.useState({ anchorEl: null });
     const open = Boolean(state.anchorEl);
-
-    if (!isAuthenticated) return (<></>);
 
     return (
         <AppBar css={pl2} position="static">
@@ -72,8 +68,8 @@ const nav = ({ setDrawerOpen }) => {
                 </IconButton>
                 <Menu anchorEl={state.anchorEl} open={open}
                     onClose={() => setState((prev) => ({ ...prev, anchorEl: null }))}>
-                    <MenuItem component="span">{auth.loginId} : {auth.name}</MenuItem>
-                    <MenuItem component="a" href={urlLogout}>Log out</MenuItem>
+                    <MenuItem component="span">{currentUser.loginId} : {currentUser.name}</MenuItem>
+                    <MenuItem component="a" href={'/user/auth/logout'}>Log out</MenuItem>
                 </Menu>
             </Toolbar>
         </AppBar>

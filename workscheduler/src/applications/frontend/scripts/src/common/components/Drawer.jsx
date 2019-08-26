@@ -27,19 +27,10 @@ const menuTextCss = css({
         color: 'gray'
 }});
 
-const dataset = document.querySelector('#linkTags').dataset;
-const urlSchedules = dataset.urlSchedules;
-const urlRequests = dataset.urlRequests;
-const urlAsOperator = dataset.urlAsOperator;
-const urlAsUser = dataset.urlAsUser;
-const urlSchedulerMenu = dataset.urlSchedulerMenu;
-const urlOperators = dataset.urlOperators;
-const urlUsers = dataset.urlUsers;
-const urlTeams = dataset.urlTeams;
-const urlSkills = dataset.urlSkills;
-const auth = JSON.parse(dataset.auth);
+import { currentOperator } from "../embeddedData";
 
-const authRole = auth.role ? auth.role._value_ : -1;
+const currentUser = currentOperator.user;
+const authRole = currentUser.role ? currentUser.role._value_ : -1;
 
 const drawer = ({ open, setOpen }) => (
     <Drawer open={open} onClose={() => setOpen((prev) => ({ ...prev, open: false }))}>
@@ -49,21 +40,21 @@ const drawer = ({ open, setOpen }) => (
             </IconButton>
             <Divider />
             <List component="nav">
-                <ListItem button component="a" key="schedule" href={urlSchedules}>
+                <ListItem button component="a" key="schedule" href={'/schedule'}>
                     <ListItemIcon>
                         <CalendarTodayRoundedIcon />
                     </ListItemIcon>
                     <ListItemText primary="schedule" css={menuTextCss} />
                 </ListItem>
-                {authRole && (
+                {authRole == 3 && (
                     <>
-                        <ListItem button component="a" key="requests" href={urlRequests}>
+                        <ListItem button component="a" key="requests" href={'/scheduler/requests'}>
                             <ListItemIcon>
                                 <HearingRoundedIcon />
                             </ListItemIcon>
                             <ListItemText primary="requests" css={menuTextCss} />
                         </ListItem>
-                        <ListItem button component="a" key="asoperator" href={urlAsOperator}>
+                        <ListItem button component="a" key="asoperator" href={`/operator/myself/${currentOperator.id}`}>
                             <ListItemIcon>
                                 <PersonRoundedIcon />
                             </ListItemIcon>
@@ -71,7 +62,7 @@ const drawer = ({ open, setOpen }) => (
                         </ListItem>
                     </>
                 )}
-                <ListItem button component="a" key="asuser" href={urlAsUser}>
+                <ListItem button component="a" key="asuser" href={`/user/myself/${currentUser.id}`}>
                     <ListItemIcon>
                         <PersonRoundedIcon />
                     </ListItemIcon>
@@ -80,31 +71,31 @@ const drawer = ({ open, setOpen }) => (
                 <Divider />
                 {authRole == 2 && (
                     <>
-                        <ListItem button component="a" key="scheduler" href={urlSchedulerMenu}>
+                        <ListItem button component="a" key="scheduler" href={'/scheduler/menu'}>
                             <ListItemIcon>
                                 <BuildRoundedIcon />
                             </ListItemIcon>
                             <ListItemText primary="scheduler" css={menuTextCss} />
                         </ListItem>
-                        <ListItem button component="a" key="operators" href={urlOperators}>
+                        <ListItem button component="a" key="operators" href={'/operator/operators'}>
                             <ListItemIcon>
                                 <GroupRoundedIcon />
                             </ListItemIcon>
                             <ListItemText primary="operators" css={menuTextCss} />
                         </ListItem>
-                        <ListItem button component="a" key="users" href={urlUsers}>
+                        <ListItem button component="a" key="users" href={'/user/users'}>
                             <ListItemIcon>
                                 <GroupRoundedIcon />
                             </ListItemIcon>
                             <ListItemText primary="users" css={menuTextCss} />
                         </ListItem>
-                        <ListItem button component="a" key="teams" href={urlTeams}>
+                        <ListItem button component="a" key="teams" href={'/user/teams'}>
                             <ListItemIcon>
                                 <LocationCityRoundedIcon />
                             </ListItemIcon>
                             <ListItemText primary="teams" css={menuTextCss} />
                         </ListItem>
-                        <ListItem button component="a" key="skills" href={urlSkills}>
+                        <ListItem button component="a" key="skills" href={'/operator/skills'}>
                             <ListItemIcon>
                                 <StarRoundedIcon />
                             </ListItemIcon>

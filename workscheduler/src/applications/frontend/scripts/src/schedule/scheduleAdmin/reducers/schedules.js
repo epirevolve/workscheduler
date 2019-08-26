@@ -27,11 +27,15 @@ const schedules = (state = {}, action) => {
         }
         case actionTypes.SUCCESS_PUBLISH_SCHEDULES:
             return { ...state,
-                isPublished: true
+                schedules: {
+                    isPublished: true
+                }
             };
         case actionTypes.SUCCESS_WITHDRAW_SCHEDULES:
             return { ...state,
-                isPublished: false
+                schedules: {
+                    isPublished: false
+                }
             };
         default:
             return base(state, action);

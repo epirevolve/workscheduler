@@ -10,11 +10,8 @@ import { jsx, css } from '@emotion/core';
 import { m2, mb4 } from "margin";
 import { floatr } from "float";
 
-const dataset = document.querySelector('script[src*="auth"]').dataset;
-const url = dataset.url;
-
 const auth = () => (
-    <form action={url} method="post" css={floatr}>
+    <form action={'/user/auth/login'} method="post" css={floatr}>
         <Input name="csrf_token" type="hidden" value={csrfToken} readOnly />
         <Box css={mb4}>
             <TextField autoFocus name='loginId' css={m2} label="login id" required />

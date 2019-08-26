@@ -10,17 +10,7 @@ import MenuCard from 'MenuCard';
 import { jsx, css } from '@emotion/core';
 import { my4 } from "margin";
 
-const dataset = document.querySelector('script[src*="mainmenu"]').dataset;
-const urlSchedules = dataset.urlSchedules;
-const urlRequests = dataset.urlRequests;
-const urlAsOperator = dataset.urlAsOperator;
-const urlAsUser = dataset.urlAsUser;
-const urlSchedulerMenu = dataset.urlSchedulerMenu;
-const urlOperators = dataset.urlOperators;
-const urlUsers = dataset.urlUsers;
-const urlTeams = dataset.urlTeams;
-const urlSkills = dataset.urlSkills;
-const auth = JSON.parse(dataset.auth);
+import { currentOperator } from "../embeddedData";
 
 const createCardInGrid = (title, img, href, description) => {
     img = `/statics/img/${img}`;
@@ -31,19 +21,20 @@ const createCardInGrid = (title, img, href, description) => {
     );
 };
 
-const authRole = auth.role ? auth.role._value_ : -1;
+const currentUser = currentOperator.user;
+const authRole = currentUser.role ? currentUser.role._value_ : -1;
 
 const menu = () => (
     <Box css={my4}>
         <Grid container spacing={2}>
-            {createCardInGrid("Schedule", "schedule.svg", urlSchedules, "your work schedule and ask change some days")}
+            {createCardInGrid("Schedule", "schedule.svg", '/schedule', "your work schedule and ask change some days")}
             {authRole == 3 && (
                 <>
-                    {createCardInGrid("Requests", "request.svg", urlRequests, "request days you wanna get rest")}
-                    {createCardInGrid("As Operator", "operator.svg", urlAsOperator, "appeal what you can do by registering skill")}
+                    {createCardInGrid("Requests", "request.svg", '/scheduler/requests', "request days you wanna get rest")}
+                    {createCardInGrid("As Operator", "operator.svg", `/operator/myself/${currentOperator.id}`, "appeal what you can do by registering skill")}
                 </>
             )}
-            {createCardInGrid("As User", "user.svg", urlAsUser, "reset your password")}
+            {createCardInGrid("As User", "user.svg", `/user/myself/${currentUser.id}`, "reset your password")}
         </Grid>
         {authRole == 2 && (
             <>
@@ -51,11 +42,11 @@ const menu = () => (
                     <Divider />
                 </Box>
                 <Grid container spacing={2}>
-                    {createCardInGrid("Scheduler", "scheduler-menu.svg", urlSchedulerMenu, "scheduler option and start to build")}
-                    {createCardInGrid("Operators", "operators.svg", urlOperators, "what they can do")}
-                    {createCardInGrid("Users", "users.svg", urlUsers, "start new user story from here")}
-                    {createCardInGrid("Teams", "teams.svg", urlTeams, "manage teams")}
-                    {createCardInGrid("Skills", "skills.svg", urlSkills, "what you demand to operator")}
+                    {createCardInGrid("Scheduler", "scheduler-menu.svg", '/scheduler/menu', "scheduler option and start to build")}
+                    {createCardInGrid("Operators", "operators.svg", '/operator/operators', "what they can do")}
+                    {createCardInGrid("Users", "users.svg", '/user/users', "start new user story from here")}
+                    {createCardInGrid("Teams", "teams.svg", '/user/teams', "manage teams")}
+                    {createCardInGrid("Skills", "skills.svg", '/operator/skills', "what you demand to operator")}
                 </Grid>
             </>
         )}
