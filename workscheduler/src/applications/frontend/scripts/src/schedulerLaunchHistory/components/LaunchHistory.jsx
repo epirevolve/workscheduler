@@ -11,7 +11,7 @@ const launchHistory = ({ team, month, year, processStatus, adaptability, createA
     <ListItem>
         <ListItemText primary={team.name} />
         <ListItemText primary={`${year}-${month}`} secondary='schedule of' />
-        <ListItemText primary={processStatus.__name__} secondary='status' />
+        <ListItemText primary={processStatus._name_} secondary='status' />
         <ListItemText primary={adaptability} secondary='adaptability' />
         <ListItemText primary={`${createAt} UTC`} secondary='create at' />
     </ListItem>

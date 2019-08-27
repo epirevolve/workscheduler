@@ -34,7 +34,7 @@ entries['../statics/js/common/extension'] = [
 ];
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
 
     entry: entries,
 

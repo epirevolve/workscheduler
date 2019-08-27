@@ -7,7 +7,7 @@ import CommitActionArea from '../components/CommitActionArea';
 
 const mapStateToProps = (state) => ({
     schedules: state.schedules.schedules,
-    isPublished: state.schedules.isPublished,
+    isPublished: state.schedules.schedules.isPublished,
     isProgressing: state.ui.isProgressing
 });
 

@@ -17,8 +17,8 @@ const iconCss = css({
     zIndex: 999,
 }, m2);
 
-const csvExportButton = ({ daySettings, schedules, team, workCategories, availableSigns }) => {
-    if (!schedules || !schedules.components || schedules.components.length == 0) return (<></>);
+const csvExportButton = ({ team, daySettings, isShown, schedules, workCategories, availableSigns }) => {
+    if (!isShown || !schedules || !schedules.components || schedules.components.length == 0) return (<></>);
     const [ headerRow, operatorRows, totalRows ] = formatSchedule(daySettings, schedules, workCategories, availableSigns);
     const header1 = headerRow.headers.map(() => '').concat(headerRow.cells.map((x) => x.name));
     const header2 = headerRow.headers.map((x) => x).concat(headerRow.cells.map((x) => x.day));
@@ -42,6 +42,7 @@ const csvExportButton = ({ daySettings, schedules, team, workCategories, availab
 
 csvExportButton.propTypes = {
     daySettings: propTypes.array,
+    isShown: propTypes.bool,
     schedules: propTypes.object,
     team: propTypes.object,
     workCategories: propTypes.array,

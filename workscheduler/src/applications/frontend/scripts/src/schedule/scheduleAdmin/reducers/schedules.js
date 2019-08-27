@@ -27,13 +27,13 @@ const schedules = (state = {}, action) => {
         }
         case actionTypes.SUCCESS_PUBLISH_SCHEDULES:
             return { ...state,
-                schedules: {
+                schedules: { ...state.schedules,
                     isPublished: true
                 }
             };
         case actionTypes.SUCCESS_WITHDRAW_SCHEDULES:
             return { ...state,
-                schedules: {
+                schedules: { ...state.schedules,
                     isPublished: false
                 }
             };

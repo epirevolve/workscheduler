@@ -8,6 +8,7 @@ import { team } from "../../common/embeddedData";
 const mapStateToProps = (state) => ({
     team,
     daySettings: state.schedules.daySettings,
+    isShown: state.schedules.schedules.isPublished,
     schedules: state.schedules.schedules,
     workCategories: state.schedules.workCategories,
     availableSigns: state.schedules.availableSigns,
