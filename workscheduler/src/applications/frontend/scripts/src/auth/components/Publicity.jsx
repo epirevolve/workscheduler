@@ -12,6 +12,7 @@ const jumbotronCss = css({
     backgroundColor: 'lightslategray',
     color: 'white',
     borderRadius: '.3rem',
+    height: '60vh'
 }, px5, py4, mt5, mb4);
 
 const publicity = () => (
