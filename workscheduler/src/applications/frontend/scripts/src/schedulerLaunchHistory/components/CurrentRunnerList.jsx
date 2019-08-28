@@ -24,7 +24,7 @@ const currentRunnerList = ({ currentRunners, fetchCurrenRunners, teminateRunner 
             <Box css={mx3}>
                 <List>
                     {currentRunners != null && currentRunners.length > 0 ?
-                        currentRunners.map((x, i) => <CurrentRunner key={i} {...x} teminateRunner={() => teminateRunner(x)} />) :
+                        currentRunners.map((x, i) => <CurrentRunner key={i} {...x} teminateRunner={() => teminateRunner(x.team.id)} />) :
                         'no one is running now'}
                 </List>
             </Box>

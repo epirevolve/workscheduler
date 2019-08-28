@@ -217,8 +217,9 @@ def terminate_scheduler():
     session = get_db_session()
     try:
         SchedulerCommandAdapter(session).terminate(jsonize.loads(request.data))
+        session.commit()
         response = jsonize.json_response()
-    except Exception as e:
+    except:
         session.rollback()
         current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)
@@ -233,7 +234,7 @@ def remove_request(request_id):
         SchedulerCommandAdapter(session).remove_request(request_id)
         session.commit()
         response = jsonize.json_response()
-    except Exception as e:
+    except:
         session.rollback()
         current_app.logger.error(traceback.format_exc())
         response = jsonize.json_response(status_code=400)

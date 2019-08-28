@@ -59,7 +59,7 @@ class SchedulerOutlineHelper:
         self._daily_fixed_schedules = [list(chain.from_iterable(y.participants for y in x.fixed_schedules))
                                        for x in self._monthly_setting.days]
 
-        self._amplified = 500
+        self._amplified = 1000
 
     @staticmethod
     def _evaluate_by_continuous_attendance(gene, weight):

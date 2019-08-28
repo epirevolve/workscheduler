@@ -25,12 +25,12 @@ export const fetchLaunchHistories = async () => {
 };
 
 export const terminateScheduler = async (payload) => {
-    const { team } = payload;
+    const { teamId } = payload;
     try {
         await requestAgent
             .put('/scheduler/api/terminate-scheduler')
             .set('X-CSRFToken', csrfToken)
-            .send({ 'teamId': team.id });
+            .send({ teamId });
         return ({});
     }
     catch (error) {

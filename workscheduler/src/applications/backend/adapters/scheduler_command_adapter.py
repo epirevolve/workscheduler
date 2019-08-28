@@ -38,5 +38,4 @@ class SchedulerCommandAdapter:
         return SchedulerCommand(self._session).update_vacation(vacation)
     
     def terminate(self, data: dict):
-        return SchedulerCommand(self._session).terminate(
-            data.get('team_id'), data.get('month'), data.get('year'))
+        return SchedulerCommand(self._session).terminate(data.get('team_id'))

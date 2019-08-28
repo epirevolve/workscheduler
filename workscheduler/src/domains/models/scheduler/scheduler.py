@@ -22,6 +22,7 @@ from .terminate_scheduler_error import TerminateSchedulerError
 from .ga_helper import SchedulerOutlineHelper
 from .ga_helper import SchedulerDetailHelper
 from .ga_helper import SchedulerMonthlyHelper
+from .ga_helper import SchedulerMonthlyRandomMutateHelper
 
 associated_monthly_setting_table\
     = Table("associated_monthly_setting", OrmBase.metadata,
@@ -100,19 +101,20 @@ class Scheduler(OrmBase):
         try:
             monthly_setting = self.monthly_setting(month=month, year=year)
             post(ProcessStatus.OUTLINE)
-            outlines = SchedulerOutlineHelper(
-                self.work_categories, monthly_setting, operators, last_schedules).run()
+            outlines = SchedulerOutlineHelper(self.work_categories, monthly_setting, operators, last_schedules).run()
             post(ProcessStatus.DETAIL)
             combinations = SchedulerDetailHelper(monthly_setting, operators, outlines).run()
             post(ProcessStatus.MONTHLY)
-            operators_schedules, adaptability = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
+            operators_schedules = SchedulerMonthlyHelper(monthly_setting, operators, combinations).run()
+            post(ProcessStatus.RANDOM_MUTATE)
+            operators_schedules, adaptability = SchedulerMonthlyRandomMutateHelper(
+                monthly_setting, operators, combinations).run(operators_schedules)
             post(ProcessStatus.COMPLETE)
 
             trainee_schedules = self._get_trainings_schedules(operators_schedules, operators, trainees)
             return [(x, y) for x, y in zip(operators + trainees, operators_schedules + trainee_schedules)], \
                 adaptability
         except TerminateSchedulerError as e:
-            post(ProcessStatus.ABORT)
             raise e
         except Exception as e:
             post(ProcessStatus.FAIL)

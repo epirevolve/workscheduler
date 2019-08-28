@@ -22,6 +22,7 @@ class ProcessStatus(enum.Enum):
     OUTLINE = 2
     DETAIL = 3
     MONTHLY = 4
+    RANDOM_MUTATE = 9
     N_DAY = 5
     ABORT = 6
     COMPLETE = 7

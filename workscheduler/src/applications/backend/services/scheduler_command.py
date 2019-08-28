@@ -19,7 +19,6 @@ from . import ScheduleQuery
 class SchedulerCommand:
     def __init__(self, session):
         self._session = session
-        self._need_terminate = False
 
     def append_scheduler(self, team_id: str):
         team = UserQuery(self._session).get_team(team_id)
@@ -66,9 +65,12 @@ class SchedulerCommand:
 
     def _check_proceed_status(self, history: History):
         def _inner(status: ProcessStatus):
+            self._session.refresh(history)
+            if history.process_status == ProcessStatus.ABORT:
+                return False
             history.process_status = status
             self._session.commit()
-            return not self._need_terminate
+            return True
         return _inner
 
     @staticmethod
@@ -89,5 +91,7 @@ class SchedulerCommand:
         history.adaptability = adaptability
         return schedules
 
-    def terminate(self):
-        self._need_terminate = True
+    def terminate(self, team_id):
+        runners = [x for x in SchedulerQuery(self._session).get_current_runners() if x.team.id == team_id]
+        for runner in runners:
+            runner.process_status = ProcessStatus.ABORT

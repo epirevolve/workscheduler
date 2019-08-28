@@ -30,9 +30,9 @@ export const failureFetchLaunchHistories = () => ({
     payload: {}
 });
 
-export const startTerminateScheduler = (team) => ({
+export const startTerminateScheduler = (teamId) => ({
     type: actionTypes.START_TERMINATE_SCHEDULER,
-    payload: { team }
+    payload: { teamId }
 });
 
 export const successTerminateScheduler = () => ({
