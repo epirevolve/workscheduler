@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from applications.backend.services import UserCommand
+from applications.web.backend.services import UserCommand
 from domains.models.user import UserRole
 from domains.models.user import User
 from .database import Database
@@ -14,7 +14,7 @@ class InputData(Database):
 
         # add teams
 
-        from applications.backend.services import UserFacade
+        from applications.web.backend.services import UserFacade
 
         team_facade = UserFacade(session)
         front = team_facade.append_team('フロント', '')

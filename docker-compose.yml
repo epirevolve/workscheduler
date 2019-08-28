@@ -19,13 +19,31 @@ services:
       TZ: "Asia/Tokyo"
     networks:
       - database
+  rpyccore:
+    build:
+      context: workscheduler
+      dockerfile: Dockerfile.rpyccore
+    container_name: workscheduler.rpyccore
+    volumes:
+      - type: volume
+        source: uwsgilogs
+        target: /var/log
+    ports:
+      - 3929:3929
+    environment:
+      TZ: "Asia/Tokyo"
+    networks:
+      - database
   uwsgi:
-    build: workscheduler
+    build:
+      context: workscheduler
+      dockerfile: Dockerfile.web
     container_name: workscheduler.uwsgi
     volumes:
       - type: volume
         source: uwsgilogs
         target: /var/log
+      - nomount:/var/www/src/applications/core
     ports:
       - 3928:3928
     environment:
@@ -90,6 +108,8 @@ volumes:
     name: workscheduler.nginxlogs
   dbstorage:
     name: workscheduler.dbstorage
+  nomount:
+    name: workscheduler.nomount
 
 
 networks:

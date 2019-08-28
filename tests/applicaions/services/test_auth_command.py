@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from applications.services import AuthFacade
+from src.applications.web.backend.services import AuthFacade
 
 
 class TestAuthenticationService:

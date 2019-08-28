@@ -1,0 +1,7 @@
+cryptography==2.7
+-e git+https://github.com/epirevolve/eart.git@dd69856fc494aae35c7f86ba54cce8045d474201#egg=eart
+rpyc==4.1.1
+mysqlclient
+numpy==1.16.4
+PyMySQL==0.9.3
+SQLAlchemy==1.3.6
