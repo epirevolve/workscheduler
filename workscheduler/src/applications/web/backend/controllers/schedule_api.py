@@ -13,7 +13,7 @@ from utils.string import to_date
 from applications.web.backend.functions.controller import admin_required
 from applications.web.backend.adapters import ScheduleCommandAdapter
 from applications.web.backend.services import ScheduleFacade
-from applications.web.backend import get_db_session
+from applications.web.backend.database import get_db_session
 
 
 bp = Blueprint('schedule_api', __name__)

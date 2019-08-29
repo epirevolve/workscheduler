@@ -15,7 +15,7 @@ from applications.web.backend.errors import RequestError
 from applications.web.backend.services import SchedulerQuery
 from applications.web.backend.adapters import SchedulerCommandAdapter
 from applications.web.backend.functions.controller import admin_required
-from applications.web.backend import get_db_session
+from applications.web.backend.database import get_db_session
 from domains.models.scheduler import all_available_sign
 
 

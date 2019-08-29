@@ -5,7 +5,6 @@ from domains.models.scheduler import FixedSchedule
 from domains.models.scheduler import WorkCategory
 from domains.models.scheduler import MonthlySetting
 from domains.models.scheduler import Request
-from domains.models.scheduler import Vacation
 from domains.models.scheduler import History
 from domains.models.scheduler.history import ProcessStatus
 from domains.models.user import Team

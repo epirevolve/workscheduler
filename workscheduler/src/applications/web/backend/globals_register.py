@@ -11,7 +11,7 @@ from utils.uuid import UuidFactory
 from utils.jsonize import dumps
 
 from applications.web.backend.services import OperatorQuery
-from applications.web.backend import get_db_session
+from applications.web.backend.database import get_db_session
 
 
 def generate_csrf_token():

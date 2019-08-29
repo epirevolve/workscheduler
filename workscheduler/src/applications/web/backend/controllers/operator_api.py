@@ -12,7 +12,7 @@ from utils import jsonize
 from applications.web.backend.adapters import OperatorCommandAdapter
 from applications.web.backend.services import OperatorQuery
 from applications.web.backend.functions.controller import admin_required
-from applications.web.backend import get_db_session
+from applications.web.backend.database import get_db_session
 
 
 bp = Blueprint('operator_api', __name__)

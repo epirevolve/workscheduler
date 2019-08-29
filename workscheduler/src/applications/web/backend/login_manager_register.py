@@ -2,7 +2,7 @@
 
 from flask_login import LoginManager
 
-from applications.web.backend import get_db_session
+from applications.web.backend.database import get_db_session
 
 
 def login_manager_register(app):
@@ -14,4 +14,3 @@ def login_manager_register(app):
     @login_manager.user_loader
     def load_user(user_id):
         return UserQuery(get_db_session()).get_user(user_id)
-

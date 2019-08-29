@@ -11,7 +11,7 @@ from flask_login import login_required
 
 from applications.web.backend.functions.controller import admin_required
 from applications.web.backend.services import UserQuery
-from applications.web.backend import get_db_session
+from applications.web.backend.database import get_db_session
 from domains.models.user import UserRole
 
 bp = Blueprint('user', __name__, template_folder='../../frontend/views', static_folder="../../frontend/statics")
