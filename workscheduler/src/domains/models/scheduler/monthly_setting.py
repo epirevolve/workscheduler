@@ -5,7 +5,6 @@ from calendar import Calendar as SysCalendar
 from calendar import SUNDAY
 from calendar import day_abbr
 
-import numpy as np
 from sqlalchemy import Column
 from sqlalchemy import Table
 from sqlalchemy import ForeignKey
@@ -59,16 +58,6 @@ class MonthlySetting(OrmBase):
     @property
     def schedule_of(self):
         return date(self.year, self.month, 1)
-    
-    @property
-    def as_calendar(self):
-        first_day = list(day_abbr).index(self.days[0].day_name)
-        padding_left = 0 if first_day == 6 else first_day + 1
-        calendar = [None] * padding_left + self.days
-        last_day = list(day_abbr).index(self.days[-1].day_name)
-        padding_right = last_day if last_day == 6 else 6 - (last_day + 1)
-        calendar += [None] * padding_right
-        return np.reshape(calendar, (-1, 7)).tolist()
     
     def update_categories(self, work_categories: [WorkCategory]):
         work_category_ids = [x.id for x in work_categories]

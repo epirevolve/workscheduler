@@ -20,7 +20,6 @@ def _relate_path_to_abspath(path):
 
 
 def create_app(test_config=None):
-    # create the application instance
     app = Flask(__name__,
                 instance_path=_relate_path_to_abspath('../../instance'),
                 instance_relative_config=True)

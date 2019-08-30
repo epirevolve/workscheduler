@@ -37,8 +37,11 @@ Initial Setting:
     6. restore packages
         on a terminal tool window of pycharm
         a. install packages by pip
+            !!! to develop this tool easily, install all requirements on this some projects
+            !!! if you make surely environment, please make evenvs and install requirement file each on them
             run below command
-                pip install -r requirements.txt
+                pip install -r requirements.web.txt
+                pip install -r requirements.rpyccore.txt
         b. confirm packages
             run below command
                 pip freeze
@@ -47,6 +50,7 @@ Initial Setting:
                 re-execute from 5
         c. install package by npm
             run below command
+                cd ${root}/workscheduler/src/applications/web/frontentd/scripts
                 npm install
         d. confirm packages
             run below command
@@ -74,7 +78,7 @@ Project Setting:
         * this action will be required every time when the database definition is changed
         on a terminal tool window of pycharm
         run below commands
-            export FLASK_APP=runserver.py
+            export FLASK_APP=${root}/workscheduler/runserver.py
             flask init-db
             flask set-test-db
                 "Set the database to test." will be displayed
@@ -85,27 +89,43 @@ Gulp Tasks:
         need to convert its to js source
         on a terminal tool window of pycharm
         run below command
+            cd ${root}/workscheduler/src/applications/web/frontentd/scripts
             gulp babel
     2. minify script
         almost don't need to minify files because splitChunk work to minify files when doing task by webpack
         if need to minify manually, run below command on a terminal tool window of pycharm
+            cd ${root}/workscheduler/src/applications/web/frontentd/scripts
             gulp jsmin
 
-Run workscheduler:
+Run workscheduler locally:
     1. right click of a below file
-        runserver.py
-    2. click "run runserver.py"
-    3. access a site from browser
+        runserver.rpyccore.py
+    2. click "run runserver.rpyccore.py"
+    3. same action on runserver.web.py
+    4. access a site from browser
         click url its displayed on a run tool window
         or
         access below url
             http://127.0.0.1:5000/
-    4. login with below users
+    5. login with below users
         administrator:
             login id: admin
         user:
             login id: user
         all initial passwords are 'p' + login id
+
+Run workscheduler on docker:
+    !!! this docker require external network which to connect to elastic stack
+    !!! if you don't wanna use elastic stack, please comment out its container
+    !!! if you wanna trace and visualize access log or some actions, please create external network and elastic stack environment
+    1. start docker engine
+    2. please make key for ssl
+        if you don't have any key, please make by below file instruction
+            ${root}/nginx/pki/keys.sample
+    3. kick docker-compose with below command
+        docker-compose up
+    4. access below url
+        https://localhost
 
 Open task and select ticket:
     1. click drop down on right upper side
@@ -147,12 +167,17 @@ Ticket:
 
 
 Mainly using frameworks:
-    SQLAlchemy
-    Flask
-    Flask-Login
-    Flask-WTF
-    React
-    Redux
+    backend:
+        SQLAlchemy
+        Flask
+        Flask-Login
+        Flask-WTF
+        RPyC
+    frontend:
+        React
+        Redux
+        Sagas
+        MaterialUI
 
 Util commands:
     remove all image: for /f %T IN ('docker images --format "{{.ID}}"') DO docker rmi -f %T

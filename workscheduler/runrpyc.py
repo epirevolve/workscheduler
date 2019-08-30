@@ -5,7 +5,7 @@ import os
 
 sys.path.append(os.path.abspath('./src'))
 
-from applications.core.rpyc_scheduler import RPyCScheduler
+from applications.rpyccore.rpyc_scheduler import RPyCScheduler
 
 
 if __name__ == "__main__":

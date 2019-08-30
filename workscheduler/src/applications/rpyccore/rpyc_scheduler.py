@@ -9,7 +9,7 @@ import rpyc
 
 from infrastructures import Database
 
-from applications.core.services import SchedulerFacade
+from applications.rpyccore.services import SchedulerFacade
 
 
 logger = getLogger(__file__)

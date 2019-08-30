@@ -2,7 +2,6 @@
 
 import enum
 
-from flask_login import UserMixin
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
@@ -25,7 +24,7 @@ class Role(enum.Enum):
     OPERATOR = 3
 
 
-class User(OrmBase, UserMixin):
+class User(OrmBase):
     __tablename__ = 'users'
     id = Column(String(54), primary_key=True)
     login_id = Column(String(16), nullable=False)
@@ -36,6 +35,18 @@ class User(OrmBase, UserMixin):
     role = Column(Enum(Role))
     is_inactivated = Column(Boolean, default=False)
     create_at = Column(DateTime, server_default=current_timestamp())
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
 
     def __init__(self, id: str, login_id: str, password: str,
                  name: str, team: Team, role: Role,

@@ -1,5 +1,6 @@
 Click==7.0
 cryptography==2.7
+-e git+https://github.com/epirevolve/eart.git@dd69856fc494aae35c7f86ba54cce8045d474201#egg=eart
 Flask==1.1.1
 Flask-Login==0.4.1
 itsdangerous==1.1.0
@@ -7,6 +8,7 @@ Jinja2==2.10.1
 joblib==0.13.2
 MarkupSafe==1.1.1
 mysqlclient
+numpy==1.16.4
 PyMySQL==0.9.3
 python-dotenv==0.10.3
 rpyc==4.1.1

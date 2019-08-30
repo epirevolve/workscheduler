@@ -18,4 +18,4 @@ RUN set -ex \
 &&  pip --version \
 &&  pip install --no-cache-dir -r requirements.rpyccore.txt
 
-CMD ["python", "/src/runserver.rpyccore.py"]
+CMD ["python", "/src/runrpyc.py"]
