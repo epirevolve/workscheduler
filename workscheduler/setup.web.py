@@ -11,11 +11,18 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'flask'
+        'Click',
+        'cryptography',
+        'git+https://github.com/epirevolve/eart.git@dd69856fc494aae35c7f86ba54cce8045d474201#egg=eart',
+        'Flask'
+        'Flask-Login',
+        'mysqlclient',
+        'numpy',
+        'PyMySQL',
+        'python-dotenv',
+        'rpyc',
+        'SQLAlchemy'
     ],
     setup_requires=[
-    ],
-    tests_require=[
-        'pytest',
     ],
 )
