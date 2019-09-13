@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from . import ScheduleCommand
-from . import SchedulerCommand
+from applications.services import ScheduleCommand
+from applications.services import SchedulerCommand
 
 
 class SchedulerFacade:

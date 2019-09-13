@@ -3,8 +3,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from applications.web.backend.services import UserFacade
-from applications.web.backend.services import UserQuery
+from applications.services import UserFacade
+from applications.services import UserQuery
 from domains.models import OrmBase
 from domains.models.user import Team
 from domains.models.user import User
@@ -78,8 +78,8 @@ class Database:
 
         from datetime import time
 
-        from applications.web.backend.services import OperatorQuery
-        from applications.web.backend.services import SchedulerQuery
+        from applications.services import OperatorQuery
+        from applications.services import SchedulerQuery
         from domains.models.scheduler import WorkCategory
 
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id

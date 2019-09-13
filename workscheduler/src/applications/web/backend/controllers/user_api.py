@@ -10,10 +10,10 @@ from flask_login import login_user
 
 from utils import jsonize
 
+from applications.services import UserQuery
 from applications.web.backend.functions.controller import admin_required
 from applications.web.backend.adapters import UserFacadeAdapter
 from applications.web.backend.adapters import UserCommandAdapter
-from applications.web.backend.services import UserQuery
 from applications.web.backend.database import get_db_session
 
 

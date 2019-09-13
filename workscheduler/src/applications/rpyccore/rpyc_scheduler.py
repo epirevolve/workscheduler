@@ -7,9 +7,8 @@ from logging import getLogger
 
 import rpyc
 
+from applications.services import SchedulerFacade
 from infrastructures import Database
-
-from applications.rpyccore.services import SchedulerFacade
 
 
 logger = getLogger(__file__)

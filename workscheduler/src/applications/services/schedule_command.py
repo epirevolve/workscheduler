@@ -3,7 +3,7 @@
 from domains.models.schedule import ScheduleComponent
 from domains.models.schedule import Schedule
 
-from applications.web.backend.services import ScheduleQuery
+from applications.services import ScheduleQuery
 
 
 class ScheduleCommand:
@@ -25,3 +25,17 @@ class ScheduleCommand:
             components.append(ScheduleComponent.new(operator, schedule))
         schedule = Schedule.new(team_id, month, year, components)
         self._session.add(schedule)
+
+    def update_schedule(self, schedule: Schedule):
+        self._session.merge(schedule)
+        return schedule
+
+    def publish_schedule(self, schedule: Schedule):
+        schedule.is_published = True
+        self._session.merge(schedule)
+        return schedule
+
+    def withdraw_schedule(self, schedule: Schedule):
+        schedule.is_published = False
+        self._session.merge(schedule)
+        return schedule

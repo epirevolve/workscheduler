@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from applications.web.backend.services import SchedulerRPyC
+from applications.services import SchedulerRPyC
 
 
 class SchedulerRPyCAdapter:

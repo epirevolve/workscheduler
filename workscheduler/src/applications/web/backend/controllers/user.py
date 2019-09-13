@@ -9,8 +9,8 @@ from flask_login import logout_user
 from flask_login import current_user
 from flask_login import login_required
 
+from applications.services import UserQuery
 from applications.web.backend.functions.controller import admin_required
-from applications.web.backend.services import UserQuery
 from applications.web.backend.database import get_db_session
 from domains.models.user import UserRole
 

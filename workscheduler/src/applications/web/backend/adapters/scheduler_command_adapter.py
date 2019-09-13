@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from applications.web.backend.services import SchedulerCommand
-from applications.web.backend.services.domain_orm import to_monthly_setting
-from applications.web.backend.services.domain_orm import to_scheduler
-from applications.web.backend.services.domain_orm import to_vacation
+from applications.services import SchedulerCommand
+from applications.services.domain_orm import to_monthly_setting
+from applications.services.domain_orm import to_scheduler
+from applications.services.domain_orm import to_vacation
 
 
 class SchedulerCommandAdapter:

@@ -12,7 +12,7 @@ from flask_login import login_required
 
 from utils import jsonize
 
-from applications.web.backend.errors import AlreadyLaunchError
+from applications.errors import AlreadyLaunchError
 from applications.web.backend.functions.controller import admin_required
 from applications.web.backend.adapters import SchedulerRPyCAdapter
 

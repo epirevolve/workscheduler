@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from applications.web.backend.errors import CalendarError
-from applications.web.backend.errors import RequestError
+from applications.errors.already_launch_error import AlreadyLaunchError
+from applications.services import UserQuery
+from applications.services import OperatorQuery
+from applications.services import SchedulerQuery
+from applications.services import ScheduleQuery
 
 from domains.models.scheduler import History
 from domains.models.scheduler.history import ProcessStatus
 from domains.models.scheduler import Scheduler
 from domains.models.scheduler import MonthlySetting
 from domains.models.scheduler import Vacation
-
-from . import UserQuery
-from . import OperatorQuery
-from . import SchedulerQuery
-from . import ScheduleQuery
 
 
 class SchedulerCommand:
@@ -84,8 +82,6 @@ class SchedulerCommand:
         scheduler = SchedulerQuery(self._session).get_scheduler_of_team_id(team_id)
         last_schedules = ScheduleQuery(self._session).get_schedules_of_team_year_month(
             team_id, *self._get_last_month(month, year))
-        # if scheduler.is_launching:
-        #     raise AlreadyLaunchError()
         schedules, adaptability = scheduler.run(last_schedules, month, year, operators, pipe)
         history.adaptability = adaptability
         return schedules

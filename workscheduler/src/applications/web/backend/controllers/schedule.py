@@ -6,7 +6,7 @@ from flask import request
 from flask_login import login_required
 from flask_login import current_user
 
-from applications.web.backend.services import UserQuery
+from applications.services import UserQuery
 from applications.web.backend.database import get_db_session
 from domains.models.user import UserRole
 

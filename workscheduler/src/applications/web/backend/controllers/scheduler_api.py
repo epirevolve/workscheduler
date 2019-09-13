@@ -10,9 +10,7 @@ from flask_login import login_required
 from utils import jsonize
 from utils.string import to_date
 
-from applications.web.backend.errors import CalendarError
-from applications.web.backend.errors import RequestError
-from applications.web.backend.services import SchedulerQuery
+from applications.services import SchedulerQuery
 from applications.web.backend.adapters import SchedulerCommandAdapter
 from applications.web.backend.functions.controller import admin_required
 from applications.web.backend.database import get_db_session

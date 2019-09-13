@@ -10,9 +10,9 @@ from flask_login import login_required
 from utils import jsonize
 from utils.string import to_date
 
+from applications.services import ScheduleFacade
 from applications.web.backend.functions.controller import admin_required
 from applications.web.backend.adapters import ScheduleCommandAdapter
-from applications.web.backend.services import ScheduleFacade
 from applications.web.backend.database import get_db_session
 
 

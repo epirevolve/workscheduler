@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from applications.web.backend.services import OperatorCommand
-from applications.web.backend.services.domain_orm import to_operator
-from applications.web.backend.services.domain_orm import to_skill
+from applications.services import OperatorCommand
+from applications.services.domain_orm import to_operator
+from applications.services.domain_orm import to_skill
 
 
 class OperatorCommandAdapter:

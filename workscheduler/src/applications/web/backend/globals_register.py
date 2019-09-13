@@ -10,7 +10,7 @@ from utils.date import get_next_month as get_next_month_
 from utils.uuid import UuidFactory
 from utils.jsonize import dumps
 
-from applications.web.backend.services import OperatorQuery
+from applications.services import OperatorQuery
 from applications.web.backend.database import get_db_session
 
 
