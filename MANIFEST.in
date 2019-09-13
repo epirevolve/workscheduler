@@ -1,3 +1,0 @@
-graft shift_scheduler/templates
-graft shift_scheduler/static
-include shift_scheduler/schema.sql
