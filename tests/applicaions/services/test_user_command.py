@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from applications.services import UserQuery
-from domains.models.user import Team
+from domains import Team
 
 
 class TestUserManageCommand:

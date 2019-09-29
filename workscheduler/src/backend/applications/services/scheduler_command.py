@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from applications.errors.already_launch_error import AlreadyLaunchError
 from applications.services import UserQuery
 from applications.services import OperatorQuery
 from applications.services import SchedulerQuery

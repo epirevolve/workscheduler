@@ -5,8 +5,8 @@ import tempfile
 import os
 
 from applications.backend import create_app
-from applications.backend.services import UserQuery
-from infrastructures.input_data import InputData
+from applications.services import UserQuery
+from infrastructures import InputData
 
 
 @pytest.fixture

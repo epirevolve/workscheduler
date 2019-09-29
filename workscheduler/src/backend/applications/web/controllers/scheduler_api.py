@@ -11,9 +11,9 @@ from utils import jsonize
 from utils.string import to_date
 
 from applications.services import SchedulerQuery
-from applications.web.backend.adapters import SchedulerCommandAdapter
-from applications.web.backend.functions.controller import admin_required
-from applications.web.backend.database import get_db_session
+from applications.web.adapters import SchedulerCommandAdapter
+from applications.web.functions.controller import admin_required
+from applications.web.database import get_db_session
 from domains.models.scheduler import all_available_sign
 
 

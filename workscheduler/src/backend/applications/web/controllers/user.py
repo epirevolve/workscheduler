@@ -10,11 +10,11 @@ from flask_login import current_user
 from flask_login import login_required
 
 from applications.services import UserQuery
-from applications.web.backend.functions.controller import admin_required
-from applications.web.backend.database import get_db_session
+from applications.web.functions.controller import admin_required
+from applications.web.database import get_db_session
 from domains.models.user import UserRole
 
-bp = Blueprint('user', __name__, template_folder='../../frontend/views', static_folder="../../frontend/statics")
+bp = Blueprint('user', __name__, template_folder='../../../frontend/web/views', static_folder="../../../frontend/web/statics")
 
 
 def load_user(user_id):

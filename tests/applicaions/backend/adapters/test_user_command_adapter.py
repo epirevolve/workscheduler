@@ -4,8 +4,8 @@ import pytest
 
 import src.utils.jsonize as jsonize
 
-from src.applications.backend.adapters import UserCommandAdapter
-from src.applications.backend.services import UserQuery
+from src.applications.adapters import UserCommandAdapter
+from src.applications.services import UserQuery
 from src.domains.models.user import UserRole
 from src.domains.models.user import Team
 

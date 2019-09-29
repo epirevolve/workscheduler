@@ -5,10 +5,10 @@ from flask import render_template
 from flask_login import login_required
 
 from applications.services import OperatorQuery
-from applications.web.backend.functions.controller import admin_required
-from applications.web.backend.database import get_db_session
+from applications.web.functions.controller import admin_required
+from applications.web.database import get_db_session
 
-bp = Blueprint('operator', __name__, template_folder='../../frontend/views', static_folder="../../frontend/statics")
+bp = Blueprint('operator', __name__, template_folder='../../../frontend/web/views', static_folder="../../../frontend/web/statics")
 
 
 @bp.route('/myself/<operator_id>')

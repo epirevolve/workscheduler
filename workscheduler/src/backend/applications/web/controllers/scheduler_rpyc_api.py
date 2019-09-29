@@ -13,8 +13,8 @@ from flask_login import login_required
 from utils import jsonize
 
 from applications.errors import AlreadyLaunchError
-from applications.web.backend.functions.controller import admin_required
-from applications.web.backend.adapters import SchedulerRPyCAdapter
+from applications.web.functions.controller import admin_required
+from applications.web.adapters import SchedulerRPyCAdapter
 
 bp = Blueprint('scheduler_rpyc_api', __name__)
 

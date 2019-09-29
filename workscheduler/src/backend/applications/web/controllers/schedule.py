@@ -7,12 +7,12 @@ from flask_login import login_required
 from flask_login import current_user
 
 from applications.services import UserQuery
-from applications.web.backend.database import get_db_session
+from applications.web.database import get_db_session
 from domains.models.user import UserRole
 
 from utils.array import find
 
-bp = Blueprint('schedule', __name__, template_folder='../../frontend/views', static_folder="../../frontend/statics")
+bp = Blueprint('schedule', __name__, template_folder='../../../frontend/web/views', static_folder="../../../frontend/web/statics")
 
 
 def show_schedules_operator():

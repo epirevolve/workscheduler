@@ -11,10 +11,10 @@ from flask_login import login_user
 from utils import jsonize
 
 from applications.services import UserQuery
-from applications.web.backend.functions.controller import admin_required
-from applications.web.backend.adapters import UserFacadeAdapter
-from applications.web.backend.adapters import UserCommandAdapter
-from applications.web.backend.database import get_db_session
+from applications.web.functions.controller import admin_required
+from applications.web.adapters import UserFacadeAdapter
+from applications.web.adapters import UserCommandAdapter
+from applications.web.database import get_db_session
 
 
 bp = Blueprint('user_api', __name__)

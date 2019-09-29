@@ -13,10 +13,6 @@ from .scheduler import Scheduler
 
 from .history import History
 
-from domains.models.scheduler.ga_helper.detail import day_off_sign
-from domains.models.scheduler.ga_helper.outline import holiday_sign
-from domains.models.scheduler.ga_helper.n_day import n_day_sign
-
 from .terminate_scheduler_error import TerminateSchedulerError
 
 all_available_sign = ['-', ' ', 'n']

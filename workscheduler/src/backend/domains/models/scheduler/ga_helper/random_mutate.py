@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-from collections import defaultdict
-from itertools import chain
+
 import math
-from statistics import stdev
-from statistics import mean
 
 import numpy as np
 

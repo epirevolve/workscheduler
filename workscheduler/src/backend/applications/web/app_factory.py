@@ -21,10 +21,10 @@ def _relate_path_to_abspath(path):
 
 def create_app(test_config=None):
     app = Flask(__name__,
-                instance_path=_relate_path_to_abspath('../../instance'),
+                instance_path=_relate_path_to_abspath('../instance'),
                 instance_relative_config=True)
-    app.static_folder = _relate_path_to_abspath('../frontend/statics')
-    app.jinja_loader = FileSystemLoader(_relate_path_to_abspath('../frontend/views'))
+    app.static_folder = _relate_path_to_abspath('../../../frontend/web/statics')
+    app.jinja_loader = FileSystemLoader(_relate_path_to_abspath('../../../frontend/web/views'))
 
     config_name = os.getenv('FLASK_CONFIGURATION', 'default')
     app.config.from_pyfile(config[config_name])
@@ -49,7 +49,7 @@ def create_app(test_config=None):
         from flask import render_template
         return render_template('not-found.html'), 404
 
-    from applications.web.backend.controllers import user
+    from applications.web.controllers import user
     app.add_url_rule('/', 'index', user.index)
 
     from .login_manager_register import login_manager_register

@@ -3,7 +3,7 @@
 import pytest
 import tempfile
 
-from src.applications.backend.services import UserQuery
+from src.applications.services import UserQuery
 from src.infrastructures.database import Database
 
 

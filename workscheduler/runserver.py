@@ -6,7 +6,7 @@ import os
 
 sys.path.append(os.path.abspath('./src'))
 
-from applications.web.backend.app_factory import create_app
+from applications.web.app_factory import create_app
 
 app = create_app()
 

@@ -33,7 +33,7 @@ class InputData(Database):
 
         # add skills
 
-        from domains.models.operator import Skill
+        from domains import Skill
 
         skill1 = Skill.new('ccna', 1, is_certified=True)
         session.add(skill1)
@@ -48,9 +48,9 @@ class InputData(Database):
 
         from datetime import time
 
-        from applications.backend.services import OperatorQuery
-        from applications.backend.services import SchedulerQuery
-        from domains.models.scheduler import WorkCategory
+        from applications.services import OperatorQuery
+        from applications.services import SchedulerQuery
+        from domains import WorkCategory
 
         get_operator_of_user_id = OperatorQuery(session).get_operator_of_user_id
         work_daily = WorkCategory.new('日勤帯', time(9, 30), time(18, 00), 7, 3, 0, 0,
@@ -66,8 +66,8 @@ class InputData(Database):
 
         # add scheduler calendar
 
-        from utils.date import get_next_month
-        from domains.models.scheduler import MonthlySetting
+        from utils import get_next_month
+        from domains import MonthlySetting
 
         next_month = get_next_month()
         monthly_setting = MonthlySetting.new(scheduler.work_categories,

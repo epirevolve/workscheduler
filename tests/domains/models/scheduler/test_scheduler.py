@@ -2,12 +2,12 @@
 
 from datetime import datetime
 
-from applications.services import TeamQuery
-from applications.services import SchedulerQuery
-from applications.services import OperatorQuery
-from domains.models.scheduler.ga_helper.detail import SchedulerDetailHelper
-from domains.models.scheduler.ga_helper.outline import work_day_sign
-from domains.models.scheduler.ga_helper.outline import holiday_sign
+from backend.applications.services import TeamQuery
+from backend.applications.services import SchedulerQuery
+from backend.applications.services import OperatorQuery
+from backend.domains import SchedulerDetailHelper
+from backend.domains import work_day_sign
+from backend.domains import holiday_sign
 
 
 class TestScheduler:
