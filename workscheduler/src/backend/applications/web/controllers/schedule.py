@@ -12,7 +12,7 @@ from domains.models.user import UserRole
 
 from utils.array import find
 
-bp = Blueprint('schedule', __name__, template_folder='../../../frontend/web/views', static_folder="../../../frontend/web/statics")
+bp = Blueprint('schedule', __name__, template_folder='../../../../frontend/web/views', static_folder="../../../../frontend/web/statics")
 
 
 def show_schedules_operator():

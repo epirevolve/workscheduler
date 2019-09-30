@@ -11,7 +11,7 @@ from applications.web.functions.controller import admin_required
 from applications.web.database import get_db_session
 
 
-bp = Blueprint('scheduler', __name__, template_folder='../../../frontend/web/views', static_folder="../../../frontend/web/statics")
+bp = Blueprint('scheduler', __name__, template_folder='../../../../frontend/web/views', static_folder="../../../../frontend/web/statics")
 
 
 @bp.route('/menu')

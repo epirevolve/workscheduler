@@ -14,7 +14,7 @@ from applications.web.functions.controller import admin_required
 from applications.web.database import get_db_session
 from domains.models.user import UserRole
 
-bp = Blueprint('user', __name__, template_folder='../../../frontend/web/views', static_folder="../../../frontend/web/statics")
+bp = Blueprint('user', __name__, template_folder='../../../../frontend/web/views', static_folder="../../../../frontend/web/statics")
 
 
 def load_user(user_id):
