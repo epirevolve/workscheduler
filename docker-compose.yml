@@ -1,17 +1,17 @@
 version: "3.7"
 services:
-  mysql:
+  database:
     image: mysql:latest
-    container_name: workscheduler.mysql
+    container_name: workscheduler.database
     volumes:
       - type: volume
-        source: mysqllogs
+        source: databaselogs
         target: /var/log
       - type: volume
         source: dbstorage
         target: /var/lib/mysql
     restart: always
-    env_file: mysql/.env
+    env_file: database/mysql/.env
     ports:
       - 3306:3306
     environment:
@@ -98,8 +98,8 @@ services:
 
 
 volumes:
-  mysqllogs:
-    name: workscheduler.mysqllogs
+  databaselogs:
+    name: workscheduler.databaselogs
   uwsgilogs:
     name: workscheduler.uwsgilogs
   logstashlogs:

@@ -3,7 +3,7 @@
 import sys
 import os
 
-sys.path.append(os.path.abspath('./src'))
+sys.path.append(os.path.abspath('./src/backend'))
 
 from applications.rpyccore.rpyc_scheduler import RPyCScheduler
 
