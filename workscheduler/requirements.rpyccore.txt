@@ -1,4 +1,4 @@
-cryptography==2.7
+cryptography==3.2
 -e git+https://github.com/epirevolve/eart.git@dd69856fc494aae35c7f86ba54cce8045d474201#egg=eart
 rpyc==4.1.2
 mysqlclient
