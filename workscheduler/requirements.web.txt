@@ -1,5 +1,5 @@
 Click==7.0
-cryptography==2.7
+cryptography==3.2
 -e git+https://github.com/epirevolve/eart.git@dd69856fc494aae35c7f86ba54cce8045d474201#egg=eart
 Flask==1.1.1
 Flask-Login==0.4.1
