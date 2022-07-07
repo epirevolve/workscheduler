@@ -55,7 +55,7 @@
     "gulp-rename": "^1.4.0",
     "gulp-terser": "^1.2.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "react-csv": "^1.1.1",
     "style-loader": "^0.23.1",
     "ts-loader": "^6.0.3",
